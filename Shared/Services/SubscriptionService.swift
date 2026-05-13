@@ -11,8 +11,7 @@ import RevenueCat
 final class SubscriptionService {
     static let shared = SubscriptionService()
 
-    // TODO: replace with the live key from the RevenueCat dashboard.
-    static let apiKey = "appl_PLACEHOLDER_REPLACE_ME"
+    static let apiKey = "appl_eTgmJWtWPGZuOHUGMvSEpOOemxA"
 
     static let proEntitlement = "pro"
 
@@ -22,7 +21,6 @@ final class SubscriptionService {
     func configure() {
         #if canImport(RevenueCat)
         guard !isConfigured else { return }
-        guard Self.apiKey.hasPrefix("appl_") && Self.apiKey != "appl_PLACEHOLDER_REPLACE_ME" else { return }
         Purchases.configure(withAPIKey: Self.apiKey)
         isConfigured = true
         Task { await refresh() }
