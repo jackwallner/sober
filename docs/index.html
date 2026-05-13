@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2352A073'/%3E%3Cpath d='M16 6C16 6 10 12 10 18C10 23 13 26 16 26C19 26 22 23 22 18C22 12 16 6 16 6Z' fill='%237AC78C' opacity='0.8'/%3E%3Cpath d='M16 10C16 10 12.5 14 12.5 18C12.5 21 14 24 16 24C18 24 19.5 21 19.5 18C19.5 14 16 10 16 10Z' fill='%23F2C773'/%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2352A073'/%3E%3Cpath d='M16 6C16 6 10 12 10 18C10 23 13 26 16 26C19 26 22 23 22 18C22 12 16 6 16 6Z' fill='%237AC78C' opacity='0.8'/%3E%3Cpath d='M16 10C16 10 12.5 14 12.5 18C12.5 21 14 24 16 24C18 24 19.5 21 19.5 18C19.5 14 16 10 16 10Z' fill='%23F2C773'/%3E%3C/svg%3E">
+    <title>Sober - Sobriety Tracker for iPhone & Apple Watch</title>
+    <meta name="description" content="Track your sobriety journey with a free iOS app. Day counter, virtual garden, health benefits timeline, journaling, achievements, and more. Private, no account required.">
+    <link rel="canonical" href="https://jackwallner.github.io/sober/">
+    <meta name="keywords" content="sobriety tracker, alcohol tracker, sober app, sobriety counter, sober days, addiction recovery, sober calendar, iPhone, Apple Watch, free, private">
+    <meta property="og:title" content="Sober - Sobriety Tracker for iPhone & Apple Watch">
+    <meta property="og:description" content="Track your sobriety journey privately. Day counter, virtual garden, health benefits timeline, and more — all on your device. Free with optional Pro upgrade.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jackwallner.github.io/sober/">
+    <meta property="og:site_name" content="Sober">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sober - Sobriety Tracker for iPhone & Apple Watch">
+    <meta name="twitter:description" content="Track your sobriety journey privately. Day counter, virtual garden, health benefits timeline, and more.">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Sober - Sobriety Tracker",
+        "operatingSystem": "iOS",
+        "applicationCategory": "HealthApplication",
+        "offers": [
+            {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD",
+                "description": "Free tier with day counter, check-in, calendar, basic garden, and first 2 health benefits"
+            },
+            {
+                "@type": "Offer",
+                "price": "4.99",
+                "priceCurrency": "USD",
+                "description": "Sober Pro Monthly — full health timeline, journaling, achievements, stats, garden species"
+            },
+            {
+                "@type": "Offer",
+                "price": "29.99",
+                "priceCurrency": "USD",
+                "description": "Sober Pro Yearly — same features, billed annually"
+            }
+        ],
+        "description": "Track your sobriety journey with day counter, virtual garden, health benefits timeline, journaling, and achievements. Private, simple, free to start.",
+        "url": "https://jackwallner.github.io/sober/",
+        "softwareVersion": "0.1.0",
+        "author": {
+            "@type": "Person",
+            "name": "Jack Wallner"
+        }
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+            color: #1d1d1f;
+            background: #fafafa;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Nav */
+        nav {
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            background: rgba(250,250,250,0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #1d1d1f;
+        }
+
+        .nav-brand svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .nav-brand span {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .nav-link {
+            font-size: 14px;
+            text-decoration: none;
+            background: #1d1d1f;
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 980px;
+            font-weight: 500;
+            transition: opacity 0.15s;
+        }
+
+        .nav-link:hover { opacity: 0.85; }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 100px 24px 64px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            line-height: 1.08;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #52A073, #7AC78C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .tagline {
+            font-size: 19px;
+            color: #6e6e73;
+            line-height: 1.5;
+            max-width: 440px;
+            margin: 0 auto 12px;
+        }
+
+        .hero .platforms {
+            font-size: 13px;
+            color: #86868b;
+            letter-spacing: 0.3px;
+            margin-bottom: 36px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: #1d1d1f;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 14px 36px;
+            border-radius: 980px;
+            text-decoration: none;
+            transition: opacity 0.15s;
+        }
+
+        .download-btn:hover { opacity: 0.85; }
+
+        /* Features */
+        .features {
+            padding: 80px 0;
+            background: #fff;
+            border-top: 1px solid rgba(0,0,0,0.06);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .features-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .features-header h2 {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .features-header p {
+            font-size: 17px;
+            color: #6e6e73;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: rgba(0,0,0,0.06);
+            border-top: 1px solid rgba(0,0,0,0.06);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .feature-card {
+            background: #fff;
+            padding: 36px 32px;
+        }
+
+        .feature-card .label {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #86868b;
+            margin-bottom: 10px;
+        }
+
+        .feature-card .label.pro {
+            color: #52A073;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: #6e6e73;
+            line-height: 1.55;
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: 80px 0;
+            background: #fff;
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .pricing-header h2 {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .pricing-header p {
+            font-size: 17px;
+            color: #6e6e73;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            padding: 36px 24px;
+            border-radius: 18px;
+            border: 1px solid rgba(0,0,0,0.08);
+            text-align: center;
+            transition: box-shadow 0.15s;
+        }
+
+        .pricing-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        }
+
+        .pricing-card.featured {
+            border-color: #52A073;
+            background: #fafdf8;
+        }
+
+        .pricing-card .plan {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #86868b;
+            margin-bottom: 12px;
+        }
+
+        .pricing-card .price {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+
+        .pricing-card .period {
+            font-size: 14px;
+            color: #86868b;
+            margin-bottom: 20px;
+        }
+
+        .pricing-card .trial {
+            font-size: 13px;
+            color: #52A073;
+            font-weight: 500;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .pricing-card li {
+            font-size: 14px;
+            color: #6e6e73;
+            padding: 6px 0;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .pricing-card li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #52A073;
+            font-weight: 600;
+        }
+
+        /* Privacy */
+        .privacy {
+            padding: 80px 0;
+            background: #fafafa;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .privacy .container {
+            max-width: 640px;
+            text-align: center;
+        }
+
+        .privacy .lockup {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #f5f5f7;
+            margin-bottom: 20px;
+        }
+
+        .privacy .lockup svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: #1d1d1f;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .privacy h2 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+
+        .privacy p {
+            font-size: 17px;
+            color: #6e6e73;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .privacy a {
+            font-size: 15px;
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .privacy a:hover { text-decoration: underline; }
+
+        /* CTA */
+        .cta {
+            text-align: center;
+            padding: 64px 24px 80px;
+            background: #fff;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .cta h2 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+
+        .cta p {
+            font-size: 15px;
+            color: #86868b;
+            margin-bottom: 28px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px 24px;
+            font-size: 12px;
+            color: #86868b;
+        }
+
+        footer a {
+            color: #86868b;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        footer a:hover { color: #1d1d1f; }
+
+        footer .divider { margin: 4px 0; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero { padding: 72px 20px 48px; }
+            .hero h1 { font-size: 36px; letter-spacing: -1px; }
+            .hero .tagline { font-size: 17px; }
+
+            .features-grid { grid-template-columns: 1fr; }
+            .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+
+            .features-header h2 { font-size: 28px; }
+            .privacy h2, .cta h2 { font-size: 26px; }
+            .pricing-header h2 { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <a class="nav-brand" href="./">
+                <svg viewBox="0 0 32 32" fill="none">
+                    <rect width="32" height="32" rx="7" fill="#52A073"/>
+                    <path d="M16 6C16 6 10 12 10 18C10 23 13 26 16 26C19 26 22 23 22 18C22 12 16 6 16 6Z" fill="#7AC78C" opacity="0.8"/>
+                    <path d="M16 10C16 10 12.5 14 12.5 18C12.5 21 14 24 16 24C18 24 19.5 21 19.5 18C19.5 14 16 10 16 10Z" fill="#F2C773"/>
+                </svg>
+                <span>Sober</span>
+            </a>
+            <a class="nav-link" href="#">Download</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Your journey, <span>one day at a time</span></h1>
+        <p class="tagline">Track your sobriety with a day counter, virtual garden, health milestones, journal, and more — all private, all on your device.</p>
+        <p class="platforms">iPhone &middot; Apple Watch &middot; Widgets</p>
+        <a class="download-btn" href="#">Download for free</a>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <div class="features-header">
+                <h2>Built for your journey</h2>
+                <p>Free to start. Upgrade for deeper insights.</p>
+            </div>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="label">Today</span>
+                <h3>Day counter</h3>
+                <p>See how many days since you started, your next milestone, and upcoming health benefit — all on one screen.</p>
+            </div>
+            <div class="feature-card">
+                <span class="label">Garden</span>
+                <h3>Watch it grow</h3>
+                <p>A virtual garden that grows from seed to ancient tree as your streak continues. Water it daily with your check-in.</p>
+            </div>
+            <div class="feature-card">
+                <span class="label">Health</span>
+                <h3>Body recovery timeline</h3>
+                <p>13 health benefits backed by NIAAA, CDC, and AHA. See blood sugar stabilize at 24h, liver health improve at 30 days, and full recovery at 365 days.</p>
+            </div>
+            <div class="feature-card">
+                <span class="label pro">Pro Feature</span>
+                <h3>Full health timeline</h3>
+                <p>Unlock all 13 benefits with detailed explanations and source links. See the complete picture of your body's recovery.</p>
+            </div>
+            <div class="feature-card">
+                <span class="label">Calendar</span>
+                <h3>See your progress</h3>
+                <p>A color-coded calendar showing sober (green), not sober (red), and yet to check in (gray). Track your success rate over time.</p>
+            </div>
+            <div class="feature-card">
+                <span class="label pro">Pro Feature</span>
+                <h3>Journal with prompts</h3>
+                <p>Daily reflection prompts, freeform writing, and a feeling picker. All entries are private and stored locally on your device.</p>
+            </div>
+            <div class="feature-card">
+                <span class="label pro">Pro Feature</span>
+                <h3>Achievements</h3>
+                <p>9 milestones across time (First Step, Quarter Master, Year One) and check-in streaks (Perfect Week, Diamond Discipline).</p>
+            </div>
+            <div class="feature-card">
+                <span class="label pro">Pro Feature</span>
+                <h3>Money &amp; calories saved</h3>
+                <p>See how much money and how many calories you've saved since starting your journey. Set your own daily cost and calorie estimates.</p>
+            </div>
+            <div class="feature-card">
+                <span class="label">Widgets</span>
+                <h3>At a glance</h3>
+                <p>Your day count on your home screen, lock screen, and Apple Watch. System and accessory complications included.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing">
+        <div class="container">
+            <div class="pricing-header">
+                <h2>Free to start, Pro to go deeper</h2>
+                <p>The core tracker is free forever. Upgrade anytime.</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="plan">Free</div>
+                    <div class="price">$0</div>
+                    <div class="period">forever</div>
+                    <ul>
+                        <li>Day counter</li>
+                        <li>Daily check-in</li>
+                        <li>Calendar view</li>
+                        <li>Basic garden (Oak species)</li>
+                        <li>First 2 health benefits</li>
+                        <li>Widgets & Apple Watch</li>
+                    </ul>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="plan" style="color:#52A073;">Sober Pro</div>
+                    <div class="price">$4.99</div>
+                    <div class="period">per month</div>
+                    <div class="trial">7-day free trial</div>
+                    <ul>
+                        <li>All Free features</li>
+                        <li>Full 13-benefit health timeline + sources</li>
+                        <li>Journal with daily prompts</li>
+                        <li>All 9 achievements</li>
+                        <li>Money &amp; calories saved</li>
+                        <li>4 additional garden species</li>
+                    </ul>
+                </div>
+                <div class="pricing-card">
+                    <div class="plan">Sober Pro</div>
+                    <div class="price">$29.99</div>
+                    <div class="period">per year</div>
+                    <div class="trial">7-day free trial</div>
+                    <ul>
+                        <li>All Free features</li>
+                        <li>Full health timeline + sources</li>
+                        <li>Journal with daily prompts</li>
+                        <li>All 9 achievements</li>
+                        <li>Money &amp; calories saved</li>
+                        <li>4 additional garden species</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="privacy">
+        <div class="container">
+            <div class="lockup">
+                <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <h2>Private by design</h2>
+            <p>Sober is built with privacy first. No accounts, no analytics, no ads, no third-party SDKs beyond Apple's StoreKit. Your data never leaves your device. All health information stays local in SwiftData.</p>
+            <a href="privacy-policy.html">Privacy Policy &rarr;</a>
+        </div>
+    </section>
+
+    <section class="cta">
+        <h2>Start your journey today</h2>
+        <p>Free on the App Store. No account required. Upgrade to Pro anytime.</p>
+        <a class="download-btn" href="#">Download for free</a>
+    </section>
+
+    <footer>
+        <div class="divider">&copy; 2026 Jack Wallner</div>
+        <div>
+            <a href="support.html">Support</a>
+            <a href="privacy-policy.html">Privacy</a>
+        </div>
+    </footer>
+
+</body>
+</html>
