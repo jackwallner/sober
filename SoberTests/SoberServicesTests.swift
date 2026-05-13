@@ -1,0 +1,68 @@
+import Testing
+import Foundation
+@testable import Sober
+
+@Suite("Garden stage progression")
+struct GardenServiceTests {
+    @Test func seedBeforeDayOne() {
+        #expect(GardenService.stage(forDays: 0) == .seed)
+    }
+
+    @Test func sproutAtDayOne() {
+        #expect(GardenService.stage(forDays: 1) == .sprout)
+    }
+
+    @Test func saplingAtWeek() {
+        #expect(GardenService.stage(forDays: 7) == .sapling)
+    }
+
+    @Test func youngTreeAtMonth() {
+        #expect(GardenService.stage(forDays: 30) == .youngTree)
+    }
+
+    @Test func ancientAtYear() {
+        #expect(GardenService.stage(forDays: 365) == .ancient)
+    }
+
+    @Test func vitalityDecayKicksInAfterOneMissedDay() {
+        let base: Double = 1.0
+        let now = Date(timeIntervalSinceReferenceDate: 10_000_000)
+        let oneDayAgo = Calendar.current.date(byAdding: .day, value: -1, to: now)!
+        #expect(GardenService.decayedVitality(from: base, lastCheckIn: oneDayAgo, now: now) == base)
+
+        let threeDaysAgo = Calendar.current.date(byAdding: .day, value: -3, to: now)!
+        let decayed = GardenService.decayedVitality(from: base, lastCheckIn: threeDaysAgo, now: now)
+        #expect(decayed < base)
+    }
+}
+
+@Suite("Health benefit catalog")
+struct HealthBenefitCatalogTests {
+    @Test func bloodAlcoholClearingUnlocksAtSixHours() {
+        let unlocked = HealthBenefitCatalog.unlocked(hoursSober: 6)
+        #expect(unlocked.contains { $0.id == "blood-alcohol-clearing" })
+    }
+
+    @Test func nothingUnlockedAtZero() {
+        #expect(HealthBenefitCatalog.unlocked(hoursSober: 0).isEmpty)
+    }
+
+    @Test func nextBenefitProgresses() {
+        let next = HealthBenefitCatalog.next(after: 0)
+        #expect(next?.id == "blood-alcohol-clearing")
+    }
+}
+
+@Suite("Sobriety day counting")
+struct SobrietyServiceTests {
+    @Test func zeroDaysSameInstant() {
+        let now = Date()
+        #expect(SobrietyService.daysSinceStart(now, asOf: now) == 0)
+    }
+
+    @Test func sevenDaysAfterAWeek() {
+        let now = Date()
+        let weekAgo = Calendar.current.date(byAdding: .day, value: -7, to: now)!
+        #expect(SobrietyService.daysSinceStart(weekAgo, asOf: now) == 7)
+    }
+}

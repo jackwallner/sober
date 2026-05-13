@@ -1,0 +1,82 @@
+import SwiftData
+import SwiftUI
+
+struct SettingsView: View {
+    @Environment(\.modelContext) private var context
+    @Environment(SubscriptionService.self) private var subscriptions
+    @Query private var settingsRows: [UserSettings]
+    @State private var showPaywall = false
+    @State private var showAchievements = false
+    @State private var showStats = false
+
+    private var settings: UserSettings? { settingsRows.first }
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("Pro") {
+                    HStack {
+                        Image(systemName: subscriptions.isProSubscriber ? "crown.fill" : "crown")
+                        Text(subscriptions.isProSubscriber ? "Pro active" : "Sober Pro")
+                        Spacer()
+                        if !subscriptions.isProSubscriber {
+                            Button("Upgrade") { showPaywall = true }
+                                .buttonStyle(.borderedProminent)
+                        }
+                    }
+                }
+                Section("Achievements & Stats") {
+                    Button("Achievements") { showAchievements = true }
+                    Button("Money & Calories Saved") { showStats = true }
+                }
+                if let s = settings {
+                    Section("Daily Reminder") {
+                        Toggle("Enabled", isOn: bind(\.dailyReminderEnabled, on: s))
+                        Stepper("Hour: \(s.dailyReminderHour):00", value: bind(\.dailyReminderHour, on: s), in: 0...23)
+                    }
+                    Section("Cost & Calories") {
+                        HStack {
+                            Text("Cost per day")
+                            Spacer()
+                            Text("$\(s.costPerDayCents / 100)")
+                        }
+                        Stepper("$\(s.costPerDayCents / 100)", value: bind(\.costPerDayCents, on: s), in: 0...20000, step: 100)
+                        Stepper("\(s.caloriesPerDay) cal", value: bind(\.caloriesPerDay, on: s), in: 0...3000, step: 50)
+                    }
+                }
+                Section("Developer") {
+                    Button(subscriptions.isProSubscriber ? "Disable Pro override" : "Enable Pro override") {
+                        subscriptions.setLocalOverride(isPro: !subscriptions.isProSubscriber)
+                    }
+                }
+            }
+            .navigationTitle("Settings")
+            .sheet(isPresented: $showPaywall) { PaywallView() }
+            .sheet(isPresented: $showAchievements) { AchievementsView() }
+            .sheet(isPresented: $showStats) { StatsView() }
+            .onChange(of: settings?.dailyReminderHour) { _, _ in rescheduleReminder() }
+            .onChange(of: settings?.dailyReminderEnabled) { _, _ in rescheduleReminder() }
+        }
+    }
+
+    private func bind<Value>(_ keyPath: ReferenceWritableKeyPath<UserSettings, Value>, on s: UserSettings) -> Binding<Value> {
+        Binding(
+            get: { s[keyPath: keyPath] },
+            set: {
+                s[keyPath: keyPath] = $0
+                try? context.save()
+            }
+        )
+    }
+
+    private func rescheduleReminder() {
+        guard let s = settings else { return }
+        Task {
+            if s.dailyReminderEnabled {
+                await NotificationService.scheduleDailyReminder(hour: s.dailyReminderHour)
+            } else {
+                await NotificationService.cancelDailyReminder()
+            }
+        }
+    }
+}

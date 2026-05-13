@@ -1,0 +1,111 @@
+name: Sober
+options:
+  bundleIdPrefix: com.jackwallner
+  deploymentTarget:
+    iOS: "17.0"
+    watchOS: "10.0"
+  xcodeVersion: "16.0"
+  minimumXcodeGenVersion: "2.38"
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    DEVELOPMENT_TEAM: YXG4MP6W39
+    CODE_SIGN_STYLE: Automatic
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    GENERATE_INFOPLIST_FILE: NO
+
+packages:
+  RevenueCat:
+    url: https://github.com/RevenueCat/purchases-ios-spm.git
+    from: 5.14.0
+
+schemes:
+  Sober:
+    build:
+      targets:
+        Sober: all
+        SoberWatch: all
+        SoberWidgets: all
+        SoberTests: [test]
+    test:
+      targets:
+        - SoberTests
+    run:
+      config: Debug
+  SoberWatch:
+    build:
+      targets:
+        SoberWatch: all
+    run:
+      config: Debug
+
+targets:
+  Sober:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sober
+      - path: Shared
+      - path: Sober.storekit
+        buildPhase: resources
+      - path: Sober/PrivacyInfo.xcprivacy
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.jackwallner.sober
+        INFOPLIST_FILE: Sober/Info.plist
+        CODE_SIGN_ENTITLEMENTS: Sober/Sober.entitlements
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        TARGETED_DEVICE_FAMILY: "1"
+    dependencies:
+      - package: RevenueCat
+        product: RevenueCat
+      - package: RevenueCat
+        product: RevenueCatUI
+      - target: SoberWatch
+        embed: true
+      - target: SoberWidgets
+        embed: true
+
+  SoberWatch:
+    type: application
+    platform: watchOS
+    sources:
+      - path: SoberWatch
+      - path: Shared
+      - path: SoberWatch/PrivacyInfo.xcprivacy
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.jackwallner.sober.watch
+        INFOPLIST_FILE: SoberWatch/Info.plist
+        CODE_SIGN_ENTITLEMENTS: SoberWatch/SoberWatch.entitlements
+        WATCHOS_DEPLOYMENT_TARGET: "10.0"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+
+  SoberWidgets:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: SoberWidgets
+      - path: Shared
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.jackwallner.sober.widgets
+        INFOPLIST_FILE: SoberWidgets/Info.plist
+        CODE_SIGN_ENTITLEMENTS: SoberWidgets/SoberWidgets.entitlements
+
+  SoberTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: SoberTests
+      - path: Shared
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.jackwallner.sober.tests
+    dependencies:
+      - target: Sober

@@ -1,0 +1,7 @@
+build/
+DerivedData/
+*.xcarchive
+*.xcuserstate
+xcuserdata/
+Sober.xcodeproj
+.DS_Store
