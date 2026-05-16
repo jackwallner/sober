@@ -17,6 +17,7 @@ struct GardenCustomizationView: View {
         guard let j = journeys.first(where: { $0.isActive }) else { return 0 }
         return SobrietyService.daysSinceStart(j.startDate)
     }
+    private var dayInCycle: Int { GardenService.cycleProgress(forDays: days).dayInCycle }
     private var isPro: Bool { subscriptions.isProSubscriber }
 
     /// All items the user has earned through milestones.
@@ -103,7 +104,7 @@ struct GardenCustomizationView: View {
                             } label: {
                                 VStack(spacing: 6) {
                                     BonsaiView(
-                                        day: days,
+                                        day: dayInCycle,
                                         style: bonsaiStyleEnum(for: style.id),
                                         vitality: 1.0
                                     )

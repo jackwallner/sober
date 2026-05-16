@@ -100,9 +100,36 @@ final class GardenService {
     // ── Stage ──
 
     nonisolated static func stage(forDays days: Int) -> BonsaiStage {
-        BonsaiStage.allCases
+        let inCycle = cycleProgress(forDays: days).dayInCycle
+        return BonsaiStage.allCases
             .sorted { $0.dayThreshold < $1.dayThreshold }
-            .last(where: { days >= $0.dayThreshold }) ?? .seed
+            .last(where: { inCycle >= $0.dayThreshold }) ?? .seed
+    }
+
+    // ── Cycle ──
+
+    /// One bonsai grows over 365 days. At day 365 it completes; on day 366 a
+    /// fresh sapling begins and the previous tree joins the grove.
+    /// Returns (dayInCycle: 0…365, completed: number of trees already in grove).
+    nonisolated static func cycleProgress(forDays days: Int) -> (dayInCycle: Int, completed: Int) {
+        if days <= 0 { return (0, 0) }
+        let q = (days - 1) / 365
+        return (days - q * 365, q)
+    }
+
+    /// Detect newly-completed cycles and append the current style to the grove,
+    /// once per crossed 365-boundary. Returns count of newly-appended trees.
+    @discardableResult
+    func processCycleCompletions(days: Int) -> Int {
+        let state = current()
+        let expected = Self.cycleProgress(forDays: days).completed
+        let have = state.completedTreeStyles.count
+        guard expected > have else { return 0 }
+        for _ in have..<expected {
+            state.completedTreeStyles.append(state.activeBonsaiStyleID)
+        }
+        try? context.save()
+        return expected - have
     }
 
     // ── Unlocks ──

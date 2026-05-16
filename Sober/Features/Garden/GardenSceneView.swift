@@ -9,7 +9,12 @@ struct GardenSceneView: View {
     let placedItemIDs: [String]
     let activeBonsaiStyleID: String
     let isPro: Bool
+    var completedTreeStyles: [String] = []
 
+    private var cycle: (dayInCycle: Int, completed: Int) {
+        GardenService.cycleProgress(forDays: days)
+    }
+    private var dayInCycle: Int { cycle.dayInCycle }
     private var stage: BonsaiStage { GardenService.stage(forDays: days) }
 
     private var bonsaiStyle: BonsaiStyle {
@@ -50,9 +55,12 @@ struct GardenSceneView: View {
                 // ── Ground ──
                 groundView
 
+                // ── Grove (completed trees, behind centerpiece) ──
+                grove(in: s)
+
                 // ── Bonsai (centerpiece) ──
                 BonsaiView(
-                    day: days,
+                    day: dayInCycle,
                     style: bonsaiStyle,
                     vitality: vitality
                 )
@@ -229,13 +237,67 @@ struct GardenSceneView: View {
         HStack(spacing: 4) {
             Image(systemName: "leaf.fill")
                 .font(.caption2)
-            Text(stage.title)
-                .font(.caption.bold())
+            if cycle.completed > 0 {
+                Text("Year \(cycle.completed + 1) · \(stage.title)")
+                    .font(.caption.bold())
+            } else {
+                Text(stage.title)
+                    .font(.caption.bold())
+            }
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 4)
         .background(.ultraThinMaterial, in: Capsule())
         .foregroundStyle(.primary)
+    }
+
+    // MARK: - Grove (completed trees)
+
+    @ViewBuilder
+    private func grove(in size: CGSize) -> some View {
+        let trees = completedTreeStyles
+        if !trees.isEmpty {
+            let maxVisible = 6
+            let visible = Array(trees.prefix(maxVisible))
+            let overflow = trees.count - visible.count
+            let treeW = min(size.width * 0.18, 64)
+            let treeH = treeW
+            let baseY = size.height * 0.78
+            let spread = min(size.width * 0.88, CGFloat(visible.count) * treeW * 0.82)
+            let step = visible.count > 1 ? spread / CGFloat(visible.count - 1) : 0
+            let startX = (size.width - spread) / 2
+
+            ForEach(Array(visible.enumerated()), id: \.offset) { idx, styleID in
+                BonsaiView(
+                    day: 365,
+                    style: styleEnum(for: styleID),
+                    vitality: 1.0
+                )
+                .frame(width: treeW, height: treeH)
+                .opacity(0.78)
+                .position(
+                    x: visible.count == 1 ? size.width * 0.5 : startX + CGFloat(idx) * step,
+                    y: baseY
+                )
+            }
+
+            if overflow > 0 {
+                Text("+\(overflow)")
+                    .font(.caption2.bold())
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(.ultraThinMaterial, in: Capsule())
+                    .position(x: size.width - 18, y: baseY - 18)
+            }
+        }
+    }
+
+    private func styleEnum(for id: String) -> BonsaiStyle {
+        switch id {
+        case "cascade-bonsai", "cascade": return .cascade
+        case "windswept-bonsai", "windswept": return .windswept
+        default: return .traditional
+        }
     }
 }
 

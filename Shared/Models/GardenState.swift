@@ -8,9 +8,13 @@ final class GardenState {
     var lastWateredAt: Date?
     var unlockedItemIDs: [String]           // items earned through milestone days
     var placedItemIDs: [String]             // items currently displayed (Pro-gated slots)
-    var activeBonsaiStyleID: String         // "traditional", "cascade", "windswept"
+    var activeBonsaiStyleID: String         // current growing tree's style — Pro can swap mid-cycle
     var gardenThemeID: String               // "zen", "forest", "seasonal"
     var lastUnlockNotifiedAtDays: Int       // last day-count milestone we showed a celebration for
+    /// Grove of completed bonsai, one entry per 365-day cycle. Style locks at
+    /// completion; persists across relapse resets (a permanent record of
+    /// milestones actually reached).
+    var completedTreeStyles: [String] = []
 
     init(
         id: UUID = UUID(),
@@ -20,7 +24,8 @@ final class GardenState {
         placedItemIDs: [String] = [],
         activeBonsaiStyleID: String = "traditional-bonsai",
         gardenThemeID: String = "zen",
-        lastUnlockNotifiedAtDays: Int = 0
+        lastUnlockNotifiedAtDays: Int = 0,
+        completedTreeStyles: [String] = []
     ) {
         self.id = id
         self.vitality = vitality
@@ -30,5 +35,6 @@ final class GardenState {
         self.activeBonsaiStyleID = activeBonsaiStyleID
         self.gardenThemeID = gardenThemeID
         self.lastUnlockNotifiedAtDays = lastUnlockNotifiedAtDays
+        self.completedTreeStyles = completedTreeStyles
     }
 }

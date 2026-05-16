@@ -31,7 +31,8 @@ struct TodayView: View {
                         vitality: gardenState?.vitality ?? 1.0,
                         placedItemIDs: gardenState?.placedItemIDs ?? [],
                         activeBonsaiStyleID: gardenState?.activeBonsaiStyleID ?? "traditional-bonsai",
-                        isPro: isPro
+                        isPro: isPro,
+                        completedTreeStyles: gardenState?.completedTreeStyles ?? []
                     )
                     .frame(height: 300)
                     .padding(.horizontal)
@@ -124,6 +125,7 @@ struct TodayView: View {
 
     private func checkForUnlocks() {
         let svc = GardenService(context: context)
+        svc.processCycleCompletions(days: days)
         let newItems = svc.processNewUnlocks(days: days)
         for item in newItems where GardenItemCatalog.freeToPlaceIDs.contains(item.id) {
             svc.placeItem(item)
