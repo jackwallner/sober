@@ -52,7 +52,7 @@ struct GardenSceneView: View {
 
                 // ── Bonsai (centerpiece) ──
                 BonsaiView(
-                    stage: stage,
+                    day: days,
                     style: bonsaiStyle,
                     vitality: vitality
                 )

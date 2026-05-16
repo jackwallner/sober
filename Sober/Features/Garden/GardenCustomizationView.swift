@@ -103,7 +103,7 @@ struct GardenCustomizationView: View {
                             } label: {
                                 VStack(spacing: 6) {
                                     BonsaiView(
-                                        stage: GardenService.stage(forDays: days),
+                                        day: days,
                                         style: bonsaiStyleEnum(for: style.id),
                                         vitality: 1.0
                                     )
