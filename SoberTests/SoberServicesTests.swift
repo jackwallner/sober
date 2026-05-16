@@ -4,24 +4,20 @@ import Foundation
 
 @Suite("Garden stage progression")
 struct GardenServiceTests {
-    @Test func seedBeforeDayOne() {
+    @Test func seedAtZero() {
         #expect(GardenService.stage(forDays: 0) == .seed)
     }
 
-    @Test func sproutAtDayOne() {
-        #expect(GardenService.stage(forDays: 1) == .sprout)
+    @Test func seedlingAtWeek() {
+        #expect(GardenService.stage(forDays: 7) == .seedling)
     }
 
-    @Test func saplingAtWeek() {
-        #expect(GardenService.stage(forDays: 7) == .sapling)
+    @Test func adolescentAtMonth() {
+        #expect(GardenService.stage(forDays: 30) == .adolescent)
     }
 
-    @Test func youngTreeAtMonth() {
-        #expect(GardenService.stage(forDays: 30) == .youngTree)
-    }
-
-    @Test func ancientAtYear() {
-        #expect(GardenService.stage(forDays: 365) == .ancient)
+    @Test func legendaryAtYear() {
+        #expect(GardenService.stage(forDays: 365) == .legendary)
     }
 
     @Test func vitalityDecayKicksInAfterOneMissedDay() {

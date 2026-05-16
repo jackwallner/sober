@@ -75,6 +75,8 @@ targets:
     sources:
       - path: SoberWatch
       - path: Shared
+        excludes:
+          - "Services/SubscriptionService.swift"
       - path: SoberWatch/PrivacyInfo.xcprivacy
         buildPhase: resources
     settings:
@@ -91,6 +93,8 @@ targets:
     sources:
       - path: SoberWidgets
       - path: Shared
+        excludes:
+          - "Services/SubscriptionService.swift"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.jackwallner.sober.widgets

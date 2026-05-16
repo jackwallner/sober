@@ -6,16 +6,22 @@ struct WidgetSnapshot: Codable, Equatable {
     var sobrietyStartDate: Date?
     var currentStreakDays: Int
     var longestStreakDays: Int
-    var gardenStage: Int       // 0..5
-    var gardenVitality: Double // 0..1
+    var bonsaiStage: Int             // 0..8
+    var bonsaiStyleID: String        // "traditional", "cascade", "windswept"
+    var gardenVitality: Double       // 0..1
+    var placedItemIDs: [String]      // items in the garden scene
+    var unlockedItemIDs: [String]    // items earned through milestones
     var generatedAt: Date
 
     static let empty = WidgetSnapshot(
         sobrietyStartDate: nil,
         currentStreakDays: 0,
         longestStreakDays: 0,
-        gardenStage: 0,
+        bonsaiStage: 0,
+        bonsaiStyleID: "traditional",
         gardenVitality: 0,
+        placedItemIDs: [],
+        unlockedItemIDs: [],
         generatedAt: .distantPast
     )
 }

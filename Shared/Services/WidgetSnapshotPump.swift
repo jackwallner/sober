@@ -16,8 +16,11 @@ enum WidgetSnapshotPump {
             sobrietyStartDate: active?.startDate,
             currentStreakDays: days,
             longestStreakDays: sobriety.longestStreakDays(),
-            gardenStage: GardenService.stage(forDays: days).rawValue,
+            bonsaiStage: GardenService.stage(forDays: days).rawValue,
+            bonsaiStyleID: gs.activeBonsaiStyleID,
             gardenVitality: gs.vitality,
+            placedItemIDs: gs.placedItemIDs,
+            unlockedItemIDs: gs.unlockedItemIDs,
             generatedAt: .now
         )
         WidgetSnapshotStore.save(snap)

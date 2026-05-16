@@ -50,7 +50,10 @@ enum DataService {
         return try? ModelContainer(for: schema, configurations: [config])
     }
 
+    /// Bumped to v2 when the Garden schema was reshaped (species → items).
+    /// Old `Sober.store` is left dormant on disk so a future migration could
+    /// recover salvageable fields (e.g. SobrietyJourney start date) if needed.
     private static var containerURL: URL {
-        AppGroup.containerURL.appendingPathComponent("Sober.store")
+        AppGroup.containerURL.appendingPathComponent("Sober.v2.store")
     }
 }

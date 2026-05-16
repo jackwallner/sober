@@ -36,6 +36,13 @@ final class CheckInService {
         return (try? context.fetch(descriptor)) ?? []
     }
 
+    func lastCheckInDate() -> Date? {
+        let descriptor = FetchDescriptor<DailyCheckIn>(
+            sortBy: [SortDescriptor(\.day, order: .reverse)]
+        )
+        return try? context.fetch(descriptor).first?.day
+    }
+
     private func find(day: Date) -> DailyCheckIn? {
         let descriptor = FetchDescriptor<DailyCheckIn>(
             predicate: #Predicate { $0.day == day }
