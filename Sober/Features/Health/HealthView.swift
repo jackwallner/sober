@@ -43,29 +43,27 @@ struct HealthView: View {
         let unlocked = HealthBenefitCatalog.unlocked(hoursSober: hours).count
         let total = HealthBenefitCatalog.all.count
         let next = HealthBenefitCatalog.next(after: hours)
-        return VStack(alignment: .leading, spacing: 8) {
-            Text("Your Recovery").font(.headline)
-            Text("\(unlocked) / \(total) benefits unlocked")
-                .font(.subheadline).foregroundStyle(Theme.textSecondary)
-            ProgressView(value: Double(unlocked), total: Double(total))
-                .tint(Theme.brandPrimary)
-            if let n = next {
-                HStack {
-                    Image(systemName: "lock.fill")
-                    Text("NEXT UP")
-                    Text(n.title).fontWeight(.semibold)
-                    Spacer()
-                    Text(n.displayWait).font(.caption.bold())
+        return HeroCard {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Your Recovery").font(.headline)
+                Text("\(unlocked) / \(total) benefits unlocked")
+                    .font(.subheadline).foregroundStyle(.white.opacity(0.85))
+                ProgressView(value: Double(unlocked), total: Double(total))
+                    .tint(.white)
+                if let n = next {
+                    HStack {
+                        Image(systemName: "lock.fill")
+                        Text("NEXT UP")
+                        Text(n.title).fontWeight(.semibold)
+                        Spacer()
+                        Text(n.displayWait).font(.caption.bold())
+                    }
+                    .font(.caption)
+                    .padding(.top, 4)
+                    .foregroundStyle(.white.opacity(0.85))
                 }
-                .font(.caption)
-                .padding(.top, 4)
-                .foregroundStyle(Theme.textSecondary)
             }
         }
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Theme.brandGradient, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
-        .foregroundStyle(.white)
     }
 }
 

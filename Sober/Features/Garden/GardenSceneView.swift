@@ -10,6 +10,8 @@ struct GardenSceneView: View {
     let activeBonsaiStyleID: String
     let isPro: Bool
     var completedTreeStyles: [String] = []
+    /// Tapping a rendered element (bonsai or placed item) reports it here.
+    var onSelect: ((GardenItem) -> Void)? = nil
 
     private var cycle: (dayInCycle: Int, completed: Int) {
         GardenService.cycleProgress(forDays: days)
@@ -23,6 +25,11 @@ struct GardenSceneView: View {
         case "windswept-bonsai": return .windswept
         default: return .traditional
         }
+    }
+
+    private var activeBonsaiItem: GardenItem? {
+        GardenItemCatalog.item(id: activeBonsaiStyleID)
+            ?? GardenItemCatalog.all.first { $0.type == .bonsai }
     }
 
     /// Items that should be rendered in the scene (non-bonsai placed items).
@@ -46,6 +53,8 @@ struct GardenSceneView: View {
                         opacity: 0.6,
                         vitality: vitality
                     )
+                    .contentShape(Rectangle())
+                    .onTapGesture { onSelect?(item) }
                     .position(
                         x: backgroundPosition(for: item, in: s).x,
                         y: backgroundPosition(for: item, in: s).y
@@ -68,6 +77,8 @@ struct GardenSceneView: View {
                     width: bonsaiWidth(container: s),
                     height: bonsaiHeight(container: s)
                 )
+                .contentShape(Rectangle())
+                .onTapGesture { if let b = activeBonsaiItem { onSelect?(b) } }
                 .position(x: s.width * 0.5, y: s.height * (stage == .seed ? 0.72 : 0.60))
 
                 // ── Companion Plants (left/right of bonsai) ──
@@ -78,6 +89,8 @@ struct GardenSceneView: View {
                         opacity: 0.85 + 0.15 * vitality,
                         vitality: vitality
                     )
+                    .contentShape(Rectangle())
+                    .onTapGesture { onSelect?(item) }
                     .position(
                         x: companionPosition(for: item, index: companionPlants.firstIndex(of: item) ?? 0, total: companionPlants.count, in: s).x,
                         y: companionPosition(for: item, index: companionPlants.firstIndex(of: item) ?? 0, total: companionPlants.count, in: s).y
@@ -92,6 +105,8 @@ struct GardenSceneView: View {
                         opacity: 0.8 + 0.2 * vitality,
                         vitality: vitality
                     )
+                    .contentShape(Rectangle())
+                    .onTapGesture { onSelect?(item) }
                     .position(
                         x: decorationPosition(for: item, index: decorations.firstIndex(of: item) ?? 0, in: s).x,
                         y: decorationPosition(for: item, index: decorations.firstIndex(of: item) ?? 0, in: s).y
@@ -106,6 +121,8 @@ struct GardenSceneView: View {
                         opacity: 0.85 + 0.15 * vitality,
                         vitality: vitality
                     )
+                    .contentShape(Rectangle())
+                    .onTapGesture { onSelect?(item) }
                     .position(
                         x: foregroundFeaturePosition(for: item, in: s).x,
                         y: foregroundFeaturePosition(for: item, in: s).y

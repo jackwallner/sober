@@ -11,8 +11,12 @@ struct UnlockCelebrationView: View {
 
     var body: some View {
         ZStack {
-            // Dimmed background
-            Color.black.opacity(0.5)
+            // Opaque-enough backdrop so the underlying day counter and
+            // garden don't bleed through and visually collide with the card.
+            Rectangle()
+                .fill(.ultraThinMaterial)
+                .ignoresSafeArea()
+            Color.black.opacity(0.55)
                 .ignoresSafeArea()
 
             VStack(spacing: 24) {

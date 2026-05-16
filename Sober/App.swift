@@ -36,18 +36,25 @@ struct RootView: View {
 }
 
 struct MainTabView: View {
+    @State private var tab = 0
+
     var body: some View {
-        TabView {
-            TodayView()
-                .tabItem { Label("Today", systemImage: "leaf.fill") }
+        TabView(selection: $tab) {
+            TodayView(goToGarden: { tab = 1 })
+                .tabItem { Label("Today", systemImage: "sun.max.fill") }
+                .tag(0)
+            GardenView()
+                .tabItem { Label("Garden", systemImage: "leaf.fill") }
+                .tag(1)
             CalendarView()
                 .tabItem { Label("Calendar", systemImage: "calendar") }
+                .tag(2)
             HealthView()
                 .tabItem { Label("Health", systemImage: "heart.fill") }
+                .tag(3)
             JournalView()
                 .tabItem { Label("Journal", systemImage: "book.fill") }
-            SettingsView()
-                .tabItem { Label("Settings", systemImage: "gearshape") }
+                .tag(4)
         }
     }
 }

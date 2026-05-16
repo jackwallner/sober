@@ -2,14 +2,15 @@ import SwiftData
 import SwiftUI
 
 struct TodayView: View {
+    var goToGarden: () -> Void = {}
+
     @Environment(\.modelContext) private var context
     @Environment(SubscriptionService.self) private var subscriptions
     @Query(sort: \SobrietyJourney.startDate, order: .reverse) private var journeys: [SobrietyJourney]
     @Query private var gardenStates: [GardenState]
     @State private var showResetAlert = false
     @State private var checkedInToday = false
-    @State private var showCustomize = false
-    @State private var showCollection = false
+    @State private var showSettings = false
     @State private var celebrationQueue: [GardenItem] = []
     @State private var showCelebration = false
 
@@ -24,36 +25,15 @@ struct TodayView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 24) {
-                    // Garden Scene (replaces GardenStageView)
-                    GardenSceneView(
-                        days: days,
-                        vitality: gardenState?.vitality ?? 1.0,
-                        placedItemIDs: gardenState?.placedItemIDs ?? [],
-                        activeBonsaiStyleID: gardenState?.activeBonsaiStyleID ?? "traditional-bonsai",
-                        isPro: isPro,
-                        completedTreeStyles: gardenState?.completedTreeStyles ?? []
-                    )
-                    .frame(height: 300)
-                    .padding(.horizontal)
-                    .clipShape(RoundedRectangle(cornerRadius: 24))
-                    .overlay(alignment: .topTrailing) {
-                        Button { showCustomize = true } label: {
-                            Image(systemName: "paintbrush.line")
-                                .font(.caption)
-                                .padding(8)
-                                .background(.ultraThinMaterial, in: Circle())
-                        }
-                        .padding(12)
-                    }
-
-                    // Counter
+                VStack(spacing: 16) {
                     counterCard
+                        .padding(.horizontal)
 
-                    // Check-in
                     checkInCard
 
-                    // Milestone & Health next
+                    gardenPreviewCard
+                        .padding(.horizontal)
+
                     HStack(spacing: 12) {
                         nextMilestoneCard
                         nextBenefitCard
@@ -67,11 +47,9 @@ struct TodayView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     HStack(spacing: 4) {
-                        // Collection button
-                        Button { showCollection = true } label: {
-                            Image(systemName: "square.grid.2x2")
+                        Button { showSettings = true } label: {
+                            Image(systemName: "gearshape")
                         }
-                        // Reset button
                         Button(role: .destructive) { showResetAlert = true } label: {
                             Image(systemName: "arrow.counterclockwise.circle")
                         }
@@ -108,15 +86,8 @@ struct TodayView: View {
                     .zIndex(100)
                 }
             }
-            .sheet(isPresented: $showCustomize) {
-                GardenCustomizationView()
-            }
-            .sheet(isPresented: $showCollection) {
-                GardenCollectionView(
-                    days: days,
-                    unlockedItemIDs: gardenState?.unlockedItemIDs ?? [],
-                    isPro: isPro
-                )
+            .sheet(isPresented: $showSettings) {
+                SettingsView()
             }
         }
     }
@@ -144,19 +115,56 @@ struct TodayView: View {
     // MARK: - Cards
 
     private var counterCard: some View {
-        VStack(spacing: 6) {
-            Text("\(days)")
-                .font(Theme.bigNumber(96))
-                .foregroundStyle(Theme.brandGradient)
-            Text(days == 1 ? "Day Sober" : "Days Sober")
-                .font(.title3.weight(.medium))
-                .foregroundStyle(Theme.textSecondary)
-            if let start = activeJourney?.startDate {
-                Text("Since \(DateHelpers.mediumDate(start))")
-                    .font(.footnote)
-                    .foregroundStyle(Theme.textTertiary)
+        HeroCard {
+            VStack(spacing: 6) {
+                Text("\(days)")
+                    .font(Theme.bigNumber(96))
+                Text(days == 1 ? "Day Sober" : "Days Sober")
+                    .font(.title3.weight(.medium))
+                    .foregroundStyle(.white.opacity(0.85))
+                if let start = activeJourney?.startDate {
+                    Text("Since \(DateHelpers.mediumDate(start))")
+                        .font(.footnote)
+                        .foregroundStyle(.white.opacity(0.7))
+                }
+            }
+            .frame(maxWidth: .infinity)
+        }
+    }
+
+    private var gardenPreviewCard: some View {
+        let stage = GardenService.stage(forDays: days)
+        return Button(action: goToGarden) {
+            SectionCard {
+                HStack(spacing: 14) {
+                    GardenSceneView(
+                        days: days,
+                        vitality: gardenState?.vitality ?? 1.0,
+                        placedItemIDs: gardenState?.placedItemIDs ?? [],
+                        activeBonsaiStyleID: gardenState?.activeBonsaiStyleID ?? "traditional-bonsai",
+                        isPro: isPro,
+                        completedTreeStyles: gardenState?.completedTreeStyles ?? []
+                    )
+                    .frame(width: 88, height: 88)
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                    .allowsHitTesting(false)
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Your Garden")
+                            .font(.headline)
+                            .foregroundStyle(Theme.textPrimary)
+                        Text(stage.title)
+                            .font(.subheadline)
+                            .foregroundStyle(Theme.textSecondary)
+                    }
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(Theme.textTertiary)
+                }
             }
         }
+        .buttonStyle(.plain)
     }
 
     private var checkInCard: some View {

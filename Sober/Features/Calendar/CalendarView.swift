@@ -32,23 +32,16 @@ struct CalendarView: View {
         let active = journeys.first(where: { $0.isActive })
         let days = active.map { SobrietyService.daysSinceStart($0.startDate) } ?? 0
         let totalSober = checkIns.filter { $0.wasSober }.count
-        return HStack {
-            stat("\(days)", "Current Days")
-            Divider().frame(height: 40)
-            stat("\(totalSober)", "Sober Days")
-            Divider().frame(height: 40)
-            stat(active.map { successRate(start: $0.startDate) } ?? "—", "Success Rate")
+        return HeroCard {
+            HStack {
+                HeroStat(value: "\(days)", label: "Current Days")
+                Divider().frame(height: 40).overlay(.white.opacity(0.3))
+                HeroStat(value: "\(totalSober)", label: "Sober Days")
+                Divider().frame(height: 40).overlay(.white.opacity(0.3))
+                HeroStat(value: active.map { successRate(start: $0.startDate) } ?? "—",
+                         label: "Success Rate")
+            }
         }
-        .padding()
-        .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
-    }
-
-    private func stat(_ value: String, _ label: String) -> some View {
-        VStack {
-            Text(value).font(.title2.bold()).foregroundStyle(Theme.brandPrimary)
-            Text(label).font(.caption).foregroundStyle(Theme.textSecondary)
-        }
-        .frame(maxWidth: .infinity)
     }
 
     private func successRate(start: Date) -> String {
