@@ -1,0 +1,20 @@
+{
+  "_source": "Shared/Services/GardenService.swift — BonsaiStage enum",
+  "_note": "These 9 named stages remain useful as UI labels (shown to the user). The actual visual growth, however, runs daily 0–365 — see briefs/01-bonsai-stages.md.",
+  "stages": [
+    { "index": 0, "id": "seed",       "title": "Seed",         "dayThreshold":   0 },
+    { "index": 1, "id": "sprout",     "title": "Sprout",       "dayThreshold":   3 },
+    { "index": 2, "id": "seedling",   "title": "Seedling",     "dayThreshold":   7 },
+    { "index": 3, "id": "young",      "title": "Young Bonsai", "dayThreshold":  14 },
+    { "index": 4, "id": "adolescent", "title": "Adolescent",   "dayThreshold":  30 },
+    { "index": 5, "id": "mature",     "title": "Mature",       "dayThreshold":  60 },
+    { "index": 6, "id": "refined",    "title": "Refined",      "dayThreshold":  90 },
+    { "index": 7, "id": "ancient",    "title": "Ancient",      "dayThreshold": 180 },
+    { "index": 8, "id": "legendary",  "title": "Legendary",    "dayThreshold": 365 }
+  ],
+  "styles": [
+    { "id": "traditional", "displayName": "Traditional", "default": true },
+    { "id": "cascade",     "displayName": "Cascading",   "unlocksAtDay":  30 },
+    { "id": "windswept",   "displayName": "Windswept",   "unlocksAtDay": 365 }
+  ]
+}

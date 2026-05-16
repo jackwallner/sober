@@ -1,0 +1,77 @@
+{
+  "_source": "Shared/Models/GardenItem.swift — GardenItemCatalog",
+  "_note": "freeToPlaceIDs lists items a free user can keep in scene; rest require Pro.",
+  "freeToPlaceIDs": ["moss"],
+  "items": [
+    {
+      "id": "traditional-bonsai", "type": "bonsai", "size": "large", "day": 0,
+      "displayName": "Traditional Bonsai",
+      "description": "A timeless upright bonsai. Symmetrical, balanced, serene."
+    },
+    {
+      "id": "moss", "type": "ground", "size": "medium", "day": 3,
+      "displayName": "Moss Ground",
+      "description": "A soft blanket of emerald moss settles around your bonsai."
+    },
+    {
+      "id": "river-stone", "type": "decoration", "size": "small", "day": 7,
+      "displayName": "River Stone",
+      "description": "A smooth, grey stone worn by centuries of water."
+    },
+    {
+      "id": "bamboo", "type": "plant", "size": "medium", "day": 10,
+      "displayName": "Bamboo",
+      "description": "Tall green stalks that sway in the wind. A symbol of resilience."
+    },
+    {
+      "id": "stone-lantern", "type": "decoration", "size": "medium", "day": 14,
+      "displayName": "Stone Lantern",
+      "description": "A traditional Tōrō lantern. Warm light glows through the window."
+    },
+    {
+      "id": "white-lotus", "type": "plant", "size": "small", "day": 21,
+      "displayName": "White Lotus",
+      "description": "A pure white flower rising from still water."
+    },
+    {
+      "id": "cascade-bonsai", "type": "bonsai", "size": "large", "day": 30,
+      "displayName": "Cascading Bonsai",
+      "description": "The cascade style mimics a tree growing on a cliff, plunging downward."
+    },
+    {
+      "id": "zen-garden", "type": "ground", "size": "large", "day": 45,
+      "displayName": "Zen Sand Garden",
+      "description": "Raked white sand with a single stone. Contemplation made visible."
+    },
+    {
+      "id": "koi-pond", "type": "feature", "size": "large", "day": 60,
+      "displayName": "Koi Pond",
+      "description": "A small pond with two koi gliding beneath the surface."
+    },
+    {
+      "id": "miniature-pine", "type": "plant", "size": "medium", "day": 90,
+      "displayName": "Miniature Pine",
+      "description": "A dwarf pine with dark needles. Dignified and ancient."
+    },
+    {
+      "id": "moon-gate", "type": "feature", "size": "large", "day": 120,
+      "displayName": "Moon Gate",
+      "description": "A circular stone gate framing the garden beyond."
+    },
+    {
+      "id": "pagoda", "type": "feature", "size": "large", "day": 180,
+      "displayName": "Meditation Pagoda",
+      "description": "A five-tier pagoda tucked in the corner. Peace emanates from it."
+    },
+    {
+      "id": "wind-chime", "type": "decoration", "size": "small", "day": 270,
+      "displayName": "Wind Chime",
+      "description": "Tubular chimes that sing with the breeze. Each note is a day sober."
+    },
+    {
+      "id": "windswept-bonsai", "type": "bonsai", "size": "large", "day": 365,
+      "displayName": "Windswept Bonsai",
+      "description": "Shaped by a lifetime of wind. Every branch tells a story of endurance."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "_source": "Shared/Utilities/Theme.swift",
+  "_note": "RGB components are 0..1 floats as defined in Swift; hex is approximate.",
+  "brand": {
+    "primary":   { "rgb": [0.32, 0.62, 0.45], "hex": "#519E73", "note": "sage green" },
+    "secondary": { "rgb": [0.48, 0.78, 0.55], "hex": "#7BC68C", "note": "fresh green" },
+    "accent":    { "rgb": [0.95, 0.78, 0.45], "hex": "#F2C773", "note": "warm sand" }
+  },
+  "semantic": {
+    "streakFlame": { "rgb": [1.00, 0.55, 0.10], "hex": "#FF8C1A" },
+    "success":     { "rgb": [0.20, 0.72, 0.45], "hex": "#33B873" },
+    "warning":     { "rgb": [1.00, 0.70, 0.20], "hex": "#FFB333" },
+    "danger":      { "rgb": [0.95, 0.36, 0.36], "hex": "#F25C5C" }
+  },
+  "gradients": {
+    "brand": {
+      "from":      { "rgb": [0.32, 0.62, 0.45], "hex": "#519E73" },
+      "to":        { "rgb": [0.48, 0.78, 0.55], "hex": "#7BC68C" },
+      "direction": "topLeading -> bottomTrailing"
+    },
+    "sky": {
+      "from":      { "rgb": [0.68, 0.85, 0.95], "hex": "#ADD9F2" },
+      "to":        { "rgb": [0.92, 0.96, 0.86], "hex": "#EBF5DB" },
+      "direction": "top -> bottom"
+    },
+    "dirt": {
+      "from":      { "rgb": [0.55, 0.42, 0.28], "hex": "#8C6B47" },
+      "to":        { "rgb": [0.45, 0.32, 0.20], "hex": "#735233" },
+      "direction": "top -> bottom"
+    }
+  },
+  "radii": {
+    "card":   20,
+    "button": 12
+  },
+  "spacing": {
+    "card":   20
+  }
+}
