@@ -233,7 +233,7 @@ struct GardenCustomizationView: View {
                 } label: {
                     HStack {
                         Image(systemName: "crown.fill")
-                        Text("Upgrade to Pro")
+                        Text("Upgrade to Bloom+")
                     }
                     .fontWeight(.semibold)
                     .frame(maxWidth: .infinity)

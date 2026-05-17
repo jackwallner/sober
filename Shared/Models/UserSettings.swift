@@ -10,6 +10,7 @@ final class UserSettings {
     var dailyReminderEnabled: Bool
     var dailyReminderHour: Int
     var hasCompletedOnboarding: Bool
+    var appearancePreferenceRaw: String = AppearancePreference.system.rawValue
 
     init(
         id: UUID = UUID(),
@@ -18,7 +19,8 @@ final class UserSettings {
         caloriesPerDay: Int = 600,
         dailyReminderEnabled: Bool = true,
         dailyReminderHour: Int = 9,
-        hasCompletedOnboarding: Bool = false
+        hasCompletedOnboarding: Bool = false,
+        appearancePreference: AppearancePreference = .system
     ) {
         self.id = id
         self.costPerDayCents = costPerDayCents
@@ -27,9 +29,31 @@ final class UserSettings {
         self.dailyReminderEnabled = dailyReminderEnabled
         self.dailyReminderHour = dailyReminderHour
         self.hasCompletedOnboarding = hasCompletedOnboarding
+        self.appearancePreferenceRaw = appearancePreference.rawValue
+    }
+
+    var appearancePreference: AppearancePreference {
+        get { AppearancePreference(rawValue: appearancePreferenceRaw) ?? .system }
+        set { appearancePreferenceRaw = newValue.rawValue }
     }
 
     var costPerDay: Decimal {
         Decimal(costPerDayCents) / 100
+    }
+}
+
+enum AppearancePreference: String, CaseIterable, Identifiable {
+    case system
+    case light
+    case dark
+
+    var id: String { rawValue }
+
+    var label: String {
+        switch self {
+        case .system: return "System"
+        case .light: return "Light"
+        case .dark: return "Dark"
+        }
     }
 }

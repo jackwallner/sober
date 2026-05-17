@@ -51,11 +51,11 @@ struct StatsView: View {
     private var proGate: some View {
         VStack(spacing: 16) {
             Image(systemName: "lock.fill").font(.system(size: 48))
-            Text("Pro Only").font(.title.bold())
+            Text("Bloom+").font(.title.bold())
             Text("See exactly how much money and how many calories you've spared yourself.")
                 .multilineTextAlignment(.center)
                 .foregroundStyle(Theme.textSecondary)
-            Button("Upgrade to Pro") { showPaywall = true }
+            Button("Upgrade to Bloom+") { showPaywall = true }
                 .buttonStyle(.borderedProminent)
                 .tint(Theme.brandPrimary)
         }

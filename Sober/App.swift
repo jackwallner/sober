@@ -23,7 +23,8 @@ struct RootView: View {
     @Query private var settingsRows: [UserSettings]
 
     var body: some View {
-        let onboarded = settingsRows.first?.hasCompletedOnboarding ?? false
+        let settings = settingsRows.first
+        let onboarded = settings?.hasCompletedOnboarding ?? false
         Group {
             if onboarded {
                 MainTabView()
@@ -31,7 +32,16 @@ struct RootView: View {
                 OnboardingView()
             }
         }
+        .preferredColorScheme(colorScheme(for: settings?.appearancePreference ?? .system))
         .task { WidgetSnapshotPump.push(context: context) }
+    }
+
+    private func colorScheme(for pref: AppearancePreference) -> ColorScheme? {
+        switch pref {
+        case .system: return nil
+        case .light: return .light
+        case .dark: return .dark
+        }
     }
 }
 

@@ -34,21 +34,36 @@ struct CalendarView: View {
         let totalSober = checkIns.filter { $0.wasSober }.count
         return HeroCard {
             HStack {
-                HeroStat(value: "\(days)", label: "Current Days")
+                HeroStat(value: "\(days)", label: "Current Streak")
+                Divider().frame(height: 40).overlay(.white.opacity(0.3))
+                HeroStat(value: "\(longestStreak)", label: "Longest Streak")
                 Divider().frame(height: 40).overlay(.white.opacity(0.3))
                 HeroStat(value: "\(totalSober)", label: "Sober Days")
-                Divider().frame(height: 40).overlay(.white.opacity(0.3))
-                HeroStat(value: active.map { successRate(start: $0.startDate) } ?? "—",
-                         label: "Success Rate")
             }
         }
     }
 
-    private func successRate(start: Date) -> String {
-        let totalDays = max(1, DateHelpers.daysBetween(start, .now) + 1)
-        let sober = checkIns.filter { $0.wasSober && $0.day >= start }.count
-        let pct = Double(sober) / Double(totalDays) * 100
-        return String(format: "%.0f%%", pct)
+    private var longestStreak: Int {
+        let sortedSoberDays = checkIns
+            .filter { $0.wasSober }
+            .map { DateHelpers.startOfDay($0.day) }
+            .sorted()
+        guard !sortedSoberDays.isEmpty else { return 0 }
+
+        var longest = 1
+        var current = 1
+        for i in 1..<sortedSoberDays.count {
+            let prev = sortedSoberDays[i - 1]
+            let day = sortedSoberDays[i]
+            let gap = Calendar.current.dateComponents([.day], from: prev, to: day).day ?? 0
+            if gap == 1 {
+                current += 1
+                longest = max(longest, current)
+            } else if gap > 1 {
+                current = 1
+            }
+        }
+        return longest
     }
 
     private var monthNav: some View {

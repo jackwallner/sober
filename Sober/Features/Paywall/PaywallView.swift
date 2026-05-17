@@ -48,7 +48,7 @@ struct PaywallView: View {
                 Image(systemName: "crown.fill")
                     .font(.system(size: 64))
                     .foregroundStyle(.white)
-                Text("Sober Pro").font(.system(size: 40, weight: .bold, design: .rounded))
+                Text("Bloom+").font(.system(size: 40, weight: .bold, design: .rounded))
                 VStack(alignment: .leading, spacing: 12) {
                     benefit("All 13 health benefits with sources")
                     benefit("Journal with daily prompts")

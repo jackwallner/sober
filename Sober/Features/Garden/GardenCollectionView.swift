@@ -206,7 +206,7 @@ private struct TimelineRow: View {
                     .font(.title3)
                     .foregroundStyle(Theme.success)
             } else {
-                Button("Pro", action: onUpsell)
+                Button("Bloom+", action: onUpsell)
                     .font(.caption.weight(.semibold))
                     .buttonStyle(.borderedProminent)
                     .tint(Theme.brandPrimary)

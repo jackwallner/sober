@@ -14,10 +14,10 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Pro") {
+                Section("Bloom+") {
                     HStack {
                         Image(systemName: subscriptions.isProSubscriber ? "crown.fill" : "crown")
-                        Text(subscriptions.isProSubscriber ? "Pro active" : "Sober Pro")
+                        Text(subscriptions.isProSubscriber ? "Bloom+ active" : "Bloom+")
                         Spacer()
                         if !subscriptions.isProSubscriber {
                             Button("Upgrade") { showPaywall = true }
@@ -30,6 +30,14 @@ struct SettingsView: View {
                     Button("Money & Calories Saved") { showStats = true }
                 }
                 if let s = settings {
+                    Section("Appearance") {
+                        Picker("Theme", selection: bind(\.appearancePreferenceRaw, on: s)) {
+                            ForEach(AppearancePreference.allCases) { pref in
+                                Text(pref.label).tag(pref.rawValue)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                    }
                     Section("Daily Reminder") {
                         Toggle("Enabled", isOn: bind(\.dailyReminderEnabled, on: s))
                         Stepper("Hour: \(s.dailyReminderHour):00", value: bind(\.dailyReminderHour, on: s), in: 0...23)
@@ -45,7 +53,7 @@ struct SettingsView: View {
                     }
                 }
                 Section("Developer") {
-                    Button(subscriptions.isProSubscriber ? "Disable Pro override" : "Enable Pro override") {
+                    Button(subscriptions.isProSubscriber ? "Disable Bloom+ override" : "Enable Bloom+ override") {
                         subscriptions.setLocalOverride(isPro: !subscriptions.isProSubscriber)
                     }
                 }

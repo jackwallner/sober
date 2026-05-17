@@ -106,7 +106,7 @@ private struct BenefitRow: View {
                 RoundedRectangle(cornerRadius: Theme.cardRadius)
                     .fill(.ultraThinMaterial)
                     .overlay {
-                        Label("Pro", systemImage: "crown.fill")
+                        Label("Bloom+", systemImage: "crown.fill")
                             .font(.headline)
                             .padding(.horizontal, 12).padding(.vertical, 6)
                             .background(.thinMaterial, in: Capsule())

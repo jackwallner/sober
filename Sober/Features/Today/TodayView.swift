@@ -274,12 +274,13 @@ struct TodayView: View {
                 .foregroundStyle(Theme.textSecondary)
             Text(next?.title ?? "Year One")
                 .font(.headline)
+                .lineLimit(2, reservesSpace: true)
             Text(next.map { "in \(max(1, $0.dayThreshold - days)) days" } ?? "Crushed it")
                 .font(.caption2)
                 .foregroundStyle(Theme.textTertiary)
         }
         .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
     }
 
@@ -292,13 +293,13 @@ struct TodayView: View {
                 .foregroundStyle(Theme.textSecondary)
             Text(next?.title ?? "All unlocked")
                 .font(.headline)
-                .lineLimit(2)
+                .lineLimit(2, reservesSpace: true)
             Text(next.map { "at \($0.displayWait)" } ?? "")
                 .font(.caption2)
                 .foregroundStyle(Theme.textTertiary)
         }
         .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
     }
 }
