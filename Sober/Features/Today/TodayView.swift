@@ -12,8 +12,10 @@ struct TodayView: View {
     @State private var checkedInToday = false
     @State private var daysMissed: Int = 0
     @State private var showSettings = false
+    @State private var showPaywall = false
     @State private var celebrationQueue: [GardenItem] = []
     @State private var showCelebration = false
+    @Query private var settingsRows: [UserSettings]
 
     private var activeJourney: SobrietyJourney? { journeys.first { $0.isActive } }
     private var gardenState: GardenState? { gardenStates.first }
@@ -33,6 +35,11 @@ struct TodayView: View {
 
                     checkInSection
                         .padding(.horizontal)
+
+                    if showTrialNudge {
+                        trialNudgeCard
+                            .padding(.horizontal)
+                    }
 
                     gardenPreviewCard
                         .padding(.horizontal)
@@ -90,6 +97,9 @@ struct TodayView: View {
             }
             .sheet(isPresented: $showSettings) {
                 SettingsView()
+            }
+            .sheet(isPresented: $showPaywall) {
+                PaywallView()
             }
         }
     }
@@ -260,6 +270,44 @@ struct TodayView: View {
                             .foregroundStyle(Theme.textSecondary)
                         Spacer(minLength: 0)
                     }
+                }
+            }
+        }
+        .buttonStyle(.plain)
+    }
+
+    // MARK: Trial nudge
+
+    private var showTrialNudge: Bool {
+        days >= 7 && !isPro && !subscriptions.hasClaimedTrial
+    }
+
+    private var savedSoFar: String {
+        let cents = days * (settingsRows.first?.costPerDayCents ?? 0)
+        let dollars = Double(cents) / 100
+        let f = NumberFormatter()
+        f.numberStyle = .currency
+        f.maximumFractionDigits = 0
+        return f.string(from: NSNumber(value: dollars)) ?? "$\(Int(dollars))"
+    }
+
+    private var trialNudgeCard: some View {
+        Button { showPaywall = true } label: {
+            SectionCard {
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(spacing: 8) {
+                        Image(systemName: "gift.fill")
+                            .foregroundStyle(Theme.brandPrimary)
+                        Text("You've saved \(savedSoFar) so far")
+                            .font(.headline)
+                            .foregroundStyle(Theme.textPrimary)
+                    }
+                    Text("Put a little back into your growth — try Bloom+ free for 7 days. New species, your growth history, and more.")
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.textSecondary)
+                    Text("Start free trial")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(Theme.brandPrimary)
                 }
             }
         }

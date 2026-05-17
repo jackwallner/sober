@@ -86,42 +86,53 @@ struct GardenCustomizationView: View {
     }
 
     private var bonsaiStyleSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            sectionHeader("Bonsai Style")
+        let allStyles = GardenItemCatalog.all.filter { $0.type == .bonsai }
+        return VStack(alignment: .leading, spacing: 10) {
+            sectionHeader("Bonsai Species")
 
-            let bonsaiStyles = GardenItemCatalog.all.filter { $0.type == .bonsai && unlockedItems.contains($0) }
-            if bonsaiStyles.isEmpty {
-                Text("Unlock more bonsai styles as your streak grows.")
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.textSecondary)
-            } else {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 12) {
-                        ForEach(bonsaiStyles) { style in
-                            let isActive = gardenState?.activeBonsaiStyleID == style.id
-                            Button {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 12) {
+                    ForEach(allStyles) { style in
+                        let earned = days >= style.milestoneDays
+                        let isActive = gardenState?.activeBonsaiStyleID == style.id
+                        Button {
+                            if earned {
                                 GardenService(context: context).setBonsaiStyle(style.id)
-                            } label: {
-                                VStack(spacing: 6) {
+                            } else {
+                                showPaywall = true
+                            }
+                        } label: {
+                            VStack(spacing: 6) {
+                                ZStack {
                                     BonsaiView(
-                                        day: dayInCycle,
+                                        day: earned ? dayInCycle : 60,
                                         style: bonsaiStyleEnum(for: style.id),
                                         vitality: 1.0
                                     )
                                     .frame(width: 80, height: 80)
-                                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 12)
-                                            .stroke(isActive ? Theme.brandPrimary : Color.clear, lineWidth: 2)
-                                    )
+                                    .blur(radius: earned ? 0 : 6)
 
-                                    Text(style.displayName)
-                                        .font(.caption)
-                                        .foregroundStyle(isActive ? Theme.brandPrimary : Theme.textSecondary)
+                                    if !earned {
+                                        Image(systemName: "lock.fill")
+                                            .font(.subheadline.weight(.bold))
+                                            .foregroundStyle(.white)
+                                            .padding(8)
+                                            .background(.black.opacity(0.35), in: Circle())
+                                    }
                                 }
+                                .frame(width: 80, height: 80)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(isActive ? Theme.brandPrimary : Color.clear, lineWidth: 2)
+                                )
+
+                                Text(earned ? style.displayName : "Day \(style.milestoneDays)")
+                                    .font(.caption)
+                                    .foregroundStyle(isActive ? Theme.brandPrimary : Theme.textSecondary)
                             }
-                            .buttonStyle(.plain)
                         }
+                        .buttonStyle(.plain)
                     }
                 }
             }
