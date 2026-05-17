@@ -50,21 +50,18 @@ struct MainTabView: View {
 
     var body: some View {
         TabView(selection: $tab) {
-            TodayView(goToGarden: { tab = 1 })
-                .tabItem { Label("Today", systemImage: "sun.max.fill") }
+            HomeView()
+                .tabItem { Label("Home", systemImage: "leaf.fill") }
                 .tag(0)
-            GardenView()
-                .tabItem { Label("Garden", systemImage: "leaf.fill") }
+            TimelineView()
+                .tabItem { Label("Timeline", systemImage: "calendar") }
                 .tag(1)
-            CalendarView()
-                .tabItem { Label("Calendar", systemImage: "calendar") }
-                .tag(2)
             HealthView()
                 .tabItem { Label("Health", systemImage: "heart.fill") }
-                .tag(3)
+                .tag(2)
             JournalView()
                 .tabItem { Label("Journal", systemImage: "book.fill") }
-                .tag(4)
+                .tag(3)
         }
     }
 }
