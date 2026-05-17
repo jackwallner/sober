@@ -20,16 +20,6 @@ struct GardenServiceTests {
         #expect(GardenService.stage(forDays: 365) == .legendary)
     }
 
-    @Test func vitalityDecayKicksInAfterOneMissedDay() {
-        let base: Double = 1.0
-        let now = Date(timeIntervalSinceReferenceDate: 10_000_000)
-        let oneDayAgo = Calendar.current.date(byAdding: .day, value: -1, to: now)!
-        #expect(GardenService.decayedVitality(from: base, lastCheckIn: oneDayAgo, now: now) == base)
-
-        let threeDaysAgo = Calendar.current.date(byAdding: .day, value: -3, to: now)!
-        let decayed = GardenService.decayedVitality(from: base, lastCheckIn: threeDaysAgo, now: now)
-        #expect(decayed < base)
-    }
 }
 
 @Suite("Health benefit catalog")

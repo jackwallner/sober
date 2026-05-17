@@ -10,6 +10,7 @@ struct TodayView: View {
     @Query private var gardenStates: [GardenState]
     @State private var showResetAlert = false
     @State private var checkedInToday = false
+    @State private var daysMissed: Int = 0
     @State private var showSettings = false
     @State private var celebrationQueue: [GardenItem] = []
     @State private var showCelebration = false
@@ -21,6 +22,7 @@ struct TodayView: View {
         return SobrietyService.daysSinceStart(j.startDate)
     }
     private var isPro: Bool { subscriptions.isProSubscriber }
+    private var dayInCycle: Int { GardenService.cycleProgress(forDays: days).dayInCycle }
 
     var body: some View {
         NavigationStack {
@@ -29,7 +31,8 @@ struct TodayView: View {
                     counterCard
                         .padding(.horizontal)
 
-                    checkInCard
+                    checkInSection
+                        .padding(.horizontal)
 
                     gardenPreviewCard
                         .padding(.horizontal)
@@ -61,18 +64,17 @@ struct TodayView: View {
                 Button("Reset", role: .destructive) {
                     SobrietyService(context: context).reset()
                     GardenService(context: context).resetForNewJourney()
+                    refreshCheckInState()
                     WidgetSnapshotPump.push(context: context)
                 }
             } message: {
                 Text("Your day counter will restart at zero. Your history is kept.")
             }
             .onAppear {
-                checkedInToday = CheckInService(context: context).hasCheckedIn()
+                refreshCheckInState()
                 checkForUnlocks()
-                applyVitalityDecay()
                 WidgetSnapshotPump.push(context: context)
             }
-            // Celebration overlay — replays each queued unlock in order.
             .overlay {
                 if showCelebration, let item = celebrationQueue.first {
                     UnlockCelebrationView(item: item) {
@@ -92,6 +94,14 @@ struct TodayView: View {
         }
     }
 
+    // MARK: - State
+
+    private func refreshCheckInState() {
+        let svc = CheckInService(context: context)
+        checkedInToday = svc.hasCheckedIn()
+        daysMissed = svc.daysSinceLastCheckIn()
+    }
+
     // MARK: - Unlock Check
 
     private func checkForUnlocks() {
@@ -104,12 +114,6 @@ struct TodayView: View {
         guard !newItems.isEmpty else { return }
         celebrationQueue = newItems
         withAnimation { showCelebration = true }
-    }
-
-    private func applyVitalityDecay() {
-        let checkInSvc = CheckInService(context: context)
-        let lastCheckIn = checkInSvc.lastCheckInDate()
-        GardenService(context: context).applyVitalityDecay(lastCheckIn: lastCheckIn)
     }
 
     // MARK: - Cards
@@ -132,46 +136,22 @@ struct TodayView: View {
         }
     }
 
-    private var gardenPreviewCard: some View {
-        let stage = GardenService.stage(forDays: days)
-        return Button(action: goToGarden) {
-            SectionCard {
-                HStack(spacing: 14) {
-                    GardenSceneView(
-                        days: days,
-                        vitality: gardenState?.vitality ?? 1.0,
-                        placedItemIDs: gardenState?.placedItemIDs ?? [],
-                        activeBonsaiStyleID: gardenState?.activeBonsaiStyleID ?? "traditional-bonsai",
-                        isPro: isPro,
-                        completedTreeStyles: gardenState?.completedTreeStyles ?? []
-                    )
-                    .frame(width: 88, height: 88)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
-                    .allowsHitTesting(false)
+    // MARK: Check-in / catch-up
 
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Your Garden")
-                            .font(.headline)
-                            .foregroundStyle(Theme.textPrimary)
-                        Text(stage.title)
-                            .font(.subheadline)
-                            .foregroundStyle(Theme.textSecondary)
-                    }
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(Theme.textTertiary)
-                }
-            }
+    @ViewBuilder
+    private var checkInSection: some View {
+        if !checkedInToday && daysMissed > 1 {
+            catchUpCard
+        } else {
+            checkInCard
         }
-        .buttonStyle(.plain)
     }
 
     private var checkInCard: some View {
         Button {
             CheckInService(context: context).checkIn()
             GardenService(context: context).water()
-            checkedInToday = true
+            refreshCheckInState()
             WidgetSnapshotPump.push(context: context)
         } label: {
             HStack {
@@ -185,7 +165,105 @@ struct TodayView: View {
         .disabled(checkedInToday)
         .buttonStyle(.borderedProminent)
         .tint(Theme.brandPrimary)
-        .padding(.horizontal)
+    }
+
+    private var catchUpCard: some View {
+        SectionCard {
+            VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Welcome back")
+                        .font(.headline)
+                        .foregroundStyle(Theme.textPrimary)
+                    Text("You haven't checked in for \(daysMissed) day\(daysMissed == 1 ? "" : "s"). Still going strong?")
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.textSecondary)
+                }
+
+                Button {
+                    let svc = CheckInService(context: context)
+                    svc.backfillSoberDays()
+                    GardenService(context: context).water()
+                    refreshCheckInState()
+                    WidgetSnapshotPump.push(context: context)
+                } label: {
+                    HStack(spacing: 8) {
+                        Image(systemName: "checkmark.circle.fill")
+                        Text("Yes, still sober")
+                            .fontWeight(.semibold)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(Theme.brandPrimary)
+
+                Button(role: .destructive) {
+                    showResetAlert = true
+                } label: {
+                    Text("I had a slip")
+                        .font(.subheadline.weight(.medium))
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 8)
+                }
+                .buttonStyle(.bordered)
+                .tint(Theme.textSecondary)
+            }
+        }
+    }
+
+    // MARK: Garden preview
+
+    private var gardenPreviewCard: some View {
+        let stage = GardenService.stage(forDays: days)
+        let style: BonsaiStyle = {
+            switch gardenState?.activeBonsaiStyleID {
+            case "cascade-bonsai": return .cascade
+            case "windswept-bonsai": return .windswept
+            default: return .traditional
+            }
+        }()
+        let vitality = gardenState?.vitality ?? 1.0
+
+        return Button(action: goToGarden) {
+            SectionCard {
+                VStack(spacing: 10) {
+                    HStack(alignment: .firstTextBaseline) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Your Bonsai")
+                                .font(.headline)
+                                .foregroundStyle(Theme.textPrimary)
+                            Text("Day \(dayInCycle) · \(stage.title)")
+                                .font(.subheadline)
+                                .foregroundStyle(Theme.textSecondary)
+                        }
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(Theme.textTertiary)
+                    }
+
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(Theme.skyGradient)
+                        BonsaiView(day: dayInCycle, style: style, vitality: vitality)
+                            .padding(8)
+                    }
+                    .frame(height: 200)
+                    .allowsHitTesting(false)
+
+                    HStack(spacing: 8) {
+                        Image(systemName: "sparkles")
+                            .font(.caption)
+                            .foregroundStyle(Theme.brandPrimary)
+                        Text("Today's growth: \(DailyGrowth.note(forDayInCycle: dayInCycle))")
+                            .font(.caption)
+                            .foregroundStyle(Theme.textSecondary)
+                        Spacer(minLength: 0)
+                    }
+                }
+            }
+        }
+        .buttonStyle(.plain)
     }
 
     private var nextMilestoneCard: some View {

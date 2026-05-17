@@ -78,25 +78,6 @@ final class GardenService {
         try? context.save()
     }
 
-    /// Call daily to decay vitality if user skipped a check-in.
-    func applyVitalityDecay(lastCheckIn: Date?, now: Date = .now) {
-        let state = current()
-        state.vitality = Self.decayedVitality(from: state.vitality, lastCheckIn: lastCheckIn, now: now)
-        try? context.save()
-    }
-
-    nonisolated static func decayedVitality(
-        from base: Double,
-        lastCheckIn: Date?,
-        now: Date = .now
-    ) -> Double {
-        guard let last = lastCheckIn else { return base }
-        let gap = DateHelpers.daysBetween(last, now)
-        guard gap > 1 else { return base }
-        let penalty = Double(gap - 1) * 0.12
-        return max(0.1, base - penalty) // floor at 0.1 so it never fully dies
-    }
-
     // ── Stage ──
 
     nonisolated static func stage(forDays days: Int) -> BonsaiStage {

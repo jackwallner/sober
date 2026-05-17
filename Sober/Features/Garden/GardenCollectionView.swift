@@ -1,8 +1,8 @@
 import SwiftUI
 
-/// Shows all garden items — unlocked and locked — grouped by category.
-/// Unlocked items are full-color. Locked items show their milestone requirement.
-/// Pro upsell on items that can't be placed.
+/// A vertical milestone timeline of everything you can grow or place.
+/// Anchored around your next unlock — earned items above (full color),
+/// upcoming items below (dimmed, with countdown).
 struct GardenCollectionView: View {
     let days: Int
     let unlockedItemIDs: [String]
@@ -10,139 +10,208 @@ struct GardenCollectionView: View {
 
     @State private var showPaywall = false
 
-    private var allItems: [GardenItem] { GardenItemCatalog.all }
-    private var unlockedItems: [GardenItem] { allItems.filter { unlockedItemIDs.contains($0.id) || $0.milestoneDays <= days } }
+    private var allItems: [GardenItem] {
+        GardenItemCatalog.all.sorted { $0.milestoneDays < $1.milestoneDays }
+    }
+    private var unlockedCount: Int { allItems.filter { $0.milestoneDays <= days }.count }
+    private var nextItem: GardenItem? { allItems.first { $0.milestoneDays > days } }
 
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    // Progress Header
-                    progressHeader
+                LazyVStack(alignment: .leading, spacing: 0) {
+                    header
+                        .padding(.horizontal)
+                        .padding(.bottom, 16)
 
-                    // Grouped by type
-                    ForEach(GardenItemType.allCases, id: \.rawValue) { type in
-                        let items = allItems.filter { $0.type == type }
-                        if !items.isEmpty {
-                            categorySection(type: type, items: items)
-                        }
+                    ForEach(Array(allItems.enumerated()), id: \.element.id) { idx, item in
+                        TimelineRow(
+                            item: item,
+                            days: days,
+                            isLast: idx == allItems.count - 1,
+                            isNext: item.id == nextItem?.id,
+                            isPro: isPro,
+                            onUpsell: { showPaywall = true }
+                        )
+                        .padding(.horizontal)
                     }
                 }
-                .padding()
+                .padding(.vertical)
             }
             .background(Theme.background)
             .navigationTitle("Collection")
+            .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $showPaywall) {
                 PaywallView()
             }
         }
     }
 
-    private var progressHeader: some View {
-        let unlocked = unlockedItems.count
-        let total = allItems.count
-        let pct = total > 0 ? Double(unlocked) / Double(total) : 0
-
-        return VStack(spacing: 12) {
-            // Stats
-            HStack {
-                StatBlock(label: "Unlocked", value: "\(unlocked)")
-                StatBlock(label: "Total", value: "\(total)")
-                StatBlock(label: "Progress", value: "\(Int(pct * 100))%")
-            }
-
-            // Progress bar
-            ProgressView(value: pct)
-                .tint(Theme.brandGradient)
-        }
-        .padding()
-        .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
-    }
-
-    private func categorySection(type: GardenItemType, items: [GardenItem]) -> some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text(type.displayCategory)
-                .font(.headline)
-                .foregroundStyle(Theme.textPrimary)
-
-            let columns = [GridItem(.adaptive(minimum: 100), spacing: 12)]
-            LazyVGrid(columns: columns, spacing: 12) {
-                ForEach(items) { item in
-                    let isUnlocked = unlockedItems.contains(item) || item.milestoneDays <= days
-                    collectionCard(item: item, isUnlocked: isUnlocked)
-                }
-            }
-        }
-    }
-
-    private func collectionCard(item: GardenItem, isUnlocked: Bool) -> some View {
-        VStack(spacing: 6) {
-            // Item rendering
-            if isUnlocked {
-                GardenItemRenderer(item: item, scale: 1.0, opacity: 1.0, vitality: 1.0)
-                    .frame(height: 55)
-                    .frame(maxWidth: .infinity)
+    private var header: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            if let next = nextItem {
+                Text("\(unlockedCount) of \(allItems.count) earned")
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.textSecondary)
+                Text("Next: \(next.displayName)")
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(Theme.textPrimary)
+                Text("in \(next.milestoneDays - days) day\(next.milestoneDays - days == 1 ? "" : "s")")
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.brandPrimary)
             } else {
-                ZStack {
-                    GardenItemRenderer(item: item, scale: 1.0, opacity: 0.2, vitality: 0.3)
-                        .frame(height: 55)
-
-                    // Lock overlay
-                    VStack(spacing: 2) {
-                        Image(systemName: "lock.fill")
-                            .font(.caption)
-                        Text("Day \(item.milestoneDays)")
-                            .font(.caption2)
-                    }
-                    .foregroundStyle(Theme.textTertiary)
-                }
-                .frame(maxWidth: .infinity)
-            }
-
-            Text(item.displayName)
-                .font(.caption2)
-                .foregroundStyle(isUnlocked ? Theme.textPrimary : Theme.textTertiary)
-                .lineLimit(1)
-
-            // Place/Subscribe button
-            if isUnlocked {
-                if GardenItemCatalog.canPlace(item, isPro: isPro, currentPlacedCount: 0) || item.type == .bonsai {
-                    Label("Available", systemImage: "checkmark")
-                        .font(.caption2)
-                        .foregroundStyle(Theme.success)
-                } else {
-                    Button("Pro to place") { showPaywall = true }
-                        .buttonStyle(.bordered)
-                        .tint(Theme.brandPrimary)
-                        .font(.caption2)
-                        .controlSize(.mini)
-                }
-            } else {
-                Text("Unlocks in \(item.milestoneDays - days) days")
-                    .font(.caption2)
-                    .foregroundStyle(Theme.textTertiary)
+                Text("\(unlockedCount) of \(allItems.count) earned")
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.textSecondary)
+                Text("Everything is grown")
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(Theme.textPrimary)
             }
         }
-        .padding(8)
-        .background(Theme.cardSurfaceLight, in: RoundedRectangle(cornerRadius: 12))
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
-// MARK: - Helper
+// MARK: - Row
 
-private struct StatBlock: View {
-    let label: String
-    let value: String
+private struct TimelineRow: View {
+    let item: GardenItem
+    let days: Int
+    let isLast: Bool
+    let isNext: Bool
+    let isPro: Bool
+    let onUpsell: () -> Void
+
+    private var isUnlocked: Bool { days >= item.milestoneDays }
+    private var daysAway: Int { max(0, item.milestoneDays - days) }
 
     var body: some View {
-        VStack(spacing: 2) {
-            Text(value)
-                .font(.title2.bold())
-                .foregroundStyle(Theme.brandGradient)
-            Text(label)
-                .font(.caption)
-                .foregroundStyle(Theme.textSecondary)
+        HStack(alignment: .top, spacing: 14) {
+            railColumn
+            cardColumn
         }
-        .frame(maxWidth: .infinity)
+    }
+
+    // MARK: Rail (day marker + connecting line)
+
+    private var railColumn: some View {
+        VStack(spacing: 0) {
+            ZStack {
+                Circle()
+                    .fill(markerFill)
+                    .frame(width: 36, height: 36)
+                if isUnlocked {
+                    Image(systemName: "checkmark")
+                        .font(.caption.bold())
+                        .foregroundStyle(.white)
+                } else {
+                    Text("\(item.milestoneDays)")
+                        .font(.caption2.bold())
+                        .foregroundStyle(isNext ? .white : Theme.textTertiary)
+                }
+            }
+            if !isLast {
+                Rectangle()
+                    .fill(Theme.ringTrack)
+                    .frame(width: 2)
+                    .frame(maxHeight: .infinity)
+            }
+        }
+        .frame(width: 36)
+    }
+
+    private var markerFill: Color {
+        if isUnlocked { return Theme.brandPrimary }
+        if isNext { return Theme.brandPrimary.opacity(0.55) }
+        return Theme.cardSurface
+    }
+
+    // MARK: Card column
+
+    private var cardColumn: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .center, spacing: 12) {
+                rendererThumb
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(item.displayName)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(isUnlocked ? Theme.textPrimary : Theme.textSecondary)
+                    Text(item.type.displayCategory)
+                        .font(.caption2)
+                        .foregroundStyle(Theme.textTertiary)
+                    statusLine
+                }
+                Spacer(minLength: 0)
+                trailingControl
+            }
+            if isNext || isUnlocked {
+                Text(item.description)
+                    .font(.caption)
+                    .foregroundStyle(Theme.textSecondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .padding(12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(rowBackground, in: RoundedRectangle(cornerRadius: 14))
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(isNext ? Theme.brandPrimary.opacity(0.5) : Color.clear, lineWidth: 1.5)
+        )
+        .padding(.bottom, 10)
+    }
+
+    private var rowBackground: Color {
+        isUnlocked ? Theme.cardSurface : Theme.cardSurfaceLight
+    }
+
+    private var rendererThumb: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Theme.cardSurfaceLight.opacity(isUnlocked ? 1.0 : 0.5))
+            GardenItemRenderer(
+                item: item,
+                scale: 0.9,
+                opacity: isUnlocked ? 1.0 : 0.25,
+                vitality: isUnlocked ? 1.0 : 0.3
+            )
+            if !isUnlocked {
+                Image(systemName: "lock.fill")
+                    .font(.caption)
+                    .foregroundStyle(Theme.textTertiary)
+            }
+        }
+        .frame(width: 56, height: 56)
+    }
+
+    @ViewBuilder
+    private var statusLine: some View {
+        if isUnlocked {
+            Text("Earned at day \(item.milestoneDays)")
+                .font(.caption2)
+                .foregroundStyle(Theme.success)
+        } else {
+            Text("\(daysAway) day\(daysAway == 1 ? "" : "s") to go")
+                .font(.caption2)
+                .foregroundStyle(isNext ? Theme.brandPrimary : Theme.textTertiary)
+        }
+    }
+
+    @ViewBuilder
+    private var trailingControl: some View {
+        if isUnlocked {
+            let canPlace = GardenItemCatalog.canPlace(item, isPro: isPro, currentPlacedCount: 0) || item.type == .bonsai
+            if canPlace {
+                Image(systemName: "checkmark.seal.fill")
+                    .font(.title3)
+                    .foregroundStyle(Theme.success)
+            } else {
+                Button("Pro", action: onUpsell)
+                    .font(.caption.weight(.semibold))
+                    .buttonStyle(.borderedProminent)
+                    .tint(Theme.brandPrimary)
+                    .controlSize(.mini)
+            }
+        }
     }
 }

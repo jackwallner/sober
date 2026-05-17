@@ -36,6 +36,35 @@ final class CheckInService {
         return (try? context.fetch(descriptor)) ?? []
     }
 
+    /// Backfill check-ins as sober for every day from the last recorded check-in
+    /// (or today if there is none) up through today. Idempotent.
+    func backfillSoberDays(through end: Date = .now) {
+        let today = DateHelpers.startOfDay(end)
+        let cal = Calendar.current
+        let from: Date = {
+            if let last = lastCheckInDate() {
+                return cal.date(byAdding: .day, value: 1, to: DateHelpers.startOfDay(last)) ?? today
+            }
+            return today
+        }()
+        var cursor = from
+        while cursor <= today {
+            if find(day: cursor) == nil {
+                context.insert(DailyCheckIn(day: cursor, wasSober: true))
+            }
+            guard let next = cal.date(byAdding: .day, value: 1, to: cursor) else { break }
+            cursor = next
+        }
+        try? context.save()
+    }
+
+    /// Number of full days since the last check-in. Returns 0 if checked in today
+    /// or if there has never been a check-in.
+    func daysSinceLastCheckIn(asOf now: Date = .now) -> Int {
+        guard let last = lastCheckInDate() else { return 0 }
+        return max(0, DateHelpers.daysBetween(last, now))
+    }
+
     func lastCheckInDate() -> Date? {
         let descriptor = FetchDescriptor<DailyCheckIn>(
             sortBy: [SortDescriptor(\.day, order: .reverse)]
