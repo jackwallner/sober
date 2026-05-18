@@ -12,6 +12,7 @@ struct HomeView: View {
     @Query private var settingsRows: [UserSettings]
 
     @State private var showResetAlert = false
+    @State private var showSlipAlert = false
     @State private var checkedInToday = false
     @State private var daysMissed = 0
     @State private var showSettings = false
@@ -90,6 +91,17 @@ struct HomeView: View {
                 }
             } message: {
                 Text("Your day counter will restart at zero. Your history is kept.")
+            }
+            .alert("It's okay. You're still on the journey.", isPresented: $showSlipAlert) {
+                Button("Not yet", role: .cancel) {}
+                Button("Start fresh") {
+                    SobrietyService(context: context).reset()
+                    GardenService(context: context).resetForNewJourney()
+                    refreshCheckInState()
+                    WidgetSnapshotPump.push(context: context)
+                }
+            } message: {
+                Text("Slips happen. Your history stays, and your tree carries everything you've already grown. Begin a new day when you're ready.")
             }
             .onAppear {
                 refreshCheckInState()
@@ -193,7 +205,7 @@ struct HomeView: View {
                     .tint(Theme.brandPrimary)
 
                     Button(role: .destructive) {
-                        showResetAlert = true
+                        showSlipAlert = true
                     } label: {
                         Text("I slipped")
                             .fontWeight(.medium)
@@ -288,27 +300,40 @@ struct HomeView: View {
 }
 
 /// Pull-up sheet for the longer-horizon progress that used to live on Today:
-/// next milestone, next health benefit, and the unlock collection.
+/// next milestone, next health benefit, the unlock collection, money/calories
+/// saved, and the achievement grid. Single discovery surface for everything
+/// off the garden spine.
 struct ProgressSheet: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(SubscriptionService.self) private var subscriptions
+    @Query private var settingsRows: [UserSettings]
     let days: Int
     let gardenState: GardenState?
     let isPro: Bool
 
+    @State private var showPaywall = false
+
+    private var settings: UserSettings? { settingsRows.first }
+
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 12) {
+                VStack(spacing: 16) {
                     HStack(spacing: 12) {
                         nextMilestoneCard
                         nextBenefitCard
                     }
+
+                    savedSection
+
                     GardenCollectionView(
                         days: days,
                         unlockedItemIDs: gardenState?.unlockedItemIDs ?? [],
                         isPro: isPro
                     )
                     .frame(minHeight: 360)
+
+                    achievementsSection
                 }
                 .padding()
             }
@@ -320,6 +345,7 @@ struct ProgressSheet: View {
                     Button("Done") { dismiss() }
                 }
             }
+            .sheet(isPresented: $showPaywall) { PaywallView() }
         }
     }
 
@@ -359,4 +385,119 @@ struct ProgressSheet: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
     }
+
+    private var moneySaved: String {
+        let cents = days * (settings?.costPerDayCents ?? 0)
+        let dollars = Double(cents) / 100
+        return Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? "$\(Int(dollars))"
+    }
+
+    private var caloriesAvoided: Int {
+        days * (settings?.caloriesPerDay ?? 0)
+    }
+
+    @ViewBuilder
+    private var savedSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Saved").font(.title3.bold())
+            if isPro {
+                HStack(spacing: 12) {
+                    savedTile(label: "Money", value: moneySaved, sub: "$\((settings?.costPerDayCents ?? 0) / 100) / day", color: Theme.brandPrimary)
+                    savedTile(label: "Calories", value: caloriesAvoided.formatted(), sub: "\(settings?.caloriesPerDay ?? 0) / day", color: Theme.accent)
+                }
+            } else {
+                Button { showPaywall = true } label: {
+                    HStack(spacing: 10) {
+                        Image(systemName: "lock.fill")
+                            .foregroundStyle(Theme.textTertiary)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Money & calories saved")
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(Theme.textPrimary)
+                            Text("Unlock with Bloom+")
+                                .font(.caption)
+                                .foregroundStyle(Theme.textSecondary)
+                        }
+                        Spacer(minLength: 0)
+                        Image(systemName: "chevron.right")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(Theme.textTertiary)
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func savedTile(label: String, value: String, sub: String, color: Color) -> some View {
+        VStack(spacing: 4) {
+            Text(label).font(.caption).foregroundStyle(Theme.textSecondary)
+            Text(value).font(Theme.bigNumber(36)).foregroundStyle(color)
+            Text(sub).font(.footnote).foregroundStyle(Theme.textTertiary)
+        }
+        .frame(maxWidth: .infinity)
+        .padding()
+        .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
+    }
+
+    @ViewBuilder
+    private var achievementsSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Achievements").font(.title3.bold())
+            achievementGroup(title: "Time Milestones",
+                             items: AchievementCatalog.all.filter { $0.kind == .timeMilestone })
+            achievementGroup(title: "Streaks",
+                             items: AchievementCatalog.all.filter { $0.kind == .streak })
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func achievementGroup(title: String, items: [Achievement]) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title).font(.caption.weight(.semibold)).foregroundStyle(Theme.textSecondary)
+            ForEach(items) { item in
+                achievementRow(item)
+            }
+        }
+    }
+
+    private func achievementRow(_ a: Achievement) -> some View {
+        let unlocked = days >= a.dayThreshold
+        return HStack(spacing: 12) {
+            Image(systemName: a.icon)
+                .font(.title2)
+                .foregroundStyle(unlocked && isPro ? Theme.accent : Theme.textTertiary)
+                .frame(width: 36)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(a.title)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(unlocked || isPro ? Theme.textPrimary : Theme.textSecondary)
+                Text(a.description).font(.caption).foregroundStyle(Theme.textSecondary)
+            }
+            Spacer()
+            if !isPro {
+                Image(systemName: "lock.fill").foregroundStyle(Theme.textTertiary)
+            } else if unlocked {
+                Image(systemName: "checkmark.seal.fill").foregroundStyle(Theme.success)
+            }
+        }
+        .padding()
+        .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
+        .opacity(unlocked || isPro ? 1 : 0.6)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            if !isPro { showPaywall = true }
+        }
+    }
+
+    private static let currencyFormatter: NumberFormatter = {
+        let f = NumberFormatter()
+        f.numberStyle = .currency
+        f.maximumFractionDigits = 0
+        return f
+    }()
 }

@@ -6,8 +6,6 @@ struct SettingsView: View {
     @Environment(SubscriptionService.self) private var subscriptions
     @Query private var settingsRows: [UserSettings]
     @State private var showPaywall = false
-    @State private var showAchievements = false
-    @State private var showStats = false
 
     private var settings: UserSettings? { settingsRows.first }
 
@@ -24,10 +22,6 @@ struct SettingsView: View {
                                 .buttonStyle(.borderedProminent)
                         }
                     }
-                }
-                Section("Achievements & Stats") {
-                    Button("Achievements") { showAchievements = true }
-                    Button("Money & Calories Saved") { showStats = true }
                 }
                 if let s = settings {
                     Section("Appearance") {
@@ -60,8 +54,6 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
             .sheet(isPresented: $showPaywall) { PaywallView() }
-            .sheet(isPresented: $showAchievements) { AchievementsView() }
-            .sheet(isPresented: $showStats) { StatsView() }
             .onChange(of: settings?.dailyReminderHour) { _, _ in rescheduleReminder() }
             .onChange(of: settings?.dailyReminderEnabled) { _, _ in rescheduleReminder() }
         }

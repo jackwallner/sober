@@ -76,9 +76,34 @@ struct OnboardingView: View {
                 Text("\(Int(caloriesPerDay)) cal").font(.title2.bold())
                 Slider(value: $caloriesPerDay, in: 0...3000, step: 50)
             }
+            savingsProjection
             Spacer()
             primaryButton("Continue") { step = 3 }
         }
+    }
+
+    private var savingsProjection: some View {
+        let yearlyDollars = Int(costPerDay * 365)
+        let yearlyCalories = Int(caloriesPerDay * 365)
+        let f = NumberFormatter()
+        f.numberStyle = .currency
+        f.maximumFractionDigits = 0
+        let dollarStr = f.string(from: NSNumber(value: yearlyDollars)) ?? "$\(yearlyDollars)"
+        return VStack(spacing: 4) {
+            Text("In a year, that's")
+                .font(.caption)
+                .foregroundStyle(.white.opacity(0.75))
+            Text(dollarStr)
+                .font(.system(size: 36, weight: .bold, design: .rounded))
+            Text("and \(yearlyCalories.formatted()) calories you won't have to spend")
+                .font(.caption)
+                .foregroundStyle(.white.opacity(0.75))
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 14)
+        .padding(.horizontal, 12)
+        .background(.white.opacity(0.15), in: RoundedRectangle(cornerRadius: 16))
     }
 
     private var reminderStep: some View {
