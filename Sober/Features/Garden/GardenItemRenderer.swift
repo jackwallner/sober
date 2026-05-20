@@ -29,14 +29,40 @@ struct GardenItemRenderer: View {
             case "moss":               MossGround(scale: scale, vitality: vitality)
             case "zen-garden":         ZenSandGarden(scale: scale, vitality: vitality)
 
-            // ── Bonsai Styles (rendered via BonsaiView, not here) ──
+            // ── Bonsai Styles ──
             default:
-                Circle()
-                    .fill(item.colors.first ?? .gray)
-                    .frame(width: 20 * scale, height: 20 * scale)
+                if item.type == .bonsai {
+                    BonsaiThumbnail(item: item, scale: scale, vitality: vitality)
+                } else {
+                    Circle()
+                        .fill(item.colors.first ?? .gray)
+                        .frame(width: 20 * scale, height: 20 * scale)
+                }
             }
         }
         .opacity(opacity)
+    }
+}
+
+/// A small framed bonsai used inside collection rows and the achievement detail
+/// sheet. Uses BonsaiView at a mature day so the silhouette reads clearly even
+/// at thumbnail size.
+private struct BonsaiThumbnail: View {
+    let item: GardenItem
+    let scale: CGFloat
+    let vitality: Double
+
+    private var style: BonsaiStyle {
+        switch item.id {
+        case "cascade-bonsai": return .cascade
+        case "windswept-bonsai": return .windswept
+        default: return .traditional
+        }
+    }
+
+    var body: some View {
+        BonsaiView(day: 200, style: style, vitality: vitality)
+            .frame(width: 56 * scale, height: 56 * scale)
     }
 }
 

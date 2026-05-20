@@ -69,49 +69,88 @@ struct HealthView: View {
 
 private struct BenefitRow: View {
     let benefit: HealthBenefit
+    /// True when fully revealed (timed-unlock met AND user has access).
     let unlocked: Bool
+    /// True when the user has *earned* this benefit by time, but it's gated behind Bloom+.
     let blurred: Bool
 
+    private var proGated: Bool { blurred }
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack {
-                Image(systemName: unlocked ? "drop.fill" : "lock.fill")
-                    .foregroundStyle(unlocked ? Theme.success : Theme.textTertiary)
-                Text(benefit.title).font(.headline)
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 8) {
+                Image(systemName: leadingIcon)
+                    .foregroundStyle(leadingTint)
+                Text(benefit.title)
+                    .font(.headline)
+                    .foregroundStyle(Theme.textPrimary)
                 Spacer()
-                Text(unlocked ? "Unlocked" : "After \(benefit.displayWait) sober")
-                    .font(.caption.bold())
-                    .padding(.horizontal, 8).padding(.vertical, 4)
-                    .background(unlocked ? Theme.success.opacity(0.15) : Theme.ringTrack,
-                                in: Capsule())
-                    .foregroundStyle(unlocked ? Theme.success : Theme.textSecondary)
+                statusPill
             }
-            Text(benefit.summary).font(.subheadline).foregroundStyle(Theme.textSecondary)
+            Text(benefit.summary)
+                .font(.subheadline)
+                .foregroundStyle(Theme.textSecondary)
             if unlocked {
-                Text(benefit.detail).font(.footnote).foregroundStyle(Theme.textTertiary)
+                Text(benefit.detail)
+                    .font(.footnote)
+                    .foregroundStyle(Theme.textSecondary)
                 if let url = benefit.sourceURL {
                     Link(destination: url) {
                         Label(benefit.sourceLabel, systemImage: "link")
                             .font(.caption2)
                     }
                 }
+            } else if proGated {
+                HStack(spacing: 6) {
+                    Image(systemName: "crown.fill")
+                        .font(.caption2)
+                    Text("Unlock the full benefit with Bloom+")
+                        .font(.caption.weight(.semibold))
+                    Spacer(minLength: 0)
+                    Image(systemName: "chevron.right")
+                        .font(.caption2.weight(.semibold))
+                }
+                .foregroundStyle(Theme.brandPrimary)
+                .padding(.top, 2)
             }
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
-        .blur(radius: blurred ? 6 : 0)
-        .overlay {
-            if blurred {
-                RoundedRectangle(cornerRadius: Theme.cardRadius)
-                    .fill(.ultraThinMaterial)
-                    .overlay {
-                        Label("Bloom+", systemImage: "crown.fill")
-                            .font(.headline)
-                            .padding(.horizontal, 12).padding(.vertical, 6)
-                            .background(.thinMaterial, in: Capsule())
-                    }
-            }
+    }
+
+    private var leadingIcon: String {
+        if unlocked { return "drop.fill" }
+        if proGated { return "crown.fill" }
+        return "lock.fill"
+    }
+
+    private var leadingTint: Color {
+        if unlocked { return Theme.success }
+        if proGated { return Theme.brandPrimary }
+        return Theme.textTertiary
+    }
+
+    @ViewBuilder
+    private var statusPill: some View {
+        if unlocked {
+            Text("Unlocked")
+                .font(.caption.bold())
+                .padding(.horizontal, 8).padding(.vertical, 4)
+                .background(Theme.success.opacity(0.18), in: Capsule())
+                .foregroundStyle(Theme.success)
+        } else if proGated {
+            Text("Bloom+")
+                .font(.caption.bold())
+                .padding(.horizontal, 8).padding(.vertical, 4)
+                .background(Theme.brandPrimary.opacity(0.18), in: Capsule())
+                .foregroundStyle(Theme.brandPrimary)
+        } else {
+            Text("After \(benefit.displayWait) sober")
+                .font(.caption.bold())
+                .padding(.horizontal, 8).padding(.vertical, 4)
+                .background(Theme.ringTrack, in: Capsule())
+                .foregroundStyle(Theme.textSecondary)
         }
     }
 }

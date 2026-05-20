@@ -36,14 +36,29 @@ struct SettingsView: View {
                         Toggle("Enabled", isOn: bind(\.dailyReminderEnabled, on: s))
                         Stepper("Hour: \(s.dailyReminderHour):00", value: bind(\.dailyReminderHour, on: s), in: 0...23)
                     }
-                    Section("Cost & Calories") {
-                        HStack {
-                            Text("Cost per day")
-                            Spacer()
-                            Text("$\(s.costPerDayCents / 100)")
+                    Section {
+                        Stepper(value: bind(\.costPerDayCents, on: s), in: 0...20000, step: 100) {
+                            HStack {
+                                Text("Cost per day")
+                                Spacer()
+                                Text("$\(s.costPerDayCents / 100)")
+                                    .foregroundStyle(Theme.textSecondary)
+                                    .monospacedDigit()
+                            }
                         }
-                        Stepper("$\(s.costPerDayCents / 100)", value: bind(\.costPerDayCents, on: s), in: 0...20000, step: 100)
-                        Stepper("\(s.caloriesPerDay) cal", value: bind(\.caloriesPerDay, on: s), in: 0...3000, step: 50)
+                        Stepper(value: bind(\.caloriesPerDay, on: s), in: 0...3000, step: 50) {
+                            HStack {
+                                Text("Calories per day")
+                                Spacer()
+                                Text("\(s.caloriesPerDay) cal")
+                                    .foregroundStyle(Theme.textSecondary)
+                                    .monospacedDigit()
+                            }
+                        }
+                    } header: {
+                        Text("Cost & Calories")
+                    } footer: {
+                        Text("Used to estimate money and calories saved while you stay sober.")
                     }
                 }
                 Section("Developer") {

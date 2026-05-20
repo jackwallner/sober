@@ -141,19 +141,19 @@ struct HomeView: View {
         VStack(spacing: 2) {
             Text("\(days)")
                 .font(Theme.bigNumber(64))
-                .foregroundStyle(Theme.textPrimary)
+                .foregroundStyle(.white)
             Text(days == 1 ? "Day Sober" : "Days Sober")
-                .font(.subheadline.weight(.medium))
-                .foregroundStyle(Theme.textSecondary)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.white.opacity(0.92))
             if let start = activeJourney?.startDate {
                 Text("Since \(DateHelpers.mediumDate(start)) · \(stage.title)")
                     .font(.caption2)
-                    .foregroundStyle(Theme.textTertiary)
+                    .foregroundStyle(.white.opacity(0.78))
             }
         }
-        .padding(.vertical, 10)
+        .padding(.vertical, 12)
         .frame(maxWidth: .infinity)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 18))
+        .background(Theme.gardenOverlayScrim, in: RoundedRectangle(cornerRadius: 18))
     }
 
     @ViewBuilder
@@ -166,15 +166,15 @@ struct HomeView: View {
             HStack(spacing: 8) {
                 Image(systemName: "sparkles")
                     .font(.caption)
-                    .foregroundStyle(Theme.brandPrimary)
+                    .foregroundStyle(.white)
                 Text("Today: \(DailyGrowth.note(forDayInCycle: dayInCycle))")
-                    .font(.caption)
-                    .foregroundStyle(Theme.textSecondary)
+                    .font(.caption.weight(.medium))
+                    .foregroundStyle(.white.opacity(0.95))
                 Spacer(minLength: 0)
             }
             .padding(.horizontal, 14)
-            .padding(.vertical, 8)
-            .background(.ultraThinMaterial, in: Capsule())
+            .padding(.vertical, 10)
+            .background(Theme.gardenOverlayScrim, in: Capsule())
 
             checkInControl
         }
@@ -186,7 +186,7 @@ struct HomeView: View {
             VStack(spacing: 8) {
                 Text("Welcome back — you haven't checked in for \(daysMissed) days. Still going strong?")
                     .font(.subheadline)
-                    .foregroundStyle(Theme.textPrimary)
+                    .foregroundStyle(.white)
                     .multilineTextAlignment(.center)
                 HStack(spacing: 10) {
                     Button {
@@ -216,25 +216,33 @@ struct HomeView: View {
                 }
             }
             .padding()
-            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 18))
+            .background(Theme.gardenOverlayScrim, in: RoundedRectangle(cornerRadius: 18))
         } else {
             Button {
+                guard !checkedInToday else { return }
                 CheckInService(context: context).checkIn()
                 GardenService(context: context).water()
                 refreshCheckInState()
                 WidgetSnapshotPump.push(context: context)
             } label: {
-                HStack {
+                HStack(spacing: 8) {
                     Image(systemName: checkedInToday ? "checkmark.circle.fill" : "circle")
                     Text(checkedInToday ? "Checked in for today" : "Check in for today")
                         .fontWeight(.semibold)
                 }
+                .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
-                .padding()
+                .padding(.vertical, 14)
+                .background(
+                    checkedInToday ? Theme.checkInDoneFill : AnyShapeStyle(Theme.brandPrimary),
+                    in: Capsule()
+                )
+                .overlay(
+                    Capsule().stroke(.white.opacity(0.18), lineWidth: 1)
+                )
             }
-            .disabled(checkedInToday)
-            .buttonStyle(.borderedProminent)
-            .tint(Theme.brandPrimary)
+            .buttonStyle(.plain)
+            .allowsHitTesting(!checkedInToday)
         }
     }
 
@@ -257,23 +265,23 @@ struct HomeView: View {
         Button { showPaywall = true } label: {
             HStack(spacing: 10) {
                 Image(systemName: "gift.fill")
-                    .foregroundStyle(Theme.brandPrimary)
+                    .foregroundStyle(.white)
                 VStack(alignment: .leading, spacing: 2) {
                     Text("You've saved \(savedSoFar) so far")
                         .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(Theme.textPrimary)
+                        .foregroundStyle(.white)
                     Text("Try Bloom+ free for 7 days")
                         .font(.caption)
-                        .foregroundStyle(Theme.textSecondary)
+                        .foregroundStyle(.white.opacity(0.85))
                 }
                 Spacer(minLength: 0)
                 Image(systemName: "chevron.right")
                     .font(.caption.weight(.semibold))
-                    .foregroundStyle(Theme.textTertiary)
+                    .foregroundStyle(.white.opacity(0.8))
             }
             .padding(.horizontal, 14)
-            .padding(.vertical, 10)
-            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+            .padding(.vertical, 12)
+            .background(Theme.gardenOverlayScrim, in: RoundedRectangle(cornerRadius: 16))
         }
         .buttonStyle(.plain)
     }

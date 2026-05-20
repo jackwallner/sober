@@ -122,8 +122,10 @@ struct TimelineView: View {
         let days = Array(range)
 
         return LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: 7), spacing: 6) {
-            ForEach(weekdaySymbols, id: \.self) { sym in
-                Text(sym).font(.caption2).foregroundStyle(Theme.textSecondary)
+            ForEach(Array(weekdaySymbols.enumerated()), id: \.offset) { _, sym in
+                Text(sym)
+                    .font(.caption2.weight(.semibold))
+                    .foregroundStyle(Theme.textSecondary)
             }
             ForEach(0..<leadingBlanks, id: \.self) { _ in Color.clear.frame(height: 36) }
             ForEach(days, id: \.self) { day in
@@ -134,7 +136,10 @@ struct TimelineView: View {
 
     private var weekdaySymbols: [String] {
         let f = DateFormatter()
-        return f.veryShortStandaloneWeekdaySymbols ?? ["S", "M", "T", "W", "T", "F", "S"]
+        let raw = f.veryShortStandaloneWeekdaySymbols ?? ["S", "M", "T", "W", "T", "F", "S"]
+        // Rotate so the user's `firstWeekday` lands in column 0 (matches the grid we lay out).
+        let first = Calendar.current.firstWeekday - 1
+        return Array(raw[first...] + raw[..<first])
     }
 
     private func dayCell(date: Date) -> some View {
@@ -152,14 +157,15 @@ struct TimelineView: View {
 
         return Text("\(Calendar.current.component(.day, from: date))")
             .font(.caption.bold())
-            .frame(maxWidth: .infinity, minHeight: 36)
+            .frame(maxWidth: .infinity)
+            .frame(height: 36)
             .background(bg, in: RoundedRectangle(cornerRadius: 8))
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(isSelected ? Theme.brandPrimary : .clear, lineWidth: 2)
             )
             .foregroundStyle(checkIn != nil ? .white : Theme.textPrimary)
-            .opacity(inFuture || beforeStart ? 0.25 : 1)
+            .opacity(inFuture || beforeStart ? 0.5 : 1)
             .contentShape(Rectangle())
             .onTapGesture {
                 guard !inFuture && !beforeStart else { return }

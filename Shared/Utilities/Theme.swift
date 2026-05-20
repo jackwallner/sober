@@ -31,6 +31,15 @@ enum Theme {
     static let cardRadius: CGFloat = 20
     static let cardPadding: CGFloat = 20
 
+    /// Dark scrim used on Home overlays that sit on top of the light garden gradient.
+    /// Solid (not material) so legibility is the same whether the garden is bright sky
+    /// or dim dusk, and identical across light/dark system appearance.
+    static let gardenOverlayScrim = Color.black.opacity(0.42)
+
+    /// Fill for the check-in button once today is logged. Darker than the active brand
+    /// green so it still reads as a button (not as the surrounding gradient).
+    static let checkInDoneFill = AnyShapeStyle(Color.black.opacity(0.55))
+
     static var brandGradient: LinearGradient {
         LinearGradient(
             colors: [brandPrimary, brandSecondary],
