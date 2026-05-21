@@ -18,7 +18,7 @@ struct HealthView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                LazyVStack(spacing: 12) {
+                LazyVStack(spacing: Theme.Space.m) {
                     headerCard
                     ForEach(Array(HealthBenefitCatalog.all.enumerated()), id: \.element.id) { idx, benefit in
                         let unlocked = hours >= benefit.hoursRequired
@@ -31,7 +31,7 @@ struct HealthView: View {
                             }
                     }
                 }
-                .padding()
+                .padding(Theme.Space.l)
             }
             .background(Theme.background)
             .navigationTitle("Health Benefits")
@@ -44,23 +44,29 @@ struct HealthView: View {
         let total = HealthBenefitCatalog.all.count
         let next = HealthBenefitCatalog.next(after: hours)
         return HeroCard {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: Theme.Space.s) {
                 Text("Your Recovery").font(.headline)
                 Text("\(unlocked) / \(total) benefits unlocked")
                     .font(.subheadline).foregroundStyle(.white.opacity(0.85))
                 ProgressView(value: Double(unlocked), total: Double(total))
                     .tint(.white)
                 if let n = next {
-                    HStack {
-                        Image(systemName: "lock.fill")
-                        Text("NEXT UP")
-                        Text(n.title).fontWeight(.semibold)
-                        Spacer()
-                        Text(n.displayWait).font(.caption.bold())
+                    VStack(alignment: .leading, spacing: 2) {
+                        HStack(spacing: 6) {
+                            Label("NEXT UP", systemImage: "lock.fill")
+                                .font(.caption2.weight(.semibold))
+                                .foregroundStyle(.white.opacity(0.85))
+                            Spacer(minLength: 0)
+                            Text(n.displayWait)
+                                .font(.caption.weight(.bold))
+                                .foregroundStyle(.white)
+                        }
+                        Text(n.title)
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(.white)
+                            .lineLimit(2)
                     }
-                    .font(.caption)
-                    .padding(.top, 4)
-                    .foregroundStyle(.white.opacity(0.85))
+                    .padding(.top, Theme.Space.xs)
                 }
             }
         }
@@ -77,14 +83,18 @@ private struct BenefitRow: View {
     private var proGated: Bool { blurred }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(spacing: 8) {
+        VStack(alignment: .leading, spacing: Theme.Space.s) {
+            HStack(alignment: .top, spacing: Theme.Space.s) {
                 Image(systemName: leadingIcon)
                     .foregroundStyle(leadingTint)
-                Text(benefit.title)
-                    .font(.headline)
-                    .foregroundStyle(Theme.textPrimary)
-                Spacer()
+                    .padding(.top, 2)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(benefit.title)
+                        .font(.headline)
+                        .foregroundStyle(Theme.textPrimary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: Theme.Space.s)
                 statusPill
             }
             Text(benefit.summary)
@@ -146,7 +156,7 @@ private struct BenefitRow: View {
                 .background(Theme.brandPrimary.opacity(0.18), in: Capsule())
                 .foregroundStyle(Theme.brandPrimary)
         } else {
-            Text("After \(benefit.displayWait) sober")
+            Text(benefit.displayWait)
                 .font(.caption.bold())
                 .padding(.horizontal, 8).padding(.vertical, 4)
                 .background(Theme.ringTrack, in: Capsule())
