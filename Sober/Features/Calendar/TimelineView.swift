@@ -38,32 +38,57 @@ struct TimelineView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: Theme.Space.l) {
-                    summaryCard
-                    monthSection
-                    treeForSelectedDay
+            List {
+                Section {
+                    summaryRow
+                        .listRowInsets(EdgeInsets(top: Theme.Space.m, leading: Theme.Space.l, bottom: Theme.Space.m, trailing: Theme.Space.l))
                 }
-                .padding(Theme.Space.l)
+
+                Section {
+                    monthNav
+                    monthGrid
+                        .listRowInsets(EdgeInsets(top: 0, leading: Theme.Space.s, bottom: Theme.Space.s, trailing: Theme.Space.s))
+                }
+
+                Section("Selected day") {
+                    treeRow
+                        .listRowInsets(EdgeInsets(top: Theme.Space.s, leading: Theme.Space.l, bottom: Theme.Space.m, trailing: Theme.Space.l))
+                }
             }
-            .background(Theme.background)
+            .listStyle(.insetGrouped)
             .navigationTitle("Timeline")
         }
     }
 
     // MARK: - Summary
 
-    private var summaryCard: some View {
+    private var summaryRow: some View {
         let active = journeys.first(where: { $0.isActive })
         let days = active.map { SobrietyService.daysSinceStart($0.startDate) } ?? 0
         let totalSober = checkIns.filter { $0.wasSober }.count
-        return HeroCard {
-            HeroStatRow(items: [
-                .init(value: "\(days)", label: "Current Streak"),
-                .init(value: "\(longestStreak)", label: "Longest Streak"),
-                .init(value: "\(totalSober)", label: "Sober Days")
-            ])
+        return Grid(horizontalSpacing: 0) {
+            GridRow {
+                statCell(value: "\(days)", label: "Current")
+                Divider()
+                statCell(value: "\(longestStreak)", label: "Longest")
+                Divider()
+                statCell(value: "\(totalSober)", label: "Total")
+            }
         }
+    }
+
+    private func statCell(value: String, label: String) -> some View {
+        VStack(spacing: 4) {
+            Text(value)
+                .font(.title.weight(.semibold))
+                .foregroundStyle(Theme.brandPrimary)
+                .monospacedDigit()
+            Text(label.uppercased())
+                .font(.caption2.weight(.semibold))
+                .tracking(0.6)
+                .foregroundStyle(Theme.textSecondary)
+        }
+        .frame(maxWidth: .infinity)
     }
 
     private var longestStreak: Int {
@@ -87,15 +112,6 @@ struct TimelineView: View {
     }
 
     // MARK: - Month grid
-
-    private var monthSection: some View {
-        SectionCard {
-            VStack(spacing: Theme.Space.m) {
-                monthNav
-                monthGrid
-            }
-        }
-    }
 
     private var monthNav: some View {
         HStack {
@@ -188,37 +204,35 @@ struct TimelineView: View {
 
     // MARK: - Reconstructed tree for the selected day
 
-    private var treeForSelectedDay: some View {
+    private var treeRow: some View {
         let dayCount = soberDays(on: selectedDate)
         let cycle = GardenService.cycleProgress(forDays: dayCount)
         let stage = GardenService.stage(forDays: dayCount)
         let isToday = DateHelpers.startOfDay(selectedDate) == DateHelpers.startOfDay()
 
-        return SectionCard {
-            VStack(spacing: 10) {
-                HStack(alignment: .firstTextBaseline) {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(isToday ? "Today" : DateHelpers.mediumDate(selectedDate))
-                            .font(.headline)
-                            .foregroundStyle(Theme.textPrimary)
-                        Text("Day \(dayCount) · \(stage.title)")
-                            .font(.subheadline)
-                            .foregroundStyle(Theme.textSecondary)
-                    }
-                    Spacer()
+        return VStack(alignment: .leading, spacing: Theme.Space.m) {
+            HStack(alignment: .firstTextBaseline) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(isToday ? "Today" : DateHelpers.mediumDate(selectedDate))
+                        .font(.headline)
+                        .foregroundStyle(Theme.textPrimary)
+                    Text("Day \(dayCount) · \(stage.title)")
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.textSecondary)
                 }
-
-                ZStack {
-                    RoundedRectangle(cornerRadius: 16).fill(Theme.skyGradient)
-                    BonsaiView(day: cycle.dayInCycle, style: bonsaiStyle, vitality: 1.0)
-                        .padding(8)
-                        .id(cycle.dayInCycle)
-                        .transition(.opacity)
-                }
-                .frame(height: 220)
-
-                diffNarration(dayCount: dayCount)
+                Spacer()
             }
+
+            ZStack {
+                RoundedRectangle(cornerRadius: 14).fill(Theme.skyGradient)
+                BonsaiView(day: cycle.dayInCycle, style: bonsaiStyle, vitality: 1.0)
+                    .padding(8)
+                    .id(cycle.dayInCycle)
+                    .transition(.opacity)
+            }
+            .frame(height: 200)
+
+            diffNarration(dayCount: dayCount)
         }
     }
 

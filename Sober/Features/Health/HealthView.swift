@@ -17,13 +17,20 @@ struct HealthView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                LazyVStack(spacing: Theme.Space.m) {
-                    headerCard
+            List {
+                Section {
+                    recoveryHeaderRow
+                    if let n = HealthBenefitCatalog.next(after: hours) {
+                        nextUpRow(n)
+                    }
+                }
+
+                Section("Benefits") {
                     ForEach(Array(HealthBenefitCatalog.all.enumerated()), id: \.element.id) { idx, benefit in
                         let unlocked = hours >= benefit.hoursRequired
                         let visible = unlocked && (subscriptions.isProSubscriber || idx < freeRevealCount)
                         BenefitRow(benefit: benefit, unlocked: visible, blurred: unlocked && !visible)
+                            .contentShape(Rectangle())
                             .onTapGesture {
                                 if unlocked && !subscriptions.isProSubscriber && idx >= freeRevealCount {
                                     showPaywall = true
@@ -31,44 +38,51 @@ struct HealthView: View {
                             }
                     }
                 }
-                .padding(Theme.Space.l)
             }
-            .background(Theme.background)
-            .navigationTitle("Health Benefits")
+            .listStyle(.insetGrouped)
+            .navigationTitle("Health")
             .sheet(isPresented: $showPaywall) { PaywallView() }
         }
     }
 
-    private var headerCard: some View {
+    private var recoveryHeaderRow: some View {
         let unlocked = HealthBenefitCatalog.unlocked(hoursSober: hours).count
         let total = HealthBenefitCatalog.all.count
-        let next = HealthBenefitCatalog.next(after: hours)
-        return HeroCard {
-            VStack(alignment: .leading, spacing: Theme.Space.s) {
-                Text("Your Recovery").font(.headline)
-                Text("\(unlocked) / \(total) benefits unlocked")
-                    .font(.subheadline).foregroundStyle(.white.opacity(0.85))
-                ProgressView(value: Double(unlocked), total: Double(total))
-                    .tint(.white)
-                if let n = next {
-                    VStack(alignment: .leading, spacing: 2) {
-                        HStack(spacing: 6) {
-                            Label("NEXT UP", systemImage: "lock.fill")
-                                .font(.caption2.weight(.semibold))
-                                .foregroundStyle(.white.opacity(0.85))
-                            Spacer(minLength: 0)
-                            Text(n.displayWait)
-                                .font(.caption.weight(.bold))
-                                .foregroundStyle(.white)
-                        }
-                        Text(n.title)
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(.white)
-                            .lineLimit(2)
-                    }
-                    .padding(.top, Theme.Space.xs)
-                }
+        return VStack(alignment: .leading, spacing: Theme.Space.s) {
+            HStack(alignment: .firstTextBaseline) {
+                Text("\(unlocked)")
+                    .font(.system(size: 44, weight: .semibold, design: .rounded))
+                    .foregroundStyle(Theme.brandPrimary)
+                    .monospacedDigit()
+                Text("/ \(total) benefits")
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.textSecondary)
+                Spacer()
             }
+            ProgressView(value: Double(unlocked), total: Double(total))
+                .tint(Theme.brandPrimary)
+        }
+        .padding(.vertical, Theme.Space.xs)
+    }
+
+    private func nextUpRow(_ n: HealthBenefit) -> some View {
+        HStack(spacing: Theme.Space.m) {
+            Image(systemName: "lock.fill")
+                .foregroundStyle(Theme.textTertiary)
+                .frame(width: 32)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Next up")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(Theme.textSecondary)
+                Text(n.title)
+                    .font(.body)
+                    .foregroundStyle(Theme.textPrimary)
+                    .lineLimit(2)
+            }
+            Spacer(minLength: Theme.Space.s)
+            Text(n.displayWait)
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(Theme.textSecondary)
         }
     }
 }
@@ -83,84 +97,78 @@ private struct BenefitRow: View {
     private var proGated: Bool { blurred }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: Theme.Space.s) {
-            HStack(alignment: .top, spacing: Theme.Space.s) {
-                Image(systemName: leadingIcon)
-                    .foregroundStyle(leadingTint)
-                    .padding(.top, 2)
-                VStack(alignment: .leading, spacing: 2) {
+        HStack(alignment: .top, spacing: Theme.Space.m) {
+            Image(systemName: leadingIcon)
+                .font(.title3)
+                .foregroundStyle(leadingTint)
+                .frame(width: 32)
+                .padding(.top, 2)
+            VStack(alignment: .leading, spacing: 4) {
+                HStack(alignment: .top, spacing: Theme.Space.s) {
                     Text(benefit.title)
-                        .font(.headline)
+                        .font(.body.weight(.semibold))
                         .foregroundStyle(Theme.textPrimary)
                         .fixedSize(horizontal: false, vertical: true)
+                    Spacer(minLength: Theme.Space.xs)
+                    trailingLabel
                 }
-                Spacer(minLength: Theme.Space.s)
-                statusPill
-            }
-            Text(benefit.summary)
-                .font(.subheadline)
-                .foregroundStyle(Theme.textSecondary)
-            if unlocked {
-                Text(benefit.detail)
+                Text(benefit.summary)
                     .font(.footnote)
                     .foregroundStyle(Theme.textSecondary)
-                if let url = benefit.sourceURL {
-                    Link(destination: url) {
-                        Label(benefit.sourceLabel, systemImage: "link")
-                            .font(.caption2)
+                    .fixedSize(horizontal: false, vertical: true)
+                if unlocked {
+                    Text(benefit.detail)
+                        .font(.footnote)
+                        .foregroundStyle(Theme.textSecondary)
+                        .padding(.top, 2)
+                    if let url = benefit.sourceURL {
+                        Link(destination: url) {
+                            Label(benefit.sourceLabel, systemImage: "link")
+                                .font(.caption2)
+                                .foregroundStyle(Theme.brandPrimary)
+                        }
+                        .padding(.top, 2)
                     }
+                } else if proGated {
+                    HStack(spacing: 4) {
+                        Text("Unlock with Bloom+")
+                            .font(.caption.weight(.semibold))
+                        Image(systemName: "chevron.right")
+                            .font(.caption2.weight(.semibold))
+                    }
+                    .foregroundStyle(Theme.brandPrimary)
+                    .padding(.top, 2)
                 }
-            } else if proGated {
-                HStack(spacing: 6) {
-                    Image(systemName: "crown.fill")
-                        .font(.caption2)
-                    Text("Unlock the full benefit with Bloom+")
-                        .font(.caption.weight(.semibold))
-                    Spacer(minLength: 0)
-                    Image(systemName: "chevron.right")
-                        .font(.caption2.weight(.semibold))
-                }
-                .foregroundStyle(Theme.brandPrimary)
-                .padding(.top, 2)
             }
         }
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
+        .padding(.vertical, Theme.Space.xs)
     }
 
     private var leadingIcon: String {
-        if unlocked { return "drop.fill" }
+        if unlocked { return "checkmark.circle.fill" }
         if proGated { return "crown.fill" }
         return "lock.fill"
     }
 
     private var leadingTint: Color {
-        if unlocked { return Theme.success }
+        if unlocked { return Theme.brandPrimary }
         if proGated { return Theme.brandPrimary }
         return Theme.textTertiary
     }
 
     @ViewBuilder
-    private var statusPill: some View {
+    private var trailingLabel: some View {
         if unlocked {
-            Text("Unlocked")
-                .font(.caption.bold())
-                .padding(.horizontal, 8).padding(.vertical, 4)
-                .background(Theme.success.opacity(0.18), in: Capsule())
-                .foregroundStyle(Theme.success)
+            EmptyView()
         } else if proGated {
             Text("Bloom+")
-                .font(.caption.bold())
-                .padding(.horizontal, 8).padding(.vertical, 4)
-                .background(Theme.brandPrimary.opacity(0.18), in: Capsule())
+                .font(.caption.weight(.semibold))
                 .foregroundStyle(Theme.brandPrimary)
         } else {
             Text(benefit.displayWait)
-                .font(.caption.bold())
-                .padding(.horizontal, 8).padding(.vertical, 4)
-                .background(Theme.ringTrack, in: Capsule())
-                .foregroundStyle(Theme.textSecondary)
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(Theme.textTertiary)
+                .monospacedDigit()
         }
     }
 }
