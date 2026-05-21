@@ -49,15 +49,13 @@ struct HomeView: View {
                 )
                 .ignoresSafeArea(edges: .bottom)
 
-                VStack(spacing: 0) {
+                VStack(spacing: Theme.Space.m) {
                     counterOverlay
-                        .padding(.horizontal)
-                        .padding(.top, 4)
-                    Spacer()
+                    Spacer(minLength: Theme.Space.m)
                     bottomStack
-                        .padding(.horizontal)
-                        .padding(.bottom, 8)
                 }
+                .padding(.horizontal, Theme.Space.l)
+                .padding(.vertical, Theme.Space.s)
             }
             .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
@@ -66,19 +64,24 @@ struct HomeView: View {
                     Button { showProgress = true } label: {
                         Image(systemName: "chart.line.uptrend.xyaxis")
                     }
+                    .accessibilityLabel("Progress")
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    HStack(spacing: 4) {
+                    Menu {
                         Button { showCustomize = true } label: {
-                            Image(systemName: "paintbrush.line")
+                            Label("Customize garden", systemImage: "paintbrush.pointed")
                         }
                         Button { showSettings = true } label: {
-                            Image(systemName: "gearshape")
+                            Label("Settings", systemImage: "gearshape")
                         }
+                        Divider()
                         Button(role: .destructive) { showResetAlert = true } label: {
-                            Image(systemName: "arrow.counterclockwise.circle")
+                            Label("Reset counter", systemImage: "arrow.counterclockwise")
                         }
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
                     }
+                    .accessibilityLabel("More")
                 }
             }
             .alert("Reset sobriety counter?", isPresented: $showResetAlert) {

@@ -31,6 +31,17 @@ enum Theme {
     static let cardRadius: CGFloat = 20
     static let cardPadding: CGFloat = 20
 
+    /// Single spacing scale. Use these everywhere instead of literal padding values
+    /// so cards, gutters, and rhythm stay consistent across screens.
+    enum Space {
+        static let xs: CGFloat = 4
+        static let s: CGFloat = 8
+        static let m: CGFloat = 12
+        static let l: CGFloat = 16
+        static let xl: CGFloat = 24
+        static let xxl: CGFloat = 32
+    }
+
     /// Dark scrim used on Home overlays that sit on top of the light garden gradient.
     /// Solid (not material) so legibility is the same whether the garden is bright sky
     /// or dim dusk, and identical across light/dark system appearance.

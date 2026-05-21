@@ -45,6 +45,34 @@ struct HeroStat: View {
     }
 }
 
+/// Equal-width stat strip with intrinsic vertical dividers. Use this instead
+/// of `HStack { HeroStat; Divider().frame(height: …); HeroStat }` — the Grid
+/// sizes the divider to the actual row height, so it can't misalign when stats
+/// wrap or differ in size.
+struct HeroStatRow: View {
+    struct Item: Identifiable {
+        let id = UUID()
+        let value: String
+        let label: String
+        var tint: Color = .white
+    }
+    let items: [Item]
+    var dividerColor: Color = .white.opacity(0.3)
+
+    var body: some View {
+        Grid(alignment: .center, horizontalSpacing: 0, verticalSpacing: 0) {
+            GridRow {
+                ForEach(Array(items.enumerated()), id: \.element.id) { idx, item in
+                    if idx > 0 {
+                        Divider().overlay(dividerColor)
+                    }
+                    HeroStat(value: item.value, label: item.label, tint: item.tint)
+                }
+            }
+        }
+    }
+}
+
 /// Neutral (non-gradient) section card used for the rest of a page's content,
 /// so secondary cards are visually consistent too.
 struct SectionCard<Content: View>: View {
