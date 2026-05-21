@@ -12,6 +12,8 @@ struct TimelineView: View {
 
     @State private var monthAnchor: Date = DateHelpers.startOfDay()
     @State private var selectedDate: Date = DateHelpers.startOfDay()
+    @State private var draftMood: Int?
+    @State private var draftNote: String = ""
 
     private var checkInsByDay: [Date: DailyCheckIn] {
         Dictionary(checkIns.map { (DateHelpers.startOfDay($0.day), $0) }, uniquingKeysWith: { a, _ in a })
@@ -71,7 +73,15 @@ struct TimelineView: View {
             }
             .listStyle(.insetGrouped)
             .navigationTitle("Timeline")
+            .onAppear { loadDraft() }
+            .onChange(of: selectedDate) { _, _ in loadDraft() }
         }
+    }
+
+    private func loadDraft() {
+        let checkIn = checkInsByDay[DateHelpers.startOfDay(selectedDate)]
+        draftMood = checkIn?.mood
+        draftNote = checkIn?.note ?? ""
     }
 
     // MARK: - Summary
@@ -302,6 +312,19 @@ struct TimelineView: View {
                     .foregroundStyle(Theme.textPrimary)
                 Spacer()
             }
+
+            moodPicker(for: checkIn)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Note").font(.caption.weight(.semibold)).foregroundStyle(Theme.textSecondary)
+                TextField("How did the day go?", text: $draftNote, axis: .vertical)
+                    .lineLimit(1...4)
+                    .onChange(of: draftNote) { _, new in
+                        checkIn.note = new.isEmpty ? nil : new
+                        saveCheckInEdit()
+                    }
+            }
+
             Button {
                 logCheckIn(on: day, wasSober: !checkIn.wasSober)
             } label: {
@@ -325,6 +348,35 @@ struct TimelineView: View {
                 Label("Log a slip", systemImage: "exclamationmark.triangle")
             }
         }
+    }
+
+    /// 1...5 mood scale, ordered rough → excellent to match the journal's
+    /// feeling scale. Tapping the active mood again clears it.
+    private func moodPicker(for checkIn: DailyCheckIn) -> some View {
+        let symbols = ["cloud.rain.fill", "cloud.fill", "cloud.sun.fill", "sun.max.fill", "sparkles"]
+        return VStack(alignment: .leading, spacing: 4) {
+            Text("Mood").font(.caption.weight(.semibold)).foregroundStyle(Theme.textSecondary)
+            HStack(spacing: Theme.Space.m) {
+                ForEach(1...5, id: \.self) { value in
+                    Button {
+                        draftMood = (draftMood == value) ? nil : value
+                        checkIn.mood = draftMood
+                        saveCheckInEdit()
+                    } label: {
+                        Image(systemName: symbols[value - 1])
+                            .font(.title3)
+                            .foregroundStyle(draftMood == value ? Theme.brandPrimary : Theme.textTertiary)
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
+    }
+
+    private func saveCheckInEdit() {
+        try? context.save()
+        WidgetSnapshotPump.push(context: context)
     }
 
     private func logCheckIn(on day: Date, wasSober: Bool) {
