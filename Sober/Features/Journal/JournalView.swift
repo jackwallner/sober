@@ -10,21 +10,25 @@ struct JournalView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 12) {
-                    promptCard
-                    ForEach(entries) { entry in
-                        EntryRow(entry: entry)
-                    }
+            List {
+                Section("Prompt of the day") {
+                    promptRow
+                }
+
+                Section("Entries") {
                     if entries.isEmpty {
-                        Text("No journal entries yet.")
+                        Text("No entries yet. Use the pencil to write your first.")
+                            .font(.subheadline)
                             .foregroundStyle(Theme.textSecondary)
-                            .padding(.top, 24)
+                            .padding(.vertical, Theme.Space.s)
+                    } else {
+                        ForEach(entries) { entry in
+                            EntryRow(entry: entry)
+                        }
                     }
                 }
-                .padding()
             }
-            .background(Theme.background)
+            .listStyle(.insetGrouped)
             .navigationTitle("Journal")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -34,6 +38,7 @@ struct JournalView: View {
                     } label: {
                         Image(systemName: "square.and.pencil")
                     }
+                    .accessibilityLabel("New entry")
                 }
             }
             .sheet(isPresented: $showCompose) { ComposeEntrySheet() }
@@ -41,26 +46,25 @@ struct JournalView: View {
         }
     }
 
-    private var promptCard: some View {
+    private var promptRow: some View {
         let prompt = JournalPromptCatalog.promptOfDay()
-        return VStack(alignment: .leading, spacing: 8) {
-            Label("Prompt of the Day", systemImage: "sparkles")
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(Theme.brandPrimary)
+        return VStack(alignment: .leading, spacing: Theme.Space.s) {
             Text(prompt.text)
-                .font(.title3.weight(.medium))
+                .font(.body)
+                .foregroundStyle(Theme.textPrimary)
+                .fixedSize(horizontal: false, vertical: true)
             Button {
                 if subscriptions.isProSubscriber { showCompose = true }
                 else { showPaywall = true }
             } label: {
-                Label("New Entry", systemImage: "plus")
-                    .frame(maxWidth: .infinity)
+                Label("Write entry", systemImage: "square.and.pencil")
+                    .font(.subheadline.weight(.semibold))
             }
-            .buttonStyle(.borderedProminent)
+            .buttonStyle(.borderless)
             .tint(Theme.brandPrimary)
+            .padding(.top, 2)
         }
-        .padding()
-        .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
+        .padding(.vertical, Theme.Space.xs)
     }
 }
 
@@ -68,22 +72,23 @@ private struct EntryRow: View {
     let entry: JournalEntry
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: 6) {
             HStack {
                 Text(DateHelpers.mediumDate(entry.createdAt))
-                    .font(.caption).foregroundStyle(Theme.textSecondary)
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(Theme.textSecondary)
                 Spacer()
                 if let feeling = entry.feeling {
-                    Text(feeling).font(.caption.bold()).foregroundStyle(Theme.brandPrimary)
+                    Text(feeling.capitalized)
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(Theme.brandPrimary)
                 }
             }
             Text(entry.text)
                 .font(.body)
                 .lineLimit(4)
         }
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
+        .padding(.vertical, Theme.Space.xs)
     }
 }
 
