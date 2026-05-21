@@ -21,13 +21,14 @@ struct OnboardingView: View {
                 default: welcome
                 }
             }
-            .padding()
+            .padding(.horizontal, Theme.Space.l)
+            .padding(.vertical, Theme.Space.l)
             .foregroundStyle(.white)
         }
     }
 
     private var welcome: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: Theme.Space.xl) {
             Spacer()
             Image(systemName: "leaf.fill")
                 .font(.system(size: 80))
@@ -35,18 +36,14 @@ struct OnboardingView: View {
             Text("Track your sobriety, grow your garden, watch your health return.")
                 .multilineTextAlignment(.center)
                 .font(.title3)
-                .padding(.horizontal)
+                .padding(.horizontal, Theme.Space.l)
             Spacer()
-            Button("Get Started") { withAnimation { step = 1 } }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.large)
-                .tint(.white.opacity(0.25))
-                .padding(.bottom, 40)
+            primaryButton("Get Started") { step = 1 }
         }
     }
 
     private var startDateStep: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: Theme.Space.xl) {
             Spacer()
             Text("When did your sober journey begin?")
                 .font(.title.weight(.semibold))
@@ -61,23 +58,22 @@ struct OnboardingView: View {
     }
 
     private var spendStep: some View {
-        VStack(spacing: 24) {
-            Spacer()
+        VStack(spacing: Theme.Space.l) {
+            Spacer(minLength: Theme.Space.s)
             Text("How much did you typically spend per day?")
                 .font(.title.weight(.semibold))
                 .multilineTextAlignment(.center)
-            VStack {
+            VStack(spacing: Theme.Space.s) {
                 Text("$\(Int(costPerDay)) / day").font(.largeTitle.bold())
                 Slider(value: $costPerDay, in: 0...200, step: 5)
             }
-            Text("Calories per day:")
-                .padding(.top)
-            VStack {
+            VStack(spacing: Theme.Space.s) {
+                Text("Calories per day").font(.caption).foregroundStyle(.white.opacity(0.85))
                 Text("\(Int(caloriesPerDay)) cal").font(.title2.bold())
                 Slider(value: $caloriesPerDay, in: 0...3000, step: 50)
             }
             savingsProjection
-            Spacer()
+            Spacer(minLength: Theme.Space.s)
             primaryButton("Continue") { step = 3 }
         }
     }
@@ -101,13 +97,13 @@ struct OnboardingView: View {
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 14)
-        .padding(.horizontal, 12)
+        .padding(.vertical, Theme.Space.m)
+        .padding(.horizontal, Theme.Space.m)
         .background(.white.opacity(0.15), in: RoundedRectangle(cornerRadius: 16))
     }
 
     private var reminderStep: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: Theme.Space.xl) {
             Spacer()
             Text("Daily reminder time")
                 .font(.title.weight(.semibold))
@@ -129,10 +125,9 @@ struct OnboardingView: View {
             Text(title)
                 .font(.headline)
                 .frame(maxWidth: .infinity)
-                .padding()
+                .padding(.vertical, Theme.Space.m)
         }
         .background(.white.opacity(0.25), in: RoundedRectangle(cornerRadius: 16))
-        .padding(.bottom, 40)
     }
 
     private func formatHour(_ h: Int) -> String {
