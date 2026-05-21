@@ -140,47 +140,31 @@ struct HomeView: View {
 
     // MARK: - Overlays
 
+    /// Bare counter — no card, no scrim. Heavy text shadow keeps it legible on
+    /// both bright sky and dim dusk garden states. Stage / start date are
+    /// available in the Progress sheet, not on the spine.
     private var counterOverlay: some View {
-        VStack(spacing: 2) {
+        VStack(spacing: 0) {
             Text("\(days)")
-                .font(Theme.bigNumber(64))
+                .font(.system(size: 96, weight: .bold, design: .rounded))
                 .foregroundStyle(.white)
+                .shadow(color: .black.opacity(0.35), radius: 14, y: 2)
+                .accessibilityLabel("\(days) \(days == 1 ? "day" : "days") sober")
             Text(days == 1 ? "Day Sober" : "Days Sober")
-                .font(.subheadline.weight(.semibold))
+                .font(.headline)
+                .tracking(1.4)
+                .textCase(.uppercase)
                 .foregroundStyle(.white.opacity(0.92))
-            if let start = activeJourney?.startDate {
-                Text("Since \(DateHelpers.mediumDate(start)) · \(stage.title)")
-                    .font(.caption2)
-                    .foregroundStyle(.white.opacity(0.78))
-            }
+                .shadow(color: .black.opacity(0.4), radius: 6, y: 1)
         }
-        .padding(.vertical, 12)
         .frame(maxWidth: .infinity)
-        .background(Theme.gardenOverlayScrim, in: RoundedRectangle(cornerRadius: 18))
     }
 
+    /// The only floating control. Trial nudge + daily growth note moved into
+    /// the Progress sheet so the spine reads as garden + counter + one CTA.
     @ViewBuilder
     private var bottomStack: some View {
-        VStack(spacing: 10) {
-            if showTrialNudge {
-                trialNudge
-            }
-
-            HStack(spacing: 8) {
-                Image(systemName: "sparkles")
-                    .font(.caption)
-                    .foregroundStyle(.white)
-                Text("Today: \(DailyGrowth.note(forDayInCycle: dayInCycle))")
-                    .font(.caption.weight(.medium))
-                    .foregroundStyle(.white.opacity(0.95))
-                Spacer(minLength: 0)
-            }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 10)
-            .background(Theme.gardenOverlayScrim, in: Capsule())
-
-            checkInControl
-        }
+        checkInControl
     }
 
     @ViewBuilder
@@ -249,46 +233,6 @@ struct HomeView: View {
         }
     }
 
-    // MARK: - Trial nudge
-
-    private var showTrialNudge: Bool {
-        days >= 7 && !isPro && !subscriptions.hasClaimedTrial
-    }
-
-    private var savedSoFar: String {
-        let cents = days * (settingsRows.first?.costPerDayCents ?? 0)
-        let dollars = Double(cents) / 100
-        let f = NumberFormatter()
-        f.numberStyle = .currency
-        f.maximumFractionDigits = 0
-        return f.string(from: NSNumber(value: dollars)) ?? "$\(Int(dollars))"
-    }
-
-    private var trialNudge: some View {
-        Button { showPaywall = true } label: {
-            HStack(spacing: 10) {
-                Image(systemName: "gift.fill")
-                    .foregroundStyle(.white)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("You've saved \(savedSoFar) so far")
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(.white)
-                    Text("Try Bloom+ free for 7 days")
-                        .font(.caption)
-                        .foregroundStyle(.white.opacity(0.85))
-                }
-                Spacer(minLength: 0)
-                Image(systemName: "chevron.right")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.white.opacity(0.8))
-            }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 12)
-            .background(Theme.gardenOverlayScrim, in: RoundedRectangle(cornerRadius: 16))
-        }
-        .buttonStyle(.plain)
-    }
-
     // MARK: - State
 
     private func refreshCheckInState() {
@@ -325,31 +269,47 @@ struct ProgressSheet: View {
     @State private var showPaywall = false
 
     private var settings: UserSettings? { settingsRows.first }
+    private var showTrialNudge: Bool { days >= 7 && !isPro && !subscriptions.hasClaimedTrial }
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 16) {
-                    HStack(spacing: 12) {
-                        nextMilestoneCard
-                        nextBenefitCard
+            List {
+                if showTrialNudge {
+                    Section { trialNudgeRow }
+                }
+
+                Section("Next up") {
+                    nextMilestoneRow
+                    nextBenefitRow
+                }
+
+                if isPro {
+                    Section("Saved") {
+                        savedRow(label: "Money", value: moneySaved, sub: "$\((settings?.costPerDayCents ?? 0) / 100) / day", icon: "dollarsign.circle.fill")
+                        savedRow(label: "Calories", value: caloriesAvoided.formatted(), sub: "\(settings?.caloriesPerDay ?? 0) / day", icon: "flame.fill")
                     }
+                }
 
-                    savedSection
-
+                Section("Garden") {
                     GardenCollectionView(
                         days: days,
                         unlockedItemIDs: gardenState?.unlockedItemIDs ?? [],
                         isPro: isPro
                     )
                     .frame(minHeight: 360)
-
-                    achievementsSection
+                    .listRowInsets(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8))
                 }
-                .padding()
+
+                Section("Time milestones") {
+                    ForEach(AchievementCatalog.all.filter { $0.kind == .timeMilestone }) { achievementRow($0) }
+                }
+
+                Section("Streaks") {
+                    ForEach(AchievementCatalog.all.filter { $0.kind == .streak }) { achievementRow($0) }
+                }
             }
-            .background(Theme.background)
-            .navigationTitle("Your Progress")
+            .listStyle(.insetGrouped)
+            .navigationTitle("Your progress")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
@@ -360,132 +320,99 @@ struct ProgressSheet: View {
         }
     }
 
-    private var nextMilestoneCard: some View {
-        let next = AchievementCatalog.nextTimeMilestone(after: days)
-        return VStack(alignment: .leading, spacing: 4) {
-            Label("Next Milestone", systemImage: "flag.fill")
-                .font(.caption)
-                .foregroundStyle(Theme.textSecondary)
-            Text(next?.title ?? "Year One")
-                .font(.headline)
-                .lineLimit(2, reservesSpace: true)
-            Text(next.map { "in \(max(1, $0.dayThreshold - days)) days" } ?? "Crushed it")
-                .font(.caption2)
-                .foregroundStyle(Theme.textTertiary)
+    private var trialNudgeRow: some View {
+        Button { showPaywall = true } label: {
+            HStack(spacing: Theme.Space.m) {
+                Image(systemName: "gift.fill")
+                    .font(.title3)
+                    .foregroundStyle(Theme.brandPrimary)
+                    .frame(width: 32)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("You've saved \(savedSoFar) so far")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(Theme.textPrimary)
+                    Text("Try Bloom+ free for 7 days")
+                        .font(.caption)
+                        .foregroundStyle(Theme.textSecondary)
+                }
+                Spacer(minLength: 0)
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(Theme.textTertiary)
+            }
         }
-        .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
+        .buttonStyle(.plain)
     }
 
-    private var nextBenefitCard: some View {
+    private var nextMilestoneRow: some View {
+        let next = AchievementCatalog.nextTimeMilestone(after: days)
+        return progressRow(
+            icon: "flag.fill",
+            title: next?.title ?? "Year One",
+            detail: next.map { "in \(max(1, $0.dayThreshold - days)) days" } ?? "Crushed it"
+        )
+    }
+
+    private var nextBenefitRow: some View {
         let hours = Double(days) * 24
         let next = HealthBenefitCatalog.next(after: hours)
-        return VStack(alignment: .leading, spacing: 4) {
-            Label("Next Benefit", systemImage: "heart.fill")
-                .font(.caption)
-                .foregroundStyle(Theme.textSecondary)
-            Text(next?.title ?? "All unlocked")
-                .font(.headline)
-                .lineLimit(2, reservesSpace: true)
-            Text(next.map { "at \($0.displayWait)" } ?? "")
-                .font(.caption2)
-                .foregroundStyle(Theme.textTertiary)
-        }
-        .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
+        return progressRow(
+            icon: "heart.fill",
+            title: next?.title ?? "All unlocked",
+            detail: next.map { "at \($0.displayWait)" } ?? ""
+        )
     }
 
-    private var moneySaved: String {
+    private func progressRow(icon: String, title: String, detail: String) -> some View {
+        HStack(spacing: Theme.Space.m) {
+            Image(systemName: icon)
+                .foregroundStyle(Theme.brandPrimary)
+                .frame(width: 32)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title).font(.body)
+                if !detail.isEmpty {
+                    Text(detail).font(.caption).foregroundStyle(Theme.textSecondary)
+                }
+            }
+        }
+    }
+
+    private func savedRow(label: String, value: String, sub: String, icon: String) -> some View {
+        HStack(spacing: Theme.Space.m) {
+            Image(systemName: icon)
+                .foregroundStyle(Theme.brandPrimary)
+                .frame(width: 32)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(label).font(.body)
+                Text(sub).font(.caption).foregroundStyle(Theme.textSecondary)
+            }
+            Spacer()
+            Text(value)
+                .font(.title3.weight(.semibold))
+                .foregroundStyle(Theme.brandPrimary)
+                .monospacedDigit()
+        }
+    }
+
+    private var savedSoFar: String {
         let cents = days * (settings?.costPerDayCents ?? 0)
         let dollars = Double(cents) / 100
         return Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? "$\(Int(dollars))"
     }
 
-    private var caloriesAvoided: Int {
-        days * (settings?.caloriesPerDay ?? 0)
-    }
-
-    @ViewBuilder
-    private var savedSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Saved").font(.title3.bold())
-            if isPro {
-                HStack(spacing: 12) {
-                    savedTile(label: "Money", value: moneySaved, sub: "$\((settings?.costPerDayCents ?? 0) / 100) / day", color: Theme.brandPrimary)
-                    savedTile(label: "Calories", value: caloriesAvoided.formatted(), sub: "\(settings?.caloriesPerDay ?? 0) / day", color: Theme.accent)
-                }
-            } else {
-                Button { showPaywall = true } label: {
-                    HStack(spacing: 10) {
-                        Image(systemName: "lock.fill")
-                            .foregroundStyle(Theme.textTertiary)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text("Money & calories saved")
-                                .font(.subheadline.weight(.semibold))
-                                .foregroundStyle(Theme.textPrimary)
-                            Text("Unlock with Bloom+")
-                                .font(.caption)
-                                .foregroundStyle(Theme.textSecondary)
-                        }
-                        Spacer(minLength: 0)
-                        Image(systemName: "chevron.right")
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(Theme.textTertiary)
-                    }
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
-                }
-                .buttonStyle(.plain)
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-
-    private func savedTile(label: String, value: String, sub: String, color: Color) -> some View {
-        VStack(spacing: 4) {
-            Text(label).font(.caption).foregroundStyle(Theme.textSecondary)
-            Text(value).font(Theme.bigNumber(36)).foregroundStyle(color)
-            Text(sub).font(.footnote).foregroundStyle(Theme.textTertiary)
-        }
-        .frame(maxWidth: .infinity)
-        .padding()
-        .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
-    }
-
-    @ViewBuilder
-    private var achievementsSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Achievements").font(.title3.bold())
-            achievementGroup(title: "Time Milestones",
-                             items: AchievementCatalog.all.filter { $0.kind == .timeMilestone })
-            achievementGroup(title: "Streaks",
-                             items: AchievementCatalog.all.filter { $0.kind == .streak })
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-
-    private func achievementGroup(title: String, items: [Achievement]) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(title).font(.caption.weight(.semibold)).foregroundStyle(Theme.textSecondary)
-            ForEach(items) { item in
-                achievementRow(item)
-            }
-        }
-    }
+    private var moneySaved: String { savedSoFar }
+    private var caloriesAvoided: Int { days * (settings?.caloriesPerDay ?? 0) }
 
     private func achievementRow(_ a: Achievement) -> some View {
         let unlocked = days >= a.dayThreshold
-        return HStack(spacing: 12) {
+        let visible = unlocked && isPro
+        return HStack(spacing: Theme.Space.m) {
             Image(systemName: a.icon)
-                .font(.title2)
-                .foregroundStyle(unlocked && isPro ? Theme.accent : Theme.textTertiary)
-                .frame(width: 36)
+                .font(.title3)
+                .foregroundStyle(visible ? Theme.brandPrimary : Theme.textTertiary)
+                .frame(width: 32)
             VStack(alignment: .leading, spacing: 2) {
                 Text(a.title)
-                    .fontWeight(.semibold)
                     .foregroundStyle(unlocked || isPro ? Theme.textPrimary : Theme.textSecondary)
                 Text(a.description).font(.caption).foregroundStyle(Theme.textSecondary)
             }
@@ -493,16 +420,11 @@ struct ProgressSheet: View {
             if !isPro {
                 Image(systemName: "lock.fill").foregroundStyle(Theme.textTertiary)
             } else if unlocked {
-                Image(systemName: "checkmark.seal.fill").foregroundStyle(Theme.success)
+                Image(systemName: "checkmark.seal.fill").foregroundStyle(Theme.brandPrimary)
             }
         }
-        .padding()
-        .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
-        .opacity(unlocked || isPro ? 1 : 0.6)
         .contentShape(Rectangle())
-        .onTapGesture {
-            if !isPro { showPaywall = true }
-        }
+        .onTapGesture { if !isPro { showPaywall = true } }
     }
 
     private static let currencyFormatter: NumberFormatter = {
