@@ -39,13 +39,12 @@ struct TimelineView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 16) {
+                VStack(spacing: Theme.Space.l) {
                     summaryCard
-                    monthNav
-                    monthGrid
+                    monthSection
                     treeForSelectedDay
                 }
-                .padding()
+                .padding(Theme.Space.l)
             }
             .background(Theme.background)
             .navigationTitle("Timeline")
@@ -59,13 +58,11 @@ struct TimelineView: View {
         let days = active.map { SobrietyService.daysSinceStart($0.startDate) } ?? 0
         let totalSober = checkIns.filter { $0.wasSober }.count
         return HeroCard {
-            HStack {
-                HeroStat(value: "\(days)", label: "Current Streak")
-                Divider().frame(height: 40).overlay(.white.opacity(0.3))
-                HeroStat(value: "\(longestStreak)", label: "Longest Streak")
-                Divider().frame(height: 40).overlay(.white.opacity(0.3))
-                HeroStat(value: "\(totalSober)", label: "Sober Days")
-            }
+            HeroStatRow(items: [
+                .init(value: "\(days)", label: "Current Streak"),
+                .init(value: "\(longestStreak)", label: "Longest Streak"),
+                .init(value: "\(totalSober)", label: "Sober Days")
+            ])
         }
     }
 
@@ -91,15 +88,31 @@ struct TimelineView: View {
 
     // MARK: - Month grid
 
+    private var monthSection: some View {
+        SectionCard {
+            VStack(spacing: Theme.Space.m) {
+                monthNav
+                monthGrid
+            }
+        }
+    }
+
     private var monthNav: some View {
         HStack {
-            Button { shift(months: -1) } label: { Image(systemName: "chevron.left") }
+            Button { shift(months: -1) } label: {
+                Image(systemName: "chevron.left")
+                    .frame(width: 32, height: 32)
+                    .contentShape(Rectangle())
+            }
             Spacer()
             Text(monthTitle).font(.title3.weight(.semibold))
             Spacer()
-            Button { shift(months: 1) } label: { Image(systemName: "chevron.right") }
+            Button { shift(months: 1) } label: {
+                Image(systemName: "chevron.right")
+                    .frame(width: 32, height: 32)
+                    .contentShape(Rectangle())
+            }
         }
-        .padding(.horizontal)
     }
 
     private var monthTitle: String {
