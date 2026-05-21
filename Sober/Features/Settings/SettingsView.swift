@@ -5,9 +5,11 @@ struct SettingsView: View {
     @Environment(\.modelContext) private var context
     @Environment(SubscriptionService.self) private var subscriptions
     @Query private var settingsRows: [UserSettings]
+    @Query(sort: \SobrietyJourney.startDate, order: .reverse) private var journeys: [SobrietyJourney]
     @State private var showPaywall = false
 
     private var settings: UserSettings? { settingsRows.first }
+    private var activeJourney: SobrietyJourney? { journeys.first { $0.isActive } }
 
     var body: some View {
         NavigationStack {
@@ -21,6 +23,20 @@ struct SettingsView: View {
                             Button("Upgrade") { showPaywall = true }
                                 .buttonStyle(.borderedProminent)
                         }
+                    }
+                }
+                if let journey = activeJourney {
+                    Section {
+                        DatePicker(
+                            "Start",
+                            selection: startDateBinding(journey),
+                            in: ...Date.now,
+                            displayedComponents: [.date, .hourAndMinute]
+                        )
+                    } header: {
+                        Text("Sobriety Start")
+                    } footer: {
+                        Text("Adjust the exact date and time your journey began. Hour-level accuracy keeps early health milestones precise.")
                     }
                 }
                 if let s = settings {
@@ -72,6 +88,16 @@ struct SettingsView: View {
             .onChange(of: settings?.dailyReminderHour) { _, _ in rescheduleReminder() }
             .onChange(of: settings?.dailyReminderEnabled) { _, _ in rescheduleReminder() }
         }
+    }
+
+    private func startDateBinding(_ journey: SobrietyJourney) -> Binding<Date> {
+        Binding(
+            get: { journey.startDate },
+            set: {
+                SobrietyService(context: context).updateStartDate($0)
+                WidgetSnapshotPump.push(context: context)
+            }
+        )
     }
 
     private func bind<Value>(_ keyPath: ReferenceWritableKeyPath<UserSettings, Value>, on s: UserSettings) -> Binding<Value> {

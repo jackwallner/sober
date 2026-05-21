@@ -19,13 +19,21 @@ struct TimelineView: View {
     private var earliestStart: Date? { journeys.last?.startDate }
     private var activeStart: Date? { journeys.first(where: { $0.isActive })?.startDate }
 
-    /// Sober days accrued as of a given calendar date (0 before the journey).
+    /// Sober days accrued as of a given calendar date. Looks up whichever
+    /// historical journey covered that date so the tree preview keeps showing
+    /// past growth after a relapse reset.
     private func soberDays(on date: Date) -> Int {
-        guard let start = activeStart else { return 0 }
-        let s = DateHelpers.startOfDay(start)
         let d = DateHelpers.startOfDay(date)
-        guard d >= s else { return 0 }
-        return DateHelpers.daysBetween(s, d)
+        let covering = journeys.first { j in
+            let s = DateHelpers.startOfDay(j.startDate)
+            guard d >= s else { return false }
+            if let end = j.endDate {
+                return d <= DateHelpers.startOfDay(end)
+            }
+            return true
+        }
+        guard let j = covering else { return 0 }
+        return DateHelpers.daysBetween(j.startDate, d)
     }
 
     private var bonsaiStyle: BonsaiStyle {
@@ -53,6 +61,12 @@ struct TimelineView: View {
                 Section("Selected day") {
                     treeRow
                         .listRowInsets(EdgeInsets(top: Theme.Space.s, leading: Theme.Space.l, bottom: Theme.Space.m, trailing: Theme.Space.l))
+                }
+
+                if !selectedIsFuture {
+                    Section("Check-in") {
+                        checkInEditor
+                    }
                 }
             }
             .listStyle(.insetGrouped)
@@ -268,5 +282,59 @@ struct TimelineView: View {
                 .foregroundStyle(Theme.textSecondary)
             Spacer(minLength: 0)
         }
+    }
+
+    // MARK: - Check-in editor
+
+    private var selectedIsFuture: Bool {
+        DateHelpers.startOfDay(selectedDate) > DateHelpers.startOfDay()
+    }
+
+    @ViewBuilder
+    private var checkInEditor: some View {
+        let day = DateHelpers.startOfDay(selectedDate)
+        if let checkIn = checkInsByDay[day] {
+            HStack(spacing: Theme.Space.m) {
+                Image(systemName: checkIn.wasSober ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
+                    .foregroundStyle(checkIn.wasSober ? Theme.success : Theme.danger)
+                    .frame(width: 28)
+                Text(checkIn.wasSober ? "Logged sober" : "Logged a slip")
+                    .foregroundStyle(Theme.textPrimary)
+                Spacer()
+            }
+            Button {
+                logCheckIn(on: day, wasSober: !checkIn.wasSober)
+            } label: {
+                Label(checkIn.wasSober ? "Change to slip" : "Change to sober",
+                      systemImage: "arrow.left.arrow.right")
+            }
+            Button(role: .destructive) {
+                deleteCheckIn(checkIn)
+            } label: {
+                Label("Delete log", systemImage: "trash")
+            }
+        } else {
+            Button {
+                logCheckIn(on: day, wasSober: true)
+            } label: {
+                Label("Log as sober", systemImage: "checkmark.circle")
+            }
+            Button(role: .destructive) {
+                logCheckIn(on: day, wasSober: false)
+            } label: {
+                Label("Log a slip", systemImage: "exclamationmark.triangle")
+            }
+        }
+    }
+
+    private func logCheckIn(on day: Date, wasSober: Bool) {
+        CheckInService(context: context).checkIn(for: day, wasSober: wasSober)
+        WidgetSnapshotPump.push(context: context)
+    }
+
+    private func deleteCheckIn(_ checkIn: DailyCheckIn) {
+        context.delete(checkIn)
+        try? context.save()
+        WidgetSnapshotPump.push(context: context)
     }
 }

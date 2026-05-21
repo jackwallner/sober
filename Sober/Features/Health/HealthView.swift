@@ -12,8 +12,10 @@ struct HealthView: View {
         return DateHelpers.hoursBetween(j.startDate, .now)
     }
 
-    /// Free users see the first 2 unlocked benefits + locked previews.
-    private let freeRevealCount = 2
+    /// Free users see the first 5 unlocked benefits + locked previews. This
+    /// covers the high-motivation early-recovery wins (through ~2 weeks) so
+    /// non-Pro users get tangible feedback before the paywall pinches.
+    private let freeRevealCount = 5
 
     var body: some View {
         NavigationStack {

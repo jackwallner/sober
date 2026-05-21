@@ -48,8 +48,8 @@ struct OnboardingView: View {
             Text("When did your sober journey begin?")
                 .font(.title.weight(.semibold))
                 .multilineTextAlignment(.center)
-            DatePicker("", selection: $startDate, in: ...Date.now, displayedComponents: .date)
-                .datePickerStyle(.wheel)
+            DatePicker("", selection: $startDate, in: ...Date.now, displayedComponents: [.date, .hourAndMinute])
+                .datePickerStyle(.compact)
                 .labelsHidden()
                 .colorScheme(.dark)
             Spacer()
@@ -145,7 +145,7 @@ struct OnboardingView: View {
         settings.dailyReminderHour = reminderHour
         settings.hasCompletedOnboarding = true
 
-        _ = SobrietyService(context: context).startJourney(at: DateHelpers.startOfDay(startDate))
+        _ = SobrietyService(context: context).startJourney(at: min(startDate, .now))
         _ = GardenService(context: context).current()
         try? context.save()
 

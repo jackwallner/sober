@@ -49,13 +49,15 @@ struct HomeView: View {
                 )
                 .ignoresSafeArea(edges: .bottom)
 
-                VStack(spacing: Theme.Space.m) {
-                    counterOverlay
-                    Spacer(minLength: Theme.Space.m)
-                    bottomStack
+                if !showCelebration {
+                    VStack(spacing: Theme.Space.m) {
+                        counterOverlay
+                        Spacer(minLength: Theme.Space.m)
+                        bottomStack
+                    }
+                    .padding(.horizontal, Theme.Space.l)
+                    .padding(.vertical, Theme.Space.s)
                 }
-                .padding(.horizontal, Theme.Space.l)
-                .padding(.vertical, Theme.Space.s)
             }
             .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
@@ -248,6 +250,7 @@ struct HomeView: View {
         for item in newItems where GardenItemCatalog.freeToPlaceIDs.contains(item.id) {
             svc.placeItem(item)
         }
+        AchievementService(context: context).processUnlocks(currentDays: days)
         guard !newItems.isEmpty else { return }
         celebrationQueue = newItems
         withAnimation { showCelebration = true }
@@ -262,6 +265,8 @@ struct ProgressSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(SubscriptionService.self) private var subscriptions
     @Query private var settingsRows: [UserSettings]
+    @Query private var unlockedAchievements: [UnlockedAchievement]
+    @Query private var checkIns: [DailyCheckIn]
     let days: Int
     let gardenState: GardenState?
     let isPro: Bool
@@ -284,9 +289,13 @@ struct ProgressSheet: View {
                 }
 
                 if isPro {
-                    Section("Saved") {
-                        savedRow(label: "Money", value: moneySaved, sub: "$\((settings?.costPerDayCents ?? 0) / 100) / day", icon: "dollarsign.circle.fill")
-                        savedRow(label: "Calories", value: caloriesAvoided.formatted(), sub: "\(settings?.caloriesPerDay ?? 0) / day", icon: "flame.fill")
+                    Section {
+                        savedRow(label: "Money", streak: moneySaved, lifetime: lifetimeMoneySaved, sub: "$\((settings?.costPerDayCents ?? 0) / 100) / day", icon: "dollarsign.circle.fill")
+                        savedRow(label: "Calories", streak: caloriesAvoided.formatted(), lifetime: lifetimeCaloriesAvoided.formatted(), sub: "\(settings?.caloriesPerDay ?? 0) / day", icon: "flame.fill")
+                    } header: {
+                        Text("Saved")
+                    } footer: {
+                        Text("Streak counts your current run; lifetime counts every sober day you've ever logged — past progress isn't lost on a reset.")
                     }
                 }
 
@@ -377,7 +386,7 @@ struct ProgressSheet: View {
         }
     }
 
-    private func savedRow(label: String, value: String, sub: String, icon: String) -> some View {
+    private func savedRow(label: String, streak: String, lifetime: String, sub: String, icon: String) -> some View {
         HStack(spacing: Theme.Space.m) {
             Image(systemName: icon)
                 .foregroundStyle(Theme.brandPrimary)
@@ -387,12 +396,30 @@ struct ProgressSheet: View {
                 Text(sub).font(.caption).foregroundStyle(Theme.textSecondary)
             }
             Spacer()
-            Text(value)
-                .font(.title3.weight(.semibold))
-                .foregroundStyle(Theme.brandPrimary)
-                .monospacedDigit()
+            VStack(alignment: .trailing, spacing: 2) {
+                Text(streak)
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(Theme.brandPrimary)
+                    .monospacedDigit()
+                Text("\(lifetime) lifetime")
+                    .font(.caption2)
+                    .foregroundStyle(Theme.textSecondary)
+                    .monospacedDigit()
+            }
         }
     }
+
+    /// Every sober day ever recorded — the basis for lifetime savings so a
+    /// relapse reset doesn't wipe the user's accumulated progress.
+    private var lifetimeSoberDays: Int { checkIns.filter { $0.wasSober }.count }
+
+    private var lifetimeMoneySaved: String {
+        let cents = lifetimeSoberDays * (settings?.costPerDayCents ?? 0)
+        let dollars = Double(cents) / 100
+        return Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? "$\(Int(dollars))"
+    }
+
+    private var lifetimeCaloriesAvoided: Int { lifetimeSoberDays * (settings?.caloriesPerDay ?? 0) }
 
     private var savedSoFar: String {
         let cents = days * (settings?.costPerDayCents ?? 0)
@@ -404,7 +431,11 @@ struct ProgressSheet: View {
     private var caloriesAvoided: Int { days * (settings?.caloriesPerDay ?? 0) }
 
     private func achievementRow(_ a: Achievement) -> some View {
-        let unlocked = days >= a.dayThreshold
+        // An achievement is unlocked if it's ever been earned (persisted in the
+        // trophy case) OR the current streak satisfies it. Past badges stay lit
+        // through a relapse reset.
+        let everEarned = unlockedAchievements.contains { $0.achievementID == a.id }
+        let unlocked = everEarned || days >= a.dayThreshold
         let visible = unlocked && isPro
         return HStack(spacing: Theme.Space.m) {
             Image(systemName: a.icon)

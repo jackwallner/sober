@@ -29,6 +29,14 @@ final class SobrietyService {
         return new
     }
 
+    /// Move the active journey's start to a new timestamp (e.g. the user
+    /// correcting their start date/time). Clamped to not run into the future.
+    func updateStartDate(_ date: Date) {
+        guard let journey = activeJourney() else { return }
+        journey.startDate = min(date, .now)
+        try? context.save()
+    }
+
     func reset(reason: String? = nil) {
         if let current = activeJourney() {
             current.endDate = .now

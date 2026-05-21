@@ -97,12 +97,24 @@ private struct ComposeEntrySheet: View {
     @Environment(\.dismiss) private var dismiss
     @State private var text: String = ""
     @State private var feeling: String = "good"
+    @State private var freeWrite: Bool = false
+    @State private var prompt: JournalPrompt = JournalPromptCatalog.promptOfDay()
 
     var body: some View {
         NavigationStack {
             Form {
-                let prompt = JournalPromptCatalog.promptOfDay()
-                Section(prompt.text) {
+                Section {
+                    Toggle("Free write", isOn: $freeWrite)
+                    if !freeWrite {
+                        Button {
+                            // Avoid landing on the same prompt twice in a row.
+                            prompt = JournalPromptCatalog.all.filter { $0.id != prompt.id }.randomElement() ?? prompt
+                        } label: {
+                            Label("Shuffle prompt", systemImage: "shuffle")
+                        }
+                    }
+                }
+                Section(freeWrite ? "Your entry" : prompt.text) {
                     TextEditor(text: $text)
                         .frame(minHeight: 180)
                 }
@@ -119,8 +131,9 @@ private struct ComposeEntrySheet: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Save") {
-                        let prompt = JournalPromptCatalog.promptOfDay()
-                        let entry = JournalEntry(promptID: prompt.id, kind: prompt.kind, text: text, feeling: feeling)
+                        let entry = freeWrite
+                            ? JournalEntry(promptID: nil, kind: .freeform, text: text, feeling: feeling)
+                            : JournalEntry(promptID: prompt.id, kind: prompt.kind, text: text, feeling: feeling)
                         context.insert(entry)
                         try? context.save()
                         dismiss()
