@@ -78,6 +78,19 @@ final class GardenService {
         try? context.save()
     }
 
+    /// Gently fade vitality for days elapsed since the garden was last watered.
+    /// Recovery-first by design: floored at 0.3 so a returning user never finds
+    /// a "dead" garden, and a single check-in (`water`) immediately perks it
+    /// back up. Does nothing until the first-ever check-in sets `lastWateredAt`.
+    func applyVitalityDecay(asOf date: Date = .now) {
+        let state = current()
+        guard let last = state.lastWateredAt else { return }
+        let daysMissed = DateHelpers.daysBetween(last, date)
+        guard daysMissed > 0 else { return }
+        state.vitality = max(0.3, state.vitality - Double(daysMissed) * 0.1)
+        try? context.save()
+    }
+
     // ── Stage ──
 
     nonisolated static func stage(forDays days: Int) -> BonsaiStage {

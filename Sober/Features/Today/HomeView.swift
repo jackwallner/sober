@@ -22,6 +22,7 @@ struct HomeView: View {
     @State private var selectedItem: GardenItem?
     @State private var celebrationQueue: [GardenItem] = []
     @State private var showCelebration = false
+    @State private var showCheckInDetail = false
 
     private var activeJourney: SobrietyJourney? { journeys.first { $0.isActive } }
     private var gardenState: GardenState? { gardenStates.first }
@@ -109,6 +110,7 @@ struct HomeView: View {
                 Text("Slips happen. Your history stays, and your tree carries everything you've already grown. Begin a new day when you're ready.")
             }
             .onAppear {
+                GardenService(context: context).applyVitalityDecay()
                 refreshCheckInState()
                 checkForUnlocks()
                 WidgetSnapshotPump.push(context: context)
@@ -128,6 +130,10 @@ struct HomeView: View {
                     .transition(.opacity)
                     .zIndex(100)
                 }
+            }
+            .sheet(isPresented: $showCheckInDetail) {
+                CheckInDetailSheet()
+                    .presentationDetents([.height(320)])
             }
             .sheet(isPresented: $showSettings) { SettingsView() }
             .sheet(isPresented: $showPaywall) { PaywallView() }
@@ -216,6 +222,7 @@ struct HomeView: View {
                 GardenService(context: context).water()
                 refreshCheckInState()
                 WidgetSnapshotPump.push(context: context)
+                showCheckInDetail = true
             } label: {
                 HStack(spacing: 8) {
                     Image(systemName: checkedInToday ? "checkmark.circle.fill" : "circle")
@@ -257,6 +264,64 @@ struct HomeView: View {
         guard !newItems.isEmpty else { return }
         celebrationQueue = newItems
         withAnimation { showCelebration = true }
+    }
+}
+
+/// Optional reflection after the one-tap check-in. The day is already logged
+/// and the garden watered before this appears — capturing mood/note here is
+/// purely additive, and "Skip" keeps the frictionless path intact.
+private struct CheckInDetailSheet: View {
+    @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) private var dismiss
+    @State private var mood: Int?
+    @State private var note: String = ""
+
+    private let symbols = ["cloud.rain.fill", "cloud.fill", "cloud.sun.fill", "sun.max.fill", "sparkles"]
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("Mood") {
+                    HStack(spacing: Theme.Space.m) {
+                        ForEach(1...5, id: \.self) { value in
+                            Button {
+                                mood = (mood == value) ? nil : value
+                            } label: {
+                                Image(systemName: symbols[value - 1])
+                                    .font(.title2)
+                                    .foregroundStyle(mood == value ? Theme.brandPrimary : Theme.textTertiary)
+                                    .frame(maxWidth: .infinity)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                    .padding(.vertical, Theme.Space.xs)
+                }
+                Section("Note") {
+                    TextField("Anything you want to remember about today?", text: $note, axis: .vertical)
+                        .lineLimit(1...4)
+                }
+            }
+            .navigationTitle("Checked in")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Skip") { dismiss() }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Save") { save() }
+                        .fontWeight(.semibold)
+                }
+            }
+        }
+    }
+
+    private func save() {
+        let trimmed = note.trimmingCharacters(in: .whitespacesAndNewlines)
+        if mood != nil || !trimmed.isEmpty {
+            CheckInService(context: context).checkIn(mood: mood, note: trimmed.isEmpty ? nil : trimmed)
+        }
+        dismiss()
     }
 }
 
