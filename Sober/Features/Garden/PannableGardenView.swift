@@ -23,10 +23,12 @@ struct PannableGardenView: View {
     var body: some View {
         GeometryReader { geo in
             let viewport = geo.size
-            // The world is wider/taller than the viewport so items spread out
-            // and there's somewhere to pan to.
-            let worldW = viewport.width * 1.9
-            let worldH = viewport.height * 1.35
+            // The world matches the viewport so the whole garden — every placed
+            // asset — is framed and centered at base zoom. Panning only unlocks
+            // once you pinch-zoom in (clampOffset returns .zero while it fits),
+            // so you can't drag off into empty space.
+            let worldW = viewport.width
+            let worldH = viewport.height
             let liveScale = clampScale(scale * pinch)
             let liveOffset = clampOffset(
                 CGSize(width: offset.width + drag.width,
