@@ -111,6 +111,9 @@ struct HomeView: View {
             }
             .onAppear {
                 GardenService(context: context).applyVitalityDecay()
+                if let j = activeJourney {
+                    CheckInService(context: context).fillJourney(start: j.startDate)
+                }
                 refreshCheckInState()
                 checkForUnlocks()
                 WidgetSnapshotPump.push(context: context)

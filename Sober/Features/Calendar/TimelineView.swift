@@ -14,6 +14,7 @@ struct TimelineView: View {
     @State private var selectedDate: Date = DateHelpers.startOfDay()
     @State private var draftMood: Int?
     @State private var draftNote: String = ""
+    @State private var pendingSlipDay: Date?
 
     private var checkInsByDay: [Date: DailyCheckIn] {
         Dictionary(checkIns.map { (DateHelpers.startOfDay($0.day), $0) }, uniquingKeysWith: { a, _ in a })
@@ -75,6 +76,16 @@ struct TimelineView: View {
             .navigationTitle("Timeline")
             .onAppear { loadDraft() }
             .onChange(of: selectedDate) { _, _ in loadDraft() }
+            .alert(
+                "Log a slip?",
+                isPresented: Binding(get: { pendingSlipDay != nil }, set: { if !$0 { pendingSlipDay = nil } }),
+                presenting: pendingSlipDay
+            ) { day in
+                Button("Cancel", role: .cancel) { pendingSlipDay = nil }
+                Button("Log slip & reset", role: .destructive) { confirmSlip(on: day) }
+            } message: { _ in
+                Text("Logging a slip resets your day counter to start fresh. Your calendar history and grove of completed trees stay.")
+            }
         }
     }
 
@@ -322,16 +333,19 @@ struct TimelineView: View {
         noteField(existing: existing)
 
         if let checkIn = existing {
-            Button {
-                logCheckIn(on: day, wasSober: !checkIn.wasSober)
+            Button(role: checkIn.wasSober ? .destructive : nil) {
+                if checkIn.wasSober { pendingSlipDay = day }
+                else { logCheckIn(on: day, wasSober: true) }
             } label: {
                 Label(checkIn.wasSober ? "Change to slip" : "Change to sober",
                       systemImage: "arrow.left.arrow.right")
             }
-            Button(role: .destructive) {
-                deleteCheckIn(checkIn)
-            } label: {
-                Label("Delete log", systemImage: "trash")
+            if checkIn.wasSober {
+                Button(role: .destructive) {
+                    deleteCheckIn(checkIn)
+                } label: {
+                    Label("Delete log", systemImage: "trash")
+                }
             }
         } else {
             Button {
@@ -340,11 +354,25 @@ struct TimelineView: View {
                 Label("Log as sober", systemImage: "checkmark.circle")
             }
             Button(role: .destructive) {
-                logCheckIn(on: day, wasSober: false)
+                pendingSlipDay = day
             } label: {
                 Label("Log a slip", systemImage: "exclamationmark.triangle")
             }
         }
+    }
+
+    private func confirmSlip(on day: Date) {
+        let trimmed = draftNote.trimmingCharacters(in: .whitespacesAndNewlines)
+        CheckInService(context: context).checkIn(
+            for: day, wasSober: false, mood: draftMood, note: trimmed.isEmpty ? nil : trimmed
+        )
+        // Slip resets the journey; a past-dated slip starts the fresh streak
+        // the day after, and Home's auto-fill makes the calendar agree.
+        let dayAfter = Calendar.current.date(byAdding: .day, value: 1, to: day) ?? day
+        SobrietyService(context: context).resetJourney(startingAt: dayAfter)
+        GardenService(context: context).resetForNewJourney()
+        WidgetSnapshotPump.push(context: context)
+        pendingSlipDay = nil
     }
 
     /// 1...5 mood scale, ordered rough → excellent to match the journal's

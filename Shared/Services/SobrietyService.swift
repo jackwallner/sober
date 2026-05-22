@@ -47,6 +47,21 @@ final class SobrietyService {
         try? context.save()
     }
 
+    /// End the active journey and begin a new one at `start` (clamped to now).
+    /// Used when a slip resets the counter: a past-dated slip starts the fresh
+    /// journey the day after the slip, so the recovered streak is counted.
+    @discardableResult
+    func resetJourney(startingAt start: Date, reason: String? = "slip") -> SobrietyJourney {
+        if let current = activeJourney() {
+            current.endDate = .now
+            current.resetReason = reason
+        }
+        let new = SobrietyJourney(startDate: min(start, .now))
+        context.insert(new)
+        try? context.save()
+        return new
+    }
+
     /// Whole days since the active journey's start. Returns 0 if none.
     func currentDayCount(asOf date: Date = .now) -> Int {
         guard let journey = activeJourney() else { return 0 }

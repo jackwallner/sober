@@ -36,6 +36,24 @@ final class CheckInService {
         return (try? context.fetch(descriptor)) ?? []
     }
 
+    /// Ensure every day in the active journey's range has a sober check-in so
+    /// the calendar always matches the journey-day counter on the Home spine.
+    /// Fills gaps only — never overwrites an existing entry (e.g. an edited
+    /// mood or a logged slip). Idempotent.
+    func fillJourney(start: Date, through end: Date = .now) {
+        let cal = Calendar.current
+        var cursor = DateHelpers.startOfDay(start)
+        let last = DateHelpers.startOfDay(end)
+        while cursor <= last {
+            if find(day: cursor) == nil {
+                context.insert(DailyCheckIn(day: cursor, wasSober: true))
+            }
+            guard let next = cal.date(byAdding: .day, value: 1, to: cursor) else { break }
+            cursor = next
+        }
+        try? context.save()
+    }
+
     /// Backfill check-ins as sober for every day from the last recorded check-in
     /// (or today if there is none) up through today. Idempotent.
     func backfillSoberDays(through end: Date = .now) {
