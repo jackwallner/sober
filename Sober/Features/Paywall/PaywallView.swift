@@ -14,14 +14,23 @@ struct PaywallView: View {
     @Environment(SubscriptionService.self) private var subscriptions
     @Query(sort: \SobrietyJourney.startDate, order: .reverse) private var journeys: [SobrietyJourney]
     @Query private var settingsRows: [UserSettings]
+    @Query private var checkIns: [DailyCheckIn]
 
     private var days: Int {
         guard let j = journeys.first(where: { $0.isActive }) else { return 0 }
         return SobrietyService.daysSinceStart(j.startDate)
     }
 
+    /// Total sober days ever logged — basis for the "lifetime savings" hero
+    /// so a relapse-reset paywall never says "$0 saved."
+    private var lifetimeSoberDays: Int { checkIns.filter { $0.wasSober }.count }
+
+    /// Day count that drives the hero: prefer lifetime so past investment
+    /// keeps showing through a reset; fall back to the active streak.
+    private var heroDays: Int { max(lifetimeSoberDays, days) }
+
     private var moneySaved: String {
-        let cents = days * (settingsRows.first?.costPerDayCents ?? 0)
+        let cents = heroDays * (settingsRows.first?.costPerDayCents ?? 0)
         let dollars = Double(cents) / 100
         return Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? "$\(Int(dollars))"
     }
@@ -123,15 +132,16 @@ struct PaywallView: View {
 
     @ViewBuilder
     private var savingsHero: some View {
-        let hasSavings = days > 0 && (settingsRows.first?.costPerDayCents ?? 0) > 0
+        let hasSavings = heroDays > 0 && (settingsRows.first?.costPerDayCents ?? 0) > 0
+        let usingLifetime = lifetimeSoberDays > days
         if hasSavings {
             VStack(spacing: 8) {
-                Text("You've already saved")
+                Text(usingLifetime ? "You've already saved (lifetime)" : "You've already saved")
                     .font(.headline)
                     .foregroundStyle(.white.opacity(0.85))
                 Text(moneySaved)
                     .font(.system(size: 56, weight: .bold, design: .rounded))
-                Text("by staying sober \(days) day\(days == 1 ? "" : "s"). Reinvest a fraction of it in your growth.")
+                Text("across \(heroDays) sober day\(heroDays == 1 ? "" : "s"). Reinvest a fraction of it in your growth.")
                     .font(.subheadline)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.white.opacity(0.8))

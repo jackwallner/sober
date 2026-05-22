@@ -68,8 +68,11 @@ struct HealthView: View {
     }
 
     private func nextUpRow(_ n: HealthBenefit) -> some View {
+        // The next-up row is always about a *time* gate (the benefit isn't
+        // reached yet) — keep the hourglass to distinguish from subscription
+        // gates elsewhere on the screen.
         HStack(spacing: Theme.Space.m) {
-            Image(systemName: "lock.fill")
+            Image(systemName: "hourglass")
                 .foregroundStyle(Theme.textTertiary)
                 .frame(width: 32)
             VStack(alignment: .leading, spacing: 2) {
@@ -82,9 +85,10 @@ struct HealthView: View {
                     .lineLimit(2)
             }
             Spacer(minLength: Theme.Space.s)
-            Text(n.displayWait)
+            Text("in \(n.displayWait)")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(Theme.textSecondary)
+                .monospacedDigit()
         }
     }
 }
@@ -146,10 +150,15 @@ private struct BenefitRow: View {
         .padding(.vertical, Theme.Space.xs)
     }
 
+    /// Three visual states so users can tell at a glance *why* a benefit is
+    /// not yet open: time gate (hourglass), earned-but-subscription gate
+    /// (crown), or revealed (check). The previous lock icon was used for both
+    /// gates and made paywalled-but-earned benefits feel indistinguishable
+    /// from ones the user hadn't reached yet.
     private var leadingIcon: String {
         if unlocked { return "checkmark.circle.fill" }
         if proGated { return "crown.fill" }
-        return "lock.fill"
+        return "hourglass"
     }
 
     private var leadingTint: Color {
@@ -163,11 +172,11 @@ private struct BenefitRow: View {
         if unlocked {
             EmptyView()
         } else if proGated {
-            Text("Bloom+")
+            Text("Unlocked · Bloom+")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(Theme.brandPrimary)
         } else {
-            Text(benefit.displayWait)
+            Text("in \(benefit.displayWait)")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(Theme.textTertiary)
                 .monospacedDigit()

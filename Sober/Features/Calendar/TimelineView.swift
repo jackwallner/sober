@@ -303,7 +303,9 @@ struct TimelineView: View {
     @ViewBuilder
     private var checkInEditor: some View {
         let day = DateHelpers.startOfDay(selectedDate)
-        if let checkIn = checkInsByDay[day] {
+        let existing = checkInsByDay[day]
+
+        if let checkIn = existing {
             HStack(spacing: Theme.Space.m) {
                 Image(systemName: checkIn.wasSober ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
                     .foregroundStyle(checkIn.wasSober ? Theme.success : Theme.danger)
@@ -312,19 +314,14 @@ struct TimelineView: View {
                     .foregroundStyle(Theme.textPrimary)
                 Spacer()
             }
+        }
 
-            moodPicker(for: checkIn)
+        // Mood + note appear before the log buttons too, so retroactive
+        // entries can capture context without a second tap.
+        moodPicker(existing: existing)
+        noteField(existing: existing)
 
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Note").font(.caption.weight(.semibold)).foregroundStyle(Theme.textSecondary)
-                TextField("How did the day go?", text: $draftNote, axis: .vertical)
-                    .lineLimit(1...4)
-                    .onChange(of: draftNote) { _, new in
-                        checkIn.note = new.isEmpty ? nil : new
-                        saveCheckInEdit()
-                    }
-            }
-
+        if let checkIn = existing {
             Button {
                 logCheckIn(on: day, wasSober: !checkIn.wasSober)
             } label: {
@@ -351,8 +348,10 @@ struct TimelineView: View {
     }
 
     /// 1...5 mood scale, ordered rough → excellent to match the journal's
-    /// feeling scale. Tapping the active mood again clears it.
-    private func moodPicker(for checkIn: DailyCheckIn) -> some View {
+    /// feeling scale. Tapping the active mood again clears it. Works before
+    /// the day has been logged (writes only to draft) and after (mirrors into
+    /// the existing check-in immediately).
+    private func moodPicker(existing: DailyCheckIn?) -> some View {
         let symbols = ["cloud.rain.fill", "cloud.fill", "cloud.sun.fill", "sun.max.fill", "sparkles"]
         return VStack(alignment: .leading, spacing: 4) {
             Text("Mood").font(.caption.weight(.semibold)).foregroundStyle(Theme.textSecondary)
@@ -360,8 +359,10 @@ struct TimelineView: View {
                 ForEach(1...5, id: \.self) { value in
                     Button {
                         draftMood = (draftMood == value) ? nil : value
-                        checkIn.mood = draftMood
-                        saveCheckInEdit()
+                        if let ci = existing {
+                            ci.mood = draftMood
+                            saveCheckInEdit()
+                        }
                     } label: {
                         Image(systemName: symbols[value - 1])
                             .font(.title3)
@@ -374,13 +375,33 @@ struct TimelineView: View {
         }
     }
 
+    private func noteField(existing: DailyCheckIn?) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("Note").font(.caption.weight(.semibold)).foregroundStyle(Theme.textSecondary)
+            TextField("How did the day go?", text: $draftNote, axis: .vertical)
+                .lineLimit(1...4)
+                .onChange(of: draftNote) { _, new in
+                    if let ci = existing {
+                        ci.note = new.isEmpty ? nil : new
+                        saveCheckInEdit()
+                    }
+                }
+        }
+    }
+
     private func saveCheckInEdit() {
         try? context.save()
         WidgetSnapshotPump.push(context: context)
     }
 
     private func logCheckIn(on day: Date, wasSober: Bool) {
-        CheckInService(context: context).checkIn(for: day, wasSober: wasSober)
+        let trimmed = draftNote.trimmingCharacters(in: .whitespacesAndNewlines)
+        CheckInService(context: context).checkIn(
+            for: day,
+            wasSober: wasSober,
+            mood: draftMood,
+            note: trimmed.isEmpty ? nil : trimmed
+        )
         WidgetSnapshotPump.push(context: context)
     }
 

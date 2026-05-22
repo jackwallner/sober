@@ -7,6 +7,7 @@ struct JournalView: View {
     @Query(sort: \JournalEntry.createdAt, order: .reverse) private var entries: [JournalEntry]
     @State private var showCompose = false
     @State private var showPaywall = false
+    @State private var selectedEntry: JournalEntry?
 
     var body: some View {
         NavigationStack {
@@ -24,7 +25,10 @@ struct JournalView: View {
                     } else {
                         ForEach(entries) { entry in
                             EntryRow(entry: entry)
+                                .contentShape(Rectangle())
+                                .onTapGesture { selectedEntry = entry }
                         }
+                        .onDelete(perform: deleteEntries)
                     }
                 }
             }
@@ -43,7 +47,18 @@ struct JournalView: View {
             }
             .sheet(isPresented: $showCompose) { ComposeEntrySheet() }
             .sheet(isPresented: $showPaywall) { PaywallView() }
+            .sheet(item: $selectedEntry) { entry in
+                JournalEntryDetailSheet(entry: entry)
+                    .presentationDetents([.medium, .large])
+            }
         }
+    }
+
+    private func deleteEntries(at offsets: IndexSet) {
+        for index in offsets {
+            context.delete(entries[index])
+        }
+        try? context.save()
     }
 
     private var promptRow: some View {
@@ -65,6 +80,66 @@ struct JournalView: View {
             .padding(.top, 2)
         }
         .padding(.vertical, Theme.Space.xs)
+    }
+}
+
+private struct JournalEntryDetailSheet: View {
+    @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) private var dismiss
+    let entry: JournalEntry
+
+    private var promptText: String? {
+        guard let id = entry.promptID else { return nil }
+        return JournalPromptCatalog.prompt(id: id)?.text
+    }
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: Theme.Space.m) {
+                    HStack {
+                        Text(DateHelpers.mediumDate(entry.createdAt))
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(Theme.textSecondary)
+                        Spacer()
+                        if let feeling = entry.feeling {
+                            Text(feeling.capitalized)
+                                .font(.caption.weight(.semibold))
+                                .foregroundStyle(Theme.brandPrimary)
+                        }
+                    }
+
+                    if let prompt = promptText {
+                        Text(prompt)
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(Theme.textSecondary)
+                    }
+
+                    Text(entry.text)
+                        .font(.body)
+                        .foregroundStyle(Theme.textPrimary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .padding(Theme.Space.l)
+            }
+            .navigationTitle(entry.kind == .freeform ? "Free Write" : "Entry")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") { dismiss() }
+                }
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(role: .destructive) {
+                        context.delete(entry)
+                        try? context.save()
+                        dismiss()
+                    } label: {
+                        Image(systemName: "trash")
+                    }
+                    .accessibilityLabel("Delete entry")
+                }
+            }
+        }
     }
 }
 

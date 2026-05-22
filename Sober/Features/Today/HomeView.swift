@@ -115,7 +115,10 @@ struct HomeView: View {
             }
             .overlay {
                 if showCelebration, let item = celebrationQueue.first {
-                    UnlockCelebrationView(item: item) {
+                    UnlockCelebrationView(
+                        item: item,
+                        canPlace: isPro || GardenItemCatalog.freeToPlaceIDs.contains(item.id)
+                    ) {
                         celebrationQueue.removeFirst()
                         if celebrationQueue.isEmpty {
                             withAnimation { showCelebration = false }
@@ -432,30 +435,31 @@ struct ProgressSheet: View {
 
     private func achievementRow(_ a: Achievement) -> some View {
         // An achievement is unlocked if it's ever been earned (persisted in the
-        // trophy case) OR the current streak satisfies it. Past badges stay lit
-        // through a relapse reset.
+        // trophy case) OR the current streak satisfies it. Earned badges show
+        // in full color for everyone — gating their *appearance* on Bloom+ made
+        // a non-subscriber's hard-won "Perfect Week" look identical to one
+        // they'd never earned, which punishes loyalty.
         let everEarned = unlockedAchievements.contains { $0.achievementID == a.id }
         let unlocked = everEarned || days >= a.dayThreshold
-        let visible = unlocked && isPro
         return HStack(spacing: Theme.Space.m) {
             Image(systemName: a.icon)
                 .font(.title3)
-                .foregroundStyle(visible ? Theme.brandPrimary : Theme.textTertiary)
+                .foregroundStyle(unlocked ? Theme.brandPrimary : Theme.textTertiary)
                 .frame(width: 32)
             VStack(alignment: .leading, spacing: 2) {
                 Text(a.title)
-                    .foregroundStyle(unlocked || isPro ? Theme.textPrimary : Theme.textSecondary)
+                    .foregroundStyle(unlocked ? Theme.textPrimary : Theme.textSecondary)
                 Text(a.description).font(.caption).foregroundStyle(Theme.textSecondary)
             }
             Spacer()
-            if !isPro {
-                Image(systemName: "lock.fill").foregroundStyle(Theme.textTertiary)
-            } else if unlocked {
+            if unlocked {
                 Image(systemName: "checkmark.seal.fill").foregroundStyle(Theme.brandPrimary)
+            } else if !isPro {
+                Image(systemName: "lock.fill").foregroundStyle(Theme.textTertiary)
             }
         }
         .contentShape(Rectangle())
-        .onTapGesture { if !isPro { showPaywall = true } }
+        .onTapGesture { if !unlocked && !isPro { showPaywall = true } }
     }
 
     private static let currencyFormatter: NumberFormatter = {

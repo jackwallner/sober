@@ -77,11 +77,13 @@ struct SettingsView: View {
                         Text("Used to estimate money and calories saved while you stay sober.")
                     }
                 }
+                #if DEBUG
                 Section("Developer") {
                     Button(subscriptions.isProSubscriber ? "Disable Bloom+ override" : "Enable Bloom+ override") {
                         subscriptions.setLocalOverride(isPro: !subscriptions.isProSubscriber)
                     }
                 }
+                #endif
             }
             .navigationTitle("Settings")
             .sheet(isPresented: $showPaywall) { PaywallView() }
