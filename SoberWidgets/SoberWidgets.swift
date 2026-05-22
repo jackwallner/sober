@@ -4,21 +4,40 @@ import WidgetKit
 struct SoberEntry: TimelineEntry {
     let date: Date
     let snapshot: WidgetSnapshot
+    /// Day count recomputed from the snapshot's start date at `date`, so the
+    /// widget advances with the calendar between app launches.
+    let days: Int
+}
+
+/// The stored `currentStreakDays` is frozen at the last app launch. Derive the
+/// live count from the start date so crossing midnight bumps the widget on its
+/// own (matches `SobrietyService.daysSinceStart`).
+private func liveDays(_ snap: WidgetSnapshot, asOf date: Date) -> Int {
+    guard let start = snap.sobrietyStartDate else { return snap.currentStreakDays }
+    return max(0, DateHelpers.daysBetween(start, date))
 }
 
 struct SoberProvider: TimelineProvider {
     func placeholder(in context: Context) -> SoberEntry {
-        SoberEntry(date: .now, snapshot: .empty)
+        SoberEntry(date: .now, snapshot: .empty, days: 0)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SoberEntry) -> Void) {
-        completion(SoberEntry(date: .now, snapshot: WidgetSnapshotStore.load()))
+        let snap = WidgetSnapshotStore.load()
+        completion(SoberEntry(date: .now, snapshot: snap, days: liveDays(snap, asOf: .now)))
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<SoberEntry>) -> Void) {
-        let entry = SoberEntry(date: .now, snapshot: WidgetSnapshotStore.load())
-        let next = Calendar.current.date(byAdding: .minute, value: 30, to: .now) ?? .now
-        completion(Timeline(entries: [entry], policy: .after(next)))
+        let now = Date.now
+        let snap = WidgetSnapshotStore.load()
+        let entry = SoberEntry(date: now, snapshot: snap, days: liveDays(snap, asOf: now))
+        // Refresh at the next local midnight so the day count rolls over even if
+        // the app isn't opened; fall back to +1h if midnight can't be computed.
+        let nextMidnight = Calendar.current.nextDate(
+            after: now, matching: DateComponents(hour: 0, minute: 0, second: 0),
+            matchingPolicy: .nextTime
+        ) ?? Calendar.current.date(byAdding: .hour, value: 1, to: now) ?? now
+        completion(Timeline(entries: [entry], policy: .after(nextMidnight)))
     }
 }
 
@@ -27,7 +46,7 @@ struct SoberDayCounterWidget: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: SoberProvider()) { entry in
-            SoberDayCounterView(snapshot: entry.snapshot)
+            SoberDayCounterView(snapshot: entry.snapshot, days: entry.days)
                 .containerBackground(Theme.brandGradient, for: .widget)
         }
         .configurationDisplayName("Sober Days")
@@ -39,77 +58,75 @@ struct SoberDayCounterWidget: Widget {
 struct SoberDayCounterView: View {
     @Environment(\.widgetFamily) var family
     let snapshot: WidgetSnapshot
+    let days: Int
 
-    private var stageIndex: Int { snapshot.bonsaiStage }
-    private var stageTitle: String {
-        ["Seed", "Sprout", "Seedling", "Young", "Adolescent", "Mature", "Refined", "Ancient", "Legendary"]
-            .indices.contains(stageIndex) ? ["Seed", "Sprout", "Seedling", "Young", "Adolescent", "Mature", "Refined", "Ancient", "Legendary"][stageIndex] : "Seed"
-    }
+    private var stage: BonsaiStage { GardenService.stage(forDays: days) }
+    private var stageIndex: Int { stage.rawValue }
+    private var stageTitle: String { stage.title }
     private var hasItems: Bool { !snapshot.placedItemIDs.isEmpty }
+    private var dayInCycle: Int { GardenService.cycleProgress(forDays: days).dayInCycle }
+    private var bonsaiStyle: BonsaiStyle {
+        switch snapshot.bonsaiStyleID {
+        case "cascade-bonsai", "cascade": return .cascade
+        case "windswept-bonsai", "windswept": return .windswept
+        default: return .traditional
+        }
+    }
 
     var body: some View {
         switch family {
         case .accessoryCircular:
             VStack {
-                Text("\(snapshot.currentStreakDays)").font(.title2.bold())
+                Text("\(days)").font(.title2.bold())
                 Text("d").font(.caption2)
             }
         case .accessoryRectangular:
             HStack {
                 Image(systemName: "leaf.fill")
-                Text("\(snapshot.currentStreakDays) days sober")
+                Text("\(days) days sober")
             }
         case .accessoryInline:
-            Text("\(snapshot.currentStreakDays) days sober")
+            Text("\(days) days sober")
         case .systemMedium:
-            HStack(spacing: 16) {
-                // Garden stage indicator
-                VStack(spacing: 2) {
-                    Image(systemName: stageIcon)
-                        .font(.title2)
-                    Text(stageTitle)
-                        .font(.caption2)
-                }
-                .foregroundStyle(.white.opacity(0.8))
-
-                Divider().background(.white.opacity(0.3))
+            HStack(spacing: 12) {
+                BonsaiView(day: dayInCycle, style: bonsaiStyle, vitality: snapshot.gardenVitality)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("\(snapshot.currentStreakDays)")
-                        .font(.system(size: 36, weight: .bold, design: .rounded))
+                    Text("\(days)")
+                        .font(.system(size: 44, weight: .bold, design: .rounded))
                         .foregroundStyle(.white)
-                    Text(snapshot.currentStreakDays == 1 ? "day sober" : "days sober")
+                    Text(days == 1 ? "day sober" : "days sober")
                         .font(.caption)
                         .foregroundStyle(.white.opacity(0.85))
+                    Text(stageTitle)
+                        .font(.caption2.weight(.semibold))
+                        .foregroundStyle(.white.opacity(0.75))
+                        .padding(.top, 2)
                     if let start = snapshot.sobrietyStartDate {
                         Text("Since \(DateHelpers.mediumDate(start))")
                             .font(.caption2)
                             .foregroundStyle(.white.opacity(0.6))
                     }
                 }
-
-                Spacer()
-
-                // Items count
-                if hasItems {
-                    VStack(spacing: 2) {
-                        Image(systemName: "leaf.fill")
-                            .font(.caption)
-                        Text("\(snapshot.placedItemIDs.count)")
-                            .font(.caption)
-                    }
-                    .foregroundStyle(.white.opacity(0.6))
-                }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .padding()
         default:
-            VStack(spacing: 4) {
-                Text("\(snapshot.currentStreakDays)")
-                    .font(.system(size: 48, weight: .bold, design: .rounded))
-                    .foregroundStyle(.white)
-                Text(snapshot.currentStreakDays == 1 ? "day sober" : "days sober")
-                    .font(.caption)
-                    .foregroundStyle(.white.opacity(0.85))
+            ZStack {
+                BonsaiView(day: dayInCycle, style: bonsaiStyle, vitality: snapshot.gardenVitality)
+                VStack {
+                    Spacer()
+                    VStack(spacing: 0) {
+                        Text("\(days)")
+                            .font(.system(size: 34, weight: .bold, design: .rounded))
+                            .foregroundStyle(.white)
+                            .shadow(color: .black.opacity(0.35), radius: 2, y: 1)
+                        Text(days == 1 ? "day sober" : "days sober")
+                            .font(.caption2)
+                            .foregroundStyle(.white.opacity(0.9))
+                            .shadow(color: .black.opacity(0.35), radius: 2, y: 1)
+                    }
+                }
             }
         }
     }
