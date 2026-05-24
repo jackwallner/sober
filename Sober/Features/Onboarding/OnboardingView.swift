@@ -18,6 +18,7 @@ struct OnboardingView: View {
                 case 1: startDateStep
                 case 2: spendStep
                 case 3: reminderStep
+                case 4: commitStep
                 default: welcome
                 }
             }
@@ -48,7 +49,7 @@ struct OnboardingView: View {
             Text("When did your sober journey begin?")
                 .font(.title.weight(.semibold))
                 .multilineTextAlignment(.center)
-            DatePicker("", selection: $startDate, in: ...Date.now, displayedComponents: [.date, .hourAndMinute])
+            DatePicker("", selection: $startDate, in: ...Date.now, displayedComponents: [.date])
                 .datePickerStyle(.compact)
                 .labelsHidden()
                 .colorScheme(.dark)
@@ -81,6 +82,7 @@ struct OnboardingView: View {
     private var savingsProjection: some View {
         let yearlyDollars = Int(costPerDay * 365)
         let yearlyCalories = Int(caloriesPerDay * 365)
+        let yearlyPounds = Double(yearlyCalories) / 3500.0  // ~3,500 kcal per lb of fat
         let f = NumberFormatter()
         f.numberStyle = .currency
         f.maximumFractionDigits = 0
@@ -91,7 +93,7 @@ struct OnboardingView: View {
                 .foregroundStyle(.white.opacity(0.75))
             Text(dollarStr)
                 .font(.system(size: 36, weight: .bold, design: .rounded))
-            Text("and \(yearlyCalories.formatted()) calories you won't have to spend")
+            Text("plus \(yearlyCalories.formatted()) calories — about \(yearlyPounds.formatted(.number.precision(.fractionLength(0)))) lb of fat — you won't have to spend")
                 .font(.caption)
                 .foregroundStyle(.white.opacity(0.75))
                 .multilineTextAlignment(.center)
@@ -116,7 +118,29 @@ struct OnboardingView: View {
             .pickerStyle(.wheel)
             .colorScheme(.dark)
             Spacer()
-            primaryButton("Start My Journey") { complete() }
+            primaryButton("Continue") { step = 4 }
+        }
+    }
+
+    /// Final step: a deliberate commitment. Recovery starts with a decision —
+    /// asking the user to actively pledge (rather than tap a neutral "Done")
+    /// gives them a moment to lock in before the journey begins.
+    private var commitStep: some View {
+        VStack(spacing: Theme.Space.xl) {
+            Spacer()
+            Image(systemName: "hand.raised.fill")
+                .font(.system(size: 56))
+                .opacity(0.92)
+            Text("Make it official")
+                .font(.title.weight(.semibold))
+                .multilineTextAlignment(.center)
+            Text("Recovery starts with a decision. This is yours — for today, and the days that follow.")
+                .multilineTextAlignment(.center)
+                .font(.title3)
+                .foregroundStyle(.white.opacity(0.9))
+                .padding(.horizontal, Theme.Space.l)
+            Spacer()
+            primaryButton("I commit to getting better") { complete() }
         }
     }
 

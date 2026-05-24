@@ -205,12 +205,15 @@ struct GardenSceneView: View {
 
     // MARK: - Sizing
 
+    // Sized so the plant fills the framed garden card — you see the tree up
+    // close, not a small centerpiece in a wide scene. Seed stage stays modest
+    // (a sprout shouldn't look like a grown tree) but is still clearly visible.
     private func bonsaiWidth(container size: CGSize) -> CGFloat {
-        size.width * (stage == .seed ? 0.08 : 0.35)
+        size.width * (stage == .seed ? 0.20 : 0.58)
     }
 
     private func bonsaiHeight(container size: CGSize) -> CGFloat {
-        size.height * (stage == .seed ? 0.06 : 0.45)
+        size.height * (stage == .seed ? 0.16 : 0.62)
     }
 
     private func itemScale(_ item: GardenItem, container size: CGSize) -> CGFloat {

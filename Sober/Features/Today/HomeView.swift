@@ -39,25 +39,15 @@ struct HomeView: View {
             ZStack {
                 Theme.background.ignoresSafeArea()
 
-                PannableGardenView(
-                    days: days,
-                    vitality: gardenState?.vitality ?? 1.0,
-                    placedItemIDs: gardenState?.placedItemIDs ?? [],
-                    activeBonsaiStyleID: gardenState?.activeBonsaiStyleID ?? "traditional-bonsai",
-                    isPro: isPro,
-                    completedTreeStyles: gardenState?.completedTreeStyles ?? [],
-                    onSelect: { selectedItem = $0 }
-                )
-                .ignoresSafeArea(edges: .bottom)
-
                 if !showCelebration {
-                    VStack(spacing: Theme.Space.m) {
-                        counterOverlay
-                        Spacer(minLength: Theme.Space.m)
-                        bottomStack
+                    VStack(spacing: Theme.Space.l) {
+                        counterHeader
+                        gardenCard
+                        checkInControl
                     }
                     .padding(.horizontal, Theme.Space.l)
-                    .padding(.vertical, Theme.Space.s)
+                    .padding(.top, Theme.Space.s)
+                    .padding(.bottom, Theme.Space.m)
                 }
             }
             .navigationTitle("")
@@ -139,7 +129,9 @@ struct HomeView: View {
                     .presentationDetents([.height(320)])
             }
             .sheet(isPresented: $showSettings) { SettingsView() }
-            .sheet(isPresented: $showPaywall) { PaywallView() }
+            .sheet(isPresented: $showPaywall) {
+                PaywallView(impressionId: "sober_home_sheet")
+            }
             .sheet(isPresented: $showCustomize) { GardenCustomizationView() }
             .sheet(isPresented: $showProgress) {
                 ProgressSheet(days: days, gardenState: gardenState, isPro: isPro)
@@ -152,33 +144,47 @@ struct HomeView: View {
         }
     }
 
-    // MARK: - Overlays
+    // MARK: - Counter + garden
 
-    /// Bare counter — no card, no scrim. Heavy text shadow keeps it legible on
-    /// both bright sky and dim dusk garden states. Stage / start date are
-    /// available in the Progress sheet, not on the spine.
-    private var counterOverlay: some View {
+    /// Day counter on the cream chrome — ink/moss text on the app background,
+    /// not white-on-garden. Sits above the garden card so the big numeral is
+    /// always legible regardless of the scene's brightness.
+    private var counterHeader: some View {
         VStack(spacing: 0) {
             Text("\(days)")
-                .font(Theme.bigNumber(96))
-                .foregroundStyle(.white)
-                .shadow(color: .black.opacity(0.35), radius: 14, y: 2)
+                .font(Theme.bigNumber(80))
+                .foregroundStyle(Theme.brandPrimary)
                 .accessibilityLabel("\(days) \(days == 1 ? "day" : "days") sober")
             Text(days == 1 ? "Day Sober" : "Days Sober")
-                .font(.headline)
-                .tracking(1.4)
+                .font(.subheadline.weight(.semibold))
+                .tracking(1.6)
                 .textCase(.uppercase)
-                .foregroundStyle(.white.opacity(0.92))
-                .shadow(color: .black.opacity(0.4), radius: 6, y: 1)
+                .foregroundStyle(Theme.textSecondary)
         }
         .frame(maxWidth: .infinity)
+        .accessibilityElement(children: .combine)
     }
 
-    /// The only floating control. Trial nudge + daily growth note moved into
-    /// the Progress sheet so the spine reads as garden + counter + one CTA.
-    @ViewBuilder
-    private var bottomStack: some View {
-        checkInControl
+    /// The garden, framed as a card that fills the space between counter and
+    /// CTA — bounded and zoomed onto the plant rather than a full-bleed scene
+    /// the counter floats over.
+    private var gardenCard: some View {
+        PannableGardenView(
+            days: days,
+            vitality: gardenState?.vitality ?? 1.0,
+            placedItemIDs: gardenState?.placedItemIDs ?? [],
+            activeBonsaiStyleID: gardenState?.activeBonsaiStyleID ?? "traditional-bonsai",
+            isPro: isPro,
+            completedTreeStyles: gardenState?.completedTreeStyles ?? [],
+            onSelect: { selectedItem = $0 }
+        )
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .clipShape(RoundedRectangle(cornerRadius: Theme.cardRadius))
+        .overlay(
+            RoundedRectangle(cornerRadius: Theme.cardRadius)
+                .stroke(Theme.ringTrack, lineWidth: 1)
+        )
+        .shadow(color: .black.opacity(0.06), radius: 12, y: 4)
     }
 
     @ViewBuilder
@@ -187,7 +193,7 @@ struct HomeView: View {
             VStack(spacing: 8) {
                 Text("Welcome back — you haven't checked in for \(daysMissed) days. Still going strong?")
                     .font(.subheadline)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(Theme.textPrimary)
                     .multilineTextAlignment(.center)
                 HStack(spacing: 10) {
                     Button {
@@ -217,7 +223,10 @@ struct HomeView: View {
                 }
             }
             .padding()
-            .background(Theme.gardenOverlayScrim, in: RoundedRectangle(cornerRadius: 18))
+            .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 18))
+            .overlay(
+                RoundedRectangle(cornerRadius: 18).stroke(Theme.ringTrack, lineWidth: 1)
+            )
         } else {
             Button {
                 guard !checkedInToday else { return }
@@ -363,6 +372,7 @@ struct ProgressSheet: View {
                     Section {
                         savedRow(label: "Money", streak: moneySaved, lifetime: lifetimeMoneySaved, sub: "$\((settings?.costPerDayCents ?? 0) / 100) / day", icon: "dollarsign.circle.fill")
                         savedRow(label: "Calories", streak: caloriesAvoided.formatted(), lifetime: lifetimeCaloriesAvoided.formatted(), sub: "\(settings?.caloriesPerDay ?? 0) / day", icon: "flame.fill")
+                        savedRow(label: "Body fat", streak: poundsOfFat(caloriesAvoided), lifetime: poundsOfFat(lifetimeCaloriesAvoided), sub: "~3,500 cal per lb", icon: "scalemass.fill")
                     } header: {
                         Text("Saved")
                     } footer: {
@@ -396,7 +406,9 @@ struct ProgressSheet: View {
                     Button("Done") { dismiss() }
                 }
             }
-            .sheet(isPresented: $showPaywall) { PaywallView() }
+            .sheet(isPresented: $showPaywall) {
+                PaywallView(impressionId: "sober_progress_sheet")
+            }
         }
     }
 
@@ -500,6 +512,12 @@ struct ProgressSheet: View {
 
     private var moneySaved: String { savedSoFar }
     private var caloriesAvoided: Int { days * (settings?.caloriesPerDay ?? 0) }
+
+    /// Calories expressed as pounds of body fat (~3,500 kcal per lb).
+    private func poundsOfFat(_ calories: Int) -> String {
+        let lbs = Double(calories) / 3500.0
+        return "\(lbs.formatted(.number.precision(.fractionLength(lbs < 10 ? 1 : 0)))) lb"
+    }
 
     private func achievementRow(_ a: Achievement) -> some View {
         // An achievement is unlocked if it's ever been earned (persisted in the

@@ -31,23 +31,15 @@ struct SettingsView: View {
                             "Start",
                             selection: startDateBinding(journey),
                             in: ...Date.now,
-                            displayedComponents: [.date, .hourAndMinute]
+                            displayedComponents: [.date]
                         )
                     } header: {
                         Text("Sobriety Start")
                     } footer: {
-                        Text("Adjust the exact date and time your journey began. Hour-level accuracy keeps early health milestones precise.")
+                        Text("Adjust the date your journey began.")
                     }
                 }
                 if let s = settings {
-                    Section("Appearance") {
-                        Picker("Theme", selection: bind(\.appearancePreferenceRaw, on: s)) {
-                            ForEach(AppearancePreference.allCases) { pref in
-                                Text(pref.label).tag(pref.rawValue)
-                            }
-                        }
-                        .pickerStyle(.segmented)
-                    }
                     Section("Daily Reminder") {
                         Toggle("Enabled", isOn: bind(\.dailyReminderEnabled, on: s))
                         Stepper("Hour: \(s.dailyReminderHour):00", value: bind(\.dailyReminderHour, on: s), in: 0...23)
@@ -87,7 +79,9 @@ struct SettingsView: View {
             }
             .themedScrollBackground()
             .navigationTitle("Settings")
-            .sheet(isPresented: $showPaywall) { PaywallView() }
+            .sheet(isPresented: $showPaywall) {
+                PaywallView(impressionId: "sober_settings_sheet")
+            }
             .onChange(of: settings?.dailyReminderHour) { _, _ in rescheduleReminder() }
             .onChange(of: settings?.dailyReminderEnabled) { _, _ in rescheduleReminder() }
         }

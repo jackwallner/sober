@@ -33,16 +33,11 @@ struct RootView: View {
             }
         }
         .tint(Theme.brandPrimary)
-        .preferredColorScheme(colorScheme(for: settings?.appearancePreference ?? .system))
+        // The D1 "Slow morning" theme is a fixed warm-light brand: surfaces are
+        // hardcoded cream/ink, so system dark mode only darkens the chrome
+        // (lists, pickers, sheets, tab bar) and clashes. Lock to light.
+        .preferredColorScheme(.light)
         .task { WidgetSnapshotPump.push(context: context) }
-    }
-
-    private func colorScheme(for pref: AppearancePreference) -> ColorScheme? {
-        switch pref {
-        case .system: return nil
-        case .light: return .light
-        case .dark: return .dark
-        }
     }
 }
 
