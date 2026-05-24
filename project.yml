@@ -13,13 +13,13 @@ settings:
     DEVELOPMENT_TEAM: YXG4MP6W39
     CODE_SIGN_STYLE: Automatic
     MARKETING_VERSION: "0.1.0"
-    CURRENT_PROJECT_VERSION: "16"
+    CURRENT_PROJECT_VERSION: "17"
     GENERATE_INFOPLIST_FILE: NO
 
 packages:
   RevenueCat:
     url: https://github.com/RevenueCat/purchases-ios-spm.git
-    from: 5.14.0
+    from: 5.67.0
 
 schemes:
   Sober:
@@ -62,8 +62,6 @@ targets:
     dependencies:
       - package: RevenueCat
         product: RevenueCat
-      - package: RevenueCat
-        product: RevenueCatUI
       - target: SoberWatch
         embed: true
       - target: SoberWidgets
@@ -77,6 +75,7 @@ targets:
       - path: Shared
         excludes:
           - "Services/SubscriptionService.swift"
+          - "Services/SubscriptionPackageExtensions.swift"
       - path: SoberWatch/PrivacyInfo.xcprivacy
         buildPhase: resources
     settings:
@@ -95,6 +94,7 @@ targets:
       - path: Shared
         excludes:
           - "Services/SubscriptionService.swift"
+          - "Services/SubscriptionPackageExtensions.swift"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.jackwallner.sober.widgets
