@@ -160,7 +160,7 @@ struct HomeView: View {
     private var counterOverlay: some View {
         VStack(spacing: 0) {
             Text("\(days)")
-                .font(.system(size: 96, weight: .bold, design: .rounded))
+                .font(Theme.bigNumber(96))
                 .foregroundStyle(.white)
                 .shadow(color: .black.opacity(0.35), radius: 14, y: 2)
                 .accessibilityLabel("\(days) \(days == 1 ? "day" : "days") sober")

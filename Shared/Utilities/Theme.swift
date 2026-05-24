@@ -10,26 +10,29 @@ enum Theme {
     static let textSecondary = Color(white: 0.70)
     static let textTertiary = Color(white: 0.50)
     #else
-    static let background = Color(.systemBackground)
-    static let cardSurface = Color(.secondarySystemBackground)
-    static let cardSurfaceLight = Color(.tertiarySystemBackground)
-    static let ringTrack = Color(.systemFill)
-    static let textPrimary = Color(.label)
-    static let textSecondary = Color(.secondaryLabel)
-    static let textTertiary = Color(.tertiaryLabel)
+    // D1 "Slow morning" — a designed warm-light theme. Surfaces are fixed (not
+    // system-adaptive) so the brand reads the same in light/dark: a cream backdrop,
+    // warm-white cards that lift on soft shadows, ink text.
+    static let background = Color(red: 0.965, green: 0.937, blue: 0.878)      // cream  #F6EFE0
+    static let cardSurface = Color(red: 1.000, green: 0.992, blue: 0.976)     // warm white #FFFDF9
+    static let cardSurfaceLight = Color.white
+    static let ringTrack = Color(red: 0.886, green: 0.851, blue: 0.792)       // warm sand-gray #E2D9CA
+    static let textPrimary = Color(red: 0.102, green: 0.102, blue: 0.094)     // ink    #1A1A18
+    static let textSecondary = Color(red: 0.357, green: 0.337, blue: 0.298)   // warm gray
+    static let textTertiary = Color(red: 0.557, green: 0.529, blue: 0.471)
     #endif
 
-    // Recovery palette — muted greens & warm sand
-    static let brandPrimary = Color(red: 0.32, green: 0.62, blue: 0.45)   // sage green
-    static let brandSecondary = Color(red: 0.48, green: 0.78, blue: 0.55) // fresh green
-    static let accent = Color(red: 0.95, green: 0.78, blue: 0.45)         // warm sand
-    static let streakFlame = Color(red: 1.00, green: 0.55, blue: 0.10)
-    static let success = Color(red: 0.20, green: 0.72, blue: 0.45)
-    static let warning = Color(red: 1.00, green: 0.70, blue: 0.20)
-    static let danger = Color(red: 0.95, green: 0.36, blue: 0.36)
+    // D1 "Slow morning" palette — moss anchor, warm sand accent, no chromatic energy.
+    static let brandPrimary = Color(red: 0.184, green: 0.357, blue: 0.271)   // moss   #2F5B45
+    static let brandSecondary = Color(red: 0.310, green: 0.522, blue: 0.408) // lighter moss
+    static let accent = Color(red: 0.769, green: 0.612, blue: 0.424)         // sand   #C49C6C
+    static let streakFlame = Color(red: 0.851, green: 0.451, blue: 0.235)    // warm terracotta
+    static let success = Color(red: 0.184, green: 0.357, blue: 0.271)        // moss
+    static let warning = Color(red: 0.769, green: 0.612, blue: 0.424)        // sand
+    static let danger = Color(red: 0.776, green: 0.357, blue: 0.302)         // muted terracotta
 
-    static let cardRadius: CGFloat = 20
-    static let cardPadding: CGFloat = 20
+    static let cardRadius: CGFloat = 22
+    static let cardPadding: CGFloat = 22
 
     /// Single spacing scale. Use these everywhere instead of literal padding values
     /// so cards, gutters, and rhythm stay consistent across screens.
@@ -59,15 +62,19 @@ enum Theme {
         )
     }
 
+    /// Garden sky for D1: a soft morning wash that settles into the cream chrome at the
+    /// horizon, so the garden and the surrounding UI feel like one continuous surface.
     static var skyGradient: LinearGradient {
         LinearGradient(
-            colors: [Color(red: 0.68, green: 0.85, blue: 0.95), Color(red: 0.92, green: 0.96, blue: 0.86)],
+            colors: [Color(red: 0.831, green: 0.886, blue: 0.906), background],
             startPoint: .top,
             endPoint: .bottom
         )
     }
 
+    /// Day counter and other hero numerals. D1 sets these in a humanist serif italic so the
+    /// number reads as written in a journal rather than punched out of a tracker.
     static func bigNumber(_ size: CGFloat) -> Font {
-        .system(size: size, weight: .bold, design: .rounded)
+        .system(size: size, weight: .medium, design: .serif).italic()
     }
 }

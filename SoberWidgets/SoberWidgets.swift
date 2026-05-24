@@ -94,7 +94,7 @@ struct SoberDayCounterView: View {
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text("\(days)")
-                        .font(.system(size: 44, weight: .bold, design: .rounded))
+                        .font(Theme.bigNumber(44))
                         .foregroundStyle(.white)
                     Text(days == 1 ? "day sober" : "days sober")
                         .font(.caption)
@@ -118,7 +118,7 @@ struct SoberDayCounterView: View {
                     Spacer()
                     VStack(spacing: 0) {
                         Text("\(days)")
-                            .font(.system(size: 34, weight: .bold, design: .rounded))
+                            .font(Theme.bigNumber(34))
                             .foregroundStyle(.white)
                             .shadow(color: .black.opacity(0.35), radius: 2, y: 1)
                         Text(days == 1 ? "day sober" : "days sober")
