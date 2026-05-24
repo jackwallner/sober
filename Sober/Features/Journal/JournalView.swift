@@ -33,6 +33,7 @@ struct JournalView: View {
                 }
             }
             .listStyle(.insetGrouped)
+            .themedScrollBackground()
             .navigationTitle("Journal")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -122,6 +123,7 @@ private struct JournalEntryDetailSheet: View {
                 }
                 .padding(Theme.Space.l)
             }
+            .background(Theme.background)
             .navigationTitle(entry.kind == .freeform ? "Free Write" : "Entry")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -202,6 +204,7 @@ private struct ComposeEntrySheet: View {
                     .pickerStyle(.segmented)
                 }
             }
+            .themedScrollBackground()
             .navigationTitle("New Entry")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {

@@ -78,3 +78,13 @@ enum Theme {
         .system(size: size, weight: .medium, design: .serif).italic()
     }
 }
+
+extension View {
+    /// Replaces the default cool system-grouped background of a `List`/`Form` with the
+    /// brand cream, so scrolling screens (Health, Journal, Settings) read as the same
+    /// surface as the rest of the app instead of a stock iOS settings page.
+    func themedScrollBackground() -> some View {
+        scrollContentBackground(.hidden)
+            .background(Theme.background)
+    }
+}

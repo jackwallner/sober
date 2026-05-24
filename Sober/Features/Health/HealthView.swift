@@ -42,6 +42,7 @@ struct HealthView: View {
                 }
             }
             .listStyle(.insetGrouped)
+            .themedScrollBackground()
             .navigationTitle("Health")
             .sheet(isPresented: $showPaywall) { PaywallView() }
         }

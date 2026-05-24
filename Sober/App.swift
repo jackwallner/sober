@@ -32,6 +32,7 @@ struct RootView: View {
                 OnboardingView()
             }
         }
+        .tint(Theme.brandPrimary)
         .preferredColorScheme(colorScheme(for: settings?.appearancePreference ?? .system))
         .task { WidgetSnapshotPump.push(context: context) }
     }

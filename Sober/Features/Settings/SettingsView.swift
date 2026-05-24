@@ -85,6 +85,7 @@ struct SettingsView: View {
                 }
                 #endif
             }
+            .themedScrollBackground()
             .navigationTitle("Settings")
             .sheet(isPresented: $showPaywall) { PaywallView() }
             .onChange(of: settings?.dailyReminderHour) { _, _ in rescheduleReminder() }
