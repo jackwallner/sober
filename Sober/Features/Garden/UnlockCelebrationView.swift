@@ -94,3 +94,91 @@ struct UnlockCelebrationView: View {
         }
     }
 }
+
+/// Shown once when a freshly-onboarded user enters a back-dated sober date and
+/// has already crossed several milestones. Instead of cycling through a stack
+/// of individual celebrations (which feels like a slot machine on first run),
+/// we recap everything they've already grown in a single, scannable list.
+struct UnlockRecapView: View {
+    let items: [GardenItem]
+    let days: Int
+    let onDismiss: () -> Void
+
+    @State private var appear = false
+
+    var body: some View {
+        ZStack {
+            Color.black.opacity(0.78)
+                .ignoresSafeArea()
+                .contentShape(Rectangle())
+                .onTapGesture { onDismiss() }
+
+            VStack(spacing: 0) {
+                VStack(spacing: 8) {
+                    Image(systemName: "sparkles")
+                        .font(.system(size: 40))
+                        .foregroundStyle(Theme.accent)
+                    Text("Welcome to your garden")
+                        .font(.title2.bold())
+                        .foregroundStyle(Theme.textPrimary)
+                    Text("You've been sober \(days) day\(days == 1 ? "" : "s"), so you've already grown \(items.count) thing\(items.count == 1 ? "" : "s").")
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.textSecondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 8)
+                }
+                .padding(.top, 24)
+                .padding(.horizontal, 20)
+
+                ScrollView {
+                    VStack(spacing: 10) {
+                        ForEach(items) { item in
+                            HStack(spacing: 14) {
+                                GardenItemRenderer(item: item, scale: 1.1, opacity: 1.0, vitality: 1.0)
+                                    .frame(width: 52, height: 52)
+                                    .background(Theme.cardSurfaceLight, in: RoundedRectangle(cornerRadius: 12))
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(item.displayName)
+                                        .font(.subheadline.weight(.semibold))
+                                        .foregroundStyle(Theme.textPrimary)
+                                    Text(item.description)
+                                        .font(.caption)
+                                        .foregroundStyle(Theme.textSecondary)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                }
+                                Spacer(minLength: 0)
+                                Text("Day \(item.milestoneDays)")
+                                    .font(.caption2.weight(.bold))
+                                    .foregroundStyle(Theme.brandPrimary)
+                            }
+                            .padding(12)
+                            .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 14))
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 16)
+                }
+                .frame(maxHeight: 360)
+
+                Button(action: onDismiss) {
+                    Text("Start growing")
+                        .fontWeight(.semibold)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(Theme.brandPrimary)
+                .padding(.horizontal, 24)
+                .padding(.bottom, 24)
+            }
+            .frame(maxWidth: .infinity)
+            .background(Theme.background, in: RoundedRectangle(cornerRadius: 24))
+            .padding(.horizontal, 16)
+            .opacity(appear ? 1 : 0)
+            .scaleEffect(appear ? 1 : 0.92)
+        }
+        .onAppear {
+            withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) { appear = true }
+        }
+    }
+}

@@ -23,6 +23,8 @@ struct HomeView: View {
     @State private var selectedItem: GardenItem?
     @State private var celebrationQueue: [GardenItem] = []
     @State private var showCelebration = false
+    @State private var recapItems: [GardenItem] = []
+    @State private var showRecap = false
     @State private var showCheckInDetail = false
     @State private var showReviewPrompt = false
     @State private var reviewPromptInitialStep: ReviewPromptSheet.Step = .enjoyment
@@ -47,7 +49,7 @@ struct HomeView: View {
             ZStack {
                 Theme.background.ignoresSafeArea()
 
-                if !showCelebration {
+                if !showCelebration && !showRecap {
                     VStack(spacing: Theme.Space.l) {
                         counterHeader
                         gardenCard
@@ -131,6 +133,18 @@ struct HomeView: View {
                     }
                     .transition(.opacity)
                     .zIndex(100)
+                }
+            }
+            .overlay {
+                if showRecap {
+                    UnlockRecapView(items: recapItems, days: days) {
+                        withAnimation { showRecap = false }
+                        recapItems = []
+                        WidgetSnapshotPump.push(context: context)
+                        recordPositiveMomentForReview()
+                    }
+                    .transition(.opacity)
+                    .zIndex(101)
                 }
             }
             .sheet(isPresented: $showCheckInDetail) {
@@ -260,9 +274,37 @@ struct HomeView: View {
             .overlay(
                 RoundedRectangle(cornerRadius: 18).stroke(Theme.ringTrack, lineWidth: 1)
             )
+        } else if checkedInToday {
+            // After check-in, show what the action actually accomplished rather
+            // than a static "done" pill, so the tap feels consequential.
+            HStack(spacing: 12) {
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.title2)
+                    .foregroundStyle(Theme.brandPrimary)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Today is logged")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(Theme.textPrimary)
+                    Text("Your bonsai is watered · \(days)-day streak going")
+                        .font(.caption)
+                        .foregroundStyle(Theme.textSecondary)
+                }
+                Spacer(minLength: 0)
+                Button { showCheckInDetail = true } label: {
+                    Text("Add note")
+                        .font(.caption.weight(.semibold))
+                }
+                .buttonStyle(.bordered)
+                .tint(Theme.brandPrimary)
+                .controlSize(.small)
+            }
+            .padding(14)
+            .background(Theme.checkInDoneFill, in: RoundedRectangle(cornerRadius: 18))
+            .overlay(
+                RoundedRectangle(cornerRadius: 18).stroke(Theme.ringTrack, lineWidth: 1)
+            )
         } else {
             Button {
-                guard !checkedInToday else { return }
                 CheckInService(context: context).checkIn()
                 GardenService(context: context).water()
                 refreshCheckInState()
@@ -270,24 +312,25 @@ struct HomeView: View {
                 recordPositiveMomentForReview()
                 showCheckInDetail = true
             } label: {
-                HStack(spacing: 8) {
-                    Image(systemName: checkedInToday ? "checkmark.circle.fill" : "circle")
-                    Text(checkedInToday ? "Checked in for today" : "Check in for today")
-                        .fontWeight(.semibold)
+                VStack(spacing: 2) {
+                    HStack(spacing: 8) {
+                        Image(systemName: "drop.fill")
+                        Text("Check in for today")
+                            .fontWeight(.semibold)
+                    }
+                    Text("Log today sober and water your bonsai")
+                        .font(.caption)
+                        .foregroundStyle(.white.opacity(0.85))
                 }
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 14)
-                .background(
-                    checkedInToday ? Theme.checkInDoneFill : AnyShapeStyle(Theme.brandPrimary),
-                    in: Capsule()
-                )
+                .padding(.vertical, 12)
+                .background(AnyShapeStyle(Theme.brandPrimary), in: Capsule())
                 .overlay(
                     Capsule().stroke(.white.opacity(0.18), lineWidth: 1)
                 )
             }
             .buttonStyle(.plain)
-            .allowsHitTesting(!checkedInToday)
         }
     }
 
@@ -301,6 +344,10 @@ struct HomeView: View {
 
     private func checkForUnlocks() {
         let svc = GardenService(context: context)
+        // Capture the prior notification watermark *before* processNewUnlocks
+        // advances it. A watermark of 0 with multiple unlocks means this is the
+        // first check after a back-dated onboarding date.
+        let firstCheck = (gardenState?.lastUnlockNotifiedAtDays ?? 0) == 0
         svc.processCycleCompletions(days: days)
         let newItems = svc.processNewUnlocks(days: days)
         for item in newItems where GardenItemCatalog.freeToPlaceIDs.contains(item.id) {
@@ -308,8 +355,16 @@ struct HomeView: View {
         }
         AchievementService(context: context).processUnlocks(currentDays: days)
         guard !newItems.isEmpty else { return }
-        celebrationQueue = newItems
-        withAnimation { showCelebration = true }
+
+        // On a fresh start with several already-earned milestones, recap them
+        // all at once instead of cycling through individual celebrations.
+        if firstCheck && newItems.count > 2 {
+            recapItems = newItems
+            withAnimation { showRecap = true }
+        } else {
+            celebrationQueue = newItems
+            withAnimation { showCelebration = true }
+        }
     }
 
     private func recordPositiveMomentForReview() {
