@@ -47,7 +47,9 @@ struct JournalView: View {
                 }
             }
             .sheet(isPresented: $showCompose) { ComposeEntrySheet() }
-            .sheet(isPresented: $showPaywall) { PaywallView() }
+            .sheet(isPresented: $showPaywall) {
+                PaywallView(impressionId: "sober_journal_sheet")
+            }
             .sheet(item: $selectedEntry) { entry in
                 JournalEntryDetailSheet(entry: entry)
                     .presentationDetents([.medium, .large])

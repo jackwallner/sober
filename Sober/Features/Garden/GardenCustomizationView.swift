@@ -47,7 +47,7 @@ struct GardenCustomizationView: View {
                 }
             }
             .sheet(isPresented: $showPaywall) {
-                PaywallView()
+                PaywallView(impressionId: "sober_garden_customize_sheet")
             }
         }
     }

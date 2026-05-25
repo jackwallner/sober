@@ -42,7 +42,7 @@ struct GardenCollectionView: View {
             .navigationTitle("Collection")
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $showPaywall) {
-                PaywallView()
+                PaywallView(impressionId: "sober_garden_collection_sheet")
             }
         }
     }
