@@ -23,18 +23,26 @@ struct HealthView: View {
                 Section {
                     recoveryHeaderRow
                     if let n = HealthBenefitCatalog.next(after: hours) {
-                        nextUpRow(n)
+                        if subscriptions.isProSubscriber {
+                            nextUpRow(n)
+                        } else {
+                            nextUpLockedRow
+                        }
                     }
                 }
 
                 Section("Benefits") {
                     ForEach(Array(HealthBenefitCatalog.all.enumerated()), id: \.element.id) { idx, benefit in
                         let unlocked = hours >= benefit.hoursRequired
-                        let visible = unlocked && (subscriptions.isProSubscriber || idx < freeRevealCount)
-                        BenefitRow(benefit: benefit, unlocked: visible, blurred: unlocked && !visible)
+                        let inFreeWindow = subscriptions.isProSubscriber || idx < freeRevealCount
+                        let visible = unlocked && inFreeWindow
+                        // Beyond the free window, *all* future milestones (earned or
+                        // not-yet-earned) are part of the Bloom+ value prop and
+                        // render as a Pro tease rather than revealing the title.
+                        BenefitRow(benefit: benefit, unlocked: visible, blurred: !visible && !inFreeWindow)
                             .contentShape(Rectangle())
                             .onTapGesture {
-                                if unlocked && !subscriptions.isProSubscriber && idx >= freeRevealCount {
+                                if !subscriptions.isProSubscriber && idx >= freeRevealCount {
                                     showPaywall = true
                                 }
                             }
@@ -68,6 +76,33 @@ struct HealthView: View {
                 .tint(Theme.brandPrimary)
         }
         .padding(.vertical, Theme.Space.xs)
+    }
+
+    /// Free users see a Bloom+ tease instead of the next benefit's title.
+    /// Future health milestones are part of the Bloom+ value prop, so we
+    /// don't spoil them for non-subscribers.
+    private var nextUpLockedRow: some View {
+        Button { showPaywall = true } label: {
+            HStack(spacing: Theme.Space.m) {
+                Image(systemName: "crown.fill")
+                    .foregroundStyle(Theme.brandPrimary)
+                    .frame(width: 32)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Next up")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(Theme.textSecondary)
+                    Text("Unlock what's coming with Bloom+")
+                        .font(.body)
+                        .foregroundStyle(Theme.textPrimary)
+                }
+                Spacer(minLength: Theme.Space.s)
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(Theme.textTertiary)
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
     }
 
     private func nextUpRow(_ n: HealthBenefit) -> some View {
@@ -114,17 +149,19 @@ private struct BenefitRow: View {
                 .padding(.top, 2)
             VStack(alignment: .leading, spacing: 4) {
                 HStack(alignment: .top, spacing: Theme.Space.s) {
-                    Text(benefit.title)
+                    Text(proGated ? "A future milestone" : benefit.title)
                         .font(.body.weight(.semibold))
                         .foregroundStyle(Theme.textPrimary)
                         .fixedSize(horizontal: false, vertical: true)
                     Spacer(minLength: Theme.Space.xs)
                     trailingLabel
                 }
-                Text(benefit.summary)
-                    .font(.footnote)
-                    .foregroundStyle(Theme.textSecondary)
-                    .fixedSize(horizontal: false, vertical: true)
+                if !proGated {
+                    Text(benefit.summary)
+                        .font(.footnote)
+                        .foregroundStyle(Theme.textSecondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
                 if unlocked {
                     Text(benefit.detail)
                         .font(.footnote)
@@ -175,7 +212,7 @@ private struct BenefitRow: View {
         if unlocked {
             EmptyView()
         } else if proGated {
-            Text("Unlocked · Bloom+")
+            Text("Bloom+")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(Theme.brandPrimary)
         } else {

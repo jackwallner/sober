@@ -228,7 +228,7 @@ struct GardenCustomizationView: View {
                             HStack {
                                 Image(systemName: isUnlocked ? "checkmark.circle.fill" : "circle")
                                     .foregroundStyle(isUnlocked ? Theme.success : Theme.textTertiary)
-                                Text("\(item.displayName) — Day \(item.milestoneDays)")
+                                Text("\(item.displayName) · Day \(item.milestoneDays)")
                                     .font(.caption)
                                     .foregroundStyle(isUnlocked ? Theme.textPrimary : Theme.textSecondary)
                             }

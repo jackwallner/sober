@@ -223,7 +223,7 @@ struct HomeView: View {
     private var checkInControl: some View {
         if !checkedInToday && daysMissed > 1 {
             VStack(spacing: 8) {
-                Text("Welcome back — you haven't checked in for \(daysMissed) days. Still going strong?")
+                Text("Welcome back. You haven't checked in for \(daysMissed) days. Still going strong?")
                     .font(.subheadline)
                     .foregroundStyle(Theme.textPrimary)
                     .multilineTextAlignment(.center)
@@ -365,6 +365,7 @@ private struct CheckInDetailSheet: View {
     @State private var note: String = ""
 
     private let symbols = ["cloud.rain.fill", "cloud.fill", "cloud.sun.fill", "sun.max.fill", "sparkles"]
+    private let moodLabels = ["Rough", "Low", "OK", "Good", "Great"]
 
     var body: some View {
         NavigationStack {
@@ -375,10 +376,15 @@ private struct CheckInDetailSheet: View {
                             Button {
                                 mood = (mood == value) ? nil : value
                             } label: {
-                                Image(systemName: symbols[value - 1])
-                                    .font(.title2)
-                                    .foregroundStyle(mood == value ? Theme.brandPrimary : Theme.textTertiary)
-                                    .frame(maxWidth: .infinity)
+                                VStack(spacing: 4) {
+                                    Image(systemName: symbols[value - 1])
+                                        .font(.title2)
+                                        .foregroundStyle(mood == value ? Theme.brandPrimary : Theme.textTertiary)
+                                    Text(moodLabels[value - 1])
+                                        .font(.caption2.weight(.semibold))
+                                        .foregroundStyle(mood == value ? Theme.brandPrimary : Theme.textTertiary)
+                                }
+                                .frame(maxWidth: .infinity)
                             }
                             .buttonStyle(.plain)
                         }
@@ -452,7 +458,7 @@ struct ProgressSheet: View {
                     } header: {
                         Text("Saved")
                     } footer: {
-                        Text("Streak counts your current run; lifetime counts every sober day you've ever logged — past progress isn't lost on a reset.")
+                        Text("Streak counts your current run. Lifetime counts every sober day you've ever logged, so past progress isn't lost on a reset.")
                     }
                 }
 
@@ -496,7 +502,7 @@ struct ProgressSheet: View {
                     .foregroundStyle(Theme.brandPrimary)
                     .frame(width: 32)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("You've saved \(savedSoFar) so far")
+                    Text("You've saved \(lifetimeMoneySaved) so far")
                         .font(.subheadline.weight(.semibold))
                         .foregroundStyle(Theme.textPrimary)
                     Text("Try Bloom+ free for 7 days")

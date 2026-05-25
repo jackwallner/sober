@@ -381,6 +381,7 @@ struct TimelineView: View {
     /// the existing check-in immediately).
     private func moodPicker(existing: DailyCheckIn?) -> some View {
         let symbols = ["cloud.rain.fill", "cloud.fill", "cloud.sun.fill", "sun.max.fill", "sparkles"]
+        let labels = ["Rough", "Low", "OK", "Good", "Great"]
         return VStack(alignment: .leading, spacing: 4) {
             Text("Mood").font(.caption.weight(.semibold)).foregroundStyle(Theme.textSecondary)
             HStack(spacing: Theme.Space.m) {
@@ -392,10 +393,15 @@ struct TimelineView: View {
                             saveCheckInEdit()
                         }
                     } label: {
-                        Image(systemName: symbols[value - 1])
-                            .font(.title3)
-                            .foregroundStyle(draftMood == value ? Theme.brandPrimary : Theme.textTertiary)
-                            .frame(maxWidth: .infinity)
+                        VStack(spacing: 4) {
+                            Image(systemName: symbols[value - 1])
+                                .font(.title3)
+                                .foregroundStyle(draftMood == value ? Theme.brandPrimary : Theme.textTertiary)
+                            Text(labels[value - 1])
+                                .font(.caption2.weight(.semibold))
+                                .foregroundStyle(draftMood == value ? Theme.brandPrimary : Theme.textTertiary)
+                        }
+                        .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.plain)
                 }

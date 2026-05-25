@@ -27,7 +27,7 @@ enum HealthBenefitCatalog {
             title: "Blood Alcohol Clearing",
             summary: "Blood alcohol level returns to zero.",
             detail: "After 6 hours, the liver finishes metabolizing the last drink and blood alcohol concentration returns to zero.",
-            sourceLabel: "NIAAA — Alcohol Metabolism",
+            sourceLabel: "NIAAA · Alcohol Metabolism",
             sourceURL: URL(string: "https://www.niaaa.nih.gov/publications/brochures-and-fact-sheets/alcohol-metabolism")
         ),
         HealthBenefit(
@@ -36,7 +36,7 @@ enum HealthBenefitCatalog {
             title: "Blood Sugar Stabilization",
             summary: "Insulin sensitivity begins to normalize.",
             detail: "Within 24 hours, blood sugar levels begin to normalize as the body regains its ability to regulate insulin effectively.",
-            sourceLabel: "NIAAA — Alcohol & Health",
+            sourceLabel: "NIAAA · Alcohol & Health",
             sourceURL: URL(string: "https://www.niaaa.nih.gov/alcohol-health")
         ),
         HealthBenefit(
@@ -54,7 +54,7 @@ enum HealthBenefitCatalog {
             title: "Sleep Quality Improvement",
             summary: "Deeper REM cycles return.",
             detail: "After three nights, REM sleep cycles return to a healthy rhythm. Most people report more vivid dreams and easier mornings.",
-            sourceLabel: "NIAAA — Alcohol & Sleep",
+            sourceLabel: "NIAAA · Alcohol & Sleep",
             sourceURL: URL(string: "https://pubs.niaaa.nih.gov/publications/arh25-2/101-109.htm")
         ),
         HealthBenefit(
@@ -81,7 +81,7 @@ enum HealthBenefitCatalog {
             title: "Liver Fat Reduction",
             summary: "Hepatic steatosis improves.",
             detail: "At one month, liver fat content can fall by 15–20%. Markers like ALT begin to normalize.",
-            sourceLabel: "NIAAA — Alcohol & the Liver",
+            sourceLabel: "NIAAA · Alcohol & the Liver",
             sourceURL: URL(string: "https://pubs.niaaa.nih.gov/publications/arh27-3/277-284.htm")
         ),
         HealthBenefit(
@@ -117,7 +117,7 @@ enum HealthBenefitCatalog {
             title: "Immune System Boost",
             summary: "White cell function recovers.",
             detail: "Half a year in, the immune system regains full pathogen-fighting capacity. You'll catch fewer colds.",
-            sourceLabel: "NIAAA — Immune Function",
+            sourceLabel: "NIAAA · Immune Function",
             sourceURL: URL(string: "https://pubs.niaaa.nih.gov/publications/arh34-4/319-323.htm")
         ),
         HealthBenefit(
@@ -135,7 +135,7 @@ enum HealthBenefitCatalog {
             title: "Full Body Recovery",
             summary: "Long-term cancer risk reduced.",
             detail: "One year sober, your risk of alcohol-related cancers (mouth, throat, liver, breast) begins a measurable decline.",
-            sourceLabel: "NIAAA — Long-term Outcomes",
+            sourceLabel: "NIAAA · Long-term Outcomes",
             sourceURL: URL(string: "https://www.niaaa.nih.gov/alcohol-health")
         ),
     ]

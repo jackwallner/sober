@@ -47,6 +47,9 @@ struct PaywallView: View {
 
     private var lifetimeSoberDays: Int { checkIns.filter { $0.wasSober }.count }
 
+    /// Lifetime sober days is the single source of truth for "money saved" so
+    /// the paywall, trial nudge, and Progress sheet never disagree by one or
+    /// two days of streak vs. lifetime drift.
     private var heroDays: Int { max(lifetimeSoberDays, days) }
 
     private var costPerDayCents: Int { settingsRows.first?.costPerDayCents ?? 0 }
