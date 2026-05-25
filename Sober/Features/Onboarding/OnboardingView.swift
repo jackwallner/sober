@@ -32,12 +32,12 @@ struct OnboardingView: View {
         VStack(spacing: Theme.Space.xl) {
             Spacer()
             Image(systemName: "leaf.fill")
-                .font(.system(size: 80))
-            Text("Sober").font(.system(size: 56, weight: .bold, design: .rounded))
+                .font(.system(size: 96))
+            Text("Sober").font(.system(size: 64, weight: .bold, design: .rounded))
             Text("Track your sobriety, grow your garden, watch your health return.")
                 .multilineTextAlignment(.center)
-                .font(.title3)
-                .padding(.horizontal, Theme.Space.l)
+                .font(.title2)
+                .padding(.horizontal, Theme.Space.m)
             Spacer()
             primaryButton("Get Started") { step = 1 }
         }
@@ -47,12 +47,13 @@ struct OnboardingView: View {
         VStack(spacing: Theme.Space.xl) {
             Spacer()
             Text("When did your sober journey begin?")
-                .font(.title.weight(.semibold))
+                .font(.largeTitle.weight(.bold))
                 .multilineTextAlignment(.center)
             DatePicker("", selection: $startDate, in: ...Date.now, displayedComponents: [.date])
-                .datePickerStyle(.compact)
+                .datePickerStyle(.graphical)
                 .labelsHidden()
                 .colorScheme(.dark)
+                .tint(.white)
             Spacer()
             primaryButton("Continue") { step = 2 }
         }
@@ -62,16 +63,22 @@ struct OnboardingView: View {
         VStack(spacing: Theme.Space.l) {
             Spacer(minLength: Theme.Space.s)
             Text("How much did you typically spend per day?")
-                .font(.title.weight(.semibold))
+                .font(.largeTitle.weight(.bold))
                 .multilineTextAlignment(.center)
             VStack(spacing: Theme.Space.s) {
-                Text("$\(Int(costPerDay)) / day").font(.largeTitle.bold())
+                Text("$\(Int(costPerDay)) / day")
+                    .font(.system(size: 44, weight: .bold, design: .rounded))
                 Slider(value: $costPerDay, in: 0...200, step: 5)
+                    .tint(.white)
             }
             VStack(spacing: Theme.Space.s) {
-                Text("Calories per day").font(.caption).foregroundStyle(.white.opacity(0.85))
-                Text("\(Int(caloriesPerDay)) cal").font(.title2.bold())
+                Text("Calories per day")
+                    .font(.headline)
+                    .foregroundStyle(.white.opacity(0.85))
+                Text("\(Int(caloriesPerDay)) cal")
+                    .font(.system(size: 34, weight: .bold, design: .rounded))
                 Slider(value: $caloriesPerDay, in: 0...3000, step: 50)
+                    .tint(.white)
             }
             savingsProjection
             Spacer(minLength: Theme.Space.s)
@@ -89,12 +96,12 @@ struct OnboardingView: View {
         let dollarStr = f.string(from: NSNumber(value: yearlyDollars)) ?? "$\(yearlyDollars)"
         return VStack(spacing: 4) {
             Text("In a year, that's")
-                .font(.caption)
+                .font(.subheadline)
                 .foregroundStyle(.white.opacity(0.75))
             Text(dollarStr)
-                .font(.system(size: 36, weight: .bold, design: .rounded))
+                .font(.system(size: 44, weight: .bold, design: .rounded))
             Text("plus \(yearlyCalories.formatted()) calories you won't have to spend. About \(yearlyPounds.formatted(.number.precision(.fractionLength(0)))) lb of body fat.")
-                .font(.caption)
+                .font(.footnote)
                 .foregroundStyle(.white.opacity(0.75))
                 .multilineTextAlignment(.center)
         }
@@ -108,11 +115,11 @@ struct OnboardingView: View {
         VStack(spacing: Theme.Space.xl) {
             Spacer()
             Text("Daily reminder time")
-                .font(.title.weight(.semibold))
+                .font(.largeTitle.weight(.bold))
                 .multilineTextAlignment(.center)
             Picker("Hour", selection: $reminderHour) {
                 ForEach(0..<24) { h in
-                    Text(formatHour(h)).tag(h)
+                    Text(formatHour(h)).font(.title2).tag(h)
                 }
             }
             .pickerStyle(.wheel)
@@ -129,16 +136,16 @@ struct OnboardingView: View {
         VStack(spacing: Theme.Space.xl) {
             Spacer()
             Image(systemName: "hand.raised.fill")
-                .font(.system(size: 56))
+                .font(.system(size: 72))
                 .opacity(0.92)
             Text("Make it official")
-                .font(.title.weight(.semibold))
+                .font(.largeTitle.weight(.bold))
                 .multilineTextAlignment(.center)
             Text("Recovery starts with a decision. This is yours, for today and the days that follow.")
                 .multilineTextAlignment(.center)
-                .font(.title3)
+                .font(.title2)
                 .foregroundStyle(.white.opacity(0.9))
-                .padding(.horizontal, Theme.Space.l)
+                .padding(.horizontal, Theme.Space.m)
             Spacer()
             primaryButton("I commit to getting better") { complete() }
         }
@@ -147,11 +154,11 @@ struct OnboardingView: View {
     private func primaryButton(_ title: String, action: @escaping () -> Void) -> some View {
         Button(action: { withAnimation { action() } }) {
             Text(title)
-                .font(.headline)
+                .font(.title3.weight(.semibold))
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, Theme.Space.m)
+                .padding(.vertical, Theme.Space.l)
         }
-        .background(.white.opacity(0.25), in: RoundedRectangle(cornerRadius: 16))
+        .background(.white.opacity(0.25), in: RoundedRectangle(cornerRadius: 18))
     }
 
     private func formatHour(_ h: Int) -> String {

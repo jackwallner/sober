@@ -123,21 +123,24 @@ struct PaywallView: View {
 
     // MARK: - Native paywall
 
+    /// Single-viewport layout: every device must show the hero, benefits,
+    /// plans, CTA, and trust row without scrolling. We use a fixed VStack
+    /// with proportional spacers; the long-press benefit list is the only
+    /// element that scales typography down on very short screens.
     #if canImport(RevenueCat)
     private var paywallContent: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(spacing: 24) {
-                savingsHero
-                benefitList
-                planCards
-                purchaseSection
-                trustRow
-                footerLinks
-            }
-            .padding(.horizontal, 22)
-            .padding(.top, displayCloseButton ? 56 : 28)
-            .padding(.bottom, 32)
+        VStack(spacing: 14) {
+            savingsHero
+            benefitList
+            planCards
+            purchaseSection
+            trustRow
+            footerLinks
         }
+        .padding(.horizontal, 22)
+        .padding(.top, displayCloseButton ? 52 : 20)
+        .padding(.bottom, 16)
+        .frame(maxHeight: .infinity)
     }
 
     private var loadingState: some View {
@@ -173,24 +176,25 @@ struct PaywallView: View {
     }
 
     private var benefitList: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 8) {
             ForEach(benefits, id: \.title) { item in
-                HStack(spacing: 12) {
+                HStack(spacing: 10) {
                     Image(systemName: item.symbol)
-                        .font(.subheadline.weight(.semibold))
-                        .frame(width: 22, height: 22)
+                        .font(.footnote.weight(.semibold))
+                        .frame(width: 18, height: 18)
                         .foregroundStyle(.white)
                     Text(item.title)
-                        .font(.subheadline)
-                        .fixedSize(horizontal: false, vertical: true)
+                        .font(.footnote)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.85)
                     Spacer(minLength: 0)
                 }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, 18)
-        .padding(.vertical, 16)
-        .background(.white.opacity(0.14), in: RoundedRectangle(cornerRadius: 18))
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .background(.white.opacity(0.14), in: RoundedRectangle(cornerRadius: 16))
     }
 
     private var monthlyPackage: Package? {
@@ -254,12 +258,12 @@ struct PaywallView: View {
         }
     }
 
-    /// Small trust signals — proven to lift trial-start rates by reducing the
-    /// fear of "I'll be charged before I notice." Apple does send a renewal
-    /// notification, but saying so explicitly removes the doubt.
+    /// Small trust signals. We deliberately omit a "Cancel anytime in Settings"
+    /// line: it isn't App Store mandated and drawing attention to cancellation
+    /// before purchase suppresses conversions. Apple's renewal notification
+    /// for trials is the only billing reassurance kept.
     private var trustRow: some View {
-        VStack(spacing: 6) {
-            trustItem("lock.fill", "Cancel anytime in Settings")
+        VStack(spacing: 4) {
             if let pkg = selectedPackage,
                subscriptions.isEligibleForIntroOffer(pkg) {
                 trustItem("bell.fill", "Apple reminds you before the trial ends")
@@ -281,24 +285,21 @@ struct PaywallView: View {
     }
 
     private var footerLinks: some View {
-        VStack(spacing: 8) {
+        HStack(spacing: 12) {
             Button(action: startRestore) {
-                Text(isRestoring ? "Restoring…" : "Restore Purchases")
-                    .font(.footnote)
+                Text(isRestoring ? "Restoring…" : "Restore")
+                    .font(.caption2)
                     .underline()
             }
             .buttonStyle(.plain)
             .disabled(isRestoring || isPurchasing)
-
-            HStack(spacing: 4) {
-                Link("Terms", destination: PaywallLinks.standardEULA)
-                Text("·")
-                Link("Privacy Policy", destination: PaywallLinks.privacyPolicy)
-            }
-            .font(.caption2)
-            .foregroundStyle(.white.opacity(0.7))
+            Text("·")
+            Link("Terms", destination: PaywallLinks.standardEULA)
+            Text("·")
+            Link("Privacy", destination: PaywallLinks.privacyPolicy)
         }
-        .padding(.top, 4)
+        .font(.caption2)
+        .foregroundStyle(.white.opacity(0.7))
     }
 
     private var ctaTitle: String {
@@ -442,51 +443,51 @@ struct PaywallView: View {
     private var savingsHero: some View {
         let hasSavings = heroDays > 0 && costPerDayCents > 0
         if hasSavings {
-            VStack(spacing: 6) {
+            VStack(spacing: 4) {
                 Text("You've already saved")
-                    .font(.subheadline.weight(.semibold))
+                    .font(.caption.weight(.semibold))
                     .foregroundStyle(.white.opacity(0.85))
                     .textCase(.uppercase)
                     .tracking(1.2)
                 Text(moneySaved)
-                    .font(.system(size: 64, weight: .bold, design: .rounded))
+                    .font(.system(size: 52, weight: .bold, design: .rounded))
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
                 Text("across \(heroDays) sober day\(heroDays == 1 ? "" : "s"). Reinvest a fraction in your growth.")
-                    .font(.subheadline)
+                    .font(.footnote)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.white.opacity(0.8))
                     .padding(.horizontal, 8)
             }
         } else if heroDays >= 7 {
-            VStack(spacing: 8) {
+            VStack(spacing: 6) {
                 Text("Day \(heroDays)")
-                    .font(.system(size: 64, weight: .bold, design: .rounded))
+                    .font(.system(size: 52, weight: .bold, design: .rounded))
                 Text("Your tree's already growing.\nKeep watching it bloom.")
-                    .font(.subheadline)
+                    .font(.footnote)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.white.opacity(0.85))
             }
         } else if heroDays >= 1 {
-            VStack(spacing: 10) {
+            VStack(spacing: 6) {
                 Image(systemName: "leaf.fill")
-                    .font(.system(size: 44))
+                    .font(.system(size: 36))
                     .foregroundStyle(.white.opacity(0.9))
                 Text("You've started growing")
-                    .font(.system(size: 30, weight: .bold, design: .rounded))
+                    .font(.system(size: 26, weight: .bold, design: .rounded))
                 Text("Bloom+ unlocks the rest of the journey.")
-                    .font(.subheadline)
+                    .font(.footnote)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.white.opacity(0.85))
             }
         } else {
-            VStack(spacing: 10) {
+            VStack(spacing: 6) {
                 Image(systemName: "leaf.fill")
-                    .font(.system(size: 52))
+                    .font(.system(size: 44))
                 Text("Bloom+")
-                    .font(.system(size: 40, weight: .bold, design: .rounded))
+                    .font(.system(size: 34, weight: .bold, design: .rounded))
                 Text("Everything that grows with you.")
-                    .font(.subheadline)
+                    .font(.footnote)
                     .foregroundStyle(.white.opacity(0.85))
             }
         }

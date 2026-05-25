@@ -194,50 +194,40 @@ struct GardenCustomizationView: View {
     private var freePreview: some View {
         ScrollView {
             VStack(spacing: 24) {
-                // Blurred garden preview
-                gardenPreview
-                    .blur(radius: 8)
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 24)
-                            .fill(.ultraThinMaterial)
-                    }
-
-                // Upsell
-                VStack(spacing: 16) {
-                    Image(systemName: "lock.fill")
-                        .font(.largeTitle)
-                        .foregroundStyle(Theme.brandPrimary)
-
-                    Text("Customize Your Garden")
+                VStack(spacing: 10) {
+                    Text("Grow a whole grove with Bloom+")
                         .font(.title2.bold())
-
-                    Text("Unlock new plants, decorations, and bonsai styles as your streak grows. Subscribe to arrange them in your garden.")
+                        .multilineTextAlignment(.center)
+                    Text("Every species is a different shape of resilience. Swap between them and watch each one grow with your streak.")
                         .font(.subheadline)
                         .foregroundStyle(Theme.textSecondary)
                         .multilineTextAlignment(.center)
+                }
+                .padding(.horizontal)
 
-                    // Show what they'd unlock
-                    let allItems = GardenItemCatalog.all.filter { $0.type != .bonsai }
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("You'll unlock:")
-                            .font(.caption.bold())
-                            .foregroundStyle(Theme.textSecondary)
+                bonsaiPitch
 
-                        ForEach(allItems.prefix(6)) { item in
-                            let isUnlocked = unlockedItems.contains(item)
-                            HStack {
-                                Image(systemName: isUnlocked ? "checkmark.circle.fill" : "circle")
-                                    .foregroundStyle(isUnlocked ? Theme.success : Theme.textTertiary)
-                                Text("\(item.displayName) · Day \(item.milestoneDays)")
-                                    .font(.caption)
-                                    .foregroundStyle(isUnlocked ? Theme.textPrimary : Theme.textSecondary)
-                            }
+                // What else unlocks as the streak grows.
+                let extras = GardenItemCatalog.all.filter { $0.type != .bonsai }
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Plus decorations as you go")
+                        .font(.caption.bold())
+                        .foregroundStyle(Theme.textSecondary)
+                    ForEach(extras.prefix(6)) { item in
+                        let isUnlocked = unlockedItems.contains(item)
+                        HStack {
+                            Image(systemName: isUnlocked ? "checkmark.circle.fill" : "circle")
+                                .foregroundStyle(isUnlocked ? Theme.success : Theme.textTertiary)
+                            Text("\(item.displayName) · Day \(item.milestoneDays)")
+                                .font(.caption)
+                                .foregroundStyle(isUnlocked ? Theme.textPrimary : Theme.textSecondary)
                         }
                     }
-                    .padding()
-                    .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
+                .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
+                .padding(.horizontal)
 
                 Button {
                     showPaywall = true
@@ -257,6 +247,47 @@ struct GardenCustomizationView: View {
             .padding(.vertical)
         }
         .background(Theme.background)
+    }
+
+    /// The headline Bloom+ pitch: each bonsai species rendered at a mature day
+    /// alongside the one-line story of what it represents, so the value of the
+    /// upgrade is concrete and visual rather than a feature bullet.
+    private var bonsaiPitch: some View {
+        let species = GardenItemCatalog.all.filter { $0.type == .bonsai }
+        return VStack(spacing: 12) {
+            ForEach(species) { style in
+                let earned = days >= style.milestoneDays
+                HStack(spacing: 14) {
+                    BonsaiView(day: 60, style: bonsaiStyleEnum(for: style.id), vitality: 1.0)
+                        .frame(width: 72, height: 72)
+                        .background(Theme.skyGradient, in: RoundedRectangle(cornerRadius: 14))
+                    VStack(alignment: .leading, spacing: 3) {
+                        HStack(spacing: 6) {
+                            Text(style.displayName)
+                                .font(.subheadline.weight(.bold))
+                                .foregroundStyle(Theme.textPrimary)
+                            if earned {
+                                Text("Unlocked")
+                                    .font(.caption2.weight(.bold))
+                                    .foregroundStyle(Theme.success)
+                            } else {
+                                Text("Day \(style.milestoneDays)")
+                                    .font(.caption2.weight(.bold))
+                                    .foregroundStyle(Theme.brandPrimary)
+                            }
+                        }
+                        Text(style.description)
+                            .font(.caption)
+                            .foregroundStyle(Theme.textSecondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    Spacer(minLength: 0)
+                }
+                .padding(12)
+                .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 16))
+            }
+        }
+        .padding(.horizontal)
     }
 
     // MARK: - Helpers
