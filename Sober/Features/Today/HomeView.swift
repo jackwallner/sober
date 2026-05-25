@@ -1,4 +1,5 @@
 import SwiftData
+import StoreKit
 import SwiftUI
 
 /// Home: the garden IS the home. A full-bleed, explorable scene with the day
@@ -23,8 +24,15 @@ struct HomeView: View {
     @State private var celebrationQueue: [GardenItem] = []
     @State private var showCelebration = false
     @State private var showCheckInDetail = false
+    @State private var showReviewPrompt = false
+    @State private var reviewPromptInitialStep: ReviewPromptSheet.Step = .enjoyment
+    @State private var reviewPromptShownThisSession = false
+    @State private var pendingNativeReviewAfterDismiss = false
+    @StateObject private var reviewPromptCoordinator = ReviewPromptCoordinator.shared
+    @Environment(\.requestReview) private var requestReview
 
     private var activeJourney: SobrietyJourney? { journeys.first { $0.isActive } }
+    private var hasCompletedOnboarding: Bool { settingsRows.first?.hasCompletedOnboarding ?? false }
     private var gardenState: GardenState? { gardenStates.first }
     private var days: Int {
         guard let j = activeJourney else { return 0 }
@@ -118,6 +126,7 @@ struct HomeView: View {
                         if celebrationQueue.isEmpty {
                             withAnimation { showCelebration = false }
                             WidgetSnapshotPump.push(context: context)
+                            recordPositiveMomentForReview()
                         }
                     }
                     .transition(.opacity)
@@ -140,6 +149,29 @@ struct HomeView: View {
             .sheet(item: $selectedItem) { item in
                 GardenItemDetailView(item: item, unlocked: days >= item.milestoneDays, currentDays: days)
                     .presentationDetents([.medium])
+            }
+            .sheet(isPresented: $showReviewPrompt, onDismiss: {
+                if pendingNativeReviewAfterDismiss {
+                    pendingNativeReviewAfterDismiss = false
+                    requestReview()
+                }
+            }) {
+                ReviewPromptSheet(initialStep: reviewPromptInitialStep, onFinish: handleReviewPromptFinish)
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .soberPositiveMomentForReview)) { _ in
+                scheduleReviewPromptAfterPositiveMoment()
+            }
+            .onChange(of: reviewPromptCoordinator.pendingPresentation) { _, presentation in
+                guard let presentation else { return }
+                defer { reviewPromptCoordinator.clear() }
+                guard !showPaywall, !showCelebration else { return }
+                showSettings = false
+                switch presentation {
+                case .enjoymentPrompt:
+                    presentReviewPrompt(step: .enjoyment)
+                case .feedbackOnly:
+                    presentReviewPrompt(step: .feedback)
+                }
             }
         }
     }
@@ -202,6 +234,7 @@ struct HomeView: View {
                         GardenService(context: context).water()
                         refreshCheckInState()
                         WidgetSnapshotPump.push(context: context)
+                        recordPositiveMomentForReview()
                     } label: {
                         Label("Still sober", systemImage: "checkmark.circle.fill")
                             .fontWeight(.semibold)
@@ -234,6 +267,7 @@ struct HomeView: View {
                 GardenService(context: context).water()
                 refreshCheckInState()
                 WidgetSnapshotPump.push(context: context)
+                recordPositiveMomentForReview()
                 showCheckInDetail = true
             } label: {
                 HStack(spacing: 8) {
@@ -276,6 +310,48 @@ struct HomeView: View {
         guard !newItems.isEmpty else { return }
         celebrationQueue = newItems
         withAnimation { showCelebration = true }
+    }
+
+    private func recordPositiveMomentForReview() {
+        ReviewPromptTracker.recordPositiveMoment()
+        NotificationCenter.default.post(name: .soberPositiveMomentForReview, object: nil)
+    }
+
+    private func scheduleReviewPromptAfterPositiveMoment() {
+        guard ReviewPromptTracker.shouldShowAfterPositiveMoment(hasCompletedSetup: hasCompletedOnboarding),
+              !reviewPromptShownThisSession,
+              !showCelebration,
+              !showPaywall,
+              !showCheckInDetail,
+              !showReviewPrompt
+        else { return }
+
+        Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 3_500_000_000)
+            guard !showCelebration,
+                  !showPaywall,
+                  !showCheckInDetail,
+                  !showReviewPrompt,
+                  ReviewPromptTracker.shouldShowAfterPositiveMoment(hasCompletedSetup: hasCompletedOnboarding)
+            else { return }
+            ReviewPromptTracker.consumePendingPositiveMoment()
+            reviewPromptInitialStep = .enjoyment
+            reviewPromptShownThisSession = true
+            showReviewPrompt = true
+        }
+    }
+
+    private func handleReviewPromptFinish(_ outcome: ReviewPromptDismissOutcome) {
+        showReviewPrompt = false
+        if outcome == .enjoyedMaybeLater {
+            pendingNativeReviewAfterDismiss = true
+        }
+    }
+
+    private func presentReviewPrompt(step: ReviewPromptSheet.Step) {
+        reviewPromptInitialStep = step
+        reviewPromptShownThisSession = true
+        showReviewPrompt = true
     }
 }
 

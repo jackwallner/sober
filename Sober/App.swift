@@ -7,6 +7,7 @@ struct SoberApp: App {
 
     init() {
         SubscriptionService.shared.configure()
+        ReviewPromptTracker.recordAppLaunch()
     }
 
     var body: some Scene {

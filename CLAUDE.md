@@ -52,6 +52,9 @@ Root flow: `SoberApp → RootView → (OnboardingView | MainTabView)`.
 - Phase 5: Widgets + Watch
 - Phase 6: Polish + TestFlight
 
+## App Store reviews
+- Enjoyment funnel after **daily check-in** or **garden unlock celebration** (3.5s delay); explicit Rate → `AppStoreReviewLinks.writeReviewURL`; `requestReview()` only after Yes + "Maybe later" dismiss. Settings → **Rate or Send Feedback**. Playbook: `~/Desktop/app-store-5-star-review-strategy.md`.
+
 ## Gotchas
 - App Group entitlement requires the paid Apple Dev account (team `YXG4MP6W39`).
 - `Sober.storekit` lets you test the paywall in the simulator without RevenueCat dashboard config.
