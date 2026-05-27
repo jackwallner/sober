@@ -7,6 +7,8 @@ struct SettingsView: View {
     @Query private var settingsRows: [UserSettings]
     @Query(sort: \SobrietyJourney.startDate, order: .reverse) private var journeys: [SobrietyJourney]
     @State private var showPaywall = false
+    @State private var restoreMessage: String?
+    @State private var isRestoring = false
 
     private var settings: UserSettings? { settingsRows.first }
     private var activeJourney: SobrietyJourney? { journeys.first { $0.isActive } }
@@ -24,6 +26,24 @@ struct SettingsView: View {
                                 .buttonStyle(.borderedProminent)
                         }
                     }
+                    Button(isRestoring ? "Restoring…" : "Restore Purchases") {
+                        restoreMessage = nil
+                        isRestoring = true
+                        Task {
+                            defer { isRestoring = false }
+                            await subscriptions.restorePurchases()
+                            if !subscriptions.isProSubscriber {
+                                restoreMessage = subscriptions.lastError
+                                    ?? "No active Bloom+ purchase found for this Apple ID."
+                            }
+                        }
+                    }
+                    .disabled(isRestoring)
+                    if let restoreMessage {
+                        Text(restoreMessage)
+                            .font(.footnote)
+                            .foregroundStyle(Theme.textSecondary)
+                    }
                 }
                 if let journey = activeJourney {
                     Section {
@@ -40,6 +60,15 @@ struct SettingsView: View {
                     }
                 }
                 if let s = settings {
+                    Section {
+                        Toggle("I'm committing to this", isOn: bind(\.madeCommitment, on: s))
+                    } header: {
+                        Text("Your pledge")
+                    } footer: {
+                        Text(s.madeCommitment
+                             ? "Reminders are framed around your pledge."
+                             : "Reminders stay neutral and pressure-free.")
+                    }
                     Section("Daily Reminder") {
                         Toggle("Enabled", isOn: bind(\.dailyReminderEnabled, on: s))
                         Stepper("Hour: \(s.dailyReminderHour):00", value: bind(\.dailyReminderHour, on: s), in: 0...23)
@@ -74,6 +103,10 @@ struct SettingsView: View {
                         ReviewPromptCoordinator.shared.requestEnjoymentPrompt()
                     }
                 }
+                Section("Legal") {
+                    Link("Privacy Policy", destination: PaywallLinks.privacyPolicy)
+                    Link("Terms of Use (EULA)", destination: PaywallLinks.standardEULA)
+                }
                 #if DEBUG
                 Section("Developer") {
                     Button(subscriptions.isProSubscriber ? "Disable Bloom+ override" : "Enable Bloom+ override") {
@@ -89,6 +122,7 @@ struct SettingsView: View {
             }
             .onChange(of: settings?.dailyReminderHour) { _, _ in rescheduleReminder() }
             .onChange(of: settings?.dailyReminderEnabled) { _, _ in rescheduleReminder() }
+            .onChange(of: settings?.madeCommitment) { _, _ in rescheduleReminder() }
         }
     }
 
@@ -114,9 +148,12 @@ struct SettingsView: View {
 
     private func rescheduleReminder() {
         guard let s = settings else { return }
+        let hour = s.dailyReminderHour
+        let enabled = s.dailyReminderEnabled
+        let committed = s.madeCommitment
         Task {
-            if s.dailyReminderEnabled {
-                await NotificationService.scheduleDailyReminder(hour: s.dailyReminderHour)
+            if enabled {
+                await NotificationService.scheduleDailyReminder(hour: hour, committed: committed)
             } else {
                 await NotificationService.cancelDailyReminder()
             }

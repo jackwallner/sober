@@ -50,9 +50,8 @@ enum Theme {
     /// or dim dusk, and identical across light/dark system appearance.
     static let gardenOverlayScrim = Color.black.opacity(0.42)
 
-    /// Fill for the check-in button once today is logged. Darker than the active brand
-    /// green so it still reads as a button (not as the surrounding gradient).
-    static let checkInDoneFill = AnyShapeStyle(Color.black.opacity(0.55))
+    /// Fill for the "Today is logged" row on Home (cream chrome, not garden overlay).
+    static let checkInDoneFill = AnyShapeStyle(brandPrimary.opacity(0.14))
 
     static var brandGradient: LinearGradient {
         LinearGradient(
@@ -76,6 +75,32 @@ enum Theme {
     /// number reads as written in a journal rather than punched out of a tracker.
     static func bigNumber(_ size: CGFloat) -> Font {
         .system(size: size, weight: .medium, design: .serif).italic()
+    }
+
+    // ── Typography system ────────────────────────────────────────────────
+    // Two voices, used deliberately:
+    //  • Serif — literary / journaled, for hero numerals and display titles
+    //    where we want the screen to feel like a page rather than a UI.
+    //  • Rounded — soft, calm, low-cortisol; for everything chatty (subtitles,
+    //    body, captions). Default SF reads as a settings-y system font here
+    //    which clashes with the slow-morning vibe.
+
+    /// Big display titles ("Welcome to your garden", onboarding step heads).
+    static func display(_ size: CGFloat = 34, weight: Font.Weight = .semibold) -> Font {
+        .system(size: size, weight: weight, design: .serif)
+    }
+
+    /// Section headlines that aren't quite display ("Make it official",
+    /// "Mood" form headers). Serif keeps the page feel consistent.
+    static func heading(_ size: CGFloat = 22, weight: Font.Weight = .semibold) -> Font {
+        .system(size: size, weight: weight, design: .serif)
+    }
+
+    /// Body/UI font: rounded for warmth. Same metrics as the system body so
+    /// it's a drop-in; the only change a user perceives is the softer
+    /// letterforms.
+    static func body(_ size: CGFloat = 17, weight: Font.Weight = .regular) -> Font {
+        .system(size: size, weight: weight, design: .rounded)
     }
 }
 

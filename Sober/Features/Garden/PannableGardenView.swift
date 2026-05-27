@@ -11,6 +11,7 @@ struct PannableGardenView: View {
     let isPro: Bool
     var completedTreeStyles: [String] = []
     var onSelect: ((GardenItem) -> Void)? = nil
+    var onSwapBonsai: (() -> Void)? = nil
 
     private let minScale: CGFloat = 1.0
     private let maxScale: CGFloat = 3.0
@@ -46,7 +47,8 @@ struct PannableGardenView: View {
                     activeBonsaiStyleID: activeBonsaiStyleID,
                     isPro: isPro,
                     completedTreeStyles: completedTreeStyles,
-                    onSelect: onSelect
+                    onSelect: onSelect,
+                    onSwapBonsai: onSwapBonsai
                 )
                 .frame(width: worldW, height: worldH)
                 .scaleEffect(liveScale)

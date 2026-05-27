@@ -42,12 +42,12 @@ struct UnlockCelebrationView: View {
                 // Text — opaque card panel so it doesn't fight bright OLED
                 // garden colors behind the backdrop.
                 VStack(spacing: 8) {
-                    Text("New Unlock!")
-                        .font(.title.bold())
+                    Text("New Unlock")
+                        .font(Theme.heading(24, weight: .semibold))
                         .foregroundStyle(Theme.textPrimary)
 
                     Text(item.displayName)
-                        .font(.title2.weight(.semibold))
+                        .font(Theme.display(26, weight: .semibold))
                         .foregroundStyle(Theme.brandPrimary)
 
                     Text(item.description)
@@ -119,7 +119,7 @@ struct UnlockRecapView: View {
                         .font(.system(size: 40))
                         .foregroundStyle(Theme.accent)
                     Text("Welcome to your garden")
-                        .font(.title2.bold())
+                        .font(Theme.display(26, weight: .semibold))
                         .foregroundStyle(Theme.textPrimary)
                     Text("You've been sober \(days) day\(days == 1 ? "" : "s"), so you've already grown \(items.count) thing\(items.count == 1 ? "" : "s").")
                         .font(.subheadline)
@@ -156,9 +156,24 @@ struct UnlockRecapView: View {
                         }
                     }
                     .padding(.horizontal, 20)
-                    .padding(.vertical, 16)
+                    .padding(.top, 16)
+                    // Extra trailing space so the last row scrolls fully clear
+                    // of the fade mask + CTA below.
+                    .padding(.bottom, 28)
                 }
                 .frame(maxHeight: 360)
+                // Soft fade at the bottom edge so partially-visible rows look
+                // intentional instead of clipped against the CTA.
+                .mask(
+                    LinearGradient(
+                        stops: [
+                            .init(color: .black, location: 0),
+                            .init(color: .black, location: 0.88),
+                            .init(color: .clear, location: 1.0)
+                        ],
+                        startPoint: .top, endPoint: .bottom
+                    )
+                )
 
                 Button(action: onDismiss) {
                     Text("Start growing")
@@ -169,6 +184,7 @@ struct UnlockRecapView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(Theme.brandPrimary)
                 .padding(.horizontal, 24)
+                .padding(.top, 8)
                 .padding(.bottom, 24)
             }
             .frame(maxWidth: .infinity)

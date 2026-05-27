@@ -135,17 +135,14 @@ struct HomeView: View {
                     .zIndex(100)
                 }
             }
-            .overlay {
-                if showRecap {
-                    UnlockRecapView(items: recapItems, days: days) {
-                        withAnimation { showRecap = false }
-                        recapItems = []
-                        WidgetSnapshotPump.push(context: context)
-                        recordPositiveMomentForReview()
-                    }
-                    .transition(.opacity)
-                    .zIndex(101)
+            .fullScreenCover(isPresented: $showRecap) {
+                UnlockRecapView(items: recapItems, days: days) {
+                    showRecap = false
+                    recapItems = []
+                    WidgetSnapshotPump.push(context: context)
+                    recordPositiveMomentForReview()
                 }
+                .presentationBackground(.clear)
             }
             .sheet(isPresented: $showCheckInDetail) {
                 CheckInDetailSheet()
@@ -202,8 +199,8 @@ struct HomeView: View {
                 .foregroundStyle(Theme.brandPrimary)
                 .accessibilityLabel("\(days) \(days == 1 ? "day" : "days") sober")
             Text(days == 1 ? "Day Sober" : "Days Sober")
-                .font(.subheadline.weight(.semibold))
-                .tracking(1.6)
+                .font(.system(size: 13, weight: .semibold, design: .serif))
+                .tracking(2.0)
                 .textCase(.uppercase)
                 .foregroundStyle(Theme.textSecondary)
         }
@@ -215,6 +212,9 @@ struct HomeView: View {
     /// CTA — bounded and zoomed onto the plant rather than a full-bleed scene
     /// the counter floats over.
     private var gardenCard: some View {
+        // A square-ish aspect ratio keeps the bonsai visually dominant instead
+        // of giving it a tall sky band to swim in. The card still flexes for
+        // the check-in pill below it, but doesn't gobble all leftover height.
         PannableGardenView(
             days: days,
             vitality: gardenState?.vitality ?? 1.0,
@@ -222,9 +222,11 @@ struct HomeView: View {
             activeBonsaiStyleID: gardenState?.activeBonsaiStyleID ?? "traditional-bonsai",
             isPro: isPro,
             completedTreeStyles: gardenState?.completedTreeStyles ?? [],
-            onSelect: { selectedItem = $0 }
+            onSelect: { selectedItem = $0 },
+            onSwapBonsai: { showCustomize = true }
         )
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .aspectRatio(0.92, contentMode: .fit)
+        .frame(maxWidth: .infinity)
         .clipShape(RoundedRectangle(cornerRadius: Theme.cardRadius))
         .overlay(
             RoundedRectangle(cornerRadius: Theme.cardRadius)
@@ -301,7 +303,8 @@ struct HomeView: View {
             .padding(14)
             .background(Theme.checkInDoneFill, in: RoundedRectangle(cornerRadius: 18))
             .overlay(
-                RoundedRectangle(cornerRadius: 18).stroke(Theme.ringTrack, lineWidth: 1)
+                RoundedRectangle(cornerRadius: 18)
+                    .stroke(Theme.brandPrimary.opacity(0.28), lineWidth: 1)
             )
         } else {
             Button {
@@ -517,14 +520,15 @@ struct ProgressSheet: View {
                     }
                 }
 
-                Section("Garden") {
+                Section("Garden collection") {
                     GardenCollectionView(
                         days: days,
                         unlockedItemIDs: gardenState?.unlockedItemIDs ?? [],
-                        isPro: isPro
+                        isPro: isPro,
+                        embeddedInList: true
                     )
-                    .frame(minHeight: 360)
-                    .listRowInsets(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8))
+                    .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+                    .listRowBackground(Theme.background)
                 }
 
                 Section("Time milestones") {

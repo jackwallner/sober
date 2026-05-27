@@ -33,7 +33,7 @@ struct OnboardingView: View {
             Spacer()
             Image(systemName: "leaf.fill")
                 .font(.system(size: 96))
-            Text("Sober").font(.system(size: 64, weight: .bold, design: .rounded))
+            Text("Sober").font(Theme.display(64, weight: .semibold))
             Text("Track your sobriety, grow your garden, watch your health return.")
                 .multilineTextAlignment(.center)
                 .font(.title2)
@@ -47,7 +47,7 @@ struct OnboardingView: View {
         VStack(spacing: Theme.Space.xl) {
             Spacer()
             Text("When did your sober journey begin?")
-                .font(.largeTitle.weight(.bold))
+                .font(Theme.display(34))
                 .multilineTextAlignment(.center)
             DatePicker("", selection: $startDate, in: ...Date.now, displayedComponents: [.date])
                 .datePickerStyle(.graphical)
@@ -63,7 +63,7 @@ struct OnboardingView: View {
         VStack(spacing: Theme.Space.l) {
             Spacer(minLength: Theme.Space.s)
             Text("How much did you typically spend per day?")
-                .font(.largeTitle.weight(.bold))
+                .font(Theme.display(34))
                 .multilineTextAlignment(.center)
             VStack(spacing: Theme.Space.s) {
                 Text("$\(Int(costPerDay)) / day")
@@ -86,36 +86,50 @@ struct OnboardingView: View {
         }
     }
 
+    @ViewBuilder
     private var savingsProjection: some View {
-        let yearlyDollars = Int(costPerDay * 365)
-        let yearlyCalories = Int(caloriesPerDay * 365)
-        let yearlyPounds = Double(yearlyCalories) / 3500.0  // ~3,500 kcal per lb of fat
+        let dollars = Int(costPerDay)
+        let calories = Int(caloriesPerDay)
+        if dollars > 0 || calories > 0 {
+            let yearlyDollars = dollars * 365
+            let yearlyCalories = calories * 365
+            let yearlyPounds = Double(yearlyCalories) / 3500.0  // ~3,500 kcal per lb of fat
+            VStack(spacing: 4) {
+                Text("In a year, that's")
+                    .font(.subheadline)
+                    .foregroundStyle(.white.opacity(0.75))
+                if dollars > 0 {
+                    Text(formatCurrency(yearlyDollars))
+                        .font(.system(size: 44, weight: .bold, design: .rounded))
+                }
+                if calories > 0 {
+                    Text(dollars > 0
+                         ? "plus \(yearlyCalories.formatted()) calories you won't have to spend. About \(yearlyPounds.formatted(.number.precision(.fractionLength(0)))) lb of body fat."
+                         : "\(yearlyCalories.formatted()) calories you won't have to spend — about \(yearlyPounds.formatted(.number.precision(.fractionLength(0)))) lb of body fat.")
+                        .font(.footnote)
+                        .foregroundStyle(.white.opacity(0.75))
+                        .multilineTextAlignment(.center)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, Theme.Space.m)
+            .padding(.horizontal, Theme.Space.m)
+            .background(.white.opacity(0.15), in: RoundedRectangle(cornerRadius: 16))
+        }
+    }
+
+    private func formatCurrency(_ amount: Int) -> String {
         let f = NumberFormatter()
         f.numberStyle = .currency
         f.maximumFractionDigits = 0
-        let dollarStr = f.string(from: NSNumber(value: yearlyDollars)) ?? "$\(yearlyDollars)"
-        return VStack(spacing: 4) {
-            Text("In a year, that's")
-                .font(.subheadline)
-                .foregroundStyle(.white.opacity(0.75))
-            Text(dollarStr)
-                .font(.system(size: 44, weight: .bold, design: .rounded))
-            Text("plus \(yearlyCalories.formatted()) calories you won't have to spend. About \(yearlyPounds.formatted(.number.precision(.fractionLength(0)))) lb of body fat.")
-                .font(.footnote)
-                .foregroundStyle(.white.opacity(0.75))
-                .multilineTextAlignment(.center)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, Theme.Space.m)
-        .padding(.horizontal, Theme.Space.m)
-        .background(.white.opacity(0.15), in: RoundedRectangle(cornerRadius: 16))
+        return f.string(from: NSNumber(value: amount)) ?? "$\(amount)"
     }
 
     private var reminderStep: some View {
         VStack(spacing: Theme.Space.xl) {
             Spacer()
             Text("Daily reminder time")
-                .font(.largeTitle.weight(.bold))
+                .font(Theme.display(34))
                 .multilineTextAlignment(.center)
             Picker("Hour", selection: $reminderHour) {
                 ForEach(0..<24) { h in
@@ -131,15 +145,18 @@ struct OnboardingView: View {
 
     /// Final step: a deliberate commitment. Recovery starts with a decision —
     /// asking the user to actively pledge (rather than tap a neutral "Done")
-    /// gives them a moment to lock in before the journey begins.
+    /// gives them a moment to lock in before the journey begins. A quieter
+    /// "Not now" path lets reluctant users continue without forcing a pledge
+    /// they don't mean — the answer is also a signal we use to tune the tone
+    /// of nudges throughout the app.
     private var commitStep: some View {
-        VStack(spacing: Theme.Space.xl) {
+        VStack(spacing: Theme.Space.l) {
             Spacer()
             Image(systemName: "hand.raised.fill")
                 .font(.system(size: 72))
                 .opacity(0.92)
             Text("Make it official")
-                .font(.largeTitle.weight(.bold))
+                .font(Theme.display(34))
                 .multilineTextAlignment(.center)
             Text("Recovery starts with a decision. This is yours, for today and the days that follow.")
                 .multilineTextAlignment(.center)
@@ -147,7 +164,21 @@ struct OnboardingView: View {
                 .foregroundStyle(.white.opacity(0.9))
                 .padding(.horizontal, Theme.Space.m)
             Spacer()
-            primaryButton("I commit to getting better") { complete() }
+            VStack(spacing: Theme.Space.s) {
+                primaryButton("I commit to getting better") { complete(committed: true) }
+                Button { complete(committed: false) } label: {
+                    Text("Not now")
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(.white.opacity(0.8))
+                        .underline()
+                        .padding(.vertical, 6)
+                }
+                Text("Either way is fine. You can revisit this any time in Settings.")
+                    .font(.caption)
+                    .foregroundStyle(.white.opacity(0.7))
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, Theme.Space.m)
+            }
         }
     }
 
@@ -169,12 +200,13 @@ struct OnboardingView: View {
         return f.string(from: d)
     }
 
-    private func complete() {
+    private func complete(committed: Bool = true) {
         let settings = SettingsService(context: context).current()
         settings.costPerDayCents = Int(costPerDay * 100)
         settings.caloriesPerDay = Int(caloriesPerDay)
         settings.dailyReminderHour = reminderHour
         settings.hasCompletedOnboarding = true
+        settings.madeCommitment = committed
 
         _ = SobrietyService(context: context).startJourney(at: min(startDate, .now))
         _ = GardenService(context: context).current()
@@ -182,7 +214,7 @@ struct OnboardingView: View {
 
         Task {
             _ = await NotificationService.requestAuthorization()
-            await NotificationService.scheduleDailyReminder(hour: reminderHour)
+            await NotificationService.scheduleDailyReminder(hour: reminderHour, committed: committed)
         }
         WidgetSnapshotPump.push(context: context)
     }

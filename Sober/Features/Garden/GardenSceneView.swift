@@ -12,6 +12,10 @@ struct GardenSceneView: View {
     var completedTreeStyles: [String] = []
     /// Tapping a rendered element (bonsai or placed item) reports it here.
     var onSelect: ((GardenItem) -> Void)? = nil
+    /// Tapped when the user taps the species badge in the top-right corner —
+    /// this is the discoverability hook for swapping the active bonsai
+    /// without burying the action inside the overflow menu.
+    var onSwapBonsai: (() -> Void)? = nil
 
     private var cycle: (dayInCycle: Int, completed: Int) {
         GardenService.cycleProgress(forDays: days)
@@ -79,7 +83,10 @@ struct GardenSceneView: View {
                 )
                 .contentShape(Rectangle())
                 .onTapGesture { if let b = activeBonsaiItem { onSelect?(b) } }
-                .position(x: s.width * 0.5, y: s.height * (stage == .seed ? 0.72 : 0.60))
+                // Anchor the bonsai pot just above the ground line. With the
+                // larger frame the canopy reaches up into the sky and the pot
+                // sits where the dirt meets, no big empty band overhead.
+                .position(x: s.width * 0.5, y: s.height * (stage == .seed ? 0.78 : 0.68))
 
                 // ── Companion Plants (left/right of bonsai) ──
                 ForEach(companionPlants) { item in
@@ -206,14 +213,17 @@ struct GardenSceneView: View {
     // MARK: - Sizing
 
     // Sized so the plant fills the framed garden card — you see the tree up
-    // close, not a small centerpiece in a wide scene. Seed stage stays modest
-    // (a sprout shouldn't look like a grown tree) but is still clearly visible.
+    // close, not a small centerpiece in a wide scene. The BonsaiView Canvas
+    // draws inside a 600pt square but the visible silhouette occupies roughly
+    // the lower 2/3, so we deliberately oversize the frame and let the
+    // padding above the tree double as headroom. Seed stays modest (a sprout
+    // shouldn't dominate) but still scales up from before.
     private func bonsaiWidth(container size: CGSize) -> CGFloat {
-        size.width * (stage == .seed ? 0.20 : 0.58)
+        size.width * (stage == .seed ? 0.32 : 0.95)
     }
 
     private func bonsaiHeight(container size: CGSize) -> CGFloat {
-        size.height * (stage == .seed ? 0.16 : 0.62)
+        size.height * (stage == .seed ? 0.28 : 1.05)
     }
 
     private func itemScale(_ item: GardenItem, container size: CGSize) -> CGFloat {
@@ -254,21 +264,33 @@ struct GardenSceneView: View {
     // MARK: - Badge
 
     private var stageBadge: some View {
-        HStack(spacing: 4) {
-            Image(systemName: "leaf.fill")
-                .font(.caption2)
-            if cycle.completed > 0 {
-                Text("Year \(cycle.completed + 1) · \(stage.title)")
-                    .font(.caption.bold())
-            } else {
-                Text(stage.title)
-                    .font(.caption.bold())
+        // Doubles as the species-swap entry point. The chevron is the explicit
+        // affordance — without it, users tap the bonsai itself looking for a
+        // way to change species and bounce off the detail sheet.
+        Button {
+            onSwapBonsai?()
+        } label: {
+            HStack(spacing: 4) {
+                Image(systemName: "leaf.fill")
+                    .font(.caption2)
+                if cycle.completed > 0 {
+                    Text("Year \(cycle.completed + 1) · \(stage.title)")
+                        .font(.caption.bold())
+                } else {
+                    Text(stage.title)
+                        .font(.caption.bold())
+                }
+                Image(systemName: "chevron.down")
+                    .font(.system(size: 9, weight: .bold))
+                    .opacity(0.7)
             }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .background(.ultraThinMaterial, in: Capsule())
+            .foregroundStyle(.primary)
         }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 4)
-        .background(.ultraThinMaterial, in: Capsule())
-        .foregroundStyle(.primary)
+        .buttonStyle(.plain)
+        .accessibilityLabel("Bonsai species — tap to switch")
     }
 
     // MARK: - Grove (completed trees)

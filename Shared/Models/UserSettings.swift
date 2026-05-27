@@ -10,6 +10,12 @@ final class UserSettings {
     var dailyReminderEnabled: Bool
     var dailyReminderHour: Int
     var hasCompletedOnboarding: Bool
+    /// Whether the user accepted the explicit pledge at the end of onboarding.
+    /// Drives whether nudge copy uses commitment-anchored language ("you said
+    /// you'd…") vs. neutral encouragement. SwiftData default keeps the value
+    /// stable across the lightweight migration when a user upgrades from a
+    /// build that didn't have this field.
+    var madeCommitment: Bool = true
     var appearancePreferenceRaw: String = AppearancePreference.system.rawValue
 
     init(

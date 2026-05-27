@@ -13,13 +13,17 @@ enum NotificationService {
         }
     }
 
-    static func scheduleDailyReminder(hour: Int) async {
+    static func scheduleDailyReminder(hour: Int, committed: Bool = true) async {
         let center = UNUserNotificationCenter.current()
         await cancelDailyReminder()
 
+        // Both variants stay supportive — even the "committed" copy avoids
+        // guilt language. People early in recovery delete apps that scold.
         let content = UNMutableNotificationContent()
-        content.title = "Daily check-in"
-        content.body = "Mark today sober and water your garden."
+        content.title = committed ? "Showing up today" : "Daily check-in"
+        content.body = committed
+            ? "Log today and water your garden — you've got this."
+            : "If today's a sober one, log it and water your garden."
         content.sound = .default
 
         var components = DateComponents()
