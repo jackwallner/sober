@@ -126,24 +126,12 @@ struct TimelineView: View {
         .frame(maxWidth: .infinity)
     }
 
+    /// Measured in the same elapsed-day unit as the headline counter
+    /// (`daysSinceStart`), so "Current" can never read higher than "Longest"
+    /// on an unbroken journey. Counting raw sober check-ins instead would
+    /// include the start day and drift one ahead of the day counter.
     private var longestStreak: Int {
-        let sortedSoberDays = checkIns
-            .filter { $0.wasSober }
-            .map { DateHelpers.startOfDay($0.day) }
-            .sorted()
-        guard !sortedSoberDays.isEmpty else { return 0 }
-        var longest = 1
-        var current = 1
-        for i in 1..<sortedSoberDays.count {
-            let gap = Calendar.current.dateComponents([.day], from: sortedSoberDays[i - 1], to: sortedSoberDays[i]).day ?? 0
-            if gap == 1 {
-                current += 1
-                longest = max(longest, current)
-            } else if gap > 1 {
-                current = 1
-            }
-        }
-        return longest
+        SobrietyService(context: context).longestStreakDays()
     }
 
     // MARK: - Month grid
