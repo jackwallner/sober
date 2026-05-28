@@ -20,7 +20,7 @@ enum PaywallLinks {
 ///   3. Plan stack with annual visually dominant: savings %, per-month anchor,
 ///      strikethrough monthly×12 price.
 ///   4. Trial-first CTA with disclosure inline (Apple 3.1.2).
-///   5. Trust row above legal links (cancel anytime, billing reminder, on-device).
+///   5. Trust row above legal links (billing reminder, on-device — no cancel CTA).
 struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(SubscriptionService.self) private var subscriptions
@@ -287,7 +287,7 @@ struct PaywallView: View {
     private var footerLinks: some View {
         HStack(spacing: 12) {
             Button(action: startRestore) {
-                Text(isRestoring ? "Restoring…" : "Restore")
+                Text(isRestoring ? "Restoring…" : "Restore Purchases")
                     .font(.caption2)
                     .underline()
             }
@@ -296,7 +296,7 @@ struct PaywallView: View {
             Text("·")
             Link("Terms", destination: PaywallLinks.standardEULA)
             Text("·")
-            Link("Privacy", destination: PaywallLinks.privacyPolicy)
+            Link("Privacy Policy", destination: PaywallLinks.privacyPolicy)
         }
         .font(.caption2)
         .foregroundStyle(.white.opacity(0.7))
@@ -305,17 +305,22 @@ struct PaywallView: View {
     private var ctaTitle: String {
         guard let package = selectedPackage else { return "Continue" }
         if package.soberPackageKind == .lifetime { return "Unlock Lifetime" }
-        if subscriptions.isEligibleForIntroOffer(package) { return "Start 7-Day Free Trial" }
+        if subscriptions.isEligibleForIntroOffer(package), let trial = package.soberIntroOfferLabel {
+            let period = trial.replacingOccurrences(of: " free trial", with: "", options: .caseInsensitive)
+            return "Start \(period.capitalized) Free Trial"
+        }
         return "Continue with Bloom+"
     }
 
+    /// Apple 3.1.2: full billed price, trial terms, auto-renew, and how to manage.
+    /// Cancellation is in disclosure only — not a separate trust-row CTA.
     private var disclosureText: String? {
         guard let package = selectedPackage else { return nil }
         let price = package.soberPriceLabel
         if package.soberPackageKind == .lifetime {
             return "\(price). One-time purchase. Lifetime access, no subscription."
         }
-        let renew = "Auto-renews unless cancelled at least 24h before the end of the period."
+        let renew = "Auto-renews unless cancelled at least 24 hours before the end of the current period. Manage or cancel in Settings."
         if subscriptions.isEligibleForIntroOffer(package), let trial = package.soberIntroOfferLabel {
             return "\(trial.capitalized), then \(price). \(renew)"
         }

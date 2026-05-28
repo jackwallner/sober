@@ -7,6 +7,9 @@ struct GardenCollectionView: View {
     let days: Int
     let unlockedItemIDs: [String]
     let isPro: Bool
+    /// When true, renders inside a parent `List` (Progress sheet) without nested
+    /// navigation or scroll — avoids double scroll and title overlap.
+    var embeddedInList: Bool = false
 
     @State private var showPaywall = false
 
@@ -17,34 +20,44 @@ struct GardenCollectionView: View {
     private var nextItem: GardenItem? { allItems.first { $0.milestoneDays > days } }
 
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                LazyVStack(alignment: .leading, spacing: 0) {
-                    header
-                        .padding(.horizontal)
-                        .padding(.bottom, 16)
-
-                    ForEach(Array(allItems.enumerated()), id: \.element.id) { idx, item in
-                        TimelineRow(
-                            item: item,
-                            days: days,
-                            isLast: idx == allItems.count - 1,
-                            isNext: item.id == nextItem?.id,
-                            isPro: isPro,
-                            onUpsell: { showPaywall = true }
-                        )
-                        .padding(.horizontal)
+        Group {
+            if embeddedInList {
+                timelineContent
+            } else {
+                NavigationStack {
+                    ScrollView {
+                        timelineContent
                     }
+                    .background(Theme.background)
+                    .navigationTitle("Collection")
+                    .navigationBarTitleDisplayMode(.inline)
                 }
-                .padding(.vertical)
-            }
-            .background(Theme.background)
-            .navigationTitle("Collection")
-            .navigationBarTitleDisplayMode(.inline)
-            .sheet(isPresented: $showPaywall) {
-                PaywallView(impressionId: "sober_garden_collection_sheet")
             }
         }
+        .sheet(isPresented: $showPaywall) {
+            PaywallView(impressionId: "sober_garden_collection_sheet")
+        }
+    }
+
+    private var timelineContent: some View {
+        LazyVStack(alignment: .leading, spacing: 0) {
+            header
+                .padding(.horizontal, embeddedInList ? 0 : 16)
+                .padding(.bottom, 16)
+
+            ForEach(Array(allItems.enumerated()), id: \.element.id) { idx, item in
+                TimelineRow(
+                    item: item,
+                    days: days,
+                    isLast: idx == allItems.count - 1,
+                    isNext: item.id == nextItem?.id,
+                    isPro: isPro,
+                    onUpsell: { showPaywall = true }
+                )
+                .padding(.horizontal, embeddedInList ? 0 : 16)
+            }
+        }
+        .padding(.vertical, embeddedInList ? 4 : 16)
     }
 
     private var header: some View {
@@ -136,11 +149,16 @@ private struct TimelineRow: View {
                     Text(item.displayName)
                         .font(.subheadline.weight(.semibold))
                         .foregroundStyle(isUnlocked ? Theme.textPrimary : Theme.textSecondary)
-                    Text(item.type.displayCategory)
-                        .font(.caption2)
-                        .foregroundStyle(Theme.textTertiary)
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.9)
+                    if item.type != .bonsai {
+                        Text(item.type.displayCategory)
+                            .font(.caption2)
+                            .foregroundStyle(Theme.textTertiary)
+                    }
                     statusLine
                 }
+                .layoutPriority(1)
                 Spacer(minLength: 0)
                 trailingControl
             }
@@ -182,6 +200,7 @@ private struct TimelineRow: View {
             }
         }
         .frame(width: 56, height: 56)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 
     @ViewBuilder

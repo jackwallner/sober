@@ -63,6 +63,7 @@ private struct BonsaiThumbnail: View {
     var body: some View {
         BonsaiView(day: 200, style: style, vitality: vitality)
             .frame(width: 56 * scale, height: 56 * scale)
+            .clipped()
     }
 }
 
