@@ -206,7 +206,7 @@ private struct TimelineRow: View {
     @ViewBuilder
     private var statusLine: some View {
         if isUnlocked {
-            Text("Earned at day \(item.milestoneDays)")
+            Text(item.milestoneDays <= 0 ? "Earned from the start" : "Earned at day \(item.milestoneDays)")
                 .font(.caption2)
                 .foregroundStyle(Theme.success)
         } else {

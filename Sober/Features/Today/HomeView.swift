@@ -587,7 +587,8 @@ struct ProgressSheet: View {
     }
 
     private var nextBenefitRow: some View {
-        let hours = Double(days) * 24
+        // `days` is 1-based (start day = Day 1); elapsed full days is days - 1.
+        let hours = Double(max(0, days - 1)) * 24
         let next = HealthBenefitCatalog.next(after: hours)
         return progressRow(
             icon: "heart.fill",

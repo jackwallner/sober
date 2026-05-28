@@ -41,14 +41,16 @@ struct HealthBenefitCatalogTests {
 
 @Suite("Sobriety day counting")
 struct SobrietyServiceTests {
-    @Test func zeroDaysSameInstant() {
+    @Test func startDayIsDayOne() {
+        // 1-based: the moment you start, you're on Day 1.
         let now = Date()
-        #expect(SobrietyService.daysSinceStart(now, asOf: now) == 0)
+        #expect(SobrietyService.daysSinceStart(now, asOf: now) == 1)
     }
 
-    @Test func sevenDaysAfterAWeek() {
+    @Test func eighthDayAfterAWeek() {
+        // Start day is Day 1, so seven calendar days later is Day 8.
         let now = Date()
         let weekAgo = Calendar.current.date(byAdding: .day, value: -7, to: now)!
-        #expect(SobrietyService.daysSinceStart(weekAgo, asOf: now) == 7)
+        #expect(SobrietyService.daysSinceStart(weekAgo, asOf: now) == 8)
     }
 }

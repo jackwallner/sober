@@ -47,10 +47,12 @@ struct GardenItemDetailView: View {
     private var statusPill: some View {
         Group {
             if unlocked {
-                Label("Earned at day \(item.milestoneDays)", systemImage: "checkmark.seal.fill")
+                Label(item.milestoneDays <= 0 ? "Earned from the start" : "Earned at day \(item.milestoneDays)",
+                      systemImage: "checkmark.seal.fill")
                     .foregroundStyle(Theme.success)
             } else {
-                Label("Unlocks in \(item.milestoneDays - currentDays) days", systemImage: "lock.fill")
+                let away = max(1, item.milestoneDays - currentDays)
+                Label("Unlocks in \(away) day\(away == 1 ? "" : "s")", systemImage: "lock.fill")
                     .foregroundStyle(Theme.textSecondary)
             }
         }

@@ -36,7 +36,8 @@ struct TimelineView: View {
             return true
         }
         guard let j = covering else { return 0 }
-        return DateHelpers.daysBetween(j.startDate, d)
+        // 1-based to match the headline counter (the start day is Day 1).
+        return DateHelpers.daysBetween(j.startDate, d) + 1
     }
 
     private var bonsaiStyle: BonsaiStyle {
@@ -267,7 +268,7 @@ struct TimelineView: View {
         let curStage = GardenService.stage(forDays: dayCount)
 
         VStack(alignment: .leading, spacing: 6) {
-            if dayCount == 0 {
+            if dayCount <= 1 {
                 growthLine(icon: "sparkle", text: "The seed is settling in. Your journey starts here.")
             } else {
                 growthLine(icon: "arrow.up.forward",

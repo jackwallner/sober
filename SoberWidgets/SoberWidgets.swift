@@ -14,7 +14,8 @@ struct SoberEntry: TimelineEntry {
 /// own (matches `SobrietyService.daysSinceStart`).
 private func liveDays(_ snap: WidgetSnapshot, asOf date: Date) -> Int {
     guard let start = snap.sobrietyStartDate else { return snap.currentStreakDays }
-    return max(0, DateHelpers.daysBetween(start, date))
+    // 1-based: the start day is Day 1 (matches `SobrietyService.daysSinceStart`).
+    return max(0, DateHelpers.daysBetween(start, date)) + 1
 }
 
 struct SoberProvider: TimelineProvider {

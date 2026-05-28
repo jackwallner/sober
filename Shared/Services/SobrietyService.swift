@@ -74,8 +74,12 @@ final class SobrietyService {
         return max(0, DateHelpers.hoursBetween(journey.startDate, date))
     }
 
+    /// 1-based: the start day itself is "Day 1" (matches how every other
+    /// sobriety counter reads, and keeps the streak counter aligned with the
+    /// count of sober check-ins, which also includes the start day). Callers
+    /// distinguish "no journey" via the guards above, which return 0.
     nonisolated static func daysSinceStart(_ start: Date, asOf date: Date = .now) -> Int {
-        max(0, DateHelpers.daysBetween(start, date))
+        max(0, DateHelpers.daysBetween(start, date)) + 1
     }
 
     /// Best (longest) streak across all journeys recorded so far, in days.
