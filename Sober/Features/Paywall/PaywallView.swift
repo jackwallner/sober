@@ -91,7 +91,11 @@ struct PaywallView: View {
                     paywallContent
                 }
             } else {
+                #if DEBUG
                 devPlaceholder
+                #else
+                emptyState
+                #endif
             }
             #else
             devPlaceholder
@@ -371,7 +375,10 @@ struct PaywallView: View {
     #endif
 
     // MARK: - Dev placeholder (no RC key / simulator without StoreKit)
+    // DEBUG-only: never compiled into App Store (Release) builds, so the
+    // free-unlock "Continue (dev)" button can never reach end users or reviewers.
 
+    #if DEBUG || !canImport(RevenueCat)
     private var devPlaceholder: some View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 24) {
@@ -421,6 +428,7 @@ struct PaywallView: View {
         .padding(.vertical, 16)
         .background(.white.opacity(0.14), in: RoundedRectangle(cornerRadius: 18))
     }
+    #endif
 
     // MARK: - Shared chrome
 

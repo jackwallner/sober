@@ -11,8 +11,9 @@ enum PurchaseState {
     case pending
 }
 
-/// RevenueCat wrapper. Replace `apiKey` with the live key from the RevenueCat
-/// dashboard before shipping. The "pro" entitlement gates Pro features.
+/// RevenueCat wrapper. `apiKey` is the production public SDK key from the
+/// RevenueCat dashboard (App Store app). The "pro" entitlement gates Pro
+/// features and must map to the three IAP products in the "default" offering.
 @MainActor
 @Observable
 final class SubscriptionService: NSObject {
