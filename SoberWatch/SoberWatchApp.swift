@@ -2,6 +2,10 @@ import SwiftUI
 
 @main
 struct SoberWatchApp: App {
+    init() {
+        WatchConnectivityService.shared.activate()
+    }
+
     var body: some Scene {
         WindowGroup {
             WatchRootView()
@@ -51,6 +55,9 @@ struct WatchRootView: View {
             }
         }
         .onAppear { snapshot = WidgetSnapshotStore.load() }
+        .onReceive(NotificationCenter.default.publisher(for: .soberWatchSnapshotUpdated)) { _ in
+            snapshot = WidgetSnapshotStore.load()
+        }
     }
 
     private var stageIcon: String {

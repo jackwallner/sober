@@ -7,6 +7,7 @@ struct SoberApp: App {
 
     init() {
         SubscriptionService.shared.configure()
+        WatchConnectivityService.shared.activate()
         ReviewPromptTracker.recordAppLaunch()
     }
 

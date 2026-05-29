@@ -112,7 +112,11 @@ struct HomeView: View {
             .onAppear {
                 GardenService(context: context).applyVitalityDecay()
                 if let j = activeJourney {
-                    CheckInService(context: context).fillJourney(start: j.startDate)
+                    // Backfill only through yesterday so today stays unlogged and
+                    // the active "Check in for today" control is reachable (auto-
+                    // filling today would always render the "Today is logged"
+                    // state before the user ever taps).
+                    CheckInService(context: context).fillJourney(start: j.startDate, through: DateHelpers.daysAgo(1))
                 }
                 refreshCheckInState()
                 checkForUnlocks()

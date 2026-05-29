@@ -70,7 +70,7 @@ struct PaywallView: View {
     /// Outcome-framed bullets, garden first. Each line names a tangible thing
     /// the user will *do* in Bloom+, not just a feature module.
     private let benefits: [(symbol: String, title: String)] = [
-        ("leaf.fill", "Grow 6 bonsai species as you go"),
+        ("leaf.fill", "Grow all 3 bonsai species as you go"),
         ("calendar", "Look back at every day your tree grew"),
         ("heart.text.square.fill", "All 13 health milestones with sources"),
         ("book.closed.fill", "Daily journal prompts and reflections"),
@@ -348,8 +348,15 @@ struct PaywallView: View {
             defer { isPurchasing = false }
             do {
                 switch try await subscriptions.purchase(package) {
-                case .purchased, .pending:
-                    break
+                case .purchased:
+                    break // onChange(of: isProSubscriber) dismisses the sheet
+                case .pending:
+                    // Deferred (Ask to Buy / SCA / parental approval): the
+                    // transaction isn't complete yet. Keep the sheet open with a
+                    // confirmation so it doesn't look like nothing happened; the
+                    // PurchasesDelegate flips isProSubscriber and dismisses once
+                    // it's approved.
+                    restoreMessage = "Your purchase is awaiting approval. Bloom+ unlocks as soon as it's confirmed."
                 case .cancelled:
                     errorMessage = "Purchase cancelled. Tap again to continue."
                 }

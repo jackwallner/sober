@@ -42,6 +42,10 @@ final class SubscriptionService: NSObject {
 
     /// Per-product intro-offer eligibility from RevenueCat.
     private(set) var introEligibility: [String: Bool] = [:]
+
+    /// True once RevenueCat has returned intro-offer eligibility. Until then the
+    /// paywall must not promise a free trial it can't confirm (Apple 3.1.2).
+    private(set) var introEligibilityResolved: Bool = false
     #endif
 
     private var paywallImpressionsThisSession: Set<String> = []
@@ -119,7 +123,18 @@ final class SubscriptionService: NSObject {
             let offerings = try await Purchases.shared.offerings()
             let offering = offerings.soberPaywallOffering
             packages = offering?.soberSortedPackages ?? []
-            lastError = nil
+            if packages.isEmpty {
+                // The network call succeeded but the paywall offering is missing
+                // or carries no packages — a RevenueCat dashboard gap (offering
+                // not published, or no products attached to "default"/current),
+                // NOT a connectivity problem. Surface an honest message and log
+                // it so the dead-end is visible in TestFlight/review instead of
+                // masquerading as an offline error the user can never clear.
+                logger.error("Offerings loaded but the paywall offering has no packages. Check the RevenueCat \"default\" offering and product attachment.")
+                lastError = "Plans are temporarily unavailable. Please try again in a moment."
+            } else {
+                lastError = nil
+            }
             await refreshIntroEligibility()
         } catch {
             logger.error("Product fetch failed: \(String(describing: error), privacy: .public)")
@@ -135,15 +150,22 @@ final class SubscriptionService: NSObject {
             .map(\.storeProduct.productIdentifier)
         guard !identifiers.isEmpty else {
             introEligibility = [:]
+            introEligibilityResolved = true
             return
         }
         let result = await Purchases.shared.checkTrialOrIntroDiscountEligibility(productIdentifiers: identifiers)
         introEligibility = result.mapValues { $0.status == .eligible }
+        introEligibilityResolved = true
     }
 
     func isEligibleForIntroOffer(_ package: Package) -> Bool {
         guard package.packageHasFreeTrialIntro() else { return false }
-        return introEligibility[package.storeProduct.productIdentifier] ?? true
+        // Until eligibility is confirmed, default to NOT eligible so the CTA and
+        // disclosure never momentarily promise a free trial to a returning user
+        // who has already consumed it (Apple 3.1.2). Flips to the real answer
+        // once refreshIntroEligibility resolves.
+        guard introEligibilityResolved else { return false }
+        return introEligibility[package.storeProduct.productIdentifier] ?? false
     }
 
     func trackPaywallImpression(id: String, oncePerSession: Bool = false) {

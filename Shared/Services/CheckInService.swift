@@ -36,22 +36,34 @@ final class CheckInService {
         return (try? context.fetch(descriptor)) ?? []
     }
 
-    /// Ensure every day in the active journey's range has a sober check-in so
-    /// the calendar always matches the journey-day counter on the Home spine.
-    /// Fills gaps only — never overwrites an existing entry (e.g. an edited
-    /// mood or a logged slip). Idempotent.
-    func fillJourney(start: Date, through end: Date = .now) {
+    /// Ensure every day in the active journey's range up to `through` has a sober
+    /// check-in so the calendar always matches the journey-day counter on the
+    /// Home spine. Callers pass `through: yesterday` so the current day is left
+    /// for the user to actively check in (the Home check-in / slip controls key
+    /// off today being unlogged). Fills gaps only — never overwrites an existing
+    /// entry (e.g. an edited mood or a logged slip). Idempotent.
+    ///
+    /// Batches into a single fetch + single save: a long back-dated start could
+    /// otherwise fire thousands of serial fetch round-trips on the main actor
+    /// and stall the first Home render.
+    func fillJourney(start: Date, through end: Date) {
         let cal = Calendar.current
-        var cursor = DateHelpers.startOfDay(start)
+        let first = DateHelpers.startOfDay(start)
         let last = DateHelpers.startOfDay(end)
+        guard first <= last else { return }
+
+        let existing = Set(fetch(from: first, to: last).map(\.day))
+        var cursor = first
+        var didInsert = false
         while cursor <= last {
-            if find(day: cursor) == nil {
+            if !existing.contains(cursor) {
                 context.insert(DailyCheckIn(day: cursor, wasSober: true))
+                didInsert = true
             }
             guard let next = cal.date(byAdding: .day, value: 1, to: cursor) else { break }
             cursor = next
         }
-        try? context.save()
+        if didInsert { try? context.save() }
     }
 
     /// Backfill check-ins as sober for every day from the last recorded check-in
