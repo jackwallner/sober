@@ -668,19 +668,81 @@ private func drawEarly(_ day: Int, style: BonsaiStyle, in ctx: inout GraphicsCon
     }
 }
 
+// MARK: - Content bounds (for fill rendering)
+
+/// Tight bounding box, in the 600×600 design space, of the drawn bonsai for a
+/// given day/style. `BonsaiView(fill:)` uses this to zoom the canvas onto the
+/// plant so it fills its frame instead of swimming in the 600pt square — the
+/// silhouette otherwise only occupies the middle ~45% of the canvas.
+func bonsaiContentRect(day: Int, style: BonsaiStyle) -> CGRect {
+    let d = min(365, max(0, day))
+    var minX = 1e9, minY = 1e9, maxX = -1e9, maxY = -1e9
+    func include(_ x: Double, _ y: Double) {
+        minX = min(minX, x); maxX = max(maxX, x)
+        minY = min(minY, y); maxY = max(maxY, y)
+    }
+
+    // Pot footprint is always part of the silhouette.
+    if style == .cascade {
+        include(218, 360); include(382, 462)
+    } else {
+        include(170, 380); include(430, 464)
+    }
+
+    if d <= 7 {
+        // Sprout: a small region just above the soil. Bounded so a single
+        // stem doesn't zoom to absurd magnification.
+        let baseY: Double = style == .cascade ? 378 : 410
+        include(250, baseY - 92); include(350, baseY + 6)
+    } else {
+        let p = paramsForDay(d, style: style)
+        let tr = buildTrunk(p, style: style)
+        let tb = tr.path.boundingRect
+        include(tb.minX, tb.minY); include(tb.maxX, tb.maxY)
+        for c in p.clusters {
+            let base = c.attach.flatMap { tr.attach[$0] } ?? CGPoint(x: c.cx, y: c.cy)
+            let r = c.size * 1.18   // blob radius ≈ size, plus a little slack
+            include(base.x - r, base.y - r); include(base.x + r, base.y + r)
+        }
+    }
+
+    var rect = CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
+    // Floor on each dimension so young plants don't over-zoom.
+    let minDim = 230.0
+    if rect.width < minDim { rect = rect.insetBy(dx: -(minDim - rect.width) / 2, dy: 0) }
+    if rect.height < minDim { rect = rect.insetBy(dx: 0, dy: -(minDim - rect.height) / 2) }
+    return rect
+}
+
 // MARK: - Public View
 
 struct BonsaiView: View {
     let day: Int
     let style: BonsaiStyle
     let vitality: Double
+    /// When true, zoom and bottom-anchor the canvas onto the plant so it fills
+    /// the frame (pot resting at the bottom edge) instead of being centered in
+    /// the 600pt design square with empty margins. Used for the home
+    /// centerpiece so the tree commands the garden real estate.
+    var fill: Bool = false
 
     var body: some View {
         Canvas { context, size in
-            let scale = min(size.width, size.height) / 600
+            let rect = fill ? bonsaiContentRect(day: day, style: style)
+                            : CGRect(x: 0, y: 0, width: 600, height: 600)
+            let pad = fill ? 1.04 : 1.0
+            let scale = min(size.width / (rect.width * pad),
+                            size.height / (rect.height * pad))
+            let drawnW = rect.width * scale
+            let drawnH = rect.height * scale
             var ctx = context
-            ctx.translateBy(x: (size.width - 600 * scale) / 2,
-                            y: (size.height - 600 * scale) / 2)
+            // Center horizontally; center (default) or bottom-anchor (fill) the
+            // focus rect inside the frame.
+            let offX = (size.width - drawnW) / 2 - rect.minX * scale
+            let offY = fill
+                ? (size.height - drawnH) - rect.minY * scale
+                : (size.height - drawnH) / 2 - rect.minY * scale
+            ctx.translateBy(x: offX, y: offY)
             ctx.scaleBy(x: scale, y: scale)
 
             drawPot(style: style, in: &ctx)

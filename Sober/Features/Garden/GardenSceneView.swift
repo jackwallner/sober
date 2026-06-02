@@ -72,21 +72,27 @@ struct GardenSceneView: View {
                 grove(in: s)
 
                 // ── Bonsai (centerpiece) ──
+                // `fill: true` zooms the canvas onto the actual plant and
+                // bottom-anchors the pot, so the tree fills the frame instead
+                // of floating small in a 600pt square. The frame spans from
+                // just under the top edge down to the ground line, so the
+                // canopy uses the full height with no dead sky band.
                 BonsaiView(
                     day: dayInCycle,
                     style: bonsaiStyle,
-                    vitality: vitality
+                    vitality: vitality,
+                    fill: true
                 )
                 .frame(
-                    width: bonsaiWidth(container: s),
-                    height: bonsaiHeight(container: s)
+                    width: centerWidth(container: s),
+                    height: centerHeight(container: s)
                 )
                 .contentShape(Rectangle())
                 .onTapGesture { if let b = activeBonsaiItem { onSelect?(b) } }
-                // Anchor the bonsai pot just above the ground line. With the
-                // larger frame the canopy reaches up into the sky and the pot
-                // sits where the dirt meets, no big empty band overhead.
-                .position(x: s.width * 0.5, y: s.height * (stage == .seed ? 0.78 : 0.68))
+                .position(
+                    x: s.width * 0.5,
+                    y: groundLineY(s) - centerHeight(container: s) / 2
+                )
 
                 // ── Companion Plants (left/right of bonsai) ──
                 ForEach(companionPlants) { item in
@@ -136,13 +142,17 @@ struct GardenSceneView: View {
                     )
                 }
 
-                // ── Stage Badge ──
+                // ── Overlays: stage info (top-right) + species switcher ──
                 VStack {
                     HStack {
                         Spacer()
                         stageBadge
                     }
                     Spacer()
+                    HStack {
+                        speciesSwitcher
+                        Spacer()
+                    }
                 }
                 .padding(12)
             }
@@ -212,18 +222,30 @@ struct GardenSceneView: View {
 
     // MARK: - Sizing
 
-    // Sized so the plant fills the framed garden card — you see the tree up
-    // close, not a small centerpiece in a wide scene. The BonsaiView Canvas
-    // draws inside a 600pt square but the visible silhouette occupies roughly
-    // the lower 2/3, so we deliberately oversize the frame and let the
-    // padding above the tree double as headroom. Seed stays modest (a sprout
-    // shouldn't dominate) but still scales up from before.
-    private func bonsaiWidth(container size: CGSize) -> CGFloat {
-        size.width * (stage == .seed ? 0.32 : 0.95)
+    /// The dirt line — where the pot rests. Leaves room for the ground band.
+    private func groundLineY(_ size: CGSize) -> CGFloat {
+        size.height - 22
     }
 
+    // The centerpiece frame. `BonsaiView(fill:)` fits the plant to whatever
+    // frame we give it (pot bottom-anchored), so we hand it the full width and
+    // the whole column from just under the top edge down to the ground line —
+    // the canopy then climbs the full height with no empty sky overhead. A
+    // seedling gets a shorter, narrower frame so it reads as small, not as a
+    // giant zoomed sprout.
+    private func centerWidth(container size: CGSize) -> CGFloat {
+        size.width * (stage == .seed ? 0.55 : 1.0)
+    }
+
+    private func centerHeight(container size: CGSize) -> CGFloat {
+        let topInset = size.height * (stage == .seed ? 0.40 : 0.05)
+        return groundLineY(size) - topInset
+    }
+
+    // Retained for companion-plant positioning, which references the
+    // centerpiece height to sit plants beside the trunk.
     private func bonsaiHeight(container size: CGSize) -> CGFloat {
-        size.height * (stage == .seed ? 0.28 : 1.05)
+        centerHeight(container: size)
     }
 
     private func itemScale(_ item: GardenItem, container size: CGSize) -> CGFloat {
@@ -263,34 +285,57 @@ struct GardenSceneView: View {
 
     // MARK: - Badge
 
+    // Pure stage/year readout. The swap action lives in `speciesSwitcher`
+    // below, so this no longer pretends to be a button.
     private var stageBadge: some View {
-        // Doubles as the species-swap entry point. The chevron is the explicit
-        // affordance — without it, users tap the bonsai itself looking for a
-        // way to change species and bounce off the detail sheet.
+        HStack(spacing: 4) {
+            Image(systemName: "leaf.fill")
+                .font(.caption2)
+            if cycle.completed > 0 {
+                Text("Year \(cycle.completed + 1) · \(stage.title)")
+                    .font(.caption.bold())
+            } else {
+                Text(stage.title)
+                    .font(.caption.bold())
+            }
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 5)
+        .background(.ultraThinMaterial, in: Capsule())
+        .foregroundStyle(.primary)
+        .accessibilityLabel("\(stage.title) stage")
+    }
+
+    private var activeSpeciesName: String {
+        activeBonsaiItem?.displayName ?? bonsaiStyle.displayName
+    }
+
+    /// The obvious, branded entry point for swapping the bonsai species. For
+    /// Pro it names the current tree and reads as "tap to switch"; for free it
+    /// pitches the locked species so the upgrade value is on the garden itself,
+    /// not buried in a menu.
+    private var speciesSwitcher: some View {
         Button {
             onSwapBonsai?()
         } label: {
-            HStack(spacing: 4) {
-                Image(systemName: "leaf.fill")
-                    .font(.caption2)
-                if cycle.completed > 0 {
-                    Text("Year \(cycle.completed + 1) · \(stage.title)")
-                        .font(.caption.bold())
-                } else {
-                    Text(stage.title)
-                        .font(.caption.bold())
-                }
-                Image(systemName: "chevron.down")
-                    .font(.system(size: 9, weight: .bold))
-                    .opacity(0.7)
+            HStack(spacing: 7) {
+                Image(systemName: isPro ? "arrow.triangle.2.circlepath" : "crown.fill")
+                    .font(.caption.weight(.bold))
+                Text(isPro ? "\(activeSpeciesName) · Switch" : "Unlock 3 trees")
+                    .font(.subheadline.weight(.semibold))
+                    .lineLimit(1)
+                Image(systemName: "chevron.right")
+                    .font(.caption2.weight(.bold))
+                    .opacity(0.85)
             }
-            .padding(.horizontal, 10)
-            .padding(.vertical, 5)
-            .background(.ultraThinMaterial, in: Capsule())
-            .foregroundStyle(.primary)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 9)
+            .background(Theme.brandGradient, in: Capsule())
+            .foregroundStyle(.white)
+            .shadow(color: .black.opacity(0.18), radius: 6, y: 2)
         }
         .buttonStyle(.plain)
-        .accessibilityLabel("Bonsai species — tap to switch")
+        .accessibilityLabel(isPro ? "Switch bonsai species" : "Unlock more bonsai species with Bloom+")
     }
 
     // MARK: - Grove (completed trees)

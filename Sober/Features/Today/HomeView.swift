@@ -212,13 +212,13 @@ struct HomeView: View {
         .accessibilityElement(children: .combine)
     }
 
-    /// The garden, framed as a card that fills the space between counter and
-    /// CTA — bounded and zoomed onto the plant rather than a full-bleed scene
-    /// the counter floats over.
+    /// The garden, framed as a card that claims all the vertical space between
+    /// the counter and the CTA. The scene fits the bonsai to whatever height it
+    /// gets (see `BonsaiView(fill:)`), so expanding the card grows the tree
+    /// rather than opening a dead sky band. A content-driven floor keeps a
+    /// sparse early garden generous while a rich one (placed items, a grove)
+    /// pushes for even more room.
     private var gardenCard: some View {
-        // A square-ish aspect ratio keeps the bonsai visually dominant instead
-        // of giving it a tall sky band to swim in. The card still flexes for
-        // the check-in pill below it, but doesn't gobble all leftover height.
         PannableGardenView(
             days: days,
             vitality: gardenState?.vitality ?? 1.0,
@@ -229,14 +229,26 @@ struct HomeView: View {
             onSelect: { selectedItem = $0 },
             onSwapBonsai: { showCustomize = true }
         )
-        .aspectRatio(0.92, contentMode: .fit)
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, minHeight: gardenMinHeight, maxHeight: .infinity)
+        .layoutPriority(1)
         .clipShape(RoundedRectangle(cornerRadius: Theme.cardRadius))
         .overlay(
             RoundedRectangle(cornerRadius: Theme.cardRadius)
                 .stroke(Theme.ringTrack, lineWidth: 1)
         )
         .shadow(color: .black.opacity(0.06), radius: 12, y: 4)
+    }
+
+    /// How much "stuff" is in the garden — placed decorations plus completed
+    /// trees in the grove. Drives the card's minimum height so the real estate
+    /// scales with content.
+    private var gardenContentScore: Int {
+        (gardenState?.placedItemIDs.count ?? 0) + (gardenState?.completedTreeStyles.count ?? 0)
+    }
+
+    private var gardenMinHeight: CGFloat {
+        let stageBoost: CGFloat = stage == .seed ? 0 : 60
+        return 300 + stageBoost + min(120, CGFloat(gardenContentScore) * 16)
     }
 
     @ViewBuilder
