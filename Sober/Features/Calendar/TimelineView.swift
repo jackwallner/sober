@@ -45,6 +45,8 @@ struct TimelineView: View {
         case "cascade-bonsai": return .cascade
         case "windswept-bonsai": return .windswept
         case "sakura-bonsai": return .sakura
+        case "maple-bonsai": return .maple
+        case "pine-bonsai": return .pine
         default: return .traditional
         }
     }

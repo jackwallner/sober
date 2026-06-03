@@ -8,6 +8,8 @@ enum BonsaiStyle: String, CaseIterable, Sendable {
     case cascade
     case windswept
     case sakura
+    case maple
+    case pine
 
     var displayName: String {
         switch self {
@@ -15,6 +17,8 @@ enum BonsaiStyle: String, CaseIterable, Sendable {
         case .cascade: return "Cascading"
         case .windswept: return "Windswept"
         case .sakura: return "Cherry Blossom"
+        case .maple: return "Japanese Maple"
+        case .pine: return "Black Pine"
         }
     }
 }

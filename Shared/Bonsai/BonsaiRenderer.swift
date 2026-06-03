@@ -513,9 +513,9 @@ private func buildTrunk(_ p: Params, style: BonsaiStyle) -> TrunkResult {
     case .cascade:    return trunkCascade(p)
     case .windswept:  return trunkWindswept(p)
     case .traditional: return trunkTraditional(p)
-    // Sakura has its own self-contained render path (drawSakura) and never
-    // reaches this trunk/cluster pipeline; this keeps the switch exhaustive.
-    case .sakura:     return trunkTraditional(p)
+    // Sakura/Maple/Pine each have their own self-contained render path and never
+    // reach this trunk/cluster pipeline; these keep the switch exhaustive.
+    case .sakura, .maple, .pine: return trunkTraditional(p)
     }
 }
 
@@ -1019,6 +1019,678 @@ func sakuraContentRect(day: Int) -> CGRect {
     return rect
 }
 
+// MARK: - Maple (Japanese maple) bonsai — native port of bonsai-maple.js
+//
+// Warm autumn crimson→orange→gold lacy vase canopy, vertical bark striping,
+// iron-charcoal rectangular pot, 5-point star leaves. Same continuous-growth
+// discipline as Sakura; used when `style == .maple`.
+
+private enum MaplePal {
+    static let folDeep   = Color(hex: 0x8C2E22)
+    static let folMid    = Color(hex: 0xC8472A)
+    static let folLight  = Color(hex: 0xE87B33)
+    static let folHi     = Color(hex: 0xF4B24B)
+    static let folEmber  = Color(hex: 0x9E3320)
+    static let barkDeep  = Color(hex: 0x43342B)
+    static let barkMid   = Color(hex: 0x6E594A)
+    static let barkLight = Color(hex: 0x9C8676)
+    static let barkStripe = Color(hex: 0x574539)
+    static let potDark   = Color(hex: 0x26282B)
+    static let potMid    = Color(hex: 0x3C4045)
+    static let potLight  = Color(hex: 0x565C63)
+    static let potRim    = Color(hex: 0x1A1B1D)
+    static let potGlaze  = Color(hex: 0x6B7178)
+    static let soilDark  = Color(hex: 0x211712)
+    static let soilMid   = Color(hex: 0x37281D)
+}
+
+private func mapleScale(_ d: Int) -> Double { ramp(Double(d), 0, 430, 0.5) }
+private func mapleBark(_ d: Int) -> Double { smoothstepS(70, 400, Double(d)) }
+private func mapleFall(_ d: Int) -> Double { ramp(Double(d), 55, 365, 1.0) }
+
+private struct MapleCanopy {
+    var cX: Double, cY: Double, Rx: Double, Ry: Double
+    var forkX: Double, forkY: Double, g: Double, baseW: Double
+}
+
+private func mapleCanopy(_ day: Int) -> MapleCanopy {
+    let baseY = 410.0
+    let g = mapleScale(day)
+    let forkLen = 12 + 182 * g
+    let forkY = baseY - forkLen
+    let forkX = 304.0
+    let Rx = 8 + 132 * g
+    let Ry = 6 + 74 * g
+    let baseW = 2.4 + 38 * g
+    return MapleCanopy(cX: forkX, cY: forkY - Ry * 0.34, Rx: Rx, Ry: Ry,
+                       forkX: forkX, forkY: forkY, g: g, baseW: baseW)
+}
+
+private struct MapleLimb { let a, r, s, seed, app, span: Double }
+
+private let mapleLimbs: [MapleLimb] = [
+    MapleLimb(a: 90,  r: 0.10, s: 1.00, seed: 1,  app: 0,   span: 1),
+    MapleLimb(a: 120, r: 0.46, s: 0.88, seed: 2,  app: 7,   span: 16),
+    MapleLimb(a: 60,  r: 0.46, s: 0.88, seed: 3,  app: 13,  span: 16),
+    MapleLimb(a: 142, r: 0.66, s: 0.78, seed: 4,  app: 22,  span: 18),
+    MapleLimb(a: 38,  r: 0.66, s: 0.78, seed: 5,  app: 31,  span: 18),
+    MapleLimb(a: 96,  r: 0.62, s: 0.80, seed: 6,  app: 42,  span: 16),
+    MapleLimb(a: 108, r: 0.84, s: 0.70, seed: 7,  app: 54,  span: 18),
+    MapleLimb(a: 72,  r: 0.84, s: 0.70, seed: 8,  app: 67,  span: 18),
+    MapleLimb(a: 26,  r: 0.58, s: 0.66, seed: 9,  app: 84,  span: 20),
+    MapleLimb(a: 154, r: 0.58, s: 0.66, seed: 10, app: 104, span: 20),
+    MapleLimb(a: 50,  r: 0.38, s: 0.66, seed: 11, app: 126, span: 20),
+    MapleLimb(a: 130, r: 0.38, s: 0.66, seed: 12, app: 150, span: 20),
+    MapleLimb(a: 84,  r: 0.74, s: 0.62, seed: 13, app: 178, span: 22),
+    MapleLimb(a: 100, r: 0.72, s: 0.62, seed: 14, app: 210, span: 22),
+    MapleLimb(a: 44,  r: 0.80, s: 0.56, seed: 15, app: 248, span: 24),
+    MapleLimb(a: 138, r: 0.80, s: 0.56, seed: 16, app: 290, span: 24),
+    MapleLimb(a: 90,  r: 0.86, s: 0.58, seed: 17, app: 332, span: 24),
+]
+
+private struct MapleTuft { let ang, rad, app, sz, span, seed: Double }
+
+private let mapleTufts: [MapleTuft] = {
+    var out: [MapleTuft] = []
+    let N = 46
+    for i in 0..<N {
+        let u = rand01(700, Double(i + 1)), v = rand01(810, Double(i + 1))
+        out.append(MapleTuft(
+            ang: .pi * (0.05 + 0.90 * u),
+            rad: 0.05 + 0.74 * sqrt(v),
+            app: 2 + pow(Double(i) / Double(N), 0.92) * 356,
+            sz: 0.40 + 0.40 * rand01(920, Double(i + 1)),
+            span: 9 + (rand01(930, Double(i + 1)) * 6).rounded(),
+            seed: 200 + Double(i)
+        ))
+    }
+    return out
+}()
+
+private func mapleCluster(
+    _ ctx: inout GraphicsContext, cx: Double, cy: Double, size: Double,
+    seed: Double, squashY: Double = 0.84, noise: Double = 0.34,
+    clumps: Int = 4, lights: Int = 3, sat: Double = 1, opacity: Double = 1, tilt: Double = 0
+) {
+    let shadow = MaplePal.folDeep, mid = MaplePal.folMid
+    let light = MaplePal.folLight, hi = MaplePal.folHi
+    let r: (Double) -> Double = { rand01(seed, $0) }
+    var g = ctx
+    g.translateBy(x: cx, y: cy)
+    g.opacity = opacity
+
+    let sh = blobPath(cx: size * 0.10, cy: size * 0.13, rBase: size * 1.02,
+                      seed: seed * 1.1, points: 11, squashY: squashY, noise: noise * 0.9, tiltDeg: tilt)
+    g.fill(sh, with: .color(shadow.opacity(0.82 * sat)))
+    let md = blobPath(cx: 0, cy: 0, rBase: size * 0.92,
+                      seed: seed * 1.3 + 7, points: 12, squashY: squashY + 0.02, noise: noise, tiltDeg: tilt * 0.6)
+    g.fill(md, with: .color(mid.opacity(0.96 * sat)))
+    for i in 0..<clumps {
+        let a = Double(i) / Double(max(1, clumps)) * .pi * 1.4 - .pi * 0.95
+        let off = size * (0.30 + r(Double(i * 5 + 2)) * 0.24)
+        let rad = size * (0.18 + r(Double(i * 5 + 3)) * 0.12)
+        let p = blobPath(cx: cos(a) * off, cy: sin(a) * off * 0.7 - size * 0.08, rBase: rad,
+                         seed: seed * 17 + Double(i) * 31, points: 8, squashY: 0.9, noise: 0.4)
+        g.fill(p, with: .color(light.opacity(0.74 * sat)))
+    }
+    for i in 0..<lights {
+        let a = -Double.pi * 0.78 + Double(i) / Double(max(1, lights)) * .pi * 0.72
+        let off = size * (0.44 + r(Double(i * 7 + 9)) * 0.18)
+        let rad = size * (0.09 + r(Double(i * 7 + 11)) * 0.07)
+        let p = blobPath(cx: cos(a) * off, cy: sin(a) * off * 0.55 - size * 0.18, rBase: rad,
+                         seed: seed * 23 + Double(i) * 41, points: 7, squashY: 0.95, noise: 0.34)
+        g.fill(p, with: .color(hi.opacity(0.85 * sat)))
+    }
+}
+
+private func drawMaplePot(_ ctx: inout GraphicsContext) {
+    var body = Path()
+    body.move(to: CGPoint(x: 176, y: 418))
+    body.addLine(to: CGPoint(x: 186, y: 460))
+    body.addLine(to: CGPoint(x: 414, y: 460))
+    body.addLine(to: CGPoint(x: 424, y: 418))
+    body.closeSubpath()
+    ctx.fill(body, with: .linearGradient(
+        Gradient(colors: [MaplePal.potMid, MaplePal.potDark]),
+        startPoint: CGPoint(x: 300, y: 418), endPoint: CGPoint(x: 300, y: 460)))
+
+    var glaze = Path()
+    glaze.move(to: CGPoint(x: 186, y: 420))
+    glaze.addLine(to: CGPoint(x: 198, y: 452))
+    glaze.addLine(to: CGPoint(x: 262, y: 452))
+    glaze.addLine(to: CGPoint(x: 256, y: 420))
+    glaze.closeSubpath()
+    ctx.fill(glaze, with: .color(MaplePal.potGlaze.opacity(0.16)))
+
+    var shade = Path()
+    shade.move(to: CGPoint(x: 300, y: 418))
+    shade.addLine(to: CGPoint(x: 414, y: 460))
+    shade.addLine(to: CGPoint(x: 424, y: 418))
+    shade.closeSubpath()
+    ctx.fill(shade, with: .color(MaplePal.potDark.opacity(0.5)))
+
+    var rim = Path()
+    rim.move(to: CGPoint(x: 186, y: 460))
+    rim.addLine(to: CGPoint(x: 414, y: 460))
+    rim.addLine(to: CGPoint(x: 406, y: 455))
+    rim.addLine(to: CGPoint(x: 194, y: 455))
+    rim.closeSubpath()
+    ctx.fill(rim, with: .color(MaplePal.potRim.opacity(0.6)))
+
+    var lip = Path()
+    lip.move(to: CGPoint(x: 168, y: 410))
+    lip.addLine(to: CGPoint(x: 432, y: 410))
+    lip.addLine(to: CGPoint(x: 424, y: 421))
+    lip.addLine(to: CGPoint(x: 176, y: 421))
+    lip.closeSubpath()
+    ctx.fill(lip, with: .color(MaplePal.potLight.opacity(0.9)))
+
+    var lipHi = Path()
+    lipHi.move(to: CGPoint(x: 168, y: 410))
+    lipHi.addLine(to: CGPoint(x: 432, y: 410))
+    lipHi.addLine(to: CGPoint(x: 430, y: 414))
+    lipHi.addLine(to: CGPoint(x: 170, y: 414))
+    lipHi.closeSubpath()
+    ctx.fill(lipHi, with: .color(MaplePal.potGlaze.opacity(0.4)))
+
+    var lipShadow = Path()
+    lipShadow.move(to: CGPoint(x: 176, y: 421))
+    lipShadow.addLine(to: CGPoint(x: 424, y: 421))
+    lipShadow.addLine(to: CGPoint(x: 421, y: 425))
+    lipShadow.addLine(to: CGPoint(x: 179, y: 425))
+    lipShadow.closeSubpath()
+    ctx.fill(lipShadow, with: .color(MaplePal.potRim.opacity(0.5)))
+
+    ctx.fill(ellipse(300, 412, 124, 6.5),  with: .color(MaplePal.soilMid))
+    ctx.fill(ellipse(300, 412.5, 122, 5.5), with: .color(MaplePal.soilDark))
+    ctx.fill(ellipse(242, 412, 1.8, 1.8),  with: .color(MaplePal.barkMid.opacity(0.5)))
+    ctx.fill(ellipse(330, 412, 1.6, 1.6),  with: .color(MaplePal.barkMid.opacity(0.45)))
+    ctx.fill(ellipse(286, 413, 1.2, 1.2),  with: .color(MaplePal.barkLight.opacity(0.4)))
+}
+
+private func drawMapleTrunk(day: Int, c: MapleCanopy, in ctx: inout GraphicsContext) {
+    let baseX = 300.0, baseY = 410.0
+    let topW = max(2.0, c.baseW * 0.40)
+    let midY = (baseY + c.forkY) / 2
+    let bend = 3 + 9 * c.g
+    let bL = baseX - c.baseW / 2, bR = baseX + c.baseW / 2
+    let mL = baseX - bend - topW * 0.55, mR = baseX - bend + topW * 0.55
+    let tL = c.forkX - topW / 2, tR = c.forkX + topW / 2
+
+    var trunk = Path()
+    trunk.move(to: CGPoint(x: bL, y: baseY))
+    trunk.addQuadCurve(to: CGPoint(x: mL, y: midY), control: CGPoint(x: bL - 2, y: midY + 8))
+    trunk.addQuadCurve(to: CGPoint(x: tL, y: c.forkY), control: CGPoint(x: mL + 2, y: (midY + c.forkY) / 2))
+    trunk.addLine(to: CGPoint(x: tR, y: c.forkY))
+    trunk.addQuadCurve(to: CGPoint(x: mR, y: midY), control: CGPoint(x: mR + 2, y: (midY + c.forkY) / 2))
+    trunk.addQuadCurve(to: CGPoint(x: bR, y: baseY), control: CGPoint(x: bR + 2, y: midY + 8))
+    trunk.closeSubpath()
+
+    let tb = trunk.boundingRect
+    ctx.fill(trunk, with: .linearGradient(
+        Gradient(colors: [MaplePal.barkLight, MaplePal.barkMid, MaplePal.barkDeep]),
+        startPoint: CGPoint(x: tb.minX, y: tb.midY), endPoint: CGPoint(x: tb.maxX, y: tb.midY)))
+
+    let lc = mapleBark(day)
+    if lc > 0.05 && c.baseW > 12 {
+        let n = Int((2 + 3 * lc).rounded())
+        for i in 0..<n {
+            let fx = lerp(-0.3, 0.3, Double(i) / Double(max(1, n - 1)))
+            let x0 = baseX + fx * c.baseW * 0.7
+            let x1 = c.forkX + fx * topW * 0.7 - bend
+            var s = Path()
+            s.move(to: CGPoint(x: x0, y: baseY - 4))
+            s.addQuadCurve(to: CGPoint(x: x1, y: c.forkY + 4), control: CGPoint(x: (x0 + x1) / 2 - bend * 0.5, y: midY))
+            ctx.stroke(s, with: .color(MaplePal.barkStripe.opacity(0.4 * lc)),
+                       style: StrokeStyle(lineWidth: 1.8, lineCap: .round))
+        }
+    }
+}
+
+private func mapleLeaf(_ ctx: inout GraphicsContext, x: Double, y: Double, s: Double,
+                       rotDeg: Double, color: Color, opacity: Double) {
+    var p = Path()
+    for i in 0..<5 {
+        let a = Double(i) / 5 * .pi * 2 - .pi / 2
+        let aInner = a + .pi / 5
+        let outer = CGPoint(x: cos(a) * s, y: sin(a) * s)
+        let inner = CGPoint(x: cos(aInner) * s * 0.42, y: sin(aInner) * s * 0.42)
+        if i == 0 { p.move(to: outer) } else { p.addLine(to: outer) }
+        p.addLine(to: inner)
+    }
+    p.closeSubpath()
+    var g = ctx
+    g.translateBy(x: x, y: y)
+    g.rotate(by: .degrees(rotDeg))
+    g.fill(p, with: .color(color.opacity(opacity)))
+}
+
+private func drawMapleLeaves(day: Int, c: MapleCanopy, in ctx: inout GraphicsContext) {
+    let amt = mapleFall(day)
+    if amt < 0.02 { return }
+    let fallN = Int((amt * 26).rounded())
+    for i in 0..<fallN {
+        let h1 = rand01(71, Double(i + 1)), h2 = rand01(89, Double(i + 3)), h3 = rand01(53, Double(i))
+        let fill = h3 > 0.6 ? MaplePal.folHi : (h3 > 0.3 ? MaplePal.folLight : MaplePal.folMid)
+        mapleLeaf(&ctx, x: 300 + (h1 - 0.5) * 160, y: 408 + h2 * 6, s: 3.2 + h3 * 2,
+                  rotDeg: (h1 - 0.5) * 180, color: fill, opacity: 0.92)
+    }
+    let airN = Int((amt * 10).rounded())
+    for i in 0..<airN {
+        let h1 = rand01(131, Double(i + 1)), h2 = rand01(167, Double(i + 5)), h3 = rand01(199, Double(i + 9))
+        let y0 = c.cY + c.Ry * 0.5 + h2 * (430 - (c.cY + c.Ry * 0.5))
+        let fill = h3 > 0.5 ? MaplePal.folLight : MaplePal.folMid
+        mapleLeaf(&ctx, x: c.cX + (h1 - 0.5) * c.Rx * 2.0, y: min(y0, 432), s: 3 + h3 * 2.2,
+                  rotDeg: (h1 - 0.5) * 200, color: fill, opacity: 0.85)
+    }
+}
+
+func drawMaple(day rawDay: Int, in ctx: inout GraphicsContext) {
+    let day = max(0, min(365, rawDay))
+    let c = mapleCanopy(day)
+    let padBase = 5 + 30 * c.g
+
+    struct Limb { let L: MapleLimb; let e, tx, ty, size: Double; let branch: Bool }
+    var limbItems: [Limb] = []
+    for L in mapleLimbs {
+        let e = L.app == 0 ? 1.0 : smoothstepS(L.app, L.app + L.span, Double(day))
+        if e < 0.02 { continue }
+        let ar = L.a * .pi / 180
+        let tx = c.cX + cos(ar) * c.Rx * L.r * e
+        let ty = c.cY - sin(ar) * c.Ry * L.r * e
+        limbItems.append(Limb(L: L, e: e, tx: tx, ty: ty,
+                              size: padBase * L.s * (0.6 + 0.4 * e), branch: L.app != 0))
+    }
+
+    drawMaplePot(&ctx)
+
+    for it in limbItems.sorted(by: { $0.ty > $1.ty }) where it.branch {
+        let ar = it.L.a * .pi / 180
+        let mx = (c.forkX + it.tx) / 2 - sin(ar) * 5 * c.g
+        let my = (c.forkY + it.ty) / 2 - 6 * c.g * it.e
+        let w = max(1.6, c.baseW * 0.17 * (0.4 + 0.6 * it.e))
+        var b = Path()
+        b.move(to: CGPoint(x: c.forkX, y: c.forkY))
+        b.addQuadCurve(to: CGPoint(x: it.tx, y: it.ty), control: CGPoint(x: mx, y: my))
+        ctx.stroke(b, with: .color(MaplePal.barkMid), style: StrokeStyle(lineWidth: w, lineCap: .round))
+    }
+
+    drawMapleTrunk(day: day, c: c, in: &ctx)
+
+    struct Fol { var tx, ty, size, seed: Double; var accent: Bool; var light: Bool }
+    var fol: [Fol] = limbItems.map {
+        Fol(tx: $0.tx, ty: $0.ty, size: $0.size, seed: $0.L.seed,
+            accent: Int($0.L.seed) % 3 == 0, light: false)
+    }
+    for T in mapleTufts {
+        let e = smoothstepS(T.app, T.app + T.span, Double(day))
+        if e < 0.02 { continue }
+        let rr = T.rad * (0.35 + 0.65 * e)
+        let tx = c.cX + cos(T.ang) * c.Rx * rr
+        let ty = c.cY - sin(T.ang) * c.Ry * rr
+        fol.append(Fol(tx: tx, ty: ty, size: padBase * T.sz * (0.6 + 0.4 * e),
+                       seed: T.seed, accent: false, light: true))
+    }
+
+    for it in fol.sorted(by: { $0.ty > $1.ty }) {
+        let clumps = it.light ? 0 : 2
+        let lights = it.light ? 1 : 2
+        mapleCluster(&ctx, cx: it.tx, cy: it.ty, size: it.size, seed: it.seed * 5 + 2,
+                     squashY: 0.84, noise: 0.36, clumps: clumps, lights: lights, sat: 1, opacity: 1)
+        if c.g > 0.45 && it.accent {
+            ctx.fill(ellipse(it.tx + it.size * 0.1, it.ty - it.size * 0.1, 1.2 + c.g, 1.2 + c.g),
+                     with: .color(MaplePal.folEmber.opacity(0.4)))
+        }
+    }
+
+    drawMapleLeaves(day: day, c: c, in: &ctx)
+}
+
+func mapleContentRect(day: Int) -> CGRect {
+    let d = min(365, max(0, day))
+    let c = mapleCanopy(d)
+    let padBase = 5 + 30 * c.g
+    var minX = 168.0, maxX = 432.0
+    var minY = 410.0
+    let maxY = 462.0
+    minX = min(minX, c.cX - c.Rx - padBase)
+    maxX = max(maxX, c.cX + c.Rx + padBase)
+    minY = min(minY, c.cY - c.Ry - padBase * 1.3)
+    var rect = CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
+    let minDim = 230.0
+    if rect.width < minDim { rect = rect.insetBy(dx: -(minDim - rect.width) / 2, dy: 0) }
+    if rect.height < minDim { rect = rect.insetBy(dx: 0, dy: -(minDim - rect.height) / 2) }
+    return rect
+}
+
+// MARK: - Pine (Japanese black pine) bonsai — native port of bonsai-pine.js
+//
+// Evergreen blue-green needle pads in flat horizontal tiers (built bottom-up),
+// a gnarled S-curved leaning trunk with plated bark + moss, pale spring candles,
+// and an unglazed brown stoneware drum pot. Used when `style == .pine`.
+
+private enum PinePal {
+    static let needDeep  = Color(hex: 0x1E3A30)
+    static let needMid   = Color(hex: 0x2F6149)
+    static let needLight = Color(hex: 0x4C8A63)
+    static let needHi    = Color(hex: 0x7FB583)
+    static let candle    = Color(hex: 0xB7C68A)
+    static let barkDeep  = Color(hex: 0x33271F)
+    static let barkMid   = Color(hex: 0x5A4636)
+    static let barkLight = Color(hex: 0x897059)
+    static let barkPlate = Color(hex: 0x3E2F24)
+    static let barkMoss  = Color(hex: 0x6E7A4E)
+    static let potDark   = Color(hex: 0x5A3D2A)
+    static let potMid    = Color(hex: 0x825939)
+    static let potLight  = Color(hex: 0xA8794F)
+    static let potRim    = Color(hex: 0x432C1D)
+    static let potSpeck  = Color(hex: 0xC49A6A)
+    static let soilDark  = Color(hex: 0x211611)
+    static let soilMid   = Color(hex: 0x36271C)
+}
+
+private func pineScale(_ d: Int) -> Double { ramp(Double(d), 0, 430, 0.5) }
+private func pineBark(_ d: Int) -> Double { smoothstepS(60, 380, Double(d)) }
+private func pineNeedle(_ d: Int) -> Double { ramp(Double(d), 60, 365, 1.0) }
+private func pineCandle(_ d: Int) -> Double {
+    smoothstepS(20, 120, Double(d)) * (1 - smoothstepS(150, 230, Double(d)))
+}
+
+private func lerpP(_ a: CGPoint, _ b: CGPoint, _ t: Double) -> CGPoint {
+    CGPoint(x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t)
+}
+
+private struct PineCanopy { var topX, topY, baseX, baseY, g, baseW: Double }
+
+private func pineCanopy(_ day: Int) -> PineCanopy {
+    let baseX = 296.0, baseY = 412.0
+    let g = pineScale(day)
+    let topLen = 14 + 168 * g
+    let topY = baseY - topLen
+    let lean = 10 + 26 * g
+    let topX = baseX + lean
+    let baseW = 3 + 50 * g
+    return PineCanopy(topX: topX, topY: topY, baseX: baseX, baseY: baseY, g: g, baseW: baseW)
+}
+
+private struct PinePad { let side, hFrac, reach, wFrac, app, span, seed: Double }
+
+private let pinePads: [PinePad] = [
+    PinePad(side: 0,  hFrac: 1.00, reach: 0.00, wFrac: 0.62, app: 0,   span: 1,  seed: 1),
+    PinePad(side: 1,  hFrac: 0.62, reach: 0.95, wFrac: 0.95, app: 8,   span: 20, seed: 2),
+    PinePad(side: -1, hFrac: 0.46, reach: 0.85, wFrac: 0.85, app: 26,  span: 22, seed: 3),
+    PinePad(side: 1,  hFrac: 0.80, reach: 0.62, wFrac: 0.72, app: 70,  span: 24, seed: 4),
+    PinePad(side: -1, hFrac: 0.86, reach: 0.40, wFrac: 0.58, app: 150, span: 28, seed: 5),
+    PinePad(side: 1,  hFrac: 0.30, reach: 1.05, wFrac: 0.70, app: 250, span: 30, seed: 6),
+]
+
+private struct PineTuft { let padU, fx, fy, app, sz, span, seed: Double }
+
+private let pineTufts: [PineTuft] = {
+    var out: [PineTuft] = []
+    let N = 30
+    for i in 0..<N {
+        out.append(PineTuft(
+            padU: rand01(610, Double(i + 1)),
+            fx: (rand01(700, Double(i + 1)) - 0.5) * 1.7,
+            fy: (rand01(810, Double(i + 1)) - 0.5) * 0.7,
+            app: 4 + pow(Double(i) / Double(N), 0.9) * 354,
+            sz: 0.30 + 0.30 * rand01(920, Double(i + 1)),
+            span: 10 + (rand01(930, Double(i + 1)) * 6).rounded(),
+            seed: 300 + Double(i)
+        ))
+    }
+    return out
+}()
+
+private func needleCluster(
+    _ ctx: inout GraphicsContext, cx: Double, cy: Double, w: Double, h: Double,
+    seed: Double, noise: Double = 0.30, clumps: Int = 4, lights: Int = 3, sat: Double = 1, opacity: Double = 1
+) {
+    let shadow = PinePal.needDeep, mid = PinePal.needMid
+    let light = PinePal.needLight, hi = PinePal.needHi
+    let r: (Double) -> Double = { rand01(seed, $0) }
+    let sq = h / w
+    var g = ctx
+    g.translateBy(x: cx, y: cy)
+    g.opacity = opacity
+
+    let sh = blobPath(cx: 0, cy: h * 0.22, rBase: w * 1.02, seed: seed * 1.1, points: 12, squashY: sq, noise: noise * 0.85, tiltDeg: 0)
+    g.fill(sh, with: .color(shadow.opacity(0.85 * sat)))
+    let md = blobPath(cx: 0, cy: 0, rBase: w * 0.94, seed: seed * 1.3 + 7, points: 13, squashY: sq + 0.03, noise: noise, tiltDeg: 0)
+    g.fill(md, with: .color(mid.opacity(0.96 * sat)))
+    for i in 0..<clumps {
+        let fx = (Double(i) / Double(max(1, clumps - 1)) - 0.5) * 1.7
+        let off = w * fx
+        let rad = w * (0.22 + r(Double(i * 5 + 3)) * 0.13)
+        let p = blobPath(cx: off, cy: -h * 0.18, rBase: rad, seed: seed * 17 + Double(i) * 31, points: 8, squashY: 0.62, noise: 0.36)
+        g.fill(p, with: .color(light.opacity(0.72 * sat)))
+    }
+    for i in 0..<lights {
+        let fx = (Double(i) / Double(max(1, lights - 1)) - 0.5) * 1.5
+        let rad = w * (0.10 + r(Double(i * 7 + 11)) * 0.06)
+        let p = blobPath(cx: w * fx, cy: -h * 0.34, rBase: rad, seed: seed * 23 + Double(i) * 41, points: 7, squashY: 0.7, noise: 0.3)
+        g.fill(p, with: .color(hi.opacity(0.8 * sat)))
+    }
+}
+
+private func drawPinePot(_ ctx: inout GraphicsContext) {
+    var body = Path()
+    body.move(to: CGPoint(x: 188, y: 414))
+    body.addQuadCurve(to: CGPoint(x: 196, y: 458), control: CGPoint(x: 186, y: 440))
+    body.addLine(to: CGPoint(x: 404, y: 458))
+    body.addQuadCurve(to: CGPoint(x: 412, y: 414), control: CGPoint(x: 414, y: 440))
+    body.closeSubpath()
+    ctx.fill(body, with: .linearGradient(
+        Gradient(colors: [PinePal.potMid, PinePal.potDark]),
+        startPoint: CGPoint(x: 300, y: 414), endPoint: CGPoint(x: 300, y: 458)))
+
+    var shade = Path()
+    shade.move(to: CGPoint(x: 300, y: 414))
+    shade.addQuadCurve(to: CGPoint(x: 404, y: 458), control: CGPoint(x: 412, y: 440))
+    shade.addLine(to: CGPoint(x: 300, y: 458))
+    shade.closeSubpath()
+    ctx.fill(shade, with: .color(PinePal.potDark.opacity(0.4)))
+
+    var hl = Path()
+    hl.move(to: CGPoint(x: 196, y: 420))
+    hl.addQuadCurve(to: CGPoint(x: 200, y: 450), control: CGPoint(x: 193, y: 436))
+    hl.addLine(to: CGPoint(x: 236, y: 450))
+    hl.addQuadCurve(to: CGPoint(x: 232, y: 420), control: CGPoint(x: 230, y: 434))
+    hl.closeSubpath()
+    ctx.fill(hl, with: .color(PinePal.potLight.opacity(0.22)))
+
+    ctx.fill(ellipse(300, 414, 112, 11),  with: .color(PinePal.potRim))
+    ctx.fill(ellipse(300, 412, 112, 10),  with: .color(PinePal.potMid))
+    ctx.fill(ellipse(300, 411, 108, 8.5), with: .color(PinePal.potLight.opacity(0.55)))
+    ctx.fill(ellipse(300, 412.5, 103, 6.5), with: .color(PinePal.soilMid))
+    ctx.fill(ellipse(300, 413, 101, 5.5), with: .color(PinePal.soilDark))
+    ctx.fill(ellipse(250, 430, 1.6, 1.6), with: .color(PinePal.potSpeck.opacity(0.4)))
+    ctx.fill(ellipse(340, 440, 1.4, 1.4), with: .color(PinePal.potSpeck.opacity(0.35)))
+    ctx.fill(ellipse(300, 448, 1.5, 1.5), with: .color(PinePal.potSpeck.opacity(0.3)))
+    ctx.fill(ellipse(225, 412, 1.6, 1.6), with: .color(PinePal.barkMid.opacity(0.45)))
+    ctx.fill(ellipse(352, 412, 1.4, 1.4), with: .color(PinePal.barkMid.opacity(0.4)))
+}
+
+private func drawPineTrunk(day: Int, c: PineCanopy, in ctx: inout GraphicsContext) {
+    let baseX = c.baseX, baseY = c.baseY, topX = c.topX, topY = c.topY
+    let baseW = c.baseW, topW = max(2.2, baseW * 0.30), g = c.g
+    let lean = topX - baseX
+    let p0 = CGPoint(x: baseX, y: baseY)
+    let p1 = CGPoint(x: baseX - 6 - 4 * g, y: lerp(baseY, topY, 0.34))
+    let p2 = CGPoint(x: baseX + lean * 0.7, y: lerp(baseY, topY, 0.68))
+    let p3 = CGPoint(x: topX, y: topY)
+    func bez(_ t: Double) -> CGPoint {
+        let a = lerpP(p0, p1, t), b = lerpP(p1, p2, t), cc = lerpP(p2, p3, t)
+        return lerpP(lerpP(a, b, t), lerpP(b, cc, t), t)
+    }
+    func tangent(_ t: Double) -> CGPoint {
+        let a = lerpP(p0, p1, t), b = lerpP(p1, p2, t), cc = lerpP(p2, p3, t)
+        let ab = lerpP(a, b, t), bc = lerpP(b, cc, t)
+        return CGPoint(x: bc.x - ab.x, y: bc.y - ab.y)
+    }
+    let widthAt: (Double) -> Double = { lerp(baseW, topW, $0) }
+    func side(_ sign: Double) -> [CGPoint] {
+        let steps = 5
+        var pts: [CGPoint] = []
+        for i in 0...steps {
+            let t = Double(i) / Double(steps)
+            let pt = bez(t), tg = tangent(t)
+            let len = max(hypot(tg.x, tg.y), 1)
+            let nx = -tg.y / len, ny = tg.x / len
+            let w = widthAt(t) / 2
+            pts.append(CGPoint(x: pt.x + sign * nx * w, y: pt.y + sign * ny * w))
+        }
+        return pts
+    }
+    let lPts = side(1), rPts = Array(side(-1).reversed())
+    var trunk = Path()
+    trunk.move(to: lPts[0])
+    for i in 1..<lPts.count { trunk.addLine(to: lPts[i]) }
+    for pt in rPts { trunk.addLine(to: pt) }
+    trunk.closeSubpath()
+    let tb = trunk.boundingRect
+    ctx.fill(trunk, with: .linearGradient(
+        Gradient(colors: [PinePal.barkLight, PinePal.barkMid, PinePal.barkDeep]),
+        startPoint: CGPoint(x: tb.minX, y: tb.midY), endPoint: CGPoint(x: tb.maxX, y: tb.midY)))
+
+    let lc = pineBark(day)
+    if lc > 0.05 && baseW > 12 {
+        let n = Int((3 + 5 * lc).rounded())
+        for i in 0..<n {
+            let t = (Double(i) + 0.5) / Double(n)
+            let pt = bez(t), w = widthAt(t)
+            var s = Path()
+            s.move(to: CGPoint(x: pt.x - w * 0.3, y: pt.y))
+            s.addQuadCurve(to: CGPoint(x: pt.x + w * 0.3, y: pt.y), control: CGPoint(x: pt.x, y: pt.y + 2))
+            ctx.stroke(s, with: .color(PinePal.barkPlate.opacity(0.45 * lc)),
+                       style: StrokeStyle(lineWidth: 1.8, lineCap: .round))
+        }
+        ctx.fill(ellipse(baseX - baseW * 0.25, baseY - 4, 2 + lc, 2 + lc), with: .color(PinePal.barkMoss.opacity(0.4 * lc)))
+        ctx.fill(ellipse(baseX + baseW * 0.18, baseY - 2, 1.6 + lc, 1.6 + lc), with: .color(PinePal.barkMoss.opacity(0.32 * lc)))
+    }
+}
+
+private func pineNeedlePair(_ ctx: inout GraphicsContext, x: Double, y: Double, s: Double,
+                            rotDeg: Double, color: Color, opacity: Double) {
+    var g = ctx
+    g.translateBy(x: x, y: y)
+    g.rotate(by: .degrees(rotDeg))
+    let st = StrokeStyle(lineWidth: 1.5, lineCap: .round)
+    var a = Path(); a.move(to: .zero); a.addLine(to: CGPoint(x: -s * 0.3, y: s))
+    var b = Path(); b.move(to: .zero); b.addLine(to: CGPoint(x: s * 0.3, y: s))
+    g.stroke(a, with: .color(color.opacity(opacity)), style: st)
+    g.stroke(b, with: .color(color.opacity(opacity)), style: st)
+}
+
+func drawPine(day rawDay: Int, in ctx: inout GraphicsContext) {
+    let day = max(0, min(365, rawDay))
+    let c = pineCanopy(day)
+
+    drawPinePot(&ctx)
+    drawPineTrunk(day: day, c: c, in: &ctx)
+
+    func padCentre(_ p: PinePad, _ e: Double) -> (x: Double, y: Double, w: Double, h: Double) {
+        let y = lerp(c.baseY, c.topY, p.hFrac)
+        let leanAtH = lerp(0, c.topX - c.baseX, p.hFrac)
+        let padW = (10 + 78 * c.g) * p.wFrac
+        let x = c.baseX + leanAtH + p.side * p.reach * padW * 0.65 * e
+        let w = padW * (0.5 + 0.5 * e)
+        return (x, y, w, w * 0.42)
+    }
+
+    struct PadLive { let p: PinePad; let e, x, y, w, h: Double }
+    var live: [PadLive] = []
+    for p in pinePads {
+        let e = p.app == 0 ? 1.0 : smoothstepS(p.app, p.app + p.span, Double(day))
+        if e < 0.02 { continue }
+        let cc = padCentre(p, e)
+        live.append(PadLive(p: p, e: e, x: cc.x, y: cc.y, w: cc.w, h: cc.h))
+    }
+
+    for it in live.sorted(by: { $0.y > $1.y }) where it.p.app != 0 {
+        let leanAtH = lerp(0, c.topX - c.baseX, it.p.hFrac)
+        let sx = c.baseX + leanAtH
+        let w = max(1.8, c.baseW * 0.16 * (0.5 + 0.5 * it.e))
+        var b = Path()
+        b.move(to: CGPoint(x: sx, y: it.y + 2))
+        b.addQuadCurve(to: CGPoint(x: it.x, y: it.y), control: CGPoint(x: (sx + it.x) / 2, y: it.y + 4))
+        ctx.stroke(b, with: .color(PinePal.barkDeep), style: StrokeStyle(lineWidth: w, lineCap: .round))
+    }
+
+    struct NItem { var x, y, w, h, seed: Double; var light: Bool }
+    var items: [NItem] = live.map { NItem(x: $0.x, y: $0.y, w: $0.w, h: $0.h, seed: $0.p.seed, light: false) }
+    if !live.isEmpty {
+        for T in pineTufts {
+            let e = smoothstepS(T.app, T.app + T.span, Double(day))
+            if e < 0.02 { continue }
+            let host = live[Int(floor(T.padU * Double(live.count))) % live.count]
+            let ex = 0.4 + 0.6 * e
+            let x = host.x + T.fx * host.w * ex
+            let y = host.y + T.fy * host.h
+            let w = host.w * T.sz * (0.6 + 0.4 * e)
+            items.append(NItem(x: x, y: y, w: w, h: w * 0.5, seed: T.seed, light: true))
+        }
+    }
+    for it in items.sorted(by: { $0.y < $1.y }) {
+        let clumps = it.light ? 0 : 4
+        let lights = it.light ? 1 : 3
+        needleCluster(&ctx, cx: it.x, cy: it.y, w: it.w, h: it.h, seed: it.seed * 5 + 2,
+                      noise: 0.32, clumps: clumps, lights: lights, sat: 1, opacity: 1)
+    }
+
+    let cand = pineCandle(day)
+    if cand > 0.06 && c.g > 0.3 {
+        for it in live where Int(it.p.seed) % 2 == 0 {
+            for k in 0..<2 {
+                let cx = it.x + (rand01(it.p.seed * 3, Double(k + 1)) - 0.5) * it.w * 1.2
+                let cy = it.y - it.h * 0.7 - 3 * cand
+                var s = Path()
+                s.move(to: CGPoint(x: cx, y: cy))
+                s.addLine(to: CGPoint(x: cx, y: cy - 5 * cand))
+                ctx.stroke(s, with: .color(PinePal.candle.opacity(0.6 * cand)), style: StrokeStyle(lineWidth: 2, lineCap: .round))
+            }
+        }
+    }
+
+    let amt = pineNeedle(day)
+    if amt >= 0.02 {
+        let n = Int((amt * 22).rounded())
+        for i in 0..<n {
+            let h1 = rand01(71, Double(i + 1)), h2 = rand01(89, Double(i + 3)), h3 = rand01(53, Double(i))
+            let fill = h3 > 0.5 ? PinePal.needMid : PinePal.needDeep
+            pineNeedlePair(&ctx, x: 300 + (h1 - 0.5) * 140, y: 408 + h2 * 6, s: 4 + h3 * 3,
+                           rotDeg: (h1 - 0.5) * 160, color: fill, opacity: 0.7)
+        }
+    }
+}
+
+func pineContentRect(day: Int) -> CGRect {
+    let d = min(365, max(0, day))
+    let c = pineCanopy(d)
+    var minX = 186.0, maxX = 414.0
+    var minY = 410.0
+    let maxY = 460.0
+    for p in pinePads {
+        let e = p.app == 0 ? 1.0 : smoothstepS(p.app, p.app + p.span, Double(d))
+        if e < 0.02 { continue }
+        let y = lerp(c.baseY, c.topY, p.hFrac)
+        let leanAtH = lerp(0, c.topX - c.baseX, p.hFrac)
+        let padW = (10 + 78 * c.g) * p.wFrac
+        let x = c.baseX + leanAtH + p.side * p.reach * padW * 0.65 * e
+        let w = padW * (0.5 + 0.5 * e)
+        let h = w * 0.42
+        minX = min(minX, x - w); maxX = max(maxX, x + w)
+        minY = min(minY, y - h * 1.6)
+    }
+    minY = min(minY, c.topY - 10)
+    var rect = CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
+    let minDim = 230.0
+    if rect.width < minDim { rect = rect.insetBy(dx: -(minDim - rect.width) / 2, dy: 0) }
+    if rect.height < minDim { rect = rect.insetBy(dx: 0, dy: -(minDim - rect.height) / 2) }
+    return rect
+}
+
 // MARK: - Content bounds (for fill rendering)
 
 /// Tight bounding box, in the 600×600 design space, of the drawn bonsai for a
@@ -1027,6 +1699,8 @@ func sakuraContentRect(day: Int) -> CGRect {
 /// silhouette otherwise only occupies the middle ~45% of the canvas.
 func bonsaiContentRect(day: Int, style: BonsaiStyle) -> CGRect {
     if style == .sakura { return sakuraContentRect(day: day) }
+    if style == .maple { return mapleContentRect(day: day) }
+    if style == .pine { return pineContentRect(day: day) }
     let d = min(365, max(0, day))
     var minX = 1e9, minY = 1e9, maxX = -1e9, maxY = -1e9
     func include(_ x: Double, _ y: Double) {
@@ -1101,6 +1775,14 @@ struct BonsaiView: View {
                 drawSakura(day: day, in: &ctx)
                 return
             }
+            if style == .maple {
+                drawMaple(day: day, in: &ctx)
+                return
+            }
+            if style == .pine {
+                drawPine(day: day, in: &ctx)
+                return
+            }
 
             drawPot(style: style, in: &ctx)
 
@@ -1146,7 +1828,7 @@ struct BonsaiView: View {
 #Preview {
     ScrollView {
         VStack(spacing: 8) {
-            ForEach([BonsaiStyle.traditional, .cascade, .windswept, .sakura], id: \.self) { s in
+            ForEach([BonsaiStyle.traditional, .cascade, .windswept, .sakura, .maple, .pine], id: \.self) { s in
                 Text(s.displayName).font(.caption.bold())
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
                     ForEach([0, 1, 3, 5, 7, 10, 14, 21, 30, 60, 90, 180, 365], id: \.self) { d in

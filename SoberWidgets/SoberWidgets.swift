@@ -71,6 +71,8 @@ struct SoberDayCounterView: View {
         case "cascade-bonsai", "cascade": return .cascade
         case "windswept-bonsai", "windswept": return .windswept
         case "sakura-bonsai", "sakura": return .sakura
+        case "maple-bonsai", "maple": return .maple
+        case "pine-bonsai", "pine": return .pine
         default: return .traditional
         }
     }
