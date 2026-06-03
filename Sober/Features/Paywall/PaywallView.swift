@@ -70,7 +70,7 @@ struct PaywallView: View {
     /// Outcome-framed bullets, garden first. Each line names a tangible thing
     /// the user will *do* in Bloom+, not just a feature module.
     private let benefits: [(symbol: String, title: String)] = [
-        ("leaf.fill", "Grow all 4 bonsai species as you go"),
+        ("leaf.fill", "Grow all 6 bonsai species as you go"),
         ("calendar", "Look back at every day your tree grew"),
         ("heart.text.square.fill", "Unlock the full 13-milestone health timeline"),
         ("book.closed.fill", "Daily journal prompts and reflections"),

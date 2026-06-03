@@ -202,6 +202,18 @@ enum GardenItemCatalog: Sendable {
             colors: [Color(red: 0.60, green: 0.25, blue: 0.10), Color(red: 0.75, green: 0.60, blue: 0.30)]
         ),
 
+        // ── Day 200: Japanese maple bonsai (Bloom+ species) ──
+        GardenItem(
+            id: "maple-bonsai",
+            type: .bonsai,
+            size: .large,
+            displayName: "Japanese Maple",
+            description: "A lacy maple in warm autumn red and gold. Star-shaped leaves drift down as the days add up.",
+            milestoneDays: 200,
+            sfSymbol: "leaf.fill",
+            colors: [Color(red: 0.78, green: 0.28, blue: 0.16), Color(red: 0.43, green: 0.35, blue: 0.29)]
+        ),
+
         // ── Day 270 ──
         GardenItem(
             id: "wind-chime",
@@ -212,6 +224,18 @@ enum GardenItemCatalog: Sendable {
             milestoneDays: 270,
             sfSymbol: "music.note.list",
             colors: [Color(red: 0.60, green: 0.55, blue: 0.30), Color(red: 0.80, green: 0.75, blue: 0.50)]
+        ),
+
+        // ── Day 300: Black pine bonsai (Bloom+ species) ──
+        GardenItem(
+            id: "pine-bonsai",
+            type: .bonsai,
+            size: .large,
+            displayName: "Black Pine",
+            description: "An evergreen pine with cloud-like needle tiers and a gnarled, weathered trunk.",
+            milestoneDays: 300,
+            sfSymbol: "tree.fill",
+            colors: [Color(red: 0.18, green: 0.38, blue: 0.29), Color(red: 0.35, green: 0.27, blue: 0.21)]
         ),
 
         // ── Day 365: The crown jewel ──
