@@ -166,6 +166,18 @@ enum GardenItemCatalog: Sendable {
             colors: [Color(red: 0.18, green: 0.40, blue: 0.18), Color(red: 0.30, green: 0.22, blue: 0.10)]
         ),
 
+        // ── Day 100: Cherry blossom bonsai (Bloom+ species) ──
+        GardenItem(
+            id: "sakura-bonsai",
+            type: .bonsai,
+            size: .large,
+            displayName: "Cherry Blossom",
+            description: "A flowering sakura wrapped in soft pink bloom. Petals drift down as your streak grows.",
+            milestoneDays: 100,
+            sfSymbol: "camera.macro",
+            colors: [Color(red: 0.95, green: 0.70, blue: 0.80), Color(red: 0.49, green: 0.36, blue: 0.27)]
+        ),
+
         // ── Day 120 ──
         GardenItem(
             id: "moon-gate",

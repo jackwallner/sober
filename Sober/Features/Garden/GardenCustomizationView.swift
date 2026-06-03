@@ -311,6 +311,7 @@ struct GardenCustomizationView: View {
         switch id {
         case "cascade-bonsai": return .cascade
         case "windswept-bonsai": return .windswept
+        case "sakura-bonsai": return .sakura
         default: return .traditional
         }
     }

@@ -27,6 +27,7 @@ struct GardenSceneView: View {
         switch activeBonsaiStyleID {
         case "cascade-bonsai": return .cascade
         case "windswept-bonsai": return .windswept
+        case "sakura-bonsai": return .sakura
         default: return .traditional
         }
     }
@@ -321,7 +322,7 @@ struct GardenSceneView: View {
             HStack(spacing: 7) {
                 Image(systemName: isPro ? "arrow.triangle.2.circlepath" : "crown.fill")
                     .font(.caption.weight(.bold))
-                Text(isPro ? "\(activeSpeciesName) · Switch" : "Unlock 3 trees")
+                Text(isPro ? "\(activeSpeciesName) · Switch" : "Unlock 4 trees")
                     .font(.subheadline.weight(.semibold))
                     .lineLimit(1)
                 Image(systemName: "chevron.right")
@@ -383,6 +384,7 @@ struct GardenSceneView: View {
         switch id {
         case "cascade-bonsai", "cascade": return .cascade
         case "windswept-bonsai", "windswept": return .windswept
+        case "sakura-bonsai", "sakura": return .sakura
         default: return .traditional
         }
     }

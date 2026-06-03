@@ -513,6 +513,9 @@ private func buildTrunk(_ p: Params, style: BonsaiStyle) -> TrunkResult {
     case .cascade:    return trunkCascade(p)
     case .windswept:  return trunkWindswept(p)
     case .traditional: return trunkTraditional(p)
+    // Sakura has its own self-contained render path (drawSakura) and never
+    // reaches this trunk/cluster pipeline; this keeps the switch exhaustive.
+    case .sakura:     return trunkTraditional(p)
     }
 }
 
@@ -668,6 +671,354 @@ private func drawEarly(_ day: Int, style: BonsaiStyle, in ctx: inout GraphicsCon
     }
 }
 
+// MARK: - Sakura (cherry-blossom) bonsai — native port of bonsai-sakura.js
+//
+// A self-contained render path used when `style == .sakura`. Unlike the
+// traditional/cascade/windswept trunks (shared trunk + leaf-cluster pipeline),
+// the sakura is a single-fork trunk carrying blossom pads, falling petals, and
+// its own celadon-glazed pot. It is a CONTINUOUS function of day from 0 (a teeny
+// complete cherry) to 365 — no separate early-stage path. One shared scale
+// `sakuraScale(day)` enlarges every dimension so the tree is self-similar and
+// only ever grows; ~17 limbs and ~38 blossom tufts emerge at staggered days.
+
+private enum SakuraPal {
+    static let bloomDeep  = Color(hex: 0xD77FA6)
+    static let bloomMid   = Color(hex: 0xF2B2CD)
+    static let bloomLight = Color(hex: 0xFBD7E6)
+    static let bloomHi    = Color(hex: 0xFFF1F7)
+    static let center     = Color(hex: 0xF2C773)
+    static let barkDeep   = Color(hex: 0x4A3526)
+    static let barkMid    = Color(hex: 0x7C5B45)
+    static let barkLight  = Color(hex: 0xAD8C70)
+    static let lenticel   = Color(hex: 0x5A4233)
+    static let potDark    = Color(hex: 0x5E7E6F)
+    static let potMid     = Color(hex: 0x8AAE9C)
+    static let potLight   = Color(hex: 0xBDD6C7)
+    static let potRim     = Color(hex: 0x4C6A5C)
+    static let potGlaze   = Color(hex: 0xD6E7DC)
+    static let soilDark   = Color(hex: 0x221710)
+    static let soilMid    = Color(hex: 0x3A2A1C)
+}
+
+private func clamp01(_ x: Double) -> Double { x < 0 ? 0 : (x > 1 ? 1 : x) }
+
+private func smoothstepS(_ e0: Double, _ e1: Double, _ x: Double) -> Double {
+    let t = clamp01((x - e0) / (e1 - e0))
+    return t * t * (3 - 2 * t)
+}
+
+private func ramp(_ day: Double, _ start: Double, _ end: Double, _ power: Double) -> Double {
+    pow(clamp01((day - start) / (end - start)), power)
+}
+
+// One shared scale drives every dimension → self-similar growth, no morphing.
+private func sakuraScale(_ d: Int) -> Double { ramp(Double(d), 0, 430, 0.5) }
+private func sakuraBark(_ d: Int) -> Double { smoothstepS(70, 400, Double(d)) }
+private func sakuraPetalAmt(_ d: Int) -> Double { ramp(Double(d), 45, 365, 1.0) }
+
+private struct SakuraCanopy {
+    var cX: Double, cY: Double, Rx: Double, Ry: Double
+    var forkX: Double, forkY: Double, g: Double, baseW: Double
+}
+
+private func sakuraCanopy(_ day: Int) -> SakuraCanopy {
+    let baseY = 410.0
+    let g = sakuraScale(day)
+    let forkLen = 10 + 162 * g
+    let forkY = baseY - forkLen
+    let forkX = 303.0
+    let Rx = 8 + 138 * g
+    let Ry = 5 + 58 * g
+    let baseW = 2.5 + 44 * g
+    return SakuraCanopy(cX: forkX, cY: forkY - Ry * 0.40, Rx: Rx, Ry: Ry,
+                        forkX: forkX, forkY: forkY, g: g, baseW: baseW)
+}
+
+private struct SakuraLimb { let a, r, s, seed, app, span: Double }
+
+private let sakuraLimbs: [SakuraLimb] = [
+    SakuraLimb(a: 90,  r: 0.08, s: 1.00, seed: 1,  app: 0,   span: 1),
+    SakuraLimb(a: 124, r: 0.48, s: 0.90, seed: 2,  app: 7,   span: 16),
+    SakuraLimb(a: 56,  r: 0.48, s: 0.90, seed: 3,  app: 13,  span: 16),
+    SakuraLimb(a: 150, r: 0.70, s: 0.80, seed: 4,  app: 22,  span: 18),
+    SakuraLimb(a: 30,  r: 0.70, s: 0.80, seed: 5,  app: 31,  span: 18),
+    SakuraLimb(a: 96,  r: 0.56, s: 0.78, seed: 6,  app: 42,  span: 16),
+    SakuraLimb(a: 112, r: 0.80, s: 0.70, seed: 7,  app: 54,  span: 18),
+    SakuraLimb(a: 67,  r: 0.80, s: 0.70, seed: 8,  app: 67,  span: 18),
+    SakuraLimb(a: 20,  r: 0.62, s: 0.66, seed: 9,  app: 84,  span: 20),
+    SakuraLimb(a: 160, r: 0.62, s: 0.66, seed: 10, app: 104, span: 20),
+    SakuraLimb(a: 44,  r: 0.40, s: 0.66, seed: 11, app: 126, span: 20),
+    SakuraLimb(a: 136, r: 0.40, s: 0.66, seed: 12, app: 150, span: 20),
+    SakuraLimb(a: 80,  r: 0.70, s: 0.62, seed: 13, app: 178, span: 22),
+    SakuraLimb(a: 104, r: 0.68, s: 0.62, seed: 14, app: 210, span: 22),
+    SakuraLimb(a: 38,  r: 0.82, s: 0.56, seed: 15, app: 248, span: 24),
+    SakuraLimb(a: 146, r: 0.82, s: 0.56, seed: 16, app: 290, span: 24),
+    SakuraLimb(a: 90,  r: 0.74, s: 0.58, seed: 17, app: 332, span: 24),
+]
+
+private struct SakuraTuft { let ang, rad, app, sz, span, seed: Double }
+
+private let sakuraTufts: [SakuraTuft] = {
+    var out: [SakuraTuft] = []
+    let N = 38
+    for i in 0..<N {
+        let u = rand01(700, Double(i + 1)), v = rand01(810, Double(i + 1))
+        out.append(SakuraTuft(
+            ang: .pi * (0.07 + 0.86 * u),
+            rad: 0.06 + 0.70 * sqrt(v),
+            app: 2 + pow(Double(i) / Double(N), 0.92) * 356,
+            sz: 0.48 + 0.42 * rand01(920, Double(i + 1)),
+            span: 9 + (rand01(930, Double(i + 1)) * 6).rounded(),
+            seed: 200 + Double(i)
+        ))
+    }
+    return out
+}()
+
+// A soft painterly blossom cluster (shadow → mid → lit clumps → highlights).
+private func sakuraCluster(
+    _ ctx: inout GraphicsContext, cx: Double, cy: Double, size: Double,
+    seed: Double, squashY: Double = 0.84, noise: Double = 0.28,
+    clumps: Int = 4, lights: Int = 3, sat: Double = 1, opacity: Double = 1, tilt: Double = 0
+) {
+    let shadow = SakuraPal.bloomDeep, mid = SakuraPal.bloomMid
+    let light = SakuraPal.bloomLight, hi = SakuraPal.bloomHi
+    let r: (Double) -> Double = { rand01(seed, $0) }
+
+    var g = ctx
+    g.translateBy(x: cx, y: cy)
+    g.opacity = opacity
+
+    let sh = blobPath(cx: size * 0.10, cy: size * 0.13, rBase: size * 1.02,
+                      seed: seed * 1.1, points: 10, squashY: squashY, noise: noise * 0.85, tiltDeg: tilt)
+    g.fill(sh, with: .color(shadow.opacity(0.8 * sat)))
+
+    let md = blobPath(cx: 0, cy: 0, rBase: size * 0.92,
+                      seed: seed * 1.3 + 7, points: 11, squashY: squashY + 0.03, noise: noise, tiltDeg: tilt * 0.6)
+    g.fill(md, with: .color(mid.opacity(0.96 * sat)))
+
+    for i in 0..<clumps {
+        let a = Double(i) / Double(max(1, clumps)) * .pi * 1.4 - .pi * 0.95
+        let off = size * (0.30 + r(Double(i * 5 + 2)) * 0.22)
+        let rad = size * (0.20 + r(Double(i * 5 + 3)) * 0.12)
+        let p = blobPath(cx: cos(a) * off, cy: sin(a) * off * 0.7 - size * 0.08, rBase: rad,
+                         seed: seed * 17 + Double(i) * 31, points: 8, squashY: 0.9, noise: 0.32)
+        g.fill(p, with: .color(light.opacity(0.72 * sat)))
+    }
+
+    for i in 0..<lights {
+        let a = -Double.pi * 0.78 + Double(i) / Double(max(1, lights)) * .pi * 0.72
+        let off = size * (0.44 + r(Double(i * 7 + 9)) * 0.18)
+        let rad = size * (0.10 + r(Double(i * 7 + 11)) * 0.07)
+        let p = blobPath(cx: cos(a) * off, cy: sin(a) * off * 0.55 - size * 0.18, rBase: rad,
+                         seed: seed * 23 + Double(i) * 41, points: 8, squashY: 0.95, noise: 0.28)
+        g.fill(p, with: .color(hi.opacity(0.85 * sat)))
+    }
+}
+
+private func drawSakuraPot(_ ctx: inout GraphicsContext) {
+    var body = Path()
+    body.move(to: CGPoint(x: 170, y: 415))
+    body.addLine(to: CGPoint(x: 184, y: 460))
+    body.addLine(to: CGPoint(x: 416, y: 460))
+    body.addLine(to: CGPoint(x: 430, y: 415))
+    body.closeSubpath()
+    ctx.fill(body, with: .linearGradient(
+        Gradient(colors: [SakuraPal.potMid, SakuraPal.potDark]),
+        startPoint: CGPoint(x: 300, y: 415), endPoint: CGPoint(x: 300, y: 460)))
+
+    var glaze = Path()
+    glaze.move(to: CGPoint(x: 182, y: 417))
+    glaze.addLine(to: CGPoint(x: 196, y: 452))
+    glaze.addLine(to: CGPoint(x: 268, y: 452))
+    glaze.addLine(to: CGPoint(x: 260, y: 417))
+    glaze.closeSubpath()
+    ctx.fill(glaze, with: .color(SakuraPal.potGlaze.opacity(0.30)))
+
+    var shade = Path()
+    shade.move(to: CGPoint(x: 300, y: 415))
+    shade.addLine(to: CGPoint(x: 416, y: 460))
+    shade.addLine(to: CGPoint(x: 430, y: 415))
+    shade.closeSubpath()
+    ctx.fill(shade, with: .color(SakuraPal.potDark.opacity(0.45)))
+
+    var rim = Path()
+    rim.move(to: CGPoint(x: 184, y: 460))
+    rim.addLine(to: CGPoint(x: 416, y: 460))
+    rim.addLine(to: CGPoint(x: 408, y: 456))
+    rim.addLine(to: CGPoint(x: 192, y: 456))
+    rim.closeSubpath()
+    ctx.fill(rim, with: .color(SakuraPal.potRim.opacity(0.55)))
+
+    ctx.fill(ellipse(300, 413, 130, 9),    with: .color(SakuraPal.potRim))
+    ctx.fill(ellipse(300, 411, 130, 8),    with: .color(SakuraPal.potMid))
+    ctx.fill(ellipse(300, 410, 126, 6.5),  with: .color(SakuraPal.potLight.opacity(0.7)))
+    ctx.fill(ellipse(300, 412, 124, 6.5),  with: .color(SakuraPal.soilMid))
+    ctx.fill(ellipse(300, 412.5, 122, 5.5), with: .color(SakuraPal.soilDark))
+    ctx.fill(ellipse(240, 412, 1.8, 1.8),  with: .color(SakuraPal.barkMid.opacity(0.5)))
+    ctx.fill(ellipse(328, 412, 1.6, 1.6),  with: .color(SakuraPal.barkMid.opacity(0.45)))
+    ctx.fill(ellipse(285, 413, 1.2, 1.2),  with: .color(SakuraPal.barkLight.opacity(0.4)))
+}
+
+private func drawSakuraTrunk(day: Int, c: SakuraCanopy, in ctx: inout GraphicsContext) {
+    let baseX = 300.0, baseY = 410.0
+    let topW = max(2.2, c.baseW * 0.42)
+    let midY = (baseY + c.forkY) / 2
+    let bend = 2 + 7 * c.g
+    let bL = baseX - c.baseW / 2, bR = baseX + c.baseW / 2
+    let mL = baseX - bend - topW * 0.55, mR = baseX - bend + topW * 0.55
+    let tL = c.forkX - topW / 2, tR = c.forkX + topW / 2
+
+    var trunk = Path()
+    trunk.move(to: CGPoint(x: bL, y: baseY))
+    trunk.addQuadCurve(to: CGPoint(x: mL, y: midY), control: CGPoint(x: bL - 2, y: midY + 8))
+    trunk.addQuadCurve(to: CGPoint(x: tL, y: c.forkY), control: CGPoint(x: mL + 2, y: (midY + c.forkY) / 2))
+    trunk.addLine(to: CGPoint(x: tR, y: c.forkY))
+    trunk.addQuadCurve(to: CGPoint(x: mR, y: midY), control: CGPoint(x: mR + 2, y: (midY + c.forkY) / 2))
+    trunk.addQuadCurve(to: CGPoint(x: bR, y: baseY), control: CGPoint(x: bR + 2, y: midY + 8))
+    trunk.closeSubpath()
+
+    let tb = trunk.boundingRect
+    ctx.fill(trunk, with: .linearGradient(
+        Gradient(colors: [SakuraPal.barkLight, SakuraPal.barkMid, SakuraPal.barkDeep]),
+        startPoint: CGPoint(x: tb.minX, y: tb.midY), endPoint: CGPoint(x: tb.maxX, y: tb.midY)))
+
+    let lc = sakuraBark(day)
+    let forkLen = baseY - c.forkY
+    if lc > 0.05 && c.baseW > 14 {
+        let rows = Int((2 + 5 * lc).rounded())
+        for i in 0..<rows {
+            let ty = lerp(baseY - 8, c.forkY + 6, Double(i) / Double(max(1, rows - 1)))
+            let tw = lerp(c.baseW, topW, (baseY - ty) / max(1, forkLen))
+            let lx = baseX - tw * 0.28 - bend * ((baseY - ty) / max(1, forkLen))
+            let ll = max(2.4, tw * 0.5)
+            var line = Path()
+            line.move(to: CGPoint(x: lx, y: ty))
+            line.addLine(to: CGPoint(x: lx + ll, y: ty))
+            ctx.stroke(line, with: .color(SakuraPal.lenticel.opacity(0.5 * lc)),
+                       style: StrokeStyle(lineWidth: 1.8, lineCap: .round))
+        }
+    }
+}
+
+private func sakuraPetal(_ ctx: inout GraphicsContext, x: Double, y: Double, s: Double,
+                         rotDeg: Double, color: Color, opacity: Double) {
+    var p = Path()
+    p.move(to: CGPoint(x: 0, y: -s))
+    p.addQuadCurve(to: CGPoint(x: s * 0.5, y: s * 0.62), control: CGPoint(x: s, y: -s * 0.35))
+    p.addQuadCurve(to: CGPoint(x: 0, y: s * 0.5), control: CGPoint(x: s * 0.18, y: s * 0.18))
+    p.addQuadCurve(to: CGPoint(x: -s * 0.5, y: s * 0.62), control: CGPoint(x: -s * 0.18, y: s * 0.18))
+    p.addQuadCurve(to: CGPoint(x: 0, y: -s), control: CGPoint(x: -s, y: -s * 0.35))
+    p.closeSubpath()
+    var g = ctx
+    g.translateBy(x: x, y: y)
+    g.rotate(by: .degrees(rotDeg))
+    g.fill(p, with: .color(color.opacity(opacity)))
+}
+
+private func drawSakuraPetals(day: Int, c: SakuraCanopy, in ctx: inout GraphicsContext) {
+    let amt = sakuraPetalAmt(day)
+    if amt < 0.02 { return }
+    let fallN = Int((amt * 30).rounded())
+    for i in 0..<fallN {
+        let h1 = rand01(71, Double(i + 1)), h2 = rand01(89, Double(i + 3))
+        sakuraPetal(&ctx, x: 300 + (h1 - 0.5) * 158, y: 408.5 + h2 * 5.5,
+                    s: 3 + rand01(53, Double(i)) * 2, rotDeg: (h1 - 0.5) * 120,
+                    color: h2 > 0.5 ? SakuraPal.bloomLight : SakuraPal.bloomMid, opacity: 0.92)
+    }
+    let airN = Int((amt * 12).rounded())
+    for i in 0..<airN {
+        let h1 = rand01(131, Double(i + 1)), h2 = rand01(167, Double(i + 5)), h3 = rand01(199, Double(i + 9))
+        let y0 = c.cY + c.Ry * 0.5 + h2 * (430 - (c.cY + c.Ry * 0.5))
+        sakuraPetal(&ctx, x: c.cX + (h1 - 0.5) * c.Rx * 2.0, y: min(y0, 432),
+                    s: 3 + h3 * 2.4, rotDeg: (h1 - 0.5) * 150,
+                    color: h3 > 0.5 ? SakuraPal.bloomLight : SakuraPal.bloomMid, opacity: 0.85)
+    }
+}
+
+private struct SakuraBlossom { var tx, ty, size, seed: Double; var accent: Bool; var light: Bool }
+
+func drawSakura(day rawDay: Int, in ctx: inout GraphicsContext) {
+    let day = max(0, min(365, rawDay))
+    let c = sakuraCanopy(day)
+    let padBase = 6 + 34 * c.g
+
+    struct Limb { let L: SakuraLimb; let e, tx, ty, size: Double; let branch: Bool }
+    var limbItems: [Limb] = []
+    for L in sakuraLimbs {
+        let e = L.app == 0 ? 1.0 : smoothstepS(L.app, L.app + L.span, Double(day))
+        if e < 0.02 { continue }
+        let ar = L.a * .pi / 180
+        let tx = c.cX + cos(ar) * c.Rx * L.r * e
+        let ty = c.cY - sin(ar) * c.Ry * L.r * e
+        limbItems.append(Limb(L: L, e: e, tx: tx, ty: ty,
+                              size: padBase * L.s * (0.6 + 0.4 * e), branch: L.app != 0))
+    }
+
+    drawSakuraPot(&ctx)
+
+    // Branches sit behind the trunk, painted back-to-front (lowest on screen first).
+    for it in limbItems.sorted(by: { $0.ty > $1.ty }) where it.branch {
+        let ar = it.L.a * .pi / 180
+        let mx = (c.forkX + it.tx) / 2 - sin(ar) * 5 * c.g
+        let my = (c.forkY + it.ty) / 2 - 8 * c.g * it.e
+        let w = max(1.8, c.baseW * 0.20 * (0.4 + 0.6 * it.e))
+        var b = Path()
+        b.move(to: CGPoint(x: c.forkX, y: c.forkY))
+        b.addQuadCurve(to: CGPoint(x: it.tx, y: it.ty), control: CGPoint(x: mx, y: my))
+        ctx.stroke(b, with: .color(SakuraPal.barkMid), style: StrokeStyle(lineWidth: w, lineCap: .round))
+    }
+
+    drawSakuraTrunk(day: day, c: c, in: &ctx)
+
+    var blossoms: [SakuraBlossom] = limbItems.map {
+        SakuraBlossom(tx: $0.tx, ty: $0.ty, size: $0.size, seed: $0.L.seed,
+                      accent: Int($0.L.seed) % 3 == 0, light: false)
+    }
+    for T in sakuraTufts {
+        let e = smoothstepS(T.app, T.app + T.span, Double(day))
+        if e < 0.02 { continue }
+        let rr = T.rad * (0.35 + 0.65 * e)
+        let tx = c.cX + cos(T.ang) * c.Rx * rr
+        let ty = c.cY - sin(T.ang) * c.Ry * rr
+        blossoms.append(SakuraBlossom(tx: tx, ty: ty, size: padBase * T.sz * (0.6 + 0.4 * e),
+                                      seed: T.seed, accent: false, light: true))
+    }
+
+    for it in blossoms.sorted(by: { $0.ty > $1.ty }) {
+        let clumps = it.light ? 0 : 2
+        let lights = it.light ? 1 : 2
+        sakuraCluster(&ctx, cx: it.tx, cy: it.ty, size: it.size, seed: it.seed * 5 + 2,
+                      squashY: 0.86, noise: 0.30, clumps: clumps, lights: lights, sat: 1, opacity: 1)
+        if c.g > 0.45 && it.accent {
+            ctx.fill(ellipse(it.tx + it.size * 0.1, it.ty - it.size * 0.1, 1.2 + c.g, 1.2 + c.g),
+                     with: .color(SakuraPal.center.opacity(0.4)))
+        }
+    }
+
+    drawSakuraPetals(day: day, c: c, in: &ctx)
+}
+
+/// Tight content box for the sakura, in the 600×600 design space, used by
+/// `BonsaiView(fill:)` to zoom the canvas onto the plant.
+func sakuraContentRect(day: Int) -> CGRect {
+    let d = min(365, max(0, day))
+    let c = sakuraCanopy(d)
+    let padBase = 6 + 34 * c.g
+    var minX = 170.0, maxX = 430.0
+    var minY = 410.0
+    let maxY = 464.0    // pot footprint always anchors the bottom
+    minX = min(minX, c.cX - c.Rx - padBase)
+    maxX = max(maxX, c.cX + c.Rx + padBase)
+    minY = min(minY, c.cY - c.Ry - padBase * 1.3)
+
+    var rect = CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
+    let minDim = 230.0
+    if rect.width < minDim { rect = rect.insetBy(dx: -(minDim - rect.width) / 2, dy: 0) }
+    if rect.height < minDim { rect = rect.insetBy(dx: 0, dy: -(minDim - rect.height) / 2) }
+    return rect
+}
+
 // MARK: - Content bounds (for fill rendering)
 
 /// Tight bounding box, in the 600×600 design space, of the drawn bonsai for a
@@ -675,6 +1026,7 @@ private func drawEarly(_ day: Int, style: BonsaiStyle, in ctx: inout GraphicsCon
 /// plant so it fills its frame instead of swimming in the 600pt square — the
 /// silhouette otherwise only occupies the middle ~45% of the canvas.
 func bonsaiContentRect(day: Int, style: BonsaiStyle) -> CGRect {
+    if style == .sakura { return sakuraContentRect(day: day) }
     let d = min(365, max(0, day))
     var minX = 1e9, minY = 1e9, maxX = -1e9, maxY = -1e9
     func include(_ x: Double, _ y: Double) {
@@ -745,6 +1097,11 @@ struct BonsaiView: View {
             ctx.translateBy(x: offX, y: offY)
             ctx.scaleBy(x: scale, y: scale)
 
+            if style == .sakura {
+                drawSakura(day: day, in: &ctx)
+                return
+            }
+
             drawPot(style: style, in: &ctx)
 
             if day <= 7 {
@@ -789,7 +1146,7 @@ struct BonsaiView: View {
 #Preview {
     ScrollView {
         VStack(spacing: 8) {
-            ForEach([BonsaiStyle.traditional, .cascade, .windswept], id: \.self) { s in
+            ForEach([BonsaiStyle.traditional, .cascade, .windswept, .sakura], id: \.self) { s in
                 Text(s.displayName).font(.caption.bold())
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
                     ForEach([0, 1, 3, 5, 7, 10, 14, 21, 30, 60, 90, 180, 365], id: \.self) { d in

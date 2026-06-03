@@ -70,6 +70,7 @@ struct SoberDayCounterView: View {
         switch snapshot.bonsaiStyleID {
         case "cascade-bonsai", "cascade": return .cascade
         case "windswept-bonsai", "windswept": return .windswept
+        case "sakura-bonsai", "sakura": return .sakura
         default: return .traditional
         }
     }
