@@ -44,6 +44,7 @@ struct TimelineView: View {
         switch gardenStates.first?.activeBonsaiStyleID {
         case "cascade-bonsai": return .cascade
         case "windswept-bonsai": return .windswept
+        case "sakura-bonsai": return .sakura
         default: return .traditional
         }
     }
@@ -144,6 +145,7 @@ struct TimelineView: View {
                     .frame(width: 32, height: 32)
                     .contentShape(Rectangle())
             }
+            .accessibilityLabel("Previous month")
             Spacer()
             Text(monthTitle).font(.title3.weight(.semibold))
             Spacer()
@@ -152,6 +154,7 @@ struct TimelineView: View {
                     .frame(width: 32, height: 32)
                     .contentShape(Rectangle())
             }
+            .accessibilityLabel("Next month")
         }
     }
 

@@ -31,7 +31,7 @@ struct HealthView: View {
                     }
                 }
 
-                Section("Benefits") {
+                Section {
                     ForEach(Array(HealthBenefitCatalog.all.enumerated()), id: \.element.id) { idx, benefit in
                         let unlocked = hours >= benefit.hoursRequired
                         let inFreeWindow = subscriptions.isProSubscriber || idx < freeRevealCount
@@ -47,6 +47,10 @@ struct HealthView: View {
                                 }
                             }
                     }
+                } header: {
+                    Text("Benefits")
+                } footer: {
+                    Text("General wellness information, not medical advice. Timelines vary from person to person — for medical concerns, talk to a healthcare professional.")
                 }
             }
             .listStyle(.insetGrouped)

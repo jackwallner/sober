@@ -580,7 +580,7 @@ struct ProgressSheet: View {
                     Text("You've saved \(lifetimeMoneySaved) so far")
                         .font(.subheadline.weight(.semibold))
                         .foregroundStyle(Theme.textPrimary)
-                    Text("Try Bloom+ free for 7 days")
+                    Text("Start your free Bloom+ trial")
                         .font(.caption)
                         .foregroundStyle(Theme.textSecondary)
                 }

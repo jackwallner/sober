@@ -70,9 +70,9 @@ struct PaywallView: View {
     /// Outcome-framed bullets, garden first. Each line names a tangible thing
     /// the user will *do* in Bloom+, not just a feature module.
     private let benefits: [(symbol: String, title: String)] = [
-        ("leaf.fill", "Grow all 3 bonsai species as you go"),
+        ("leaf.fill", "Grow all 4 bonsai species as you go"),
         ("calendar", "Look back at every day your tree grew"),
-        ("heart.text.square.fill", "All 13 health milestones with sources"),
+        ("heart.text.square.fill", "Unlock the full 13-milestone health timeline"),
         ("book.closed.fill", "Daily journal prompts and reflections"),
         ("dollarsign.circle.fill", "Every dollar and calorie saved, tracked")
     ]
@@ -149,15 +149,25 @@ struct PaywallView: View {
 
     private var loadingState: some View {
         VStack(spacing: 14) {
+            Spacer()
             ProgressView().tint(.white)
             Text("Loading plans…")
                 .font(.footnote)
                 .foregroundStyle(.white.opacity(0.75))
+            Spacer()
+            // Terms, Privacy, and Restore must stay reachable from every paywall
+            // state (Apple 3.1.2), not just the loaded one.
+            footerLinks
         }
+        .padding(.horizontal, 22)
+        .padding(.top, displayCloseButton ? 52 : 20)
+        .padding(.bottom, 16)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     private var emptyState: some View {
         VStack(spacing: 12) {
+            Spacer()
             Image(systemName: "wifi.exclamationmark")
                 .font(.system(size: 40))
                 .foregroundStyle(.white.opacity(0.7))
@@ -176,7 +186,15 @@ struct PaywallView: View {
             }
             .font(.subheadline.weight(.semibold))
             .foregroundStyle(.white)
+            Spacer()
+            // Even when plans fail to load, a returning subscriber must be able to
+            // restore, and Terms/Privacy must remain available (Apple 3.1.2).
+            footerLinks
         }
+        .padding(.horizontal, 22)
+        .padding(.top, displayCloseButton ? 52 : 20)
+        .padding(.bottom, 16)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     private var benefitList: some View {
@@ -450,6 +468,7 @@ struct PaywallView: View {
                         .padding(16)
                 }
                 .buttonStyle(.plain)
+                .accessibilityLabel("Close")
             }
             Spacer()
         }

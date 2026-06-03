@@ -62,7 +62,7 @@ enum HealthBenefitCatalog {
             hoursRequired: 24 * 7,
             title: "Mental Clarity",
             summary: "Cognitive function sharpens.",
-            detail: "One week sober, focus, memory, and reaction time measurably improve as inflammation in the brain decreases.",
+            detail: "By one week, many people notice sharper focus, memory, and reaction time as brain inflammation decreases. Experiences vary.",
             sourceLabel: "NIAAA",
             sourceURL: URL(string: "https://www.niaaa.nih.gov/alcohol-health")
         ),
@@ -70,8 +70,8 @@ enum HealthBenefitCatalog {
             id: "reduced-anxiety",
             hoursRequired: 24 * 14,
             title: "Reduced Anxiety",
-            summary: "GABA balance restoring.",
-            detail: "Two weeks in, anxiety symptoms often drop as neurotransmitter balance (GABA / glutamate) restores.",
+            summary: "Nervous system rebalancing.",
+            detail: "Around two weeks in, many people find anxiety eases as the nervous system rebalances. Individual experiences vary.",
             sourceLabel: "NIAAA",
             sourceURL: URL(string: "https://www.niaaa.nih.gov/alcohol-health")
         ),
@@ -80,7 +80,7 @@ enum HealthBenefitCatalog {
             hoursRequired: 24 * 30,
             title: "Liver Fat Reduction",
             summary: "Hepatic steatosis improves.",
-            detail: "At one month, liver fat content can fall by 15–20%. Markers like ALT begin to normalize.",
+            detail: "By about a month, studies suggest liver fat can decrease and liver markers like ALT often improve. Results vary by person.",
             sourceLabel: "NIAAA · Alcohol & the Liver",
             sourceURL: URL(string: "https://pubs.niaaa.nih.gov/publications/arh27-3/277-284.htm")
         ),
@@ -98,7 +98,7 @@ enum HealthBenefitCatalog {
             hoursRequired: 24 * 60,
             title: "Blood Pressure Drops",
             summary: "Cardiovascular load eases.",
-            detail: "At two months, systolic blood pressure can drop 5–10 mmHg as the cardiovascular system recovers.",
+            detail: "By around two months, many people see blood pressure improve as the cardiovascular system recovers. Effects vary.",
             sourceLabel: "AHA",
             sourceURL: URL(string: "https://www.heart.org/en/healthy-living/healthy-eating/eat-smart/nutrition-basics/alcohol-and-heart-health")
         ),
@@ -115,8 +115,8 @@ enum HealthBenefitCatalog {
             id: "immune-boost",
             hoursRequired: 24 * 180,
             title: "Immune System Boost",
-            summary: "White cell function recovers.",
-            detail: "Half a year in, the immune system regains full pathogen-fighting capacity. You'll catch fewer colds.",
+            summary: "Immune function improves.",
+            detail: "By around six months, immune function tends to improve, and many people report getting sick less often.",
             sourceLabel: "NIAAA · Immune Function",
             sourceURL: URL(string: "https://pubs.niaaa.nih.gov/publications/arh34-4/319-323.htm")
         ),
@@ -124,17 +124,17 @@ enum HealthBenefitCatalog {
             id: "skin-renewal",
             hoursRequired: 24 * 180,
             title: "Skin Renewal",
-            summary: "Collagen and tone restored.",
-            detail: "Six months without alcohol-driven dehydration and inflammation, skin tone, elasticity, and redness all improve.",
-            sourceLabel: "Dermatology research",
-            sourceURL: nil
+            summary: "Skin tone and hydration improve.",
+            detail: "After about six months without alcohol-driven dehydration and inflammation, many people see skin tone, elasticity, and redness improve.",
+            sourceLabel: "NIAAA · Alcohol & Health",
+            sourceURL: URL(string: "https://www.niaaa.nih.gov/alcohol-health")
         ),
         HealthBenefit(
             id: "full-body-recovery",
             hoursRequired: 24 * 365,
             title: "Full Body Recovery",
-            summary: "Long-term cancer risk reduced.",
-            detail: "One year sober, your risk of alcohol-related cancers (mouth, throat, liver, breast) begins a measurable decline.",
+            summary: "Long-term health risks ease.",
+            detail: "After a year, research links sustained sobriety with lower long-term risk for several alcohol-related health conditions. Talk to a doctor about your health.",
             sourceLabel: "NIAAA · Long-term Outcomes",
             sourceURL: URL(string: "https://www.niaaa.nih.gov/alcohol-health")
         ),

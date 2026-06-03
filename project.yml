@@ -48,8 +48,9 @@ targets:
     sources:
       - path: Sober
       - path: Shared
-      - path: Sober.storekit
-        buildPhase: resources
+      # Sober.storekit is intentionally NOT bundled into the app: production uses
+      # the live App Store / RevenueCat. It stays in the repo for local simulator
+      # testing — attach it via the scheme's Run > Options > StoreKit Configuration.
       - path: Sober/PrivacyInfo.xcprivacy
         buildPhase: resources
     settings:
