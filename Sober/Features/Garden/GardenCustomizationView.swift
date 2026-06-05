@@ -98,6 +98,9 @@ struct GardenCustomizationView: View {
                         Button {
                             if earned {
                                 GardenService(context: context).setBonsaiStyle(style.id)
+                                // Refresh widget/watch immediately so the home-screen
+                                // tree matches the species the user just picked.
+                                WidgetSnapshotPump.push(context: context)
                             } else {
                                 showPaywall = true
                             }
@@ -181,6 +184,8 @@ struct GardenCustomizationView: View {
                 } else {
                     svc.placeItem(item)
                 }
+                // Keep the widget/watch snapshot in sync with placed decorations.
+                WidgetSnapshotPump.push(context: context)
             }
             .buttonStyle(.bordered)
             .tint(isPlaced ? .red : Theme.brandPrimary)

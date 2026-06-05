@@ -62,9 +62,7 @@ struct SoberDayCounterView: View {
     let days: Int
 
     private var stage: BonsaiStage { GardenService.stage(forDays: days) }
-    private var stageIndex: Int { stage.rawValue }
     private var stageTitle: String { stage.title }
-    private var hasItems: Bool { !snapshot.placedItemIDs.isEmpty }
     private var dayInCycle: Int { GardenService.cycleProgress(forDays: days).dayInCycle }
     private var bonsaiStyle: BonsaiStyle {
         switch snapshot.bonsaiStyleID {
@@ -84,11 +82,14 @@ struct SoberDayCounterView: View {
                 Text("\(days)").font(.title2.bold())
                 Text("d").font(.caption2)
             }
+            .accessibilityLabel(Text(days == 1 ? "1 day sober" : "\(days) days sober"))
         case .accessoryRectangular:
             HStack {
                 Image(systemName: "leaf.fill")
                 Text("\(days) days sober")
             }
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(Text(days == 1 ? "1 day sober" : "\(days) days sober"))
         case .accessoryInline:
             Text("\(days) days sober")
         case .systemMedium:
@@ -116,37 +117,33 @@ struct SoberDayCounterView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
         default:
-            ZStack {
-                BonsaiView(day: dayInCycle, style: bonsaiStyle, vitality: snapshot.gardenVitality)
-                VStack {
-                    Spacer()
-                    VStack(spacing: 0) {
+            // systemSmall: let the tree fill and bottom-anchor so it owns the
+            // tile, and float the count in a top scrim band — the upper sky is
+            // the sparsest region, so the number never collides with the
+            // trunk/pot the way a bottom overlay did.
+            BonsaiView(day: dayInCycle, style: bonsaiStyle, vitality: snapshot.gardenVitality, fill: true)
+                .overlay(alignment: .top) {
+                    VStack(spacing: -1) {
                         Text("\(days)")
                             .font(Theme.bigNumber(34))
                             .foregroundStyle(.white)
-                            .shadow(color: .black.opacity(0.35), radius: 2, y: 1)
                         Text(days == 1 ? "day sober" : "days sober")
-                            .font(.caption2)
-                            .foregroundStyle(.white.opacity(0.9))
-                            .shadow(color: .black.opacity(0.35), radius: 2, y: 1)
+                            .font(.caption2.weight(.medium))
+                            .foregroundStyle(.white.opacity(0.95))
                     }
+                    .shadow(color: .black.opacity(0.45), radius: 3, y: 1)
+                    .padding(.top, 6)
+                    .padding(.bottom, 10)
+                    .frame(maxWidth: .infinity)
+                    .background(
+                        LinearGradient(
+                            colors: [.black.opacity(0.28), .clear],
+                            startPoint: .top, endPoint: .bottom
+                        )
+                    )
                 }
-            }
-        }
-    }
-
-    private var stageIcon: String {
-        switch stageIndex {
-        case 0: return "circle"
-        case 1: return "leaf"
-        case 2: return "leaf.fill"
-        case 3: return "tree"
-        case 4: return "tree.fill"
-        case 5: return "crown"
-        case 6: return "crown.fill"
-        case 7: return "sparkle"
-        case 8: return "star.fill"
-        default: return "leaf.fill"
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(Text(days == 1 ? "1 day sober" : "\(days) days sober"))
         }
     }
 }
