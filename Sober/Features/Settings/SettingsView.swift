@@ -98,7 +98,29 @@ struct SettingsView: View {
                         Text("Used to estimate money and calories saved while you stay sober.")
                     }
                 }
+                Section {
+                    resourceLink(url: "tel:988",
+                                 icon: "phone.fill",
+                                 title: "988 Suicide & Crisis Lifeline",
+                                 subtitle: "Call or text 988 · 24/7 · US")
+                    resourceLink(url: "tel:18006624357",
+                                 icon: "cross.case.fill",
+                                 title: "SAMHSA National Helpline",
+                                 subtitle: "1-800-662-HELP · Free, confidential, 24/7")
+                    resourceLink(url: "https://findtreatment.gov",
+                                 icon: "magnifyingglass",
+                                 title: "Find Treatment",
+                                 subtitle: "findtreatment.gov")
+                } header: {
+                    Text("If you need support")
+                } footer: {
+                    Text("Free, confidential help is available any time. Reaching out is a strength, not a setback.")
+                }
                 Section("Help") {
+                    resourceLink(url: "tel:4257533411",
+                                 icon: "bubble.left.and.text.bubble.right.fill",
+                                 title: "Contact Support",
+                                 subtitle: "Questions or trouble? Reach out.")
                     Button("Rate or Send Feedback") {
                         ReviewPromptCoordinator.shared.requestEnjoymentPrompt()
                     }
@@ -123,6 +145,31 @@ struct SettingsView: View {
             .onChange(of: settings?.dailyReminderHour) { _, _ in rescheduleReminder() }
             .onChange(of: settings?.dailyReminderEnabled) { _, _ in rescheduleReminder() }
             .onChange(of: settings?.madeCommitment) { _, _ in rescheduleReminder() }
+        }
+    }
+
+    /// A Form row that deep-links to a phone/web resource. Skips rendering if the
+    /// URL is somehow malformed so a bad string can never crash the screen.
+    @ViewBuilder
+    private func resourceLink(url: String, icon: String, title: String, subtitle: String) -> some View {
+        if let destination = URL(string: url) {
+            Link(destination: destination) {
+                HStack(spacing: 12) {
+                    Image(systemName: icon)
+                        .font(.body)
+                        .foregroundStyle(Theme.brandPrimary)
+                        .frame(width: 26)
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(title)
+                            .foregroundStyle(Theme.textPrimary)
+                        Text(subtitle)
+                            .font(.caption)
+                            .foregroundStyle(Theme.textSecondary)
+                    }
+                }
+            }
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(Text("\(title). \(subtitle)"))
         }
     }
 
