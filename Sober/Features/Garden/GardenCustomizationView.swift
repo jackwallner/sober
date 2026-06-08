@@ -117,7 +117,7 @@ struct GardenCustomizationView: View {
 
                                     if !earned {
                                         Image(systemName: "lock.fill")
-                                            .font(Theme.body(15, weight: .bold))
+                                            .font(Theme.subhead(weight: .bold))
                                             .foregroundStyle(.white)
                                             .padding(8)
                                             .background(.black.opacity(0.35), in: Circle())
@@ -131,7 +131,7 @@ struct GardenCustomizationView: View {
                                 )
 
                                 Text(earned ? style.displayName : "Day \(style.milestoneDays)")
-                                    .font(Theme.body(12))
+                                    .font(Theme.caption())
                                     .foregroundStyle(isActive ? Theme.brandPrimary : Theme.textSecondary)
                             }
                         }
@@ -174,7 +174,7 @@ struct GardenCustomizationView: View {
                 )
 
             Text(item.displayName)
-                .font(Theme.body(11))
+                .font(Theme.caption())
                 .foregroundStyle(isPlaced ? Theme.brandPrimary : Theme.textSecondary)
 
             Button(isPlaced ? "Remove" : "Place") {
@@ -189,7 +189,7 @@ struct GardenCustomizationView: View {
             }
             .buttonStyle(.bordered)
             .tint(isPlaced ? .red : Theme.brandPrimary)
-            .font(Theme.body(12))
+            .font(Theme.caption())
             .controlSize(.small)
         }
     }
@@ -197,14 +197,15 @@ struct GardenCustomizationView: View {
     // MARK: - Free Preview
 
     private var freePreview: some View {
-        ScrollView {
-            VStack(spacing: 24) {
-                VStack(spacing: 10) {
+        let species = GardenItemCatalog.all.filter { $0.type == .bonsai }
+        return ScrollView {
+            VStack(spacing: 18) {
+                VStack(spacing: 8) {
                     Text("Grow a whole grove with Bloom+")
-                        .font(Theme.heading(22, weight: .bold))
+                        .font(Theme.title(weight: .bold))
                         .multilineTextAlignment(.center)
                     Text("Every species is a different shape of resilience. Swap between them and watch each one grow with your streak.")
-                        .font(Theme.body(15))
+                        .font(Theme.subhead())
                         .foregroundStyle(Theme.textSecondary)
                         .multilineTextAlignment(.center)
                 }
@@ -216,7 +217,7 @@ struct GardenCustomizationView: View {
                 let extras = GardenItemCatalog.all.filter { $0.type != .bonsai }
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Plus decorations as you go")
-                        .font(Theme.body(12, weight: .bold))
+                        .font(Theme.caption(weight: .bold))
                         .foregroundStyle(Theme.textSecondary)
                     ForEach(extras.prefix(6)) { item in
                         let isUnlocked = unlockedItems.contains(item)
@@ -224,7 +225,7 @@ struct GardenCustomizationView: View {
                             Image(systemName: isUnlocked ? "checkmark.circle.fill" : "circle")
                                 .foregroundStyle(isUnlocked ? Theme.success : Theme.textTertiary)
                             Text("\(item.displayName) · Day \(item.milestoneDays)")
-                                .font(Theme.body(12))
+                                .font(Theme.caption())
                                 .foregroundStyle(isUnlocked ? Theme.textPrimary : Theme.textSecondary)
                         }
                     }
@@ -233,25 +234,46 @@ struct GardenCustomizationView: View {
                 .padding()
                 .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
                 .padding(.horizontal)
-
-                Button {
-                    showPaywall = true
-                } label: {
-                    HStack {
-                        Image(systemName: "crown.fill")
-                        Text("Upgrade to Bloom+")
-                    }
-                    .fontWeight(.semibold)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Theme.brandGradient, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
-                    .foregroundStyle(.white)
-                }
-                .padding(.horizontal)
             }
-            .padding(.vertical)
+            .padding(.top)
+            .padding(.bottom, 8)
         }
         .background(Theme.background)
+        .safeAreaInset(edge: .bottom) {
+            upgradeBar(treeCount: species.count)
+        }
+    }
+
+    /// Sticky purchase bar pinned to the bottom so the upgrade CTA is always on
+    /// screen — the value proof scrolls above it instead of pushing it off the
+    /// fold (the old layout buried the button ~700pt down).
+    private func upgradeBar(treeCount: Int) -> some View {
+        VStack(spacing: 6) {
+            Button {
+                showPaywall = true
+            } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: "crown.fill")
+                    Text("Unlock all \(treeCount) trees")
+                }
+                .font(Theme.body(weight: .semibold))
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 15)
+                .background(Theme.brandGradient, in: RoundedRectangle(cornerRadius: Theme.cardRadius))
+                .foregroundStyle(.white)
+            }
+            Text("Swap any species anytime · keep every decoration you earn")
+                .font(Theme.caption())
+                .foregroundStyle(Theme.textSecondary)
+                .multilineTextAlignment(.center)
+        }
+        .padding(.horizontal)
+        .padding(.top, 12)
+        .background(alignment: .top) {
+            Theme.background
+                .overlay(Rectangle().fill(Theme.ringTrack).frame(height: 1), alignment: .top)
+                .ignoresSafeArea(edges: .bottom)
+        }
     }
 
     /// The headline Bloom+ pitch: each bonsai species rendered at a mature day
@@ -259,37 +281,37 @@ struct GardenCustomizationView: View {
     /// upgrade is concrete and visual rather than a feature bullet.
     private var bonsaiPitch: some View {
         let species = GardenItemCatalog.all.filter { $0.type == .bonsai }
-        return VStack(spacing: 12) {
+        return VStack(spacing: 10) {
             ForEach(species) { style in
                 let earned = days >= style.milestoneDays
-                HStack(spacing: 14) {
+                HStack(spacing: 12) {
                     BonsaiView(day: 60, style: bonsaiStyleEnum(for: style.id), vitality: 1.0)
-                        .frame(width: 72, height: 72)
-                        .background(Theme.skyGradient, in: RoundedRectangle(cornerRadius: 14))
+                        .frame(width: 60, height: 60)
+                        .background(Theme.skyGradient, in: RoundedRectangle(cornerRadius: 12))
                     VStack(alignment: .leading, spacing: 3) {
                         HStack(spacing: 6) {
                             Text(style.displayName)
-                                .font(Theme.body(15, weight: .bold))
+                                .font(Theme.subhead(weight: .bold))
                                 .foregroundStyle(Theme.textPrimary)
                             if earned {
                                 Text("Unlocked")
-                                    .font(Theme.body(11, weight: .bold))
+                                    .font(Theme.caption(weight: .bold))
                                     .foregroundStyle(Theme.success)
                             } else {
                                 Text("Day \(style.milestoneDays)")
-                                    .font(Theme.body(11, weight: .bold))
+                                    .font(Theme.caption(weight: .bold))
                                     .foregroundStyle(Theme.brandPrimary)
                             }
                         }
                         Text(style.description)
-                            .font(Theme.body(12))
+                            .font(Theme.caption())
                             .foregroundStyle(Theme.textSecondary)
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     Spacer(minLength: 0)
                 }
-                .padding(12)
-                .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 16))
+                .padding(10)
+                .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 14))
             }
         }
         .padding(.horizontal)
@@ -299,7 +321,7 @@ struct GardenCustomizationView: View {
 
     private func sectionHeader(_ title: String) -> some View {
         Text(title)
-            .font(Theme.body(17))
+            .font(Theme.body())
             .foregroundStyle(Theme.textPrimary)
     }
 

@@ -23,15 +23,15 @@ struct GardenItemDetailView: View {
 
             VStack(spacing: 6) {
                 Text(item.displayName)
-                    .font(Theme.display(22, weight: .bold))
+                    .font(Theme.title(weight: .bold))
                     .foregroundStyle(Theme.textPrimary)
                 Text(item.type.displayCategory)
-                    .font(Theme.body(12, weight: .medium))
+                    .font(Theme.caption(weight: .medium))
                     .foregroundStyle(Theme.textSecondary)
             }
 
             Text(item.description)
-                .font(Theme.body(15))
+                .font(Theme.subhead())
                 .foregroundStyle(Theme.textSecondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 28)
@@ -56,7 +56,7 @@ struct GardenItemDetailView: View {
                     .foregroundStyle(Theme.textSecondary)
             }
         }
-        .font(Theme.body(15, weight: .semibold))
+        .font(Theme.subhead(weight: .semibold))
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
         .background(

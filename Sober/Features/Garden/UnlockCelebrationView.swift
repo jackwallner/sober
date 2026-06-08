@@ -57,15 +57,15 @@ struct UnlockCelebrationView: View {
                 // shadow, matching the Home card treatment.
                 VStack(spacing: 8) {
                     Text("New Unlock")
-                        .font(Theme.heading(24, weight: .semibold))
+                        .font(Theme.title(weight: .semibold))
                         .foregroundStyle(Theme.textPrimary)
 
                     Text(item.displayName)
-                        .font(Theme.display(26, weight: .semibold))
+                        .font(Theme.title(weight: .semibold))
                         .foregroundStyle(Theme.brandPrimary)
 
                     Text(item.description)
-                        .font(Theme.body(15))
+                        .font(Theme.subhead())
                         .foregroundStyle(Theme.textSecondary)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 24)
@@ -73,7 +73,7 @@ struct UnlockCelebrationView: View {
                     Text(canPlace
                          ? "Placed in your garden · Day \(item.milestoneDays)"
                          : "Earned at Day \(item.milestoneDays) · Place it with Bloom+")
-                        .font(Theme.body(12))
+                        .font(Theme.caption())
                         .foregroundStyle(Theme.textTertiary)
                         .padding(.top, 4)
                 }
@@ -93,7 +93,7 @@ struct UnlockCelebrationView: View {
 
                 Button(action: onDismiss) {
                     Text("Continue")
-                        .font(Theme.body(17, weight: .semibold))
+                        .font(Theme.body(weight: .semibold))
                         .frame(maxWidth: .infinity)
                         .padding()
                 }
@@ -137,10 +137,10 @@ struct UnlockRecapView: View {
                         .font(.system(size: 40))
                         .foregroundStyle(Theme.accent)
                     Text("Welcome to your garden")
-                        .font(Theme.display(26, weight: .semibold))
+                        .font(Theme.title(weight: .semibold))
                         .foregroundStyle(Theme.textPrimary)
                     Text("You've been sober \(days) day\(days == 1 ? "" : "s"), so you've already grown \(items.count) thing\(items.count == 1 ? "" : "s").")
-                        .font(Theme.body(15))
+                        .font(Theme.subhead())
                         .foregroundStyle(Theme.textSecondary)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 8)
@@ -157,16 +157,16 @@ struct UnlockRecapView: View {
                                     .background(Theme.cardSurfaceLight, in: RoundedRectangle(cornerRadius: 12))
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(item.displayName)
-                                        .font(Theme.body(15, weight: .semibold))
+                                        .font(Theme.subhead(weight: .semibold))
                                         .foregroundStyle(Theme.textPrimary)
                                     Text(item.description)
-                                        .font(Theme.body(12))
+                                        .font(Theme.caption())
                                         .foregroundStyle(Theme.textSecondary)
                                         .fixedSize(horizontal: false, vertical: true)
                                 }
                                 Spacer(minLength: 0)
                                 Text("Day \(item.milestoneDays)")
-                                    .font(Theme.body(11, weight: .bold))
+                                    .font(Theme.caption(weight: .bold))
                                     .foregroundStyle(Theme.brandPrimary)
                             }
                             .padding(12)
