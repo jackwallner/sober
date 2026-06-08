@@ -21,7 +21,11 @@ final class SubscriptionService: NSObject {
 
     static let apiKey = "appl_eTgmJWtWPGZuOHUGMvSEpOOemxA"
 
-    nonisolated static let proEntitlement = "pro"
+    // The real entitlement identifier in the RevenueCat dashboard (the three
+    // IAP products are attached to it). NOT "pro" — that mismatch is what left
+    // completed purchases locked. The check below also falls back to "any active
+    // entitlement" so a future dashboard rename can't silently re-break unlock.
+    nonisolated static let proEntitlement = "Sober Tracker - Alcohol Free Pro"
 
     private static let trialEndsKey = "bloomTrialEndsAt"
     private static let trialClaimedKey = "bloomTrialClaimed"
@@ -252,11 +256,12 @@ final class SubscriptionService: NSObject {
 #if canImport(RevenueCat)
 extension CustomerInfo {
     /// Sober ships a single premium tier (Bloom+), so any active entitlement
-    /// unlocks Pro. Intentionally permissive: matching only the literal `"pro"`
+    /// unlocks Pro. Intentionally permissive: matching only one literal
     /// identifier silently leaves a completed purchase locked whenever the
-    /// RevenueCat dashboard entitlement is named differently ("Bloom+", casing
-    /// drift) or the products aren't attached to a `pro` entitlement. Prefer the
-    /// named entitlement, fall back to "any active entitlement" like Vitals.
+    /// RevenueCat dashboard entitlement is named differently (the actual one is
+    /// "Sober Tracker - Alcohol Free Pro", not "pro") or the products aren't
+    /// attached to it. Prefer the named entitlement, fall back to "any active
+    /// entitlement" like Vitals.
     var hasSoberProEntitlement: Bool {
         entitlements[SubscriptionService.proEntitlement]?.isActive == true
             || !entitlements.active.isEmpty
