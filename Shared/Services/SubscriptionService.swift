@@ -21,7 +21,7 @@ final class SubscriptionService: NSObject {
 
     static let apiKey = "appl_eTgmJWtWPGZuOHUGMvSEpOOemxA"
 
-    static let proEntitlement = "pro"
+    nonisolated static let proEntitlement = "pro"
 
     private static let trialEndsKey = "bloomTrialEndsAt"
     private static let trialClaimedKey = "bloomTrialClaimed"
@@ -100,6 +100,16 @@ final class SubscriptionService: NSObject {
 
     func refresh() async {
         await refresh(fetchPolicy: .default)
+    }
+
+    /// Force a server-side entitlement re-check that bypasses the on-device
+    /// cache. Called on every foreground so renewals/restores/late grants flip
+    /// the app to Pro promptly. RevenueCat-type-free signature so callers (e.g.
+    /// `App.swift`) don't need to import RevenueCat.
+    func refreshFromServer() async {
+        #if canImport(RevenueCat)
+        await refresh(fetchPolicy: .fetchCurrent)
+        #endif
     }
 
     func refresh(fetchPolicy: CacheFetchPolicy = .default) async {
@@ -190,7 +200,7 @@ final class SubscriptionService: NSObject {
         if result.userCancelled {
             return .cancelled
         }
-        if result.customerInfo.entitlements[Self.proEntitlement]?.isActive == true {
+        if result.customerInfo.hasSoberProEntitlement {
             return .purchased
         }
         return .pending
@@ -212,7 +222,13 @@ final class SubscriptionService: NSObject {
     }
 
     private func apply(customerInfo: CustomerInfo) {
-        entitlementActive = customerInfo.entitlements[Self.proEntitlement]?.isActive == true
+        let active = customerInfo.hasSoberProEntitlement
+        let activeKeys = customerInfo.entitlements.active.keys.sorted().joined(separator: ", ")
+        // Logged so a dashboard mismatch (products not attached to the "pro"
+        // entitlement, or an entitlement named "Bloom+"/different casing) is
+        // visible in Console instead of silently leaving a paid user locked.
+        logger.info("Applied customerInfo — active entitlements: [\(activeKeys, privacy: .public)] -> isPro \(active, privacy: .public)")
+        entitlementActive = active
     }
     #endif
 
@@ -234,6 +250,19 @@ final class SubscriptionService: NSObject {
 }
 
 #if canImport(RevenueCat)
+extension CustomerInfo {
+    /// Sober ships a single premium tier (Bloom+), so any active entitlement
+    /// unlocks Pro. Intentionally permissive: matching only the literal `"pro"`
+    /// identifier silently leaves a completed purchase locked whenever the
+    /// RevenueCat dashboard entitlement is named differently ("Bloom+", casing
+    /// drift) or the products aren't attached to a `pro` entitlement. Prefer the
+    /// named entitlement, fall back to "any active entitlement" like Vitals.
+    var hasSoberProEntitlement: Bool {
+        entitlements[SubscriptionService.proEntitlement]?.isActive == true
+            || !entitlements.active.isEmpty
+    }
+}
+
 extension SubscriptionService: PurchasesDelegate {
     nonisolated func purchases(_ purchases: Purchases, receivedUpdated customerInfo: CustomerInfo) {
         Task { @MainActor in
