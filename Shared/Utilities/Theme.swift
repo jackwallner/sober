@@ -85,22 +85,40 @@ enum Theme {
     //    body, captions). Default SF reads as a settings-y system font here
     //    which clashes with the slow-morning vibe.
 
-    /// Big display titles ("Welcome to your garden", onboarding step heads).
+    // A tight editorial scale — six steps, no in-between sizes. Three serif
+    // ranks for the page voice, three rounded ranks for the chatty voice. The
+    // serif ranks take an optional size override for the rare true hero (the
+    // onboarding wordmark); the rounded ranks are strict (weight-only) so the
+    // old size-smear can't creep back in.
+
+    /// Hero serif title — onboarding step heads, the largest thing on a screen. 34.
     static func display(_ size: CGFloat = 34, weight: Font.Weight = .semibold) -> Font {
         .system(size: size, weight: weight, design: .serif)
     }
 
-    /// Section headlines that aren't quite display ("Make it official",
-    /// "Mood" form headers). Serif keeps the page feel consistent.
-    static func heading(_ size: CGFloat = 22, weight: Font.Weight = .semibold) -> Font {
+    /// Screen / sheet title — "Welcome to your garden", celebration names. 26.
+    static func title(_ size: CGFloat = 26, weight: Font.Weight = .semibold) -> Font {
         .system(size: size, weight: weight, design: .serif)
     }
 
-    /// Body/UI font: rounded for warmth. Same metrics as the system body so
-    /// it's a drop-in; the only change a user perceives is the softer
-    /// letterforms.
-    static func body(_ size: CGFloat = 17, weight: Font.Weight = .regular) -> Font {
-        .system(size: size, weight: weight, design: .rounded)
+    /// Section headline / eyebrow above content. 20.
+    static func heading(_ size: CGFloat = 20, weight: Font.Weight = .semibold) -> Font {
+        .system(size: size, weight: weight, design: .serif)
+    }
+
+    /// Primary readable copy. Rounded for warmth. 17.
+    static func body(weight: Font.Weight = .regular) -> Font {
+        .system(size: 17, weight: weight, design: .rounded)
+    }
+
+    /// Secondary copy — subtitles, supporting lines. 15.
+    static func subhead(weight: Font.Weight = .regular) -> Font {
+        .system(size: 15, weight: weight, design: .rounded)
+    }
+
+    /// Meta — labels, captions, timestamps, pill text. 12.
+    static func caption(weight: Font.Weight = .regular) -> Font {
+        .system(size: 12, weight: weight, design: .rounded)
     }
 }
 

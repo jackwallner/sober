@@ -293,13 +293,13 @@ struct GardenSceneView: View {
     private var stageBadge: some View {
         HStack(spacing: 4) {
             Image(systemName: "leaf.fill")
-                .font(Theme.body(11))
+                .font(Theme.caption())
             if cycle.completed > 0 {
                 Text("Year \(cycle.completed + 1) · \(stage.title)")
-                    .font(Theme.body(12, weight: .bold))
+                    .font(Theme.caption(weight: .bold))
             } else {
                 Text(stage.title)
-                    .font(Theme.body(12, weight: .bold))
+                    .font(Theme.caption(weight: .bold))
             }
         }
         .padding(.horizontal, 10)
@@ -323,12 +323,12 @@ struct GardenSceneView: View {
         } label: {
             HStack(spacing: 7) {
                 Image(systemName: isPro ? "arrow.triangle.2.circlepath" : "crown.fill")
-                    .font(Theme.body(12, weight: .bold))
+                    .font(Theme.caption(weight: .bold))
                 Text(isPro ? "\(activeSpeciesName) · Switch" : "Unlock 6 trees")
-                    .font(Theme.body(15, weight: .semibold))
+                    .font(Theme.subhead(weight: .semibold))
                     .lineLimit(1)
                 Image(systemName: "chevron.right")
-                    .font(Theme.body(11, weight: .bold))
+                    .font(Theme.caption(weight: .bold))
                     .opacity(0.85)
             }
             .padding(.horizontal, 14)
@@ -373,7 +373,7 @@ struct GardenSceneView: View {
 
             if overflow > 0 {
                 Text("+\(overflow)")
-                    .font(Theme.body(11, weight: .bold))
+                    .font(Theme.caption(weight: .bold))
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)
                     .background(.ultraThinMaterial, in: Capsule())

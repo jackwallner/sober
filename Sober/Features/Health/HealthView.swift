@@ -72,7 +72,7 @@ struct HealthView: View {
                     .foregroundStyle(Theme.brandPrimary)
                     .monospacedDigit()
                 Text("/ \(total) benefits")
-                    .font(Theme.body(15))
+                    .font(Theme.subhead())
                     .foregroundStyle(Theme.textSecondary)
                 Spacer()
             }
@@ -93,15 +93,15 @@ struct HealthView: View {
                     .frame(width: 32)
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Next up")
-                        .font(Theme.body(12, weight: .semibold))
+                        .font(Theme.caption(weight: .semibold))
                         .foregroundStyle(Theme.textSecondary)
                     Text("Unlock what's coming with Bloom+")
-                        .font(Theme.body(17))
+                        .font(Theme.body())
                         .foregroundStyle(Theme.textPrimary)
                 }
                 Spacer(minLength: Theme.Space.s)
                 Image(systemName: "chevron.right")
-                    .font(Theme.body(12, weight: .semibold))
+                    .font(Theme.caption(weight: .semibold))
                     .foregroundStyle(Theme.textTertiary)
             }
             .contentShape(Rectangle())
@@ -119,16 +119,16 @@ struct HealthView: View {
                 .frame(width: 32)
             VStack(alignment: .leading, spacing: 2) {
                 Text("Next up")
-                    .font(Theme.body(12, weight: .semibold))
+                    .font(Theme.caption(weight: .semibold))
                     .foregroundStyle(Theme.textSecondary)
                 Text(n.title)
-                    .font(Theme.body(17))
+                    .font(Theme.body())
                     .foregroundStyle(Theme.textPrimary)
                     .lineLimit(2)
             }
             Spacer(minLength: Theme.Space.s)
             Text("in \(n.displayWait)")
-                .font(Theme.body(12, weight: .semibold))
+                .font(Theme.caption(weight: .semibold))
                 .foregroundStyle(Theme.textSecondary)
                 .monospacedDigit()
         }
@@ -154,7 +154,7 @@ private struct BenefitRow: View {
             VStack(alignment: .leading, spacing: 4) {
                 HStack(alignment: .top, spacing: Theme.Space.s) {
                     Text(proGated ? "A future milestone" : benefit.title)
-                        .font(Theme.body(17, weight: .semibold))
+                        .font(Theme.body(weight: .semibold))
                         .foregroundStyle(Theme.textPrimary)
                         .fixedSize(horizontal: false, vertical: true)
                     Spacer(minLength: Theme.Space.xs)
@@ -162,19 +162,19 @@ private struct BenefitRow: View {
                 }
                 if !proGated {
                     Text(benefit.summary)
-                        .font(Theme.body(13))
+                        .font(Theme.caption())
                         .foregroundStyle(Theme.textSecondary)
                         .fixedSize(horizontal: false, vertical: true)
                 }
                 if unlocked {
                     Text(benefit.detail)
-                        .font(Theme.body(13))
+                        .font(Theme.caption())
                         .foregroundStyle(Theme.textSecondary)
                         .padding(.top, 2)
                     if let url = benefit.sourceURL {
                         Link(destination: url) {
                             Label(benefit.sourceLabel, systemImage: "link")
-                                .font(Theme.body(11))
+                                .font(Theme.caption())
                                 .foregroundStyle(Theme.brandPrimary)
                         }
                         .padding(.top, 2)
@@ -182,9 +182,9 @@ private struct BenefitRow: View {
                 } else if proGated {
                     HStack(spacing: 4) {
                         Text("Unlock with Bloom+")
-                            .font(Theme.body(12, weight: .semibold))
+                            .font(Theme.caption(weight: .semibold))
                         Image(systemName: "chevron.right")
-                            .font(Theme.body(11, weight: .semibold))
+                            .font(Theme.caption(weight: .semibold))
                     }
                     .foregroundStyle(Theme.brandPrimary)
                     .padding(.top, 2)
@@ -217,11 +217,11 @@ private struct BenefitRow: View {
             EmptyView()
         } else if proGated {
             Text("Bloom+")
-                .font(Theme.body(12, weight: .semibold))
+                .font(Theme.caption(weight: .semibold))
                 .foregroundStyle(Theme.brandPrimary)
         } else {
             Text("in \(benefit.displayWait)")
-                .font(Theme.body(12, weight: .semibold))
+                .font(Theme.caption(weight: .semibold))
                 .foregroundStyle(Theme.textTertiary)
                 .monospacedDigit()
         }

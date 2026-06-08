@@ -36,7 +36,7 @@ struct OnboardingView: View {
             Text("Sober").font(Theme.display(64, weight: .semibold))
             Text("Track your sobriety, grow your garden, watch your health return.")
                 .multilineTextAlignment(.center)
-                .font(Theme.body(22))
+                .font(Theme.body())
                 .padding(.horizontal, Theme.Space.m)
             Spacer()
             primaryButton("Get Started") { step = 1 }
@@ -47,7 +47,7 @@ struct OnboardingView: View {
         VStack(spacing: Theme.Space.xl) {
             Spacer()
             Text("When did your sober journey begin?")
-                .font(Theme.display(34))
+                .font(Theme.display())
                 .multilineTextAlignment(.center)
             DatePicker("", selection: $startDate, in: ...Date.now, displayedComponents: [.date])
                 .datePickerStyle(.graphical)
@@ -63,7 +63,7 @@ struct OnboardingView: View {
         VStack(spacing: Theme.Space.l) {
             Spacer(minLength: Theme.Space.s)
             Text("How much did you typically spend per day?")
-                .font(Theme.display(34))
+                .font(Theme.display())
                 .multilineTextAlignment(.center)
             VStack(spacing: Theme.Space.s) {
                 Text("$\(Int(costPerDay)) / day")
@@ -73,7 +73,7 @@ struct OnboardingView: View {
             }
             VStack(spacing: Theme.Space.s) {
                 Text("Calories per day")
-                    .font(Theme.body(17))
+                    .font(Theme.body())
                     .foregroundStyle(.white.opacity(0.85))
                 Text("\(Int(caloriesPerDay)) cal")
                     .font(.system(size: 34, weight: .bold, design: .rounded))
@@ -96,7 +96,7 @@ struct OnboardingView: View {
             let yearlyPounds = Double(yearlyCalories) / 3500.0  // ~3,500 kcal per lb of fat
             VStack(spacing: 4) {
                 Text("In a year, that's")
-                    .font(Theme.body(15))
+                    .font(Theme.subhead())
                     .foregroundStyle(.white.opacity(0.75))
                 if dollars > 0 {
                     Text(formatCurrency(yearlyDollars))
@@ -106,7 +106,7 @@ struct OnboardingView: View {
                     Text(dollars > 0
                          ? "plus \(yearlyCalories.formatted()) calories you won't have to spend. About \(yearlyPounds.formatted(.number.precision(.fractionLength(0)))) lb of body fat."
                          : "\(yearlyCalories.formatted()) calories you won't have to spend — about \(yearlyPounds.formatted(.number.precision(.fractionLength(0)))) lb of body fat.")
-                        .font(Theme.body(13))
+                        .font(Theme.caption())
                         .foregroundStyle(.white.opacity(0.75))
                         .multilineTextAlignment(.center)
                 }
@@ -129,11 +129,11 @@ struct OnboardingView: View {
         VStack(spacing: Theme.Space.xl) {
             Spacer()
             Text("Daily reminder time")
-                .font(Theme.display(34))
+                .font(Theme.display())
                 .multilineTextAlignment(.center)
             Picker("Hour", selection: $reminderHour) {
                 ForEach(0..<24) { h in
-                    Text(formatHour(h)).font(Theme.body(22)).tag(h)
+                    Text(formatHour(h)).font(Theme.body()).tag(h)
                 }
             }
             .pickerStyle(.wheel)
@@ -156,11 +156,11 @@ struct OnboardingView: View {
                 .font(.system(size: 72))
                 .opacity(0.92)
             Text("Make it official")
-                .font(Theme.display(34))
+                .font(Theme.display())
                 .multilineTextAlignment(.center)
             Text("Recovery starts with a decision. This is yours, for today and the days that follow.")
                 .multilineTextAlignment(.center)
-                .font(Theme.body(22))
+                .font(Theme.body())
                 .foregroundStyle(.white.opacity(0.9))
                 .padding(.horizontal, Theme.Space.m)
             Spacer()
@@ -168,13 +168,13 @@ struct OnboardingView: View {
                 primaryButton("I commit to getting better") { complete(committed: true) }
                 Button { complete(committed: false) } label: {
                     Text("Not now")
-                        .font(Theme.body(15, weight: .medium))
+                        .font(Theme.subhead(weight: .medium))
                         .foregroundStyle(.white.opacity(0.8))
                         .underline()
                         .padding(.vertical, 6)
                 }
                 Text("Either way is fine. You can revisit this any time in Settings.")
-                    .font(Theme.body(12))
+                    .font(Theme.caption())
                     .foregroundStyle(.white.opacity(0.7))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, Theme.Space.m)
@@ -185,7 +185,7 @@ struct OnboardingView: View {
     private func primaryButton(_ title: String, action: @escaping () -> Void) -> some View {
         Button(action: { withAnimation { action() } }) {
             Text(title)
-                .font(Theme.body(20, weight: .semibold))
+                .font(Theme.body(weight: .semibold))
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, Theme.Space.l)
         }

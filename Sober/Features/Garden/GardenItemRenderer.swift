@@ -401,7 +401,7 @@ private struct Triangle: Shape {
                     GardenItemRenderer(item: item, scale: 1.5, opacity: 1.0, vitality: 1.0)
                         .frame(height: 80)
                     Text(item.displayName)
-                        .font(Theme.body(12))
+                        .font(Theme.caption())
                 }
             }
         }
