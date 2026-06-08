@@ -14,8 +14,9 @@ struct UnlockCelebrationView: View {
 
     var body: some View {
         ZStack {
-            // Opaque backdrop — tap anywhere to dismiss.
-            Color.black.opacity(0.78)
+            // Brand cream backdrop — same surface as the rest of the app, so the
+            // celebration reads as part of Bloom rather than a generic gray modal.
+            Theme.background
                 .ignoresSafeArea()
                 .contentShape(Rectangle())
                 .onTapGesture { onDismiss() }
@@ -23,24 +24,37 @@ struct UnlockCelebrationView: View {
             VStack(spacing: 24) {
                 Spacer()
 
-                // Sparkle icon
-                Image(systemName: "sparkle")
-                    .font(.system(size: 48))
-                    .foregroundStyle(Theme.accent)
-                    .rotationEffect(.degrees(sparkle ? 360 : 0))
-                    .scaleEffect(sparkle ? 1.2 : 0.8)
+                // Item preview, haloed by a soft sand glow so it feels spotlit
+                // on the cream without introducing a dark scrim.
+                ZStack {
+                    Circle()
+                        .fill(
+                            RadialGradient(
+                                colors: [Theme.accent.opacity(0.28), Theme.accent.opacity(0)],
+                                center: .center, startRadius: 4, endRadius: 150
+                            )
+                        )
+                        .frame(width: 300, height: 300)
+                        .scaleEffect(sparkle ? 1.05 : 0.95)
 
-                // Item preview
-                GardenItemRenderer(item: item, scale: 2.0, opacity: 1.0, vitality: 1.0)
-                    .frame(height: 100)
-                    .scaleEffect(appear ? 1 : 0.3)
-                    .rotation3DEffect(
-                        .degrees(appear ? 0 : 180),
-                        axis: (x: 0, y: 1, z: 0)
-                    )
+                    Image(systemName: "sparkle")
+                        .font(.system(size: 44))
+                        .foregroundStyle(Theme.accent)
+                        .offset(y: -96)
+                        .rotationEffect(.degrees(sparkle ? 360 : 0))
+                        .scaleEffect(sparkle ? 1.2 : 0.8)
 
-                // Text — opaque card panel so it doesn't fight bright OLED
-                // garden colors behind the backdrop.
+                    GardenItemRenderer(item: item, scale: 2.0, opacity: 1.0, vitality: 1.0)
+                        .frame(height: 100)
+                        .scaleEffect(appear ? 1 : 0.3)
+                        .rotation3DEffect(
+                            .degrees(appear ? 0 : 180),
+                            axis: (x: 0, y: 1, z: 0)
+                        )
+                }
+
+                // Text — a warm-white card that lifts off the cream on a soft
+                // shadow, matching the Home card treatment.
                 VStack(spacing: 8) {
                     Text("New Unlock")
                         .font(Theme.heading(24, weight: .semibold))
@@ -51,7 +65,7 @@ struct UnlockCelebrationView: View {
                         .foregroundStyle(Theme.brandPrimary)
 
                     Text(item.description)
-                        .font(.subheadline)
+                        .font(Theme.body(15))
                         .foregroundStyle(Theme.textSecondary)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 24)
@@ -59,7 +73,7 @@ struct UnlockCelebrationView: View {
                     Text(canPlace
                          ? "Placed in your garden · Day \(item.milestoneDays)"
                          : "Earned at Day \(item.milestoneDays) · Place it with Bloom+")
-                        .font(.caption)
+                        .font(Theme.body(12))
                         .foregroundStyle(Theme.textTertiary)
                         .padding(.top, 4)
                 }
@@ -67,6 +81,10 @@ struct UnlockCelebrationView: View {
                 .padding(.horizontal, 16)
                 .frame(maxWidth: .infinity)
                 .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 20))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20).stroke(Theme.ringTrack, lineWidth: 1)
+                )
+                .shadow(color: .black.opacity(0.06), radius: 12, y: 4)
                 .padding(.horizontal, 24)
                 .opacity(appear ? 1 : 0)
                 .offset(y: appear ? 0 : 20)
@@ -75,7 +93,7 @@ struct UnlockCelebrationView: View {
 
                 Button(action: onDismiss) {
                     Text("Continue")
-                        .fontWeight(.semibold)
+                        .font(Theme.body(17, weight: .semibold))
                         .frame(maxWidth: .infinity)
                         .padding()
                 }
@@ -108,7 +126,7 @@ struct UnlockRecapView: View {
 
     var body: some View {
         ZStack {
-            Color.black.opacity(0.78)
+            Theme.background
                 .ignoresSafeArea()
                 .contentShape(Rectangle())
                 .onTapGesture { onDismiss() }
@@ -122,7 +140,7 @@ struct UnlockRecapView: View {
                         .font(Theme.display(26, weight: .semibold))
                         .foregroundStyle(Theme.textPrimary)
                     Text("You've been sober \(days) day\(days == 1 ? "" : "s"), so you've already grown \(items.count) thing\(items.count == 1 ? "" : "s").")
-                        .font(.subheadline)
+                        .font(Theme.body(15))
                         .foregroundStyle(Theme.textSecondary)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 8)
@@ -139,20 +157,23 @@ struct UnlockRecapView: View {
                                     .background(Theme.cardSurfaceLight, in: RoundedRectangle(cornerRadius: 12))
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(item.displayName)
-                                        .font(.subheadline.weight(.semibold))
+                                        .font(Theme.body(15, weight: .semibold))
                                         .foregroundStyle(Theme.textPrimary)
                                     Text(item.description)
-                                        .font(.caption)
+                                        .font(Theme.body(12))
                                         .foregroundStyle(Theme.textSecondary)
                                         .fixedSize(horizontal: false, vertical: true)
                                 }
                                 Spacer(minLength: 0)
                                 Text("Day \(item.milestoneDays)")
-                                    .font(.caption2.weight(.bold))
+                                    .font(Theme.body(11, weight: .bold))
                                     .foregroundStyle(Theme.brandPrimary)
                             }
                             .padding(12)
                             .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 14))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 14).stroke(Theme.ringTrack, lineWidth: 1)
+                            )
                         }
                     }
                     .padding(.horizontal, 20)
