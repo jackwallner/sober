@@ -64,20 +64,20 @@ struct GardenCollectionView: View {
         VStack(alignment: .leading, spacing: 6) {
             if let next = nextItem {
                 Text("\(unlockedCount) of \(allItems.count) earned")
-                    .font(.subheadline)
+                    .font(Theme.body(15))
                     .foregroundStyle(Theme.textSecondary)
                 Text("Next: \(next.displayName)")
-                    .font(.title3.weight(.semibold))
+                    .font(Theme.heading(20, weight: .semibold))
                     .foregroundStyle(Theme.textPrimary)
                 Text("in \(next.milestoneDays - days) day\(next.milestoneDays - days == 1 ? "" : "s")")
-                    .font(.subheadline)
+                    .font(Theme.body(15))
                     .foregroundStyle(Theme.brandPrimary)
             } else {
                 Text("\(unlockedCount) of \(allItems.count) earned")
-                    .font(.subheadline)
+                    .font(Theme.body(15))
                     .foregroundStyle(Theme.textSecondary)
                 Text("Everything is grown")
-                    .font(.title3.weight(.semibold))
+                    .font(Theme.heading(20, weight: .semibold))
                     .foregroundStyle(Theme.textPrimary)
             }
         }
@@ -115,11 +115,11 @@ private struct TimelineRow: View {
                     .frame(width: 36, height: 36)
                 if isUnlocked {
                     Image(systemName: "checkmark")
-                        .font(.caption.bold())
+                        .font(Theme.body(12, weight: .bold))
                         .foregroundStyle(.white)
                 } else {
                     Text("\(item.milestoneDays)")
-                        .font(.caption2.bold())
+                        .font(Theme.body(11, weight: .bold))
                         .foregroundStyle(isNext ? .white : Theme.textTertiary)
                 }
             }
@@ -147,13 +147,13 @@ private struct TimelineRow: View {
                 rendererThumb
                 VStack(alignment: .leading, spacing: 3) {
                     Text(item.displayName)
-                        .font(.subheadline.weight(.semibold))
+                        .font(Theme.body(15, weight: .semibold))
                         .foregroundStyle(isUnlocked ? Theme.textPrimary : Theme.textSecondary)
                         .lineLimit(2)
                         .minimumScaleFactor(0.9)
                     if item.type != .bonsai {
                         Text(item.type.displayCategory)
-                            .font(.caption2)
+                            .font(Theme.body(11))
                             .foregroundStyle(Theme.textTertiary)
                     }
                     statusLine
@@ -164,7 +164,7 @@ private struct TimelineRow: View {
             }
             if isNext || isUnlocked {
                 Text(item.description)
-                    .font(.caption)
+                    .font(Theme.body(12))
                     .foregroundStyle(Theme.textSecondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
@@ -195,7 +195,7 @@ private struct TimelineRow: View {
             )
             if !isUnlocked {
                 Image(systemName: "lock.fill")
-                    .font(.caption)
+                    .font(Theme.body(12))
                     .foregroundStyle(Theme.textTertiary)
             }
         }
@@ -207,11 +207,11 @@ private struct TimelineRow: View {
     private var statusLine: some View {
         if isUnlocked {
             Text(item.milestoneDays <= 0 ? "Earned from the start" : "Earned at day \(item.milestoneDays)")
-                .font(.caption2)
+                .font(Theme.body(11))
                 .foregroundStyle(Theme.success)
         } else {
             Text("\(daysAway) day\(daysAway == 1 ? "" : "s") to go")
-                .font(.caption2)
+                .font(Theme.body(11))
                 .foregroundStyle(isNext ? Theme.brandPrimary : Theme.textTertiary)
         }
     }
@@ -226,7 +226,7 @@ private struct TimelineRow: View {
                     .foregroundStyle(Theme.success)
             } else {
                 Button("Bloom+", action: onUpsell)
-                    .font(.caption.weight(.semibold))
+                    .font(Theme.body(12, weight: .semibold))
                     .buttonStyle(.borderedProminent)
                     .tint(Theme.brandPrimary)
                     .controlSize(.mini)

@@ -102,7 +102,7 @@ struct ReviewPromptSheet: View {
             .padding(.top, 8)
 
             Text("If Sober is helping your journey, a quick rating on the App Store makes a real difference.")
-                .font(.subheadline)
+                .font(Theme.body(15))
                 .foregroundStyle(Theme.textSecondary)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
@@ -131,14 +131,14 @@ struct ReviewPromptSheet: View {
     private var reviewPitchContent: some View {
         VStack(spacing: 18) {
             Text("Sober is built by one indie developer. No ads, no accounts, and your sobriety data never leaves your phone.")
-                .font(.subheadline)
+                .font(Theme.body(15))
                 .foregroundStyle(Theme.textSecondary)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.top, 8)
 
             Text("An honest App Store review takes seconds and helps more people find a calm, private sobriety tracker.")
-                .font(.footnote)
+                .font(Theme.body(13))
                 .foregroundStyle(Theme.textSecondary)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
@@ -169,7 +169,7 @@ struct ReviewPromptSheet: View {
     private var feedbackContent: some View {
         VStack(alignment: .leading, spacing: 14) {
             Text("What would make Sober work better for you?")
-                .font(.subheadline)
+                .font(Theme.body(15))
                 .foregroundStyle(Theme.textSecondary)
                 .fixedSize(horizontal: false, vertical: true)
 
@@ -180,7 +180,7 @@ struct ReviewPromptSheet: View {
                 .focused($feedbackFocused)
 
             Text("Opens your mail app with a draft to the developer. No analytics, just your words.")
-                .font(.caption)
+                .font(Theme.body(12))
                 .foregroundStyle(Theme.textSecondary)
 
             Button {
@@ -199,7 +199,7 @@ struct ReviewPromptSheet: View {
 
     private func primaryButtonLabel(_ title: String) -> some View {
         Text(title)
-            .font(.headline.weight(.bold))
+            .font(Theme.body(17, weight: .bold))
             .foregroundStyle(.white)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 14)
@@ -208,7 +208,7 @@ struct ReviewPromptSheet: View {
 
     private func secondaryButtonLabel(_ title: String) -> some View {
         Text(title)
-            .font(.subheadline.weight(.semibold))
+            .font(Theme.body(15, weight: .semibold))
             .foregroundStyle(Theme.textSecondary)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 10)

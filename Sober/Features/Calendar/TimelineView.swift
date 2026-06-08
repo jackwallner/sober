@@ -119,11 +119,11 @@ struct TimelineView: View {
     private func statCell(value: String, label: String) -> some View {
         VStack(spacing: 4) {
             Text(value)
-                .font(.title.weight(.semibold))
+                .font(Theme.heading(28, weight: .semibold))
                 .foregroundStyle(Theme.brandPrimary)
                 .monospacedDigit()
             Text(label.uppercased())
-                .font(.caption2.weight(.semibold))
+                .font(Theme.body(11, weight: .semibold))
                 .tracking(0.6)
                 .foregroundStyle(Theme.textSecondary)
         }
@@ -149,7 +149,7 @@ struct TimelineView: View {
             }
             .accessibilityLabel("Previous month")
             Spacer()
-            Text(monthTitle).font(.title3.weight(.semibold))
+            Text(monthTitle).font(Theme.heading(20, weight: .semibold))
             Spacer()
             Button { shift(months: 1) } label: {
                 Image(systemName: "chevron.right")
@@ -182,7 +182,7 @@ struct TimelineView: View {
         return LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: 7), spacing: 6) {
             ForEach(Array(weekdaySymbols.enumerated()), id: \.offset) { _, sym in
                 Text(sym)
-                    .font(.caption2.weight(.semibold))
+                    .font(Theme.body(11, weight: .semibold))
                     .foregroundStyle(Theme.textSecondary)
             }
             ForEach(0..<leadingBlanks, id: \.self) { _ in Color.clear.frame(height: 36) }
@@ -214,7 +214,7 @@ struct TimelineView: View {
         else { bg = Theme.cardSurface }
 
         return Text("\(Calendar.current.component(.day, from: date))")
-            .font(.caption.bold())
+            .font(Theme.body(12, weight: .bold))
             .frame(maxWidth: .infinity)
             .frame(height: 36)
             .background(bg, in: RoundedRectangle(cornerRadius: 8))
@@ -243,10 +243,10 @@ struct TimelineView: View {
             HStack(alignment: .firstTextBaseline) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(isToday ? "Today" : DateHelpers.mediumDate(selectedDate))
-                        .font(.headline)
+                        .font(Theme.body(17))
                         .foregroundStyle(Theme.textPrimary)
                     Text("Day \(dayCount) · \(stage.title)")
-                        .font(.subheadline)
+                        .font(Theme.body(15))
                         .foregroundStyle(Theme.textSecondary)
                 }
                 Spacer()
@@ -290,10 +290,10 @@ struct TimelineView: View {
     private func growthLine(icon: String, text: String) -> some View {
         HStack(spacing: 8) {
             Image(systemName: icon)
-                .font(.caption)
+                .font(Theme.body(12))
                 .foregroundStyle(Theme.brandPrimary)
             Text(text)
-                .font(.caption)
+                .font(Theme.body(12))
                 .foregroundStyle(Theme.textSecondary)
             Spacer(minLength: 0)
         }
@@ -377,7 +377,7 @@ struct TimelineView: View {
         let symbols = ["cloud.rain.fill", "cloud.fill", "cloud.sun.fill", "sun.max.fill", "sparkles"]
         let labels = ["Rough", "Low", "OK", "Good", "Great"]
         return VStack(alignment: .leading, spacing: 4) {
-            Text("Mood").font(.caption.weight(.semibold)).foregroundStyle(Theme.textSecondary)
+            Text("Mood").font(Theme.body(12, weight: .semibold)).foregroundStyle(Theme.textSecondary)
             HStack(spacing: Theme.Space.m) {
                 ForEach(1...5, id: \.self) { value in
                     Button {
@@ -392,7 +392,7 @@ struct TimelineView: View {
                                 .font(.title3)
                                 .foregroundStyle(draftMood == value ? Theme.brandPrimary : Theme.textTertiary)
                             Text(labels[value - 1])
-                                .font(.caption2.weight(.semibold))
+                                .font(Theme.body(11, weight: .semibold))
                                 .foregroundStyle(draftMood == value ? Theme.brandPrimary : Theme.textTertiary)
                         }
                         .frame(maxWidth: .infinity)
@@ -405,7 +405,7 @@ struct TimelineView: View {
 
     private func noteField(existing: DailyCheckIn?) -> some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("Note").font(.caption.weight(.semibold)).foregroundStyle(Theme.textSecondary)
+            Text("Note").font(Theme.body(12, weight: .semibold)).foregroundStyle(Theme.textSecondary)
             TextField("How did the day go?", text: $draftNote, axis: .vertical)
                 .lineLimit(1...4)
                 .onChange(of: draftNote) { _, new in

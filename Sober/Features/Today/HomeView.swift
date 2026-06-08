@@ -256,7 +256,7 @@ struct HomeView: View {
         if !checkedInToday && daysMissed > 1 {
             VStack(spacing: 8) {
                 Text("Welcome back. You haven't checked in for \(daysMissed) days. Still going strong?")
-                    .font(.subheadline)
+                    .font(Theme.body(15))
                     .foregroundStyle(Theme.textPrimary)
                     .multilineTextAlignment(.center)
                 HStack(spacing: 10) {
@@ -301,16 +301,16 @@ struct HomeView: View {
                     .foregroundStyle(Theme.brandPrimary)
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Today is logged")
-                        .font(.subheadline.weight(.semibold))
+                        .font(Theme.body(15, weight: .semibold))
                         .foregroundStyle(Theme.textPrimary)
                     Text("Your bonsai is watered · \(days)-day streak going")
-                        .font(.caption)
+                        .font(Theme.body(12))
                         .foregroundStyle(Theme.textSecondary)
                 }
                 Spacer(minLength: 0)
                 Button { showCheckInDetail = true } label: {
                     Text("Add note")
-                        .font(.caption.weight(.semibold))
+                        .font(Theme.body(12, weight: .semibold))
                 }
                 .buttonStyle(.bordered)
                 .tint(Theme.brandPrimary)
@@ -338,7 +338,7 @@ struct HomeView: View {
                             .fontWeight(.semibold)
                     }
                     Text("Log today sober and water your bonsai")
-                        .font(.caption)
+                        .font(Theme.body(12))
                         .foregroundStyle(.white.opacity(0.85))
                 }
                 .foregroundStyle(.white)
@@ -455,7 +455,7 @@ private struct CheckInDetailSheet: View {
                                         .font(.title2)
                                         .foregroundStyle(mood == value ? Theme.brandPrimary : Theme.textTertiary)
                                     Text(moodLabels[value - 1])
-                                        .font(.caption2.weight(.semibold))
+                                        .font(Theme.body(11, weight: .semibold))
                                         .foregroundStyle(mood == value ? Theme.brandPrimary : Theme.textTertiary)
                                 }
                                 .frame(maxWidth: .infinity)
@@ -578,15 +578,15 @@ struct ProgressSheet: View {
                     .frame(width: 32)
                 VStack(alignment: .leading, spacing: 2) {
                     Text("You've saved \(lifetimeMoneySaved) so far")
-                        .font(.subheadline.weight(.semibold))
+                        .font(Theme.body(15, weight: .semibold))
                         .foregroundStyle(Theme.textPrimary)
                     Text("Start your free Bloom+ trial")
-                        .font(.caption)
+                        .font(Theme.body(12))
                         .foregroundStyle(Theme.textSecondary)
                 }
                 Spacer(minLength: 0)
                 Image(systemName: "chevron.right")
-                    .font(.caption.weight(.semibold))
+                    .font(Theme.body(12, weight: .semibold))
                     .foregroundStyle(Theme.textTertiary)
             }
         }
@@ -619,9 +619,9 @@ struct ProgressSheet: View {
                 .foregroundStyle(Theme.brandPrimary)
                 .frame(width: 32)
             VStack(alignment: .leading, spacing: 2) {
-                Text(title).font(.body)
+                Text(title).font(Theme.body(17))
                 if !detail.isEmpty {
-                    Text(detail).font(.caption).foregroundStyle(Theme.textSecondary)
+                    Text(detail).font(Theme.body(12)).foregroundStyle(Theme.textSecondary)
                 }
             }
         }
@@ -633,17 +633,17 @@ struct ProgressSheet: View {
                 .foregroundStyle(Theme.brandPrimary)
                 .frame(width: 32)
             VStack(alignment: .leading, spacing: 2) {
-                Text(label).font(.body)
-                Text(sub).font(.caption).foregroundStyle(Theme.textSecondary)
+                Text(label).font(Theme.body(17))
+                Text(sub).font(Theme.body(12)).foregroundStyle(Theme.textSecondary)
             }
             Spacer()
             VStack(alignment: .trailing, spacing: 2) {
                 Text(streak)
-                    .font(.title3.weight(.semibold))
+                    .font(Theme.heading(20, weight: .semibold))
                     .foregroundStyle(Theme.brandPrimary)
                     .monospacedDigit()
                 Text("\(lifetime) lifetime")
-                    .font(.caption2)
+                    .font(Theme.body(11))
                     .foregroundStyle(Theme.textSecondary)
                     .monospacedDigit()
             }
@@ -693,7 +693,7 @@ struct ProgressSheet: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(a.title)
                     .foregroundStyle(unlocked ? Theme.textPrimary : Theme.textSecondary)
-                Text(a.description).font(.caption).foregroundStyle(Theme.textSecondary)
+                Text(a.description).font(Theme.body(12)).foregroundStyle(Theme.textSecondary)
             }
             Spacer()
             if unlocked {

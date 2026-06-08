@@ -117,7 +117,7 @@ struct GardenCustomizationView: View {
 
                                     if !earned {
                                         Image(systemName: "lock.fill")
-                                            .font(.subheadline.weight(.bold))
+                                            .font(Theme.body(15, weight: .bold))
                                             .foregroundStyle(.white)
                                             .padding(8)
                                             .background(.black.opacity(0.35), in: Circle())
@@ -131,7 +131,7 @@ struct GardenCustomizationView: View {
                                 )
 
                                 Text(earned ? style.displayName : "Day \(style.milestoneDays)")
-                                    .font(.caption)
+                                    .font(Theme.body(12))
                                     .foregroundStyle(isActive ? Theme.brandPrimary : Theme.textSecondary)
                             }
                         }
@@ -174,7 +174,7 @@ struct GardenCustomizationView: View {
                 )
 
             Text(item.displayName)
-                .font(.caption2)
+                .font(Theme.body(11))
                 .foregroundStyle(isPlaced ? Theme.brandPrimary : Theme.textSecondary)
 
             Button(isPlaced ? "Remove" : "Place") {
@@ -189,7 +189,7 @@ struct GardenCustomizationView: View {
             }
             .buttonStyle(.bordered)
             .tint(isPlaced ? .red : Theme.brandPrimary)
-            .font(.caption)
+            .font(Theme.body(12))
             .controlSize(.small)
         }
     }
@@ -201,10 +201,10 @@ struct GardenCustomizationView: View {
             VStack(spacing: 24) {
                 VStack(spacing: 10) {
                     Text("Grow a whole grove with Bloom+")
-                        .font(.title2.bold())
+                        .font(Theme.heading(22, weight: .bold))
                         .multilineTextAlignment(.center)
                     Text("Every species is a different shape of resilience. Swap between them and watch each one grow with your streak.")
-                        .font(.subheadline)
+                        .font(Theme.body(15))
                         .foregroundStyle(Theme.textSecondary)
                         .multilineTextAlignment(.center)
                 }
@@ -216,7 +216,7 @@ struct GardenCustomizationView: View {
                 let extras = GardenItemCatalog.all.filter { $0.type != .bonsai }
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Plus decorations as you go")
-                        .font(.caption.bold())
+                        .font(Theme.body(12, weight: .bold))
                         .foregroundStyle(Theme.textSecondary)
                     ForEach(extras.prefix(6)) { item in
                         let isUnlocked = unlockedItems.contains(item)
@@ -224,7 +224,7 @@ struct GardenCustomizationView: View {
                             Image(systemName: isUnlocked ? "checkmark.circle.fill" : "circle")
                                 .foregroundStyle(isUnlocked ? Theme.success : Theme.textTertiary)
                             Text("\(item.displayName) · Day \(item.milestoneDays)")
-                                .font(.caption)
+                                .font(Theme.body(12))
                                 .foregroundStyle(isUnlocked ? Theme.textPrimary : Theme.textSecondary)
                         }
                     }
@@ -269,20 +269,20 @@ struct GardenCustomizationView: View {
                     VStack(alignment: .leading, spacing: 3) {
                         HStack(spacing: 6) {
                             Text(style.displayName)
-                                .font(.subheadline.weight(.bold))
+                                .font(Theme.body(15, weight: .bold))
                                 .foregroundStyle(Theme.textPrimary)
                             if earned {
                                 Text("Unlocked")
-                                    .font(.caption2.weight(.bold))
+                                    .font(Theme.body(11, weight: .bold))
                                     .foregroundStyle(Theme.success)
                             } else {
                                 Text("Day \(style.milestoneDays)")
-                                    .font(.caption2.weight(.bold))
+                                    .font(Theme.body(11, weight: .bold))
                                     .foregroundStyle(Theme.brandPrimary)
                             }
                         }
                         Text(style.description)
-                            .font(.caption)
+                            .font(Theme.body(12))
                             .foregroundStyle(Theme.textSecondary)
                             .fixedSize(horizontal: false, vertical: true)
                     }
@@ -299,7 +299,7 @@ struct GardenCustomizationView: View {
 
     private func sectionHeader(_ title: String) -> some View {
         Text(title)
-            .font(.headline)
+            .font(Theme.body(17))
             .foregroundStyle(Theme.textPrimary)
     }
 
