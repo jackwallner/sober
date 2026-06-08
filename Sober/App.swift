@@ -22,6 +22,7 @@ struct SoberApp: App {
 
 struct RootView: View {
     @Environment(\.modelContext) private var context
+    @Environment(\.scenePhase) private var scenePhase
     @Query private var settingsRows: [UserSettings]
 
     var body: some View {
@@ -40,6 +41,14 @@ struct RootView: View {
         // (lists, pickers, sheets, tab bar) and clashes. Lock to light.
         .preferredColorScheme(.light)
         .task { WidgetSnapshotPump.push(context: context) }
+        // Re-check entitlements on every foreground (not just cold launch) so a
+        // renewal, restore, or server-delayed grant flips the app to Pro
+        // promptly — matches Vitals' willEnterForeground refresh.
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
+                Task { await SubscriptionService.shared.refreshFromServer() }
+            }
+        }
     }
 }
 
