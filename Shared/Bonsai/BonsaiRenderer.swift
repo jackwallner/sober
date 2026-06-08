@@ -1829,14 +1829,14 @@ struct BonsaiView: View {
     ScrollView {
         VStack(spacing: 8) {
             ForEach([BonsaiStyle.traditional, .cascade, .windswept, .sakura, .maple, .pine], id: \.self) { s in
-                Text(s.displayName).font(.caption.bold())
+                Text(s.displayName).font(Theme.body(12, weight: .bold))
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
                     ForEach([0, 1, 3, 5, 7, 10, 14, 21, 30, 60, 90, 180, 365], id: \.self) { d in
                         VStack(spacing: 2) {
                             BonsaiView(day: d, style: s, vitality: 1)
                                 .frame(width: 80, height: 80)
                                 .background(Color(hex: 0xEBF5DB))
-                            Text("d\(d)").font(.caption2)
+                            Text("d\(d)").font(Theme.body(11))
                         }
                     }
                 }

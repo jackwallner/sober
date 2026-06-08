@@ -152,7 +152,7 @@ struct PaywallView: View {
             Spacer()
             ProgressView().tint(.white)
             Text("Loading plans…")
-                .font(.footnote)
+                .font(Theme.body(13))
                 .foregroundStyle(.white.opacity(0.75))
             Spacer()
             // Terms, Privacy, and Restore must stay reachable from every paywall
@@ -172,9 +172,9 @@ struct PaywallView: View {
                 .font(.system(size: 40))
                 .foregroundStyle(.white.opacity(0.7))
             Text("Couldn't Load Plans")
-                .font(.headline)
+                .font(Theme.body(17))
             Text(subscriptions.lastError ?? "Check your connection and try again.")
-                .font(.subheadline)
+                .font(Theme.body(15))
                 .foregroundStyle(.white.opacity(0.8))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)
@@ -184,7 +184,7 @@ struct PaywallView: View {
                     selectDefaultPackageIfNeeded()
                 }
             }
-            .font(.subheadline.weight(.semibold))
+            .font(Theme.body(15, weight: .semibold))
             .foregroundStyle(.white)
             Spacer()
             // Even when plans fail to load, a returning subscriber must be able to
@@ -202,11 +202,11 @@ struct PaywallView: View {
             ForEach(benefits, id: \.title) { item in
                 HStack(spacing: 10) {
                     Image(systemName: item.symbol)
-                        .font(.footnote.weight(.semibold))
+                        .font(Theme.body(13, weight: .semibold))
                         .frame(width: 18, height: 18)
                         .foregroundStyle(.white)
                     Text(item.title)
-                        .font(.footnote)
+                        .font(Theme.body(13))
                         .lineLimit(1)
                         .minimumScaleFactor(0.85)
                     Spacer(minLength: 0)
@@ -243,7 +243,7 @@ struct PaywallView: View {
             Button(action: startPurchase) {
                 ZStack {
                     Text(ctaTitle)
-                        .font(.headline.weight(.bold))
+                        .font(Theme.body(17, weight: .bold))
                         .foregroundStyle(Theme.brandPrimary)
                         .opacity(isPurchasing ? 0 : 1)
                     if isPurchasing {
@@ -259,7 +259,7 @@ struct PaywallView: View {
 
             if let disclosure = disclosureText {
                 Text(disclosure)
-                    .font(.caption)
+                    .font(Theme.body(12))
                     .foregroundStyle(.white.opacity(0.85))
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
@@ -267,13 +267,13 @@ struct PaywallView: View {
 
             if let errorMessage {
                 Text(errorMessage)
-                    .font(.footnote)
+                    .font(Theme.body(13))
                     .foregroundStyle(.white.opacity(0.95))
                     .multilineTextAlignment(.center)
             }
             if let restoreMessage {
                 Text(restoreMessage)
-                    .font(.footnote)
+                    .font(Theme.body(13))
                     .foregroundStyle(.white.opacity(0.85))
                     .multilineTextAlignment(.center)
             }
@@ -297,9 +297,9 @@ struct PaywallView: View {
     private func trustItem(_ symbol: String, _ text: String) -> some View {
         HStack(spacing: 8) {
             Image(systemName: symbol)
-                .font(.caption.weight(.semibold))
+                .font(Theme.body(12, weight: .semibold))
             Text(text)
-                .font(.caption)
+                .font(Theme.body(12))
             Spacer(minLength: 0)
         }
         .foregroundStyle(.white.opacity(0.8))
@@ -310,7 +310,7 @@ struct PaywallView: View {
         HStack(spacing: 12) {
             Button(action: startRestore) {
                 Text(isRestoring ? "Restoring…" : "Restore Purchases")
-                    .font(.caption2)
+                    .font(Theme.body(11))
                     .underline()
             }
             .buttonStyle(.plain)
@@ -320,7 +320,7 @@ struct PaywallView: View {
             Text("·")
             Link("Privacy Policy", destination: PaywallLinks.privacyPolicy)
         }
-        .font(.caption2)
+        .font(Theme.body(11))
         .foregroundStyle(.white.opacity(0.7))
     }
 
@@ -411,13 +411,13 @@ struct PaywallView: View {
                 benefitListPlaceholder
                 Spacer(minLength: 8)
                 Text("$4.99 / mo · $29.99 / yr · $79.99 lifetime")
-                    .font(.footnote)
+                    .font(Theme.body(13))
                 Button {
                     subscriptions.setLocalOverride(isPro: true)
                     dismiss()
                 } label: {
                     Text("Continue (dev)")
-                        .font(.headline.weight(.bold))
+                        .font(Theme.body(17, weight: .bold))
                         .foregroundStyle(Theme.brandPrimary)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
@@ -426,7 +426,7 @@ struct PaywallView: View {
                 Button("Restore Purchases") {
                     Task { await subscriptions.refresh() }
                 }
-                .font(.footnote)
+                .font(Theme.body(13))
                 .foregroundStyle(.white.opacity(0.8))
             }
             .padding(.horizontal, 22)
@@ -440,10 +440,10 @@ struct PaywallView: View {
             ForEach(benefits, id: \.title) { item in
                 HStack(spacing: 12) {
                     Image(systemName: item.symbol)
-                        .font(.subheadline.weight(.semibold))
+                        .font(Theme.body(15, weight: .semibold))
                         .frame(width: 22, height: 22)
                     Text(item.title)
-                        .font(.subheadline)
+                        .font(Theme.body(15))
                     Spacer()
                 }
             }
@@ -484,7 +484,7 @@ struct PaywallView: View {
         if hasSavings {
             VStack(spacing: 4) {
                 Text("You've already saved")
-                    .font(.caption.weight(.semibold))
+                    .font(Theme.body(12, weight: .semibold))
                     .foregroundStyle(.white.opacity(0.85))
                     .textCase(.uppercase)
                     .tracking(1.2)
@@ -493,7 +493,7 @@ struct PaywallView: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
                 Text("across \(heroDays) sober day\(heroDays == 1 ? "" : "s"). Reinvest a fraction in your growth.")
-                    .font(.footnote)
+                    .font(Theme.body(13))
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.white.opacity(0.8))
                     .padding(.horizontal, 8)
@@ -503,7 +503,7 @@ struct PaywallView: View {
                 Text("Day \(heroDays)")
                     .font(.system(size: 52, weight: .bold, design: .rounded))
                 Text("Your tree's already growing.\nKeep watching it bloom.")
-                    .font(.footnote)
+                    .font(Theme.body(13))
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.white.opacity(0.85))
             }
@@ -515,7 +515,7 @@ struct PaywallView: View {
                 Text("You've started growing")
                     .font(.system(size: 26, weight: .bold, design: .rounded))
                 Text("Bloom+ unlocks the rest of the journey.")
-                    .font(.footnote)
+                    .font(Theme.body(13))
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.white.opacity(0.85))
             }
@@ -526,7 +526,7 @@ struct PaywallView: View {
                 Text("Bloom+")
                     .font(.system(size: 34, weight: .bold, design: .rounded))
                 Text("Everything that grows with you.")
-                    .font(.footnote)
+                    .font(Theme.body(13))
                     .foregroundStyle(.white.opacity(0.85))
             }
         }
@@ -583,7 +583,7 @@ private struct PlanCard: View {
                 VStack(alignment: .leading, spacing: 3) {
                     HStack(spacing: 6) {
                         Text(package.soberDisplayName)
-                            .font(.subheadline.weight(.bold))
+                            .font(Theme.body(15, weight: .bold))
                         if let pct = savingsPercent {
                             Text("SAVE \(pct)%")
                                 .font(.system(size: 10, weight: .heavy))
@@ -601,7 +601,7 @@ private struct PlanCard: View {
                     }
                     if let subtitle {
                         Text(subtitle)
-                            .font(.caption2.weight(.semibold))
+                            .font(Theme.body(11, weight: .semibold))
                             .foregroundStyle(.white.opacity(0.85))
                     }
                 }
@@ -610,11 +610,11 @@ private struct PlanCard: View {
 
                 VStack(alignment: .trailing, spacing: 2) {
                     Text(package.soberPriceLabel)
-                        .font(.subheadline.weight(.semibold).monospacedDigit())
+                        .font(Theme.body(15, weight: .semibold).monospacedDigit())
                         .foregroundStyle(.white)
                     if let anchorPrice {
                         Text(anchorPrice)
-                            .font(.caption2.monospacedDigit())
+                            .font(Theme.body(11).monospacedDigit())
                             .strikethrough()
                             .foregroundStyle(.white.opacity(0.6))
                     }

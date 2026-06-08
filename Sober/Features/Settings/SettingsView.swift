@@ -41,7 +41,7 @@ struct SettingsView: View {
                     .disabled(isRestoring)
                     if let restoreMessage {
                         Text(restoreMessage)
-                            .font(.footnote)
+                            .font(Theme.body(13))
                             .foregroundStyle(Theme.textSecondary)
                     }
                 }
@@ -156,14 +156,14 @@ struct SettingsView: View {
             Link(destination: destination) {
                 HStack(spacing: 12) {
                     Image(systemName: icon)
-                        .font(.body)
+                        .font(Theme.body(17))
                         .foregroundStyle(Theme.brandPrimary)
                         .frame(width: 26)
                     VStack(alignment: .leading, spacing: 1) {
                         Text(title)
                             .foregroundStyle(Theme.textPrimary)
                         Text(subtitle)
-                            .font(.caption)
+                            .font(Theme.body(12))
                             .foregroundStyle(Theme.textSecondary)
                     }
                 }

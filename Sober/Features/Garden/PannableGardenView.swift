@@ -92,7 +92,7 @@ struct PannableGardenView: View {
                         }
                     } label: {
                         Image(systemName: "arrow.up.left.and.down.right.magnifyingglass")
-                            .font(.callout)
+                            .font(Theme.body(16))
                             .padding(10)
                             .background(.ultraThinMaterial, in: Circle())
                     }

@@ -36,7 +36,7 @@ struct OnboardingView: View {
             Text("Sober").font(Theme.display(64, weight: .semibold))
             Text("Track your sobriety, grow your garden, watch your health return.")
                 .multilineTextAlignment(.center)
-                .font(.title2)
+                .font(Theme.body(22))
                 .padding(.horizontal, Theme.Space.m)
             Spacer()
             primaryButton("Get Started") { step = 1 }
@@ -73,7 +73,7 @@ struct OnboardingView: View {
             }
             VStack(spacing: Theme.Space.s) {
                 Text("Calories per day")
-                    .font(.headline)
+                    .font(Theme.body(17))
                     .foregroundStyle(.white.opacity(0.85))
                 Text("\(Int(caloriesPerDay)) cal")
                     .font(.system(size: 34, weight: .bold, design: .rounded))
@@ -96,7 +96,7 @@ struct OnboardingView: View {
             let yearlyPounds = Double(yearlyCalories) / 3500.0  // ~3,500 kcal per lb of fat
             VStack(spacing: 4) {
                 Text("In a year, that's")
-                    .font(.subheadline)
+                    .font(Theme.body(15))
                     .foregroundStyle(.white.opacity(0.75))
                 if dollars > 0 {
                     Text(formatCurrency(yearlyDollars))
@@ -106,7 +106,7 @@ struct OnboardingView: View {
                     Text(dollars > 0
                          ? "plus \(yearlyCalories.formatted()) calories you won't have to spend. About \(yearlyPounds.formatted(.number.precision(.fractionLength(0)))) lb of body fat."
                          : "\(yearlyCalories.formatted()) calories you won't have to spend — about \(yearlyPounds.formatted(.number.precision(.fractionLength(0)))) lb of body fat.")
-                        .font(.footnote)
+                        .font(Theme.body(13))
                         .foregroundStyle(.white.opacity(0.75))
                         .multilineTextAlignment(.center)
                 }
@@ -133,7 +133,7 @@ struct OnboardingView: View {
                 .multilineTextAlignment(.center)
             Picker("Hour", selection: $reminderHour) {
                 ForEach(0..<24) { h in
-                    Text(formatHour(h)).font(.title2).tag(h)
+                    Text(formatHour(h)).font(Theme.body(22)).tag(h)
                 }
             }
             .pickerStyle(.wheel)
@@ -160,7 +160,7 @@ struct OnboardingView: View {
                 .multilineTextAlignment(.center)
             Text("Recovery starts with a decision. This is yours, for today and the days that follow.")
                 .multilineTextAlignment(.center)
-                .font(.title2)
+                .font(Theme.body(22))
                 .foregroundStyle(.white.opacity(0.9))
                 .padding(.horizontal, Theme.Space.m)
             Spacer()
@@ -168,13 +168,13 @@ struct OnboardingView: View {
                 primaryButton("I commit to getting better") { complete(committed: true) }
                 Button { complete(committed: false) } label: {
                     Text("Not now")
-                        .font(.subheadline.weight(.medium))
+                        .font(Theme.body(15, weight: .medium))
                         .foregroundStyle(.white.opacity(0.8))
                         .underline()
                         .padding(.vertical, 6)
                 }
                 Text("Either way is fine. You can revisit this any time in Settings.")
-                    .font(.caption)
+                    .font(Theme.body(12))
                     .foregroundStyle(.white.opacity(0.7))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, Theme.Space.m)
@@ -185,7 +185,7 @@ struct OnboardingView: View {
     private func primaryButton(_ title: String, action: @escaping () -> Void) -> some View {
         Button(action: { withAnimation { action() } }) {
             Text(title)
-                .font(.title3.weight(.semibold))
+                .font(Theme.body(20, weight: .semibold))
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, Theme.Space.l)
         }

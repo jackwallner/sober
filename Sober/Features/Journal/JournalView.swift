@@ -19,7 +19,7 @@ struct JournalView: View {
                 Section("Entries") {
                     if entries.isEmpty {
                         Text("No entries yet. Use the pencil to write your first.")
-                            .font(.subheadline)
+                            .font(Theme.body(15))
                             .foregroundStyle(Theme.textSecondary)
                             .padding(.vertical, Theme.Space.s)
                     } else {
@@ -68,7 +68,7 @@ struct JournalView: View {
         let prompt = JournalPromptCatalog.promptOfDay()
         return VStack(alignment: .leading, spacing: Theme.Space.s) {
             Text(prompt.text)
-                .font(.body)
+                .font(Theme.body(17))
                 .foregroundStyle(Theme.textPrimary)
                 .fixedSize(horizontal: false, vertical: true)
             Button {
@@ -76,7 +76,7 @@ struct JournalView: View {
                 else { showPaywall = true }
             } label: {
                 Label("Write entry", systemImage: "square.and.pencil")
-                    .font(.subheadline.weight(.semibold))
+                    .font(Theme.body(15, weight: .semibold))
             }
             .buttonStyle(.borderless)
             .tint(Theme.brandPrimary)
@@ -102,24 +102,24 @@ private struct JournalEntryDetailSheet: View {
                 VStack(alignment: .leading, spacing: Theme.Space.m) {
                     HStack {
                         Text(DateHelpers.mediumDate(entry.createdAt))
-                            .font(.caption.weight(.semibold))
+                            .font(Theme.body(12, weight: .semibold))
                             .foregroundStyle(Theme.textSecondary)
                         Spacer()
                         if let feeling = entry.feeling {
                             Text(feeling.capitalized)
-                                .font(.caption.weight(.semibold))
+                                .font(Theme.body(12, weight: .semibold))
                                 .foregroundStyle(Theme.brandPrimary)
                         }
                     }
 
                     if let prompt = promptText {
                         Text(prompt)
-                            .font(.subheadline.weight(.semibold))
+                            .font(Theme.body(15, weight: .semibold))
                             .foregroundStyle(Theme.textSecondary)
                     }
 
                     Text(entry.text)
-                        .font(.body)
+                        .font(Theme.body(17))
                         .foregroundStyle(Theme.textPrimary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
@@ -154,17 +154,17 @@ private struct EntryRow: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
                 Text(DateHelpers.mediumDate(entry.createdAt))
-                    .font(.caption.weight(.semibold))
+                    .font(Theme.body(12, weight: .semibold))
                     .foregroundStyle(Theme.textSecondary)
                 Spacer()
                 if let feeling = entry.feeling {
                     Text(feeling.capitalized)
-                        .font(.caption.weight(.semibold))
+                        .font(Theme.body(12, weight: .semibold))
                         .foregroundStyle(Theme.brandPrimary)
                 }
             }
             Text(entry.text)
-                .font(.body)
+                .font(Theme.body(17))
                 .lineLimit(4)
         }
         .padding(.vertical, Theme.Space.xs)
