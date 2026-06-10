@@ -62,7 +62,13 @@ struct SoberDayCounterView: View {
     let days: Int
 
     private var stage: BonsaiStage { GardenService.stage(forDays: days) }
-    private var stageTitle: String { stage.title }
+    /// Past the first year, the bare in-cycle stage reads like a bug next to a
+    /// big day count ("14600 days · Seedling") — prefix the year for context,
+    /// matching the garden's stage badge.
+    private var stageTitle: String {
+        let completed = GardenService.cycleProgress(forDays: days).completed
+        return completed > 0 ? "Year \(completed + 1) · \(stage.title)" : stage.title
+    }
     private var dayInCycle: Int { GardenService.cycleProgress(forDays: days).dayInCycle }
     private var bonsaiStyle: BonsaiStyle {
         switch snapshot.bonsaiStyleID {
@@ -78,9 +84,15 @@ struct SoberDayCounterView: View {
     var body: some View {
         switch family {
         case .accessoryCircular:
-            VStack {
-                Text("\(days)").font(.title2.bold())
-                Text("d").font(.caption2)
+            // Long streaks reach 4-5 digits (a year-3 user is past 1,000 days;
+            // 40 years is ~14,600) — scale the number down rather than truncate.
+            VStack(spacing: 0) {
+                Text("\(days)")
+                    .font(.title2.bold())
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.4)
+                    .padding(.horizontal, 4)
+                Text(days == 1 ? "day" : "days").font(.caption2)
             }
             .accessibilityLabel(Text(days == 1 ? "1 day sober" : "\(days) days sober"))
         case .accessoryRectangular:
@@ -100,6 +112,8 @@ struct SoberDayCounterView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("\(days)")
                         .font(Theme.bigNumber(44))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
                         .foregroundStyle(.white)
                     Text(days == 1 ? "day sober" : "days sober")
                         .font(.caption)
@@ -126,6 +140,9 @@ struct SoberDayCounterView: View {
                     VStack(spacing: -1) {
                         Text("\(days)")
                             .font(Theme.bigNumber(34))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
+                            .padding(.horizontal, 8)
                             .foregroundStyle(.white)
                         Text(days == 1 ? "day sober" : "days sober")
                             .font(.caption2.weight(.medium))

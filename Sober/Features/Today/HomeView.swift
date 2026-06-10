@@ -21,7 +21,7 @@ struct HomeView: View {
     @State private var paywallImpressionId = "sober_home_sheet"
     @State private var showCustomize = false
     @State private var showProgress = false
-    @State private var grownStage: BonsaiStage?
+    @State private var growthEvent: GardenGrowthEvent?
     @State private var showGrowth = false
     @State private var showCheckInDetail = false
     @State private var showReviewPrompt = false
@@ -122,14 +122,14 @@ struct HomeView: View {
                 presentPostOnboardingPaywallIfNeeded()
             }
             .overlay {
-                if showGrowth, let stage = grownStage {
+                if showGrowth, let event = growthEvent {
                     GrowthCelebrationView(
-                        stage: stage,
+                        event: event,
                         style: GardenSceneView.styleEnum(for: gardenState?.activeBonsaiStyleID ?? GardenItemCatalog.freeSpeciesID),
                         dayInCycle: dayInCycle
                     ) {
                         withAnimation { showGrowth = false }
-                        grownStage = nil
+                        growthEvent = nil
                         WidgetSnapshotPump.push(context: context)
                         recordPositiveMomentForReview()
                         presentPostOnboardingPaywallIfNeeded()
@@ -188,6 +188,8 @@ struct HomeView: View {
         VStack(spacing: 0) {
             Text("\(days)")
                 .font(Theme.bigNumber(80))
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
                 .foregroundStyle(Theme.brandPrimary)
                 .accessibilityLabel("\(days) \(days == 1 ? "day" : "days") sober")
             Text(days == 1 ? "Day Sober" : "Days Sober")
@@ -349,10 +351,10 @@ struct HomeView: View {
     private func checkForGrowth() {
         let svc = GardenService(context: context)
         svc.processCycleCompletions(days: days)
-        let newStage = svc.processNewGrowth(days: days)
+        let event = svc.processGrowthEvents(days: days)
         AchievementService(context: context).processUnlocks(currentDays: days)
-        guard let newStage else { return }
-        grownStage = newStage
+        guard let event else { return }
+        growthEvent = event
         withAnimation { showGrowth = true }
     }
 
