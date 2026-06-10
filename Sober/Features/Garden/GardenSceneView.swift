@@ -137,31 +137,32 @@ struct GardenSceneView: View {
         .accessibilityLabel("\(stage.title) stage")
     }
 
-    /// The branded entry point for swapping the bonsai species. For Pro it names
-    /// the current tree and reads as "tap to switch"; for free it pitches the
-    /// locked species so the upgrade value is on the garden itself.
+    /// Entry point for swapping the bonsai species. Compact by design — the
+    /// garden is the hero, not the chrome. Pro gets a quiet "Switch" chip
+    /// (matching the stage badge); free keeps a small branded upsell chip so
+    /// the upgrade value stays on the garden itself.
     private var speciesSwitcher: some View {
         Button {
             onSwapBonsai?()
         } label: {
-            HStack(spacing: 7) {
+            HStack(spacing: 5) {
                 Image(systemName: isPro ? "arrow.triangle.2.circlepath" : "crown.fill")
                     .font(Theme.caption(weight: .bold))
-                Text(isPro ? "\(activeSpeciesName) · Switch" : "Unlock \(GardenItemCatalog.premiumSpecies.count) trees")
-                    .font(Theme.subhead(weight: .semibold))
+                Text(isPro ? "Switch" : "Unlock \(GardenItemCatalog.premiumSpecies.count) trees")
+                    .font(Theme.caption(weight: .semibold))
                     .lineLimit(1)
-                Image(systemName: "chevron.right")
-                    .font(Theme.caption(weight: .bold))
-                    .opacity(0.85)
             }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 9)
-            .background(Theme.brandGradient, in: Capsule())
-            .foregroundStyle(.white)
-            .shadow(color: .black.opacity(0.18), radius: 6, y: 2)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .background(
+                isPro ? AnyShapeStyle(.ultraThinMaterial) : AnyShapeStyle(Theme.brandGradient),
+                in: Capsule()
+            )
+            .foregroundStyle(isPro ? AnyShapeStyle(.primary) : AnyShapeStyle(.white))
+            .shadow(color: .black.opacity(isPro ? 0 : 0.15), radius: 4, y: 1)
         }
         .buttonStyle(.plain)
-        .accessibilityLabel(isPro ? "Switch bonsai species" : "Unlock more bonsai species with Bloom+")
+        .accessibilityLabel(isPro ? "Switch bonsai species — currently \(activeSpeciesName)" : "Unlock more bonsai species with Bloom+")
     }
 
     // MARK: - Grove (completed trees)

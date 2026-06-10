@@ -212,6 +212,10 @@ struct OnboardingView: View {
         _ = GardenService(context: context).current()
         try? context.save()
 
+        // Queue the one-time post-onboarding paywall: motivation (and the
+        // just-entered spend numbers that personalize the hero) peak right now.
+        AppGroup.defaults.set(true, forKey: AppGroup.postOnboardingPaywallKey)
+
         Task {
             _ = await NotificationService.requestAuthorization()
             await NotificationService.scheduleDailyReminder(hour: reminderHour, committed: committed)
