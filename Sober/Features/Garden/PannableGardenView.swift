@@ -6,11 +6,9 @@ import SwiftUI
 struct PannableGardenView: View {
     let days: Int
     let vitality: Double
-    let placedItemIDs: [String]
     let activeBonsaiStyleID: String
     let isPro: Bool
     var completedTreeStyles: [String] = []
-    var onSelect: ((GardenItem) -> Void)? = nil
     var onSwapBonsai: (() -> Void)? = nil
 
     private let minScale: CGFloat = 1.0
@@ -43,11 +41,9 @@ struct PannableGardenView: View {
                 GardenSceneView(
                     days: days,
                     vitality: vitality,
-                    placedItemIDs: placedItemIDs,
                     activeBonsaiStyleID: activeBonsaiStyleID,
                     isPro: isPro,
                     completedTreeStyles: completedTreeStyles,
-                    onSelect: onSelect,
                     onSwapBonsai: onSwapBonsai
                 )
                 .frame(width: worldW, height: worldH)

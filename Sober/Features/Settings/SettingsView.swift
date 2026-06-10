@@ -1,14 +1,17 @@
 import SwiftData
 import SwiftUI
+import UserNotifications
 
 struct SettingsView: View {
     @Environment(\.modelContext) private var context
+    @Environment(\.scenePhase) private var scenePhase
     @Environment(SubscriptionService.self) private var subscriptions
     @Query private var settingsRows: [UserSettings]
     @Query(sort: \SobrietyJourney.startDate, order: .reverse) private var journeys: [SobrietyJourney]
     @State private var showPaywall = false
     @State private var restoreMessage: String?
     @State private var isRestoring = false
+    @State private var notificationsDenied = false
 
     private var settings: UserSettings? { settingsRows.first }
     private var activeJourney: SobrietyJourney? { journeys.first { $0.isActive } }
@@ -69,9 +72,22 @@ struct SettingsView: View {
                              ? "Reminders are framed around your pledge."
                              : "Reminders stay neutral and pressure-free.")
                     }
-                    Section("Daily Reminder") {
+                    Section {
                         Toggle("Enabled", isOn: bind(\.dailyReminderEnabled, on: s))
                         Stepper("Hour: \(s.dailyReminderHour):00", value: bind(\.dailyReminderHour, on: s), in: 0...23)
+                        if s.dailyReminderEnabled && notificationsDenied {
+                            Button {
+                                openNotificationSettings()
+                            } label: {
+                                Label("Allow notifications in Settings", systemImage: "bell.slash.fill")
+                            }
+                        }
+                    } header: {
+                        Text("Daily Reminder")
+                    } footer: {
+                        if s.dailyReminderEnabled && notificationsDenied {
+                            Text("Notifications are turned off for Sober, so the reminder can't be delivered. Tap above to enable them in the Settings app.")
+                        }
                     }
                     Section {
                         Stepper(value: bind(\.costPerDayCents, on: s), in: 0...20000, step: 100) {
@@ -145,6 +161,26 @@ struct SettingsView: View {
             .onChange(of: settings?.dailyReminderHour) { _, _ in rescheduleReminder() }
             .onChange(of: settings?.dailyReminderEnabled) { _, _ in rescheduleReminder() }
             .onChange(of: settings?.madeCommitment) { _, _ in rescheduleReminder() }
+            .task { await refreshNotificationStatus() }
+            // Re-check when the user comes back from the Settings app so the
+            // warning clears the moment they've granted permission.
+            .onChange(of: scenePhase) { _, phase in
+                if phase == .active {
+                    Task { await refreshNotificationStatus() }
+                }
+            }
+        }
+    }
+
+    private func refreshNotificationStatus() async {
+        let status = await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
+        notificationsDenied = (status == .denied)
+    }
+
+    private func openNotificationSettings() {
+        let urlString = UIApplication.openNotificationSettingsURLString
+        if let url = URL(string: urlString) {
+            UIApplication.shared.open(url)
         }
     }
 
