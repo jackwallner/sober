@@ -22,6 +22,39 @@ struct GardenServiceTests {
 
 }
 
+@Suite("Garden year cycles")
+struct GardenCycleTests {
+    @Test func firstYearHasNoCompletedTrees() {
+        let c = GardenService.cycleProgress(forDays: 365)
+        #expect(c.completed == 0)
+        #expect(c.dayInCycle == 365)
+    }
+
+    @Test func dayAfterAYearStartsFreshSapling() {
+        let c = GardenService.cycleProgress(forDays: 366)
+        #expect(c.completed == 1)
+        #expect(c.dayInCycle == 1)
+    }
+
+    @Test func everyYearBoundaryCountsOneTree() {
+        for years in 1...10 {
+            let endOfYear = GardenService.cycleProgress(forDays: years * 365)
+            #expect(endOfYear.completed == years - 1)
+            #expect(endOfYear.dayInCycle == 365)
+
+            let nextDay = GardenService.cycleProgress(forDays: years * 365 + 1)
+            #expect(nextDay.completed == years)
+            #expect(nextDay.dayInCycle == 1)
+        }
+    }
+
+    @Test func stageRestartsEachCycle() {
+        // Day 400 = day 35 of year two → adolescent, not stuck at legendary.
+        #expect(GardenService.stage(forDays: 400) == .adolescent)
+        #expect(GardenService.stage(forDays: 365 * 2) == .legendary)
+    }
+}
+
 @Suite("Health benefit catalog")
 struct HealthBenefitCatalogTests {
     @Test func bloodAlcoholClearingUnlocksAtSixHours() {
