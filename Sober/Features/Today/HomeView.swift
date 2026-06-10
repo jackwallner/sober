@@ -18,6 +18,7 @@ struct HomeView: View {
     @State private var daysMissed = 0
     @State private var showSettings = false
     @State private var showPaywall = false
+    @State private var paywallImpressionId = "sober_home_sheet"
     @State private var showCustomize = false
     @State private var showProgress = false
     @State private var grownStage: BonsaiStage?
@@ -118,6 +119,7 @@ struct HomeView: View {
                 refreshCheckInState()
                 checkForGrowth()
                 WidgetSnapshotPump.push(context: context)
+                presentPostOnboardingPaywallIfNeeded()
             }
             .overlay {
                 if showGrowth, let stage = grownStage {
@@ -130,6 +132,7 @@ struct HomeView: View {
                         grownStage = nil
                         WidgetSnapshotPump.push(context: context)
                         recordPositiveMomentForReview()
+                        presentPostOnboardingPaywallIfNeeded()
                     }
                     .transition(.opacity)
                     .zIndex(100)
@@ -140,8 +143,10 @@ struct HomeView: View {
                     .presentationDetents([.height(320)])
             }
             .sheet(isPresented: $showSettings) { SettingsView() }
-            .sheet(isPresented: $showPaywall) {
-                PaywallView(impressionId: "sober_home_sheet")
+            .sheet(isPresented: $showPaywall, onDismiss: {
+                paywallImpressionId = "sober_home_sheet"
+            }) {
+                PaywallView(impressionId: paywallImpressionId)
             }
             .sheet(isPresented: $showCustomize) { GardenCustomizationView() }
             .sheet(isPresented: $showProgress) {
@@ -349,6 +354,28 @@ struct HomeView: View {
         guard let newStage else { return }
         grownStage = newStage
         withAnimation { showGrowth = true }
+    }
+
+    /// One-shot paywall on the first Home arrival after onboarding — the day-0
+    /// moment where most trial decisions happen. The flag survives until it's
+    /// actually presented (a growth celebration on first launch defers it to
+    /// its own dismissal), then clears for good.
+    private func presentPostOnboardingPaywallIfNeeded() {
+        guard AppGroup.defaults.bool(forKey: AppGroup.postOnboardingPaywallKey) else { return }
+        guard !isPro else {
+            AppGroup.defaults.set(false, forKey: AppGroup.postOnboardingPaywallKey)
+            return
+        }
+        guard !showGrowth else { return }   // retried from the celebration's dismiss
+        AppGroup.defaults.set(false, forKey: AppGroup.postOnboardingPaywallKey)
+        Task { @MainActor in
+            // Let the garden render first so the paywall slides over the
+            // product, not over a blank launch frame.
+            try? await Task.sleep(nanoseconds: 700_000_000)
+            guard !showGrowth, !showReviewPrompt, !showPaywall else { return }
+            paywallImpressionId = "sober_onboarding_paywall"
+            showPaywall = true
+        }
     }
 
     private func recordPositiveMomentForReview() {

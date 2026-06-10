@@ -288,6 +288,7 @@ struct PaywallView: View {
         VStack(spacing: 4) {
             if let pkg = selectedPackage,
                subscriptions.isEligibleForIntroOffer(pkg) {
+                trustItem("checkmark.circle.fill", "No payment due now")
                 trustItem("bell.fill", "Apple reminds you before the trial ends")
             }
             trustItem("iphone", "Your data stays on this device")
@@ -481,7 +482,29 @@ struct PaywallView: View {
     @ViewBuilder
     private var savingsHero: some View {
         let hasSavings = heroDays > 0 && costPerDayCents > 0
-        if hasSavings {
+        if heroDays == 0 && costPerDayCents > 0 {
+            // Day-0 user (fresh from onboarding): no savings earned yet, but we
+            // know their daily spend — project the year so the price anchors
+            // against thousands saved, not dollars spent.
+            let yearly = Double(costPerDayCents) * 365 / 100
+            let yearlyLabel = Self.currencyFormatter.string(from: NSNumber(value: yearly)) ?? "$\(Int(yearly))"
+            VStack(spacing: 4) {
+                Text("Your first sober year saves")
+                    .font(Theme.caption(weight: .semibold))
+                    .foregroundStyle(.white.opacity(0.85))
+                    .textCase(.uppercase)
+                    .tracking(1.2)
+                Text(yearlyLabel)
+                    .font(.system(size: 52, weight: .bold, design: .rounded))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
+                Text("Watch it add up — and your tree grow — day by day.")
+                    .font(Theme.caption())
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.white.opacity(0.8))
+                    .padding(.horizontal, 8)
+            }
+        } else if hasSavings {
             VStack(spacing: 4) {
                 Text("You've already saved")
                     .font(Theme.caption(weight: .semibold))
@@ -557,6 +580,11 @@ private struct PlanCard: View {
 
     private var subtitle: String? {
         if kind == .yearly, let perMonth = package.soberPerMonthLabel {
+            // Lead with the free trial when one is on the table — reinforcing
+            // it on the card (not just the CTA) is what moves trial starts.
+            if showsTrialBadge, let trial = package.soberIntroOfferLabel {
+                return "\(trial.capitalized) · \(perMonth)"
+            }
             return perMonth
         }
         if kind == .lifetime { return "One-time · no subscription" }

@@ -107,10 +107,21 @@ private struct ClusterSpec {
     var attach: Attach?
     var cx: Double = 300
     var cy: Double = 250
+    /// Extra displacement from the attach point, in mature-tree pixels.
+    /// Scaled by `Params.reach` so filler clusters stay inside a young canopy.
+    var offset: CGSize = .zero
     var size: Double
     var tone: Tone = .sage
     var sat: Double = 1
     var seed: Double
+}
+
+/// Where a cluster is drawn: its trunk/branch attach point plus its offset,
+/// shrunk by `reach` so young trees keep every blob touching the silhouette.
+private func clusterCenter(_ c: ClusterSpec, trunk: TrunkResult, reach: Double) -> CGPoint {
+    let base = c.attach.flatMap { trunk.attach[$0] } ?? CGPoint(x: c.cx, y: c.cy)
+    return CGPoint(x: base.x + c.offset.width * reach,
+                   y: base.y + c.offset.height * reach)
 }
 
 private enum Attach: String {
@@ -353,21 +364,33 @@ private func trunkTraditional(_ p: Params) -> TrunkResult {
     path.addQuadCurve(to: CGPoint(x: bR, y: baseY), control: CGPoint(x: m1R + 4, y: (baseY + midY) / 2))
     path.closeSubpath()
 
+    // Branch reach grows with the tree (k=1 at day 365 → original geometry).
+    // Branches draw from the day their foliage clusters appear, so a blob is
+    // never left floating where its limb hasn't grown yet.
+    let k = p.reach
+    let ymid2 = (midY + tipY) / 2
+    let b1Start = CGPoint(x: m1L + 2, y: midY + 4)
+    let b1End = CGPoint(x: b1Start.x - 38 * k, y: b1Start.y - 26 * k)
+    let b2Start = CGPoint(x: m2R - 2, y: ymid2 + 4)
+    let b2End = CGPoint(x: b2Start.x + 38 * k, y: b2Start.y - 34 * k)
+    let b3Start = CGPoint(x: bR - 2, y: baseY - 36)
+    let b3End = CGPoint(x: b3Start.x + 44 * k, y: b3Start.y - 36 * k)
+
     var branches: [(Path, Double)] = []
-    if p.trunkThickness > 0.4 {
+    if p.day >= 30 {
         var b1 = Path()
-        b1.move(to: CGPoint(x: m1L + 2, y: midY + 4))
-        b1.addQuadCurve(to: CGPoint(x: m1L - 36, y: midY - 22), control: CGPoint(x: m1L - 16, y: midY - 6))
+        b1.move(to: b1Start)
+        b1.addQuadCurve(to: b1End, control: CGPoint(x: b1Start.x - 18 * k, y: b1Start.y - 10 * k))
         branches.append((b1, max(3, baseW * 0.18)))
         var b2 = Path()
-        b2.move(to: CGPoint(x: m2R - 2, y: (midY + tipY) / 2 + 4))
-        b2.addQuadCurve(to: CGPoint(x: m2R + 36, y: (midY + tipY) / 2 - 30), control: CGPoint(x: m2R + 18, y: (midY + tipY) / 2 - 14))
+        b2.move(to: b2Start)
+        b2.addQuadCurve(to: b2End, control: CGPoint(x: b2Start.x + 20 * k, y: b2Start.y - 18 * k))
         branches.append((b2, max(2.6, baseW * 0.14)))
     }
-    if p.trunkThickness > 0.6 {
+    if p.day >= 60 {
         var b3 = Path()
-        b3.move(to: CGPoint(x: bR - 2, y: baseY - 36))
-        b3.addQuadCurve(to: CGPoint(x: bR + 42, y: baseY - 72), control: CGPoint(x: bR + 18, y: baseY - 54))
+        b3.move(to: b3Start)
+        b3.addQuadCurve(to: b3End, control: CGPoint(x: b3Start.x + 20 * k, y: b3Start.y - 18 * k))
         branches.append((b3, max(2.4, baseW * 0.12)))
     }
 
@@ -381,12 +404,12 @@ private func trunkTraditional(_ p: Params) -> TrunkResult {
     }
 
     let attach: [Attach: CGPoint] = [
-        .crown:      CGPoint(x: tipX, y: tipY - 8),
-        .upperLeft:  CGPoint(x: m1L - 36, y: midY - 22),
-        .upperRight: CGPoint(x: m2R + 36, y: (midY + tipY) / 2 - 30),
-        .midLeft:    CGPoint(x: m1L - 12, y: midY - 4),
-        .midRight:   CGPoint(x: m2R + 12, y: (midY + tipY) / 2 - 6),
-        .lowerRight: CGPoint(x: bR + 42, y: baseY - 72),
+        .crown:      CGPoint(x: tipX, y: tipY - 8 * k),
+        .upperLeft:  b1End,
+        .upperRight: b2End,
+        .midLeft:    CGPoint(x: m1L - 12 * k, y: midY - 4 * k),
+        .midRight:   CGPoint(x: m2R + 12 * k, y: ymid2 - 6 * k),
+        .lowerRight: b3End,
     ]
     return TrunkResult(path: path, branches: branches, bareBranches: [], gnarl: gnarl, attach: attach)
 }
@@ -394,7 +417,9 @@ private func trunkTraditional(_ p: Params) -> TrunkResult {
 private func trunkCascade(_ p: Params) -> TrunkResult {
     let baseX = 300.0, baseY = 378.0
     let fallPx = 30 + 130 * p.trunkHeight
-    let upPx = 10 + 30 * p.trunkHeight
+    // Taller riser than the JS source: the crown must clear the pot rim from
+    // day 8 so the young cascade doesn't read as a lump on the pot corner.
+    let upPx = 24 + 42 * p.trunkHeight
     let sideX = baseX - 80 - 60 * p.trunkHeight
     let baseW = 8 + 32 * p.trunkThickness
     let midW = baseW * 0.55, tipW = max(2.4, baseW * 0.22)
@@ -415,27 +440,31 @@ private func trunkCascade(_ p: Params) -> TrunkResult {
         gnarl.append((ellipse(p2.x - 2, p2.y + 4, midW * 0.5, 3), 0.5 * op))
     }
 
+    let k = p.reach
+    let midPt = CGPoint(x: (p2.x + p3.x) / 2, y: (p2.y + p3.y) / 2)
+    let b1Start = CGPoint(x: p2.x, y: p2.y + 6)
+    let b1End = CGPoint(x: b1Start.x - 44 * k, y: b1Start.y + 46 * k)
+    let b2End = CGPoint(x: midPt.x - 56 * k, y: midPt.y + 28 * k)
+
     var branches: [(Path, Double)] = []
-    if p.trunkThickness > 0.45 {
+    if p.day >= 30 {
         var b1 = Path()
-        b1.move(to: CGPoint(x: p2.x, y: p2.y + 6))
-        b1.addQuadCurve(to: CGPoint(x: p2.x - 44, y: p2.y + 52), control: CGPoint(x: p2.x - 22, y: p2.y + 30))
+        b1.move(to: b1Start)
+        b1.addQuadCurve(to: b1End, control: CGPoint(x: b1Start.x - 22 * k, y: b1Start.y + 24 * k))
         branches.append((b1, max(2.6, baseW * 0.14)))
-        let midPt = CGPoint(x: (p2.x + p3.x) / 2, y: (p2.y + p3.y) / 2)
         var b2 = Path()
         b2.move(to: midPt)
-        b2.addQuadCurve(to: CGPoint(x: midPt.x - 56, y: midPt.y + 28), control: CGPoint(x: midPt.x - 26, y: midPt.y + 18))
+        b2.addQuadCurve(to: b2End, control: CGPoint(x: midPt.x - 26 * k, y: midPt.y + 18 * k))
         branches.append((b2, max(2.4, baseW * 0.12)))
     }
 
-    let midPt = CGPoint(x: (p2.x + p3.x) / 2, y: (p2.y + p3.y) / 2)
     let attach: [Attach: CGPoint] = [
-        .crown:      CGPoint(x: p1.x - 2, y: p1.y - 12),
-        .upperLeft:  CGPoint(x: p2.x - 44, y: p2.y + 52 - 8),
-        .upperRight: CGPoint(x: midPt.x - 56, y: midPt.y + 28 - 8),
-        .midLeft:    CGPoint(x: p3.x - 12, y: p3.y - 22),
-        .midRight:   CGPoint(x: p3.x + 14, y: p3.y - 10),
-        .lowerRight: CGPoint(x: p3.x - 6, y: p3.y + 10),
+        .crown:      CGPoint(x: p1.x - 2 * k, y: p1.y - 12 * k),
+        .upperLeft:  CGPoint(x: b1End.x, y: b1End.y - 8 * k),
+        .upperRight: CGPoint(x: b2End.x, y: b2End.y - 8 * k),
+        .midLeft:    CGPoint(x: p3.x - 12 * k, y: p3.y - 22 * k),
+        .midRight:   CGPoint(x: p3.x + 14 * k, y: p3.y - 10 * k),
+        .lowerRight: CGPoint(x: p3.x - 6 * k, y: p3.y + 10 * k),
     ]
     return TrunkResult(path: path, branches: branches, bareBranches: [], gnarl: gnarl, attach: attach)
 }
@@ -466,44 +495,54 @@ private func trunkWindswept(_ p: Params) -> TrunkResult {
         gnarl.append((ellipse(midX - 2, midY + 2, midW * 0.55, 3.6), 0.55 * op))
     }
 
-    // Bare windward (left) branches
+    let k = p.reach
+
+    // Bare windward (left) branches — decorative dead wood, scaled with growth.
     var bare: [(Path, Double, Color, Double)] = []
     if p.trunkThickness > 0.35 {
         let bareSize = max(2, baseW * 0.12)
+        let s1 = CGPoint(x: (baseX + midX) / 2, y: (baseY + midY) / 2)
         var b1 = Path()
-        b1.move(to: CGPoint(x: (baseX + midX) / 2, y: (baseY + midY) / 2))
-        b1.addQuadCurve(to: CGPoint(x: baseX - 44, y: baseY - 92), control: CGPoint(x: baseX - 18, y: baseY - 80))
+        b1.move(to: s1)
+        b1.addQuadCurve(
+            to: CGPoint(x: s1.x + (baseX - 44 - s1.x) * k, y: s1.y + (baseY - 92 - s1.y) * k),
+            control: CGPoint(x: s1.x + (baseX - 18 - s1.x) * k, y: s1.y + (baseY - 80 - s1.y) * k))
         bare.append((b1, bareSize, Pal.barkMid, 1))
         var b2 = Path()
         b2.move(to: CGPoint(x: midX - 4, y: midY + 4))
-        b2.addQuadCurve(to: CGPoint(x: midX - 56, y: midY - 28), control: CGPoint(x: midX - 30, y: midY - 18))
+        b2.addQuadCurve(to: CGPoint(x: midX - 4 - 52 * k, y: midY + 4 - 32 * k),
+                        control: CGPoint(x: midX - 4 - 26 * k, y: midY + 4 - 22 * k))
         bare.append((b2, bareSize * 0.85, Pal.barkDeep, 0.85))
         var b3 = Path()
         b3.move(to: CGPoint(x: midX - 18, y: midY - 4))
-        b3.addQuadCurve(to: CGPoint(x: midX - 60, y: midY - 2), control: CGPoint(x: midX - 40, y: midY - 6))
+        b3.addQuadCurve(to: CGPoint(x: midX - 18 - 42 * k, y: midY - 4 + 2 * k),
+                        control: CGPoint(x: midX - 18 - 22 * k, y: midY - 4 - 2 * k))
         bare.append((b3, bareSize * 0.7, Pal.barkMid, 1))
     }
 
-    // Leeward (right) heavy branches into the foliage
+    // Leeward (right) heavy branches into the foliage. Drawn from the day the
+    // leeward clusters exist so foliage always has wood to sit on.
     var branches: [(Path, Double)] = []
-    if p.trunkThickness > 0.4 {
+    if p.day >= 30 {
         var b1 = Path()
         b1.move(to: CGPoint(x: midX + 2, y: midY - 2))
-        b1.addQuadCurve(to: CGPoint(x: midX + 48, y: midY - 28), control: CGPoint(x: midX + 26, y: midY - 14))
+        b1.addQuadCurve(to: CGPoint(x: midX + 2 + 46 * k, y: midY - 2 - 26 * k),
+                        control: CGPoint(x: midX + 2 + 24 * k, y: midY - 2 - 12 * k))
         branches.append((b1, max(3, baseW * 0.18)))
         var b2 = Path()
         b2.move(to: CGPoint(x: tipX - 6, y: tipY + 6))
-        b2.addQuadCurve(to: CGPoint(x: tipX + 42, y: tipY - 14), control: CGPoint(x: tipX + 18, y: tipY - 4))
+        b2.addQuadCurve(to: CGPoint(x: tipX - 6 + 48 * k, y: tipY + 6 - 20 * k),
+                        control: CGPoint(x: tipX - 6 + 24 * k, y: tipY + 6 - 10 * k))
         branches.append((b2, max(2.6, baseW * 0.14)))
     }
 
     let attach: [Attach: CGPoint] = [
-        .crown:      CGPoint(x: tipX + 24, y: tipY - 10),
-        .upperLeft:  CGPoint(x: tipX + 14, y: tipY + 4),
-        .upperRight: CGPoint(x: tipX + 56, y: tipY),
-        .midLeft:    CGPoint(x: midX + 24, y: midY - 16),
-        .midRight:   CGPoint(x: midX + 56, y: midY - 12),
-        .lowerRight: CGPoint(x: midX + 70, y: midY + 14),
+        .crown:      CGPoint(x: tipX + 24 * k, y: tipY - 10 * k),
+        .upperLeft:  CGPoint(x: tipX + 14 * k, y: tipY + 4 * k),
+        .upperRight: CGPoint(x: tipX + 56 * k, y: tipY),
+        .midLeft:    CGPoint(x: midX + 24 * k, y: midY - 16 * k),
+        .midRight:   CGPoint(x: midX + 56 * k, y: midY - 12 * k),
+        .lowerRight: CGPoint(x: midX + 70 * k, y: midY + 14 * k),
     ]
     return TrunkResult(path: path, branches: branches, bareBranches: bare, gnarl: gnarl, attach: attach)
 }
@@ -529,6 +568,10 @@ private struct Params {
     var leafSaturation: Double
     var mossOnTrunk: Double
     var exposedRoots: Double
+    /// 0→1 canopy growth factor (1 at day 365). Scales branch lengths and
+    /// cluster attach offsets so foliage hugs a young trunk instead of
+    /// floating at mature-tree distances.
+    var reach: Double
     var clusters: [ClusterSpec]
 }
 
@@ -542,8 +585,10 @@ private func eased(_ day: Int) -> Double {
 
 private func paramsForDay(_ day: Int, style: BonsaiStyle) -> Params {
     let e = eased(day)
-    let trunkHeight = lerp(0.20, 0.86, e)
-    let trunkThickness = lerp(0.18, style == .cascade ? 0.82 : 0.90, e)
+    // Height starts low so day 8 (first day of the trunk pipeline) reads as a
+    // grown-up version of the day-7 sprout, not a sudden adult tree.
+    let trunkHeight = lerp(0.10, 0.86, e)
+    let trunkThickness = lerp(0.14, style == .cascade ? 0.82 : 0.90, e)
     let trunkGnarl = max(0, Double(day - 21) / Double(365 - 21))
     let leafSaturation = day < 14
         ? lerp(0.85, 0.95, Double(day) / 14)
@@ -571,22 +616,25 @@ private func paramsForDay(_ day: Int, style: BonsaiStyle) -> Params {
         clusters.append(ClusterSpec(attach: .lowerRight,
             size: (sizeBase * 0.5).rounded(), tone: .sage, seed: 6))
     }
+    // Ambient canopy fillers — anchored to trunk attach points (not fixed
+    // canvas coordinates) so they stay inside the silhouette on every style.
     if day >= 90 {
-        clusters.append(ClusterSpec(attach: nil, cx: 300, cy: 210,
+        clusters.append(ClusterSpec(attach: .crown, offset: CGSize(width: -12, height: 32),
             size: (sizeBase * 0.42).rounded(), tone: .fresh, seed: 7))
     }
     if day >= 180 {
-        clusters.append(ClusterSpec(attach: nil, cx: 380, cy: 296,
+        clusters.append(ClusterSpec(attach: .midRight, offset: CGSize(width: 16, height: 12),
             size: (sizeBase * 0.28).rounded(), tone: .autumn, sat: 0.8, seed: 8))
     }
     if day >= 270 {
-        clusters.append(ClusterSpec(attach: nil, cx: 232, cy: 262,
+        clusters.append(ClusterSpec(attach: .midLeft, offset: CGSize(width: -14, height: -8),
             size: (sizeBase * 0.28).rounded(), tone: .autumn, sat: 0.75, seed: 9))
     }
 
     return Params(day: day,
                   trunkHeight: trunkHeight, trunkThickness: trunkThickness, trunkGnarl: trunkGnarl,
                   leafSaturation: leafSaturation, mossOnTrunk: mossOnTrunk, exposedRoots: exposedRoots,
+                  reach: sizeBase / 82,
                   clusters: clusters)
 }
 
@@ -595,6 +643,14 @@ private func paramsForDay(_ day: Int, style: BonsaiStyle) -> Params {
 private func drawEarly(_ day: Int, style: BonsaiStyle, in ctx: inout GraphicsContext) {
     let baseY: Double = style == .cascade ? 378 : 410
     let cx = 300.0
+    var ctx = ctx
+    if style == .cascade {
+        // Shrink the sprout so day 7 hands off smoothly to the cascade's short
+        // riser on day 8 instead of towering over it.
+        ctx.translateBy(x: cx, y: baseY)
+        ctx.scaleBy(x: 0.62, y: 0.62)
+        ctx.translateBy(x: -cx, y: -baseY)
+    }
     switch day {
     case 0:
         ctx.fill(ellipse(cx, baseY + 1, 22, 3.5), with: .color(Pal.barkDeep.opacity(0.55)))
@@ -1726,7 +1782,7 @@ func bonsaiContentRect(day: Int, style: BonsaiStyle) -> CGRect {
         let tb = tr.path.boundingRect
         include(tb.minX, tb.minY); include(tb.maxX, tb.maxY)
         for c in p.clusters {
-            let base = c.attach.flatMap { tr.attach[$0] } ?? CGPoint(x: c.cx, y: c.cy)
+            let base = clusterCenter(c, trunk: tr, reach: p.reach)
             let r = c.size * 1.18   // blob radius ≈ size, plus a little slack
             include(base.x - r, base.y - r); include(base.x + r, base.y + r)
         }
@@ -1815,7 +1871,7 @@ struct BonsaiView: View {
 
             let satFactor = 0.7 + 0.3 * max(0, min(1, vitality))
             for c in p.clusters {
-                let base: CGPoint = c.attach.flatMap { tr.attach[$0] } ?? CGPoint(x: c.cx, y: c.cy)
+                let base = clusterCenter(c, trunk: tr, reach: p.reach)
                 draw(cluster: base.x, base.y, size: c.size,
                      tone: c.tone, saturation: p.leafSaturation * c.sat * satFactor,
                      seed: c.seed, in: &ctx)
