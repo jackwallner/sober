@@ -98,7 +98,9 @@ struct SoberDayCounterView: View {
         case .accessoryRectangular:
             HStack {
                 Image(systemName: "leaf.fill")
-                Text("\(days) days sober")
+                Text(days == 1 ? "1 day sober" : "\(days) days sober")
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
             }
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(Text(days == 1 ? "1 day sober" : "\(days) days sober"))

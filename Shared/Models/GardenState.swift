@@ -15,6 +15,11 @@ final class GardenState {
     /// completion; persists across relapse resets (a permanent record of
     /// milestones actually reached).
     var completedTreeStyles: [String] = []
+    /// Grove size when the current journey began. The grove outlives resets,
+    /// but cycle counting restarts with each journey — without this baseline,
+    /// a post-reset journey's completions would be swallowed until they
+    /// exceeded the lifetime total.
+    var groveCountAtJourneyStart: Int = 0
 
     init(
         id: UUID = UUID(),
