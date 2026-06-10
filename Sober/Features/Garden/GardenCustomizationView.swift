@@ -62,7 +62,8 @@ struct GardenCustomizationView: View {
             days: days,
             vitality: gardenState?.vitality ?? 1.0,
             activeBonsaiStyleID: activeStyleID,
-            isPro: isPro
+            isPro: isPro,
+            completedTreeStyles: gardenState?.completedTreeStyles ?? []
         )
         .frame(height: 280)
         .clipShape(RoundedRectangle(cornerRadius: 24))

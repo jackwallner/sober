@@ -63,11 +63,14 @@ struct GardenSceneView: View {
                     y: groundLineY(s) - centerHeight(container: s) / 2
                 )
 
-                // ── Overlays: stage info (top-right) + species switcher ──
+                // ── Overlays: stage info + grove count (top-right), species switcher ──
                 VStack {
                     HStack {
                         Spacer()
-                        stageBadge
+                        VStack(alignment: .trailing, spacing: 6) {
+                            stageBadge
+                            if groveTotal > 0 { groveBadge }
+                        }
                     }
                     Spacer()
                     HStack {
@@ -167,43 +170,62 @@ struct GardenSceneView: View {
 
     // MARK: - Grove (completed trees)
 
+    /// Total trees grown. Derived from the day count (not just what the
+    /// service has recorded) so a long streak is always fully counted, even
+    /// if `processCycleCompletions` hasn't caught up yet.
+    private var groveTotal: Int {
+        max(cycle.completed, completedTreeStyles.count)
+    }
+
+    /// Styles for every grown tree. Recorded styles first; any cycles the
+    /// service hasn't written yet fall back to the active style — the same
+    /// style `processCycleCompletions` would append.
+    private var groveStyles: [String] {
+        completedTreeStyles
+            + Array(repeating: activeBonsaiStyleID,
+                    count: max(0, groveTotal - completedTreeStyles.count))
+    }
+
+    /// Horizontal slots as width fractions, filled outside-in so grove trees
+    /// flank the centerpiece instead of hiding behind its trunk. The first
+    /// tree a one-year user grows lands at the left edge, fully visible.
+    private static let groveSlots: [CGFloat] = [0.10, 0.90, 0.23, 0.77, 0.36, 0.64]
+
     @ViewBuilder
     private func grove(in size: CGSize) -> some View {
-        let trees = completedTreeStyles
-        if !trees.isEmpty {
-            let maxVisible = 6
-            let visible = Array(trees.prefix(maxVisible))
-            let overflow = trees.count - visible.count
-            let treeW = min(size.width * 0.18, 64)
-            let treeH = treeW
-            let baseY = size.height * 0.78
-            let spread = min(size.width * 0.88, CGFloat(visible.count) * treeW * 0.82)
-            let step = visible.count > 1 ? spread / CGFloat(visible.count - 1) : 0
-            let startX = (size.width - spread) / 2
+        let visible = Array(groveStyles.prefix(Self.groveSlots.count))
+        let groundY = groundLineY(size)
+        let baseW = min(size.width * 0.16, 58)
 
-            ForEach(Array(visible.enumerated()), id: \.offset) { idx, styleID in
-                BonsaiView(
-                    day: 365,
-                    style: Self.styleEnum(for: styleID),
-                    vitality: 1.0
-                )
-                .frame(width: treeW, height: treeH)
-                .opacity(0.78)
-                .position(
-                    x: visible.count == 1 ? size.width * 0.5 : startX + CGFloat(idx) * step,
-                    y: baseY
-                )
-            }
-
-            if overflow > 0 {
-                Text("+\(overflow)")
-                    .font(Theme.caption(weight: .bold))
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(.ultraThinMaterial, in: Capsule())
-                    .position(x: size.width - 18, y: baseY - 18)
-            }
+        ForEach(Array(visible.enumerated()), id: \.offset) { idx, styleID in
+            // Each pair of slots sits "deeper": slightly smaller and fainter.
+            let w = baseW * (1.0 - CGFloat(idx / 2) * 0.12)
+            BonsaiView(
+                day: 365,
+                style: Self.styleEnum(for: styleID),
+                vitality: 1.0,
+                fill: true
+            )
+            .frame(width: w, height: w)
+            .opacity(0.78 - Double(idx / 2) * 0.08)
+            .position(x: size.width * Self.groveSlots[idx], y: groundY - w / 2)
         }
+    }
+
+    /// Full grove count, stated plainly — visible slots cap at six, but the
+    /// badge always carries the real total.
+    private var groveBadge: some View {
+        HStack(spacing: 4) {
+            Image(systemName: "tree.fill")
+                .font(Theme.caption())
+            Text(groveTotal == 1 ? "1 tree grown" : "\(groveTotal) trees grown")
+                .font(Theme.caption(weight: .bold))
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 5)
+        .background(.ultraThinMaterial, in: Capsule())
+        .foregroundStyle(.primary)
+        .accessibilityLabel("\(groveTotal) \(groveTotal == 1 ? "tree" : "trees") grown in your grove")
     }
 
     static func styleEnum(for id: String) -> BonsaiStyle {
@@ -220,14 +242,30 @@ struct GardenSceneView: View {
 
 // MARK: - Preview
 
-#Preview {
+#Preview("Year 2") {
     GardenSceneView(
-        days: 90,
+        days: 400,
         vitality: 0.85,
         activeBonsaiStyleID: "sakura-bonsai",
         isPro: true,
         completedTreeStyles: ["traditional-bonsai"]
     )
     .frame(height: 320)
+    .padding()
+}
+
+#Preview("Year 9 (grove overflow)") {
+    GardenSceneView(
+        days: 365 * 8 + 90,
+        vitality: 1.0,
+        activeBonsaiStyleID: "pine-bonsai",
+        isPro: true,
+        completedTreeStyles: [
+            "traditional-bonsai", "cascade-bonsai", "sakura-bonsai",
+            "maple-bonsai", "pine-bonsai", "windswept-bonsai",
+            "traditional-bonsai", "sakura-bonsai",
+        ]
+    )
+    .frame(height: 360)
     .padding()
 }
