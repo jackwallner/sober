@@ -55,6 +55,44 @@ struct GardenCycleTests {
     }
 }
 
+@Suite("Garden growth events")
+struct GardenGrowthEventTests {
+    @Test func stageAdvanceWithinCycle() {
+        #expect(GardenService.growthEvent(previousDays: 6, currentDays: 7) == .newStage(.seedling))
+    }
+
+    @Test func noEventWithoutChange() {
+        #expect(GardenService.growthEvent(previousDays: 10, currentDays: 10) == nil)
+    }
+
+    @Test func crossingYearBoundaryCompletesTree() {
+        #expect(GardenService.growthEvent(previousDays: 364, currentDays: 366)
+            == .treeCompleted(total: 1))
+    }
+
+    @Test func completionOutranksStageAdvance() {
+        // 360 → 370 crosses the boundary AND would be a stage change;
+        // the grove handoff is the story that explains the reset tree.
+        #expect(GardenService.growthEvent(previousDays: 360, currentDays: 370)
+            == .treeCompleted(total: 1))
+    }
+
+    @Test func freshWatermarkNeverAmbushes() {
+        // First-ever check after a back-dated 40-year onboarding: no celebration.
+        #expect(GardenService.growthEvent(previousDays: 0, currentDays: 365 * 40) == nil)
+    }
+
+    @Test func fortyYearBoundaryCounts() {
+        #expect(GardenService.growthEvent(previousDays: 365 * 39, currentDays: 365 * 39 + 1)
+            == .treeCompleted(total: 39))
+    }
+
+    @Test func stageAdvanceDeepIntoYearForty() {
+        #expect(GardenService.growthEvent(previousDays: 365 * 39 + 29, currentDays: 365 * 39 + 30)
+            == .newStage(.adolescent))
+    }
+}
+
 @Suite("Health benefit catalog")
 struct HealthBenefitCatalogTests {
     @Test func bloodAlcoholClearingUnlocksAtSixHours() {

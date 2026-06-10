@@ -16,18 +16,30 @@ struct SoberWatchApp: App {
 struct WatchRootView: View {
     @State private var snapshot: WidgetSnapshot = WidgetSnapshotStore.load()
 
+    /// The stored streak is frozen at the last iPhone app launch. Derive the
+    /// live count from the start date (1-based, matching
+    /// `SobrietyService.daysSinceStart`) so the watch advances with the
+    /// calendar even when the phone app hasn't been opened.
+    private var days: Int {
+        guard let start = snapshot.sobrietyStartDate else { return snapshot.currentStreakDays }
+        return max(0, DateHelpers.daysBetween(start, .now)) + 1
+    }
+
     private var stageTitle: String {
-        let titles = ["Seed", "Sprout", "Seedling", "Young", "Adolescent", "Mature", "Refined", "Ancient", "Legendary"]
-        let idx = snapshot.bonsaiStage
-        return titles.indices.contains(idx) ? titles[idx] : "Seed"
+        let title = GardenService.stage(forDays: days).title
+        let completed = GardenService.cycleProgress(forDays: days).completed
+        return completed > 0 ? "Year \(completed + 1) · \(title)" : title
     }
 
     var body: some View {
         VStack(spacing: 4) {
-            Text("\(snapshot.currentStreakDays)")
+            Text("\(days)")
                 .font(.system(size: 54, weight: .bold, design: .rounded))
+                .lineLimit(1)
+                .minimumScaleFactor(0.4)
+                .padding(.horizontal, 6)
                 .foregroundStyle(Theme.brandGradient)
-            Text(snapshot.currentStreakDays == 1 ? "day sober" : "days sober")
+            Text(days == 1 ? "day sober" : "days sober")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
 
@@ -54,7 +66,7 @@ struct WatchRootView: View {
     }
 
     private var stageIcon: String {
-        switch snapshot.bonsaiStage {
+        switch GardenService.stage(forDays: days).rawValue {
         case 0: return "circle"
         case 1, 2: return "leaf.fill"
         case 3, 4: return "tree.fill"

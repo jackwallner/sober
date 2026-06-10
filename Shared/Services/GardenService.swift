@@ -63,6 +63,17 @@ enum BonsaiStage: Int, CaseIterable, Comparable, Sendable {
     }
 }
 
+// MARK: - Growth Events
+
+/// What just happened in the garden since the user last looked, worth a
+/// full-screen celebration. `treeCompleted` outranks `newStage`: crossing a
+/// 365-day boundary always also resets the stage, and "your tree joined the
+/// grove" is the story that explains why the big tree became a sapling.
+enum GardenGrowthEvent: Equatable, Sendable {
+    case newStage(BonsaiStage)
+    case treeCompleted(total: Int)
+}
+
 // MARK: - Service
 
 @MainActor
@@ -144,25 +155,33 @@ final class GardenService {
 
     // ── Growth ──
 
-    /// Detect whether the bonsai has advanced to a new growth stage since the
-    /// last time we checked, and if so return that stage so the caller can
-    /// celebrate it. The growth happens to the tree the user already has — this
-    /// is "New Growth," not a new unlock.
-    ///
-    /// `lastUnlockNotifiedAtDays` is reused as the day-count watermark. The very
-    /// first check (watermark 0, e.g. a back-dated onboarding date) only sets the
-    /// watermark and returns nil, so a returning user isn't ambushed by a
-    /// celebration for growth that already happened off-screen.
-    func processNewGrowth(days: Int) -> BonsaiStage? {
+    /// Pure decision: what celebration (if any) does moving from
+    /// `previousDays` to `currentDays` earn? A crossed 365-boundary wins —
+    /// the tree completed and joined the grove — otherwise a stage advance
+    /// within the current cycle. `previousDays == 0` (first-ever check, e.g.
+    /// a back-dated onboarding) earns nothing, so a returning user isn't
+    /// ambushed by celebrations for growth that happened off-screen.
+    nonisolated static func growthEvent(previousDays: Int, currentDays: Int) -> GardenGrowthEvent? {
+        guard previousDays > 0, currentDays > previousDays else { return nil }
+        let prev = cycleProgress(forDays: previousDays)
+        let cur = cycleProgress(forDays: currentDays)
+        if cur.completed > prev.completed {
+            return .treeCompleted(total: cur.completed)
+        }
+        let prevStage = stage(forDays: previousDays)
+        let curStage = stage(forDays: currentDays)
+        return curStage > prevStage ? .newStage(curStage) : nil
+    }
+
+    /// Detect what grew since the last time we checked — a stage advance, or
+    /// a completed tree joining the grove — and return it for celebration.
+    /// `lastUnlockNotifiedAtDays` is reused as the day-count watermark.
+    func processGrowthEvents(days: Int) -> GardenGrowthEvent? {
         let state = current()
         let previous = state.lastUnlockNotifiedAtDays
         state.lastUnlockNotifiedAtDays = max(previous, days)
         try? context.save()
-
-        guard previous > 0 else { return nil }
-        let prevStage = Self.stage(forDays: previous)
-        let curStage = Self.stage(forDays: days)
-        return curStage > prevStage ? curStage : nil
+        return Self.growthEvent(previousDays: previous, currentDays: days)
     }
 
     /// Clear growth tracking so stage celebrations replay on a new journey, and
