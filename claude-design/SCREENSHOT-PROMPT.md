@@ -26,8 +26,9 @@ explanations, no alternates, no manifest, no follow-up questions.
 ## Source material
 
 Raw device captures (1320×2868, same scale as output screens) are in
-`claude-design/raw/`. The app's real design tokens are in
-`Shared/Utilities/Theme.swift` (cream `#F6EFE0`, ink `#1A1A18`, moss
+`claude-design/raw/` of the connected GitHub repo `jackwallner/sober`
+(branch `main`) — fetch them from there. The app's real design tokens are
+in `Shared/Utilities/Theme.swift` (cream `#F6EFE0`, ink `#1A1A18`, moss
 `#2F5B45`, sand `#C49C6C`, sky gradient `#D4E2E7→cream`). View source lives
 under `Sober/Features/`. Recreate screens **pixel-faithful to the raw's
 layout, typography, and art** — only the data changes where specified below.
