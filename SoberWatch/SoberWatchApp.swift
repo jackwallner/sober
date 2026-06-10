@@ -46,13 +46,6 @@ struct WatchRootView: View {
             }
             .foregroundStyle(.secondary)
             .padding(.top, 4)
-
-            // Placed items count
-            if !snapshot.placedItemIDs.isEmpty {
-                Text("\(snapshot.placedItemIDs.count) garden items")
-                    .font(.caption2)
-                    .foregroundStyle(.tertiary)
-            }
         }
         .onAppear { snapshot = WidgetSnapshotStore.load() }
         .onReceive(NotificationCenter.default.publisher(for: .soberWatchSnapshotUpdated)) { _ in

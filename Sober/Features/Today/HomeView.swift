@@ -20,11 +20,8 @@ struct HomeView: View {
     @State private var showPaywall = false
     @State private var showCustomize = false
     @State private var showProgress = false
-    @State private var selectedItem: GardenItem?
-    @State private var celebrationQueue: [GardenItem] = []
-    @State private var showCelebration = false
-    @State private var recapItems: [GardenItem] = []
-    @State private var showRecap = false
+    @State private var grownStage: BonsaiStage?
+    @State private var showGrowth = false
     @State private var showCheckInDetail = false
     @State private var showReviewPrompt = false
     @State private var reviewPromptInitialStep: ReviewPromptSheet.Step = .enjoyment
@@ -49,7 +46,7 @@ struct HomeView: View {
             ZStack {
                 Theme.background.ignoresSafeArea()
 
-                if !showCelebration && !showRecap {
+                if !showGrowth {
                     VStack(spacing: Theme.Space.l) {
                         counterHeader
                         gardenCard
@@ -119,34 +116,24 @@ struct HomeView: View {
                     CheckInService(context: context).fillJourney(start: j.startDate, through: DateHelpers.daysAgo(1))
                 }
                 refreshCheckInState()
-                checkForUnlocks()
+                checkForGrowth()
                 WidgetSnapshotPump.push(context: context)
             }
             .overlay {
-                if showCelebration, let item = celebrationQueue.first {
-                    UnlockCelebrationView(
-                        item: item,
-                        canPlace: isPro || GardenItemCatalog.freeToPlaceIDs.contains(item.id)
+                if showGrowth, let stage = grownStage {
+                    GrowthCelebrationView(
+                        stage: stage,
+                        style: GardenSceneView.styleEnum(for: gardenState?.activeBonsaiStyleID ?? GardenItemCatalog.freeSpeciesID),
+                        dayInCycle: dayInCycle
                     ) {
-                        celebrationQueue.removeFirst()
-                        if celebrationQueue.isEmpty {
-                            withAnimation { showCelebration = false }
-                            WidgetSnapshotPump.push(context: context)
-                            recordPositiveMomentForReview()
-                        }
+                        withAnimation { showGrowth = false }
+                        grownStage = nil
+                        WidgetSnapshotPump.push(context: context)
+                        recordPositiveMomentForReview()
                     }
                     .transition(.opacity)
                     .zIndex(100)
                 }
-            }
-            .fullScreenCover(isPresented: $showRecap) {
-                UnlockRecapView(items: recapItems, days: days) {
-                    showRecap = false
-                    recapItems = []
-                    WidgetSnapshotPump.push(context: context)
-                    recordPositiveMomentForReview()
-                }
-                .presentationBackground(.clear)
             }
             .sheet(isPresented: $showCheckInDetail) {
                 CheckInDetailSheet()
@@ -160,10 +147,6 @@ struct HomeView: View {
             .sheet(isPresented: $showProgress) {
                 ProgressSheet(days: days, gardenState: gardenState, isPro: isPro)
                     .presentationDetents([.medium, .large])
-            }
-            .sheet(item: $selectedItem) { item in
-                GardenItemDetailView(item: item, unlocked: days >= item.milestoneDays, currentDays: days)
-                    .presentationDetents([.medium])
             }
             .sheet(isPresented: $showReviewPrompt, onDismiss: {
                 if pendingNativeReviewAfterDismiss {
@@ -179,7 +162,7 @@ struct HomeView: View {
             .onChange(of: reviewPromptCoordinator.pendingPresentation) { _, presentation in
                 guard let presentation else { return }
                 defer { reviewPromptCoordinator.clear() }
-                guard !showPaywall, !showCelebration else { return }
+                guard !showPaywall, !showGrowth else { return }
                 showSettings = false
                 switch presentation {
                 case .enjoymentPrompt:
@@ -222,11 +205,9 @@ struct HomeView: View {
         PannableGardenView(
             days: days,
             vitality: gardenState?.vitality ?? 1.0,
-            placedItemIDs: gardenState?.placedItemIDs ?? [],
-            activeBonsaiStyleID: gardenState?.activeBonsaiStyleID ?? "traditional-bonsai",
+            activeBonsaiStyleID: gardenState?.activeBonsaiStyleID ?? GardenItemCatalog.freeSpeciesID,
             isPro: isPro,
             completedTreeStyles: gardenState?.completedTreeStyles ?? [],
-            onSelect: { selectedItem = $0 },
             onSwapBonsai: { showCustomize = true }
         )
         .frame(maxWidth: .infinity, minHeight: gardenMinHeight, maxHeight: .infinity)
@@ -239,11 +220,10 @@ struct HomeView: View {
         .shadow(color: .black.opacity(0.06), radius: 12, y: 4)
     }
 
-    /// How much "stuff" is in the garden — placed decorations plus completed
-    /// trees in the grove. Drives the card's minimum height so the real estate
-    /// scales with content.
+    /// How much "stuff" is in the garden — completed trees in the grove.
+    /// Drives the card's minimum height so the real estate scales with content.
     private var gardenContentScore: Int {
-        (gardenState?.placedItemIDs.count ?? 0) + (gardenState?.completedTreeStyles.count ?? 0)
+        gardenState?.completedTreeStyles.count ?? 0
     }
 
     private var gardenMinHeight: CGFloat {
@@ -361,29 +341,14 @@ struct HomeView: View {
         daysMissed = svc.daysSinceLastCheckIn()
     }
 
-    private func checkForUnlocks() {
+    private func checkForGrowth() {
         let svc = GardenService(context: context)
-        // Capture the prior notification watermark *before* processNewUnlocks
-        // advances it. A watermark of 0 with multiple unlocks means this is the
-        // first check after a back-dated onboarding date.
-        let firstCheck = (gardenState?.lastUnlockNotifiedAtDays ?? 0) == 0
         svc.processCycleCompletions(days: days)
-        let newItems = svc.processNewUnlocks(days: days)
-        for item in newItems where GardenItemCatalog.freeToPlaceIDs.contains(item.id) {
-            svc.placeItem(item)
-        }
+        let newStage = svc.processNewGrowth(days: days)
         AchievementService(context: context).processUnlocks(currentDays: days)
-        guard !newItems.isEmpty else { return }
-
-        // On a fresh start with several already-earned milestones, recap them
-        // all at once instead of cycling through individual celebrations.
-        if firstCheck && newItems.count > 2 {
-            recapItems = newItems
-            withAnimation { showRecap = true }
-        } else {
-            celebrationQueue = newItems
-            withAnimation { showCelebration = true }
-        }
+        guard let newStage else { return }
+        grownStage = newStage
+        withAnimation { showGrowth = true }
     }
 
     private func recordPositiveMomentForReview() {
@@ -394,7 +359,7 @@ struct HomeView: View {
     private func scheduleReviewPromptAfterPositiveMoment() {
         guard ReviewPromptTracker.shouldShowAfterPositiveMoment(hasCompletedSetup: hasCompletedOnboarding),
               !reviewPromptShownThisSession,
-              !showCelebration,
+              !showGrowth,
               !showPaywall,
               !showCheckInDetail,
               !showReviewPrompt
@@ -402,7 +367,7 @@ struct HomeView: View {
 
         Task { @MainActor in
             try? await Task.sleep(nanoseconds: 3_500_000_000)
-            guard !showCelebration,
+            guard !showGrowth,
                   !showPaywall,
                   !showCheckInDetail,
                   !showReviewPrompt,
@@ -510,7 +475,12 @@ struct ProgressSheet: View {
     @State private var showPaywall = false
 
     private var settings: UserSettings? { settingsRows.first }
-    private var showTrialNudge: Bool { days >= 7 && !isPro && !subscriptions.hasClaimedTrial }
+    /// Trial-led upsell only when a free trial is actually on the table for
+    /// this Apple ID (3.1.2) — otherwise the nudge would promise a trial the
+    /// paywall can't deliver.
+    private var showTrialNudge: Bool {
+        days >= 7 && !isPro && !subscriptions.hasClaimedTrial && subscriptions.hasTrialOfferAvailable
+    }
 
     var body: some View {
         NavigationStack {
@@ -536,10 +506,9 @@ struct ProgressSheet: View {
                     }
                 }
 
-                Section("Garden collection") {
+                Section("Bonsai species") {
                     GardenCollectionView(
-                        days: days,
-                        unlockedItemIDs: gardenState?.unlockedItemIDs ?? [],
+                        activeStyleID: gardenState?.activeBonsaiStyleID ?? GardenItemCatalog.freeSpeciesID,
                         isPro: isPro,
                         embeddedInList: true
                     )

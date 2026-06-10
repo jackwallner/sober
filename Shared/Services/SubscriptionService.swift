@@ -236,6 +236,18 @@ final class SubscriptionService: NSObject {
     }
     #endif
 
+    /// True when at least one fetched package carries an intro offer the current
+    /// Apple ID is still eligible for. Drives trial-led copy *outside* the
+    /// paywall (Apple 3.1.2: never promise a free trial to a user who already
+    /// consumed theirs).
+    var hasTrialOfferAvailable: Bool {
+        #if canImport(RevenueCat)
+        return packages.contains { isEligibleForIntroOffer($0) }
+        #else
+        return false
+        #endif
+    }
+
     /// Grant a one-time complimentary trial (surfaced at emotional milestones).
     /// No-op if one has already been claimed.
     func startComplimentaryTrial(days: Int) {

@@ -42,6 +42,22 @@ enum BonsaiStage: Int, CaseIterable, Comparable, Sendable {
         }
     }
 
+    /// One warm line describing what just happened to the tree, shown in the
+    /// "New Growth" celebration when the bonsai advances to this stage.
+    var growthMessage: String {
+        switch self {
+        case .seed:       return "A seed is planted. Every great tree starts here."
+        case .sprout:     return "Your first sprout has broken the soil."
+        case .seedling:   return "A seedling stands tall — roots are taking hold."
+        case .young:      return "Your bonsai is filling out into a young tree."
+        case .adolescent: return "Branches are reaching wider. The shape is emerging."
+        case .mature:     return "Your bonsai has matured into a full, leafy canopy."
+        case .refined:    return "Refined and dense — the work of real patience."
+        case .ancient:    return "Ancient and weathered. This tree has seen a lot."
+        case .legendary:  return "A legendary bonsai. A full year of growth made visible."
+        }
+    }
+
     static func < (lhs: BonsaiStage, rhs: BonsaiStage) -> Bool {
         lhs.rawValue < rhs.rawValue
     }
@@ -126,34 +142,32 @@ final class GardenService {
         return expected - have
     }
 
-    // ── Unlocks ──
+    // ── Growth ──
 
-    /// Process new milestone unlocks since the last check.
+    /// Detect whether the bonsai has advanced to a new growth stage since the
+    /// last time we checked, and if so return that stage so the caller can
+    /// celebrate it. The growth happens to the tree the user already has — this
+    /// is "New Growth," not a new unlock.
     ///
-    /// Returns every item that crossed its milestone since `lastUnlockNotifiedAtDays`,
-    /// in ascending order by milestone day. The caller is expected to celebrate them
-    /// in sequence. All newly earned items are also added to `unlockedItemIDs`.
-    func processNewUnlocks(days: Int) -> [GardenItem] {
+    /// `lastUnlockNotifiedAtDays` is reused as the day-count watermark. The very
+    /// first check (watermark 0, e.g. a back-dated onboarding date) only sets the
+    /// watermark and returns nil, so a returning user isn't ambushed by a
+    /// celebration for growth that already happened off-screen.
+    func processNewGrowth(days: Int) -> BonsaiStage? {
         let state = current()
-        let previouslyNotified = state.lastUnlockNotifiedAtDays
-
-        let newlyEarned = GardenItemCatalog.all
-            .filter { $0.milestoneDays > previouslyNotified && $0.milestoneDays <= days }
-            .sorted { $0.milestoneDays < $1.milestoneDays }
-
-        for item in newlyEarned {
-            if !state.unlockedItemIDs.contains(item.id) {
-                state.unlockedItemIDs.append(item.id)
-            }
-        }
-        state.lastUnlockNotifiedAtDays = max(state.lastUnlockNotifiedAtDays, days)
+        let previous = state.lastUnlockNotifiedAtDays
+        state.lastUnlockNotifiedAtDays = max(previous, days)
         try? context.save()
-        return newlyEarned
+
+        guard previous > 0 else { return nil }
+        let prevStage = Self.stage(forDays: previous)
+        let curStage = Self.stage(forDays: days)
+        return curStage > prevStage ? curStage : nil
     }
 
-    /// Clear the unlock-celebration tracker so milestones replay on a new journey.
-    /// Earned items in `unlockedItemIDs` are intentionally kept (the user worked
-    /// for those once); placed items are cleared so the new garden starts fresh.
+    /// Clear growth tracking so stage celebrations replay on a new journey, and
+    /// reset the live tree to a fresh sapling. Completed trees in the grove are
+    /// kept — they're a permanent record of cycles actually finished.
     func resetForNewJourney() {
         let state = current()
         state.lastUnlockNotifiedAtDays = 0
@@ -163,42 +177,11 @@ final class GardenService {
         try? context.save()
     }
 
-    /// All items the user has unlocked.
-    func unlockedItems(days: Int) -> [GardenItem] {
-        GardenItemCatalog.unlocked(atDays: days)
-    }
-
-    // ── Placement ──
-
-    func canPlaceItem(_ item: GardenItem, isPro: Bool) -> Bool {
-        GardenItemCatalog.canPlace(item, isPro: isPro, currentPlacedCount: current().placedItemIDs.count)
-    }
-
-    func placeItem(_ item: GardenItem) {
-        let state = current()
-        guard !state.placedItemIDs.contains(item.id) else { return }
-        state.placedItemIDs.append(item.id)
-        try? context.save()
-    }
-
-    func removeItem(_ item: GardenItem) {
-        let state = current()
-        state.placedItemIDs.removeAll { $0 == item.id }
-        try? context.save()
-    }
+    // ── Species ──
 
     func setBonsaiStyle(_ styleID: String) {
         let state = current()
         state.activeBonsaiStyleID = styleID
-        if !state.placedItemIDs.contains(styleID) {
-            state.placedItemIDs.append(styleID)
-        }
-        try? context.save()
-    }
-
-    func clearAllPlaced() {
-        let state = current()
-        state.placedItemIDs.removeAll()
         try? context.save()
     }
 }
