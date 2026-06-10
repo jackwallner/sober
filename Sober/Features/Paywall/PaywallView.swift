@@ -482,10 +482,11 @@ struct PaywallView: View {
     @ViewBuilder
     private var savingsHero: some View {
         let hasSavings = heroDays > 0 && costPerDayCents > 0
-        if heroDays == 0 && costPerDayCents > 0 {
-            // Day-0 user (fresh from onboarding): no savings earned yet, but we
-            // know their daily spend — project the year so the price anchors
-            // against thousands saved, not dollars spent.
+        if heroDays <= 1 && costPerDayCents > 0 {
+            // Brand-new user (day counting is 1-based, so a journey started in
+            // onboarding is already "day 1"): earned savings are a meaningless
+            // anchor ($20), but we know their daily spend — project the year so
+            // the price anchors against thousands saved, not dollars spent.
             let yearly = Double(costPerDayCents) * 365 / 100
             let yearlyLabel = Self.currencyFormatter.string(from: NSNumber(value: yearly)) ?? "$\(Int(yearly))"
             VStack(spacing: 4) {
