@@ -1,0 +1,369 @@
+{
+  "scannedAt": "2026-05-26T02:31:53Z",
+  "stores": {
+    "us": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "ca": {
+      "term": "sobriety tracker",
+      "error": "HTTP Error 500: Internal Server Error"
+    },
+    "mx": {
+      "term": "contador sobriedad",
+      "error": "timed out"
+    },
+    "br": {
+      "term": "contador sobriedade",
+      "competitors": []
+    },
+    "ar": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "bo": {
+      "term": "sobriety tracker",
+      "error": "<urlopen error [Errno 61] Connection refused>"
+    },
+    "cl": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "co": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "cr": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "do": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "ec": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "sv": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "gt": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "hn": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "pa": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "py": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "pe": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "gb": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "de": {
+      "term": "alkoholfrei tracker",
+      "competitors": []
+    },
+    "fr": {
+      "term": "suivi sobriété",
+      "competitors": []
+    },
+    "es": {
+      "term": "contador sobriedad",
+      "competitors": []
+    },
+    "it": {
+      "term": "contatore sobrietà",
+      "competitors": []
+    },
+    "nl": {
+      "term": "nuchterheid tracker",
+      "competitors": []
+    },
+    "at": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "be": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "ch": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "se": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "no": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "dk": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "fi": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "pl": {
+      "term": "licznik trzeźwości",
+      "competitors": []
+    },
+    "pt": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "ie": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "ru": {
+      "term": "трезвость счетчик",
+      "competitors": []
+    },
+    "ua": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "cz": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "sk": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "hu": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "ro": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "gr": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "hr": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "bg": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "si": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "ee": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "lv": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "lu": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "is": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "cy": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "tr": {
+      "term": "ayıklık sayacı",
+      "competitors": []
+    },
+    "az": {
+      "term": "sobriety tracker",
+      "error": "HTTP Error 500: Internal Server Error"
+    },
+    "kz": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "kg": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "uz": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "al": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "au": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "nz": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "jp": {
+      "term": "禁酒 カウンター",
+      "competitors": []
+    },
+    "kr": {
+      "term": "금주 트래커",
+      "competitors": []
+    },
+    "cn": {
+      "term": "戒酒 计数",
+      "competitors": []
+    },
+    "hk": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "tw": {
+      "term": "戒酒 計數",
+      "competitors": []
+    },
+    "mo": {
+      "term": "sobriety tracker",
+      "error": "timed out"
+    },
+    "sg": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "my": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "th": {
+      "term": "นับวันเลิกเหล้า",
+      "competitors": []
+    },
+    "vn": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "id": {
+      "term": "pelacak berhenti minum",
+      "competitors": []
+    },
+    "ph": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "in": {
+      "term": "sobriety counter",
+      "competitors": []
+    },
+    "kh": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "mn": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "np": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "lk": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "sa": {
+      "term": "متتبع التعافي",
+      "competitors": []
+    },
+    "ae": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "eg": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "il": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "jo": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "kw": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "lb": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "om": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "qa": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "bh": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "iq": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "ma": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "dz": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "gh": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "ke": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "za": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "pk": {
+      "term": "sobriety tracker",
+      "competitors": []
+    },
+    "am": {
+      "term": "sobriety tracker",
+      "error": "timed out"
+    }
+  }
+}

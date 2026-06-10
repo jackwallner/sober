@@ -1,1 +1,1 @@
-Giorni secchi e giardino
+Giorni secchi: contatore

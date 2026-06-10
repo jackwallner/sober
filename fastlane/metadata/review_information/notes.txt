@@ -1,16 +1,17 @@
 No account, login, or personal information is required. All data (sobriety dates, check-ins, journal, garden) is stored on-device in the app's App Group container. The app does not use non-exempt encryption.
 
 GETTING STARTED
-- On first launch, onboarding sets the sobriety start date and optional daily spending so money/calories saved can be estimated. You can pick any start date (including today or a past date).
-- Today tab: day counter, daily check-in, and the garden that grows as sober days accrue.
-- Timeline tab: every sober day. Garden collection: the bonsai species.
+- On first launch, onboarding asks for the sobriety start date (any past date or today), optional daily spending/calories, and a reminder hour, then a commitment step ("I commit to getting better" or "Not now") finishes setup.
+- The app has 4 tabs: Home, Timeline, Health, Journal.
+- Home: the day counter, the bonsai garden, and the "Check in for today" button. The top-left chart icon opens "Your progress" (milestones, savings, species). The top-right "..." menu has "Customize garden", "Settings", and "Reset counter".
+- Timeline: calendar of sober days; selecting a day shows the tree as it looked then and lets you log or edit that day's check-in.
 
 TESTING BLOOM+ (the in-app subscription) AT NO CHARGE
-Bloom+ unlocks the full health-benefit timeline, journal compose, achievements, money/calories-saved stats, additional garden species, and Watch/widget extras. It is offered as an auto-renewable subscription (monthly / yearly, both with a free trial) and a one-time lifetime purchase.
+Bloom+ unlocks the full 13-milestone health timeline, journal compose, money/calories-saved stats, and all 6 bonsai species. It is offered as an auto-renewable subscription (monthly / yearly, both with a 1-week free trial) and a one-time lifetime purchase.
 
 To review Bloom+ features without being charged:
-1. Open any locked feature - e.g. tap a blurred milestone in the Health tab, "Compose" in Journal, or the Bloom+ row in Settings - to bring up the paywall.
+1. Open any locked feature to bring up the paywall — e.g. a "Bloom+" milestone row in the Health tab, the pencil (compose) icon in Journal, a locked species in Home > "..." > "Customize garden", or the "Upgrade" button in Settings.
 2. Complete the purchase using the App Review sandbox Apple ID. Sandbox purchases are not charged.
-3. All Bloom+ features unlock immediately. "Restore Purchases" on the paywall also works with the sandbox account.
+3. All Bloom+ features unlock immediately. "Restore Purchases" (on the paywall footer and in Settings) also works with the sandbox account.
 
-If a sandbox purchase cannot be completed during review, please contact us at jackwallner@gmail.com and we will provide an alternate way to evaluate the Pro features promptly.
+If a sandbox purchase cannot be completed during review, please contact us at jackwallner@gmail.com and we will provide an alternate way to evaluate the Bloom+ features promptly.
