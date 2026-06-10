@@ -1,1 +1,1 @@
-raittius,alkoholi,juominen,lopeta,toipuminen,riippuvuus,addiktio,virstanpylväs,retkahdus,selvä,tuki
+juoda,vähemmän,lopettaa,riippuvuus,raittius,toipuminen,retkahdus,himo,mieli,pätkä

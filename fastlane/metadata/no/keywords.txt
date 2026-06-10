@@ -1,1 +1,1 @@
-slutte,drikke,bedring,widget,klokke,streak,dagbok,kalender,privat,milepæl,tilbakefall,sug,alkohol
+drikke,mindre,slutte,avhengighet,avholdenhet,bedring,tilbakefall,sug,humør,streak

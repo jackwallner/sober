@@ -1,1 +1,1 @@
-prestati,piti,alkohol,oporavak,ovisnost,apstinencija,niz,dnevnik,kalendar,trezan,relaps,želja
+piti,manje,prestati,ovisnost,apstinencija,oporavak,relaps,želja,raspoloženje,niz

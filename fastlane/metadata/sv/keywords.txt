@@ -1,1 +1,1 @@
-sluta,dricka,återhämtning,widget,klocka,streak,dagbok,kalender,privat,milstolpe,återfall,sug
+dricka,mindre,sluta,beroende,abstinens,återhämtning,återfall,sug,humör,streak

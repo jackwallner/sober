@@ -5,7 +5,7 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: opt_out_usage" time="0.000173">
+      <testcase classname="fastlane.lanes" name="0: opt_out_usage" time="0.000208">
         
       </testcase>
     
@@ -15,17 +15,12 @@
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: app_store_connect_api_key" time="0.001344">
+      <testcase classname="fastlane.lanes" name="2: app_store_connect_api_key" time="0.002962">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: build_app" time="107.75263">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="4: upload_to_testflight" time="55.700475">
+      <testcase classname="fastlane.lanes" name="3: deliver" time="7.650409">
         
       </testcase>
     
