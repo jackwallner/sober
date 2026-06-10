@@ -133,8 +133,8 @@ struct SettingsView: View {
                     Text("Free, confidential help is available any time. Reaching out is a strength, not a setback.")
                 }
                 Section("Help") {
-                    resourceLink(url: "tel:4257533411",
-                                 icon: "bubble.left.and.text.bubble.right.fill",
+                    resourceLink(url: "mailto:jackwallner+st@gmail.com",
+                                 icon: "envelope.fill",
                                  title: "Contact Support",
                                  subtitle: "Questions or trouble? Reach out.")
                     Button("Rate or Send Feedback") {
