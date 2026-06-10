@@ -1,5 +1,6 @@
 import Testing
 import Foundation
+import SwiftData
 @testable import Sober
 
 @Suite("Garden stage progression")
@@ -90,6 +91,44 @@ struct GardenGrowthEventTests {
     @Test func stageAdvanceDeepIntoYearForty() {
         #expect(GardenService.growthEvent(previousDays: 365 * 39 + 29, currentDays: 365 * 39 + 30)
             == .newStage(.adolescent))
+    }
+}
+
+@Suite("Garden grove across resets")
+@MainActor
+struct GardenGroveResetTests {
+    @Test func completionsAfterResetStillJoinGrove() throws {
+        let container = try ModelContainer(
+            for: GardenState.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
+        let svc = GardenService(context: container.mainContext)
+
+        // Two years sober → two trees in the grove.
+        svc.processCycleCompletions(days: 365 * 2 + 1)
+        #expect(svc.current().completedTreeStyles.count == 2)
+
+        // Slip → reset. The grove is a permanent record and survives.
+        svc.resetForNewJourney()
+        #expect(svc.current().completedTreeStyles.count == 2)
+
+        // The new journey's first completed year must still join the grove
+        // (journey cycle count restarts; the baseline keeps it from being
+        // absorbed by the pre-reset trees).
+        svc.processCycleCompletions(days: 366)
+        #expect(svc.current().completedTreeStyles.count == 3)
+    }
+
+    @Test func backdatedOnboardingBackfillsWholeGrove() throws {
+        let container = try ModelContainer(
+            for: GardenState.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
+        let svc = GardenService(context: container.mainContext)
+
+        // 40 years sober at first launch → 39 completed trees, year 40 running.
+        svc.processCycleCompletions(days: 365 * 40)
+        #expect(svc.current().completedTreeStyles.count == 39)
     }
 }
 

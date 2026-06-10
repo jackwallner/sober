@@ -140,10 +140,13 @@ final class GardenService {
 
     /// Detect newly-completed cycles and append the current style to the grove,
     /// once per crossed 365-boundary. Returns count of newly-appended trees.
+    /// Expected size is the journey-start baseline plus this journey's
+    /// completed cycles, so trees grown before a relapse reset don't absorb
+    /// the ones grown after it.
     @discardableResult
     func processCycleCompletions(days: Int) -> Int {
         let state = current()
-        let expected = Self.cycleProgress(forDays: days).completed
+        let expected = state.groveCountAtJourneyStart + Self.cycleProgress(forDays: days).completed
         let have = state.completedTreeStyles.count
         guard expected > have else { return 0 }
         for _ in have..<expected {
@@ -190,6 +193,7 @@ final class GardenService {
     func resetForNewJourney() {
         let state = current()
         state.lastUnlockNotifiedAtDays = 0
+        state.groveCountAtJourneyStart = state.completedTreeStyles.count
         state.placedItemIDs.removeAll()
         state.vitality = 1.0
         state.lastWateredAt = nil

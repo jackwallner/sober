@@ -351,9 +351,15 @@ struct HomeView: View {
     private func checkForGrowth() {
         let svc = GardenService(context: context)
         svc.processCycleCompletions(days: days)
-        let event = svc.processGrowthEvents(days: days)
+        var event = svc.processGrowthEvents(days: days)
         AchievementService(context: context).processUnlocks(currentDays: days)
-        guard let event else { return }
+        guard event != nil else { return }
+        if case .treeCompleted = event {
+            // The event counts this journey's cycles; the grove also holds
+            // trees from before any reset. Celebrate the lifetime total so
+            // the message matches the garden's "N trees grown" badge.
+            event = .treeCompleted(total: svc.current().completedTreeStyles.count)
+        }
         growthEvent = event
         withAnimation { showGrowth = true }
     }
