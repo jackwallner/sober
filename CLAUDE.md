@@ -12,11 +12,11 @@ iOS + watchOS app that helps users track sobriety (alcohol-specific in v1). Day 
 ## Build & run
 ```bash
 xcodegen generate
+# Use the dedicated device — see "Simulator — dedicated, headless" section below
+UDID=$(agent-sim boot sober)
 xcodebuild -project Sober.xcodeproj -scheme Sober \
-  -configuration Debug \
-  -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max' build
-xcodebuild test -project Sober.xcodeproj -scheme Sober \
-  -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max'
+  -configuration Debug -destination "id=$UDID" build
+xcodebuild test -project Sober.xcodeproj -scheme Sober -destination "id=$UDID"
 ```
 
 TestFlight: `./scripts/testflight.sh` (auto-bumps build, generates project, archives, uploads).
@@ -61,3 +61,28 @@ Root flow: `SoberApp → RootView → (OnboardingView | MainTabView)`.
 - `SubscriptionService.apiKey` is a placeholder — replace with the live RC SDK key before TestFlight.
 - SwiftData migrations: any change to a `@Model`'s stored properties needs a schema migration (lightweight is fine for now; we wipe-and-retry on corruption).
 - Widget snapshots are decoupled from SwiftData via `WidgetSnapshotStore` so the widget doesn't need a SwiftData schema.
+
+## Simulator — dedicated, headless (required)
+
+This project owns the simulator device `agent-sober`. Multiple agents work in
+parallel on this machine: NEVER build/test against a shared named destination
+(e.g. `name=iPhone 17 Pro`) and NEVER open Simulator.app — it steals Jack's
+mouse/keyboard. Everything runs headless. Full guide: `~/docs/ios-agent-simulators.md`
+
+```bash
+UDID=$(agent-sim boot sober)        # create if needed + boot headless; prints UDID
+xcodebuild -project Sober.xcodeproj -scheme Sober -destination "id=$UDID" build
+xcodebuild test -project Sober.xcodeproj -scheme Sober -destination "id=$UDID"
+APP=$(find ~/Library/Developer/Xcode/DerivedData/Sober-*/Build/Products -maxdepth 2 -name "*.app" -path "*iphonesimulator*" | head -1)
+xcrun simctl install "$UDID" "$APP" && xcrun simctl launch "$UDID" "$(defaults read "$APP/Info" CFBundleIdentifier)"
+axe describe-ui --udid "$UDID"        # inspect UI via accessibility tree
+axe tap --label "Continue" --udid "$UDID"   # interact without mouse/keyboard
+agent-sim screenshot sober          # PNG at /tmp/agent-sober.png
+agent-sim shutdown sober            # free resources when done
+```
+
+## TestFlight on every update
+
+After finishing a change and pushing to git, ALWAYS upload a new TestFlight build by
+running `./scripts/testflight.sh` — do this unprompted on every push that changes app
+code. Jack tests every update on his device and shouldn't have to ask.
