@@ -1,13 +1,43 @@
-Sober Tracker vám pomůže zůstat střízliví díky počítadlu dní, dennímu check-inu a virtuální zahradě, která roste s každým střízlivým dnem.
+Sober Tracker udržuje vaši cestu bez alkoholu jednoduchou a motivující. Počítejte každý střízlivý den, jednou denně se odhlaste pomocí check-inu a sledujte, jak virtuální zahrada rozkvétá s tím, jak roste vaše série. Vše zůstává soukromé ve vašem zařízení. Není potřeba žádný účet.
 
-ZDARMA
-• Počítadlo dnů bez alkoholu
-• Denní check-in a kalendář střízlivosti
-• Virtuální zahrada
-• Soukromě v zařízení
-• Apple Watch a widgety
+Pokud chcete jedno klidné místo, kde uvidíte, jak daleko jste došli, a budete pokračovat dál, je tohle ta správná aplikace.
+
+VAŠE STŘÍZLIVOST NA PRVNÍ POHLED (ZDARMA)
+- Počítadlo dní, které ukazuje dny, hodiny a vaši nejdelší sérii.
+- Denní check-in jedním klepnutím, kterým zaznamenáte, jak se dnes cítíte.
+- Kalendář střízlivosti s každým střízlivým dnem na jednom místě.
+- Milníky, které přicházejí s přibývajícími dny.
+
+ZAHRADA, KTERÁ ROSTE S VÁMI (ZDARMA)
+- Virtuální zahrada, která rozkvétá s každým střízlivým dnem.
+- Nové výhonky se objevují, jak roste vaše série.
+- Živá připomínka toho, jak daleko jste došli.
+
+NA PLOŠE A APPLE WATCH (ZDARMA)
+- Widgety na ploše a na uzamčené obrazovce s počtem vašich dní.
+- Společník pro Apple Watch pro check-in a zobrazení vaší série.
+- Váš pokrok je viditelný bez otevírání aplikace.
+
+SOUKROMÍ V ZÁKLADU (ZDARMA)
+- Všechna vaše data zůstávají ve vašem zařízení.
+- Není potřeba účet. Žádné reklamy. Žádné sledování. Žádné servery.
+- Vaše cesta zůstává vaše.
 
 BLOOM+ (VOLITELNÉ)
-• Zdravotní časová osa, deník, úspěchy
+Malé vylepšení odemkne plný zážitek:
+- Kompletní časová osa zdravotních přínosů se zdroji
+- Deník s vedenými náměty
+- Odznaky a odemykání milníků
+- Ušetřené peníze a kalorie od prvního dne
+- Více druhů rostlin pro vaši zahradu
+Novým předplatitelům je nabízena bezplatná zkušební verze.
 
-Stáhněte zdarma. Bloom+ kdykoli.
+Ať už přestáváte pít, omezujete, nebo si budujete střízlivé dny, Sober Tracker zachovává jednoduchost zotavení: počítejte svůj střízlivý čas, odhlašujte se check-inem a sledujte, jak vaše zahrada roste.
+
+Stáhněte si zdarma ještě dnes.
+
+Podrobnosti o předplatném
+Bloom+ je k dispozici jako automaticky obnovované předplatné (měsíčně $4.99 / ročně $29.99 se 7denní bezplatnou zkušební verzí) nebo jako jednorázový doživotní nákup ($59.99). Platba je účtována vašemu Apple ID při potvrzení. Předplatné se automaticky obnovuje, pokud není zrušeno alespoň 24 hodin před koncem období. Spravujte nebo zrušte kdykoli v Nastavení > Apple ID > Předplatná.
+
+Zásady ochrany osobních údajů: https://jackwallner.github.io/sober/privacy-policy.html
+Podmínky používání (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

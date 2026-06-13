@@ -1,14 +1,43 @@
-Sober Tracker pomaga pozostać trzeźwym dzięki licznikowi dni, codziennemu check-inowi i wirtualnemu ogrodowi rosnącemu z każdym dniem bez alkoholu.
+Sober Tracker sprawia, że Twoja droga bez alkoholu jest prosta i motywująca. Licz każdy trzeźwy dzień, zameldowuj się raz dziennie i obserwuj, jak wirtualny ogród rozkwita wraz z Twoją serią. Wszystko pozostaje prywatne na Twoim urządzeniu. Konto nie jest potrzebne.
 
-ZA DARMO
-• Licznik dni bez alkoholu
-• Codzienny check-in
-• Kalendarz trzeźwości
-• Wirtualny ogród
-• Prywatnie na urządzeniu – bez konta
-• Apple Watch i widżety
+Jeśli szukasz jednego spokojnego miejsca, w którym zobaczysz, jak daleko zaszedłeś, i będziesz iść dalej, to jest ta aplikacja.
+
+TWOJA TRZEŹWOŚĆ NA PIERWSZY RZUT OKA (ZA DARMO)
+- Licznik dni pokazujący dni, godziny i Twoją najdłuższą serię.
+- Codzienne zameldowanie jednym dotknięciem, aby zapisać, jak się dziś czujesz.
+- Kalendarz trzeźwości z każdym trzeźwym dniem jak na dłoni.
+- Kamienie milowe, które pojawiają się wraz z upływem dni.
+
+OGRÓD, KTÓRY ROŚNIE RAZEM Z TOBĄ (ZA DARMO)
+- Wirtualny ogród, który rozkwita z każdym trzeźwym dniem.
+- Nowe pędy pojawiają się wraz z budowaniem Twojej serii.
+- Żywe przypomnienie o tym, jak daleko zaszedłeś.
+
+NA EKRANIE GŁÓWNYM I APPLE WATCH (ZA DARMO)
+- Widżety na ekranie głównym i ekranie blokady z licznikiem dni.
+- Aplikacja towarzysząca na Apple Watch, aby się zameldować i sprawdzić serię.
+- Twoje postępy widoczne bez otwierania aplikacji.
+
+PRYWATNOŚĆ OD PODSTAW (ZA DARMO)
+- Wszystkie Twoje dane pozostają na Twoim urządzeniu.
+- Brak konta. Brak reklam. Brak śledzenia. Brak serwerów.
+- Twoja droga należy tylko do Ciebie.
 
 BLOOM+ (OPCJONALNIE)
-• Oś czasu zdrowia, dziennik, osiągnięcia
+Niewielkie ulepszenie odblokowuje pełne doświadczenie:
+- Pełna oś czasu korzyści zdrowotnych ze źródłami
+- Prowadzenie dziennika z podpowiedziami
+- Odznaki i odblokowywanie kamieni milowych
+- Zaoszczędzone pieniądze i kalorie od pierwszego dnia
+- Więcej gatunków roślin do uprawy
+Nowym subskrybentom oferujemy bezpłatny okres próbny.
 
-Pobierz za darmo. Bloom+ w dowolnym momencie.
+Niezależnie od tego, czy rzucasz picie, ograniczasz je, czy budujesz trzeźwe dni, Sober Tracker upraszcza zdrowienie: licz swój trzeźwy czas, zameldowuj się i obserwuj, jak rośnie Twój ogród.
+
+Pobierz za darmo już dziś.
+
+Szczegóły subskrypcji
+Bloom+ jest dostępny jako automatycznie odnawiana subskrypcja (miesięcznie $4.99 / rocznie $29.99 z 7-dniowym bezpłatnym okresem próbnym) lub jednorazowy zakup dożywotni ($59.99). Płatność jest pobierana z Twojego konta Apple ID w momencie potwierdzenia. Subskrypcje odnawiają się automatycznie, o ile nie zostaną anulowane co najmniej 24 godziny przed końcem okresu. Zarządzaj lub anuluj w dowolnym momencie w Ustawienia > Apple ID > Subskrypcje.
+
+Polityka prywatności: https://jackwallner.github.io/sober/privacy-policy.html
+Warunki użytkowania (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

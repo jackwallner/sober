@@ -1,13 +1,43 @@
-Sober Tracker vam pomaga ostati trezni z številcem dni, dnevnim check-inom in virtualnim vrtom, ki raste z vsakim treznim dnem.
+Sober Tracker ohranja vašo pot brez alkohola preprosto in motivirajočo. Štejte vsak trezen dan, se enkrat na dan prijavite in opazujte, kako virtualni vrt cveti, ko vaš niz raste. Vse ostaja zasebno na vaši napravi. Račun ni potreben.
 
-BREZPLAČNO
-• Števec dni brez alkohola
-• Dnevni check-in in koledar
-• Virtualni vrt
-• Zasebno na napravi
-• Apple Watch in gradniki
+Če želite eno mirno mesto, kjer boste videli, kako daleč ste prišli, in nadaljevali naprej, je to prava aplikacija.
+
+VAŠA TREZNOST NA PRVI POGLED (BREZPLAČNO)
+- Števec dni, ki prikazuje dneve, ure in vaš najdaljši niz.
+- Dnevna prijava z enim dotikom, da zabeležite, kako se danes počutite.
+- Koledar treznosti z vsakim treznim dnem na enem mestu.
+- Mejniki, ki prihajajo, ko se dnevi seštevajo.
+
+VRT, KI RASTE Z VAMI (BREZPLAČNO)
+- Virtualni vrt, ki cveti z vsakim treznim dnem.
+- Novi poganjki se pojavljajo, ko vaš niz raste.
+- Živ opomnik na to, kako daleč ste prišli.
+
+NA ZAČETNEM ZASLONU IN APPLE WATCHU (BREZPLAČNO)
+- Pripomočki za začetni in zaklenjeni zaslon s številom vaših dni.
+- Spremljevalec za Apple Watch za prijavo in pregled vašega niza.
+- Vaš napredek je viden brez odpiranja aplikacije.
+
+ZASEBNO ŽE PO ZASNOVI (BREZPLAČNO)
+- Vsi vaši podatki ostanejo na vaši napravi.
+- Račun ni potreben. Brez oglasov. Brez sledenja. Brez strežnikov.
+- Vaša pot ostaja vaša.
 
 BLOOM+ (IZBIRNO)
-• Časovnica zdravja, dnevnik
+Majhna nadgradnja odklene celotno izkušnjo:
+- Popolna časovnica zdravstvenih koristi z viri
+- Pisanje dnevnika z vodenimi iztočnicami
+- Dosežki in odklepanja mejnikov
+- Prihranjen denar in kalorije od prvega dne
+- Več vrst rastlin za vaš vrt
+Novim naročnikom je na voljo brezplačno preizkusno obdobje.
 
-Brezplačen prenos. Bloom+ kadarkoli.
+Ne glede na to, ali opuščate pitje, zmanjšujete vnos ali gradite trezne dni, Sober Tracker ohranja okrevanje preprosto: štejte svoj trezni čas, se prijavljajte in opazujte, kako vaš vrt raste.
+
+Prenesite brezplačno še danes.
+
+Podrobnosti o naročnini
+Bloom+ je na voljo kot samodejno obnavljajoča se naročnina (mesečno $4.99 / letno $29.99 s 7-dnevnim brezplačnim preizkusom) ali kot enkratni doživljenjski nakup ($59.99). Plačilo se ob potrditvi zaračuna vašemu Apple ID-ju. Naročnine se samodejno obnavljajo, razen če jih prekličete vsaj 24 ur pred koncem obdobja. Upravljajte ali prekličite kadar koli v Nastavitve > Apple ID > Naročnine.
+
+Pravilnik o zasebnosti: https://jackwallner.github.io/sober/privacy-policy.html
+Pogoji uporabe (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

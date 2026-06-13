@@ -1,13 +1,43 @@
-Sober Tracker giúp bạn cai rượu với bộ đếm ngày, check-in hàng ngày và khu vườn ảo lớn lên mỗi ngày không uống.
+Sober Tracker giúp hành trình không rượu bia của bạn trở nên đơn giản và đầy động lực. Đếm từng ngày không uống, điểm danh mỗi ngày một lần, và ngắm khu vườn ảo nở rộ khi chuỗi ngày của bạn dài thêm. Mọi thứ được lưu riêng tư trên thiết bị của bạn. Không cần tài khoản.
 
-MIỄN PHÍ
-• Đếm ngày không cồn
-• Check-in và lịch cai rượu
-• Vườn ảo
-• Riêng tư trên thiết bị
-• Apple Watch và widget
+Nếu bạn muốn một nơi yên bình để thấy mình đã đi được bao xa và tiếp tục tiến bước, thì đây chính là ứng dụng đó.
+
+Tiến trình cai rượu của bạn trong nháy mắt (MIỄN PHÍ)
+- Bộ đếm ngày hiển thị số ngày, số giờ và chuỗi ngày dài nhất của bạn.
+- Điểm danh hằng ngày bằng một chạm để ghi lại cảm xúc hôm nay.
+- Lịch cai rượu thấy mọi ngày không uống trong nháy mắt.
+- Những cột mốc đáng nhớ xuất hiện khi ngày tháng tích lũy.
+
+Một khu vườn lớn lên cùng bạn (MIỄN PHÍ)
+- Khu vườn ảo nở rộ theo mỗi ngày không uống.
+- Những mầm cây mới xuất hiện khi chuỗi ngày của bạn dài thêm.
+- Một lời nhắc sống động về việc bạn đã đi được bao xa.
+
+Trên Màn hình chính và Apple Watch của bạn (MIỄN PHÍ)
+- Widget Màn hình chính và Màn hình khóa với số ngày của bạn.
+- Ứng dụng Apple Watch đồng hành để điểm danh và xem chuỗi ngày.
+- Tiến trình của bạn hiển thị mà không cần mở ứng dụng.
+
+Riêng tư ngay từ thiết kế (MIỄN PHÍ)
+- Toàn bộ dữ liệu của bạn ở lại trên thiết bị.
+- Không cần tài khoản. Không quảng cáo. Không theo dõi. Không máy chủ.
+- Hành trình của bạn mãi là của riêng bạn.
 
 BLOOM+ (TÙY CHỌN)
-• Dòng thời gian sức khỏe, nhật ký
+Một nâng cấp nhỏ mở khóa toàn bộ trải nghiệm:
+- Dòng thời gian lợi ích sức khỏe đầy đủ kèm nguồn tham khảo
+- Viết nhật ký với gợi ý dẫn dắt
+- Thành tựu và mở khóa cột mốc
+- Số tiền và lượng calo tiết kiệm được kể từ ngày đầu tiên
+- Thêm nhiều loài cây để trồng trong vườn
+Người đăng ký mới được dùng thử miễn phí.
 
-Tải miễn phí. Nâng cấp Bloom+ bất cứ lúc nào.
+Dù bạn đang bỏ rượu, giảm bớt, hay đang tích lũy những ngày không uống, Sober Tracker giúp quá trình hồi phục thật đơn giản: đếm thời gian tỉnh táo, điểm danh, và ngắm khu vườn lớn lên.
+
+Tải miễn phí ngay hôm nay.
+
+Chi tiết Đăng ký
+Bloom+ được cung cấp dưới dạng gói đăng ký tự động gia hạn (Hằng tháng $4.99 / Hằng năm $29.99 kèm 7 ngày dùng thử miễn phí) hoặc mua Trọn đời một lần ($59.99). Khoản thanh toán được tính vào Apple ID của bạn khi xác nhận. Gói đăng ký tự động gia hạn trừ khi được hủy ít nhất 24 giờ trước khi kết thúc kỳ. Quản lý hoặc hủy bất cứ lúc nào trong Cài đặt > Apple ID > Đăng ký.
+
+Chính sách Bảo mật: https://jackwallner.github.io/sober/privacy-policy.html
+Điều khoản Sử dụng (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

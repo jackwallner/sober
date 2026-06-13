@@ -1,13 +1,43 @@
-Sober Tracker auttaa pysymään alkoholittomana päivälaskurilla, päivittäisellä kirjauksella ja virtuaalisella puutarhalla, joka kasvaa jokaisena raittiina päivänä.
+Sober Tracker pitää alkoholittoman matkasi yksinkertaisena ja motivoivana. Laske jokainen raitis päivä, tee päivittäinen kirjaus kerran päivässä ja katso, kuinka virtuaalinen puutarha kukkii putkesi kasvaessa. Kaikki pysyy yksityisenä laitteellasi. Tiliä ei tarvita.
 
-ILMAISEKSI
-• Alkoholiton päivälaskuri
-• Päivittäinen kirjaus ja raittiuskalenteri
-• Virtuaalinen puutarha
-• Yksityinen laitteella
-• Apple Watch ja widgetit
+Jos haluat yhden rauhallisen paikan, jossa näet kuinka pitkälle olet päässyt ja voit jatkaa eteenpäin, tämä on se sovellus.
+
+RAITTIUTESI YHDELLÄ SILMÄYKSELLÄ (ILMAINEN)
+- Päivälaskuri, joka näyttää päivät, tunnit ja pisimmän putkesi.
+- Yhden napautuksen päivittäinen kirjaus siitä, miltä tämä päivä tuntuu.
+- Raittiuskalenteri, jossa kaikki raittiit päivät näkyvät yhdellä silmäyksellä.
+- Virstanpylväshetkiä, jotka saapuvat päivien karttuessa.
+
+PUUTARHA, JOKA KASVAA KANSSASI (ILMAINEN)
+- Virtuaalinen puutarha, joka kukkii jokaisen raittiin päivän myötä.
+- Uutta kasvua ilmestyy putkesi rakentuessa.
+- Elävä muistutus siitä, kuinka pitkälle olet päässyt.
+
+ALOITUSNÄYTÖLLÄSI JA APPLE WATCHISSA (ILMAINEN)
+- Aloitusnäytön ja lukitusnäytön widgetit päivälaskureineen.
+- Apple Watch -kumppani kirjausten tekemiseen ja putken seuraamiseen.
+- Edistymisesi näkyvissä avaamatta sovellusta.
+
+YKSITYINEN JO LÄHTÖKOHTAISESTI (ILMAINEN)
+- Kaikki tietosi pysyvät laitteellasi.
+- Tiliä ei tarvita. Ei mainoksia. Ei seurantaa. Ei palvelimia.
+- Matkasi pysyy omanasi.
 
 BLOOM+ (VALINNAINEN)
-• Terveysaikajana, päiväkirja, saavutukset
+Pieni päivitys avaa koko kokemuksen:
+- Täydellinen terveyshyötyjen aikajana lähteineen
+- Päiväkirja ohjattuine kehotteineen
+- Saavutukset ja virstanpylväiden avaukset
+- Säästetyt rahat ja kalorit ensimmäisestä päivästä lähtien
+- Lisää kasvatettavia puutarhalajeja
+Uusille tilaajille tarjotaan ilmainen kokeilujakso.
 
-Lataa ilmaiseksi. Bloom+ milloin haluat.
+Lopetatpa juomisen, vähennätpä sitä tai keräätpä raittiita päiviä, Sober Tracker pitää toipumisen yksinkertaisena: laske raitis aikasi, tee kirjaus ja katso puutarhasi kasvavan.
+
+Lataa ilmaiseksi tänään.
+
+Tilauksen tiedot
+Bloom+ on saatavilla automaattisesti uusiutuvana tilauksena (kuukausittain $4.99 / vuosittain $29.99 ja 7 päivän ilmainen kokeilujakso) tai kertaluonteisena elinikäisenä ostona ($59.99). Maksu veloitetaan Apple ID:ltäsi vahvistuksen yhteydessä. Tilaukset uusiutuvat automaattisesti, ellei niitä peruuteta vähintään 24 tuntia ennen jakson päättymistä. Hallitse tai peruuta milloin tahansa kohdassa Asetukset > Apple ID > Tilaukset.
+
+Tietosuojakäytäntö: https://jackwallner.github.io/sober/privacy-policy.html
+Käyttöehdot (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

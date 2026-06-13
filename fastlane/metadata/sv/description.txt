@@ -1,13 +1,43 @@
-Sober Tracker hjälper dig att hålla dig alkoholfri med dagräknare, daglig check-in och en virtuell trädgård som växer för varje nykter dag.
+Sober Tracker håller din alkoholfria resa enkel och motiverande. Räkna varje nykter dag, checka in en gång om dagen och se en virtuell trädgård blomstra när din svit växer. Allt förblir privat på din enhet. Inget konto behövs.
 
-GRATIS
-• Alkoholfri dagräknare
-• Daglig check-in och nykterhetskalender
-• Virtuell trädgård
-• Privat på enheten
-• Apple Watch och widgetar
+Om du vill ha en lugn plats där du kan se hur långt du har kommit och fortsätta framåt, så är det här den appen.
+
+DIN NYKTERHET I ETT ÖGONKAST (GRATIS)
+- Dagräknare som visar dagar, timmar och din längsta svit.
+- Daglig incheckning med en knapptryckning för att notera hur dagen känns.
+- Nykterhetskalender med alla dina nyktra dagar i ett ögonkast.
+- Milstolpsögonblick som dyker upp när dagarna läggs samman.
+
+EN TRÄDGÅRD SOM VÄXER MED DIG (GRATIS)
+- En virtuell trädgård som blomstrar för varje nykter dag.
+- Ny växt tillkommer när din svit byggs upp.
+- En levande påminnelse om hur långt du har kommit.
+
+PÅ DIN HEMSKÄRM OCH APPLE WATCH (GRATIS)
+- Widgetar för hemskärm och låsskärm med din dagräkning.
+- Apple Watch-följeslagare för att checka in och se din svit.
+- Dina framsteg syns utan att du öppnar appen.
+
+PRIVAT FRÅN GRUNDEN (GRATIS)
+- All din data stannar på din enhet.
+- Inget konto krävs. Inga annonser. Ingen spårning. Inga servrar.
+- Din resa förblir din.
 
 BLOOM+ (VALFRITT)
-• Hälsotidslinje, dagbok, prestationer
+En liten uppgradering låser upp hela upplevelsen:
+- Komplett tidslinje över hälsofördelar med källor
+- Dagbok med vägledda skrivuppmaningar
+- Prestationer och upplåsning av milstolpar
+- Pengar och kalorier sparade sedan dag ett
+- Fler trädgårdsarter att odla
+En gratis provperiod erbjuds nya prenumeranter.
 
-Ladda ner gratis. Bloom+ när du vill.
+Oavsett om du slutar dricka, drar ner eller samlar nyktra dagar håller Sober Tracker återhämtningen enkel: räkna din nyktra tid, checka in och se din trädgård växa.
+
+Ladda ner gratis idag.
+
+Prenumerationsinformation
+Bloom+ finns tillgängligt som en prenumeration med automatisk förnyelse (månadsvis $4.99 / årligen $29.99 med 7 dagars gratis provperiod) eller som ett engångsköp på livstid ($59.99). Betalningen dras från ditt Apple ID vid bekräftelse. Prenumerationer förnyas automatiskt om de inte avbryts minst 24 timmar före periodens slut. Hantera eller avsluta när som helst under Inställningar > Apple ID > Prenumerationer.
+
+Integritetspolicy: https://jackwallner.github.io/sober/privacy-policy.html
+Användarvillkor (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
