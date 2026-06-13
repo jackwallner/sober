@@ -14,10 +14,12 @@
     <meta property="og:description" content="Track your sobriety journey privately. Day counter, virtual garden, health benefits timeline, and more — all on your device. Free with optional Pro upgrade.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://jackwallner.github.io/sober/">
+    <meta property="og:image" content="https://jackwallner.github.io/sober/screenshot-1-counter.png">
     <meta property="og:site_name" content="Sober">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Sober - Sobriety Tracker for iPhone & Apple Watch">
     <meta name="twitter:description" content="Track your sobriety journey privately. Day counter, virtual garden, health benefits timeline, and more.">
+    <meta name="twitter:image" content="https://jackwallner.github.io/sober/screenshot-1-counter.png">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -54,6 +56,7 @@
         "description": "Track your sobriety journey with day counter, virtual garden, health benefits timeline, journaling, and achievements. Private, simple, free to start.",
         "url": "https://jackwallner.github.io/sober/",
         "downloadUrl": "https://apps.apple.com/us/app/id6768869215",
+        "screenshot": "https://jackwallner.github.io/sober/screenshot-1-counter.png",
         "softwareVersion": "0.1.0",
         "author": {
             "@type": "Person",
@@ -176,6 +179,38 @@
         }
 
         .download-btn:hover { opacity: 0.85; }
+
+        /* Screenshot showcase */
+        .showcase {
+            padding: 0 0 80px;
+        }
+
+        .showcase-scroll {
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 0 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            scrollbar-width: none;
+        }
+
+        .showcase-scroll::-webkit-scrollbar { display: none; }
+
+        .showcase-card {
+            flex-shrink: 0;
+            scroll-snap-align: center;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 16px 48px rgba(0,0,0,0.08);
+        }
+
+        .showcase-card img {
+            height: 540px;
+            display: block;
+        }
 
         /* Features */
         .features {
@@ -442,6 +477,8 @@
             .hero h1 { font-size: 36px; letter-spacing: -1px; }
             .hero .tagline { font-size: 17px; }
 
+            .showcase-card img { height: 400px; }
+
             .features-grid { grid-template-columns: 1fr; }
             .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
             @media (min-width: 769px) and (max-width: 1024px) {
@@ -451,6 +488,10 @@
             .features-header h2 { font-size: 28px; }
             .privacy h2, .cta h2 { font-size: 26px; }
             .pricing-header h2 { font-size: 28px; }
+        }
+
+        @media (max-width: 480px) {
+            .showcase-card img { height: 360px; }
         }
     </style>
 </head>
@@ -475,6 +516,29 @@
         <p class="tagline">Track your sobriety with a day counter, virtual garden, health milestones, journal, and more — all private, all on your device.</p>
         <p class="platforms">iPhone &middot; Apple Watch &middot; Widgets</p>
         <a class="download-btn" href="https://apps.apple.com/us/app/id6768869215">Download for free</a>
+    </section>
+
+    <section class="showcase">
+        <div class="showcase-scroll">
+            <div class="showcase-card">
+                <img src="screenshot-1-counter.png" alt="Day counter — 1,836 days sober with your growing bonsai grove">
+            </div>
+            <div class="showcase-card">
+                <img src="screenshot-2-calendar.png" alt="Sobriety calendar — color-coded days with current and longest streaks">
+            </div>
+            <div class="showcase-card">
+                <img src="screenshot-3-checkin.png" alt="Daily check-in — log your mood, add a note, and water your bonsai">
+            </div>
+            <div class="showcase-card">
+                <img src="screenshot-4-milestone.png" alt="Milestone celebration — A Full Year, your tree joins the grove">
+            </div>
+            <div class="showcase-card">
+                <img src="screenshot-5-saved.png" alt="Progress saved — money, calories, and body fat saved over your journey">
+            </div>
+            <div class="showcase-card">
+                <img src="screenshot-6-species.png" alt="Bonsai species — choose from six tree styles as your streak grows">
+            </div>
+        </div>
     </section>
 
     <section class="features">
