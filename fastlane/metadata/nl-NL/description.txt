@@ -35,3 +35,9 @@ Nieuwe abonnees krijgen een gratis proefperiode.
 Of je nu stopt met drinken, mindert of droge dagen opbouwt, Sober Tracker houdt herstel eenvoudig: tel je nuchtere tijd, check in en zie je tuin groeien.
 
 Download gratis.
+
+Abonnementsgegevens
+Bloom+ is beschikbaar als automatisch verlengend abonnement (maandelijks $4,99 / jaarlijks $29,99 met 7 dagen gratis proef) of als eenmalige levenslange aankoop ($59,99). De betaling wordt bij bevestiging van je Apple ID afgeschreven. Abonnementen verlengen automatisch tenzij ze minstens 24 uur voor het einde van de periode worden opgezegd. Beheer of zeg op wanneer je wilt via Instellingen > Apple ID > Abonnementen.
+
+Privacybeleid: https://jackwallner.github.io/sober/privacy-policy.html
+Gebruiksvoorwaarden (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

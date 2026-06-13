@@ -35,3 +35,9 @@ A free trial is offered to new subscribers.
 Whether you're quitting drinking, cutting back, or building dry days, Sober Tracker keeps recovery simple: count your sober time, check in, and watch your garden grow.
 
 Download free today.
+
+Subscription Details
+Bloom+ is available as an auto-renewing subscription (Monthly $4.99 / Yearly $29.99 with a 7-day free trial) or a one-time Lifetime purchase ($59.99). Payment is charged to your Apple ID at confirmation. Subscriptions auto-renew unless canceled at least 24 hours before the end of the period. Manage or cancel anytime in Settings > Apple ID > Subscriptions.
+
+Privacy Policy: https://jackwallner.github.io/sober/privacy-policy.html
+Terms of Use (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

@@ -35,3 +35,9 @@ Neuen Abonnenten wird eine kostenlose Testphase angeboten.
 Ob du mit dem Trinken aufhörst, reduzierst oder trockene Tage aufbaust: Sober Tracker hält die Genesung einfach. Zähle deine nüchterne Zeit, mache einen Check-in und sieh deinem Garten beim Wachsen zu.
 
 Kostenlos herunterladen.
+
+Abo-Details
+Bloom+ ist als automatisch verlängerndes Abonnement (monatlich 4,99 $ / jährlich 29,99 $ mit 7-tägiger kostenloser Testphase) oder als einmaliger Lifetime-Kauf (59,99 $) erhältlich. Die Zahlung wird bei Bestätigung deiner Apple-ID belastet. Abonnements verlängern sich automatisch, sofern sie nicht mindestens 24 Stunden vor Ende des Zeitraums gekündigt werden. Verwalten oder kündigen jederzeit unter Einstellungen > Apple-ID > Abonnements.
+
+Datenschutzrichtlinie: https://jackwallner.github.io/sober/privacy-policy.html
+Nutzungsbedingungen (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
