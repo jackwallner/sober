@@ -1,1 +1,1 @@
-Jours secs & jardin
+Jours secs : compteur
