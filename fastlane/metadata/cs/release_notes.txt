@@ -1,1 +1,1 @@
-
+Vylepšení na pozadí a opravy chyb, aby Sober běžel hladce. Děkujeme, že jste tu.
