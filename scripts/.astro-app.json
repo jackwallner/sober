@@ -1,10 +1,11 @@
 {
-  "appId": "103",
+  "appId": "6768869215",
   "appStoreId": "6768869215",
+  "preLaunchAppId": "103",
   "appName": "Sober Tracker - Alcohol Free",
   "bundleId": "com.jackwallner.sober",
   "store": "us",
-  "syncedAt": "2026-05-26T19:37:32Z",
+  "syncedAt": "2026-06-23T00:00:00Z",
   "allAstroStores": [
     "ae",
     "al",
