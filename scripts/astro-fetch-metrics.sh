@@ -2,7 +2,8 @@
 # Refresh scripts/astro-keyword-metrics.json from Astro MCP.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-APP_ID="${ASTRO_APP_ID:-103}"
+# Default to the live App Store ID from .astro-app.json (falls back to 6768869215).
+APP_ID="${ASTRO_APP_ID:-$(python3 -c "import json;print(json.load(open('scripts/.astro-app.json'))['appId'])" 2>/dev/null || echo 6768869215)}"
 STORE="${ASTRO_STORE:-us}"
 MCP="${ASTRO_MCP_URL:-http://127.0.0.1:8089/mcp}"
 OUT="scripts/astro-keyword-metrics.json"
