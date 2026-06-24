@@ -1,1 +1,1 @@
-
+Izboljšave v ozadju in popravki napak, da Sober deluje gladko. Hvala, da ste z nami.
