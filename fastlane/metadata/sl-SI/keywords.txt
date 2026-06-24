@@ -1,1 +1,1 @@
-piti,manj,nehati,odvisnost,abstinenca,okrevanje,povratek,hrepenenje,razpoloženje,niz
+piti,manj,nehati,odvisnost,abstinenca,okrevanje,povratek,hrepenenje,navada,dnevnik,app

@@ -1,1 +1,1 @@
-inni,kevesebb,abbahagy,függőség,elvonás,felépülés,visszaesés,vágy,hangulat,sáv
+inni,kevesebb,abbahagy,függőség,elvonás,felépülés,visszaesés,vágy,szokás,napló,app

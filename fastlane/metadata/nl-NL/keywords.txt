@@ -1,1 +1,1 @@
-stoppen,minder,drinken,verslaving,ontwenning,nuchter,herstel,terugval,verlangen,stemming,streak
+stoppen,minder,drinken,verslaving,ontwenning,nuchter,herstel,terugval,gewoonte,dagboek,streak
