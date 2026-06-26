@@ -3,11 +3,16 @@ import SwiftUI
 
 struct OnboardingView: View {
     @Environment(\.modelContext) private var context
+    @Environment(SubscriptionService.self) private var subscriptions
     @State private var step: Int = 0
     @State private var startDate: Date = .now
     @State private var costPerDay: Double = 20
     @State private var caloriesPerDay: Double = 600
     @State private var reminderHour: Int = 9
+    @State private var trialInFlight = false
+    @State private var trialError: String?
+    @State private var glowPulse = false
+    @State private var didShowOnboardingTrial = false
 
     var body: some View {
         ZStack {
@@ -19,12 +24,20 @@ struct OnboardingView: View {
                 case 2: spendStep
                 case 3: reminderStep
                 case 4: commitStep
+                case 5: trialStep
                 default: welcome
                 }
             }
             .padding(.horizontal, Theme.Space.l)
             .padding(.vertical, Theme.Space.l)
             .foregroundStyle(.white)
+        }
+        .task {
+            #if canImport(RevenueCat)
+            if subscriptions.isConfigured, subscriptions.packages.isEmpty {
+                await subscriptions.fetchProducts()
+            }
+            #endif
         }
     }
 
@@ -165,8 +178,8 @@ struct OnboardingView: View {
                 .padding(.horizontal, Theme.Space.m)
             Spacer()
             VStack(spacing: Theme.Space.s) {
-                primaryButton("I commit to getting better") { complete(committed: true) }
-                Button { complete(committed: false) } label: {
+                primaryButton("I commit to getting better") { commit(committed: true) }
+                Button { commit(committed: false) } label: {
                     Text("Not now")
                         .font(Theme.subhead(weight: .medium))
                         .foregroundStyle(.white.opacity(0.8))
@@ -180,6 +193,93 @@ struct OnboardingView: View {
                     .padding(.horizontal, Theme.Space.m)
             }
         }
+    }
+
+    /// Trial step — shown right after the commitment while motivation (and the
+    /// just-entered spend numbers) peak. Doubling down here, where the user has
+    /// actively pledged, converts far better than a cold paywall later. Only
+    /// reached when a free trial is actually on the table; otherwise we skip
+    /// straight to finishing onboarding.
+    private var trialStep: some View {
+        VStack(spacing: Theme.Space.l) {
+            Spacer()
+            ZStack {
+                Circle()
+                    .fill(.white.opacity(0.25))
+                    .frame(width: 180, height: 180)
+                    .blur(radius: 50)
+                    .scaleEffect(glowPulse ? 1.08 : 0.85)
+                    .animation(.easeInOut(duration: 2.4).repeatForever(autoreverses: true), value: glowPulse)
+                Image(systemName: "gift.fill")
+                    .font(.system(size: 64))
+            }
+            Text(trialEligible ? "Make your commitment count" : "You're all set")
+                .font(Theme.display())
+                .multilineTextAlignment(.center)
+            Text(trialEligible
+                 ? "You just committed. Lock in every tool that keeps you on track — free for your whole trial."
+                 : "Your garden is planted. Let's begin.")
+                .multilineTextAlignment(.center)
+                .font(Theme.body())
+                .foregroundStyle(.white.opacity(0.9))
+                .padding(.horizontal, Theme.Space.m)
+
+            if trialEligible, let price = trialPriceLabel {
+                SavingsAnchorCard(
+                    yearlySavings: projectedYearlySavings,
+                    priceLabel: price,
+                    priceCaption: "after your free trial",
+                    onBrand: true
+                )
+                .padding(.horizontal, Theme.Space.xs)
+            }
+
+            if let trialError {
+                Text(trialError)
+                    .font(Theme.caption())
+                    .foregroundStyle(.white)
+                    .multilineTextAlignment(.center)
+            }
+
+            Spacer()
+
+            VStack(spacing: Theme.Space.s) {
+                if trialEligible {
+                    Button(action: startOnboardingTrial) {
+                        ZStack {
+                            Text(trialCTATitle)
+                                .font(Theme.body(weight: .bold))
+                                .foregroundStyle(Theme.brandPrimary)
+                                .opacity(trialInFlight ? 0 : 1)
+                            if trialInFlight { ProgressView().tint(Theme.brandPrimary) }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, Theme.Space.l)
+                    }
+                    .background(Color.white, in: RoundedRectangle(cornerRadius: 18))
+                    .shadow(color: .black.opacity(0.18), radius: 14, y: 6)
+                    .disabled(trialInFlight)
+
+                    Button { finishOnboarding() } label: {
+                        Text("Maybe later")
+                            .font(Theme.subhead(weight: .medium))
+                            .foregroundStyle(.white.opacity(0.85))
+                            .underline()
+                            .padding(.vertical, 6)
+                    }
+                    .disabled(trialInFlight)
+
+                    Text("No charge now. Cancel anytime before the trial ends.")
+                        .font(Theme.caption())
+                        .foregroundStyle(.white.opacity(0.7))
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, Theme.Space.m)
+                } else {
+                    primaryButton("Start growing") { finishOnboarding() }
+                }
+            }
+        }
+        .onAppear { glowPulse = true }
     }
 
     private func primaryButton(_ title: String, action: @escaping () -> Void) -> some View {
@@ -200,25 +300,107 @@ struct OnboardingView: View {
         return f.string(from: d)
     }
 
-    private func complete(committed: Bool = true) {
+    // MARK: - Trial step plumbing
+
+    private var projectedYearlySavings: Int { Int((costPerDay * 365).rounded()) }
+
+    private var trialEligible: Bool {
+        #if canImport(RevenueCat)
+        return !subscriptions.isProSubscriber && subscriptions.hasTrialOfferAvailable
+        #else
+        return false
+        #endif
+    }
+
+    /// Clean plan price ("$29.99 / year" -> "$29.99") for the savings anchor.
+    private var trialPriceLabel: String? {
+        #if canImport(RevenueCat)
+        guard let raw = subscriptions.directTrialPackage?.soberPriceLabel else { return nil }
+        return raw.components(separatedBy: " /").first?.trimmingCharacters(in: .whitespaces)
+        #else
+        return nil
+        #endif
+    }
+
+    private var trialCTATitle: String {
+        #if canImport(RevenueCat)
+        if let label = subscriptions.directTrialPackage?.soberIntroOfferLabel {
+            return "Start my \(label)"
+        }
+        #endif
+        return "Start my free trial"
+    }
+
+    /// Commit button: persist setup, then double down with the trial step when
+    /// one is available. Falls through to finishing when it isn't (no RC key,
+    /// already Pro, or trial already consumed).
+    private func commit(committed: Bool) {
+        persistSetup(committed: committed)
+        if trialEligible {
+            didShowOnboardingTrial = true
+            withAnimation { step = 5 }
+        } else {
+            finishOnboarding()
+        }
+    }
+
+    private func startOnboardingTrial() {
+        #if canImport(RevenueCat)
+        guard let package = subscriptions.directTrialPackage else { finishOnboarding(); return }
+        trialError = nil
+        trialInFlight = true
+        Task { @MainActor in
+            defer { trialInFlight = false }
+            do {
+                switch try await subscriptions.purchase(package) {
+                case .purchased, .pending:
+                    finishOnboarding()
+                case .cancelled:
+                    trialError = "Trial start cancelled. Tap again to begin."
+                }
+            } catch {
+                trialError = "Couldn't start your trial. Please try again."
+            }
+        }
+        #else
+        finishOnboarding()
+        #endif
+    }
+
+    /// Save everything except the onboarding-complete flag, so the trial step can
+    /// still render before RootView swaps to the main app. Notifications are
+    /// requested here too (the commit is a natural permission moment).
+    private func persistSetup(committed: Bool) {
         let settings = SettingsService(context: context).current()
         settings.costPerDayCents = Int(costPerDay * 100)
         settings.caloriesPerDay = Int(caloriesPerDay)
         settings.dailyReminderHour = reminderHour
-        settings.hasCompletedOnboarding = true
         settings.madeCommitment = committed
 
         _ = SobrietyService(context: context).startJourney(at: min(startDate, .now))
         _ = GardenService(context: context).current()
         try? context.save()
 
-        // Queue the one-time post-onboarding paywall: motivation (and the
-        // just-entered spend numbers that personalize the hero) peak right now.
-        AppGroup.defaults.set(true, forKey: AppGroup.postOnboardingPaywallKey)
-
         Task {
             _ = await NotificationService.requestAuthorization()
             await NotificationService.scheduleDailyReminder(hour: reminderHour, committed: committed)
+        }
+    }
+
+    /// Flip onboarding complete (swaps RootView to the main app) and queue the
+    /// lighter post-onboarding popup. That popup auto-skips when the user already
+    /// started the trial here (they're Pro), so they never see it twice.
+    private func finishOnboarding() {
+        let settings = SettingsService(context: context).current()
+        settings.hasCompletedOnboarding = true
+        try? context.save()
+
+        // Only queue the immediate Home popup when we *didn't* already pitch the
+        // trial in onboarding — otherwise the user would see the same sheet twice
+        // within a second. When the onboarding step ran, the "quick popup later"
+        // is the cooldown-gated Health nudge instead.
+        if !didShowOnboardingTrial {
+            AppGroup.defaults.set(true, forKey: AppGroup.postOnboardingPaywallKey)
         }
         WidgetSnapshotPump.push(context: context)
     }
