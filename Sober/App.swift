@@ -38,12 +38,44 @@ struct RootView: View {
         .tint(Theme.brandPrimary)
         .preferredColorScheme(.light)
         .task { WidgetSnapshotPump.push(context: context) }
+        #if DEBUG
+        .task { seedDemoIfRequested() }
+        #endif
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {
                 Task { await SubscriptionService.shared.refreshFromServer() }
             }
         }
     }
+
+    #if DEBUG
+    /// Launch-argument seeding for screenshots and to bypass UI-automation
+    /// blockers (the onboarding wheel picker wedges the AX bridge). DEBUG only,
+    /// never compiled into Release — no path to end users.
+    ///   -seedDemo : skip onboarding with a ~3.5-week sober journey
+    ///   -demoPro  : flip the local Pro override on
+    private func seedDemoIfRequested() {
+        let args = ProcessInfo.processInfo.arguments
+        if args.contains("-demoPro") {
+            SubscriptionService.shared.setLocalOverride(isPro: true)
+        }
+        guard args.contains("-seedDemo"),
+              !(settingsRows.first?.hasCompletedOnboarding ?? false) else { return }
+
+        let settings = SettingsService(context: context).current()
+        settings.costPerDayCents = 2000
+        settings.caloriesPerDay = 600
+        settings.madeCommitment = true
+        settings.hasCompletedOnboarding = true
+
+        let start = Calendar.current.date(byAdding: .day, value: -24, to: .now) ?? .now
+        _ = SobrietyService(context: context).startJourney(at: start)
+        _ = GardenService(context: context).current()
+        CheckInService(context: context).fillJourney(start: start, through: .now)
+        try? context.save()
+        WidgetSnapshotPump.push(context: context)
+    }
+    #endif
 }
 
 struct MainTabView: View {
@@ -112,7 +144,7 @@ struct MainTabView: View {
                 },
                 onDismiss: { showTrialOffer = false }
             )
-            .presentationDetents([.fraction(0.72), .large])
+            .presentationDetents([.large])
             .presentationDragIndicator(.visible)
             .interactiveDismissDisabled(trialPurchaseInFlight)
         }

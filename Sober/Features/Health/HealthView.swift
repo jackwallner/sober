@@ -56,6 +56,25 @@ struct HealthView: View {
             .themedScrollBackground()
             .navigationTitle("Health")
         }
+        .task { await maybeNudgeTrial() }
+    }
+
+    /// Passive trial surfacing: the Health tab is a high-intent recovery surface,
+    /// so a free, trial-eligible user who lingers here gets one gentle trial
+    /// offer — cooldown-gated (a few days) so it never nags. Tapping a locked
+    /// benefit still triggers the focused pitch immediately; this catches users
+    /// who browse without tapping.
+    private func maybeNudgeTrial() async {
+        guard !subscriptions.isProSubscriber,
+              !subscriptions.hasClaimedTrial,
+              subscriptions.hasTrialOfferAvailable,
+              TrialNudgeGate.canShow()
+        else { return }
+        // Let the screen settle before surfacing anything.
+        try? await Task.sleep(nanoseconds: 4_000_000_000)
+        guard !Task.isCancelled, !subscriptions.isProSubscriber else { return }
+        TrialNudgeGate.markShown()
+        TrialOfferCoordinator.shared.request(.healthTimeline)
     }
 
     private var recoveryHeaderRow: some View {

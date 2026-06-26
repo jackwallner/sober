@@ -84,3 +84,21 @@ final class TrialOfferCoordinator: ObservableObject {
     func request(_ intent: Intent) { pendingIntent = intent }
     func clear() { pendingIntent = nil }
 }
+
+/// Cooldown gate for *passive* trial nudges — the ones the app surfaces on its
+/// own (e.g. landing on the Health tab) rather than in response to a tap. Keeps
+/// the trial in front of free users at more load points without nagging: at most
+/// one passive nudge every few days.
+enum TrialNudgeGate {
+    static let cooldown: TimeInterval = 3 * 24 * 60 * 60
+
+    static func canShow() -> Bool {
+        let last = AppGroup.defaults.double(forKey: AppGroup.lastTrialNudgeKey)
+        guard last > 0 else { return true }
+        return Date().timeIntervalSince1970 - last >= cooldown
+    }
+
+    static func markShown() {
+        AppGroup.defaults.set(Date().timeIntervalSince1970, forKey: AppGroup.lastTrialNudgeKey)
+    }
+}
