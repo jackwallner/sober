@@ -8,7 +8,6 @@ struct SettingsView: View {
     @Environment(SubscriptionService.self) private var subscriptions
     @Query private var settingsRows: [UserSettings]
     @Query(sort: \SobrietyJourney.startDate, order: .reverse) private var journeys: [SobrietyJourney]
-    @State private var showPaywall = false
     @State private var restoreMessage: String?
     @State private var isRestoring = false
     @State private var notificationsDenied = false
@@ -25,7 +24,7 @@ struct SettingsView: View {
                         Text(subscriptions.isProSubscriber ? "Bloom+ active" : "Bloom+")
                         Spacer()
                         if !subscriptions.isProSubscriber {
-                            Button("Upgrade") { showPaywall = true }
+                            Button("Upgrade") { TrialOfferCoordinator.shared.request(.settings) }
                                 .buttonStyle(.borderedProminent)
                         }
                     }
@@ -155,9 +154,6 @@ struct SettingsView: View {
             }
             .themedScrollBackground()
             .navigationTitle("Settings")
-            .sheet(isPresented: $showPaywall) {
-                PaywallView(impressionId: "sober_settings_sheet")
-            }
             .onChange(of: settings?.dailyReminderHour) { _, _ in rescheduleReminder() }
             .onChange(of: settings?.dailyReminderEnabled) { _, _ in rescheduleReminder() }
             .onChange(of: settings?.madeCommitment) { _, _ in rescheduleReminder() }

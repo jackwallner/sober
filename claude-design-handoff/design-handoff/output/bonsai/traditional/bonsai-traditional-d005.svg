@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <title>Sober — Traditional bonsai, day 005</title>
+  <desc>Anchor frame for the Traditional bonsai style. Pot baseline y=460. Generated from the parametric builder.</desc>
+  
+  <g id="pot">
+    <defs>
+      <linearGradient id="potShade" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#5C402A"></stop>
+        <stop offset="0.45" stop-color="#3B2A1C"></stop>
+        <stop offset="1" stop-color="#3B2A1C"></stop>
+      </linearGradient>
+      <linearGradient id="potBody" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#5C402A"></stop>
+        <stop offset="1" stop-color="#3B2A1C"></stop>
+      </linearGradient>
+    </defs>
+    
+    <path d="M170 415&#xA;             L184 460&#xA;             L416 460&#xA;             L430 415 Z" fill="url(#potBody)"></path>
+    
+    <path d="M300 415&#xA;             L416 460&#xA;             L430 415 Z" fill="#3B2A1C" opacity="0.55"></path>
+    
+    <ellipse cx="300" cy="413" rx="130" ry="9" fill="#2C1F14"></ellipse>
+    <ellipse cx="300" cy="411" rx="130" ry="8" fill="#5C402A"></ellipse>
+    
+    <ellipse cx="300" cy="412" rx="124" ry="6.5" fill="#3A2A1C"></ellipse>
+    <ellipse cx="300" cy="412.5" rx="122" ry="5.5" fill="#221710"></ellipse>
+    
+    <circle cx="240" cy="412" r="1.8" fill="#6B4A2E" opacity="0.55"></circle>
+    <circle cx="285" cy="413" r="1.2" fill="#A07B52" opacity="0.4"></circle>
+    <circle cx="328" cy="412" r="1.6" fill="#6B4A2E" opacity="0.5"></circle>
+    <circle cx="358" cy="413" r="1.2" fill="#A07B52" opacity="0.35"></circle>
+    <circle cx="210" cy="413" r="1.4" fill="#A07B52" opacity="0.4"></circle>
+  </g>
+  
+  <path d="M 300 410 Q 302 389 301 368" stroke="#519E73" stroke-width="2.6" fill="none" stroke-linecap="round"></path><ellipse cx="290" cy="392" rx="11" ry="5" fill="#519E73" transform="rotate(-30 290 392)" opacity="0.9"></ellipse><ellipse cx="310" cy="392" rx="11" ry="5" fill="#519E73" transform="rotate(30 310 392)" opacity="0.9"></ellipse><ellipse cx="294" cy="366" rx="7" ry="3.4" fill="#7BC68C" transform="rotate(-18 294 366)"></ellipse><ellipse cx="307" cy="367" rx="7" ry="3.4" fill="#7BC68C" transform="rotate(18 307 367)"></ellipse><ellipse cx="301" cy="363" rx="5" ry="3" fill="#A9D4A8"></ellipse>
+</svg>

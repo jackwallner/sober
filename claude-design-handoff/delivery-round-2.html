@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Sober — Icon concepts + visual system Stage A</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FAFAF7;
+      --ink: #1f1a14;
+      --mute: #7a7064;
+      --rule: #e6e1d6;
+      --sage: #519E73;
+      --card: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+    body { font: 15px/1.55 ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif; }
+    .wrap { max-width: 1240px; margin: 0 auto; padding: 56px 40px 80px; }
+
+    header {
+      display: flex; align-items: baseline; gap: 24px; flex-wrap: wrap;
+      border-bottom: 1px solid var(--rule); padding-bottom: 20px; margin-bottom: 32px;
+    }
+    header h1 { font-size: 22px; margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+    header .meta { font: 12px ui-monospace, Menlo, monospace; color: var(--mute); letter-spacing: 0.02em; }
+    header .pill { display: inline-block; padding: 2px 10px; border-radius: 999px;
+      background: var(--sage); color: white; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+
+    section { margin-bottom: 56px; }
+    h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+         color: var(--mute); margin: 0 0 14px; }
+    h3 { font-size: 14px; font-weight: 600; margin: 0 0 6px; letter-spacing: -0.005em; }
+    p.lede { font-size: 16px; max-width: 64ch; margin: 0 0 16px; color: var(--ink); }
+    p { max-width: 68ch; margin: 0 0 10px; }
+    p code, .mono { font: 12.5px ui-monospace, Menlo, monospace; color: var(--ink); }
+    p code { background: #f0ece2; padding: 1px 5px; border-radius: 3px; }
+
+    .note { background: #fff8e6; border: 1px solid #ecdfb8; border-radius: 6px; padding: 14px 16px; margin-bottom: 32px;
+      font-size: 13.5px; color: #5a4a1f; }
+    .note strong { color: #3a2f10; }
+
+    /* ────────────────────────── ICON STYLING ────────────────────────── */
+    .icon-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px;
+    }
+    .icon-cell {
+      display: flex; flex-direction: column; align-items: stretch; gap: 12px;
+    }
+    .icon-frame {
+      position: relative;
+      width: 100%; aspect-ratio: 1;
+      border-radius: 22.4%;
+      overflow: hidden;
+      box-shadow:
+        0 24px 48px -18px rgba(31, 26, 20, 0.28),
+        0 4px 8px -2px rgba(31, 26, 20, 0.08),
+        inset 0 1px 0 rgba(255,255,255,0.4);
+    }
+    .icon-frame svg { display: block; width: 100%; height: 100%; }
+    .icon-frame::after {
+      /* universal top-sheen for the glossy ASO look */
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.32) 0%, rgba(255,255,255,0) 38%);
+      pointer-events: none;
+    }
+    .icon-cell .label {
+      display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
+      font-size: 13.5px; font-weight: 600;
+    }
+    .icon-cell .label .num { color: var(--mute); font: 12px ui-monospace, Menlo, monospace; }
+    .icon-cell .rationale {
+      font-size: 12.5px; color: var(--mute); line-height: 1.45;
+    }
+
+    /* legibility strip */
+    .legibility {
+      display: flex; align-items: center; gap: 24px;
+      background: #f0ece2; padding: 22px 28px; border-radius: 10px;
+    }
+    .legibility .small-row { display: flex; gap: 18px; align-items: center; }
+    .legibility .icon-frame { width: 60px; height: 60px; border-radius: 14px; }
+    .legibility .icon-frame::after { border-radius: 14px; }
+    .legibility .midrow { display: flex; gap: 18px; margin-left: 32px; }
+    .legibility .midrow .icon-frame { width: 120px; height: 120px; border-radius: 26px; }
+    .legibility .midrow .icon-frame::after { border-radius: 26px; }
+    .legibility .caption {
+      font: 12px ui-monospace, Menlo, monospace; color: var(--mute); margin-left: auto; text-align: right;
+    }
+
+    /* ────────────────────────── STAGE A DIRECTIONS ────────────────────────── */
+    .directions { display: grid; grid-template-columns: 1fr; gap: 32px; }
+    .direction {
+      display: grid; grid-template-columns: 380px 1fr; gap: 32px;
+      border: 1px solid var(--rule); border-radius: 10px; overflow: hidden;
+      background: var(--card);
+    }
+    .direction .copy { padding: 28px 28px 24px; }
+    .direction .copy .tag {
+      font: 11px ui-monospace, Menlo, monospace; color: var(--mute);
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;
+    }
+    .direction .copy h3 {
+      font-size: 22px; font-weight: 600; margin: 0 0 12px; letter-spacing: -0.015em;
+    }
+    .direction .copy p {
+      font-size: 14px; line-height: 1.6; color: #3a342b; margin: 0 0 14px;
+    }
+    .direction .copy .specs {
+      display: grid; grid-template-columns: 88px 1fr; gap: 4px 14px;
+      font: 12px ui-monospace, Menlo, monospace; color: var(--mute);
+      padding-top: 12px; border-top: 1px dashed var(--rule);
+    }
+    .direction .copy .specs .k { color: var(--ink); }
+    .direction .sample {
+      display: flex; align-items: center; justify-content: center;
+      padding: 40px;
+      border-left: 1px solid var(--rule);
+    }
+
+    /* phone-ish frame used as backdrop for samples */
+    .phone {
+      width: 320px; aspect-ratio: 9/16;
+      border-radius: 32px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 30px 60px -28px rgba(31,26,20,0.35), 0 6px 12px -4px rgba(31,26,20,0.08);
+    }
+
+    /* ── Direction 1: Slow morning ── */
+    .d1 .sample { background: #f3eee2; }
+    .d1 .phone {
+      background:
+        radial-gradient(140% 70% at 50% 8%, #F6EFE0 0%, #E9DCBE 38%, #B8B58A 70%, #6B7E62 100%);
+      font-family: 'Newsreader', Georgia, serif;
+      color: #1d1a13;
+    }
+    .d1 .phone .counter-wrap { position: absolute; top: 28%; left: 0; right: 0; text-align: center; color: #fff; }
+    .d1 .phone .counter-wrap .num {
+      font-family: 'Newsreader', Georgia, serif; font-style: italic; font-weight: 500;
+      font-size: 96px; line-height: 1; letter-spacing: -0.02em;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.35);
+    }
+    .d1 .phone .counter-wrap .label {
+      font-family: 'Geist', system-ui, sans-serif;
+      font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(255,255,255,0.92); margin-top: 6px;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+    }
+    .d1 .phone .cta {
+      position: absolute; left: 18px; right: 18px; bottom: 28px;
+      background: #2F5B45; color: white;
+      font-family: 'Geist', system-ui, sans-serif; font-weight: 600; font-size: 15px;
+      padding: 16px; border-radius: 999px; text-align: center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.18);
+    }
+    .d1 .phone .cta::before { content: '○'; margin-right: 8px; opacity: 0.85; }
+
+    /* ── Direction 2: Quiet stone ── */
+    .d2 .sample { background: #efece6; }
+    .d2 .phone {
+      background:
+        linear-gradient(180deg, #F4F1EB 0%, #E6E1D6 70%, #D6CFC0 100%);
+      font-family: 'Geist', system-ui, sans-serif;
+      color: #232323;
+    }
+    .d2 .phone .counter-wrap { position: absolute; top: 24%; left: 0; right: 0; text-align: center; }
+    .d2 .phone .counter-wrap .num {
+      font-family: 'Geist', system-ui, sans-serif; font-weight: 500;
+      font-size: 92px; line-height: 1; letter-spacing: -0.04em;
+      color: #232323;
+    }
+    .d2 .phone .counter-wrap .label {
+      font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase;
+      color: #6c6960; margin-top: 12px; font-weight: 500;
+    }
+    .d2 .phone .stone-rule {
+      position: absolute; left: 28%; right: 28%; top: 52%;
+      height: 1px; background: #B8B2A4;
+    }
+    .d2 .phone .stone-meta {
+      position: absolute; left: 0; right: 0; top: 55%; text-align: center;
+      font: 11px 'Geist Mono', ui-monospace, monospace; color: #6c6960; letter-spacing: 0.05em;
+    }
+    .d2 .phone .cta {
+      position: absolute; left: 18px; right: 18px; bottom: 28px;
+      background: #232323; color: #EFECE6;
+      font-weight: 500; font-size: 15px;
+      padding: 16px; border-radius: 10px; text-align: center;
+      letter-spacing: 0.01em;
+    }
+    .d2 .phone .cta::before {
+      content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 999px;
+      background: #4F8F66; margin-right: 10px; transform: translateY(-1px);
+    }
+
+    /* ── Direction 3: Living light ── */
+    .d3 .sample { background: #f5ece2; }
+    .d3 .phone {
+      background:
+        radial-gradient(120% 60% at 50% 0%, #FFE7C9 0%, #FFC8A1 30%, #E6A284 55%, #6E8E63 100%);
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
+      color: #1d1a13;
+    }
+    .d3 .phone .counter-wrap { position: absolute; top: 26%; left: 0; right: 0; text-align: center; color: #fff; }
+    .d3 .phone .counter-wrap .num {
+      font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400;
+      font-size: 116px; line-height: 0.9; letter-spacing: -0.03em;
+      text-shadow: 0 4px 24px rgba(60, 30, 10, 0.4);
+    }
+    .d3 .phone .counter-wrap .label {
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.94); margin-top: 10px;
+      text-shadow: 0 1px 6px rgba(60,30,10,0.4);
+    }
+    .d3 .phone .cta {
+      position: absolute; left: 18px; right: 18px; bottom: 28px;
+      background: linear-gradient(180deg, #2F6D49 0%, #265B3D 100%);
+      color: white; font-weight: 600; font-size: 15px;
+      padding: 16px; border-radius: 999px; text-align: center;
+      box-shadow: 0 8px 20px -6px rgba(45, 95, 65, 0.55), inset 0 1px 0 rgba(255,255,255,0.2);
+    }
+    .d3 .phone .cta::before { content: '○'; margin-right: 8px; opacity: 0.85; }
+    .d3 .phone .accent-dot {
+      position: absolute; top: 6%; right: 8%; width: 10px; height: 10px;
+      background: #E07A5F; border-radius: 999px; box-shadow: 0 0 0 4px rgba(224,122,95,0.18);
+    }
+
+    /* ────────────────────────── FOOTER ────────────────────────── */
+    .stop-gate {
+      background: #2F5B45; color: #f3eee2; border-radius: 10px;
+      padding: 24px 28px;
+    }
+    .stop-gate h3 { color: white; margin-bottom: 6px; font-size: 16px; }
+    .stop-gate p { color: rgba(255,255,255,0.85); margin: 0 0 6px; max-width: 70ch; font-size: 13.5px; line-height: 1.55; }
+
+    footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--rule);
+             font: 12px ui-monospace, Menlo, monospace; color: var(--mute); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+    .files {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    }
+    .files .col h3 { font-size: 14px; font-weight: 600; margin: 0 0 8px; }
+    .files ul { list-style: none; padding: 0; margin: 0;
+      font: 12.5px ui-monospace, Menlo, monospace; color: var(--ink); }
+    .files li { padding: 4px 0; border-bottom: 1px dashed var(--rule); display: flex; gap: 14px; }
+    .files li:last-child { border-bottom: 0; }
+    .files li .tag { color: var(--mute); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header>
+      <span class="pill">Round 2 of N</span>
+      <h1>Sober — Icon concepts + visual system Stage A</h1>
+      <span class="meta">brief 02 · scoped to icon + visual system · 2026-05-23</span>
+    </header>
+
+    <section>
+      <p class="lede">Two deliverables in this round: four <strong>icon concepts</strong> within the locked glossy 3D rounded-square style, and <strong>three meaningfully different directions</strong> for the visual system as the brief's Stage A gate. Each direction is a paragraph plus the Home spine (counter + check-in) rendered in that direction's palette and type, so they're directly comparable. <em>Stage B (Theme.swift, component set, rationale) is held until you pick.</em></p>
+    </section>
+
+    <div class="note">
+      <strong>One caveat on the icon style.</strong> The brief references <code>icon-style-reference.png</code> as the locked rendering reference, but it wasn't in the handoff folder — only <code>current-app-icon.png</code> (the placeholder) is present. These concepts work from the verbal description in PROMPT.md (soft 3D form, subtle gradient/sheen, clean single-subject on a simple rounded-square background) and are CSS/SVG approximations of that style, not true 3D renders. If you want production-grade renders, the natural next step is a per-concept image-gen brief built off whichever subject you pick. Happy to write those.
+    </div>
+
+    <!-- ============================ PART 1 — ICONS ============================ -->
+    <section>
+      <h2>Part 1 · App icon — four concepts</h2>
+      <p style="margin-bottom:24px;">Subject and composition vary; rendering style is the same across all four (soft 3D, single subject, simple background, no fine detail that disappears at 60px). All four favor the growth/garden metaphor rather than the recovery clichés the brief calls out.</p>
+
+      <div class="icon-grid">
+
+        <!-- ── Concept 1: First leaf ── -->
+        <div class="icon-cell">
+          <div class="icon-frame" style="background: radial-gradient(120% 100% at 30% 15%, #F7EFDB 0%, #EFE2BC 55%, #C9B98A 100%);">
+            <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="lf-body" cx="40%" cy="28%" r="80%">
+                  <stop offset="0%" stop-color="#9BD9A8"/>
+                  <stop offset="55%" stop-color="#56A674"/>
+                  <stop offset="100%" stop-color="#205A3E"/>
+                </radialGradient>
+                <linearGradient id="lf-sheen" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="rgba(255,255,255,0.55)"/>
+                  <stop offset="55%" stop-color="rgba(255,255,255,0)"/>
+                </linearGradient>
+              </defs>
+              <!-- cast shadow under the leaf -->
+              <ellipse cx="540" cy="820" rx="260" ry="26" fill="rgba(40,30,12,0.18)"/>
+              <!-- leaf body: tapered teardrop curled to the right -->
+              <path d="M 500 130
+                       C 740 230, 820 520, 700 720
+                       C 600 880, 380 880, 300 720
+                       C 220 540, 280 280, 500 130 Z"
+                    fill="url(#lf-body)"/>
+              <!-- central vein -->
+              <path d="M 500 170 Q 540 460, 470 800"
+                    stroke="#1A4A33" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.45"/>
+              <!-- side veins -->
+              <path d="M 510 320 Q 600 360, 660 350" stroke="#1A4A33" stroke-width="3" fill="none" opacity="0.3"/>
+              <path d="M 500 460 Q 410 500, 340 510" stroke="#1A4A33" stroke-width="3" fill="none" opacity="0.3"/>
+              <path d="M 490 580 Q 580 620, 620 620" stroke="#1A4A33" stroke-width="3" fill="none" opacity="0.3"/>
+              <!-- top-edge sheen highlight -->
+              <path d="M 470 200 C 580 230, 680 320, 720 460"
+                    stroke="rgba(255,255,255,0.6)" stroke-width="16" fill="none" stroke-linecap="round"/>
+              <!-- dew drop -->
+              <ellipse cx="610" cy="380" rx="28" ry="32" fill="rgba(255,255,255,0.82)"/>
+              <ellipse cx="600" cy="368" rx="8" ry="10" fill="white"/>
+            </svg>
+          </div>
+          <div class="label"><span>First leaf</span><span class="num">01</span></div>
+          <div class="rationale">A single new sprout-leaf with a dew highlight. Cleanest silhouette of the four — reads as "fresh growth" even at 60×60. Most ASO-friendly.</div>
+        </div>
+
+        <!-- ── Concept 2: Bonsai silhouette ── -->
+        <div class="icon-cell">
+          <div class="icon-frame" style="background: radial-gradient(110% 90% at 35% 20%, #7FB99A 0%, #4E8E6E 50%, #29563F 100%);">
+            <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="bs-canopy" cx="35%" cy="30%" r="80%">
+                  <stop offset="0%" stop-color="#A9DCB0"/>
+                  <stop offset="55%" stop-color="#5FA476"/>
+                  <stop offset="100%" stop-color="#214C36"/>
+                </radialGradient>
+                <linearGradient id="bs-trunk" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#3D2A1A"/>
+                  <stop offset="50%" stop-color="#7A5436"/>
+                  <stop offset="100%" stop-color="#2E1D10"/>
+                </linearGradient>
+                <linearGradient id="bs-pot" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#C9956B"/>
+                  <stop offset="55%" stop-color="#8C5A36"/>
+                  <stop offset="100%" stop-color="#4F2E18"/>
+                </linearGradient>
+              </defs>
+              <!-- ground shadow -->
+              <ellipse cx="500" cy="850" rx="280" ry="22" fill="rgba(0,0,0,0.28)"/>
+              <!-- pot -->
+              <path d="M 290 770 L 710 770 L 660 870 L 340 870 Z" fill="url(#bs-pot)"/>
+              <rect x="280" y="745" width="440" height="38" rx="6" fill="url(#bs-pot)"/>
+              <!-- pot rim highlight -->
+              <rect x="288" y="748" width="424" height="6" rx="3" fill="rgba(255,255,255,0.4)"/>
+              <!-- trunk -->
+              <path d="M 510 745
+                       C 460 650, 440 560, 470 470
+                       C 490 410, 530 360, 560 330"
+                    stroke="url(#bs-trunk)" stroke-width="42" fill="none" stroke-linecap="round"/>
+              <!-- branches -->
+              <path d="M 480 530 Q 380 510, 320 470" stroke="url(#bs-trunk)" stroke-width="18" fill="none" stroke-linecap="round"/>
+              <path d="M 500 430 Q 600 410, 680 380" stroke="url(#bs-trunk)" stroke-width="18" fill="none" stroke-linecap="round"/>
+              <!-- canopy clusters -->
+              <ellipse cx="320" cy="430" rx="120" ry="90" fill="url(#bs-canopy)"/>
+              <ellipse cx="700" cy="350" rx="150" ry="110" fill="url(#bs-canopy)"/>
+              <ellipse cx="540" cy="270" rx="180" ry="120" fill="url(#bs-canopy)"/>
+              <!-- canopy highlights -->
+              <ellipse cx="490" cy="220" rx="80" ry="22" fill="rgba(255,255,255,0.4)"/>
+              <ellipse cx="660" cy="305" rx="55" ry="14" fill="rgba(255,255,255,0.35)"/>
+              <ellipse cx="290" cy="395" rx="50" ry="12" fill="rgba(255,255,255,0.3)"/>
+            </svg>
+          </div>
+          <div class="label"><span>Bonsai silhouette</span><span class="num">02</span></div>
+          <div class="rationale">The maturing bonsai itself — the emotional spine of the product, made the icon. Most "Bloom-y." Risk: more parts to render small.</div>
+        </div>
+
+        <!-- ── Concept 3: Vessel ── -->
+        <div class="icon-cell">
+          <div class="icon-frame" style="background: radial-gradient(110% 90% at 35% 20%, #F5DDB7 0%, #E0B07E 55%, #9C6A40 100%);">
+            <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="vs-pot" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#E2B58A"/>
+                  <stop offset="30%" stop-color="#B07A4A"/>
+                  <stop offset="70%" stop-color="#7A4A26"/>
+                  <stop offset="100%" stop-color="#3F2412"/>
+                </linearGradient>
+                <radialGradient id="vs-shine" cx="35%" cy="35%" r="60%">
+                  <stop offset="0%" stop-color="rgba(255,255,255,0.6)"/>
+                  <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+                </radialGradient>
+                <radialGradient id="vs-sprout" cx="50%" cy="40%" r="60%">
+                  <stop offset="0%" stop-color="#9BD9A8"/>
+                  <stop offset="100%" stop-color="#2C6244"/>
+                </radialGradient>
+              </defs>
+              <!-- ground shadow -->
+              <ellipse cx="500" cy="830" rx="290" ry="24" fill="rgba(40,20,10,0.3)"/>
+              <!-- pot belly -->
+              <path d="M 220 500
+                       C 220 380, 380 360, 500 360
+                       C 620 360, 780 380, 780 500
+                       L 730 800
+                       C 730 840, 580 850, 500 850
+                       C 420 850, 270 840, 270 800 Z"
+                    fill="url(#vs-pot)"/>
+              <!-- pot rim band -->
+              <ellipse cx="500" cy="380" rx="280" ry="36" fill="#3F2412"/>
+              <ellipse cx="500" cy="375" rx="276" ry="30" fill="#7A4A26"/>
+              <!-- glossy highlight on belly -->
+              <ellipse cx="380" cy="540" rx="120" ry="200" fill="url(#vs-shine)"/>
+              <!-- single sprout out of pot -->
+              <path d="M 500 380 Q 500 300, 510 240" stroke="#2C6244" stroke-width="14" fill="none" stroke-linecap="round"/>
+              <!-- two small leaves -->
+              <path d="M 510 240 Q 580 220, 620 180 Q 580 240, 510 260 Z" fill="url(#vs-sprout)"/>
+              <path d="M 505 290 Q 440 280, 395 245 Q 440 310, 505 310 Z" fill="url(#vs-sprout)"/>
+              <!-- leaf highlight -->
+              <path d="M 530 220 Q 580 210, 605 195" stroke="rgba(255,255,255,0.6)" stroke-width="6" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="label"><span>Vessel</span><span class="num">03</span></div>
+          <div class="rationale">The pot with a single sprout — vessel-as-self. Warmest of the four; reads as patience and tending rather than performance.</div>
+        </div>
+
+        <!-- ── Concept 4: Bloom ── -->
+        <div class="icon-cell">
+          <div class="icon-frame" style="background: radial-gradient(115% 95% at 50% 12%, #FBE9D2 0%, #F0C9B0 45%, #C18E84 100%);">
+            <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="bl-petal" cx="50%" cy="30%" r="80%">
+                  <stop offset="0%" stop-color="#FFFFFF"/>
+                  <stop offset="40%" stop-color="#F5D7C5"/>
+                  <stop offset="100%" stop-color="#B97562"/>
+                </radialGradient>
+                <radialGradient id="bl-petal-inner" cx="50%" cy="30%" r="80%">
+                  <stop offset="0%" stop-color="#FFE6CF"/>
+                  <stop offset="100%" stop-color="#7E4F44"/>
+                </radialGradient>
+                <radialGradient id="bl-leaf" cx="50%" cy="30%" r="80%">
+                  <stop offset="0%" stop-color="#8FCBA0"/>
+                  <stop offset="100%" stop-color="#2D6044"/>
+                </radialGradient>
+              </defs>
+              <!-- ground shadow -->
+              <ellipse cx="500" cy="830" rx="240" ry="20" fill="rgba(60,30,20,0.2)"/>
+              <!-- back leaves -->
+              <path d="M 230 720 Q 280 540, 420 520 Q 350 700, 230 720 Z" fill="url(#bl-leaf)" opacity="0.95"/>
+              <path d="M 770 720 Q 720 540, 580 520 Q 650 700, 770 720 Z" fill="url(#bl-leaf)" opacity="0.95"/>
+              <!-- outer petals -->
+              <path d="M 500 770 C 380 770, 280 660, 290 510 C 340 480, 440 470, 500 530 Z" fill="url(#bl-petal)"/>
+              <path d="M 500 770 C 620 770, 720 660, 710 510 C 660 480, 560 470, 500 530 Z" fill="url(#bl-petal)"/>
+              <path d="M 500 520 C 420 460, 360 400, 380 280 C 460 290, 500 360, 500 460 Z" fill="url(#bl-petal)"/>
+              <path d="M 500 520 C 580 460, 640 400, 620 280 C 540 290, 500 360, 500 460 Z" fill="url(#bl-petal)"/>
+              <!-- center petals -->
+              <path d="M 500 540 C 450 460, 440 360, 500 290 C 560 360, 550 460, 500 540 Z" fill="url(#bl-petal-inner)"/>
+              <!-- center -->
+              <circle cx="500" cy="500" r="42" fill="#E6A24E"/>
+              <circle cx="500" cy="500" r="28" fill="#F4C679"/>
+              <circle cx="492" cy="490" r="10" fill="rgba(255,255,255,0.85)"/>
+              <!-- top sheen on outer petal -->
+              <path d="M 350 540 Q 430 500, 460 500" stroke="rgba(255,255,255,0.55)" stroke-width="10" fill="none" stroke-linecap="round"/>
+              <path d="M 540 500 Q 580 510, 640 540" stroke="rgba(255,255,255,0.55)" stroke-width="10" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="label"><span>Bloom</span><span class="num">04</span></div>
+          <div class="rationale">A single blossom opening — plays the name straight. Most chromatic; differentiates hardest from competing wellness apps that lean green.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================ LEGIBILITY ROW ============================ -->
+    <section>
+      <h2>Part 1 · Small-size legibility</h2>
+      <p style="margin-bottom: 18px;">Same four concepts at <strong>120px</strong> (home-screen) and <strong>60px</strong> (Settings/Spotlight). The brief's hardest constraint — and where Concept&nbsp;02 (Bonsai) is closest to its limit. Everything else holds.</p>
+
+      <div class="legibility">
+        <div style="display:flex; flex-direction:column; gap:8px; min-width: 120px;">
+          <div class="caption" style="text-align:left; margin:0;">120 PX</div>
+          <div class="midrow" style="margin-left:0;">
+            <!-- mid-size copies via clone helpers; we render fresh frames to keep SVG crisp -->
+            <div class="icon-frame" style="background: radial-gradient(120% 100% at 30% 15%, #F7EFDB 0%, #EFE2BC 55%, #C9B98A 100%);">
+              <svg viewBox="0 0 1000 1000"><use href="#na"/>
+                <path d="M 500 130 C 740 230, 820 520, 700 720 C 600 880, 380 880, 300 720 C 220 540, 280 280, 500 130 Z" fill="#4E9B6E"/>
+                <path d="M 500 170 Q 540 460, 470 800" stroke="#1A4A33" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.55"/>
+                <ellipse cx="610" cy="380" rx="30" ry="34" fill="rgba(255,255,255,0.8)"/>
+              </svg>
+            </div>
+            <div class="icon-frame" style="background: radial-gradient(110% 90% at 35% 20%, #7FB99A 0%, #4E8E6E 50%, #29563F 100%);">
+              <svg viewBox="0 0 1000 1000">
+                <rect x="280" y="745" width="440" height="38" rx="6" fill="#7A4A26"/>
+                <path d="M 290 770 L 710 770 L 660 870 L 340 870 Z" fill="#7A4A26"/>
+                <path d="M 510 745 C 460 650, 440 560, 470 470 C 490 410, 530 360, 560 330" stroke="#3D2A1A" stroke-width="46" fill="none" stroke-linecap="round"/>
+                <ellipse cx="320" cy="430" rx="125" ry="95" fill="#5FA476"/>
+                <ellipse cx="700" cy="350" rx="155" ry="115" fill="#5FA476"/>
+                <ellipse cx="540" cy="270" rx="185" ry="125" fill="#5FA476"/>
+              </svg>
+            </div>
+            <div class="icon-frame" style="background: radial-gradient(110% 90% at 35% 20%, #F5DDB7 0%, #E0B07E 55%, #9C6A40 100%);">
+              <svg viewBox="0 0 1000 1000">
+                <path d="M 220 500 C 220 380, 380 360, 500 360 C 620 360, 780 380, 780 500 L 730 800 C 730 840, 580 850, 500 850 C 420 850, 270 840, 270 800 Z" fill="#8C5A36"/>
+                <ellipse cx="500" cy="380" rx="280" ry="36" fill="#3F2412"/>
+                <path d="M 500 380 Q 500 300, 510 240" stroke="#2C6244" stroke-width="18" fill="none" stroke-linecap="round"/>
+                <path d="M 510 240 Q 580 220, 620 180 Q 580 240, 510 260 Z" fill="#4E9B6E"/>
+                <path d="M 505 290 Q 440 280, 395 245 Q 440 310, 505 310 Z" fill="#4E9B6E"/>
+              </svg>
+            </div>
+            <div class="icon-frame" style="background: radial-gradient(115% 95% at 50% 12%, #FBE9D2 0%, #F0C9B0 45%, #C18E84 100%);">
+              <svg viewBox="0 0 1000 1000">
+                <path d="M 230 720 Q 280 540, 420 520 Q 350 700, 230 720 Z" fill="#3F8056"/>
+                <path d="M 770 720 Q 720 540, 580 520 Q 650 700, 770 720 Z" fill="#3F8056"/>
+                <path d="M 500 770 C 380 770, 280 660, 290 510 C 340 480, 440 470, 500 530 Z" fill="#E8B49E"/>
+                <path d="M 500 770 C 620 770, 720 660, 710 510 C 660 480, 560 470, 500 530 Z" fill="#E8B49E"/>
+                <path d="M 500 520 C 420 460, 360 400, 380 280 C 460 290, 500 360, 500 460 Z" fill="#F2C9B4"/>
+                <path d="M 500 520 C 580 460, 640 400, 620 280 C 540 290, 500 360, 500 460 Z" fill="#F2C9B4"/>
+                <circle cx="500" cy="500" r="50" fill="#E6A24E"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div class="caption" style="text-align:left; margin:0;">60 PX</div>
+          <div class="small-row">
+            <div class="icon-frame" style="background: radial-gradient(120% 100% at 30% 15%, #F7EFDB 0%, #EFE2BC 55%, #C9B98A 100%);">
+              <svg viewBox="0 0 1000 1000">
+                <path d="M 500 130 C 740 230, 820 520, 700 720 C 600 880, 380 880, 300 720 C 220 540, 280 280, 500 130 Z" fill="#4E9B6E"/>
+              </svg>
+            </div>
+            <div class="icon-frame" style="background: radial-gradient(110% 90% at 35% 20%, #7FB99A 0%, #4E8E6E 50%, #29563F 100%);">
+              <svg viewBox="0 0 1000 1000">
+                <rect x="280" y="745" width="440" height="38" rx="6" fill="#7A4A26"/>
+                <path d="M 290 770 L 710 770 L 660 870 L 340 870 Z" fill="#7A4A26"/>
+                <path d="M 510 745 C 460 650, 440 560, 470 470 C 490 410, 530 360, 560 330" stroke="#3D2A1A" stroke-width="46" fill="none" stroke-linecap="round"/>
+                <ellipse cx="320" cy="430" rx="125" ry="95" fill="#5FA476"/>
+                <ellipse cx="700" cy="350" rx="155" ry="115" fill="#5FA476"/>
+                <ellipse cx="540" cy="270" rx="185" ry="125" fill="#5FA476"/>
+              </svg>
+            </div>
+            <div class="icon-frame" style="background: radial-gradient(110% 90% at 35% 20%, #F5DDB7 0%, #E0B07E 55%, #9C6A40 100%);">
+              <svg viewBox="0 0 1000 1000">
+                <path d="M 220 500 C 220 380, 380 360, 500 360 C 620 360, 780 380, 780 500 L 730 800 C 730 840, 580 850, 500 850 C 420 850, 270 840, 270 800 Z" fill="#8C5A36"/>
+                <path d="M 500 380 Q 500 300, 510 240" stroke="#2C6244" stroke-width="18" fill="none" stroke-linecap="round"/>
+                <path d="M 510 240 Q 580 220, 620 180 Q 580 240, 510 260 Z" fill="#4E9B6E"/>
+                <path d="M 505 290 Q 440 280, 395 245 Q 440 310, 505 310 Z" fill="#4E9B6E"/>
+              </svg>
+            </div>
+            <div class="icon-frame" style="background: radial-gradient(115% 95% at 50% 12%, #FBE9D2 0%, #F0C9B0 45%, #C18E84 100%);">
+              <svg viewBox="0 0 1000 1000">
+                <path d="M 230 720 Q 280 540, 420 520 Q 350 700, 230 720 Z" fill="#3F8056"/>
+                <path d="M 770 720 Q 720 540, 580 520 Q 650 700, 770 720 Z" fill="#3F8056"/>
+                <path d="M 500 770 C 380 770, 280 660, 290 510 C 340 480, 440 470, 500 530 Z" fill="#E8B49E"/>
+                <path d="M 500 770 C 620 770, 720 660, 710 510 C 660 480, 560 470, 500 530 Z" fill="#E8B49E"/>
+                <circle cx="500" cy="500" r="50" fill="#E6A24E"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="caption">
+          Settings / Spotlight size.<br>
+          02 is the legibility risk;<br>
+          01, 03, 04 hold cleanly.
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ STAGE A — DIRECTIONS ============================ -->
+    <section>
+      <h2>Part 2 · Visual system — Stage A · three directions</h2>
+      <p style="margin-bottom: 24px;">Each direction is a paragraph plus a single comparable sample: the <strong>Home spine</strong> (counter + label + check-in button) at native iPhone width. Same content, three personalities. None are tints of the same thing — they differ in palette mood, type personality, and density.</p>
+
+      <div class="directions">
+
+        <!-- ── D1: Slow morning ── -->
+        <div class="direction d1">
+          <div class="copy">
+            <div class="tag">Direction 01</div>
+            <h3>Slow morning</h3>
+            <p>Closest to the current sage+sand palette, but slowed down. A warm cream backdrop replaces neutral system gray; a deeper moss anchors the brand; the day counter is set in a humanist serif italic so the number reads as <em>handwritten in the journal</em> rather than punched out of a tracker. Type pairs the serif display with a clean grotesque for UI. Generous spacing, soft single-step shadows, no chromatic energy. The recovery framing: this is the app you open in early morning with a cup of tea.</p>
+            <div class="specs">
+              <span class="k">palette</span><span>moss <code>#2F5B45</code> · cream <code>#F6EFE0</code> · sand <code>#C49C6C</code> · ink <code>#1A1A18</code></span>
+              <span class="k">display</span><span>Newsreader italic, 6–72 opsz</span>
+              <span class="k">ui</span><span>Geist, 400/500/600</span>
+              <span class="k">density</span><span>roomy · cardRadius 22 · gutters 24</span>
+            </div>
+          </div>
+          <div class="sample">
+            <div class="phone">
+              <div class="counter-wrap">
+                <div class="num">127</div>
+                <div class="label">Days Sober</div>
+              </div>
+              <div class="cta">Check in for today</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── D2: Quiet stone ── -->
+        <div class="direction d2">
+          <div class="copy">
+            <div class="tag">Direction 02</div>
+            <h3>Quiet stone</h3>
+            <p>Near-monochrome stone palette with one chlorophyll-green accent. All grotesque type, single weight discipline. The counter is set in the same family as the UI, just larger — no display-type flourish — so the page reads as <em>quiet</em>, almost Japanese tea-house minimal. Tighter density, sharper rectangle CTA instead of a capsule, fine 1px rules instead of cards. The recovery framing: the app for someone who's done with celebratory wellness aesthetics and just wants a thing that respects their seriousness. This is the most differentiated direction from the current look.</p>
+            <div class="specs">
+              <span class="k">palette</span><span>bone <code>#EFECE6</code> · slate <code>#232323</code> · chlorophyll <code>#4F8F66</code></span>
+              <span class="k">display</span><span>Geist, single family</span>
+              <span class="k">ui</span><span>Geist, 400/500 only</span>
+              <span class="k">density</span><span>tight · cardRadius 10 · gutters 16</span>
+            </div>
+          </div>
+          <div class="sample">
+            <div class="phone">
+              <div class="counter-wrap">
+                <div class="num">127</div>
+                <div class="label">days sober</div>
+              </div>
+              <div class="stone-rule"></div>
+              <div class="stone-meta">since 17 jan 2026</div>
+              <div class="cta">Check in for today</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── D3: Living light ── -->
+        <div class="direction d3">
+          <div class="copy">
+            <div class="tag">Direction 03</div>
+            <h3>Living light</h3>
+            <p>Brighter, more chromatic, more lyrical. Surfaces pick up a dawn gradient (cream → peach → sage) instead of flat fills, so the garden's time-of-day feeling carries into the chrome. The counter is set in a humanist serif italic at a much larger size — almost editorial — paired with a humanist sans body. One coral accent for milestones and unlocks. The recovery framing: this is for users who want their progress to feel <em>alive and forward-leaning</em>, not stoic. Most chromatic energy of the three — also the highest risk of feeling more "wellness app" than the brief's calm-not-clinical register, depending on how restrained the chrome stays.</p>
+            <div class="specs">
+              <span class="k">palette</span><span>cream <code>#FFE7C9</code> · sage <code>#2F6D49</code> · coral <code>#E07A5F</code> · ink <code>#1D1A13</code></span>
+              <span class="k">display</span><span>Instrument Serif italic</span>
+              <span class="k">ui</span><span>IBM Plex Sans, 400/500/600</span>
+              <span class="k">density</span><span>roomy · cardRadius 18 · gradient chrome</span>
+            </div>
+          </div>
+          <div class="sample">
+            <div class="phone">
+              <div class="accent-dot"></div>
+              <div class="counter-wrap">
+                <div class="num">127</div>
+                <div class="label">Days Sober</div>
+              </div>
+              <div class="cta">Check in for today</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================ STOP GATE ============================ -->
+    <section>
+      <div class="stop-gate">
+        <h3>Stage A · STOP gate</h3>
+        <p>Per the brief, Stage B (drop-in <code>Theme.swift</code>, 4–6 component PNGs at native iPhone width, 1–2 page rationale) is held until you name one of the three directions above. Tell me which one — or which two to recombine — and I'll deliver Stage B in the next round.</p>
+        <p>Same goes for the icon: pick one of the four subjects (or call a recombination) and I'll write the per-concept image-gen brief for production renders.</p>
+      </div>
+    </section>
+
+    <!-- ============================ WHAT SHIPPED ============================ -->
+    <section>
+      <h2>What shipped</h2>
+      <div class="files">
+        <div class="col">
+          <h3>This round</h3>
+          <ul>
+            <li><span class="tag">html</span> delivery-round-2.html <span class="tag" style="margin-left:auto;">this doc</span></li>
+            <li><span class="tag">html</span> app-store-previews.html <span class="tag" style="margin-left:auto;">screenshot templates</span></li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3>Awaiting your pick</h3>
+          <ul>
+            <li><span class="tag">icon</span> one of 01–04 (or recombine)</li>
+            <li><span class="tag">dir&nbsp;</span> one of D1–D3 (or recombine)</li>
+            <li><span class="tag">next</span> Stage B: Theme.swift + 4–6 component PNGs + rationale</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span>Sober · design handoff · brief 02 · round 2</span>
+      <span>4 icon concepts · 3 Stage A directions · Stage B held</span>
+    </footer>
+
+  </div>
+</body>
+</html>

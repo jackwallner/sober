@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Sober — Traditional bonsai, round 1</title>
+  <style>
+    :root {
+      --bg: #FAFAF7;
+      --ink: #1f1a14;
+      --mute: #7a7064;
+      --rule: #e6e1d6;
+      --sage: #519E73;
+      --card: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+    body { font: 15px/1.55 ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif; }
+    .wrap { max-width: 1240px; margin: 0 auto; padding: 56px 40px 80px; }
+
+    header {
+      display: flex; align-items: baseline; gap: 24px;
+      border-bottom: 1px solid var(--rule); padding-bottom: 20px; margin-bottom: 32px;
+    }
+    header h1 { font-size: 22px; margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+    header .meta { font: 12px ui-monospace, Menlo, monospace; color: var(--mute); letter-spacing: 0.02em; }
+    header .pill { display: inline-block; padding: 2px 10px; border-radius: 999px;
+      background: var(--sage); color: white; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+
+    section { margin-bottom: 48px; }
+    h2 { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+         color: var(--mute); margin: 0 0 14px; }
+    p.lede { font-size: 16px; max-width: 64ch; margin: 0 0 16px; color: var(--ink); }
+    p { max-width: 64ch; margin: 0 0 10px; }
+    p code, .mono { font: 12.5px ui-monospace, Menlo, monospace; color: var(--ink); }
+    p code { background: #f0ece2; padding: 1px 5px; border-radius: 3px; }
+
+    .sheet {
+      background: var(--card); border: 1px solid var(--rule); border-radius: 6px;
+      padding: 14px; overflow-x: auto;
+    }
+    .sheet img { display: block; max-width: none; height: 220px; }
+
+    .files {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    }
+    .files .col h3 { font-size: 14px; font-weight: 600; margin: 0 0 8px; }
+    .files ul { list-style: none; padding: 0; margin: 0;
+      font: 12.5px ui-monospace, Menlo, monospace; color: var(--ink); }
+    .files li { padding: 4px 0; border-bottom: 1px dashed var(--rule); display: flex; gap: 14px; }
+    .files li:last-child { border-bottom: 0; }
+    .files li .tag { color: var(--mute); }
+
+    .checklist { padding: 0; margin: 0; list-style: none; }
+    .checklist li { padding: 4px 0; color: var(--ink); }
+    .checklist li::before { content: "✓ "; color: var(--sage); font-weight: 600; }
+
+    .params {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px;
+      font: 12.5px ui-monospace, Menlo, monospace; color: var(--ink);
+    }
+    .params .row { display: flex; justify-content: space-between;
+      padding: 5px 0; border-bottom: 1px dashed var(--rule); }
+    .params .row .k { color: var(--ink); }
+    .params .row .v { color: var(--mute); }
+
+    footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--rule);
+             font: 12px ui-monospace, Menlo, monospace; color: var(--mute); display: flex; justify-content: space-between; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header>
+      <span class="pill">Round 1 of N</span>
+      <h1>Sober — Traditional bonsai</h1>
+      <span class="meta">brief 01 · 13-anchor calibration set · 2026-05-15</span>
+    </header>
+
+    <section>
+      <p class="lede">A calibration pass on the Traditional style: 13 hand-tuned anchor SVGs and a 366-row growth schedule covering every day from 0 to 365. Goal of this round is to lock the painterly look, the pot baseline, and the parameter schema — <em>not</em> to ship final density. Days 1&ndash;30 will densify in round 2 once the look is approved.</p>
+    </section>
+
+    <section>
+      <h2>Contact sheet · all 13 anchors at consistent baseline</h2>
+      <div class="sheet">
+        <img src="design-handoff/output/bonsai/contact-sheet-traditional.png" alt="13 bonsai anchor frames in a row at consistent pot baseline">
+      </div>
+      <p style="margin-top:10px; color: var(--mute); font-size: 13px;">Pot baseline (1px grey rule) is identical across every cell. Scroll horizontally if the sheet is wider than your viewport.</p>
+    </section>
+
+    <section>
+      <h2>What shipped</h2>
+      <div class="files">
+        <div class="col">
+          <h3>Anchor SVGs</h3>
+          <ul>
+            <li><span class="tag">d000</span> design-handoff/output/bonsai/traditional/bonsai-traditional-d000.svg</li>
+            <li><span class="tag">d001</span> bonsai-traditional-d001.svg</li>
+            <li><span class="tag">d003</span> bonsai-traditional-d003.svg</li>
+            <li><span class="tag">d005</span> bonsai-traditional-d005.svg</li>
+            <li><span class="tag">d007</span> bonsai-traditional-d007.svg</li>
+            <li><span class="tag">d010</span> bonsai-traditional-d010.svg</li>
+            <li><span class="tag">d014</span> bonsai-traditional-d014.svg</li>
+            <li><span class="tag">d021</span> bonsai-traditional-d021.svg</li>
+            <li><span class="tag">d030</span> bonsai-traditional-d030.svg</li>
+            <li><span class="tag">d060</span> bonsai-traditional-d060.svg</li>
+            <li><span class="tag">d090</span> bonsai-traditional-d090.svg</li>
+            <li><span class="tag">d180</span> bonsai-traditional-d180.svg</li>
+            <li><span class="tag">d365</span> bonsai-traditional-d365.svg</li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3>Support files</h3>
+          <ul>
+            <li><span class="tag">json</span> growth-schedule.json <span class="tag" style="margin-left:auto;">366 rows</span></li>
+            <li><span class="tag">png&nbsp;</span> contact-sheet-traditional.png</li>
+            <li><span class="tag">md&nbsp;&nbsp;</span> output/REVIEW-NOTES.md <span class="tag" style="margin-left:auto;">round-1 notes</span></li>
+            <li><span class="tag">js&nbsp;&nbsp;</span> output/bonsai/_builder/bonsai-traditional.js <span class="tag" style="margin-left:auto;">parametric source</span></li>
+          </ul>
+          <h3 style="margin-top:18px;">Schedule schema</h3>
+          <div class="params">
+            <div class="row"><span class="k">trunkHeight</span><span class="v">0..1</span></div>
+            <div class="row"><span class="k">trunkThickness</span><span class="v">0..1</span></div>
+            <div class="row"><span class="k">canopyRadius</span><span class="v">0..1</span></div>
+            <div class="row"><span class="k">foliageClusters</span><span class="v">int 0..10</span></div>
+            <div class="row"><span class="k">leafSaturation</span><span class="v">0..1</span></div>
+            <div class="row"><span class="k">barkTexture</span><span class="v">0..1</span></div>
+            <div class="row"><span class="k">mossOnTrunk</span><span class="v">0..1</span></div>
+            <div class="row"><span class="k">exposedRoots</span><span class="v">0..1</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Tested-against checklist</h2>
+      <ul class="checklist">
+        <li>Pot baseline <code>y=460</code> identical across all 13 anchors (see grey rule on contact sheet).</li>
+        <li>Style readable from silhouette by day 14 — vertical trunk, gentle S-curve, balanced canopy.</li>
+        <li>Growth schedule covers all 366 days; every anchor referenced exists as a file.</li>
+        <li>Transparent backgrounds, no baked-in shadows, no embedded raster.</li>
+        <li>Foliage built from organic bezier blobs (not bare ellipses) — painterly silhouette.</li>
+        <li>Named groups in SVGs: <code>#pot</code>, <code>#trunk</code>, <code>#branches</code>, <code>#leaves</code>, <code>#roots</code>, <code>#moss</code>, <code>#gnarl</code> — engineer can re-color or animate per layer.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Known gaps · round 2</h2>
+      <p>Round 2 will densify days 1&ndash;30 to roughly every 2 days, add a richer bark-shading param for trunk readability at small sizes, and revisit autumn-fleck behavior on d180/d365 once you've seen them at real product scales. Cascade and Windswept styles are deliberately untouched until the Traditional recipe is locked.</p>
+    </section>
+
+    <footer>
+      <span>Sober · design handoff · brief 01 · round 1</span>
+      <span>13 anchors · 366-row schedule · 1 contact sheet</span>
+    </footer>
+
+  </div>
+</body>
+</html>

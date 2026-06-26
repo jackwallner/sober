@@ -28,8 +28,11 @@ struct PaywallView: View {
     @Query private var settingsRows: [UserSettings]
     @Query private var checkIns: [DailyCheckIn]
 
-    /// Set to `false` when embedded as tab content (not used today).
+    /// Set to `false` when embedded as tab content or after the trial sheet.
     var displayCloseButton: Bool = true
+
+    /// When set, the paywall leads with this locked feature (intent-driven pitch).
+    var focus: BloomFeature? = nil
 
     /// RevenueCat custom-paywall impression id for this entry point.
     var impressionId: String = "sober_paywall_sheet"
@@ -107,7 +110,7 @@ struct PaywallView: View {
         }
         .foregroundStyle(.white)
         .onChange(of: subscriptions.isProSubscriber) { _, isPro in
-            if isPro { dismiss() }
+            if isPro && displayCloseButton { dismiss() }
         }
         .task {
             subscriptions.trackPaywallImpression(id: impressionId)
@@ -482,7 +485,38 @@ struct PaywallView: View {
     @ViewBuilder
     private var savingsHero: some View {
         let hasSavings = heroDays > 0 && costPerDayCents > 0
-        if heroDays <= 1 && costPerDayCents > 0 {
+        let trialEligible = selectedPackage.map { subscriptions.isEligibleForIntroOffer($0) } ?? subscriptions.hasTrialOfferAvailable
+
+        if let focus {
+            VStack(spacing: 6) {
+                Image(systemName: focus.icon)
+                    .font(.system(size: 36))
+                    .foregroundStyle(.white.opacity(0.95))
+                Text(focus.pitchHeadline)
+                    .font(.system(size: 30, weight: .bold, design: .rounded))
+                    .multilineTextAlignment(.center)
+                Text(focus.pitchSubheadline)
+                    .font(Theme.caption())
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.white.opacity(0.85))
+                    .padding(.horizontal, 8)
+            }
+        } else if trialEligible, let trial = selectedPackage?.soberIntroOfferLabel ?? subscriptions.trialOfferHeadlineLabel {
+            VStack(spacing: 6) {
+                Image(systemName: "gift.fill")
+                    .font(.system(size: 36))
+                    .foregroundStyle(.white.opacity(0.95))
+                Text("\(trial.capitalized), on us.")
+                    .font(.system(size: 30, weight: .bold, design: .rounded))
+                    .multilineTextAlignment(.center)
+                    .minimumScaleFactor(0.75)
+                Text("Try every Bloom+ feature free. No charge until your trial ends.")
+                    .font(Theme.caption())
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.white.opacity(0.85))
+                    .padding(.horizontal, 8)
+            }
+        } else if heroDays <= 1 && costPerDayCents > 0 {
             // Brand-new user (day counting is 1-based, so a journey started in
             // onboarding is already "day 1"): earned savings are a meaningless
             // anchor ($20), but we know their daily spend — project the year so

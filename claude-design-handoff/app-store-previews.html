@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Sober — App Store screenshot templates</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Geist:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; background: #f4f1ea; }
+    body { font-family: 'Geist', system-ui, -apple-system, sans-serif; }
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="image-slot.js"></script>
+  <script type="text/babel" src="design-canvas.jsx"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+  // ───────────────────────────────────────────────────────────────────────
+  // Sober — App Store 6.7" preview templates
+  //
+  // Five 1290×2796 artboards.
+  // ───────────────────────────────────────────────────────────────────────
+
+  const TWEAK_DEFAULTS = {
+    "direction": "d1",
+    "showPhoneFrame": true,
+    "marketingPosition": "top"
+  };
+
+  const DIRECTIONS = {
+    d1: {
+      id: 'd1',
+      name: 'D1 · Slow morning',
+      bg: 'radial-gradient(150% 80% at 50% 0%, #F6EFE0 0%, #E9DCBE 36%, #B8B58A 68%, #6B7E62 100%)',
+      headline: { color: '#1A1A18', font: '"Newsreader", Georgia, serif', style: 'italic', weight: 500, size: 116, tracking: '-0.02em', lineHeight: 1.04 },
+      sub: { color: '#3A342B', font: '"Geist", system-ui, sans-serif', style: 'normal', weight: 500, size: 34, tracking: '0.14em', upper: true },
+      phoneShadow: '0 60px 120px -40px rgba(45, 60, 35, 0.45), 0 20px 40px -16px rgba(45, 60, 35, 0.22)',
+      placeholderBg: '#F0ECE2',
+      placeholderInk: '#7a7064',
+    },
+    d2: {
+      id: 'd2',
+      name: 'D2 · Quiet stone',
+      bg: 'linear-gradient(180deg, #F4F1EB 0%, #E6E1D6 65%, #C9C2B2 100%)',
+      headline: { color: '#232323', font: '"Geist", system-ui, sans-serif', style: 'normal', weight: 500, size: 108, tracking: '-0.035em', lineHeight: 1.05 },
+      sub: { color: '#6c6960', font: '"Geist", system-ui, sans-serif', style: 'normal', weight: 500, size: 30, tracking: '0.22em', upper: true },
+      phoneShadow: '0 50px 100px -34px rgba(40, 35, 25, 0.32), 0 16px 32px -12px rgba(40, 35, 25, 0.16)',
+      placeholderBg: '#EFECE6',
+      placeholderInk: '#6c6960',
+    },
+    d3: {
+      id: 'd3',
+      name: 'D3 · Living light',
+      bg: 'radial-gradient(130% 75% at 50% 0%, #FFE7C9 0%, #FFC8A1 28%, #E6A284 52%, #8FA470 85%, #4F6D45 100%)',
+      headline: { color: '#1F1408', font: '"Instrument Serif", Georgia, serif', style: 'italic', weight: 400, size: 138, tracking: '-0.03em', lineHeight: 0.96 },
+      sub: { color: 'rgba(31,20,8,0.78)', font: '"IBM Plex Sans", system-ui, sans-serif', style: 'normal', weight: 500, size: 32, tracking: '0.12em', upper: true },
+      phoneShadow: '0 80px 140px -40px rgba(60, 30, 10, 0.45), 0 24px 48px -16px rgba(60, 30, 10, 0.25)',
+      placeholderBg: '#FAEFDD',
+      placeholderInk: '#9c7a5b',
+    },
+  };
+
+  // ── 5 screenshots ───────────────────────────────────────────────────────
+  // What each screenshot should display in the app:
+  //
+  // 1. Home — The main day counter + check-in. Shows "Dry Day 47", streak ring,
+  //    today's check-in mood, next milestone. This is the default screen.
+  //    Purpose: answer "what is this?" immediately.
+  //
+  // 2. Garden — The virtual bonsai garden scene. Show a tree that looks ~47 days
+  //    mature with some decorative items earned at that milestone.
+  //    Purpose: showcase the emotional hook / differentiator.
+  //
+  // 3. Health — The health benefits timeline. Show milestones: Day 1 (blood
+  //    pressure drop), Day 30 (liver recovery), Day 60 (sleep quality), etc.
+  //    Purpose: demonstrate value beyond just counting days.
+  //
+  // 4. Journal — The journal compose view with a prompt displayed. A reflection
+  //    card with mood, today's thoughts, maybe a milestone celebration.
+  //    Purpose: show the pro feature that makes this more than a counter.
+  //
+  // 5. Bloom+ — The paywall / upgrade screen. Show what Pro unlocks (health
+  //    timeline, journal, all garden species, Apple Watch, etc.).
+  //    Purpose: drive conversion.
+  //
+  // Each screenshot should be a real app screenshot at 1290×2796 (6.7" Pro Max).
+  const PANELS = [
+    { id: 'home',    label: '1 · Home',     headline: 'Your sober days,\ngrowing.',  sub: 'Day by day. Dry day counter.' },
+    { id: 'garden',  label: '2 · Garden',   headline: 'A bonsai that grows\nwith you.', sub: 'Virtual garden. Your recovery.' },
+    { id: 'health',  label: '3 · Health',   headline: 'See how your body\nrecovers.',    sub: 'Health timeline. Day by day.' },
+    { id: 'journal', label: '4 · Journal',  headline: 'Reflect each\nday.', sub: 'Journal prompts. Private.' },
+    { id: 'paywall', label: '5 · Bloom+',   headline: 'Bloom+ when\nyou\u2019re ready.', sub: 'More garden species. Full health.' },
+  ];
+
+  function Panel({ direction, panel, showPhoneFrame, marketingPosition }) {
+    const W = 1290, H = 2796;
+    const marketingTop = marketingPosition === 'top';
+    const phoneW = 940, phoneH = 1920;
+    const phoneX = (W - phoneW) / 2;
+    const phoneY = marketingTop ? 760 : -240;
+
+    const slotW = phoneW - 36;
+    const slotH = phoneH - 36;
+
+    const headline = direction.headline;
+    const sub = direction.sub;
+
+    const marketingY = marketingTop ? 180 : H - 580;
+
+    return (
+      <div style={{
+        width: W, height: H,
+        background: direction.bg,
+        position: 'relative',
+        overflow: 'hidden',
+        fontFamily: direction.sub.font,
+      }}>
+
+        {/* Marketing block */}
+        <div style={{
+          position: 'absolute',
+          top: marketingY, left: 100, right: 100,
+          textAlign: 'center',
+        }}>
+          <h1 style={{
+            fontFamily: headline.font,
+            fontStyle: headline.style,
+            fontWeight: headline.weight,
+            fontSize: headline.size,
+            lineHeight: headline.lineHeight,
+            letterSpacing: headline.tracking,
+            color: headline.color,
+            margin: 0,
+            whiteSpace: 'pre-line',
+            textWrap: 'balance',
+          }}>{panel.headline}</h1>
+          <p style={{
+            fontFamily: sub.font,
+            fontStyle: sub.style,
+            fontWeight: sub.weight,
+            fontSize: sub.size,
+            letterSpacing: sub.tracking,
+            textTransform: sub.upper ? 'uppercase' : 'none',
+            color: sub.color,
+            margin: '48px 0 0',
+          }}>{panel.sub}</p>
+        </div>
+
+        {/* Phone mockup */}
+        {showPhoneFrame ? (
+          <div style={{
+            position: 'absolute',
+            left: phoneX, top: phoneY,
+            width: phoneW, height: phoneH,
+            background: '#0d0d0c',
+            borderRadius: 110,
+            padding: 18,
+            boxShadow: direction.phoneShadow,
+          }}>
+            <div style={{
+              position: 'absolute',
+              top: 46, left: '50%', transform: 'translateX(-50%)',
+              width: 280, height: 38,
+              background: '#000', borderRadius: 99,
+              zIndex: 3,
+            }} />
+            <div style={{
+              position: 'absolute', inset: 8,
+              borderRadius: 100,
+              background: 'linear-gradient(135deg, #2a2a28 0%, #0d0d0c 50%)',
+              zIndex: 0,
+            }} />
+            <div style={{
+              position: 'relative', zIndex: 1,
+              width: '100%', height: '100%',
+              borderRadius: 92,
+              overflow: 'hidden',
+              background: direction.placeholderBg,
+            }}>
+              <image-slot
+                id={`appstore-${panel.id}`}
+                shape="rect"
+                fit="cover"
+                placeholder={`Drop ${panel.id} screenshot`}
+                style={{
+                  width: '100%', height: '100%', display: 'block',
+                  '--is-empty-bg': direction.placeholderBg,
+                  '--is-empty-fg': direction.placeholderInk,
+                  background: direction.placeholderBg,
+                  color: direction.placeholderInk,
+                  fontFamily: direction.sub.font,
+                }}
+              />
+            </div>
+          </div>
+        ) : (
+          <div style={{
+            position: 'absolute',
+            left: phoneX + 30, top: phoneY + 30,
+            width: phoneW - 60, height: phoneH - 60,
+            borderRadius: 80, overflow: 'hidden',
+            background: direction.placeholderBg,
+            boxShadow: direction.phoneShadow,
+          }}>
+            <image-slot
+              id={`appstore-${panel.id}`}
+              shape="rect"
+              fit="cover"
+              placeholder={`Drop ${panel.id} screenshot`}
+              style={{
+                width: '100%', height: '100%', display: 'block',
+                background: direction.placeholderBg,
+                color: direction.placeholderInk,
+                fontFamily: direction.sub.font,
+              }}
+            />
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  function App() {
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+    const direction = DIRECTIONS[t.direction] || DIRECTIONS.d1;
+
+    return (
+      <>
+        <DesignCanvas
+          title={`Sober · ${direction.name}`}
+          titleColor={direction.headline.color}
+        >
+          {PANELS.map(panel => (
+            <Panel
+              key={panel.id}
+              direction={direction}
+              panel={panel}
+              showPhoneFrame={t.showPhoneFrame}
+              marketingPosition={t.marketingPosition}
+            />
+          ))}
+        </DesignCanvas>
+        <TweaksPanel value={t} onChange={setTweak} />
+      </>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

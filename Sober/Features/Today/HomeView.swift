@@ -17,8 +17,6 @@ struct HomeView: View {
     @State private var checkedInToday = false
     @State private var daysMissed = 0
     @State private var showSettings = false
-    @State private var showPaywall = false
-    @State private var paywallImpressionId = "sober_home_sheet"
     @State private var showCustomize = false
     @State private var showProgress = false
     @State private var growthEvent: GardenGrowthEvent?
@@ -143,11 +141,6 @@ struct HomeView: View {
                     .presentationDetents([.height(320)])
             }
             .sheet(isPresented: $showSettings) { SettingsView() }
-            .sheet(isPresented: $showPaywall, onDismiss: {
-                paywallImpressionId = "sober_home_sheet"
-            }) {
-                PaywallView(impressionId: paywallImpressionId)
-            }
             .sheet(isPresented: $showCustomize) { GardenCustomizationView() }
             .sheet(isPresented: $showProgress) {
                 ProgressSheet(days: days, gardenState: gardenState, isPro: isPro)
@@ -167,7 +160,7 @@ struct HomeView: View {
             .onChange(of: reviewPromptCoordinator.pendingPresentation) { _, presentation in
                 guard let presentation else { return }
                 defer { reviewPromptCoordinator.clear() }
-                guard !showPaywall, !showGrowth else { return }
+                guard !showGrowth else { return }
                 showSettings = false
                 switch presentation {
                 case .enjoymentPrompt:
@@ -374,15 +367,12 @@ struct HomeView: View {
             AppGroup.defaults.set(false, forKey: AppGroup.postOnboardingPaywallKey)
             return
         }
-        guard !showGrowth else { return }   // retried from the celebration's dismiss
+        guard !showGrowth else { return }
         AppGroup.defaults.set(false, forKey: AppGroup.postOnboardingPaywallKey)
         Task { @MainActor in
-            // Let the garden render first so the paywall slides over the
-            // product, not over a blank launch frame.
             try? await Task.sleep(nanoseconds: 700_000_000)
-            guard !showGrowth, !showReviewPrompt, !showPaywall else { return }
-            paywallImpressionId = "sober_onboarding_paywall"
-            showPaywall = true
+            guard !showGrowth, !showReviewPrompt else { return }
+            TrialOfferCoordinator.shared.request(.postOnboarding)
         }
     }
 
@@ -395,7 +385,6 @@ struct HomeView: View {
         guard ReviewPromptTracker.shouldShowAfterPositiveMoment(hasCompletedSetup: hasCompletedOnboarding),
               !reviewPromptShownThisSession,
               !showGrowth,
-              !showPaywall,
               !showCheckInDetail,
               !showReviewPrompt
         else { return }
@@ -403,7 +392,6 @@ struct HomeView: View {
         Task { @MainActor in
             try? await Task.sleep(nanoseconds: 3_500_000_000)
             guard !showGrowth,
-                  !showPaywall,
                   !showCheckInDetail,
                   !showReviewPrompt,
                   ReviewPromptTracker.shouldShowAfterPositiveMoment(hasCompletedSetup: hasCompletedOnboarding)
@@ -507,8 +495,6 @@ struct ProgressSheet: View {
     let gardenState: GardenState?
     let isPro: Bool
 
-    @State private var showPaywall = false
-
     private var settings: UserSettings? { settingsRows.first }
     /// Trial-led upsell only when a free trial is actually on the table for
     /// this Apple ID (3.1.2) — otherwise the nudge would promise a trial the
@@ -567,14 +553,11 @@ struct ProgressSheet: View {
                     Button("Done") { dismiss() }
                 }
             }
-            .sheet(isPresented: $showPaywall) {
-                PaywallView(impressionId: "sober_progress_sheet")
-            }
         }
     }
 
     private var trialNudgeRow: some View {
-        Button { showPaywall = true } label: {
+        Button { TrialOfferCoordinator.shared.request(.progressSheet) } label: {
             HStack(spacing: Theme.Space.m) {
                 Image(systemName: "gift.fill")
                     .font(.title3)
@@ -707,7 +690,7 @@ struct ProgressSheet: View {
             }
         }
         .contentShape(Rectangle())
-        .onTapGesture { if !unlocked && !isPro { showPaywall = true } }
+        .onTapGesture { if !unlocked && !isPro { TrialOfferCoordinator.shared.request(.progressSheet) } }
     }
 
     private static let currencyFormatter: NumberFormatter = {

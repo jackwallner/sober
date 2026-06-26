@@ -5,7 +5,6 @@ struct HealthView: View {
     @Environment(\.modelContext) private var context
     @Environment(SubscriptionService.self) private var subscriptions
     @Query(sort: \SobrietyJourney.startDate, order: .reverse) private var journeys: [SobrietyJourney]
-    @State private var showPaywall = false
 
     private var hours: Double {
         guard let j = journeys.first(where: { $0.isActive }) else { return 0 }
@@ -43,7 +42,7 @@ struct HealthView: View {
                             .contentShape(Rectangle())
                             .onTapGesture {
                                 if !subscriptions.isProSubscriber && idx >= freeRevealCount {
-                                    showPaywall = true
+                                    TrialOfferCoordinator.shared.request(.healthTimeline)
                                 }
                             }
                     }
@@ -56,9 +55,6 @@ struct HealthView: View {
             .listStyle(.insetGrouped)
             .themedScrollBackground()
             .navigationTitle("Health")
-            .sheet(isPresented: $showPaywall) {
-                PaywallView(impressionId: "sober_health_sheet")
-            }
         }
     }
 
@@ -86,7 +82,7 @@ struct HealthView: View {
     /// Future health milestones are part of the Bloom+ value prop, so we
     /// don't spoil them for non-subscribers.
     private var nextUpLockedRow: some View {
-        Button { showPaywall = true } label: {
+        Button { TrialOfferCoordinator.shared.request(.healthTimeline) } label: {
             HStack(spacing: Theme.Space.m) {
                 Image(systemName: "crown.fill")
                     .foregroundStyle(Theme.brandPrimary)
