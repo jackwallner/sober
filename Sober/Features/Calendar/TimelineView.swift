@@ -6,6 +6,7 @@ import SwiftUI
 /// with a day-over-day growth note. Merges the old Calendar + Growth Log.
 struct TimelineView: View {
     @Environment(\.modelContext) private var context
+    @Environment(SubscriptionService.self) private var subscriptions
     @Query(sort: \DailyCheckIn.day, order: .reverse) private var checkIns: [DailyCheckIn]
     @Query(sort: \SobrietyJourney.startDate, order: .reverse) private var journeys: [SobrietyJourney]
     @Query private var gardenStates: [GardenState]
@@ -78,6 +79,7 @@ struct TimelineView: View {
             }
             .listStyle(.insetGrouped)
             .navigationTitle("Timeline")
+            .task { await presentPassiveTrialNudge(subscriptions, intent: .progressSheet) }
             .onAppear { loadDraft() }
             .onChange(of: selectedDate) { _, _ in loadDraft() }
             .alert(

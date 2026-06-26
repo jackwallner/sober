@@ -224,11 +224,17 @@ struct OnboardingView: View {
                 .foregroundStyle(.white.opacity(0.9))
                 .padding(.horizontal, Theme.Space.m)
 
-            if trialEligible, let price = trialPriceLabel {
+            if trialEligible {
+                TrialTimeline(trialDays: trialDays, priceLabel: trialPriceLabel.map { "\($0)/yr" }, onBrand: true)
+                    .padding(.horizontal, Theme.Space.s)
+            }
+
+            if trialEligible, projectedYearlySavings >= 60, let price = trialPriceLabel {
                 SavingsAnchorCard(
-                    yearlySavings: projectedYearlySavings,
+                    yearlySpend: projectedYearlySavings,
+                    spendCaption: "a year on alcohol",
                     priceLabel: price,
-                    priceCaption: "after your free trial",
+                    priceCaption: "after your trial",
                     onBrand: true
                 )
                 .padding(.horizontal, Theme.Space.xs)
@@ -329,6 +335,17 @@ struct OnboardingView: View {
         }
         #endif
         return "Start my free trial"
+    }
+
+    /// Trial length in days, parsed from the offer label ("7-day free trial").
+    private var trialDays: Int {
+        #if canImport(RevenueCat)
+        if let label = subscriptions.directTrialPackage?.soberIntroOfferLabel {
+            let digits = String(label.drop { !$0.isNumber }.prefix { $0.isNumber })
+            if let n = Int(digits) { return n }
+        }
+        #endif
+        return 7
     }
 
     /// Commit button: persist setup, then double down with the trial step when

@@ -9,8 +9,12 @@ enum AppGroup {
     static let postOnboardingPaywallKey = "postOnboardingPaywallPending"
 
     /// Unix timestamp of the last passive trial nudge (e.g. on the Health tab).
-    /// Gates a cooldown so the nudge never fires more than once every few days.
+    /// Gates a cooldown so the nudge surfaces on an escalating schedule.
     static let lastTrialNudgeKey = "lastTrialNudgeAt"
+
+    /// How many passive trial nudges have been shown — indexes the escalating
+    /// interval schedule (frequent at first, backing off so it never spams).
+    static let trialNudgeCountKey = "trialNudgeCount"
 
     static var defaults: UserDefaults {
         UserDefaults(suiteName: identifier) ?? .standard

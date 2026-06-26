@@ -1,25 +1,28 @@
 import SwiftUI
 
-/// Price-anchoring card: the money quitting saves over a year (struck through,
-/// the "value") set against the Bloom+ price (the small number you actually pay).
-/// Reads as a sale tag — "normally worth $1,800, yours for $30" — which reframes
-/// the subscription as reinvesting a sliver of what the user is already saving.
+/// Price-anchoring row: the user's *yearly habit spend* (struck through) set
+/// against the Bloom+ price (the small number they actually pay). Reads as a
+/// sale tag — "you already burn $1,168/yr on pouches; Bloom+ is $29.99" — which
+/// makes the subscription feel trivial next to the habit it replaces.
 ///
-/// Self-contained: callers pass the projected yearly savings in whole dollars and
-/// the plan's price label. Renders nothing useful below ~$60/yr savings (the
-/// anchor stops being dramatic), so callers should hide it when savings are 0.
+/// Self-contained: callers pass the projected yearly spend in whole dollars and
+/// the plan's price label. The dollar figure is the same as yearly savings (what
+/// you stop spending = what you save); we frame it as *spend* so the strikethrough
+/// reads as "this is what the habit costs."
 struct SavingsAnchorCard: View {
-    /// Projected savings over one nicotine-free year, in whole dollars.
-    let yearlySavings: Int
+    /// Yearly spend on the habit, in whole dollars (== projected yearly savings).
+    let yearlySpend: Int
+    /// Caption under the struck spend figure, e.g. "a year on pouches".
+    var spendCaption: String = "a year on the habit"
     /// Clean price for the anchored plan, e.g. "$29.99".
     let priceLabel: String
-    /// Optional caption under the price, e.g. "for a full year of Bloom+".
-    var priceCaption: String = "a full year of Bloom+"
+    /// Caption under the price, e.g. "a year of Bloom+".
+    var priceCaption: String = "a year of Bloom+"
     /// True on the brand-gradient paywall (white-on-color); false on light sheets.
     var onBrand: Bool = false
 
-    private var savingsLabel: String {
-        Self.currency.string(from: NSNumber(value: yearlySavings)) ?? "$\(yearlySavings)"
+    private var spendLabel: String {
+        Self.currency.string(from: NSNumber(value: yearlySpend)) ?? "$\(yearlySpend)"
     }
 
     private var primaryText: Color { onBrand ? .white : Theme.textPrimary }
@@ -29,13 +32,13 @@ struct SavingsAnchorCard: View {
     var body: some View {
         HStack(spacing: 14) {
             VStack(alignment: .leading, spacing: 2) {
-                Text(savingsLabel)
-                    .font(.system(size: 26, weight: .bold, design: .rounded))
-                    .strikethrough(true, color: (onBrand ? Color.white : Theme.danger).opacity(0.9))
+                Text(spendLabel)
+                    .font(.system(size: 24, weight: .semibold, design: .rounded))
+                    .strikethrough(true, color: (onBrand ? Color.white : Theme.danger).opacity(0.95))
                     .foregroundStyle(secondaryText)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
-                Text("you save this year")
+                Text(spendCaption)
                     .font(Theme.caption())
                     .foregroundStyle(secondaryText)
             }
@@ -46,7 +49,7 @@ struct SavingsAnchorCard: View {
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(priceLabel)
-                    .font(.system(size: 26, weight: .heavy, design: .rounded))
+                    .font(.system(size: 28, weight: .heavy, design: .rounded))
                     .foregroundStyle(primaryText)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
@@ -68,7 +71,7 @@ struct SavingsAnchorCard: View {
                 .stroke((onBrand ? Color.white : Theme.brandPrimary).opacity(0.18), lineWidth: 1)
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("You save \(savingsLabel) a year. Bloom+ is \(priceLabel) for \(priceCaption).")
+        .accessibilityLabel("You spend \(spendLabel) \(spendCaption). Bloom+ is \(priceLabel) \(priceCaption).")
     }
 
     private static let currency: NumberFormatter = {

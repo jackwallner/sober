@@ -86,19 +86,53 @@ final class TrialOfferCoordinator: ObservableObject {
 }
 
 /// Cooldown gate for *passive* trial nudges — the ones the app surfaces on its
-/// own (e.g. landing on the Health tab) rather than in response to a tap. Keeps
-/// the trial in front of free users at more load points without nagging: at most
-/// one passive nudge every few days.
+/// own (landing on Home, Timeline, or Health) rather than in response to a tap.
+/// The interval *escalates*: the small trial popup shows roughly daily at first
+/// — the cadence that drives high trial-start rates — then backs off so it never
+/// becomes spam (and stays clear of App Store "persistent paywall" concerns).
 enum TrialNudgeGate {
-    static let cooldown: TimeInterval = 3 * 24 * 60 * 60
+    /// Hours to wait before the next nudge, indexed by how many have shown.
+    private static let scheduleHours: [Double] = [20, 28, 44, 96, 168]
+
+    private static var shownCount: Int {
+        AppGroup.defaults.integer(forKey: AppGroup.trialNudgeCountKey)
+    }
 
     static func canShow() -> Bool {
         let last = AppGroup.defaults.double(forKey: AppGroup.lastTrialNudgeKey)
         guard last > 0 else { return true }
-        return Date().timeIntervalSince1970 - last >= cooldown
+        let idx = min(max(shownCount, 1), scheduleHours.count) - 1
+        let gap = scheduleHours[idx] * 3600
+        return Date().timeIntervalSince1970 - last >= gap
     }
 
     static func markShown() {
         AppGroup.defaults.set(Date().timeIntervalSince1970, forKey: AppGroup.lastTrialNudgeKey)
+        AppGroup.defaults.set(shownCount + 1, forKey: AppGroup.trialNudgeCountKey)
     }
+}
+
+/// Passive, cooldown-gated trial nudge shared by the Home, Timeline, and Health
+/// tabs. Safe to call from every tab's `.task` — the gate handles frequency, so
+/// whichever tab a returning free user lands on surfaces the small trial sheet
+/// once the interval has elapsed. No-op for subscribers or trial-ineligible users.
+@MainActor
+func presentPassiveTrialNudge(
+    _ subscriptions: SubscriptionService,
+    intent: TrialOfferCoordinator.Intent,
+    delay: Double = 4
+) async {
+    guard !subscriptions.isProSubscriber,
+          !subscriptions.hasClaimedTrial,
+          subscriptions.hasTrialOfferAvailable,
+          TrialOfferCoordinator.shared.pendingIntent == nil,
+          TrialNudgeGate.canShow()
+    else { return }
+    try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+    guard !Task.isCancelled,
+          !subscriptions.isProSubscriber,
+          TrialOfferCoordinator.shared.pendingIntent == nil
+    else { return }
+    TrialNudgeGate.markShown()
+    TrialOfferCoordinator.shared.request(intent)
 }

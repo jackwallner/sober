@@ -119,6 +119,7 @@ struct HomeView: View {
                 WidgetSnapshotPump.push(context: context)
                 presentPostOnboardingPaywallIfNeeded()
             }
+            .task { await presentPassiveTrialNudge(subscriptions, intent: .postOnboarding, delay: 6) }
             .overlay {
                 if showGrowth, let event = growthEvent {
                     GrowthCelebrationView(
@@ -372,6 +373,9 @@ struct HomeView: View {
         Task { @MainActor in
             try? await Task.sleep(nanoseconds: 700_000_000)
             guard !showGrowth, !showReviewPrompt else { return }
+            // Start the passive-nudge cooldown here so the day-0 popup and the
+            // Home/Timeline/Health passive nudges don't fire back-to-back.
+            TrialNudgeGate.markShown()
             TrialOfferCoordinator.shared.request(.postOnboarding)
         }
     }
