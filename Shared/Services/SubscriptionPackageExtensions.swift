@@ -6,9 +6,9 @@ import RevenueCat
 #if canImport(RevenueCat)
 
 enum SoberPackageKind: Int {
-    case lifetime = 0
-    case yearly = 1
-    case monthly = 2
+    case yearly = 0
+    case monthly = 1
+    case lifetime = 2
     case other = 3
 }
 

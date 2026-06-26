@@ -7,7 +7,7 @@ GETTING STARTED
 - Timeline: calendar of sober days; selecting a day shows the tree as it looked then and lets you log or edit that day's check-in.
 
 TESTING BLOOM+ (the in-app subscription) AT NO CHARGE
-Bloom+ unlocks the full 13-milestone health timeline, journal compose, money/calories-saved stats, and all 6 bonsai species. It is offered as an auto-renewable subscription (monthly / yearly, both with a 1-week free trial) and a one-time lifetime purchase.
+Bloom+ unlocks the full 13-milestone health timeline, journal compose, money/calories-saved stats, and all 6 bonsai species. It is offered as an auto-renewable subscription (monthly $4.99, or yearly $29.99 with a 1-week free trial) and a one-time lifetime purchase ($59.99).
 
 To review Bloom+ features without being charged:
 1. Open any locked feature to bring up the paywall — e.g. a "Bloom+" milestone row in the Health tab, the pencil (compose) icon in Journal, a locked species in Home > "..." > "Customize garden", or the "Upgrade" button in Settings.

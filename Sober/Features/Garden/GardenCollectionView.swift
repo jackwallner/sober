@@ -1,17 +1,9 @@
 import SwiftUI
 
-/// The bonsai species gallery shown in the Progress sheet. Bloom+ is the only
-/// gate: free users have the starter tree, subscribers can grow any species.
-/// Rows are informational here — switching happens in GardenCustomizationView,
-/// locked rows lead to the paywall.
 struct GardenCollectionView: View {
     let activeStyleID: String
     let isPro: Bool
-    /// When true, renders inside a parent `List` (Progress sheet) without nested
-    /// navigation or scroll — avoids double scroll and title overlap.
     var embeddedInList: Bool = false
-
-    @State private var showPaywall = false
 
     private var species: [GardenItem] { GardenItemCatalog.species }
 
@@ -31,9 +23,6 @@ struct GardenCollectionView: View {
                 }
             }
         }
-        .sheet(isPresented: $showPaywall) {
-            PaywallView(impressionId: "sober_garden_collection_sheet")
-        }
     }
 
     private var galleryContent: some View {
@@ -43,15 +32,13 @@ struct GardenCollectionView: View {
                     item: item,
                     isActive: item.id == activeStyleID,
                     isUsable: GardenItemCatalog.canUseSpecies(id: item.id, isPro: isPro),
-                    onUpsell: { showPaywall = true }
+                    onUpsell: { TrialOfferCoordinator.shared.request(.gardenSpecies) }
                 )
             }
         }
         .padding(.vertical, embeddedInList ? 4 : 16)
     }
 }
-
-// MARK: - Row
 
 private struct SpeciesRow: View {
     let item: GardenItem
@@ -66,19 +53,23 @@ private struct SpeciesRow: View {
                 Text(item.displayName)
                     .font(Theme.subhead(weight: .semibold))
                     .foregroundStyle(isUsable ? Theme.textPrimary : Theme.textSecondary)
-                    .lineLimit(2)
-                    .minimumScaleFactor(0.9)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.85)
                 Text(item.description)
                     .font(Theme.caption())
                     .foregroundStyle(Theme.textSecondary)
+                    .lineLimit(2)
                     .fixedSize(horizontal: false, vertical: true)
             }
             .layoutPriority(1)
-            Spacer(minLength: 0)
             trailingControl
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            if !isUsable { onUpsell() }
+        }
         .background(
             isUsable ? Theme.cardSurface : Theme.cardSurfaceLight,
             in: RoundedRectangle(cornerRadius: 14)
@@ -122,11 +113,11 @@ private struct SpeciesRow: View {
                 .foregroundStyle(Theme.success)
                 .accessibilityLabel("Currently growing")
         } else if !isUsable {
-            Button("Bloom+", action: onUpsell)
-                .font(Theme.caption(weight: .semibold))
-                .buttonStyle(.borderedProminent)
-                .tint(Theme.brandPrimary)
-                .controlSize(.mini)
+            Image(systemName: "lock.fill")
+                .font(.body.weight(.semibold))
+                .foregroundStyle(Theme.textTertiary)
+                .frame(width: 28, alignment: .trailing)
+                .accessibilityLabel("Locked — tap row to learn about Bloom+")
         }
     }
 }

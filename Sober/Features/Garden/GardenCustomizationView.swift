@@ -12,7 +12,6 @@ struct GardenCustomizationView: View {
     @Query private var gardenStates: [GardenState]
     @Query(sort: \SobrietyJourney.startDate, order: .reverse) private var journeys: [SobrietyJourney]
 
-    @State private var showPaywall = false
 
     private var gardenState: GardenState? { gardenStates.first }
     private var days: Int {
@@ -48,9 +47,6 @@ struct GardenCustomizationView: View {
             }
             .safeAreaInset(edge: .bottom) {
                 if !isPro { upgradeBar }
-            }
-            .sheet(isPresented: $showPaywall) {
-                PaywallView(impressionId: "sober_garden_customize_sheet")
             }
         }
     }
@@ -115,7 +111,7 @@ struct GardenCustomizationView: View {
                 // matches the species the user just picked.
                 WidgetSnapshotPump.push(context: context)
             } else {
-                showPaywall = true
+                TrialOfferCoordinator.shared.request(.gardenSpecies)
             }
         } label: {
             VStack(spacing: 8) {
@@ -166,7 +162,7 @@ struct GardenCustomizationView: View {
     private var upgradeBar: some View {
         VStack(spacing: 6) {
             Button {
-                showPaywall = true
+                TrialOfferCoordinator.shared.request(.gardenSpecies)
             } label: {
                 HStack(spacing: 8) {
                     Image(systemName: "crown.fill")

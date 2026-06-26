@@ -6,7 +6,6 @@ struct JournalView: View {
     @Environment(SubscriptionService.self) private var subscriptions
     @Query(sort: \JournalEntry.createdAt, order: .reverse) private var entries: [JournalEntry]
     @State private var showCompose = false
-    @State private var showPaywall = false
     @State private var selectedEntry: JournalEntry?
 
     var body: some View {
@@ -39,7 +38,7 @@ struct JournalView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         if subscriptions.isProSubscriber { showCompose = true }
-                        else { showPaywall = true }
+                        else { TrialOfferCoordinator.shared.request(.journal) }
                     } label: {
                         Image(systemName: "square.and.pencil")
                     }
@@ -47,9 +46,6 @@ struct JournalView: View {
                 }
             }
             .sheet(isPresented: $showCompose) { ComposeEntrySheet() }
-            .sheet(isPresented: $showPaywall) {
-                PaywallView(impressionId: "sober_journal_sheet")
-            }
             .sheet(item: $selectedEntry) { entry in
                 JournalEntryDetailSheet(entry: entry)
                     .presentationDetents([.medium, .large])
@@ -73,7 +69,7 @@ struct JournalView: View {
                 .fixedSize(horizontal: false, vertical: true)
             Button {
                 if subscriptions.isProSubscriber { showCompose = true }
-                else { showPaywall = true }
+                else { TrialOfferCoordinator.shared.request(.journal) }
             } label: {
                 Label("Write entry", systemImage: "square.and.pencil")
                     .font(Theme.subhead(weight: .semibold))

@@ -248,6 +248,17 @@ final class SubscriptionService: NSObject {
         #endif
     }
 
+    #if canImport(RevenueCat)
+    var directTrialPackage: Package? {
+        let trialPackages = packages.filter { isEligibleForIntroOffer($0) }
+        return trialPackages.first { $0.soberPackageKind == .yearly } ?? trialPackages.first
+    }
+
+    var trialOfferHeadlineLabel: String? {
+        directTrialPackage?.soberIntroOfferLabel
+    }
+    #endif
+
     /// Grant a one-time complimentary trial (surfaced at emotional milestones).
     /// No-op if one has already been claimed.
     func startComplimentaryTrial(days: Int) {
