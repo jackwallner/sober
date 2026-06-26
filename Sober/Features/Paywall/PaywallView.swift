@@ -138,7 +138,7 @@ struct PaywallView: View {
     private var paywallContent: some View {
         VStack(spacing: 14) {
             savingsHero
-            benefitList
+            valueProof
             planCards
             purchaseSection
             trustRow
@@ -198,6 +198,38 @@ struct PaywallView: View {
         .padding(.top, displayCloseButton ? 52 : 20)
         .padding(.bottom, 16)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    /// Yearly spend on the habit (== projected yearly savings), for the anchor.
+    private var yearlySpend: Int { Int((Double(costPerDayCents) * 365 / 100).rounded()) }
+
+    /// Clean price of the yearly plan ("$29.99 / year" -> "$29.99") — the anchor
+    /// always compares against the annual plan, regardless of which row is selected.
+    private var yearlyAnchorPrice: String? {
+        let yearly = subscriptions.packages.first { $0.soberPackageKind == .yearly }
+        guard let raw = yearly?.soberPriceLabel else { return nil }
+        return raw.components(separatedBy: " /").first?.trimmingCharacters(in: .whitespaces)
+    }
+
+    private var showsSpendAnchor: Bool {
+        subscriptions.hasTrialOfferAvailable && yearlySpend >= 60 && yearlyAnchorPrice != nil
+    }
+
+    /// When a trial is on the table and we know the user's spend, lead the value
+    /// case with the spend→price anchor (their habit costs $X/yr, Bloom+ is a
+    /// fraction). Otherwise fall back to the outcome-framed benefit list.
+    @ViewBuilder private var valueProof: some View {
+        if showsSpendAnchor, let price = yearlyAnchorPrice {
+            SavingsAnchorCard(
+                yearlySpend: yearlySpend,
+                spendCaption: "a year on alcohol",
+                priceLabel: price,
+                priceCaption: "a year of Bloom+",
+                onBrand: true
+            )
+        } else {
+            benefitList
+        }
     }
 
     private var benefitList: some View {
@@ -502,15 +534,17 @@ struct PaywallView: View {
                     .padding(.horizontal, 8)
             }
         } else if trialEligible, let trial = selectedPackage?.soberIntroOfferLabel ?? subscriptions.trialOfferHeadlineLabel {
+            let days = String(trial.drop { !$0.isNumber }.prefix { $0.isNumber })
             VStack(spacing: 6) {
                 Image(systemName: "gift.fill")
-                    .font(.system(size: 36))
+                    .font(.system(size: 34))
                     .foregroundStyle(.white.opacity(0.95))
-                Text("\(trial.capitalized), on us.")
-                    .font(.system(size: 30, weight: .bold, design: .rounded))
+                Text(days.isEmpty ? "Free trial" : "\(days) days free")
+                    .font(.system(size: 40, weight: .bold, design: .rounded))
                     .multilineTextAlignment(.center)
                     .minimumScaleFactor(0.75)
-                Text("Try every Bloom+ feature free. No charge until your trial ends.")
+                Text(yearlyAnchorPrice.map { "Full access now. Then \($0)/yr — cancel anytime." }
+                     ?? "Full access now. No charge until your trial ends.")
                     .font(Theme.caption())
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.white.opacity(0.85))

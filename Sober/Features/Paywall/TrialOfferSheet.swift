@@ -4,13 +4,12 @@ import SwiftUI
 import RevenueCat
 #endif
 
-/// Lightweight trial pitch — one tap starts the yearly free trial. The full
-/// plan picker is secondary ("See all plans"). This is the conversion surface
-/// surfaced post-onboarding, on the Health tab, and from every locked feature.
-///
-/// Designed to *sell*, not just inform: an animated glow + sparkle hero, a
-/// price-anchor card (a year of savings struck through against the plan price),
-/// and a glowing CTA. The plain three-bullet version converted poorly.
+/// Trial pitch — one tap starts the free trial. The decision we want the user to
+/// make here is *"start the free trial,"* not *"buy a year,"* so the sheet leads
+/// with the free days (large), keeps the price small and matter-of-fact, shows a
+/// "how your trial works" timeline to kill billing anxiety, and anchors the
+/// eventual price against a year of habit spend. The full plan picker is
+/// secondary ("See all plans").
 struct TrialOfferSheet: View {
     let focus: BloomFeature?
     let offerLabel: String?
@@ -26,36 +25,32 @@ struct TrialOfferSheet: View {
     @State private var glowPulse = false
 
     private var costPerDayCents: Int { settingsRows.first?.costPerDayCents ?? 0 }
-    private var projectedYearlySavings: Int { Int((Double(costPerDayCents) * 365 / 100).rounded()) }
-    private var showsAnchor: Bool { projectedYearlySavings >= 60 }
+    private var yearlySpend: Int { Int((Double(costPerDayCents) * 365 / 100).rounded()) }
+    private var showsAnchor: Bool { yearlySpend >= 60 }
 
-    /// Strip the period suffix ("$29.99 / year" -> "$29.99") for the anchor card.
+    /// Trial length in days, parsed from the offer label ("7-day free trial").
+    private var trialDays: Int {
+        guard let offerLabel, let n = offerLabel.firstMatchInt else { return 7 }
+        return n
+    }
+
+    private var hasTrial: Bool { offerLabel != nil }
+
+    /// Strip the period suffix ("$29.99 / year" -> "$29.99").
     private var cleanPrice: String? {
         guard let priceLabel else { return nil }
         return priceLabel.components(separatedBy: " /").first?.trimmingCharacters(in: .whitespaces)
     }
 
     private var headline: String {
-        if let focus { return focus.pitchHeadline }
-        if offerLabel != nil { return "Unlock everything, free." }
-        return "Try Bloom+ free."
+        hasTrial ? "\(trialDays) days free" : (focus?.pitchHeadline ?? "Try Bloom+ free")
     }
 
     private var subheadline: String {
         if let focus {
-            return offerLabel != nil
-                ? focus.pitchSubheadline + " Free for your whole trial."
-                : focus.pitchSubheadline
+            return focus.pitchSubheadline
         }
-        return offerLabel != nil
-            ? "Your full garden, journal, health timeline, and savings — free until your trial ends. Cancel anytime."
-            : "Unlock everything that grows with you — free for eligible new subscribers."
-    }
-
-    private var bulletFeatures: [BloomFeature] {
-        let base: [BloomFeature] = [.gardenSpecies, .healthTimeline, .savingsTracking]
-        guard let focus else { return base }
-        return Array(([focus] + base.filter { $0 != focus }).prefix(3))
+        return "Full access to your garden, journal, health timeline, and savings — free until your trial ends."
     }
 
     var body: some View {
@@ -68,29 +63,39 @@ struct TrialOfferSheet: View {
 
                 VStack(spacing: 6) {
                     Text(headline)
-                        .font(Theme.display(27, weight: .bold))
+                        .font(Theme.display(34, weight: .bold))
                         .foregroundStyle(Theme.textPrimary)
                         .multilineTextAlignment(.center)
-                        .lineLimit(2)
-                        .minimumScaleFactor(0.82)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+                    if hasTrial, let priceLabel {
+                        Text("then \(priceLabel) · cancel anytime")
+                            .font(Theme.caption(weight: .semibold))
+                            .foregroundStyle(Theme.textSecondary)
+                    }
                     Text(subheadline)
                         .font(Theme.subhead())
                         .foregroundStyle(Theme.textSecondary)
                         .multilineTextAlignment(.center)
-                        .lineLimit(4)
+                        .lineLimit(3)
                         .fixedSize(horizontal: false, vertical: true)
                         .padding(.horizontal, 8)
+                        .padding(.top, 2)
+                }
+
+                if hasTrial {
+                    TrialTimeline(trialDays: trialDays, priceLabel: cleanPrice.map { "\($0)/yr" })
+                        .padding(.horizontal, 4)
                 }
 
                 if showsAnchor, let cleanPrice {
                     SavingsAnchorCard(
-                        yearlySavings: projectedYearlySavings,
+                        yearlySpend: yearlySpend,
+                        spendCaption: "a year on alcohol",
                         priceLabel: cleanPrice,
-                        priceCaption: offerLabel != nil ? "after your free trial" : "a full year of Bloom+"
+                        priceCaption: "a year of Bloom+"
                     )
                 }
-
-                featureBullets
 
                 if let errorMessage {
                     Text(errorMessage)
@@ -125,18 +130,17 @@ struct TrialOfferSheet: View {
                     .fill(Theme.brandGradient)
                     .frame(width: 72, height: 72)
                     .shadow(color: Theme.brandPrimary.opacity(0.5), radius: 16, y: 6)
-                Image(systemName: focus?.icon ?? "sparkles")
+                Image(systemName: hasTrial ? "gift.fill" : (focus?.icon ?? "sparkles"))
                     .font(.system(size: 30, weight: .bold))
                     .foregroundStyle(.white)
             }
 
-            // orbiting sparkles
             sparkle(size: 16, x: -58, y: -36, delay: 0)
             sparkle(size: 11, x: 60, y: -20, delay: 0.5)
             sparkle(size: 13, x: 46, y: 44, delay: 1.0)
             sparkle(size: 9, x: -52, y: 40, delay: 1.5)
         }
-        .frame(height: 120)
+        .frame(height: 116)
     }
 
     private func sparkle(size: CGFloat, x: CGFloat, y: CGFloat, delay: Double) -> some View {
@@ -149,54 +153,18 @@ struct TrialOfferSheet: View {
             .animation(.easeInOut(duration: 1.8).repeatForever(autoreverses: true).delay(delay), value: glowPulse)
     }
 
-    private var featureBullets: some View {
-        VStack(spacing: 8) {
-            ForEach(bulletFeatures, id: \.self) { feature in
-                HStack(spacing: 12) {
-                    Image(systemName: feature.icon)
-                        .font(Theme.subhead(weight: .semibold))
-                        .foregroundStyle(Theme.brandPrimary)
-                        .frame(width: 24)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(feature.title)
-                            .font(Theme.subhead(weight: feature == focus ? .semibold : .regular))
-                            .foregroundStyle(Theme.textPrimary)
-                        Text(feature.detail)
-                            .font(Theme.caption())
-                            .foregroundStyle(Theme.textSecondary)
-                    }
-                    Spacer(minLength: 0)
-                }
-                .padding(.horizontal, feature == focus ? 12 : 0)
-                .padding(.vertical, feature == focus ? 10 : 0)
-                .background {
-                    if feature == focus {
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Theme.brandPrimary.opacity(0.08))
-                    }
-                }
-            }
-        }
-    }
-
     // MARK: - CTA
 
     private var ctaStack: some View {
         VStack(spacing: 10) {
-            if directPurchase, let priceLabel {
-                Text("Free during trial, then \(priceLabel). Auto-renews unless cancelled 24h before trial ends.")
-                    .font(Theme.caption())
-                    .foregroundStyle(Theme.textSecondary)
-                    .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-
             Button(action: onStartTrial) {
                 ZStack {
-                    Text("Start My Free Trial")
+                    Text(hasTrial ? "Start My \(trialDays)-Day Free Trial" : "Continue")
                         .font(Theme.body(weight: .bold))
                         .foregroundStyle(.white)
                         .opacity(isPurchasing ? 0 : 1)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
                     if isPurchasing {
                         ProgressView().tint(.white)
                     }
@@ -239,5 +207,17 @@ struct TrialOfferSheet: View {
                 .foregroundStyle(Theme.textSecondary)
         }
         .frame(maxWidth: .infinity)
+    }
+}
+
+private extension String {
+    /// First run of digits in the string as an Int ("7-day free trial" -> 7).
+    var firstMatchInt: Int? {
+        var digits = ""
+        for ch in self {
+            if ch.isNumber { digits.append(ch) }
+            else if !digits.isEmpty { break }
+        }
+        return Int(digits)
     }
 }
