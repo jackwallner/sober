@@ -32,7 +32,7 @@ struct GardenCollectionView: View {
                     item: item,
                     isActive: item.id == activeStyleID,
                     isUsable: GardenItemCatalog.canUseSpecies(id: item.id, isPro: isPro),
-                    onUpsell: { TrialOfferCoordinator.shared.request(.gardenSpecies) }
+                    onUpsell: { requestSubsequentLockedFeaturePitch(.gardenSpecies) }
                 )
             }
         }
@@ -117,7 +117,7 @@ private struct SpeciesRow: View {
                 .font(.body.weight(.semibold))
                 .foregroundStyle(Theme.textTertiary)
                 .frame(width: 28, alignment: .trailing)
-                .accessibilityLabel("Locked — tap row to learn about Bloom+")
+                .accessibilityLabel("Locked. Tap row to learn about Bloom+")
         }
     }
 }

@@ -57,7 +57,7 @@ enum BloomFeature: CaseIterable {
 final class TrialOfferCoordinator: ObservableObject {
     static let shared = TrialOfferCoordinator()
 
-    enum Intent {
+    enum Intent: String {
         case postOnboarding
         case journal
         case healthTimeline
@@ -77,21 +77,71 @@ final class TrialOfferCoordinator: ObservableObject {
         }
     }
 
-    @Published var pendingIntent: Intent?
+    enum PitchPolicy: Equatable {
+        case initial
+        case explicitUpgrade
+        case subsequentLocked
+        case subsequentPassive
+    }
+
+    struct PendingRequest: Equatable {
+        let intent: Intent
+        let policy: PitchPolicy
+    }
+
+    @Published var pendingRequest: PendingRequest?
 
     private init() {}
 
-    func request(_ intent: Intent) { pendingIntent = intent }
-    func clear() { pendingIntent = nil }
+    func request(_ intent: Intent, policy: PitchPolicy = .subsequentLocked) {
+        pendingRequest = PendingRequest(intent: intent, policy: policy)
+    }
+
+    func clear() { pendingRequest = nil }
 }
 
-/// Cooldown gate for *passive* trial nudges — the ones the app surfaces on its
-/// own (landing on Home, Timeline, or Health) rather than in response to a tap.
-/// The interval *escalates*: the small trial popup shows roughly daily at first
-/// — the cadence that drives high trial-start rates — then backs off so it never
-/// becomes spam (and stays clear of App Store "persistent paywall" concerns).
+@MainActor
+enum TrialSubsequentPitchGate {
+    static let lockedFeatureThreshold = 2
+    static let passiveUsageThreshold = 2
+    static let maxTrialPitchesPerIntentPerSession = 2
+
+    private static var sessionTrialPitchCounts: [String: Int] = [:]
+
+    static func actionCount(for intent: TrialOfferCoordinator.Intent) -> Int {
+        AppGroup.defaults.integer(forKey: AppGroup.bloomActionCountKey(for: intent.rawValue))
+    }
+
+    @discardableResult
+    static func recordAction(for intent: TrialOfferCoordinator.Intent) -> Int {
+        let next = actionCount(for: intent) + 1
+        AppGroup.defaults.set(next, forKey: AppGroup.bloomActionCountKey(for: intent.rawValue))
+        return next
+    }
+
+    static func canPresentTrialPitch(for intent: TrialOfferCoordinator.Intent) -> Bool {
+        sessionTrialPitchCounts[intent.rawValue, default: 0] < maxTrialPitchesPerIntentPerSession
+    }
+
+    static func markTrialPitchPresented(for intent: TrialOfferCoordinator.Intent) {
+        sessionTrialPitchCounts[intent.rawValue, default: 0] += 1
+        TrialNudgeGate.markShown()
+    }
+
+    @discardableResult
+    static func incrementPersistedCount(key: String) -> Int {
+        let next = AppGroup.defaults.integer(forKey: key) + 1
+        AppGroup.defaults.set(next, forKey: key)
+        return next
+    }
+}
+
+@MainActor
+func requestSubsequentLockedFeaturePitch(_ intent: TrialOfferCoordinator.Intent) {
+    TrialOfferCoordinator.shared.request(intent, policy: .subsequentLocked)
+}
+
 enum TrialNudgeGate {
-    /// Hours to wait before the next nudge, indexed by how many have shown.
     private static let scheduleHours: [Double] = [20, 28, 44, 96, 168]
 
     private static var shownCount: Int {
@@ -112,10 +162,6 @@ enum TrialNudgeGate {
     }
 }
 
-/// Passive, cooldown-gated trial nudge shared by the Home, Timeline, and Health
-/// tabs. Safe to call from every tab's `.task` — the gate handles frequency, so
-/// whichever tab a returning free user lands on surfaces the small trial sheet
-/// once the interval has elapsed. No-op for subscribers or trial-ineligible users.
 @MainActor
 func presentPassiveTrialNudge(
     _ subscriptions: SubscriptionService,
@@ -125,14 +171,39 @@ func presentPassiveTrialNudge(
     guard !subscriptions.isProSubscriber,
           !subscriptions.hasClaimedTrial,
           subscriptions.hasTrialOfferAvailable,
-          TrialOfferCoordinator.shared.pendingIntent == nil,
+          TrialOfferCoordinator.shared.pendingRequest == nil,
           TrialNudgeGate.canShow()
     else { return }
     try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
     guard !Task.isCancelled,
           !subscriptions.isProSubscriber,
-          TrialOfferCoordinator.shared.pendingIntent == nil
+          TrialOfferCoordinator.shared.pendingRequest == nil
     else { return }
-    TrialNudgeGate.markShown()
-    TrialOfferCoordinator.shared.request(intent)
+    TrialOfferCoordinator.shared.request(intent, policy: .subsequentPassive)
+}
+
+@MainActor
+func evaluateUsageBasedTrialPitch(
+    _ subscriptions: SubscriptionService,
+    intent: TrialOfferCoordinator.Intent,
+    usageCount: Int,
+    threshold: Int = TrialSubsequentPitchGate.passiveUsageThreshold,
+    delay: Double = 1.5
+) async {
+    guard !subscriptions.isProSubscriber,
+          !subscriptions.hasClaimedTrial,
+          subscriptions.hasTrialOfferAvailable,
+          usageCount >= threshold,
+          TrialOfferCoordinator.shared.pendingRequest == nil,
+          TrialNudgeGate.canShow(),
+          TrialSubsequentPitchGate.canPresentTrialPitch(for: intent)
+    else { return }
+    try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+    guard !Task.isCancelled,
+          !subscriptions.isProSubscriber,
+          TrialOfferCoordinator.shared.pendingRequest == nil,
+          TrialNudgeGate.canShow(),
+          TrialSubsequentPitchGate.canPresentTrialPitch(for: intent)
+    else { return }
+    TrialOfferCoordinator.shared.request(intent, policy: .subsequentPassive)
 }

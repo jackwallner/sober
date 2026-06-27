@@ -38,7 +38,7 @@ struct JournalView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         if subscriptions.isProSubscriber { showCompose = true }
-                        else { TrialOfferCoordinator.shared.request(.journal) }
+                        else { requestSubsequentLockedFeaturePitch(.journal) }
                     } label: {
                         Image(systemName: "square.and.pencil")
                     }
@@ -49,6 +49,18 @@ struct JournalView: View {
             .sheet(item: $selectedEntry) { entry in
                 JournalEntryDetailSheet(entry: entry)
                     .presentationDetents([.medium, .large])
+            }
+            .onAppear {
+                guard !subscriptions.isProSubscriber else { return }
+                let visits = TrialSubsequentPitchGate.incrementPersistedCount(key: AppGroup.journalTabVisitCountKey)
+                Task {
+                    await evaluateUsageBasedTrialPitch(
+                        subscriptions,
+                        intent: .journal,
+                        usageCount: visits,
+                        delay: 2
+                    )
+                }
             }
         }
     }
@@ -69,7 +81,7 @@ struct JournalView: View {
                 .fixedSize(horizontal: false, vertical: true)
             Button {
                 if subscriptions.isProSubscriber { showCompose = true }
-                else { TrialOfferCoordinator.shared.request(.journal) }
+                else { requestSubsequentLockedFeaturePitch(.journal) }
             } label: {
                 Label("Write entry", systemImage: "square.and.pencil")
                     .font(Theme.subhead(weight: .semibold))

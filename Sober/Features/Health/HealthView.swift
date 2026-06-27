@@ -42,14 +42,14 @@ struct HealthView: View {
                             .contentShape(Rectangle())
                             .onTapGesture {
                                 if !subscriptions.isProSubscriber && idx >= freeRevealCount {
-                                    TrialOfferCoordinator.shared.request(.healthTimeline)
+                                    requestSubsequentLockedFeaturePitch(.healthTimeline)
                                 }
                             }
                     }
                 } header: {
                     Text("Benefits")
                 } footer: {
-                    Text("General wellness information, not medical advice. Timelines vary from person to person — for medical concerns, talk to a healthcare professional.")
+                    Text("General wellness information, not medical advice. Timelines vary from person to person. For medical concerns, talk to a healthcare professional.")
                 }
             }
             .listStyle(.insetGrouped)
@@ -83,7 +83,7 @@ struct HealthView: View {
     /// Future health milestones are part of the Bloom+ value prop, so we
     /// don't spoil them for non-subscribers.
     private var nextUpLockedRow: some View {
-        Button { TrialOfferCoordinator.shared.request(.healthTimeline) } label: {
+        Button { requestSubsequentLockedFeaturePitch(.healthTimeline) } label: {
             HStack(spacing: Theme.Space.m) {
                 Image(systemName: "crown.fill")
                     .foregroundStyle(Theme.brandPrimary)
