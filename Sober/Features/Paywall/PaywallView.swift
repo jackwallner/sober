@@ -14,13 +14,14 @@ enum PaywallLinks {
 /// → `Purchases.shared.purchase`, so RevenueCat records transactions, trials,
 /// and renewals — only the presentation layer is custom.
 ///
-/// Layout is structured around proven high-conversion patterns:
-///   1. Personalized hero (money saved / day count) — anchored to actual progress.
-///   2. Outcome-framed bullets — garden first, mirrors the product spine.
-///   3. Plan stack with annual visually dominant: savings %, per-month anchor,
-///      strikethrough monthly×12 price.
-///   4. Trial-first CTA with disclosure inline (Apple 3.1.2).
-///   5. Trust row above legal links (billing reminder, on-device — no cancel CTA).
+/// Layout (cream "slow morning" surface, matching the rest of the app):
+///   1. Savings hero — the money already back in their pocket. The "whoa, I've
+///      saved a lot" moment, reframed as a reason to treat themselves.
+///   2. Benefit showcase — what Bloom+ unlocks (`BloomFeature`).
+///   3. Plan stack: yearly value, monthly default, lifetime last. The real price
+///      is always visible on every card (Apple 3.1.2) — trials show as a badge.
+///   4. Anchored purchase dock — CTA, trust row, legal links. Pinned to the
+///      bottom so the action never drifts as the top content scrolls.
 struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(SubscriptionService.self) private var subscriptions
@@ -50,18 +51,20 @@ struct PaywallView: View {
 
     private var lifetimeSoberDays: Int { checkIns.filter { $0.wasSober }.count }
 
-    /// Lifetime sober days is the single source of truth for "money saved" so
-    /// the paywall, trial nudge, and Progress sheet never disagree by one or
-    /// two days of streak vs. lifetime drift.
     private var heroDays: Int { max(lifetimeSoberDays, days) }
 
     private var costPerDayCents: Int { settingsRows.first?.costPerDayCents ?? 0 }
 
+    private var hasSavings: Bool { heroDays > 0 && costPerDayCents > 0 }
+
+    private var savedCents: Int { heroDays * costPerDayCents }
+
     private var moneySaved: String {
-        let cents = heroDays * costPerDayCents
-        let dollars = Double(cents) / 100
+        let dollars = Double(savedCents) / 100
         return Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? "$\(Int(dollars))"
     }
+
+    private var yearlySpend: Int { Int((Double(costPerDayCents) * 365 / 100).rounded()) }
 
     private static let currencyFormatter: NumberFormatter = {
         let f = NumberFormatter()
@@ -70,19 +73,9 @@ struct PaywallView: View {
         return f
     }()
 
-    /// Outcome-framed bullets, garden first. Each line names a tangible thing
-    /// the user will *do* in Bloom+, not just a feature module. Every bullet
-    /// must map to a real Bloom+ gate — free features don't belong here.
-    private let benefits: [(symbol: String, title: String)] = [
-        ("leaf.fill", "Grow all 6 bonsai species as you go"),
-        ("heart.text.square.fill", "Unlock the full 13-milestone health timeline"),
-        ("book.closed.fill", "Daily journal prompts and reflections"),
-        ("dollarsign.circle.fill", "Every dollar and calorie saved, tracked")
-    ]
-
     var body: some View {
         ZStack {
-            Theme.brandGradient.ignoresSafeArea()
+            Theme.background.ignoresSafeArea()
 
             #if canImport(RevenueCat)
             if subscriptions.isConfigured {
@@ -108,8 +101,9 @@ struct PaywallView: View {
                 closeButton
             }
         }
-        .foregroundStyle(.white)
         .onChange(of: subscriptions.isProSubscriber) { _, isPro in
+            // Only auto-dismiss when presented as a sheet — the Bloom+ tab
+            // stays put and swaps to the subscriber hub instead.
             if isPro && displayCloseButton { dismiss() }
         }
         .task {
@@ -130,33 +124,36 @@ struct PaywallView: View {
 
     // MARK: - Native paywall
 
-    /// Single-viewport layout: every device must show the hero, benefits,
-    /// plans, CTA, and trust row without scrolling. We use a fixed VStack
-    /// with proportional spacers; the long-press benefit list is the only
-    /// element that scales typography down on very short screens.
+    /// Everything fits on one page — no scrolling. Value (savings + benefits)
+    /// sits up top, the plan stack in the middle, and the purchase block anchored
+    /// at the bottom, with a single flexible Spacer absorbing device-size
+    /// differences so the CTA always lands in the same place.
     #if canImport(RevenueCat)
     private var paywallContent: some View {
-        VStack(spacing: 14) {
-            savingsHero
-            valueProof
+        VStack(spacing: 10) {
+            savingsValueHeader
+            benefitShowcase
             planCards
+
+            Spacer(minLength: 2)
+
             purchaseSection
             trustRow
             footerLinks
         }
         .padding(.horizontal, 22)
-        .padding(.top, displayCloseButton ? 52 : 20)
-        .padding(.bottom, 16)
-        .frame(maxHeight: .infinity)
+        .padding(.top, displayCloseButton ? 40 : 12)
+        .padding(.bottom, 8)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 
     private var loadingState: some View {
         VStack(spacing: 14) {
             Spacer()
-            ProgressView().tint(.white)
+            ProgressView().tint(Theme.brandPrimary)
             Text("Loading plans…")
                 .font(Theme.caption())
-                .foregroundStyle(.white.opacity(0.75))
+                .foregroundStyle(Theme.textSecondary)
             Spacer()
             // Terms, Privacy, and Restore must stay reachable from every paywall
             // state (Apple 3.1.2), not just the loaded one.
@@ -173,12 +170,13 @@ struct PaywallView: View {
             Spacer()
             Image(systemName: "wifi.exclamationmark")
                 .font(.system(size: 40))
-                .foregroundStyle(.white.opacity(0.7))
+                .foregroundStyle(Theme.textTertiary)
             Text("Couldn't Load Plans")
-                .font(Theme.body())
+                .font(Theme.body(weight: .semibold))
+                .foregroundStyle(Theme.textPrimary)
             Text(subscriptions.lastError ?? "Check your connection and try again.")
                 .font(Theme.subhead())
-                .foregroundStyle(.white.opacity(0.8))
+                .foregroundStyle(Theme.textSecondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)
             Button("Try Again") {
@@ -188,7 +186,7 @@ struct PaywallView: View {
                 }
             }
             .font(Theme.subhead(weight: .semibold))
-            .foregroundStyle(.white)
+            .foregroundStyle(Theme.brandPrimary)
             Spacer()
             // Even when plans fail to load, a returning subscriber must be able to
             // restore, and Terms/Privacy must remain available (Apple 3.1.2).
@@ -200,65 +198,133 @@ struct PaywallView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
-    /// Yearly spend on the habit (== projected yearly savings), for the anchor.
-    private var yearlySpend: Int { Int((Double(costPerDayCents) * 365 / 100).rounded()) }
+    private func eyebrow(_ text: String) -> some View {
+        Text(text)
+            .font(.system(size: 11, weight: .heavy))
+            .tracking(1.2)
+            .foregroundStyle(Theme.brandPrimary.opacity(0.9))
+    }
+
+    /// Savings-led hero. When we have real spend + streak data we lead with the
+    /// money already saved — the "whoa, I've saved a lot" moment — and frame the
+    /// upgrade as treating themselves to the tools that keep it going. Falls back
+    /// to a focus/feature pitch when there's no savings data yet.
+    @ViewBuilder
+    private var savingsValueHeader: some View {
+        VStack(alignment: .leading, spacing: 3) {
+            if let focus {
+                Text(focus.pitchHeadline)
+                    .font(.system(size: 26, weight: .bold, design: .rounded))
+                    .foregroundStyle(Theme.textPrimary)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(hasSavings
+                     ? "You've already saved \(moneySaved) staying sober. Treat yourself to the tools that keep it growing."
+                     : focus.pitchSubheadline)
+                    .font(Theme.subhead())
+                    .foregroundStyle(Theme.textSecondary)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+            } else if hasSavings {
+                eyebrow("YOU'VE SAVED SO FAR")
+                Text(moneySaved)
+                    .font(.system(size: 44, weight: .heavy, design: .rounded))
+                    .foregroundStyle(Theme.brandPrimary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
+                Text("Across \(heroDays) sober day\(heroDays == 1 ? "" : "s"). You've earned this — put a fraction toward staying sober for good.")
+                    .font(Theme.subhead())
+                    .foregroundStyle(Theme.textSecondary)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+            } else if costPerDayCents > 0 {
+                eyebrow("YOUR MONEY, KEPT")
+                let yearlyLabel = Self.currencyFormatter.string(from: NSNumber(value: yearlySpend)) ?? "$\(yearlySpend)"
+                Text("Up to \(yearlyLabel)/yr")
+                    .font(.system(size: 40, weight: .heavy, design: .rounded))
+                    .foregroundStyle(Theme.brandPrimary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
+                Text("Stays in your pocket, not on alcohol. Bloom+ keeps the streak that gets you there.")
+                    .font(Theme.subhead())
+                    .foregroundStyle(Theme.textSecondary)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+            } else {
+                eyebrow("BLOOM+")
+                Text("Unlock the full toolkit")
+                    .font(.system(size: 28, weight: .bold, design: .rounded))
+                    .foregroundStyle(Theme.textPrimary)
+                Text("Your garden, journal, health timeline, and savings — everything that keeps you sober.")
+                    .font(Theme.subhead())
+                    .foregroundStyle(Theme.textSecondary)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var benefitShowcase: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Everything you unlock")
+                .font(Theme.subhead(weight: .bold))
+                .foregroundStyle(Theme.textPrimary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            ForEach(BloomFeature.allCases, id: \.self) { feature in
+                benefitRow(feature, highlighted: focus == feature)
+            }
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 18))
+        .overlay {
+            RoundedRectangle(cornerRadius: 18)
+                .stroke(Theme.ringTrack.opacity(0.6), lineWidth: 1)
+        }
+        .shadow(color: .black.opacity(0.05), radius: 10, y: 4)
+    }
+
+    private func benefitRow(_ feature: BloomFeature, highlighted: Bool) -> some View {
+        HStack(alignment: .center, spacing: 12) {
+            Image(systemName: feature.icon)
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(.white)
+                .frame(width: 30, height: 30)
+                .background(Theme.brandGradient, in: Circle())
+
+            VStack(alignment: .leading, spacing: 1) {
+                Text(feature.title)
+                    .font(Theme.subhead(weight: .semibold))
+                    .foregroundStyle(Theme.textPrimary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.85)
+                Text(feature.detail)
+                    .font(Theme.caption())
+                    .foregroundStyle(Theme.textSecondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+            }
+            Spacer(minLength: 8)
+
+            Image(systemName: "checkmark")
+                .font(.system(size: 12, weight: .heavy))
+                .foregroundStyle(Theme.brandPrimary.opacity(highlighted ? 1 : 0.55))
+        }
+        .frame(height: 38)
+        .padding(.horizontal, highlighted ? 8 : 0)
+        .background(
+            highlighted ? Theme.brandPrimary.opacity(0.08) : .clear,
+            in: RoundedRectangle(cornerRadius: 12)
+        )
+    }
 
     private var sortedPackages: [Package] {
         let order: [SoberPackageKind: Int] = [.monthly: 0, .yearly: 1, .lifetime: 2]
         return subscriptions.packages.sorted {
             (order[$0.soberPackageKind] ?? 9) < (order[$1.soberPackageKind] ?? 9)
         }
-    }
-
-    private var trialDaysForAnchor: Int? {
-        guard subscriptions.hasTrialOfferAvailable else { return nil }
-        let pkg = selectedPackage.flatMap { subscriptions.isEligibleForIntroOffer($0) ? $0 : nil }
-            ?? subscriptions.directTrialPackage
-        guard let label = pkg?.soberIntroOfferLabel else { return nil }
-        let digits = String(label.drop { !$0.isNumber }.prefix { $0.isNumber })
-        return Int(digits)
-    }
-
-    private var showsSpendAnchor: Bool {
-        subscriptions.hasTrialOfferAvailable && yearlySpend >= 60
-    }
-
-    /// When a trial is on the table and we know the user's spend, lead with the
-    /// habit-cost vs. free-trial anchor. Otherwise fall back to benefit bullets.
-    @ViewBuilder private var valueProof: some View {
-        if showsSpendAnchor, let days = trialDaysForAnchor {
-            SavingsAnchorCard(
-                yearlySpend: yearlySpend,
-                spendCaption: "a year on alcohol",
-                trialDays: days,
-                rightCaption: "full Bloom+ access",
-                onBrand: true
-            )
-        } else {
-            benefitList
-        }
-    }
-
-    private var benefitList: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            ForEach(benefits, id: \.title) { item in
-                HStack(spacing: 10) {
-                    Image(systemName: item.symbol)
-                        .font(Theme.caption(weight: .semibold))
-                        .frame(width: 18, height: 18)
-                        .foregroundStyle(.white)
-                    Text(item.title)
-                        .font(Theme.caption())
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.85)
-                    Spacer(minLength: 0)
-                }
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, 16)
-        .padding(.vertical, 12)
-        .background(.white.opacity(0.14), in: RoundedRectangle(cornerRadius: 16))
     }
 
     private var monthlyPackage: Package? {
@@ -281,42 +347,46 @@ struct PaywallView: View {
     }
 
     private var purchaseSection: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 6) {
             Button(action: startPurchase) {
                 ZStack {
                     Text(ctaTitle)
                         .font(Theme.body(weight: .bold))
-                        .foregroundStyle(Theme.brandPrimary)
+                        .foregroundStyle(.white)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.72)
                         .opacity(isPurchasing ? 0 : 1)
                     if isPurchasing {
-                        ProgressView().tint(Theme.brandPrimary)
+                        ProgressView().tint(.white)
                     }
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 16)
+                .frame(height: 52)
             }
-            .background(Color.white, in: RoundedRectangle(cornerRadius: 16))
+            .background(Theme.brandGradient, in: RoundedRectangle(cornerRadius: 16))
+            .shadow(color: Theme.brandPrimary.opacity(0.3), radius: 12, y: 6)
             .buttonStyle(.plain)
             .disabled(isPurchasing || selectedPackage == nil)
 
-            if let disclosure = disclosureText {
-                Text(disclosure)
+            if let disclosureText {
+                Text(disclosureText)
                     .font(Theme.caption())
-                    .foregroundStyle(.white.opacity(0.85))
+                    .foregroundStyle(Theme.textTertiary)
                     .multilineTextAlignment(.center)
+                    .lineLimit(3)
+                    .minimumScaleFactor(0.8)
                     .fixedSize(horizontal: false, vertical: true)
             }
 
             if let errorMessage {
                 Text(errorMessage)
                     .font(Theme.caption())
-                    .foregroundStyle(.white.opacity(0.95))
+                    .foregroundStyle(Theme.danger)
                     .multilineTextAlignment(.center)
-            }
-            if let restoreMessage {
+            } else if let restoreMessage {
                 Text(restoreMessage)
                     .font(Theme.caption())
-                    .foregroundStyle(.white.opacity(0.85))
+                    .foregroundStyle(Theme.textSecondary)
                     .multilineTextAlignment(.center)
             }
         }
@@ -327,33 +397,29 @@ struct PaywallView: View {
     /// before purchase suppresses conversions. Apple's renewal notification
     /// for trials is the only billing reassurance kept.
     private var trustRow: some View {
-        VStack(spacing: 4) {
-            if let pkg = selectedPackage,
-               subscriptions.isEligibleForIntroOffer(pkg) {
-                trustItem("checkmark.circle.fill", "No payment due now")
-                trustItem("bell.fill", "Apple reminds you before the trial ends")
-            }
-            trustItem("iphone", "Your data stays on this device")
+        let showsTrialTrust = selectedPackage.map { subscriptions.isEligibleForIntroOffer($0) } ?? false
+        return HStack(spacing: 6) {
+            Image(systemName: showsTrialTrust ? "bell.fill" : "lock.fill")
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundStyle(Theme.brandPrimary.opacity(0.8))
+            Text(
+                showsTrialTrust
+                    ? "No payment now · Apple reminds you before billing · Data stays on-device"
+                    : "Your data stays on this device"
+            )
+            .font(Theme.caption())
+            .foregroundStyle(Theme.textSecondary)
+            .multilineTextAlignment(.center)
+            .lineLimit(2)
+            .minimumScaleFactor(0.85)
         }
-    }
-
-    private func trustItem(_ symbol: String, _ text: String) -> some View {
-        HStack(spacing: 8) {
-            Image(systemName: symbol)
-                .font(Theme.caption(weight: .semibold))
-            Text(text)
-                .font(Theme.caption())
-            Spacer(minLength: 0)
-        }
-        .foregroundStyle(.white.opacity(0.8))
-        .padding(.horizontal, 6)
+        .padding(.horizontal, 4)
     }
 
     private var footerLinks: some View {
         HStack(spacing: 12) {
             Button(action: startRestore) {
                 Text(isRestoring ? "Restoring…" : "Restore Purchases")
-                    .font(Theme.caption())
                     .underline()
             }
             .buttonStyle(.plain)
@@ -364,7 +430,8 @@ struct PaywallView: View {
             Link("Privacy Policy", destination: PaywallLinks.privacyPolicy)
         }
         .font(Theme.caption())
-        .foregroundStyle(.white.opacity(0.7))
+        .foregroundStyle(Theme.textTertiary)
+        .tint(Theme.brandPrimary)
     }
 
     private var ctaTitle: String {
@@ -395,6 +462,19 @@ struct PaywallView: View {
     /// Monthly-first default so the glance reads as a small commitment; yearly
     /// stays available for users who want the best per-month value.
     private func selectDefaultPackageIfNeeded() {
+        #if DEBUG
+        if let mode = PaywallScreenshotMode.current, !subscriptions.packages.isEmpty {
+            switch mode {
+            case .monthly:
+                selectedPackage = subscriptions.packages.first { $0.soberPackageKind == .monthly }
+            case .lifetime:
+                selectedPackage = subscriptions.packages.first { $0.soberPackageKind == .lifetime }
+            case .yearly, .trial:
+                selectedPackage = subscriptions.packages.first { $0.soberPackageKind == .yearly }
+            }
+            return
+        }
+        #endif
         guard selectedPackage == nil, !subscriptions.packages.isEmpty else { return }
         selectedPackage = subscriptions.packages.first { $0.soberPackageKind == .monthly }
             ?? subscriptions.packages.first { $0.soberPackageKind == .yearly }
@@ -450,52 +530,33 @@ struct PaywallView: View {
     #if DEBUG || !canImport(RevenueCat)
     private var devPlaceholder: some View {
         ScrollView(showsIndicators: false) {
-            VStack(spacing: 24) {
-                savingsHero
-                benefitListPlaceholder
-                Spacer(minLength: 8)
+            VStack(spacing: 20) {
+                savingsValueHeader
+                benefitShowcase
                 Text("$4.99 / mo · $29.99 / yr · $79.99 lifetime")
-                    .font(Theme.caption())
+                    .font(Theme.caption(weight: .semibold))
+                    .foregroundStyle(Theme.textSecondary)
                 Button {
                     subscriptions.setLocalOverride(isPro: true)
                     dismiss()
                 } label: {
                     Text("Continue (dev)")
                         .font(Theme.body(weight: .bold))
-                        .foregroundStyle(Theme.brandPrimary)
+                        .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
                 }
-                .background(Color.white, in: RoundedRectangle(cornerRadius: 16))
+                .background(Theme.brandGradient, in: RoundedRectangle(cornerRadius: 16))
                 Button("Restore Purchases") {
                     Task { await subscriptions.refresh() }
                 }
                 .font(Theme.caption())
-                .foregroundStyle(.white.opacity(0.8))
+                .foregroundStyle(Theme.textTertiary)
             }
             .padding(.horizontal, 22)
             .padding(.top, displayCloseButton ? 56 : 24)
             .padding(.bottom, 32)
         }
-    }
-
-    private var benefitListPlaceholder: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            ForEach(benefits, id: \.title) { item in
-                HStack(spacing: 12) {
-                    Image(systemName: item.symbol)
-                        .font(Theme.subhead(weight: .semibold))
-                        .frame(width: 22, height: 22)
-                    Text(item.title)
-                        .font(Theme.subhead())
-                    Spacer()
-                }
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, 18)
-        .padding(.vertical, 16)
-        .background(.white.opacity(0.14), in: RoundedRectangle(cornerRadius: 18))
     }
     #endif
 
@@ -508,126 +569,13 @@ struct PaywallView: View {
                 Button { dismiss() } label: {
                     Image(systemName: "xmark.circle.fill")
                         .font(.title2)
-                        .foregroundStyle(.white.opacity(0.7))
+                        .foregroundStyle(Theme.textTertiary)
                         .padding(16)
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Close")
             }
             Spacer()
-        }
-    }
-
-    /// Hero copy keys off real user progress. Personalization on a paywall is
-    /// the single biggest conversion lever short of pricing — "you've already
-    /// saved $X" reframes the purchase as reinvesting earned value, not
-    /// spending new money. Falls back through three tiers as data thins.
-    @ViewBuilder
-    private var savingsHero: some View {
-        let hasSavings = heroDays > 0 && costPerDayCents > 0
-        let trialEligible = selectedPackage.map { subscriptions.isEligibleForIntroOffer($0) } ?? subscriptions.hasTrialOfferAvailable
-
-        if let focus {
-            VStack(spacing: 6) {
-                Image(systemName: focus.icon)
-                    .font(.system(size: 36))
-                    .foregroundStyle(.white.opacity(0.95))
-                Text(focus.pitchHeadline)
-                    .font(.system(size: 30, weight: .bold, design: .rounded))
-                    .multilineTextAlignment(.center)
-                Text(focus.pitchSubheadline)
-                    .font(Theme.caption())
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(.white.opacity(0.85))
-                    .padding(.horizontal, 8)
-            }
-        } else if trialEligible, let trial = selectedPackage?.soberIntroOfferLabel ?? subscriptions.trialOfferHeadlineLabel {
-            let days = String(trial.drop { !$0.isNumber }.prefix { $0.isNumber })
-            VStack(spacing: 6) {
-                Image(systemName: "gift.fill")
-                    .font(.system(size: 34))
-                    .foregroundStyle(.white.opacity(0.95))
-                Text(days.isEmpty ? "Free trial" : "\(days) days free")
-                    .font(.system(size: 40, weight: .bold, design: .rounded))
-                    .multilineTextAlignment(.center)
-                    .minimumScaleFactor(0.75)
-                Text("Commit to your health. Full garden, journal, and recovery timeline.")
-                    .font(Theme.caption())
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(.white.opacity(0.85))
-                    .padding(.horizontal, 8)
-            }
-        } else if heroDays <= 1 && costPerDayCents > 0 {
-            // Brand-new user (day counting is 1-based, so a journey started in
-            // onboarding is already "day 1"): earned savings are a meaningless
-            // anchor ($20), but we know their daily spend — project the year so
-            // the price anchors against thousands saved, not dollars spent.
-            let yearly = Double(costPerDayCents) * 365 / 100
-            let yearlyLabel = Self.currencyFormatter.string(from: NSNumber(value: yearly)) ?? "$\(Int(yearly))"
-            VStack(spacing: 4) {
-                Text("Your first sober year saves")
-                    .font(Theme.caption(weight: .semibold))
-                    .foregroundStyle(.white.opacity(0.85))
-                    .textCase(.uppercase)
-                    .tracking(1.2)
-                Text(yearlyLabel)
-                    .font(.system(size: 52, weight: .bold, design: .rounded))
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.6)
-                Text("Watch it add up, and your tree grow, day by day.")
-                    .font(Theme.caption())
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(.white.opacity(0.8))
-                    .padding(.horizontal, 8)
-            }
-        } else if hasSavings {
-            VStack(spacing: 4) {
-                Text("You've already saved")
-                    .font(Theme.caption(weight: .semibold))
-                    .foregroundStyle(.white.opacity(0.85))
-                    .textCase(.uppercase)
-                    .tracking(1.2)
-                Text(moneySaved)
-                    .font(.system(size: 52, weight: .bold, design: .rounded))
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.6)
-                Text("across \(heroDays) sober day\(heroDays == 1 ? "" : "s"). Reinvest a fraction in your growth.")
-                    .font(Theme.caption())
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(.white.opacity(0.8))
-                    .padding(.horizontal, 8)
-            }
-        } else if heroDays >= 7 {
-            VStack(spacing: 6) {
-                Text("Day \(heroDays)")
-                    .font(.system(size: 52, weight: .bold, design: .rounded))
-                Text("Your tree's already growing.\nKeep watching it bloom.")
-                    .font(Theme.caption())
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(.white.opacity(0.85))
-            }
-        } else if heroDays >= 1 {
-            VStack(spacing: 6) {
-                Image(systemName: "leaf.fill")
-                    .font(.system(size: 36))
-                    .foregroundStyle(.white.opacity(0.9))
-                Text("You've started growing")
-                    .font(.system(size: 26, weight: .bold, design: .rounded))
-                Text("Bloom+ unlocks the rest of the journey.")
-                    .font(Theme.caption())
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(.white.opacity(0.85))
-            }
-        } else {
-            VStack(spacing: 6) {
-                Image(systemName: "leaf.fill")
-                    .font(.system(size: 44))
-                Text("Bloom+")
-                    .font(.system(size: 34, weight: .bold, design: .rounded))
-                Text("Everything that grows with you.")
-                    .font(Theme.caption())
-                    .foregroundStyle(.white.opacity(0.85))
-            }
         }
     }
 }
@@ -661,17 +609,22 @@ private struct PlanCard: View {
             }
             return perMonth
         }
-        if kind == .lifetime { return "One-time · no subscription" }
-        if showsTrialBadge, let trial = package.soberIntroOfferLabel {
+        if kind == .monthly, showsTrialBadge, let trial = package.soberIntroOfferLabel {
             return trial.capitalized
         }
+        if kind == .lifetime { return "One-time · no subscription" }
         return nil
     }
 
-    /// De-emphasize the billed price on monthly when a trial is available; the
-    /// hero and CTA already lead with free days.
-    private var showsCompactPrice: Bool {
-        kind == .monthly && showsTrialBadge
+    private var badgeLabel: String? {
+        if kind == .yearly, let pct = savingsPercent { return "SAVE \(pct)%" }
+        if kind == .lifetime { return "BEST DEAL" }
+        if showsTrialBadge, kind == .monthly { return "FREE TRIAL" }
+        return nil
+    }
+
+    private var badgeFill: Color {
+        kind == .lifetime ? Theme.accent : Theme.brandPrimary
     }
 
     var body: some View {
@@ -679,11 +632,11 @@ private struct PlanCard: View {
             HStack(spacing: 14) {
                 ZStack {
                     Circle()
-                        .stroke(isSelected ? Color.white : Color.white.opacity(0.4), lineWidth: 2)
+                        .stroke(isSelected ? Theme.brandPrimary : Theme.ringTrack, lineWidth: 2)
                         .frame(width: 22, height: 22)
                     if isSelected {
                         Circle()
-                            .fill(Color.white)
+                            .fill(Theme.brandPrimary)
                             .frame(width: 12, height: 12)
                     }
                 }
@@ -692,54 +645,57 @@ private struct PlanCard: View {
                     HStack(spacing: 6) {
                         Text(package.soberDisplayName)
                             .font(Theme.subhead(weight: .bold))
-                        if let pct = savingsPercent {
-                            Text("SAVE \(pct)%")
+                            .foregroundStyle(Theme.textPrimary)
+                        if let badgeLabel {
+                            Text(badgeLabel)
                                 .font(.system(size: 10, weight: .heavy))
+                                .foregroundStyle(.white)
                                 .padding(.horizontal, 7)
                                 .padding(.vertical, 3)
-                                .background(Color.white, in: Capsule())
-                                .foregroundStyle(Theme.brandPrimary)
-                        } else if kind == .lifetime {
-                            Text("BEST DEAL")
-                                .font(.system(size: 10, weight: .heavy))
-                                .padding(.horizontal, 7)
-                                .padding(.vertical, 3)
-                                .background(.white.opacity(0.35), in: Capsule())
+                                .background(badgeFill, in: Capsule())
                         }
                     }
+
                     if let subtitle {
                         Text(subtitle)
                             .font(Theme.caption(weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.85))
+                            .foregroundStyle(Theme.textSecondary)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.85)
                     }
                 }
 
                 Spacer(minLength: 8)
 
+                // The real billed price is always visible (Apple 3.1.2). Trials
+                // are communicated by the badge + subtitle, never by hiding price.
                 VStack(alignment: .trailing, spacing: 2) {
-                    if showsCompactPrice {
-                        Text("Free to start")
-                            .font(Theme.subhead(weight: .semibold))
-                            .foregroundStyle(.white)
-                    } else {
-                        Text(package.soberPriceLabel)
-                            .font(Theme.subhead(weight: .semibold).monospacedDigit())
-                            .foregroundStyle(.white)
-                    }
+                    Text(package.soberPriceLabel)
+                        .font(Theme.subhead(weight: .bold).monospacedDigit())
+                        .foregroundStyle(Theme.textPrimary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
                     if let anchorPrice {
                         Text(anchorPrice)
                             .font(Theme.caption().monospacedDigit())
-                            .strikethrough()
-                            .foregroundStyle(.white.opacity(0.6))
+                            .strikethrough(true, color: Theme.textTertiary)
+                            .foregroundStyle(Theme.textTertiary)
+                            .lineLimit(1)
                     }
                 }
+                .frame(width: 112, alignment: .trailing)
             }
             .padding(.horizontal, 16)
-            .padding(.vertical, 14)
-            .background(.white.opacity(isSelected ? 0.22 : 0.10), in: RoundedRectangle(cornerRadius: 14))
+            .frame(minHeight: 60)
+            .frame(maxWidth: .infinity)
+            .background(
+                isSelected ? Theme.brandPrimary.opacity(0.08) : Theme.cardSurface,
+                in: RoundedRectangle(cornerRadius: 16)
+            )
             .overlay {
-                RoundedRectangle(cornerRadius: 14)
-                    .stroke(isSelected ? Color.white : Color.clear, lineWidth: 2)
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(isSelected ? Theme.brandPrimary : Theme.ringTrack.opacity(0.6),
+                            lineWidth: isSelected ? 2 : 1)
             }
         }
         .buttonStyle(.plain)

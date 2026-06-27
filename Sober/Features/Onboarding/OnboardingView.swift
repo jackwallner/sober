@@ -17,7 +17,7 @@ struct OnboardingView: View {
 
     var body: some View {
         ZStack {
-            Theme.brandGradient.ignoresSafeArea()
+            onboardingBackground
             VStack {
                 switch step {
                 case 0: welcome
@@ -31,7 +31,7 @@ struct OnboardingView: View {
             }
             .padding(.horizontal, Theme.Space.l)
             .padding(.vertical, Theme.Space.l)
-            .foregroundStyle(.white)
+            .foregroundStyle(step == 5 ? AnyShapeStyle(Theme.textPrimary) : AnyShapeStyle(Color.white))
         }
         .task {
             #if canImport(RevenueCat)
@@ -39,6 +39,18 @@ struct OnboardingView: View {
                 await subscriptions.fetchProducts()
             }
             #endif
+        }
+    }
+
+    /// The intro steps stay on the immersive moss gradient; the final trial offer
+    /// resolves onto the calm cream app surface, signalling "this is the real
+    /// thing now" and matching the paywall and trial sheet.
+    @ViewBuilder
+    private var onboardingBackground: some View {
+        if step == 5 {
+            Theme.background.ignoresSafeArea()
+        } else {
+            Theme.brandGradient.ignoresSafeArea()
         }
     }
 
@@ -206,37 +218,44 @@ struct OnboardingView: View {
             Spacer()
             ZStack {
                 Circle()
-                    .fill(.white.opacity(0.25))
+                    .fill(Theme.brandPrimary.opacity(0.16))
                     .frame(width: 180, height: 180)
                     .blur(radius: 50)
                     .scaleEffect(glowPulse ? 1.08 : 0.85)
                     .animation(.easeInOut(duration: 2.4).repeatForever(autoreverses: true), value: glowPulse)
-                Image(systemName: "gift.fill")
-                    .font(.system(size: 64))
+                ZStack {
+                    Circle()
+                        .fill(Theme.brandGradient)
+                        .frame(width: 84, height: 84)
+                        .shadow(color: Theme.brandPrimary.opacity(0.4), radius: 16, y: 6)
+                    Image(systemName: trialEligible ? "gift.fill" : "checkmark")
+                        .font(.system(size: 36, weight: .bold))
+                        .foregroundStyle(.white)
+                }
             }
             Text(trialEligible ? "Make your commitment count" : "You're all set")
                 .font(Theme.display())
+                .foregroundStyle(Theme.textPrimary)
                 .multilineTextAlignment(.center)
             Text(trialEligible
                  ? "You just committed. Try every tool that keeps you on track, free for your whole trial."
                  : "Your garden is planted. Let's begin.")
                 .multilineTextAlignment(.center)
                 .font(Theme.body())
-                .foregroundStyle(.white.opacity(0.9))
+                .foregroundStyle(Theme.textSecondary)
                 .padding(.horizontal, Theme.Space.m)
 
             if trialEligible {
-                TrialTimeline(trialDays: trialDays, billingNote: onboardingBillingNote, onBrand: true)
+                TrialTimeline(trialDays: trialDays, billingNote: onboardingBillingNote)
                     .padding(.horizontal, Theme.Space.s)
             }
 
             if trialEligible, projectedYearlySavings >= 60 {
                 SavingsAnchorCard(
                     yearlySpend: projectedYearlySavings,
-                    spendCaption: "a year on alcohol",
+                    habitName: "alcohol",
                     trialDays: trialDays,
-                    rightCaption: "full Bloom+ access",
-                    onBrand: true
+                    rightCaption: "full Bloom+ access"
                 )
                 .padding(.horizontal, Theme.Space.xs)
             }
@@ -244,7 +263,7 @@ struct OnboardingView: View {
             if let trialError {
                 Text(trialError)
                     .font(Theme.caption())
-                    .foregroundStyle(.white)
+                    .foregroundStyle(Theme.danger)
                     .multilineTextAlignment(.center)
             }
 
@@ -256,21 +275,21 @@ struct OnboardingView: View {
                         ZStack {
                             Text(trialCTATitle)
                                 .font(Theme.body(weight: .bold))
-                                .foregroundStyle(Theme.brandPrimary)
+                                .foregroundStyle(.white)
                                 .opacity(trialInFlight ? 0 : 1)
-                            if trialInFlight { ProgressView().tint(Theme.brandPrimary) }
+                            if trialInFlight { ProgressView().tint(.white) }
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, Theme.Space.l)
                     }
-                    .background(Color.white, in: RoundedRectangle(cornerRadius: 18))
-                    .shadow(color: .black.opacity(0.18), radius: 14, y: 6)
+                    .background(Theme.brandGradient, in: RoundedRectangle(cornerRadius: 18))
+                    .shadow(color: Theme.brandPrimary.opacity(0.3), radius: 14, y: 6)
                     .disabled(trialInFlight)
 
                     Button { finishOnboarding() } label: {
                         Text("Maybe later")
                             .font(Theme.subhead(weight: .medium))
-                            .foregroundStyle(.white.opacity(0.85))
+                            .foregroundStyle(Theme.textSecondary)
                             .underline()
                             .padding(.vertical, 6)
                     }
@@ -278,11 +297,18 @@ struct OnboardingView: View {
 
                     Text("No charge now. Cancel anytime before the trial ends.")
                         .font(Theme.caption())
-                        .foregroundStyle(.white.opacity(0.7))
+                        .foregroundStyle(Theme.textTertiary)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, Theme.Space.m)
                 } else {
-                    primaryButton("Start growing") { finishOnboarding() }
+                    Button(action: { finishOnboarding() }) {
+                        Text("Start growing")
+                            .font(Theme.body(weight: .bold))
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, Theme.Space.l)
+                    }
+                    .background(Theme.brandGradient, in: RoundedRectangle(cornerRadius: 18))
                 }
             }
         }
