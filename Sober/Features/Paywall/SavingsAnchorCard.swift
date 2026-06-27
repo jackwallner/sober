@@ -1,23 +1,19 @@
 import SwiftUI
 
-/// Price-anchoring row: the user's *yearly habit spend* (struck through) set
-/// against the Bloom+ price (the small number they actually pay). Reads as a
-/// sale tag — "you already burn $1,168/yr on pouches; Bloom+ is $29.99" — which
-/// makes the subscription feel trivial next to the habit it replaces.
-///
-/// Self-contained: callers pass the projected yearly spend in whole dollars and
-/// the plan's price label. The dollar figure is the same as yearly savings (what
-/// you stop spending = what you save); we frame it as *spend* so the strikethrough
-/// reads as "this is what the habit costs."
+/// Price-anchoring row: the user's yearly habit spend (struck through) set against
+/// either a free-trial win or a Bloom+ price. During trial pitches the right side
+/// leads with free days so a glance reads "habit costs $X, try Bloom+ free."
 struct SavingsAnchorCard: View {
     /// Yearly spend on the habit, in whole dollars (== projected yearly savings).
     let yearlySpend: Int
     /// Caption under the struck spend figure, e.g. "a year on pouches".
     var spendCaption: String = "a year on the habit"
-    /// Clean price for the anchored plan, e.g. "$29.99".
-    let priceLabel: String
-    /// Caption under the price, e.g. "a year of Bloom+".
-    var priceCaption: String = "a year of Bloom+"
+    /// When set, the right side shows the free trial instead of a dollar price.
+    var trialDays: Int? = nil
+    /// Used when `trialDays` is nil.
+    var priceLabel: String? = nil
+    /// Caption under the right-side figure.
+    var rightCaption: String = "a year of Bloom+"
     /// True on the brand-gradient paywall (white-on-color); false on light sheets.
     var onBrand: Bool = false
 
@@ -28,6 +24,11 @@ struct SavingsAnchorCard: View {
     private var primaryText: Color { onBrand ? .white : Theme.textPrimary }
     private var secondaryText: Color { onBrand ? .white.opacity(0.8) : Theme.textSecondary }
     private var accent: Color { onBrand ? .white : Theme.brandPrimary }
+
+    private var rightHeadline: String {
+        if let trialDays { return "\(trialDays) days free" }
+        return priceLabel ?? ""
+    }
 
     var body: some View {
         HStack(spacing: 14) {
@@ -48,12 +49,12 @@ struct SavingsAnchorCard: View {
                 .foregroundStyle(accent.opacity(0.8))
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(priceLabel)
+                Text(rightHeadline)
                     .font(.system(size: 28, weight: .heavy, design: .rounded))
                     .foregroundStyle(primaryText)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
-                Text(priceCaption)
+                Text(rightCaption)
                     .font(Theme.caption())
                     .foregroundStyle(secondaryText)
             }
@@ -71,7 +72,14 @@ struct SavingsAnchorCard: View {
                 .stroke((onBrand ? Color.white : Theme.brandPrimary).opacity(0.18), lineWidth: 1)
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("You spend \(spendLabel) \(spendCaption). Bloom+ is \(priceLabel) \(priceCaption).")
+        .accessibilityLabel(accessibilitySummary)
+    }
+
+    private var accessibilitySummary: String {
+        if let trialDays {
+            return "You spend \(spendLabel) \(spendCaption). Try Bloom+ free for \(trialDays) days."
+        }
+        return "You spend \(spendLabel) \(spendCaption). Bloom+ is \(priceLabel ?? "") \(rightCaption)."
     }
 
     private static let currency: NumberFormatter = {

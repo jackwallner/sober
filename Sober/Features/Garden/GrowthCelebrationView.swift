@@ -43,7 +43,7 @@ struct GrowthCelebrationView: View {
         case .treeCompleted(let total):
             return total <= 1
                 ? "365 days of growth, complete. Your tree now stands in your grove, and a fresh sapling begins beside it."
-                : "365 days of growth, complete. That's \(total) trees in your grove — and a fresh sapling begins."
+                : "365 days of growth, complete. That's \(total) trees in your grove, and a fresh sapling begins."
         }
     }
 

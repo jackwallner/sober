@@ -249,9 +249,14 @@ final class SubscriptionService: NSObject {
     }
 
     #if canImport(RevenueCat)
+    /// Monthly plan with a free-trial intro offer when available — the package
+    /// the one-tap trial sheet purchases. Monthly is the default trial entry
+    /// point; fall back to yearly, then any trial product.
     var directTrialPackage: Package? {
         let trialPackages = packages.filter { isEligibleForIntroOffer($0) }
-        return trialPackages.first { $0.soberPackageKind == .yearly } ?? trialPackages.first
+        return trialPackages.first { $0.soberPackageKind == .monthly }
+            ?? trialPackages.first { $0.soberPackageKind == .yearly }
+            ?? trialPackages.first
     }
 
     var trialOfferHeadlineLabel: String? {

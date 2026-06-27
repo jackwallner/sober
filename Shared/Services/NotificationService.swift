@@ -22,7 +22,7 @@ enum NotificationService {
         let content = UNMutableNotificationContent()
         content.title = committed ? "Showing up today" : "Daily check-in"
         content.body = committed
-            ? "Log today and water your garden — you've got this."
+            ? "Log today and water your garden. You've got this."
             : "If today's a sober one, log it and water your garden."
         content.sound = .default
 

@@ -1,1 +1,1 @@
-進行了背景優化與錯誤修復，讓 Sober 運行更順暢。感謝一路有你。
+Improvements to your trial and daily check-in experience, plus bug fixes. Thank you for being here.

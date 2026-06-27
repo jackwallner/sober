@@ -1,14 +1,13 @@
 import SwiftUI
 
 /// "How your free trial works" — a 3-step vertical timeline. Showing the user
-/// exactly when (and whether) they'll be charged is one of the most reliable
-/// trial-start boosters: it removes the "will I get surprise-billed?" anxiety
-/// that kills trial conversion, and it keeps the *free* part front and center.
+/// exactly when (and whether) they'll be charged removes billing anxiety and
+/// keeps the free part front and center.
 struct TrialTimeline: View {
     /// Trial length in days (e.g. 7). Reminder step lands two days before the end.
     let trialDays: Int
-    /// Clean price shown at the "trial ends" step, e.g. "$29.99/yr".
-    let priceLabel: String?
+    /// Optional billing note for the final step (small disclosure copy only).
+    var billingNote: String? = nil
     var onBrand: Bool = false
 
     private var primary: Color { onBrand ? .white : Theme.textPrimary }
@@ -19,10 +18,10 @@ struct TrialTimeline: View {
 
     private var steps: [(icon: String, title: String, detail: String, highlight: Bool)] {
         [
-            ("lock.open.fill", "Today", "Everything unlocks — full access, $0 due now.", true),
+            ("lock.open.fill", "Today", "Everything unlocks. Full access, $0 due now.", true),
             ("bell.fill", "Day \(reminderDay)", "We'll remind you before the trial ends.", false),
             ("flag.checkered", "Day \(trialDays)",
-             priceLabel.map { "Trial ends, \($0). Cancel anytime before." } ?? "Cancel anytime before it ends.", false),
+             billingNote ?? "Cancel anytime before it ends. No surprise charges.", false),
         ]
     }
 

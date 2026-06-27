@@ -165,7 +165,7 @@ struct GardenSceneView: View {
             .shadow(color: .black.opacity(isPro ? 0 : 0.15), radius: 4, y: 1)
         }
         .buttonStyle(.plain)
-        .accessibilityLabel(isPro ? "Switch bonsai species — currently \(activeSpeciesName)" : "Unlock more bonsai species with Bloom+")
+        .accessibilityLabel(isPro ? "Switch bonsai species, currently \(activeSpeciesName)" : "Unlock more bonsai species with Bloom+")
     }
 
     // MARK: - Grove (completed trees)
