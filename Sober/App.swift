@@ -112,10 +112,10 @@ struct MainTabView: View {
                 }
                 .tag(4)
         }
-        .onChange(of: trialCoordinator.pendingIntent) { _, intent in
-            guard let intent else { return }
+        .onChange(of: trialCoordinator.pendingRequest) { _, request in
+            guard let request else { return }
             trialCoordinator.clear()
-            presentTrialOffer(focus: intent.focusFeature)
+            handleTrialPitch(request)
         }
         .onChange(of: tab) { _, newTab in
             if newTab == 4, !subscriptions.isProSubscriber {
@@ -160,6 +160,37 @@ struct MainTabView: View {
     private var trialOfferLabelText: String? { subscriptions.directTrialPackage?.soberIntroOfferLabel }
     private var trialOfferPriceText: String? { subscriptions.directTrialPackage?.soberPriceLabel }
 
+    private func handleTrialPitch(_ request: TrialOfferCoordinator.PendingRequest) {
+        guard !subscriptions.isProSubscriber else { return }
+        let focus = request.intent.focusFeature
+
+        switch request.policy {
+        case .initial, .explicitUpgrade:
+            presentTrialOffer(focus: focus)
+        case .subsequentLocked:
+            let count = TrialSubsequentPitchGate.recordAction(for: request.intent)
+            if count >= TrialSubsequentPitchGate.lockedFeatureThreshold,
+               subscriptions.hasTrialOfferAvailable,
+               TrialSubsequentPitchGate.canPresentTrialPitch(for: request.intent) {
+                TrialSubsequentPitchGate.markTrialPitchPresented(for: request.intent)
+                presentTrialOffer(focus: focus)
+            } else {
+                trialOfferFocus = focus
+                showTrialPaywall = true
+            }
+        case .subsequentPassive:
+            guard subscriptions.hasTrialOfferAvailable,
+                  TrialSubsequentPitchGate.canPresentTrialPitch(for: request.intent)
+            else {
+                trialOfferFocus = focus
+                showTrialPaywall = true
+                return
+            }
+            TrialSubsequentPitchGate.markTrialPitchPresented(for: request.intent)
+            presentTrialOffer(focus: focus)
+        }
+    }
+
     private func presentTrialOffer(focus: BloomFeature?) {
         guard !subscriptions.isProSubscriber, subscriptions.hasTrialOfferAvailable else {
             trialOfferFocus = focus
@@ -198,6 +229,11 @@ struct MainTabView: View {
     private var hasDirectTrialPackage: Bool { false }
     private var trialOfferLabelText: String? { nil }
     private var trialOfferPriceText: String? { nil }
+
+    private func handleTrialPitch(_ request: TrialOfferCoordinator.PendingRequest) {
+        trialOfferFocus = request.intent.focusFeature
+        showTrialPaywall = true
+    }
 
     private func presentTrialOffer(focus: BloomFeature?) {
         trialOfferFocus = focus

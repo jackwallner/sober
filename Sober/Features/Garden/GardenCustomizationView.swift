@@ -72,7 +72,7 @@ struct GardenCustomizationView: View {
             Text("Bonsai Species")
                 .font(Theme.body())
                 .foregroundStyle(Theme.textPrimary)
-            Text("Switch anytime — your day count and growth carry over to whichever tree you choose.")
+            Text("Switch anytime. Your day count and growth carry over to whichever tree you choose.")
                 .font(Theme.caption())
                 .foregroundStyle(Theme.textSecondary)
         }
@@ -111,7 +111,7 @@ struct GardenCustomizationView: View {
                 // matches the species the user just picked.
                 WidgetSnapshotPump.push(context: context)
             } else {
-                TrialOfferCoordinator.shared.request(.gardenSpecies)
+                requestSubsequentLockedFeaturePitch(.gardenSpecies)
             }
         } label: {
             VStack(spacing: 8) {
@@ -162,7 +162,7 @@ struct GardenCustomizationView: View {
     private var upgradeBar: some View {
         VStack(spacing: 6) {
             Button {
-                TrialOfferCoordinator.shared.request(.gardenSpecies)
+                requestSubsequentLockedFeaturePitch(.gardenSpecies)
             } label: {
                 HStack(spacing: 8) {
                     Image(systemName: "crown.fill")

@@ -16,6 +16,15 @@ enum AppGroup {
     /// interval schedule (frequent at first, backing off so it never spams).
     static let trialNudgeCountKey = "trialNudgeCount"
 
+    /// Persisted reach count for a locked Bloom+ feature (journal tap, etc.).
+    static func bloomActionCountKey(for intent: String) -> String {
+        "bloomActionCount_\(intent)"
+    }
+
+    static let journalTabVisitCountKey = "journalTabVisitCount"
+    static let checkInCompletedCountKey = "checkInCompletedCount"
+    static let growthCelebrationCountKey = "growthCelebrationCount"
+
     static var defaults: UserDefaults {
         UserDefaults(suiteName: identifier) ?? .standard
     }

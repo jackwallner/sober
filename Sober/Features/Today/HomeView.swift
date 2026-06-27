@@ -132,6 +132,7 @@ struct HomeView: View {
                         WidgetSnapshotPump.push(context: context)
                         recordPositiveMomentForReview()
                         presentPostOnboardingPaywallIfNeeded()
+                        scheduleTrialPitchAfterGrowthCelebration()
                     }
                     .transition(.opacity)
                     .zIndex(100)
@@ -248,6 +249,7 @@ struct HomeView: View {
                         refreshCheckInState()
                         WidgetSnapshotPump.push(context: context)
                         recordPositiveMomentForReview()
+                        recordCheckInForTrialPitch()
                     } label: {
                         Label("Still sober", systemImage: "checkmark.circle.fill")
                             .fontWeight(.semibold)
@@ -310,6 +312,7 @@ struct HomeView: View {
                 refreshCheckInState()
                 WidgetSnapshotPump.push(context: context)
                 recordPositiveMomentForReview()
+                recordCheckInForTrialPitch()
                 showCheckInDetail = true
             } label: {
                 VStack(spacing: 2) {
@@ -376,7 +379,7 @@ struct HomeView: View {
             // Start the passive-nudge cooldown here so the day-0 popup and the
             // Home/Timeline/Health passive nudges don't fire back-to-back.
             TrialNudgeGate.markShown()
-            TrialOfferCoordinator.shared.request(.postOnboarding)
+            TrialOfferCoordinator.shared.request(.postOnboarding, policy: .initial)
         }
     }
 
@@ -418,6 +421,33 @@ struct HomeView: View {
         reviewPromptInitialStep = step
         reviewPromptShownThisSession = true
         showReviewPrompt = true
+    }
+
+    private func recordCheckInForTrialPitch() {
+        guard !isPro else { return }
+        let count = TrialSubsequentPitchGate.incrementPersistedCount(key: AppGroup.checkInCompletedCountKey)
+        Task {
+            await evaluateUsageBasedTrialPitch(
+                subscriptions,
+                intent: .postOnboarding,
+                usageCount: count,
+                threshold: 3,
+                delay: 2.5
+            )
+        }
+    }
+
+    private func scheduleTrialPitchAfterGrowthCelebration() {
+        guard !isPro else { return }
+        let count = TrialSubsequentPitchGate.incrementPersistedCount(key: AppGroup.growthCelebrationCountKey)
+        Task {
+            await evaluateUsageBasedTrialPitch(
+                subscriptions,
+                intent: .growthCelebration,
+                usageCount: count,
+                delay: 1.5
+            )
+        }
     }
 }
 
@@ -561,7 +591,7 @@ struct ProgressSheet: View {
     }
 
     private var trialNudgeRow: some View {
-        Button { TrialOfferCoordinator.shared.request(.progressSheet) } label: {
+        Button { requestSubsequentLockedFeaturePitch(.progressSheet) } label: {
             HStack(spacing: Theme.Space.m) {
                 Image(systemName: "gift.fill")
                     .font(.title3)
@@ -694,7 +724,7 @@ struct ProgressSheet: View {
             }
         }
         .contentShape(Rectangle())
-        .onTapGesture { if !unlocked && !isPro { TrialOfferCoordinator.shared.request(.progressSheet) } }
+        .onTapGesture { if !unlocked && !isPro { requestSubsequentLockedFeaturePitch(.progressSheet) } }
     }
 
     private static let currencyFormatter: NumberFormatter = {

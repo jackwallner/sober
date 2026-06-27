@@ -24,7 +24,7 @@ struct SettingsView: View {
                         Text(subscriptions.isProSubscriber ? "Bloom+ active" : "Bloom+")
                         Spacer()
                         if !subscriptions.isProSubscriber {
-                            Button("Upgrade") { TrialOfferCoordinator.shared.request(.settings) }
+                            Button("Upgrade") { TrialOfferCoordinator.shared.request(.settings, policy: .explicitUpgrade) }
                                 .buttonStyle(.borderedProminent)
                         }
                     }
