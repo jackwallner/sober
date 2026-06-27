@@ -1,1 +1,1 @@
-ปรับปรุงเบื้องหลังและแก้ไขข้อบกพร่องเพื่อให้ Sober ทำงานได้ราบรื่น ขอบคุณที่อยู่กับเรา
+Improvements to your trial and daily check-in experience, plus bug fixes. Thank you for being here.

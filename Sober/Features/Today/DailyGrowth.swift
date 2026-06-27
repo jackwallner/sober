@@ -21,7 +21,7 @@ enum DailyGrowth {
 
     static func note(forDayInCycle day: Int) -> String {
         guard day > 0 else { return "the seed is settling in" }
-        if day >= 365 { return "the tree is complete — and the next cycle begins" }
+        if day >= 365 { return "the tree is complete, and the next cycle begins" }
         let idx = abs(day) % phrases.count
         return phrases[idx]
     }

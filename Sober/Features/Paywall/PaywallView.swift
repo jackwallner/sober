@@ -203,28 +203,35 @@ struct PaywallView: View {
     /// Yearly spend on the habit (== projected yearly savings), for the anchor.
     private var yearlySpend: Int { Int((Double(costPerDayCents) * 365 / 100).rounded()) }
 
-    /// Clean price of the yearly plan ("$29.99 / year" -> "$29.99") — the anchor
-    /// always compares against the annual plan, regardless of which row is selected.
-    private var yearlyAnchorPrice: String? {
-        let yearly = subscriptions.packages.first { $0.soberPackageKind == .yearly }
-        guard let raw = yearly?.soberPriceLabel else { return nil }
-        return raw.components(separatedBy: " /").first?.trimmingCharacters(in: .whitespaces)
+    private var sortedPackages: [Package] {
+        let order: [SoberPackageKind: Int] = [.monthly: 0, .yearly: 1, .lifetime: 2]
+        return subscriptions.packages.sorted {
+            (order[$0.soberPackageKind] ?? 9) < (order[$1.soberPackageKind] ?? 9)
+        }
+    }
+
+    private var trialDaysForAnchor: Int? {
+        guard subscriptions.hasTrialOfferAvailable else { return nil }
+        let pkg = selectedPackage.flatMap { subscriptions.isEligibleForIntroOffer($0) ? $0 : nil }
+            ?? subscriptions.directTrialPackage
+        guard let label = pkg?.soberIntroOfferLabel else { return nil }
+        let digits = String(label.drop { !$0.isNumber }.prefix { $0.isNumber })
+        return Int(digits)
     }
 
     private var showsSpendAnchor: Bool {
-        subscriptions.hasTrialOfferAvailable && yearlySpend >= 60 && yearlyAnchorPrice != nil
+        subscriptions.hasTrialOfferAvailable && yearlySpend >= 60
     }
 
-    /// When a trial is on the table and we know the user's spend, lead the value
-    /// case with the spend→price anchor (their habit costs $X/yr, Bloom+ is a
-    /// fraction). Otherwise fall back to the outcome-framed benefit list.
+    /// When a trial is on the table and we know the user's spend, lead with the
+    /// habit-cost vs. free-trial anchor. Otherwise fall back to benefit bullets.
     @ViewBuilder private var valueProof: some View {
-        if showsSpendAnchor, let price = yearlyAnchorPrice {
+        if showsSpendAnchor, let days = trialDaysForAnchor {
             SavingsAnchorCard(
                 yearlySpend: yearlySpend,
                 spendCaption: "a year on alcohol",
-                priceLabel: price,
-                priceCaption: "a year of Bloom+",
+                trialDays: days,
+                rightCaption: "full Bloom+ access",
                 onBrand: true
             )
         } else {
@@ -260,7 +267,7 @@ struct PaywallView: View {
 
     private var planCards: some View {
         VStack(spacing: 10) {
-            ForEach(subscriptions.packages, id: \.identifier) { package in
+            ForEach(sortedPackages, id: \.identifier) { package in
                 PlanCard(
                     package: package,
                     isSelected: selectedPackage?.identifier == package.identifier,
@@ -385,11 +392,12 @@ struct PaywallView: View {
         return "\(price). \(renew)"
     }
 
-    /// Annual-first default — the highest-LTV plan also doubles as the lowest
-    /// per-month anchor, so pre-selecting it sets the right comparison frame.
+    /// Monthly-first default so the glance reads as a small commitment; yearly
+    /// stays available for users who want the best per-month value.
     private func selectDefaultPackageIfNeeded() {
         guard selectedPackage == nil, !subscriptions.packages.isEmpty else { return }
-        selectedPackage = subscriptions.packages.first { $0.soberPackageKind == .yearly }
+        selectedPackage = subscriptions.packages.first { $0.soberPackageKind == .monthly }
+            ?? subscriptions.packages.first { $0.soberPackageKind == .yearly }
             ?? subscriptions.packages.first
     }
 
@@ -543,8 +551,7 @@ struct PaywallView: View {
                     .font(.system(size: 40, weight: .bold, design: .rounded))
                     .multilineTextAlignment(.center)
                     .minimumScaleFactor(0.75)
-                Text(yearlyAnchorPrice.map { "Full access now. Then \($0)/yr — cancel anytime." }
-                     ?? "Full access now. No charge until your trial ends.")
+                Text("Commit to your health. Full garden, journal, and recovery timeline.")
                     .font(Theme.caption())
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.white.opacity(0.85))
@@ -567,7 +574,7 @@ struct PaywallView: View {
                     .font(.system(size: 52, weight: .bold, design: .rounded))
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
-                Text("Watch it add up — and your tree grow — day by day.")
+                Text("Watch it add up, and your tree grow, day by day.")
                     .font(Theme.caption())
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.white.opacity(0.8))
@@ -649,8 +656,6 @@ private struct PlanCard: View {
 
     private var subtitle: String? {
         if kind == .yearly, let perMonth = package.soberPerMonthLabel {
-            // Lead with the free trial when one is on the table — reinforcing
-            // it on the card (not just the CTA) is what moves trial starts.
             if showsTrialBadge, let trial = package.soberIntroOfferLabel {
                 return "\(trial.capitalized) · \(perMonth)"
             }
@@ -661,6 +666,12 @@ private struct PlanCard: View {
             return trial.capitalized
         }
         return nil
+    }
+
+    /// De-emphasize the billed price on monthly when a trial is available; the
+    /// hero and CTA already lead with free days.
+    private var showsCompactPrice: Bool {
+        kind == .monthly && showsTrialBadge
     }
 
     var body: some View {
@@ -706,9 +717,15 @@ private struct PlanCard: View {
                 Spacer(minLength: 8)
 
                 VStack(alignment: .trailing, spacing: 2) {
-                    Text(package.soberPriceLabel)
-                        .font(Theme.subhead(weight: .semibold).monospacedDigit())
-                        .foregroundStyle(.white)
+                    if showsCompactPrice {
+                        Text("Free to start")
+                            .font(Theme.subhead(weight: .semibold))
+                            .foregroundStyle(.white)
+                    } else {
+                        Text(package.soberPriceLabel)
+                            .font(Theme.subhead(weight: .semibold).monospacedDigit())
+                            .foregroundStyle(.white)
+                    }
                     if let anchorPrice {
                         Text(anchorPrice)
                             .font(Theme.caption().monospacedDigit())

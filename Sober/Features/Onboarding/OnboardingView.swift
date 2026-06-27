@@ -13,6 +13,7 @@ struct OnboardingView: View {
     @State private var trialError: String?
     @State private var glowPulse = false
     @State private var didShowOnboardingTrial = false
+    @State private var madeCommitment = false
 
     var body: some View {
         ZStack {
@@ -118,7 +119,7 @@ struct OnboardingView: View {
                 if calories > 0 {
                     Text(dollars > 0
                          ? "plus \(yearlyCalories.formatted()) calories you won't have to spend. About \(yearlyPounds.formatted(.number.precision(.fractionLength(0)))) lb of body fat."
-                         : "\(yearlyCalories.formatted()) calories you won't have to spend — about \(yearlyPounds.formatted(.number.precision(.fractionLength(0)))) lb of body fat.")
+                         : "\(yearlyCalories.formatted()) calories you won't have to spend. That's about \(yearlyPounds.formatted(.number.precision(.fractionLength(0)))) lb of body fat.")
                         .font(Theme.caption())
                         .foregroundStyle(.white.opacity(0.75))
                         .multilineTextAlignment(.center)
@@ -217,7 +218,7 @@ struct OnboardingView: View {
                 .font(Theme.display())
                 .multilineTextAlignment(.center)
             Text(trialEligible
-                 ? "You just committed. Lock in every tool that keeps you on track — free for your whole trial."
+                 ? "You just committed. Try every tool that keeps you on track, free for your whole trial."
                  : "Your garden is planted. Let's begin.")
                 .multilineTextAlignment(.center)
                 .font(Theme.body())
@@ -225,16 +226,16 @@ struct OnboardingView: View {
                 .padding(.horizontal, Theme.Space.m)
 
             if trialEligible {
-                TrialTimeline(trialDays: trialDays, priceLabel: trialPriceLabel.map { "\($0)/yr" }, onBrand: true)
+                TrialTimeline(trialDays: trialDays, billingNote: onboardingBillingNote, onBrand: true)
                     .padding(.horizontal, Theme.Space.s)
             }
 
-            if trialEligible, projectedYearlySavings >= 60, let price = trialPriceLabel {
+            if trialEligible, projectedYearlySavings >= 60 {
                 SavingsAnchorCard(
                     yearlySpend: projectedYearlySavings,
                     spendCaption: "a year on alcohol",
-                    priceLabel: price,
-                    priceCaption: "after your trial",
+                    trialDays: trialDays,
+                    rightCaption: "full Bloom+ access",
                     onBrand: true
                 )
                 .padding(.horizontal, Theme.Space.xs)
@@ -318,7 +319,18 @@ struct OnboardingView: View {
         #endif
     }
 
-    /// Clean plan price ("$29.99 / year" -> "$29.99") for the savings anchor.
+    /// Small billing disclosure for the onboarding trial step (Apple 3.1.2).
+    private var onboardingBillingNote: String? {
+        #if canImport(RevenueCat)
+        guard trialEligible,
+              let price = subscriptions.directTrialPackage?.soberPriceLabel else { return nil }
+        return "After \(trialDays) days, \(price) unless you cancel."
+        #else
+        return nil
+        #endif
+    }
+
+    /// Clean plan price ("$29.99 / year" -> "$29.99") for legacy helpers.
     private var trialPriceLabel: String? {
         #if canImport(RevenueCat)
         guard let raw = subscriptions.directTrialPackage?.soberPriceLabel else { return nil }
@@ -386,8 +398,10 @@ struct OnboardingView: View {
 
     /// Save everything except the onboarding-complete flag, so the trial step can
     /// still render before RootView swaps to the main app. Notifications are
-    /// requested here too (the commit is a natural permission moment).
+    /// requested after the trial step so the permission prompt doesn't interrupt
+    /// the paywall flow.
     private func persistSetup(committed: Bool) {
+        madeCommitment = committed
         let settings = SettingsService(context: context).current()
         settings.costPerDayCents = Int(costPerDay * 100)
         settings.caloriesPerDay = Int(caloriesPerDay)
@@ -397,11 +411,6 @@ struct OnboardingView: View {
         _ = SobrietyService(context: context).startJourney(at: min(startDate, .now))
         _ = GardenService(context: context).current()
         try? context.save()
-
-        Task {
-            _ = await NotificationService.requestAuthorization()
-            await NotificationService.scheduleDailyReminder(hour: reminderHour, committed: committed)
-        }
     }
 
     /// Flip onboarding complete (swaps RootView to the main app) and queue the
@@ -411,6 +420,11 @@ struct OnboardingView: View {
         let settings = SettingsService(context: context).current()
         settings.hasCompletedOnboarding = true
         try? context.save()
+
+        Task {
+            _ = await NotificationService.requestAuthorization()
+            await NotificationService.scheduleDailyReminder(hour: reminderHour, committed: madeCommitment)
+        }
 
         // Only queue the immediate Home popup when we *didn't* already pitch the
         // trial in onboarding — otherwise the user would see the same sheet twice

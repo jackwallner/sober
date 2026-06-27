@@ -36,6 +36,12 @@ struct TrialOfferSheet: View {
 
     private var hasTrial: Bool { offerLabel != nil }
 
+    /// Small billing disclosure (Apple 3.1.2) kept out of the hero.
+    private var trialBillingNote: String? {
+        guard hasTrial, let priceLabel else { return nil }
+        return "After \(trialDays) days, \(priceLabel) unless you cancel."
+    }
+
     /// Strip the period suffix ("$29.99 / year" -> "$29.99").
     private var cleanPrice: String? {
         guard let priceLabel else { return nil }
@@ -50,7 +56,7 @@ struct TrialOfferSheet: View {
         if let focus {
             return focus.pitchSubheadline
         }
-        return "Full access to your garden, journal, health timeline, and savings — free until your trial ends."
+        return "Full access to your garden, journal, health timeline, and savings. Free until your trial ends."
     }
 
     var body: some View {
@@ -68,11 +74,6 @@ struct TrialOfferSheet: View {
                         .multilineTextAlignment(.center)
                         .lineLimit(1)
                         .minimumScaleFactor(0.7)
-                    if hasTrial, let priceLabel {
-                        Text("then \(priceLabel) · cancel anytime")
-                            .font(Theme.caption(weight: .semibold))
-                            .foregroundStyle(Theme.textSecondary)
-                    }
                     Text(subheadline)
                         .font(Theme.subhead())
                         .foregroundStyle(Theme.textSecondary)
@@ -84,16 +85,17 @@ struct TrialOfferSheet: View {
                 }
 
                 if hasTrial {
-                    TrialTimeline(trialDays: trialDays, priceLabel: cleanPrice.map { "\($0)/yr" })
+                    TrialTimeline(trialDays: trialDays, billingNote: trialBillingNote)
                         .padding(.horizontal, 4)
                 }
 
-                if showsAnchor, let cleanPrice {
+                if showsAnchor {
                     SavingsAnchorCard(
                         yearlySpend: yearlySpend,
                         spendCaption: "a year on alcohol",
-                        priceLabel: cleanPrice,
-                        priceCaption: "a year of Bloom+"
+                        trialDays: hasTrial ? trialDays : nil,
+                        priceLabel: hasTrial ? nil : cleanPrice,
+                        rightCaption: hasTrial ? "full Bloom+ access" : "a year of Bloom+"
                     )
                 }
 
@@ -190,6 +192,14 @@ struct TrialOfferSheet: View {
             Button("Not now", action: onDismiss)
                 .font(Theme.caption())
                 .foregroundStyle(Theme.textTertiary)
+
+            if let trialBillingNote {
+                Text(trialBillingNote)
+                    .font(.system(size: 11))
+                    .foregroundStyle(Theme.textTertiary)
+                    .multilineTextAlignment(.center)
+                    .padding(.top, 2)
+            }
         }
         .padding(.horizontal, 24)
         .padding(.top, 12)

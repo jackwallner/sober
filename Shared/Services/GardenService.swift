@@ -48,11 +48,11 @@ enum BonsaiStage: Int, CaseIterable, Comparable, Sendable {
         switch self {
         case .seed:       return "A seed is planted. Every great tree starts here."
         case .sprout:     return "Your first sprout has broken the soil."
-        case .seedling:   return "A seedling stands tall — roots are taking hold."
+        case .seedling:   return "A seedling stands tall. Roots are taking hold."
         case .young:      return "Your bonsai is filling out into a young tree."
         case .adolescent: return "Branches are reaching wider. The shape is emerging."
         case .mature:     return "Your bonsai has matured into a full, leafy canopy."
-        case .refined:    return "Refined and dense — the work of real patience."
+        case .refined:    return "Refined and dense. The work of real patience."
         case .ancient:    return "Ancient and weathered. This tree has seen a lot."
         case .legendary:  return "A legendary bonsai. A full year of growth made visible."
         }
