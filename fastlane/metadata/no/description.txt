@@ -1,43 +1,15 @@
-Sober Tracker holder din alkoholfrie reise enkel og motiverende. Tell hver edru dag, sjekk inn én gang om dagen, og se en virtuell hage blomstre etter hvert som rekken din vokser. Alt forblir privat på enheten din. Ingen konto er nødvendig.
+Sober Tracker hjelper deg å holde deg alkoholfri med dagteller, daglig innsjekk og en virtuell hage som vokser for hver edru dag.
 
-Hvis du ønsker ett rolig sted der du kan se hvor langt du har kommet og fortsette videre, så er dette den appen.
-
-EDRUELIGHETEN DIN I ETT OVERBLIKK (GRATIS)
-- Dagteller som viser dager, timer og din lengste rekke.
-- Daglig innsjekking med ett trykk for å notere hvordan dagen føles.
-- Edru-kalender med alle de edru dagene dine i ett overblikk.
-- Milepælsøyeblikk som dukker opp etter hvert som dagene legger seg sammen.
-
-EN HAGE SOM VOKSER MED DEG (GRATIS)
-- En virtuell hage som blomstrer for hver edru dag.
-- Ny vekst kommer til etter hvert som rekken din bygges opp.
-- En levende påminnelse om hvor langt du har kommet.
-
-PÅ HJEMSKJERMEN OG APPLE WATCH (GRATIS)
-- Widgets for hjemskjerm og låseskjerm med dagtellingen din.
-- Apple Watch-følgesvenn for å sjekke inn og se rekken din.
-- Fremgangen din er synlig uten å åpne appen.
-
-PRIVAT FRA BUNNEN AV (GRATIS)
-- Alle dataene dine forblir på enheten din.
-- Ingen konto kreves. Ingen reklame. Ingen sporing. Ingen servere.
-- Reisen din forblir din.
+GRATIS
+• Alkoholfri dagteller
+• Daglig innsjekk og edrukalender
+• Virtuell hage
+• Privat på enheten
 
 BLOOM+ (VALGFRITT)
-En liten oppgradering låser opp hele opplevelsen:
-- Komplett tidslinje over helsefordeler med kilder
-- Dagbok med veiledede skriveforslag
-- Prestasjoner og opplåsing av milepæler
-- Penger og kalorier spart siden dag én
-- Flere hagearter å dyrke
-En gratis prøveperiode tilbys til nye abonnenter.
+• Helsetidslinje, dagbok, prestasjoner
+• Apple Watch og widgeter
 
-Enten du slutter å drikke, kutter ned eller bygger opp edru dager, holder Sober Tracker bedringen enkel: tell den edru tiden din, sjekk inn, og se hagen din vokse.
+Last ned gratis. Bloom+ når du vil.
 
-Last ned gratis i dag.
-
-Abonnementsdetaljer
-Bloom+ er tilgjengelig som et abonnement med automatisk fornyelse (månedlig $4.99 / årlig $29.99 med 7 dagers gratis prøveperiode) eller som et engangskjøp for livstid ($59.99). Betalingen trekkes fra Apple ID-en din ved bekreftelse. Abonnementer fornyes automatisk med mindre de sies opp minst 24 timer før periodens slutt. Administrer eller si opp når som helst under Innstillinger > Apple ID > Abonnementer.
-
-Personvernerklæring: https://jackwallner.github.io/sober/privacy-policy.html
-Bruksvilkår (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Terms of Use (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

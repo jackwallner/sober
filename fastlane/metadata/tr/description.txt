@@ -1,43 +1,15 @@
-Sober Tracker, alkolsüz yolculuğunu basit ve motive edici tutar. Her ayık günü say, günde bir kez giriş yap ve serin büyüdükçe sanal bir bahçenin çiçek açışını izle. Her şey cihazında özel kalır. Hesaba gerek yok.
+Sober Tracker, gün sayacı, günlük check-in ve her ayık günde büyüyen sanal bahçe ile alkolsüz kalmanıza yardımcı olur.
 
-Ne kadar yol kat ettiğini görmek ve devam etmek için sakin bir yer istiyorsan, aradığın uygulama bu.
-
-AYIKLIĞINA BİR BAKIŞTA (ÜCRETSİZ)
-- Günleri, saatleri ve en uzun serini gösteren gün sayacı.
-- Bugünün nasıl geçtiğini kaydetmek için tek dokunuşla günlük giriş.
-- Her ayık günü bir bakışta gösteren ayıklık takvimi.
-- Günler biriktikçe gelen kilometre taşı anları.
-
-SENİNLE BİRLİKTE BÜYÜYEN BİR BAHÇE (ÜCRETSİZ)
-- Her ayık günle çiçek açan sanal bir bahçe.
-- Serin büyüdükçe yeni filizler belirir.
-- Ne kadar yol kat ettiğinin canlı bir hatırlatıcısı.
-
-ANA EKRANINDA VE APPLE WATCH'TA (ÜCRETSİZ)
-- Gün sayını gösteren Ana Ekran ve Kilit Ekranı widget'ları.
-- Giriş yapmak ve serini görmek için Apple Watch yardımcı uygulaması.
-- Uygulamayı açmadan ilerlemen görünür.
-
-TASARIM GEREĞİ ÖZEL (ÜCRETSİZ)
-- Tüm verilerin cihazında kalır.
-- Hesap gerekmez. Reklam yok. Takip yok. Sunucu yok.
-- Yolculuğun sana ait kalır.
+ÜCRETSİZ
+• Alkolsüz gün sayacı
+• Günlük check-in ve ayıklık takvimi
+• Sanal bahçe
+• Cihazda gizli – hesap gerekmez
 
 BLOOM+ (İSTEĞE BAĞLI)
-Küçük bir yükseltme tüm deneyimin kilidini açar:
-- Kaynaklarıyla birlikte eksiksiz sağlık faydaları zaman çizelgesi
-- Rehberli ipuçlarıyla günlük tutma
-- Başarımlar ve kilometre taşı kilit açma
-- İlk günden beri biriktirilen para ve kaloriler
-- Yetiştirebileceğin daha fazla bahçe türü
-Yeni abonelere ücretsiz deneme sunulur.
+• Sağlık zaman çizelgesi, günlük, başarılar
+• Apple Watch ve widget'lar
 
-İçkiyi bırakıyor, azaltıyor ya da ayık günler biriktiriyor ol, Sober Tracker iyileşmeyi basit tutar: ayık zamanını say, giriş yap ve bahçenin büyüyüşünü izle.
+Ücretsiz indirin. Bloom+ istediğiniz zaman.
 
-Bugün ücretsiz indir.
-
-Abonelik Ayrıntıları
-Bloom+, otomatik yenilenen bir abonelik (Aylık $4.99 / Yıllık $29.99, 7 günlük ücretsiz denemeyle) veya tek seferlik Ömür Boyu satın alma ($59.99) olarak sunulur. Ödeme, onay sırasında Apple ID'nden tahsil edilir. Abonelikler, dönemin bitiminden en az 24 saat önce iptal edilmediği sürece otomatik olarak yenilenir. İstediğin zaman Ayarlar > Apple ID > Abonelikler bölümünden yönet veya iptal et.
-
-Gizlilik Politikası: https://jackwallner.github.io/sober/privacy-policy.html
-Kullanım Koşulları (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Terms of Use (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

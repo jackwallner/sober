@@ -1,43 +1,17 @@
-Sober Tracker rend ton parcours sans alcool simple et motivant. Compte chaque jour sans alcool, fais un point une fois par jour et regarde un jardin virtuel s'épanouir au fil de ta série. Tout reste privé sur ton appareil. Aucun compte requis.
+Sober Tracker vous aide à rester sobre avec un compteur de jours, un check-in quotidien et un jardin virtuel qui grandit à chaque jour sans alcool.
 
-Si tu veux un endroit calme pour voir le chemin parcouru et continuer, c'est cette app.
-
-TA SOBRIÉTÉ EN UN COUP D'ŒIL (GRATUIT)
-- Compteur de jours avec les jours, les heures et ta plus longue série.
-- Point quotidien en un geste pour noter comment se passe ta journée.
-- Calendrier de sobriété avec chaque jour sans alcool en un coup d'œil.
-- Des moments clés qui arrivent à mesure que les jours s'accumulent.
-
-UN JARDIN QUI GRANDIT AVEC TOI (GRATUIT)
-- Un jardin virtuel qui s'épanouit à chaque jour de sobriété.
-- De nouvelles pousses apparaissent à mesure que ta série grandit.
-- Un rappel vivant du chemin parcouru.
-
-SUR TON ÉCRAN D'ACCUEIL ET TON APPLE WATCH (GRATUIT)
-- Widgets d'écran d'accueil et verrouillé avec ton nombre de jours.
-- Application Apple Watch pour faire ton point et voir ta série.
-- Ta progression visible sans ouvrir l'app.
-
-CONFIDENTIEL PAR CONCEPTION (GRATUIT)
-- Toutes tes données restent sur ton appareil.
-- Aucun compte. Aucune publicité. Aucun suivi. Aucun serveur.
-- Ton parcours reste le tien.
+GRATUIT
+• Compteur de jours sans alcool
+• Check-in quotidien
+• Calendrier de sobriété
+• Jardin virtuel
+• Privé sur l'appareil – aucun compte
 
 BLOOM+ (OPTIONNEL)
-Une petite mise à niveau débloque l'expérience complète :
-- Chronologie complète des bienfaits pour la santé avec sources
-- Journal avec invites guidées
-- Réussites et étapes franchies
-- Argent et calories économisés depuis le premier jour
-- Plus d'espèces de jardin à cultiver
-Un essai gratuit est proposé aux nouveaux abonnés.
+• Timeline santé, journal, succès
+• Économies et plus d'espèces au jardin
+• Apple Watch et widgets
 
-Que tu arrêtes de boire, que tu réduises ou que tu accumules des jours sans alcool, Sober Tracker garde la guérison simple : compte ton temps de sobriété, fais ton point et regarde ton jardin grandir.
+Téléchargement gratuit. Bloom+ en tout temps.
 
-Télécharge gratuitement.
-
-Détails de l'abonnement
-Bloom+ est disponible en abonnement à renouvellement automatique (mensuel 4,99 $ / annuel 29,99 $ avec 7 jours d'essai gratuit) ou en achat unique à vie (59,99 $). Le paiement est débité de ton compte Apple à la confirmation. Les abonnements se renouvellent automatiquement sauf annulation au moins 24 heures avant la fin de la période. Gère ou annule à tout moment dans Réglages > Identifiant Apple > Abonnements.
-
-Politique de confidentialité : https://jackwallner.github.io/sober/privacy-policy.html
-Conditions d'utilisation (CLUF) : https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Terms of Use (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
