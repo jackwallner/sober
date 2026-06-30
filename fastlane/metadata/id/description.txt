@@ -1,43 +1,15 @@
-Sober Tracker membuat perjalanan bebas alkohol Anda tetap sederhana dan memotivasi. Hitung setiap hari tanpa minum, check-in sekali sehari, dan saksikan taman virtual bermekaran seiring rentetan hari Anda bertambah. Semuanya tetap pribadi di perangkat Anda. Tidak perlu akun.
+Sober Tracker membantu Anda tetap bebas alkohol dengan penghitung hari, check-in harian, dan taman virtual yang tumbuh setiap hari tanpa minum.
 
-Jika Anda ingin satu tempat yang tenang untuk melihat seberapa jauh Anda telah melangkah dan terus berlanjut, inilah aplikasinya.
-
-Kemajuan kesadaran Anda dalam sekejap (GRATIS)
-- Penghitung hari yang menampilkan jumlah hari, jam, dan rentetan terpanjang Anda.
-- Check-in harian sekali ketuk untuk mencatat perasaan hari ini.
-- Kalender bebas alkohol yang menampilkan setiap hari tanpa minum dalam sekejap.
-- Momen tonggak pencapaian yang tiba saat hari demi hari bertambah.
-
-Taman yang tumbuh bersama Anda (GRATIS)
-- Taman virtual yang bermekaran di setiap hari tanpa minum.
-- Pertumbuhan baru muncul seiring rentetan hari Anda terbangun.
-- Pengingat hidup tentang seberapa jauh Anda telah melangkah.
-
-Di Layar Utama & Apple Watch Anda (GRATIS)
-- Widget Layar Utama dan Layar Kunci dengan jumlah hari Anda.
-- Pendamping Apple Watch untuk check-in dan melihat rentetan hari Anda.
-- Kemajuan Anda terlihat tanpa membuka aplikasi.
-
-Pribadi sejak dirancang (GRATIS)
-- Semua data Anda tetap di perangkat Anda.
-- Tidak perlu akun. Tanpa iklan. Tanpa pelacakan. Tanpa server.
-- Perjalanan Anda tetap milik Anda.
+GRATIS
+• Penghitung hari bebas alkohol
+• Check-in harian dan kalender
+• Taman virtual
+• Privat di perangkat
 
 BLOOM+ (OPSIONAL)
-Peningkatan kecil membuka pengalaman lengkap:
-- Lini masa manfaat kesehatan lengkap dengan sumber
-- Jurnal dengan panduan pertanyaan
-- Pencapaian dan pembukaan tonggak
-- Uang dan kalori yang dihemat sejak hari pertama
-- Lebih banyak jenis tanaman taman untuk ditumbuhkan
-Uji coba gratis ditawarkan untuk pelanggan baru.
+• Linimasa kesehatan, jurnal, pencapaian
+• Apple Watch dan widget
 
-Baik Anda sedang berhenti minum, mengurangi, atau membangun hari-hari tanpa alkohol, Sober Tracker membuat pemulihan tetap sederhana: hitung waktu sadar Anda, check-in, dan saksikan taman Anda tumbuh.
+Unduh gratis. Bloom+ kapan saja.
 
-Unduh gratis hari ini.
-
-Detail Langganan
-Bloom+ tersedia sebagai langganan perpanjangan otomatis (Bulanan $4.99 / Tahunan $29.99 dengan uji coba gratis 7 hari) atau pembelian Seumur Hidup sekali bayar ($59.99). Pembayaran dibebankan ke Apple ID Anda saat konfirmasi. Langganan diperpanjang otomatis kecuali dibatalkan setidaknya 24 jam sebelum akhir periode. Kelola atau batalkan kapan saja di Pengaturan > Apple ID > Langganan.
-
-Kebijakan Privasi: https://jackwallner.github.io/sober/privacy-policy.html
-Ketentuan Penggunaan (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Terms of Use (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

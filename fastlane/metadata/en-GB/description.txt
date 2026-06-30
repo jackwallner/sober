@@ -1,43 +1,22 @@
-Sober Tracker keeps your alcohol-free journey simple and motivating. Count every dry day, check in once a day, and watch a virtual garden bloom as your streak grows. Everything stays private on your device. No account needed.
+Sober Tracker helps you stay alcohol free with a clear day counter, daily check-in, and a virtual garden that grows with every sober day.
 
-If you want one calm place to see how far you've come and keep going, this is that app.
-
-YOUR SOBRIETY AT A GLANCE (FREE)
-- Day counter showing days, hours, and your longest streak.
-- One-tap daily check-in to log how today feels.
-- Sobriety calendar with every sober day at a glance.
-- Milestone moments that arrive as the days add up.
-
-A GARDEN THAT GROWS WITH YOU (FREE)
-- A virtual garden that blooms with every sober day.
-- New growth appears as your streak builds.
-- A living reminder of how far you've come.
-
-ON YOUR HOME SCREEN & APPLE WATCH (FREE)
-- Home Screen and Lock Screen widgets with your day count.
-- Apple Watch companion to check in and see your streak.
-- Your progress visible without opening the app.
-
-PRIVATE BY DESIGN (FREE)
-- All your data stays on your device.
-- No account required. No ads. No tracking. No servers.
-- Your journey stays yours.
+FREE TO START
+• Alcohol-free day counter — see days, hours, and your longest streak
+• Daily check-in — one tap to log how today feels
+• Sobriety calendar — sober days at a glance
+• Virtual garden — watch your progress bloom
+• Private on your device — no account required
 
 BLOOM+ (OPTIONAL)
-A small upgrade unlocks the full experience:
-- Complete health benefits timeline with sources
-- Journaling with guided prompts
-- Achievements and milestone unlocks
-- Money and calories saved since day one
-- More garden species to grow
-A free trial is offered to new subscribers.
+• Full health benefits timeline with sources
+• Journal with prompts
+• Achievements and milestones
+• Money and calories saved
+• More garden species
+• Apple Watch companion and home-screen widgets
 
-Whether you're quitting drinking, cutting back, or building dry days, Sober Tracker keeps recovery simple: count your sober time, check in, and watch your garden grow.
+Whether you are quitting drinking, cutting down, or building dry days, Sober Tracker keeps recovery simple: count sober time, check in, and grow your garden.
 
-Download free today.
+Download free. Upgrade to Bloom+ anytime.
 
-Subscription Details
-Bloom+ is available as an auto-renewing subscription (Monthly $4.99 / Yearly $29.99 with a 7-day free trial) or a one-time Lifetime purchase ($59.99). Payment is charged to your Apple ID at confirmation. Subscriptions auto-renew unless canceled at least 24 hours before the end of the period. Manage or cancel anytime in Settings > Apple ID > Subscriptions.
-
-Privacy Policy: https://jackwallner.github.io/sober/privacy-policy.html
 Terms of Use (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

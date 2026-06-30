@@ -1,43 +1,15 @@
-A Sober Tracker egyszerűvé és motiválóvá teszi az alkoholmentes utadat. Számold meg minden józan napodat, jelentkezz be naponta egyszer, és nézd, ahogy egy virtuális kert virágba borul, miközben a sorozatod növekszik. Minden privát marad a készülékeden. Nincs szükség fiókra.
+A Sober Tracker segít alkoholmentesen maradni napszámlálóval, napi check-innel és virtuális kerttel, amely minden józansági nappal növekszik.
 
-Ha egyetlen nyugodt helyre vágysz, ahol láthatod, milyen messzire jutottál, és folytathatod tovább, akkor ez az az alkalmazás.
-
-A JÓZANSÁGOD EGYETLEN PILLANTÁSRA (INGYENES)
-- Napszámláló, amely mutatja a napokat, órákat és a leghosszabb sorozatodat.
-- Egyérintéses napi bejelentkezés, hogy rögzítsd, milyen a mai napod.
-- Józansági naptár, amelyben minden józan nap egy helyen látható.
-- Mérföldkövek, amelyek a napok gyarapodásával érkeznek.
-
-EGY KERT, AMELY VELED EGYÜTT NŐ (INGYENES)
-- Virtuális kert, amely minden józan nappal virágba borul.
-- Új hajtások jelennek meg, ahogy a sorozatod épül.
-- Élő emlékeztető arra, milyen messzire jutottál.
-
-A KEZDŐKÉPERNYŐDÖN ÉS APPLE WATCH-ON (INGYENES)
-- Kezdőképernyő- és zárképernyő-widgetek a napjaid számával.
-- Apple Watch kísérő a bejelentkezéshez és a sorozatod megtekintéséhez.
-- A haladásod az alkalmazás megnyitása nélkül is látható.
-
-ALAPVETŐEN PRIVÁT (INGYENES)
-- Minden adatod a készülékeden marad.
-- Nincs szükség fiókra. Nincs reklám. Nincs követés. Nincsenek szerverek.
-- Az utad a tiéd marad.
+INGYENES
+• Alkoholmentes napszámláló
+• Napi check-in és józansági naptár
+• Virtuális kert
+• Privát az eszközön
 
 BLOOM+ (OPCIONÁLIS)
-Egy apró fejlesztés feloldja a teljes élményt:
-- Teljes egészségügyi előnyök idővonala forrásokkal
-- Naplózás vezetett ötletekkel
-- Eredmények és mérföldkövek feloldása
-- Megtakarított pénz és kalória az első naptól
-- Több növényfaj a kertedhez
-Az új előfizetők ingyenes próbaidőszakot kapnak.
+• Egészségidővonal, napló, eredmények
+• Apple Watch és widgetek
 
-Akár abbahagyod az ivást, akár visszafogod magad, akár józan napokat építesz, a Sober Tracker egyszerűvé teszi a felépülést: számold a józan idődet, jelentkezz be, és nézd, ahogy a kerted nő.
+Töltsd le ingyen. Bloom+ bármikor.
 
-Töltsd le ingyen még ma.
-
-Előfizetési részletek
-A Bloom+ automatikusan megújuló előfizetésként (havi $4.99 / éves $29.99 7 napos ingyenes próbaidőszakkal) vagy egyszeri, élethosszig tartó vásárlásként ($59.99) érhető el. A fizetést a megerősítéskor terheljük az Apple ID-dra. Az előfizetések automatikusan megújulnak, hacsak nem mondod le legalább 24 órával az időszak vége előtt. Bármikor kezelheted vagy lemondhatod a Beállítások > Apple ID > Előfizetések menüpontban.
-
-Adatvédelmi irányelvek: https://jackwallner.github.io/sober/privacy-policy.html
-Felhasználási feltételek (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Terms of Use (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

@@ -1,43 +1,16 @@
-Sober Tracker maakt je alcoholvrije weg eenvoudig en motiverend. Tel elke droge dag, check één keer per dag in en zie een virtuele tuin bloeien naarmate je reeks groeit. Alles blijft privé op je apparaat. Geen account nodig.
+Sober Tracker helpt je alcoholvrij te blijven met een dagteller, dagelijkse check-in en een virtuele tuin die groeit bij elke nuchtere dag.
 
-Als je een rustige plek wilt om te zien hoe ver je bent gekomen en door te gaan, dan is dit die app.
-
-JE NUCHTERHEID IN ÉÉN OOGOPSLAG (GRATIS)
-- Dagenteller met dagen, uren en je langste reeks.
-- Dagelijkse check-in met één tik om vast te leggen hoe vandaag voelt.
-- Nuchterheidskalender met elke droge dag in één oogopslag.
-- Mijlpalen die komen naarmate de dagen optellen.
-
-EEN TUIN DIE MET JE MEEGROEIT (GRATIS)
-- Een virtuele tuin die bloeit met elke nuchtere dag.
-- Nieuwe groei verschijnt naarmate je reeks groeit.
-- Een levende herinnering aan hoe ver je bent gekomen.
-
-OP JE BEGINSCHERM EN APPLE WATCH (GRATIS)
-- Widgets voor beginscherm en toegangsscherm met je dagenteller.
-- Apple Watch-app om in te checken en je reeks te zien.
-- Je voortgang zichtbaar zonder de app te openen.
-
-PRIVÉ VAN NATURE (GRATIS)
-- Al je gegevens blijven op je apparaat.
-- Geen account. Geen advertenties. Geen tracking. Geen servers.
-- Jouw weg blijft van jou.
+GRATIS
+• Alcoholvrije dagteller – dagen, uren en langste reeks
+• Dagelijkse check-in
+• Nuchterheidskalender
+• Virtuele tuin
+• Privé op je apparaat – geen account
 
 BLOOM+ (OPTIONEEL)
-Een kleine upgrade ontgrendelt de volledige ervaring:
-- Volledige tijdlijn met gezondheidsvoordelen en bronnen
-- Dagboek met begeleide prompts
-- Prestaties en mijlpalen
-- Bespaard geld en calorieën sinds dag één
-- Meer tuinsoorten om te laten groeien
-Nieuwe abonnees krijgen een gratis proefperiode.
+• Gezondheidstijdlijn, dagboek, prestaties
+• Apple Watch en widgets
 
-Of je nu stopt met drinken, mindert of droge dagen opbouwt, Sober Tracker houdt herstel eenvoudig: tel je nuchtere tijd, check in en zie je tuin groeien.
+Gratis downloaden. Bloom+ wanneer je wilt.
 
-Download gratis.
-
-Abonnementsgegevens
-Bloom+ is beschikbaar als automatisch verlengend abonnement (maandelijks $4,99 / jaarlijks $29,99 met 7 dagen gratis proef) of als eenmalige levenslange aankoop ($59,99). De betaling wordt bij bevestiging van je Apple ID afgeschreven. Abonnementen verlengen automatisch tenzij ze minstens 24 uur voor het einde van de periode worden opgezegd. Beheer of zeg op wanneer je wilt via Instellingen > Apple ID > Abonnementen.
-
-Privacybeleid: https://jackwallner.github.io/sober/privacy-policy.html
-Gebruiksvoorwaarden (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Terms of Use (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

@@ -1,43 +1,20 @@
-O Sober Tracker torna sua jornada sem álcool simples e motivadora. Conte cada dia seco, faça um check-in uma vez por dia e veja um jardim virtual florescer conforme sua sequência cresce. Tudo fica privado no seu dispositivo. Sem conta.
+O Sober Tracker ajuda você a ficar sóbrio com contador de dias, check-in diário e um jardim virtual que cresce a cada dia sem álcool.
 
-Se você quer um lugar tranquilo para ver o quanto já avançou e continuar, este é o app.
-
-SUA SOBRIEDADE EM UM RELANCE (GRÁTIS)
-- Contador de dias com dias, horas e sua maior sequência.
-- Check-in diário com um toque para registrar como você está hoje.
-- Calendário de sobriedade com cada dia seco em um relance.
-- Marcos que chegam conforme os dias se somam.
-
-UM JARDIM QUE CRESCE COM VOCÊ (GRÁTIS)
-- Um jardim virtual que floresce a cada dia sóbrio.
-- Novo crescimento aparece conforme sua sequência aumenta.
-- Um lembrete vivo do quanto você já avançou.
-
-NA SUA TELA DE INÍCIO E APPLE WATCH (GRÁTIS)
-- Widgets de tela de início e bloqueio com sua contagem de dias.
-- App para Apple Watch para fazer check-in e ver sua sequência.
-- Seu progresso visível sem abrir o app.
-
-PRIVADO POR DESIGN (GRÁTIS)
-- Todos os seus dados ficam no seu dispositivo.
-- Sem conta. Sem anúncios. Sem rastreamento. Sem servidores.
-- Sua jornada é só sua.
+GRÁTIS
+• Contador de dias sem álcool – dias, horas e maior sequência
+• Check-in diário
+• Calendário de sobriedade
+• Jardim virtual
+• Privado no dispositivo – sem conta
 
 BLOOM+ (OPCIONAL)
-Uma pequena melhoria desbloqueia a experiência completa:
-- Linha do tempo completa de benefícios à saúde com fontes
-- Diário com sugestões guiadas
-- Conquistas e marcos alcançados
-- Dinheiro e calorias economizados desde o primeiro dia
-- Mais espécies de jardim para cultivar
-Um teste gratuito é oferecido para novos assinantes.
+• Linha do tempo de saúde
+• Diário com prompts
+• Conquistas e economia
+• Apple Watch e widgets
 
-Seja parando de beber, reduzindo ou somando dias secos, o Sober Tracker mantém a recuperação simples: conte seu tempo sóbrio, faça check-in e veja seu jardim crescer.
+Pare de beber ou some dias secos: o Sober Tracker simplifica.
 
-Baixe grátis.
+Download grátis. Bloom+ quando quiser.
 
-Detalhes da assinatura
-O Bloom+ está disponível como assinatura de renovação automática (mensal $4,99 / anual $29,99 com 7 dias de teste grátis) ou como compra única vitalícia ($59,99). O pagamento é cobrado no seu Apple ID na confirmação. As assinaturas renovam automaticamente, a menos que sejam canceladas pelo menos 24 horas antes do fim do período. Gerencie ou cancele quando quiser em Ajustes > Apple ID > Assinaturas.
-
-Política de Privacidade: https://jackwallner.github.io/sober/privacy-policy.html
-Termos de Uso (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Terms of Use (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
