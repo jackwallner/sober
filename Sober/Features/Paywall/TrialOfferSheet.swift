@@ -92,7 +92,7 @@ struct TrialOfferSheet: View {
                 if showsAnchor {
                     SavingsAnchorCard(
                         yearlySpend: yearlySpend,
-                        spendCaption: "a year on alcohol",
+                        habitName: "alcohol",
                         trialDays: hasTrial ? trialDays : nil,
                         priceLabel: hasTrial ? nil : cleanPrice,
                         rightCaption: hasTrial ? "full Bloom+ access" : "a year of Bloom+"

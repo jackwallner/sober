@@ -262,6 +262,34 @@ final class SubscriptionService: NSObject {
     var trialOfferHeadlineLabel: String? {
         directTrialPackage?.soberIntroOfferLabel
     }
+
+    /// Parsed trial length for hero and plan-stack footnotes.
+    var trialOfferDayCount: Int? {
+        guard let label = trialOfferHeadlineLabel else { return nil }
+        let digits = String(label.drop { !$0.isNumber }.prefix { $0.isNumber })
+        return Int(digits)
+    }
+
+    /// Footnote under the plan stack — makes it explicit which tiers include
+    /// a free trial when Monthly and Yearly both carry intro offers.
+    var subscriptionTrialFootnote: String? {
+        let trialKinds = Set(
+            packages.filter { isEligibleForIntroOffer($0) }.map(\.soberPackageKind)
+        )
+        guard trialKinds.contains(.monthly) || trialKinds.contains(.yearly) else { return nil }
+        let days = trialOfferDayCount ?? 7
+        let label = days == 1 ? "1-day" : "\(days)-day"
+        switch (trialKinds.contains(.monthly), trialKinds.contains(.yearly)) {
+        case (true, true):
+            return "\(label.capitalized) free trial on Monthly and Yearly."
+        case (true, false):
+            return "\(label.capitalized) free trial on Monthly."
+        case (false, true):
+            return "\(label.capitalized) free trial on Yearly."
+        default:
+            return nil
+        }
+    }
     #endif
 
     /// Grant a one-time complimentary trial (surfaced at emotional milestones).

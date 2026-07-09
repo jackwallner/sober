@@ -13,8 +13,18 @@ struct SoberApp: App {
 
     var body: some Scene {
         WindowGroup {
+            #if DEBUG
+            if let mode = PaywallScreenshotMode.current {
+                PaywallScreenshotHarness(mode: mode)
+                    .environment(subscriptions)
+            } else {
+                RootView()
+                    .environment(subscriptions)
+            }
+            #else
             RootView()
                 .environment(subscriptions)
+            #endif
         }
         .modelContainer(DataService.sharedModelContainer)
     }
