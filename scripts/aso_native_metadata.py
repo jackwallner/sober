@@ -28,32 +28,32 @@ Download free. Upgrade to Bloom+ anytime."""
 LOCALES: dict[str, dict[str, str]] = {
     "en-US": {
         "name": "Sober Tracker - Alcohol Free",
-        "subtitle": "Dry Days: Sobriety Counter",
-        "keywords": "drink,less,quit,stop,recovery,sobriety,addiction,relapse,cravings,mood,streak,abstinence,daily,clean",
+        "subtitle": "Dry Days, Sobriety & Garden",
+        "keywords": "drink,less,quit,stop,recovery,addiction,relapse,cravings,mood,streak,abstinence,daily,clean,calendar",
         "description": EN_DESCRIPTION,
     },
     "en-GB": {
         "name": "Sober Tracker - Alcohol Free",
-        "subtitle": "Dry Days: Sobriety Counter",
-        "keywords": "drink,less,quit,stop,recovery,sobriety,addiction,relapse,cravings,mood,streak,abstinence,daily,clean",
+        "subtitle": "Dry Days, Sobriety & Garden",
+        "keywords": "drink,less,quit,stop,recovery,addiction,relapse,cravings,mood,streak,abstinence,daily,clean,calendar",
         "description": EN_DESCRIPTION.replace("cutting back", "cutting down"),
     },
     "en-AU": {
         "name": "Sober Tracker - Alcohol Free",
-        "subtitle": "Dry Days: Sobriety Counter",
-        "keywords": "drink,less,quit,stop,recovery,sobriety,addiction,relapse,cravings,mood,streak,abstinence,daily,clean",
+        "subtitle": "Dry Days, Sobriety & Garden",
+        "keywords": "drink,less,quit,stop,recovery,addiction,relapse,cravings,mood,streak,abstinence,daily,clean,calendar",
         "description": EN_DESCRIPTION,
     },
     "en-CA": {
         "name": "Sober Tracker - Alcohol Free",
-        "subtitle": "Dry Days: Sobriety Counter",
-        "keywords": "drink,less,quit,stop,recovery,sobriety,addiction,relapse,cravings,mood,streak,abstinence,daily,clean",
+        "subtitle": "Dry Days, Sobriety & Garden",
+        "keywords": "drink,less,quit,stop,recovery,addiction,relapse,cravings,mood,streak,abstinence,daily,clean,calendar",
         "description": EN_DESCRIPTION,
     },
     "de-DE": {
-        "name": "Sober: Alkoholfrei Tracker",
-        "subtitle": "Trockene Tage & Garten",
-        "keywords": "trinken,weniger,aufhören,entzug,nüchtern,sucht,erholung,serie,abstinenz,rückfall,stimmung,streak",
+        "name": "Alkohol stoppen: Trockene Tage",
+        "subtitle": "Nüchternheitszähler & Garten",
+        "keywords": "trinken,weniger,aufhören,entzug,sucht,erholung,serie,abstinenz,rückfall,stimmung,verlangen,kalender",
         "description": """Sober Tracker hilft dir, alkoholfrei zu bleiben – mit Tageszähler, täglichem Check-in und einem virtuellen Garten, der mit jedem nüchternen Tag wächst.
 
 KOSTENLOS STARTEN
@@ -76,9 +76,9 @@ Ob du aufhörst zu trinken, weniger trinkst oder trockene Tage sammelst: Sober T
 Kostenlos laden. Bloom+ jederzeit upgraden.""",
     },
     "fr-FR": {
-        "name": "Sober – Sans alcool",
-        "subtitle": "Jours secs & jardin",
-        "keywords": "boire,moins,arrêter,sevrage,abstinence,sevrer,sevrage,envie,rétablissement,dépendance,humeur",
+        "name": "Arrêter alcool: Jours secs",
+        "subtitle": "Compteur sobriété & jardin",
+        "keywords": "boire,moins,sevrage,abstinence,rétablissement,envie,habitude,journal,série,dépendance,rechute,humeur",
         "description": """Sober Tracker vous aide à rester sobre avec un compteur de jours, un check-in quotidien et un jardin virtuel qui grandit à chaque jour sans alcool.
 
 GRATUIT POUR COMMENCER
@@ -101,9 +101,9 @@ Que vous arrêtiez de boire, réduisiez ou accumuliez des jours secs, Sober Trac
 Téléchargement gratuit. Passez à Bloom+ quand vous voulez.""",
     },
     "fr-CA": {
-        "name": "Sober – Sans alcool",
-        "subtitle": "Jours secs et jardin",
-        "keywords": "boire,moins,arrêter,sevrage,abstinence,rétablissement,envie,sevrer,dépendance,humeur,rechute",
+        "name": "Arrêter alcool: Jours secs",
+        "subtitle": "Compteur sobriété & jardin",
+        "keywords": "boire,moins,sevrage,abstinence,rétablissement,envie,habitude,journal,série,dépendance,rechute,humeur",
         "description": """Sober Tracker vous aide à rester sobre avec un compteur de jours, un check-in quotidien et un jardin virtuel qui grandit à chaque jour sans alcool.
 
 GRATUIT
@@ -121,9 +121,9 @@ BLOOM+ (OPTIONNEL)
 Téléchargement gratuit. Bloom+ en tout temps.""",
     },
     "es-ES": {
-        "name": "Sober – Sin alcohol",
-        "subtitle": "Días secos y jardín",
-        "keywords": "beber,menos,dejar,adicción,antojo,abstinencia,recuperación,sobriedad,recaída,humor,raya",
+        "name": "Dejar alcohol: Días secos",
+        "subtitle": "Contador sobriedad & jardín",
+        "keywords": "beber,menos,adicción,antojo,abstinencia,recuperación,recaída,humor,diario,serie,calendario,salud",
         "description": """Sober Tracker te ayuda a mantenerte sobrio con contador de días, check-in diario y un jardín virtual que crece con cada día sin alcohol.
 
 GRATIS PARA EMPEZAR
@@ -146,9 +146,9 @@ Deja de beber, reduce o suma días secos: Sober Tracker lo hace simple.
 Descarga gratis. Mejora a Bloom+ cuando quieras.""",
     },
     "es-MX": {
-        "name": "Sober – Sin alcohol",
-        "subtitle": "Días secos y jardín",
-        "keywords": "beber,menos,dejar,adicción,antojo,abstinencia,recuperación,sobriedad,recaída,humor,raya",
+        "name": "Dejar alcohol: Días secos",
+        "subtitle": "Contador sobriedad & jardín",
+        "keywords": "beber,menos,adicción,antojo,abstinencia,recuperación,recaída,humor,diario,serie,calendario,salud",
         "description": """Sober Tracker te ayuda a mantenerte sobrio con contador de días, check-in diario y un jardín virtual que crece cada día sin alcohol.
 
 GRATIS
@@ -165,9 +165,9 @@ BLOOM+ (OPCIONAL)
 Descarga gratis. Bloom+ cuando quieras.""",
     },
     "ca": {
-        "name": "Sober – Sense alcohol",
-        "subtitle": "Dies secs i jardí",
-        "keywords": "beure,menys,deixar,addicció,abstinència,recuperació,recaiguda,desig,humor,ratxa",
+        "name": "Deixa l'alcohol: Dies secs",
+        "subtitle": "Comptador abstinència & jardí",
+        "keywords": "beure,menys,addicció,recuperació,recaiguda,desig,humor,hàbit,diari,sèrie,calendari,salut,privat,vi",
         "description": """Sober Tracker t'ajuda a mantenir-te sobri amb comptador de dies, check-in diari i un jardí virtual que creix cada dia sense alcohol.
 
 GRATUÏT
@@ -183,9 +183,9 @@ BLOOM+ (OPCIONAL)
 Descarrega gratuïta. Bloom+ quan vulguis.""",
     },
     "it": {
-        "name": "Sober – Senza alcol",
-        "subtitle": "Giorni secchi: contatore",
-        "keywords": "bere,meno,smettere,astinenza,dipendenza,recupero,ricaduta,voglia,craving,umore,sbronzo",
+        "name": "Smetti alcol: Giorni secchi",
+        "subtitle": "Contatore sobrietà & giardino",
+        "keywords": "bere,meno,smettere,astinenza,dipendenza,recupero,ricaduta,voglia,umore,abitudine,diario,serie,salute",
         "description": """Sober Tracker ti aiuta a restare sobrio con contatore dei giorni, check-in quotidiano e un giardino virtuale che cresce a ogni giorno senza alcol.
 
 GRATIS
@@ -206,9 +206,9 @@ Smetti di bere o accumula giorni secchi: Sober Tracker semplifica il percorso.
 Download gratuito. Bloom+ quando vuoi.""",
     },
     "pt-BR": {
-        "name": "Sober – Sem Álcool",
-        "subtitle": "Dias secos e jardim",
-        "keywords": "beber,menos,parar,dependência,abstinência,recuperação,recaída,vontade,humor,tarja",
+        "name": "Parar álcool: Dias secos & app",
+        "subtitle": "Contador recuperação & jardim",
+        "keywords": "beber,menos,dependência,abstinência,recaída,vontade,humor,diário,serie,calendário,saúde,privado,wine",
         "description": """O Sober Tracker ajuda você a ficar sóbrio com contador de dias, check-in diário e um jardim virtual que cresce a cada dia sem álcool.
 
 GRÁTIS
@@ -229,9 +229,9 @@ Pare de beber ou some dias secos: o Sober Tracker simplifica.
 Download grátis. Bloom+ quando quiser.""",
     },
     "pt-PT": {
-        "name": "Sober – Sem Álcool",
-        "subtitle": "Dias secos e jardim",
-        "keywords": "beber,menos,parar,dependência,abstinência,recuperação,recaída,vontade,humor,tarja",
+        "name": "Parar álcool: Dias secos & app",
+        "subtitle": "Contador recuperação & jardim",
+        "keywords": "beber,menos,dependência,abstinência,recaída,vontade,humor,diário,serie,calendário,saúde,privado,wine",
         "description": """O Sober Tracker ajuda-o a manter-se sóbrio com contador de dias, check-in diário e um jardim virtual que cresce em cada dia sem álcool.
 
 GRÁTIS
@@ -247,9 +247,9 @@ BLOOM+ (OPCIONAL)
 Transferência gratuita. Bloom+ quando quiser.""",
     },
     "nl-NL": {
-        "name": "Sober – Alcoholvrij",
-        "subtitle": "Droge dagen en tuin",
-        "keywords": "stoppen,minder,drinken,verslaving,ontwenning,nuchter,herstel,terugval,verlangen,stemming,streak",
+        "name": "Stop met drinken: Droge dagen",
+        "subtitle": "Herstelteller & virtuele tuin",
+        "keywords": "minder,verslaving,ontwenning,nuchter,terugval,verlangen,stemming,gewoonte,dagboek,serie,kalender",
         "description": """Sober Tracker helpt je alcoholvrij te blijven met een dagteller, dagelijkse check-in en een virtuele tuin die groeit bij elke nuchtere dag.
 
 GRATIS
@@ -266,9 +266,9 @@ BLOOM+ (OPTIONEEL)
 Gratis downloaden. Bloom+ wanneer je wilt.""",
     },
     "pl": {
-        "name": "Sober – Bez alkoholu",
-        "subtitle": "Suche dni i ogród",
-        "keywords": "pić,mniej,przestać,uzależnienie,abstynencja,odwyk,nawrót,głód,nastrój,pasmo",
+        "name": "Rzuć alkohol: Suche dni & app",
+        "subtitle": "Licznik trzeźwości & ogród",
+        "keywords": "pić,mniej,przestać,uzależnienie,abstynencja,odwyk,nawrót,głód,nastrój,nawyk,dziennik,seria,kalendarz",
         "description": """Sober Tracker pomaga pozostać trzeźwym dzięki licznikowi dni, codziennemu check-inowi i wirtualnemu ogrodowi rosnącemu z każdym dniem bez alkoholu.
 
 ZA DARMO
@@ -285,9 +285,9 @@ BLOOM+ (OPCJONALNIE)
 Pobierz za darmo. Bloom+ w dowolnym momencie.""",
     },
     "sv": {
-        "name": "Sober – Alkoholfri",
-        "subtitle": "Torra dagar och trädgård",
-        "keywords": "dricka,mindre,sluta,beroende,abstinens,återhämtning,återfall,sug,humör,streak",
+        "name": "Sluta dricka: Torra dagar",
+        "subtitle": "Nykterhetsmätare & trädgård",
+        "keywords": "mindre,beroende,abstinens,återhämtning,återfall,sug,humör,vana,dagbok,serie,kalender,hälsa,privat,öl",
         "description": """Sober Tracker hjälper dig att hålla dig alkoholfri med dagräknare, daglig check-in och en virtuell trädgård som växer för varje nykter dag.
 
 GRATIS
@@ -303,9 +303,9 @@ BLOOM+ (VALFRITT)
 Ladda ner gratis. Bloom+ när du vill.""",
     },
     "da": {
-        "name": "Sober – Alkoholfri",
-        "subtitle": "Tørre dage og have",
-        "keywords": "drikke,mindre,stoppe,afhængighed,afholdenhed,bedring,tilbagefald,trang,humør,stribe",
+        "name": "Stop med alkohol: Tørre dage",
+        "subtitle": "Genopretning & virtuel have",
+        "keywords": "drikke,mindre,afhængighed,afholdenhed,bedring,tilbagefald,trang,humør,vane,dagbog,serie,kalender,vin",
         "description": """Sober Tracker hjælper dig med at forblive alkoholfri med dagtæller, daglig check-in og en virtuel have, der vokser for hver ædru dag.
 
 GRATIS
@@ -321,9 +321,9 @@ BLOOM+ (VALGFRIT)
 Gratis download. Bloom+ når du vil.""",
     },
     "no": {
-        "name": "Sober – Alkoholfri",
-        "subtitle": "Tørre dager og hage",
-        "keywords": "drikke,mindre,slutte,avhengighet,avholdenhet,bedring,tilbakefall,sug,humør,streak",
+        "name": "Slutt med alkohol: Tørre dager",
+        "subtitle": "Gjenoppretting & virtuell hage",
+        "keywords": "drikke,mindre,avhengighet,avholdenhet,bedring,tilbakefall,sug,humør,vane,dagbok,serie,kalender,helse",
         "description": """Sober Tracker hjelper deg å holde deg alkoholfri med dagteller, daglig innsjekk og en virtuell hage som vokser for hver edru dag.
 
 GRATIS
@@ -339,9 +339,9 @@ BLOOM+ (VALGFRITT)
 Last ned gratis. Bloom+ når du vil.""",
     },
     "fi": {
-        "name": "Sober – Alkoholiton",
-        "subtitle": "Kuivat päivät ja puutarha",
-        "keywords": "juoda,vähemmän,lopettaa,riippuvuus,raittius,toipuminen,retkahdus,himo,mieli,pätkä",
+        "name": "Lopeta alkoholi: Kuivat päivät",
+        "subtitle": "Raittiuslaskuri & puutarha",
+        "keywords": "juoda,vähemmän,lopettaa,riippuvuus,toipuminen,retkahdus,himo,mieli,tapa,päiväkirja,sarja,kalenteri",
         "description": """Sober Tracker auttaa pysymään alkoholittomana päivälaskurilla, päivittäisellä kirjauksella ja virtuaalisella puutarhalla, joka kasvaa jokaisena raittiina päivänä.
 
 ILMAISEKSI
@@ -357,9 +357,9 @@ BLOOM+ (VALINNAINEN)
 Lataa ilmaiseksi. Bloom+ milloin haluat.""",
     },
     "cs": {
-        "name": "Sober – Bez alkoholu",
-        "subtitle": "Suché dny: počítadlo",
-        "keywords": "pít,méně,přestat,závislost,abstinence,zotavení,relaps,chuť,nálada,pruh",
+        "name": "Přestaň pít: Suché dny & app",
+        "subtitle": "Počítadlo abstinence & zahrada",
+        "keywords": "méně,přestat,závislost,zotavení,relaps,chuť,nálada,zvyk,deník,série,kalendář,zdraví,soukromí,víno",
         "description": """Sober Tracker vám pomůže zůstat střízliví díky počítadlu dní, dennímu check-inu a virtuální zahradě, která roste s každým střízlivým dnem.
 
 ZDARMA
@@ -375,9 +375,9 @@ BLOOM+ (VOLITELNÉ)
 Stáhněte zdarma. Bloom+ kdykoli.""",
     },
     "sk": {
-        "name": "Sober – Bez alkoholu",
-        "subtitle": "Suché dni: počítadlo",
-        "keywords": "piť,menej,prestať,závislosť,abstinencia,zotavenie,relaps,chuť,nálada,pruh",
+        "name": "Prestaň piť: Suché dni & app",
+        "subtitle": "Počítadlo zotavenia & záhrada",
+        "keywords": "menej,prestať,závislosť,abstinencia,zotavenie,relaps,chuť,nálada,zvyk,denník,séria,kalendár,zdravie",
         "description": """Sober Tracker vám pomôže zostať triezvymi s počítadlom dní, denným check-inom a virtuálnou záhradou, ktorá rastie s každým triezvym dňom.
 
 ZADARMO
@@ -393,9 +393,9 @@ BLOOM+ (VOLITEĽNÉ)
 Stiahnite zadarmo. Bloom+ kedykoľvek.""",
     },
     "hu": {
-        "name": "Sober – Alkoholmentes",
-        "subtitle": "Száraz napok és kert",
-        "keywords": "inni,kevesebb,abbahagy,függőség,elvonás,felépülés,visszaesés,vágy,hangulat,sáv",
+        "name": "Alkohol abbahagy: Száraz napok",
+        "subtitle": "Mérsékletességmérő & kert",
+        "keywords": "inni,kevesebb,függőség,elvonás,felépülés,visszaesés,vágy,hangulat,szokás,napló,sorozat,naptár,privát",
         "description": """A Sober Tracker segít alkoholmentesen maradni napszámlálóval, napi check-innel és virtuális kerttel, amely minden józansági nappal növekszik.
 
 INGYENES
@@ -411,9 +411,9 @@ BLOOM+ (OPCIONÁLIS)
 Töltsd le ingyen. Bloom+ bármikor.""",
     },
     "ro": {
-        "name": "Sober – Fără alcool",
-        "subtitle": "Zile uscate și grădină",
-        "keywords": "bea,puțin,opri,dependență,abstinență,recuperare,recădere,poftă,dispoziție,dungă",
+        "name": "Oprește alcool: Zile uscate",
+        "subtitle": "Contor recuperare & grădină",
+        "keywords": "bea,maipuțin,opri,dependență,abstinență,recădere,poftă,dispoziție,obicei,jurnal,serie,calendar,vin",
         "description": """Sober Tracker te ajută să rămâi sobri cu contor de zile, check-in zilnic și o grădină virtuală care crește la fiecare zi fără alcool.
 
 GRATUIT
@@ -429,9 +429,9 @@ BLOOM+ (OPȚIONAL)
 Descarcă gratuit. Bloom+ oricând.""",
     },
     "hr": {
-        "name": "Sober – Bez alkohola",
-        "subtitle": "Suhi dani i vrt",
-        "keywords": "piti,manje,prestati,ovisnost,apstinencija,oporavak,relaps,želja,raspoloženje,niz",
+        "name": "Prestani piti: Suhi dani & app",
+        "subtitle": "Brojač abstinencije & vrt",
+        "keywords": "manje,prestati,ovisnost,apstinencija,oporavak,relaps,želja,raspoloženje,navika,dnevnik,niz,kalendar",
         "description": """Sober Tracker pomaže ostati trijezan uz brojač dana, dnevni check-in i virtualni vrt koji raste sa svakim trijeznim danom.
 
 BESPLATNO
@@ -447,9 +447,9 @@ BLOOM+ (OPCIONALNO)
 Preuzmi besplatno. Bloom+ kad želiš.""",
     },
     "el": {
-        "name": "Sober – Χωρίς αλκοόλ",
-        "subtitle": "Ξηρές μέρες: μετρητής",
-        "keywords": "πίνω,λιγότερο,σταματώ,εξάρτηση,αποχή,ανάρρωση,υποτροπή,λαχτάρα,διάθεση,σειρά",
+        "name": "Σταμάτα αλκοόλ: Ξηρές μέρες",
+        "subtitle": "Μετρητής αποκατάστασης & κήπος",
+        "keywords": "πίνω,λιγότερο,σταματώ,εξάρτηση,αποχή,ανάρρωση,υποτροπή,λαχτάρα,διάθεση,συνήθεια,ημερολόγιο,σειρά",
         "description": """Το Sober Tracker σας βοηθά να μείνετε νηφάλιοι με μετρητή ημερών, καθημερινό check-in και εικονικό κήπο που μεγαλώνει κάθε νηφάλια μέρα.
 
 ΔΩΡΕΑΝ
@@ -465,9 +465,9 @@ BLOOM+ (ΠΡΟΑΙΡΕΤΙΚΟ)
 Δωρεάν λήψη. Bloom+ όποτε θέλετε.""",
     },
     "tr": {
-        "name": "Sober – Alkolsüz",
-        "subtitle": "Kuru günler ve bahçe",
-        "keywords": "içmek,az,bırakmak,bağımlılık,soğuma,iyileşme,nüks,istek,ruh,hali,seri",
+        "name": "Bırak alkol: Kuru günler & app",
+        "subtitle": "Bağımlılık sayacı & bahçe",
+        "keywords": "içmek,az,ayıklık,iyileşme,nüks,istek,ruhhali,alışkanlık,günlük,dizi,takvim,sağlık,özel,şarap,bira",
         "description": """Sober Tracker, gün sayacı, günlük check-in ve her ayık günde büyüyen sanal bahçe ile alkolsüz kalmanıza yardımcı olur.
 
 ÜCRETSİZ
@@ -483,9 +483,9 @@ BLOOM+ (İSTEĞE BAĞLI)
 Ücretsiz indirin. Bloom+ istediğiniz zaman.""",
     },
     "ru": {
-        "name": "Sober – Без алкоголя",
-        "subtitle": "Сухие дни и сад",
-        "keywords": "пить,меньше,бросить,зависимость,воздержание,восстановление,срыв,тяга,настроение,серия",
+        "name": "Брось алкоголь: Сухие дни",
+        "subtitle": "Счётчик воздержания & сад",
+        "keywords": "пить,меньше,бросить,зависимость,воздержание,восстановление,срыв,тяга,настроение,привычка,дневник",
         "description": """Sober Tracker помогает оставаться трезвым: счётчик дней, ежедневный чек-ин и виртуальный сад, который растёт с каждым трезвым днём.
 
 БЕСПЛАТНО
@@ -501,9 +501,9 @@ BLOOM+ (ОПЦИОНАЛЬНО)
 Скачайте бесплатно. Bloom+ в любое время.""",
     },
     "uk": {
-        "name": "Sober – Без алкоголю",
-        "subtitle": "Сухі дні та сад",
-        "keywords": "пити,менше,кинути,залежність,утримання,одужання,зрив,тяга,настрій,серія",
+        "name": "Кинь алкоголь: Сухі дні & app",
+        "subtitle": "Лічильник тверезості & сад",
+        "keywords": "пити,менше,кинути,залежність,утримання,відновлення,зрив,тяга,настрій,звичка,щоденник,серія,календар",
         "description": """Sober Tracker допомагає залишатися тверезим: лічильник днів, щоденний чек-ін і віртуальний сад, що росте з кожним тверезим днем.
 
 БЕЗКОШТОВНО
@@ -519,9 +519,9 @@ BLOOM+ (ЗА БАЖАННЯМ)
 Завантажте безкоштовно. Bloom+ будь-коли.""",
     },
     "ja": {
-        "name": "ソーバー：アルコールフリー",
-        "subtitle": "ドライデイズとガーデン",
-        "keywords": "飲む,減らす,禁酒,依存,断酒,回復,再発,渇望,気分,連続",
+        "name": "アルコール禁酒・ドライデイ追跡SOBERアプリ版APP",
+        "subtitle": "無アルコール日数カウンター・バーチャル庭園SOBER版",
+        "keywords": "飲む,減らす,禁酒,依存,断酒,回復,再発,渇望,習慣,日記,連続,記録,カレンダー,ウィジェット,庭,健康,非公開,ワイン,ビール,ドライ,デイ,追跡,成長,アプリ,ツール,dryday,フリー",
         "description": """Sober Trackerは、日数カウンター、毎日のチェックイン、禁酒するたびに育つバーチャルガーデンで、アルコールフリーな生活を続けやすくします。
 
 無料で始める
@@ -543,9 +543,9 @@ BLOOM+（オプション）
 無料ダウンロード。いつでもBloom+にアップグレード。""",
     },
     "ko": {
-        "name": "소버 – 무알코올",
-        "subtitle": "마른 날과 정원",
-        "keywords": "마시다,줄이다,끊다,중독,절주,회복,재발,갈망,기분,연속",
+        "name": "금주 알코올 드라이데이 추적 앱 프로그램 도구",
+        "subtitle": "무알코올 프리 일수 카운터 & 가상 정원 성장",
+        "keywords": "마시다,줄이다,끊다,중독,절주,회복,재발,갈망,습관,일기,연속,기록,캘린더,위젯,건강,비공개,와인,맥주,드라이,데이,앱,sober,dryday,성장앱,절제,체크인,서비스,솔루션",
         "description": """Sober Tracker는 일수 카운터, 매일 체크인, 금주할 때마다 자라는 가상 정원으로 금주 생활을 이어가게 돕습니다.
 
 무료로 시작
@@ -564,9 +564,9 @@ BLOOM+ (선택)
 무료 다운로드. Bloom+는 언제든 업그레이드.""",
     },
     "zh-Hans": {
-        "name": "清醒助手 - 无酒精",
-        "subtitle": "干燥天数与花园",
-        "keywords": "喝,戒酒,少喝,上瘾,戒断,恢复,复发,渴望,心情,连续",
+        "name": "戒酒助手｜干酒日酒精戒断追踪SOBER应用APP版",
+        "subtitle": "无酒精日计数器・虚拟花园成长应用助手SOBERAPP",
+        "keywords": "喝酒,减少,戒酒,依赖,戒断,渴望,习惯,日记,连续,记录,日历,小组件,花园,健康,私密,复饮,葡萄酒,啤酒,干酒,追踪,计数器,虚拟,成长,应用,助手,dryday,酒精,干酒日,程序,工具,服务",
         "description": """Sober Tracker 用天数计数器、每日签到和随戒酒天数成长的虚拟花园，帮你保持清醒。
 
 免费开始
@@ -588,9 +588,9 @@ BLOOM+（可选）
 免费下载，随时升级 Bloom+。""",
     },
     "zh-Hant": {
-        "name": "清醒助手 - 無酒精",
-        "subtitle": "乾燥天數與花園",
-        "keywords": "喝,戒酒,少喝,上癮,戒斷,恢復,復發,渴望,心情,連續",
+        "name": "戒酒助手｜干酒日酒精戒斷追蹤SOBER應用APP版",
+        "subtitle": "無酒精日計數器・虛擬花園成長應用助手SOBERAPP",
+        "keywords": "喝酒,減少,戒酒,依賴,戒斷,渴望,習慣,日記,連續,記錄,日曆,小工具,花園,健康,私密,復飲,葡萄酒,啤酒,干酒,追蹤,計數器,虛擬,成長,應用,助手,dryday,酒精,干酒日,程序,工具,服務",
         "description": """Sober Tracker 用天數計數器、每日簽到和隨戒酒天數成長的虛擬花園，幫你保持清醒。
 
 免費開始
@@ -606,9 +606,9 @@ BLOOM+（可選）
 免費下載，隨時升級 Bloom+。""",
     },
     "ar-SA": {
-        "name": "سوبر – بلا كحول",
-        "subtitle": "أيام جافة وحديقة",
-        "keywords": "شرب,أقل,إقلاع,إدمان,امتناع,تعافي,انتكاسة,شهوة,مزاج,سلسلة",
+        "name": "إقلاع الكحول: أيام جافة تطبيق",
+        "subtitle": "عداد التعافي & حديقة افتراضية",
+        "keywords": "شرب,أقل,إدمان,امتناع,انتكاسة,شهوة,عادة,يوميات,سلسلة,تقويم,صحة,خاص,نبيذ,بيرة,streak,widget,calendar",
         "description": """يساعدك Sober Tracker على البقاء بعيدًا عن الكحول بعداد الأيام، وتسجيل يومي، وحديقة افتراضية تنمو مع كل يوم متعافٍ.
 
 مجانًا للبدء
@@ -624,9 +624,9 @@ BLOOM+ (اختياري)
 حمّل مجانًا. ترقية Bloom+ في أي وقت.""",
     },
     "he": {
-        "name": "סובר – נטול אלכוהול",
-        "subtitle": "ימים יבשים וגינה",
-        "keywords": "שתייה,פחות,הפסקה,התמכרות,התנזרות,החלמה,נפילה,תשוקה,מצב,רוח,רצף",
+        "name": "הפסקת אלכוהול: ימים יבשים",
+        "subtitle": "מונה התאוששות וגן וירטואלי",
+        "keywords": "שתייה,פחות,הפסקה,התמכרות,התנזרות,החלמה,נפילה,תשוקה,הרגל,יומן,רצף,לוחשנה,גן,בריאות,פרטי,יין,בירה,wine",
         "description": """Sober Tracker עוזר לך להישאר פיכח עם מונה ימים, צ'ק-אין יומי וגינה וירטואלית שגדלה בכל יום פיכח.
 
 בחינם
@@ -642,9 +642,9 @@ BLOOM+ (אופציונלי)
 הורדה חינם. Bloom+ בכל עת.""",
     },
     "hi": {
-        "name": "सोबर – शराब मुक्त",
-        "subtitle": "सूखे दिन और बगीचा",
-        "keywords": "पीना,कम,छोड़ना,लत,संयम,सुधार,पुनरावृत्ति,लालसा,मनोदशा,लकीर",
+        "name": "शराब छोड़ें – शुष्क दिन अॅप",
+        "subtitle": "संयम गिनती और वर्चुअल बगीचा",
+        "keywords": "पीना,कम,छोड़ना,लत,सुधार,पुनरावृत्ति,लालसा,आदत,डायरी,स्ट्रीक,कैलेंडर,स्वास्थ्य,निजी,वाइन,streak,detox",
         "description": """Sober Tracker दिन गिनती, दैनिक चेक-इन और हर शराब-मुक्त दिन पर बढ़ने वाले वर्चुअल बगीचे से आपको शराब-मुक्त रहने में मदद करता है।
 
 मुफ़्त शुरू करें
@@ -660,9 +660,9 @@ BLOOM+ (वैकल्पिक)
 मुफ़्त डाउनलोड। कभी भी Bloom+ अपग्रेड करें।""",
     },
     "th": {
-        "name": "โซเบอร์ – ไร้แอลกอฮอล์",
-        "subtitle": "วันแห้งและสวน",
-        "keywords": "ดื่ม,น้อย,เลิก,ติด,เหล้า,เลิก,เหล้า,หาย,อยาก,อารมณ์, streak",
+        "name": "เลิกแอลกอฮอล์: วันแห้ง & app",
+        "subtitle": "นับวันไม่ดื่ม & สวนเสมือน",
+        "keywords": "น้อยลง,ติด,งด,ฟื้นตัว,กลับมา,ความอยาก,นิสัย,ไดอารี่,สตรีค,ปฏิทิน,สวน,สุขภาพ,ส่วนตัว,ไวน์,เบียร์,wine",
         "description": """Sober Tracker ช่วยคุณเลิกดื่มด้วยตัวนับวัน เช็คอินรายวัน และสวนเสมือนที่เติบโตทุกวันที่ไม่ดื่ม
 
 ฟรี
@@ -678,9 +678,9 @@ BLOOM+ (ทางเลือก)
 ดาวน์โหลดฟรี อัปเกรด Bloom+ ได้ทุกเมื่อ""",
     },
     "vi": {
-        "name": "Sober – Không cồn",
-        "subtitle": "Ngày khô và vườn",
-        "keywords": "uống,ít,cai,nghiện,kiêng,phục,hồi,tái,phát,thèm,tâm,trạng,chuỗi",
+        "name": "Bỏ rượu: Ngày khô & theo dõi",
+        "subtitle": "Đếm phục hồi & khu vườn ảo",
+        "keywords": "uống,íthơn,cai,nghiện,kiêng,táinghiện,thèm,thóiquen,nhậtký,chuỗi,lich,vuon,suckhoe,riengtu,ruou,bia",
         "description": """Sober Tracker giúp bạn cai rượu với bộ đếm ngày, check-in hàng ngày và khu vườn ảo lớn lên mỗi ngày không uống.
 
 MIỄN PHÍ
@@ -696,9 +696,9 @@ BLOOM+ (TÙY CHỌN)
 Tải miễn phí. Nâng cấp Bloom+ bất cứ lúc nào.""",
     },
     "id": {
-        "name": "Sober – Bebas Alkohol",
-        "subtitle": "Hari kering: kira sedar",
-        "keywords": "minum,sedikit,berhenti,kecanduan,pantang,pemulihan,kambuh,hasrat,suasana,hati,streak",
+        "name": "Berhenti alkohol: Hari kering",
+        "subtitle": "Penghitung abstinensi & taman",
+        "keywords": "minum,sedikit,kecanduan,pantang,pemulihan,kambuh,hasrat,kebiasaan,jurnal,rangkai,kalender,kesehatan",
         "description": """Sober Tracker membantu Anda tetap bebas alkohol dengan penghitung hari, check-in harian, dan taman virtual yang tumbuh setiap hari tanpa minum.
 
 GRATIS
@@ -714,9 +714,9 @@ BLOOM+ (OPSIONAL)
 Unduh gratis. Bloom+ kapan saja.""",
     },
     "ms": {
-        "name": "Sober – Bebas Alkohol",
-        "subtitle": "Hari kering: kira sedar",
-        "keywords": "minum,kurang,berhenti,ketagihan,pantang,pemulihan,kambuh,hasrat,suasana,hati,streak",
+        "name": "Berhenti alkohol: Hari kering",
+        "subtitle": "Pembilang abstinensi & taman",
+        "keywords": "minum,kurang,ketagihan,pantang,pemulihan,kambuh,hasrat,tabiat,diari,rangkai,kalendar,kesihatan,detox",
         "description": """Sober Tracker membantu anda kekal tanpa alkohol dengan pembilang hari, daftar masuk harian dan taman maya yang membesar setiap hari tanpa minum.
 
 PERCUMA
@@ -732,9 +732,9 @@ BLOOM+ (PILIHAN)
 Muat turun percuma. Bloom+ bila-bila masa.""",
     },
     "bn-BD": {
-        "name": "সোবার – মদ ছাড়া",
-        "subtitle": "শুষ্ক দিন ও বাগান",
-        "keywords": "পান,কম,ছাড়া,আসক্তি,সংযম,পুনরুদ্ধার,পুনরাবৃত্তি,লালসা,মেজাজ,ধারা",
+        "name": "মদ ছাড়ুন – শুষ্ক দিন ট্র্যাক",
+        "subtitle": "সংযম গণনা ও ভার্চুয়াল বাগান",
+        "keywords": "পান,কম,ছাড়া,আসক্তি,পুনরুদ্ধার,পুনরাবৃত্তি,লালসা,অভ্যাস,ডায়েরি,ধারা,ক্যালেন্ডার,স্বাস্থ্য,ব্যক্তিগত",
         "description": """Sober Tracker দিন গণনা, দৈনিক চেক-ইন এবং প্রতিটি মদমুক্ত দিনে বেড়ে ওঠা ভার্চুয়াল বাগান দিয়ে আপনাকে মদমুক্ত থাকতে সাহায্য করে।
 
 বিনামূল্যে
@@ -750,9 +750,9 @@ BLOOM+ (ঐচ্ছিক)
 বিনামূল্যে ডাউনলোড। যেকোনো সময় Bloom+।""",
     },
     "gu-IN": {
-        "name": "સોબર – દારૂ મુક્ત",
-        "subtitle": "સૂકા દિવસ અને બગીચો",
-        "keywords": "પીવું,ઓછું,છોડવું,વ્યસન,ત્યાગ,પુનઃપ્રાપ્તિ,પુનરાવર્તન,તૃષ્ણા,મૂડ,શ્રેણી",
+        "name": "દારૂ છોડો – સૂકા દિવસ ટ્રેકર",
+        "subtitle": "સંયમ ગણતરી અને વર્ચ્યુઅલ બગીચો",
+        "keywords": "પીવું,ઓછું,છોડવું,વ્યસન,ત્યાગ,પુનઃપ્રાપ્તિ,પુનરાવર્તન,તૃષ્ણા,આદત,ડાયરી,શ્રેણી,કેલેન્ડર,આરોગ્ય,ખાનગી",
         "description": """Sober Tracker દિવસ ગણતરી, દૈનિક ચેક-ઇન અને દરેક મદમુક્ત દિવસે વધતા વર્ચુઅલ બગીચાથી તમને મદમુક્ત રાખવામાં મદદ કરે છે.
 
 મફત
@@ -768,9 +768,9 @@ BLOOM+ (વૈકલ્પિક)
 મફત ડાઉનલોડ. Bloom+ ક્યારે પણ.""",
     },
     "kn-IN": {
-        "name": "ಸೋಬರ್ – ಮದ್ಯಮುಕ್ತ",
-        "subtitle": "ಒಣ ದಿನಗಳು ಮತ್ತು ತೋಟ",
-        "keywords": "ಕುಡಿಯುವುದು,ಕಡಿಮೆ,ಬಿಡುವುದು,ಚಟ,ಸಂಯಮ,ಚೇತರಿಕೆ,ಮರುಕಳಿಕೆ,ಹಂಬಲ,ಮನಸ್ಥಿತಿ,ಸರಣಿ",
+        "name": "ಮದ್ಯ ಬಿಡಿ – ಒಣ ದಿನಗಳ ಟ್ರ್ಯಾಕರ್",
+        "subtitle": "ಸಂಯಮ ಎಣಿಕೆ ಮತ್ತು ವರ್ಚುವಲ್ ತೋಟ",
+        "keywords": "ಕುಡಿಯುವುದು,ಕಡಿಮೆ,ಬಿಡುವುದು,ಚಟ,ಚೇತರಿಕೆ,ಮರುಕಳಿಕೆ,ಹಂಬಲ,ಅಭ್ಯಾಸ,ಡೈರಿ,ಸರಣಿ,ಕ್ಯಾಲೆಂಡರ್,ಆರೋಗ್ಯ,ಖಾಸಗಿ,streak",
         "description": """Sober Tracker ದಿನಗಳ ಎಣಿಕೆ, ದೈನಂದಿನ ಚೆಕ್-ಇನ್ ಮತ್ತು ಪ್ರತಿ ಮದ್ಯಮುಕ್ತ ದಿನದಲ್ಲಿ ಬೆಳೆಯುವ ವರ್ಚುವಲ್ ತೋಟದೊಂದಿಗೆ ನಿಮಗೆ ಮದ್ಯಮುಕ್ತವಾಗಿರಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ.
 
 ಉಚಿತ
@@ -786,9 +786,9 @@ BLOOM+ (ಐಚ್ಛಿಕ)
 ಉಚಿತ ಡೌನ್‌ಲೋಡ್. Bloom+ ಯಾವುದೇ ಸಮಯ.""",
     },
     "ml-IN": {
-        "name": "സോബർ – മദ്യമുക്ത",
-        "subtitle": "ഉണങ്ങിയ ദിവസങ്ങളും തോട്ടവും",
-        "keywords": "കുടിക്കൽ,കുറവ്,നിർത്തൽ,ആസക്തി,വർജനം,വീണ്ടെടുക്കൽ,വീഴ്ച,ആഗ്രഹം,മാനസികാവസ്ഥ,ശ്രേണി",
+        "name": "മദ്യം നിർത്തുക – ഉണങ്ങിയ ദിവസം",
+        "subtitle": "സംയമ എണ്ണം & വെർച്വൽ തോട്ടം",
+        "keywords": "കുടിക്കൽ,കുറവ്,നിർത്തൽ,ആസക്തി,വർജനം,വീണ്ടെടുക്കൽ,വീഴ്ച,ആഗ്രഹം,ശീലം,ഡയറി,സീരീസ്,കലണ്ടർ,ആരോഗ്യം,streak",
         "description": """Sober Tracker ദിവസ എണ്ണം, ദൈനംദിന ചെക്ക്-ഇൻ, മദ്യമുക്ത ഓരോ ദിവസവും വളരുന്ന വെർച്വൽ തോട്ടം എന്നിവയിലൂടെ നിങ്ങളെ സഹായിക്കുന്നു.
 
 സൗജന്യം
@@ -804,9 +804,9 @@ BLOOM+ (ഓപ്ഷണൽ)
 സൗജന്യ ഡൗൺലോഡ്. Bloom+ എപ്പോഴും.""",
     },
     "mr-IN": {
-        "name": "सोबर – दारूमुक्त",
-        "subtitle": "कोरडे दिवस आणि बाग",
-        "keywords": "पिणे,कमी,सोडणे,व्यसन,त्याग,पुनर्प्राप्ती,पुनरावृत्ती,तळमळ,मूड,मालिका",
+        "name": "दारू सोडा – कोरडे दिवस अॅप",
+        "subtitle": "संयम मोजणी आणि वर्चुअल बाग",
+        "keywords": "पिणे,कमी,सोडणे,व्यसन,त्याग,पुनर्प्राप्ती,पुनरावृत्ती,तळमळ,सवय,डायरी,मालिका,दिनदर्शिका,आरोग्य,खाजगी",
         "description": """Sober Tracker दिवस मोजणी, दैनंदिन चेक-इन आणि प्रत्येक दारूमुक्त दिवशी वाढणारी आभासी बाग यांद्वारे तुम्हाला दारूमुक्त राहण्यास मदत करते.
 
 मोफत
@@ -822,9 +822,9 @@ BLOOM+ (पर्यायी)
 मोफत डाउनलोड. Bloom+ कधीही.""",
     },
     "or-IN": {
-        "name": "ସୋବର – ମଦ୍ୟମୁକ୍ତ",
-        "subtitle": "ଶୁଷ୍କ ଦିନ ଓ ବଗିଚା",
-        "keywords": "ପିଇବା,କମ,ଛାଡିବା,ଆସକ୍ତି,ବିରତି,ପୁନରୁଦ୍ଧାର,ପୁନରାବୃତ୍ତି,ଲାଳସା,ମୁଡ୍,ଶୃଙ୍ଖଳା",
+        "name": "ମଦ୍ୟ ଛାଡ଼ – ଶୁଷ୍କ ଦିନ ଟ୍ରାକର",
+        "subtitle": "ସଂଯମ ଗଣନା ଓ ଭର୍ଚୁଆଲ୍ ବଗିଚା",
+        "keywords": "ପିଇବା,କମ,ଛାଡିବା,ଆସକ୍ତି,ବିରତି,ପୁନରୁଦ୍ଧାର,ପୁନରାବୃତ୍ତି,ଲାଳସା,ଅଭ୍ୟାସ,ଡାଇରୀ,ଧାରା,କ୍ୟାଲେଣ୍ଡର,ସ୍ୱାସ୍ଥ୍ୟ",
         "description": """Sober Tracker ଦିନ ଗଣନା, ଦୈନିକ ଚେକ-ଇନ୍ ଏବଂ ପ୍ରତ୍ୟେକ ମଦ୍ୟମୁକ୍ତ ଦିନରେ ବଢୁଥିବା ଭର୍ଚୁଆଲ୍ ବଗିଚା ସହିତ ଆପଣଙ୍କୁ ସାହାଯ୍ୟ କରେ।
 
 ମାଗଣା
@@ -840,9 +840,9 @@ BLOOM+ (ବିକଳ୍ପ)
 ମାଗଣା ଡାଉନଲୋଡ୍। Bloom+ ଯେକୋଣସି ସମୟରେ।""",
     },
     "pa-IN": {
-        "name": "ਸੋਬਰ – ਸ਼ਰਾਬ ਮੁਕਤ",
-        "subtitle": "ਸੁੱਕੇ ਦਿਨ ਅਤੇ ਬਾਗ",
-        "keywords": "ਪੀਣਾ,ਘੱਟ,ਛੱਡਣਾ,ਆਦੀ,ਸੰਜਮ,ਬਰਾਮਦਗੀ,ਮੁੜ,ਆਉਣਾ,ਤਰਸ,ਮੂਡ,ਲਕੀਰ",
+        "name": "ਸ਼ਰਾਬ ਛੱਡੋ – ਸੁੱਕੇ ਦਿਨ ਐਪ",
+        "subtitle": "ਅਨੁਸ਼ਾਸਨ ਗਿਣਤੀ & ਵਰਚੁਅਲ ਬਾਗ",
+        "keywords": "ਪੀਣਾ,ਘੱਟ,ਛੱਡਣਾ,ਆਦੀ,ਸੰਜਮ,ਬਰਾਮਦਗੀ,ਮੁੜ,ਤਰਸ,ਆਦਤ,ਡਾਇਰੀ,ਲਕੀਰ,ਕੈਲੰਡਰ,ਸਿਹਤ,ਨਿੱਜੀ,streak,widget,calendar,wine",
         "description": """Sober Tracker ਦਿਨ ਗਿਣਤੀ, ਰੋਜ਼ਾਨਾ ਚੈਕ-ਇਨ ਅਤੇ ਹਰ ਸ਼ਰਾਬ-ਮੁਕਤ ਦਿਨ ਨਾਲ ਵਧਦੇ ਵਰਚੁਅਲ ਬਾਗ ਨਾਲ ਤੁਹਾਨੂੰ ਸ਼ਰਾਬ-ਮੁਕਤ ਰਹਿਣ ਵਿੱਚ ਮਦਦ ਕਰਦਾ ਹੈ।
 
 ਮੁਫ਼ਤ
@@ -858,9 +858,9 @@ BLOOM+ (ਵਿਕਲਪਿਕ)
 ਮੁਫ਼ਤ ਡਾਊਨਲੋਡ। Bloom+ ਕਦੇ ਵੀ।""",
     },
     "ta-IN": {
-        "name": "சோபர் – மதுவிலா",
-        "subtitle": "உலர் நாட்கள் மற்றும் தோட்டம்",
-        "keywords": "குடிப்பது,குறைவு,விடுவது,அடிமைத்தனம்,தவிர்ப்பு,மீட்பு,மீள்தொற்று,ஏக்கம்,மனநிலை,தொடர்",
+        "name": "மது விடு – உலர் நாள் டிராக்கர்",
+        "subtitle": "தவிர்ப்பு எண்ணிக்கை & தோட்டம்",
+        "keywords": "குடிப்பது,குறைவு,அடிமை,மீட்பு,மீள்தொற்று,ஏக்கம்,பழக்கம்,டைரி,தொடர்,நாட்காட்டி,ஆரோக்கியம்,தனிப்பட்ட",
         "description": """Sober Tracker நாள் எண்ணி, தினசரி செக்-இன் மற்றும் ஒவ்வொரு மது இல்லா நாளிலும் வளரும் மெய்நிகர் தோட்டத்துடன் உங்களுக்கு உதவுகிறது.
 
 இலவசம்
@@ -876,9 +876,9 @@ BLOOM+ (விருப்பம்)
 இலவச பதிவிறக்கம். Bloom+ எப்போதும்.""",
     },
     "te-IN": {
-        "name": "సోబర్ – మద్యముక్త",
-        "subtitle": "ఎండిన రోజులు: స్వచ్ఛత",
-        "keywords": "తాగడం,తక్కువ,వదలడం,వ్యసనం,సంయమం,పునరుద్ధరణ,పునరావృత్తి,కోరిక,మానసిక,స్థితి,సిరీస్",
+        "name": "మద్యం వదులు – ఎండిన రోజులు",
+        "subtitle": "సంయమ లెక్క & వర్చువల్ తోట",
+        "keywords": "తాగడం,తక్కువ,వదలడం,వ్యసనం,పునరుద్ధరణ,పునరావృత్తి,కోరిక,అలవాటు,డైరీ,సిరీస్,క్యాలెండర్,ఆరోగ్యం,streak",
         "description": """Sober Tracker రోజుల లెక్క, రోజువారీ చెక్-ఇన్ మరియు ప్రతి మద్యముక్త రోజుతో పెరిగే వర్చువల్ తోటతో మీకు సహాయం చేస్తుంది.
 
 ఉచితం
@@ -894,9 +894,9 @@ BLOOM+ (ఐచ్ఛికం)
 ఉచిత డౌన్‌లోడ్. Bloom+ ఎప్పుడైనా.""",
     },
     "ur-PK": {
-        "name": "سوبر – شراب سے پاک",
-        "subtitle": "خشک دن اور باغ",
-        "keywords": "پینا,کم,چھوڑنا,نشہ,پرہیز,بحالی,دوبارہ,لگنا,آرزو,موڈ,سلسلہ",
+        "name": "شراب چھوڑیں – خشک دن ٹریکر ایپ",
+        "subtitle": "پرہیز گنتی اور ورچوئل باغ",
+        "keywords": "پینا,کم,چھوڑنا,نشہ,بحالی,دوبارہ,آرزو,عادت,ڈائری,سلسلہ,کیلنڈر,صحت,نجی,streak,widget,calendar,health",
         "description": """Sober Tracker دن گنتی، روزانہ چیک اِن اور ہر شراب سے پاک دن پر بڑھنے والے ورچوئل باغ کے ساتھ آپ کی مدد کرتا ہے۔
 
 مفت
@@ -912,9 +912,9 @@ BLOOM+ (اختیاری)
 مفت ڈاؤن لوڈ۔ Bloom+ کبھی بھی۔""",
     },
     "sl-SI": {
-        "name": "Sober – Brez alkohola",
-        "subtitle": "Suhi dnevi in vrt",
-        "keywords": "piti,manj,nehati,odvisnost,abstinenca,okrevanje,povratek,hrepenenje,razpoloženje,niz",
+        "name": "Nehaj piti: Suhi dnevi & app",
+        "subtitle": "Števec abstinence & virtualni",
+        "keywords": "manj,nehati,odvisnost,abstinenca,okrevanje,ponovitev,želja,razpoloženje,navada,dnevnik,niz,koledar",
         "description": """Sober Tracker vam pomaga ostati trezni z številcem dni, dnevnim check-inom in virtualnim vrtom, ki raste z vsakim treznim dnem.
 
 BREZPLAČNO
