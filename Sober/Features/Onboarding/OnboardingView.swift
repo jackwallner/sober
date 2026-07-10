@@ -215,11 +215,16 @@ struct OnboardingView: View {
     /// straight to finishing onboarding.
     private var trialStep: some View {
         VStack(spacing: Theme.Space.l) {
-            Spacer()
+            // Scrollable pitch content: the fixed halo + timeline + savings card
+            // don't all fit above the pinned CTA stack on every device. Without
+            // this, SwiftUI compresses the headline to one clipped line
+            // ("Make your commitm…").
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: Theme.Space.l) {
             ZStack {
                 Circle()
                     .fill(Theme.brandPrimary.opacity(0.16))
-                    .frame(width: 180, height: 180)
+                    .frame(width: 132, height: 132)
                     .blur(radius: 50)
                     .scaleEffect(glowPulse ? 1.08 : 0.85)
                     .animation(.easeInOut(duration: 2.4).repeatForever(autoreverses: true), value: glowPulse)
@@ -233,16 +238,20 @@ struct OnboardingView: View {
                         .foregroundStyle(.white)
                 }
             }
+            .padding(.top, Theme.Space.m)
             Text(trialEligible ? "Make your commitment count" : "You're all set")
                 .font(Theme.display())
                 .foregroundStyle(Theme.textPrimary)
                 .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.horizontal, Theme.Space.m)
             Text(trialEligible
                  ? "You just committed. Try every tool that keeps you on track, free for your whole trial."
                  : "Your garden is planted. Let's begin.")
                 .multilineTextAlignment(.center)
                 .font(Theme.body())
                 .foregroundStyle(Theme.textSecondary)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(.horizontal, Theme.Space.m)
 
             if trialEligible {
@@ -258,6 +267,8 @@ struct OnboardingView: View {
                     rightCaption: "full Bloom+ access"
                 )
                 .padding(.horizontal, Theme.Space.xs)
+            }
+                }
             }
 
             if let trialError {
@@ -312,7 +323,17 @@ struct OnboardingView: View {
                 }
             }
         }
-        .onAppear { glowPulse = true }
+        .onAppear {
+            glowPulse = true
+            #if canImport(RevenueCat)
+            // The trial-first onboarding step is a paywall surface — measure it like
+            // the others (sober_bloom_tab / sober_trial_sheet) so view→trial-start
+            // conversion for the new step shows up in RevenueCat.
+            if trialEligible {
+                subscriptions.trackPaywallImpression(id: "sober_onboarding_trial", oncePerSession: true)
+            }
+            #endif
+        }
     }
 
     private func primaryButton(_ title: String, action: @escaping () -> Void) -> some View {
