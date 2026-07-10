@@ -231,7 +231,7 @@ struct PaywallView: View {
                     .foregroundStyle(Theme.brandPrimary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
-                Text("Across \(heroDays) sober day\(heroDays == 1 ? "" : "s"). You've earned this — put a fraction toward staying sober for good.")
+                Text("Across \(heroDays) sober day\(heroDays == 1 ? "" : "s"). You've earned this. Put a fraction toward staying sober for good.")
                     .font(Theme.subhead())
                     .foregroundStyle(Theme.textSecondary)
                     .lineLimit(2)
@@ -254,7 +254,7 @@ struct PaywallView: View {
                 Text("Unlock the full toolkit")
                     .font(.system(size: 28, weight: .bold, design: .rounded))
                     .foregroundStyle(Theme.textPrimary)
-                Text("Your garden, journal, health timeline, and savings — everything that keeps you sober.")
+                Text("Your garden, journal, health timeline, and savings. Everything that keeps you sober.")
                     .font(Theme.subhead())
                     .foregroundStyle(Theme.textSecondary)
                     .lineLimit(2)
@@ -603,9 +603,10 @@ private struct PlanCard: View {
     }
 
     private var subtitle: String? {
+        // Keep this short: trial + per-month on one line truncates on Pro widths.
         if kind == .yearly, let perMonth = package.soberPerMonthLabel {
-            if showsTrialBadge, let trial = package.soberIntroOfferLabel {
-                return "\(trial.capitalized) · \(perMonth)"
+            if showsTrialBadge {
+                return "7 days free · \(perMonth)"
             }
             return perMonth
         }
@@ -646,6 +647,7 @@ private struct PlanCard: View {
                         Text(package.soberDisplayName)
                             .font(Theme.subhead(weight: .bold))
                             .foregroundStyle(Theme.textPrimary)
+                            .layoutPriority(1)
                         if let badgeLabel {
                             Text(badgeLabel)
                                 .font(.system(size: 10, weight: .heavy))
@@ -653,6 +655,7 @@ private struct PlanCard: View {
                                 .padding(.horizontal, 7)
                                 .padding(.vertical, 3)
                                 .background(badgeFill, in: Capsule())
+                                .fixedSize()
                         }
                     }
 
@@ -661,7 +664,7 @@ private struct PlanCard: View {
                             .font(Theme.caption(weight: .semibold))
                             .foregroundStyle(Theme.textSecondary)
                             .lineLimit(1)
-                            .minimumScaleFactor(0.85)
+                            .minimumScaleFactor(0.8)
                     }
                 }
 
@@ -683,7 +686,7 @@ private struct PlanCard: View {
                             .lineLimit(1)
                     }
                 }
-                .frame(width: 112, alignment: .trailing)
+                .fixedSize(horizontal: true, vertical: false)
             }
             .padding(.horizontal, 16)
             .frame(minHeight: 60)
