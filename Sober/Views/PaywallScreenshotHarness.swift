@@ -1,4 +1,5 @@
 #if DEBUG
+import SwiftData
 import SwiftUI
 #if canImport(RevenueCat)
 import RevenueCat
@@ -6,7 +7,9 @@ import RevenueCat
 
 struct PaywallScreenshotHarness: View {
     let mode: PaywallScreenshotMode
+    @Environment(\.modelContext) private var context
     @State private var subscriptions = SubscriptionService.shared
+    @State private var didSeed = false
 
     var body: some View {
         Group {
@@ -15,7 +18,7 @@ struct PaywallScreenshotHarness: View {
                     TrialOfferSheet(
                         focus: nil,
                         offerLabel: trialPackage?.soberIntroOfferLabel ?? "7-day free trial",
-                        priceLabel: trialPackage?.soberPriceLabel ?? "$39.99 / year",
+                        priceLabel: trialPackage?.soberPriceLabel ?? "$19.99 / year",
                         directPurchase: true,
                         isPurchasing: false,
                         errorMessage: nil,
@@ -31,8 +34,28 @@ struct PaywallScreenshotHarness: View {
         .environment(subscriptions)
         .preferredColorScheme(.light)
         .task {
+            seedDemoSavingsIfNeeded()
             if subscriptions.packages.isEmpty { await subscriptions.fetchProducts() }
         }
+    }
+
+    /// Paywall screenshots need a real cost-per-day so the savings hero / trial
+    /// anchor render. Fresh installs have no settings row yet.
+    private func seedDemoSavingsIfNeeded() {
+        guard !didSeed else { return }
+        didSeed = true
+        let settings = SettingsService(context: context).current()
+        settings.costPerDayCents = 2000
+        settings.caloriesPerDay = 600
+        settings.hasCompletedOnboarding = true
+
+        if SobrietyService(context: context).activeJourney() == nil {
+            let start = Calendar.current.date(byAdding: .day, value: -25, to: .now) ?? .now
+            _ = SobrietyService(context: context).startJourney(at: start)
+            CheckInService(context: context).fillJourney(start: start, through: .now)
+        }
+        _ = GardenService(context: context).current()
+        try? context.save()
     }
 
     #if canImport(RevenueCat)
