@@ -263,6 +263,23 @@ final class SubscriptionService: NSObject {
         directTrialPackage?.soberIntroOfferLabel
     }
 
+    /// Full Apple-3.1.2 auto-renew disclosure for the direct-trial CTA
+    /// (StatScout `yearlyCTADisclosureText` structure: trial length, then the
+    /// real price of the package the button purchases, then auto-renew and the
+    /// cancel path). Nil until products load so the UI never shows a
+    /// placeholder price. Falls back to a price-only variant when the intro
+    /// offer isn't available to this Apple ID.
+    var directTrialCTADisclosureText: String? {
+        guard let package = directTrialPackage ?? packages.first(where: { $0.soberPackageKind == .yearly }) else {
+            return nil
+        }
+        let renew = "Auto-renews unless cancelled at least 24 hours before the end of the current period. Manage or cancel in Settings › Apple ID › Subscriptions."
+        if isEligibleForIntroOffer(package), let trial = package.soberIntroOfferLabel {
+            return "\(trial.capitalized), then \(package.soberPriceLabel). \(renew)"
+        }
+        return "\(package.soberPriceLabel). \(renew)"
+    }
+
     /// Parsed trial length for hero and plan-stack footnotes.
     var trialOfferDayCount: Int? {
         guard let label = trialOfferHeadlineLabel else { return nil }
