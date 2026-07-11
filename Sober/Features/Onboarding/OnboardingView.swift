@@ -261,6 +261,10 @@ struct OnboardingView: View {
             // conversion for the new step shows up in RevenueCat.
             if trialEligible {
                 subscriptions.trackPaywallImpression(id: "sober_onboarding_trial", oncePerSession: true)
+                // Start the passive-nudge cooldown at this pitch. Without it the
+                // gate is empty on first run and the Home passive nudge re-pitches
+                // TrialOfferSheet ~6s after the user just declined this step.
+                TrialNudgeGate.markShown()
             }
             #endif
         }
