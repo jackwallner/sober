@@ -11,13 +11,14 @@ struct OnboardingView: View {
     @State private var reminderHour: Int = 9
     @State private var trialInFlight = false
     @State private var trialError: String?
-    @State private var glowPulse = false
+    @State private var restoreInFlight = false
+    @State private var showPaywallFallback = false
     @State private var didShowOnboardingTrial = false
     @State private var madeCommitment = false
 
     var body: some View {
         ZStack {
-            onboardingBackground
+            Theme.brandGradient.ignoresSafeArea()
             VStack {
                 switch step {
                 case 0: welcome
@@ -31,7 +32,10 @@ struct OnboardingView: View {
             }
             .padding(.horizontal, Theme.Space.l)
             .padding(.vertical, Theme.Space.l)
-            .foregroundStyle(step == 5 ? AnyShapeStyle(Theme.textPrimary) : AnyShapeStyle(Color.white))
+            .foregroundStyle(Color.white)
+        }
+        .sheet(isPresented: $showPaywallFallback, onDismiss: { finishOnboarding() }) {
+            PaywallView(impressionId: "sober_onboarding_trial_fallback")
         }
         .task {
             #if canImport(RevenueCat)
@@ -39,18 +43,6 @@ struct OnboardingView: View {
                 await subscriptions.fetchProducts()
             }
             #endif
-        }
-    }
-
-    /// The intro steps stay on the immersive moss gradient; the final trial offer
-    /// resolves onto the calm cream app surface, signalling "this is the real
-    /// thing now" and matching the paywall and trial sheet.
-    @ViewBuilder
-    private var onboardingBackground: some View {
-        if step == 5 {
-            Theme.background.ignoresSafeArea()
-        } else {
-            Theme.brandGradient.ignoresSafeArea()
         }
     }
 
@@ -65,7 +57,7 @@ struct OnboardingView: View {
                 .font(Theme.body())
                 .padding(.horizontal, Theme.Space.m)
             Spacer()
-            primaryButton("Get Started") { step = 1 }
+            bottomBar(primaryTitle: "Get Started") { step = 1 }
         }
     }
 
@@ -81,7 +73,7 @@ struct OnboardingView: View {
                 .colorScheme(.dark)
                 .tint(.white)
             Spacer()
-            primaryButton("Continue") { step = 2 }
+            bottomBar(primaryTitle: "Continue") { step = 2 }
         }
     }
 
@@ -108,7 +100,7 @@ struct OnboardingView: View {
             }
             savingsProjection
             Spacer(minLength: Theme.Space.s)
-            primaryButton("Continue") { step = 3 }
+            bottomBar(primaryTitle: "Continue") { step = 3 }
         }
     }
 
@@ -165,7 +157,7 @@ struct OnboardingView: View {
             .pickerStyle(.wheel)
             .colorScheme(.dark)
             Spacer()
-            primaryButton("Continue") { step = 4 }
+            bottomBar(primaryTitle: "Continue") { step = 4 }
         }
     }
 
@@ -190,141 +182,79 @@ struct OnboardingView: View {
                 .foregroundStyle(.white.opacity(0.9))
                 .padding(.horizontal, Theme.Space.m)
             Spacer()
-            VStack(spacing: Theme.Space.s) {
-                primaryButton("I commit to getting better") { commit(committed: true) }
-                Button { commit(committed: false) } label: {
-                    Text("Not now")
-                        .font(Theme.subhead(weight: .medium))
-                        .foregroundStyle(.white.opacity(0.8))
-                        .underline()
-                        .padding(.vertical, 6)
+            bottomBar(
+                primaryTitle: "I commit to getting better",
+                above: {
+                    VStack(spacing: Theme.Space.s) {
+                        Button { commit(committed: false) } label: {
+                            Text("Not now")
+                                .font(Theme.subhead(weight: .medium))
+                                .foregroundStyle(.white.opacity(0.8))
+                                .underline()
+                                .padding(.vertical, 6)
+                        }
+                        Text("Either way is fine. You can revisit this any time in Settings.")
+                            .font(Theme.caption())
+                            .foregroundStyle(.white.opacity(0.7))
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, Theme.Space.m)
+                    }
                 }
-                Text("Either way is fine. You can revisit this any time in Settings.")
-                    .font(Theme.caption())
-                    .foregroundStyle(.white.opacity(0.7))
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, Theme.Space.m)
-            }
+            ) { commit(committed: true) }
         }
     }
 
     /// Trial step — shown right after the commitment while motivation (and the
-    /// just-entered spend numbers) peak. Doubling down here, where the user has
-    /// actively pledged, converts far better than a cold paywall later. Only
-    /// reached when a free trial is actually on the table; otherwise we skip
-    /// straight to finishing onboarding.
+    /// just-entered spend numbers) peak. Styled as the next onboarding step
+    /// (same moss chrome, type scale, and CTA slot as steps 0-4), not a
+    /// paywall: short pitch + three benefit bullets, soft "Get Started" free
+    /// exit above the primary, and the Apple 3.1.2 disclosure adjacent to the
+    /// button. Only reached when a free trial is actually on the table;
+    /// otherwise we skip straight to finishing onboarding.
     private var trialStep: some View {
         VStack(spacing: Theme.Space.l) {
-            // Scrollable pitch content: the fixed halo + timeline + savings card
-            // don't all fit above the pinned CTA stack on every device. Without
-            // this, SwiftUI compresses the headline to one clipped line
-            // ("Make your commitm…").
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: Theme.Space.l) {
-            ZStack {
-                Circle()
-                    .fill(Theme.brandPrimary.opacity(0.16))
-                    .frame(width: 132, height: 132)
-                    .blur(radius: 50)
-                    .scaleEffect(glowPulse ? 1.08 : 0.85)
-                    .animation(.easeInOut(duration: 2.4).repeatForever(autoreverses: true), value: glowPulse)
-                ZStack {
-                    Circle()
-                        .fill(Theme.brandGradient)
-                        .frame(width: 84, height: 84)
-                        .shadow(color: Theme.brandPrimary.opacity(0.4), radius: 16, y: 6)
-                    Image(systemName: trialEligible ? "gift.fill" : "checkmark")
-                        .font(.system(size: 36, weight: .bold))
-                        .foregroundStyle(.white)
-                }
-            }
-            .padding(.top, Theme.Space.m)
+            Spacer(minLength: Theme.Space.s)
+            Image(systemName: trialEligible ? "gift.fill" : "checkmark.circle.fill")
+                .font(.system(size: 72))
+                .opacity(0.92)
             Text(trialEligible ? "Make your commitment count" : "You're all set")
                 .font(Theme.display())
-                .foregroundStyle(Theme.textPrimary)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.horizontal, Theme.Space.m)
             Text(trialEligible
-                 ? "You just committed. Try every tool that keeps you on track, free for your whole trial."
+                 ? "You just committed. Try every tool that keeps you on track, free for \(trialDays) days."
                  : "Your garden is planted. Let's begin.")
                 .multilineTextAlignment(.center)
                 .font(Theme.body())
-                .foregroundStyle(Theme.textSecondary)
+                .foregroundStyle(.white.opacity(0.9))
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.horizontal, Theme.Space.m)
 
             if trialEligible {
-                TrialTimeline(trialDays: trialDays, billingNote: onboardingBillingNote)
-                    .padding(.horizontal, Theme.Space.s)
-            }
-
-            if trialEligible, projectedYearlySavings >= 60 {
-                SavingsAnchorCard(
-                    yearlySpend: projectedYearlySavings,
-                    habitName: "alcohol",
-                    trialDays: trialDays,
-                    rightCaption: "full Bloom+ access"
-                )
-                .padding(.horizontal, Theme.Space.xs)
-            }
+                VStack(alignment: .leading, spacing: Theme.Space.m) {
+                    trialBullet(icon: "heart.text.square.fill", text: "Full health timeline with 13 recovery milestones")
+                    trialBullet(icon: "book.closed.fill", text: "Daily journal prompts for the hard days")
+                    trialBullet(icon: "dollarsign.circle.fill", text: savingsBulletText)
                 }
+                .padding(.horizontal, Theme.Space.m)
+                .padding(.top, Theme.Space.s)
             }
 
-            if let trialError {
-                Text(trialError)
-                    .font(Theme.caption())
-                    .foregroundStyle(Theme.danger)
-                    .multilineTextAlignment(.center)
-            }
+            Spacer(minLength: Theme.Space.s)
 
-            Spacer()
-
-            VStack(spacing: Theme.Space.s) {
-                if trialEligible {
-                    Button(action: startOnboardingTrial) {
-                        ZStack {
-                            Text(trialCTATitle)
-                                .font(Theme.body(weight: .bold))
-                                .foregroundStyle(.white)
-                                .opacity(trialInFlight ? 0 : 1)
-                            if trialInFlight { ProgressView().tint(.white) }
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, Theme.Space.l)
-                    }
-                    .background(Theme.brandGradient, in: RoundedRectangle(cornerRadius: 18))
-                    .shadow(color: Theme.brandPrimary.opacity(0.3), radius: 14, y: 6)
-                    .disabled(trialInFlight)
-
-                    Button { finishOnboarding() } label: {
-                        Text("Maybe later")
-                            .font(Theme.subhead(weight: .medium))
-                            .foregroundStyle(Theme.textSecondary)
-                            .underline()
-                            .padding(.vertical, 6)
-                    }
-                    .disabled(trialInFlight)
-
-                    Text("No charge now. Cancel anytime before the trial ends.")
-                        .font(Theme.caption())
-                        .foregroundStyle(Theme.textTertiary)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, Theme.Space.m)
-                } else {
-                    Button(action: { finishOnboarding() }) {
-                        Text("Start growing")
-                            .font(Theme.body(weight: .bold))
-                            .foregroundStyle(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, Theme.Space.l)
-                    }
-                    .background(Theme.brandGradient, in: RoundedRectangle(cornerRadius: 18))
-                }
+            if trialEligible {
+                bottomBar(
+                    primaryTitle: trialCTATitle,
+                    busy: trialInFlight,
+                    showLegalFooter: true,
+                    above: { trialAboveButton }
+                ) { startOnboardingTrial() }
+            } else {
+                bottomBar(primaryTitle: "Start growing") { finishOnboarding() }
             }
         }
         .onAppear {
-            glowPulse = true
             #if canImport(RevenueCat)
             // The trial-first onboarding step is a paywall surface — measure it like
             // the others (sober_bloom_tab / sober_trial_sheet) so view→trial-start
@@ -336,14 +266,120 @@ struct OnboardingView: View {
         }
     }
 
-    private func primaryButton(_ title: String, action: @escaping () -> Void) -> some View {
-        Button(action: { withAnimation { action() } }) {
-            Text(title)
+    private func trialBullet(icon: String, text: String) -> some View {
+        HStack(alignment: .top, spacing: Theme.Space.m) {
+            Image(systemName: icon)
                 .font(Theme.body(weight: .semibold))
+                .frame(width: 24)
+                .opacity(0.92)
+            Text(text)
+                .font(Theme.body())
+                .foregroundStyle(.white.opacity(0.9))
+                .fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 0)
+        }
+    }
+
+    /// One small savings mention inside a benefit bullet (the timeline hero and
+    /// savings card read too paywall-ish for an onboarding step).
+    private var savingsBulletText: String {
+        let dollars = Int(costPerDay)
+        if dollars > 0 {
+            return "Money and calories saved, on pace for \(formatCurrency(dollars * 365)) a year"
+        }
+        return "Money and calories saved, tracked automatically"
+    }
+
+    /// Trial-only content that sits ABOVE the primary CTA (absorbed by the
+    /// Spacer so it never shifts the button): soft free exit, billing
+    /// disclosure, error.
+    @ViewBuilder
+    private var trialAboveButton: some View {
+        VStack(spacing: Theme.Space.s) {
+            // Soft free exit sits ABOVE the primary so the trial button lands in
+            // the exact spot the user has been tapping Continue. Rev A: labeled
+            // "Get Started" (StatScout soft-exit label), visually secondary.
+            Button { finishOnboarding() } label: {
+                Text("Get Started")
+                    .font(Theme.subhead(weight: .medium))
+                    .foregroundStyle(.white.opacity(0.8))
+                    .underline()
+                    .padding(.vertical, 6)
+            }
+            .disabled(trialInFlight)
+
+            // No disclosure until the package (and its real price) loads — never
+            // a placeholder price (Apple 3.1.2).
+            if let disclosure = trialDisclosureText {
+                Text(disclosure)
+                    .font(Theme.caption())
+                    .foregroundStyle(.white.opacity(0.75))
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.horizontal, Theme.Space.m)
+            }
+
+            if let trialError {
+                Text(trialError)
+                    .font(Theme.caption(weight: .semibold))
+                    .foregroundStyle(Color(red: 1.0, green: 0.78, blue: 0.68))
+                    .multilineTextAlignment(.center)
+            }
+        }
+    }
+
+    /// Shared bottom CTA bar rendered on EVERY step so the primary button's
+    /// frame is pixel-identical across the whole flow (Rev A zero-shift bar):
+    /// variable content goes ABOVE the button, and a fixed-height legal-footer
+    /// slot below it is rendered on every step — real Terms/Privacy/Restore on
+    /// the trial step, the exact same view invisible elsewhere — so the
+    /// distance from the button to the screen bottom never changes.
+    private func bottomBar<Above: View>(
+        primaryTitle: String,
+        busy: Bool = false,
+        showLegalFooter: Bool = false,
+        @ViewBuilder above: () -> Above = { EmptyView() },
+        action: @escaping () -> Void
+    ) -> some View {
+        VStack(spacing: Theme.Space.s) {
+            above()
+            Button(action: { withAnimation { action() } }) {
+                ZStack {
+                    Text(primaryTitle)
+                        .font(Theme.body(weight: .semibold))
+                        .opacity(busy ? 0 : 1)
+                    if busy { ProgressView().tint(.white) }
+                }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, Theme.Space.l)
+            }
+            .background(.white.opacity(0.25), in: RoundedRectangle(cornerRadius: 18))
+            .disabled(busy)
+
+            legalFooter
+                .opacity(showLegalFooter ? 1 : 0)
+                .allowsHitTesting(showLegalFooter)
+                .accessibilityHidden(!showLegalFooter)
         }
-        .background(.white.opacity(0.25), in: RoundedRectangle(cornerRadius: 18))
+    }
+
+    /// Terms / Privacy / Restore. Rendered on every onboarding step (invisible
+    /// off the trial step) so its height reserves the same space under the CTA.
+    private var legalFooter: some View {
+        HStack(spacing: 12) {
+            Button { restorePurchasesFromOnboarding() } label: {
+                Text(restoreInFlight ? "Restoring…" : "Restore")
+                    .underline()
+            }
+            .disabled(restoreInFlight)
+            Text("·")
+            Link("Terms of Use", destination: PaywallLinks.standardEULA)
+            Text("·")
+            Link("Privacy Policy", destination: PaywallLinks.privacyPolicy)
+        }
+        .font(Theme.caption())
+        .foregroundStyle(.white.opacity(0.75))
+        .tint(.white)
     }
 
     private func formatHour(_ h: Int) -> String {
@@ -356,8 +392,6 @@ struct OnboardingView: View {
 
     // MARK: - Trial step plumbing
 
-    private var projectedYearlySavings: Int { Int((costPerDay * 365).rounded()) }
-
     private var trialEligible: Bool {
         #if canImport(RevenueCat)
         return !subscriptions.isProSubscriber && subscriptions.hasTrialOfferAvailable
@@ -366,22 +400,11 @@ struct OnboardingView: View {
         #endif
     }
 
-    /// Small billing disclosure for the onboarding trial step (Apple 3.1.2).
-    private var onboardingBillingNote: String? {
+    /// Apple 3.1.2 disclosure adjacent to the primary CTA: trial length, real
+    /// loaded price, auto-renew + cancel path. Nil until the package loads.
+    private var trialDisclosureText: String? {
         #if canImport(RevenueCat)
-        guard trialEligible,
-              let price = subscriptions.directTrialPackage?.soberPriceLabel else { return nil }
-        return "After \(trialDays) days, \(price) unless you cancel."
-        #else
-        return nil
-        #endif
-    }
-
-    /// Clean plan price ("$29.99 / year" -> "$29.99") for legacy helpers.
-    private var trialPriceLabel: String? {
-        #if canImport(RevenueCat)
-        guard let raw = subscriptions.directTrialPackage?.soberPriceLabel else { return nil }
-        return raw.components(separatedBy: " /").first?.trimmingCharacters(in: .whitespaces)
+        return subscriptions.directTrialCTADisclosureText
         #else
         return nil
         #endif
@@ -422,7 +445,12 @@ struct OnboardingView: View {
 
     private func startOnboardingTrial() {
         #if canImport(RevenueCat)
-        guard let package = subscriptions.directTrialPackage else { finishOnboarding(); return }
+        // Products failing to load falls back to the full paywall rather than a
+        // dead button; dismissing that paywall finishes onboarding.
+        guard let package = subscriptions.directTrialPackage else {
+            showPaywallFallback = true
+            return
+        }
         trialError = nil
         trialInFlight = true
         Task { @MainActor in
@@ -441,6 +469,18 @@ struct OnboardingView: View {
         #else
         finishOnboarding()
         #endif
+    }
+
+    /// Restore from the trial step's legal footer. Success (an active
+    /// entitlement) finishes onboarding — the user is already Pro.
+    private func restorePurchasesFromOnboarding() {
+        guard !restoreInFlight else { return }
+        restoreInFlight = true
+        Task { @MainActor in
+            defer { restoreInFlight = false }
+            await subscriptions.restorePurchases()
+            if subscriptions.isProSubscriber { finishOnboarding() }
+        }
     }
 
     /// Save everything except the onboarding-complete flag, so the trial step can
