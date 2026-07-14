@@ -179,7 +179,14 @@ struct TimelineView: View {
         let firstOfMonth = cal.date(from: comps) ?? monthAnchor
         let range = cal.range(of: .day, in: .month, for: firstOfMonth) ?? 1..<31
         let leadingBlanks = (cal.component(.weekday, from: firstOfMonth) - cal.firstWeekday + 7) % 7
-        let days = Array(range)
+
+        // One flat cell array (nil = leading blank), indexed by position. Two
+        // sibling ForEachs keyed `id: \.self` — blanks over 0..<leadingBlanks and
+        // days over 1...31 — collide on Int identity inside the same grid, and
+        // SwiftUI silently drops the duplicates. That ate the first days of any
+        // month not starting on the user's firstWeekday.
+        let cells: [Date?] = Array(repeating: nil, count: leadingBlanks)
+            + range.map { cal.date(byAdding: .day, value: $0 - 1, to: firstOfMonth) }
 
         return LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: 7), spacing: 6) {
             ForEach(Array(weekdaySymbols.enumerated()), id: \.offset) { _, sym in
@@ -187,9 +194,12 @@ struct TimelineView: View {
                     .font(Theme.caption(weight: .semibold))
                     .foregroundStyle(Theme.textSecondary)
             }
-            ForEach(0..<leadingBlanks, id: \.self) { _ in Color.clear.frame(height: 36) }
-            ForEach(days, id: \.self) { day in
-                dayCell(date: cal.date(byAdding: .day, value: day - 1, to: firstOfMonth) ?? firstOfMonth)
+            ForEach(Array(cells.enumerated()), id: \.offset) { _, date in
+                if let date {
+                    dayCell(date: date)
+                } else {
+                    Color.clear.frame(height: 36)
+                }
             }
         }
     }
