@@ -62,8 +62,12 @@ struct RootView: View {
     /// Launch-argument seeding for screenshots and to bypass UI-automation
     /// blockers (the onboarding wheel picker wedges the AX bridge). DEBUG only,
     /// never compiled into Release — no path to end users.
-    ///   -seedDemo : skip onboarding with a ~3.5-week sober journey
-    ///   -demoPro  : flip the local Pro override on
+    ///   -seedDemo   : skip onboarding with a sober journey (24 days by default)
+    ///   -seedDays N : override the journey length — App Store frames use 127 so
+    ///                 the counter, calendar, health timeline, and money/calories
+    ///                 saved all derive from one number and can't contradict
+    ///                 each other the way the hand-captured 1.1.4 frames did
+    ///   -demoPro    : flip the local Pro override on
     private func seedDemoIfRequested() {
         let args = ProcessInfo.processInfo.arguments
         if args.contains("-demoPro") {
@@ -78,12 +82,36 @@ struct RootView: View {
         settings.madeCommitment = true
         settings.hasCompletedOnboarding = true
 
-        let start = Calendar.current.date(byAdding: .day, value: -24, to: .now) ?? .now
+        var days = 24
+        if let index = args.firstIndex(of: "-seedDays"),
+           index + 1 < args.count,
+           let parsed = Int(args[index + 1]), parsed > 0 {
+            days = parsed
+        }
+        let start = Calendar.current.date(byAdding: .day, value: -days, to: .now) ?? .now
         _ = SobrietyService(context: context).startJourney(at: start)
         _ = GardenService(context: context).current()
         CheckInService(context: context).fillJourney(start: start, through: .now)
+        seedJournal(start: start)
         try? context.save()
         WidgetSnapshotPump.push(context: context)
+    }
+
+    /// Journal renders an empty state until entries exist, which makes for a
+    /// dead App Store frame. Seed a few so the tab shows the feature working.
+    private func seedJournal(start: Date) {
+        let entries: [(daysAgo: Int, text: String, feeling: String)] = [
+            (1, "Went to Dan's birthday and stayed with soda water the whole night. Nobody cared. I drove myself home and woke up clear.", "good"),
+            (6, "Rough day at work and the old reflex showed up around 6pm. Went for a walk instead. It passed in about twenty minutes.", "neutral"),
+            (13, "Slept a full eight hours for the first time in years. That alone is worth it.", "excellent"),
+        ]
+        for entry in entries {
+            let date = Calendar.current.date(byAdding: .day, value: -entry.daysAgo, to: .now) ?? .now
+            guard date >= start else { continue }
+            context.insert(
+                JournalEntry(createdAt: date, kind: .daily, text: entry.text, feeling: entry.feeling)
+            )
+        }
     }
     #endif
 }
