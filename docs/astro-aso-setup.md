@@ -1,6 +1,6 @@
 # Astro ASO setup — Sober (US)
 
-> **Repeat:** [`astro-setup-process.md`](astro-setup-process.md) + **"go"**  
+> **Repeat:** [Astro setup process](~/ios/aso/astro-setup-process.md) + **"go"**  
 > **Re-score keywords:** `./scripts/astro-fetch-metrics.sh && python3 scripts/astro-curate-keywords.py`
 
 Last optimized: **2026-06-23** — app is **LIVE**. Migrated Astro tracking from the temp pre-launch app `103` to the live App Store listing `6768869215`; merged the **58 curated** US terms onto it (now pulling real ranks, not pre-launch 1000s).
