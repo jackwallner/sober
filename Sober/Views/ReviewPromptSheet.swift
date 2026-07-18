@@ -12,6 +12,11 @@ final class ReviewPromptCoordinator: ObservableObject {
 
     @Published var pendingPresentation: Presentation?
 
+    /// True while the review-prompt sheet is on screen. The trial-pitch system
+    /// (owned by MainTabView, a different view layer) checks this so the two
+    /// sheets never race to present within the same moment.
+    @Published var isPresentingSheet = false
+
     private init() {}
 
     func requestEnjoymentPrompt() {

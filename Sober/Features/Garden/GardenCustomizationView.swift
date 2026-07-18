@@ -106,7 +106,7 @@ struct GardenCustomizationView: View {
         let isActive = activeStyleID == item.id
         return Button {
             if unlocked {
-                GardenService(context: context).setBonsaiStyle(item.id)
+                GardenService(context: context).setBonsaiStyle(item.id, isPro: isPro)
                 // Refresh widget/watch immediately so the home-screen tree
                 // matches the species the user just picked.
                 WidgetSnapshotPump.push(context: context)

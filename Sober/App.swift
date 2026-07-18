@@ -1,5 +1,30 @@
 import SwiftData
 import SwiftUI
+import UserNotifications
+
+extension Notification.Name {
+    /// Posted when the user taps the daily-reminder notification — MainTabView
+    /// switches to Home so the check-in button is right there.
+    static let soberOpenCheckIn = Notification.Name("com.jackwallner.sober.openCheckIn")
+}
+
+/// Routes notification taps. Without a delegate, tapping the daily reminder
+/// just foregrounds the app on whatever tab was last open. Stateless, so the
+/// unchecked-Sendable shared instance is safe.
+final class NotificationTapRouter: NSObject, UNUserNotificationCenterDelegate, @unchecked Sendable {
+    static let shared = NotificationTapRouter()
+
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse
+    ) async {
+        let info = response.notification.request.content.userInfo
+        guard info[NotificationService.deepLinkKey] as? String == NotificationService.deepLinkCheckIn else { return }
+        await MainActor.run {
+            NotificationCenter.default.post(name: .soberOpenCheckIn, object: nil)
+        }
+    }
+}
 
 @main
 struct SoberApp: App {
@@ -9,6 +34,7 @@ struct SoberApp: App {
         SubscriptionService.shared.configure()
         WatchConnectivityService.shared.activate()
         ReviewPromptTracker.recordAppLaunch()
+        UNUserNotificationCenter.current().delegate = NotificationTapRouter.shared
     }
 
     var body: some Scene {
@@ -155,6 +181,11 @@ struct MainTabView: View {
             trialCoordinator.clear()
             handleTrialPitch(request)
         }
+        .onChange(of: showTrialOffer) { _, _ in syncPresentationFlag() }
+        .onChange(of: showTrialPaywall) { _, _ in syncPresentationFlag() }
+        .onReceive(NotificationCenter.default.publisher(for: .soberOpenCheckIn)) { _ in
+            tab = 0
+        }
         .onChange(of: tab) { _, newTab in
             if newTab == 4, !subscriptions.isProSubscriber {
                 subscriptions.trackPaywallImpression(id: "sober_bloom_tab", oncePerSession: true)
@@ -193,6 +224,10 @@ struct MainTabView: View {
         }
     }
 
+    private func syncPresentationFlag() {
+        trialCoordinator.isPresentingSheet = showTrialOffer || showTrialPaywall
+    }
+
     #if canImport(RevenueCat)
     private var hasDirectTrialPackage: Bool { subscriptions.directTrialPackage != nil }
     private var trialOfferLabelText: String? { subscriptions.directTrialPackage?.soberIntroOfferLabel }
@@ -200,6 +235,9 @@ struct MainTabView: View {
 
     private func handleTrialPitch(_ request: TrialOfferCoordinator.PendingRequest) {
         guard !subscriptions.isProSubscriber else { return }
+        // A review prompt on screen wins; drop the pitch rather than stacking
+        // two sheet presentations from different view layers.
+        guard !ReviewPromptCoordinator.shared.isPresentingSheet else { return }
         let focus = request.intent.focusFeature
 
         switch request.policy {

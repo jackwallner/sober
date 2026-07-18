@@ -8,6 +8,12 @@ struct JournalView: View {
     @State private var showCompose = false
     @State private var selectedEntry: JournalEntry?
 
+    /// Free users get one real entry before the gate — a locked door you've
+    /// never walked through is much harder to pay for than one you have.
+    private var canCompose: Bool {
+        subscriptions.isProSubscriber || entries.isEmpty
+    }
+
     var body: some View {
         NavigationStack {
             List {
@@ -17,7 +23,9 @@ struct JournalView: View {
 
                 Section("Entries") {
                     if entries.isEmpty {
-                        Text("No entries yet. Use the pencil to write your first.")
+                        Text(subscriptions.isProSubscriber
+                             ? "No entries yet. Use the pencil to write your first."
+                             : "No entries yet. Your first entry is free — use the pencil to write it.")
                             .font(Theme.subhead())
                             .foregroundStyle(Theme.textSecondary)
                             .padding(.vertical, Theme.Space.s)
@@ -37,7 +45,7 @@ struct JournalView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        if subscriptions.isProSubscriber { showCompose = true }
+                        if canCompose { showCompose = true }
                         else { requestSubsequentLockedFeaturePitch(.journal) }
                     } label: {
                         Image(systemName: "square.and.pencil")
@@ -80,7 +88,7 @@ struct JournalView: View {
                 .foregroundStyle(Theme.textPrimary)
                 .fixedSize(horizontal: false, vertical: true)
             Button {
-                if subscriptions.isProSubscriber { showCompose = true }
+                if canCompose { showCompose = true }
                 else { requestSubsequentLockedFeaturePitch(.journal) }
             } label: {
                 Label("Write entry", systemImage: "square.and.pencil")
@@ -98,6 +106,8 @@ private struct JournalEntryDetailSheet: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     let entry: JournalEntry
+    @State private var isEditing = false
+    @State private var editedText = ""
 
     private var promptText: String? {
         guard let id = entry.promptID else { return nil }
@@ -126,10 +136,18 @@ private struct JournalEntryDetailSheet: View {
                             .foregroundStyle(Theme.textSecondary)
                     }
 
-                    Text(entry.text)
-                        .font(Theme.body())
-                        .foregroundStyle(Theme.textPrimary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                    if isEditing {
+                        TextEditor(text: $editedText)
+                            .font(Theme.body())
+                            .frame(minHeight: 200)
+                            .padding(8)
+                            .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 12))
+                    } else {
+                        Text(entry.text)
+                            .font(Theme.body())
+                            .foregroundStyle(Theme.textPrimary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
                 }
                 .padding(Theme.Space.l)
             }
@@ -138,17 +156,41 @@ private struct JournalEntryDetailSheet: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") { dismiss() }
+                    if isEditing {
+                        Button("Save") {
+                            let trimmed = editedText.trimmingCharacters(in: .whitespacesAndNewlines)
+                            if !trimmed.isEmpty {
+                                entry.text = trimmed
+                                try? context.save()
+                            }
+                            isEditing = false
+                        }
+                        .fontWeight(.semibold)
+                    } else {
+                        Button("Done") { dismiss() }
+                    }
                 }
                 ToolbarItem(placement: .topBarLeading) {
-                    Button(role: .destructive) {
-                        context.delete(entry)
-                        try? context.save()
-                        dismiss()
-                    } label: {
-                        Image(systemName: "trash")
+                    HStack {
+                        Button(role: .destructive) {
+                            context.delete(entry)
+                            try? context.save()
+                            dismiss()
+                        } label: {
+                            Image(systemName: "trash")
+                        }
+                        .accessibilityLabel("Delete entry")
+
+                        if !isEditing {
+                            Button {
+                                editedText = entry.text
+                                isEditing = true
+                            } label: {
+                                Image(systemName: "pencil")
+                            }
+                            .accessibilityLabel("Edit entry")
+                        }
                     }
-                    .accessibilityLabel("Delete entry")
                 }
             }
         }

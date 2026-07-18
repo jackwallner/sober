@@ -65,6 +65,7 @@ final class TrialOfferCoordinator: ObservableObject {
         case progressSheet
         case settings
         case growthCelebration
+        case checkInMilestone
 
         var focusFeature: BloomFeature? {
             switch self {
@@ -72,7 +73,7 @@ final class TrialOfferCoordinator: ObservableObject {
             case .healthTimeline: .healthTimeline
             case .gardenSpecies: .gardenSpecies
             case .progressSheet: .savingsTracking
-            case .postOnboarding, .settings, .growthCelebration: nil
+            case .postOnboarding, .settings, .growthCelebration, .checkInMilestone: nil
             }
         }
     }
@@ -90,6 +91,11 @@ final class TrialOfferCoordinator: ObservableObject {
     }
 
     @Published var pendingRequest: PendingRequest?
+
+    /// True while MainTabView has the trial-offer or paywall sheet on screen.
+    /// The review-prompt scheduler checks this (and vice versa) so the two
+    /// sheet systems — owned by different view layers — never race to present.
+    @Published var isPresentingSheet = false
 
     private init() {}
 
