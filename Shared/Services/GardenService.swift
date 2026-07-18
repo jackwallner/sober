@@ -202,7 +202,11 @@ final class GardenService {
 
     // ── Species ──
 
-    func setBonsaiStyle(_ styleID: String) {
+    /// Entitlement is re-checked here — not just in the picker UI — so any
+    /// future call site (App Intent, widget action, deep link) can't bypass
+    /// the Bloom+ gate on premium species.
+    func setBonsaiStyle(_ styleID: String, isPro: Bool) {
+        guard GardenItemCatalog.canUseSpecies(id: styleID, isPro: isPro) else { return }
         let state = current()
         state.activeBonsaiStyleID = styleID
         try? context.save()

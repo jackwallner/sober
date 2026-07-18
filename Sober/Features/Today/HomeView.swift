@@ -117,6 +117,7 @@ struct HomeView: View {
                 refreshCheckInState()
                 checkForGrowth()
                 WidgetSnapshotPump.push(context: context)
+                refreshReminderCopy()
                 presentPostOnboardingPaywallIfNeeded()
             }
             .task { await presentPassiveTrialNudge(subscriptions, intent: .postOnboarding, delay: 6) }
@@ -158,6 +159,9 @@ struct HomeView: View {
             }
             .onReceive(NotificationCenter.default.publisher(for: .soberPositiveMomentForReview)) { _ in
                 scheduleReviewPromptAfterPositiveMoment()
+            }
+            .onChange(of: showReviewPrompt) { _, presented in
+                ReviewPromptCoordinator.shared.isPresentingSheet = presented
             }
             .onChange(of: reviewPromptCoordinator.pendingPresentation) { _, presentation in
                 guard let presentation else { return }
@@ -383,6 +387,18 @@ struct HomeView: View {
         }
     }
 
+    /// Keep the daily reminder's streak copy current. No-ops unless a reminder
+    /// is already pending, so it never resurrects one the user disabled.
+    private func refreshReminderCopy() {
+        guard let s = settingsRows.first, s.dailyReminderEnabled else { return }
+        let hour = s.dailyReminderHour
+        let committed = s.madeCommitment
+        let streak = days
+        Task {
+            await NotificationService.refreshDailyReminder(hour: hour, committed: committed, streakDays: streak)
+        }
+    }
+
     private func recordPositiveMomentForReview() {
         ReviewPromptTracker.recordPositiveMoment()
         NotificationCenter.default.post(name: .soberPositiveMomentForReview, object: nil)
@@ -401,6 +417,11 @@ struct HomeView: View {
             guard !showGrowth,
                   !showCheckInDetail,
                   !showReviewPrompt,
+                  // A trial pitch may have been scheduled from the same moment
+                  // (e.g. a growth-celebration dismiss) and already be on
+                  // screen from MainTabView's layer — never stack on top of it.
+                  !TrialOfferCoordinator.shared.isPresentingSheet,
+                  TrialOfferCoordinator.shared.pendingRequest == nil,
                   ReviewPromptTracker.shouldShowAfterPositiveMoment(hasCompletedSetup: hasCompletedOnboarding)
             else { return }
             ReviewPromptTracker.consumePendingPositiveMoment()
@@ -429,7 +450,7 @@ struct HomeView: View {
         Task {
             await evaluateUsageBasedTrialPitch(
                 subscriptions,
-                intent: .postOnboarding,
+                intent: .checkInMilestone,
                 usageCount: count,
                 threshold: 3,
                 delay: 2.5

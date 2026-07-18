@@ -210,6 +210,14 @@ struct SettingsView: View {
             get: { journey.startDate },
             set: {
                 SobrietyService(context: context).updateStartDate($0)
+                // Keep the calendar in lockstep with the counter: backfill
+                // sober check-ins for the (possibly earlier) journey range the
+                // same way HomeView.onAppear does. Without this, an edited
+                // start date desyncs the two until the next cold launch.
+                CheckInService(context: context).fillJourney(
+                    start: journey.startDate,
+                    through: DateHelpers.daysAgo(1)
+                )
                 WidgetSnapshotPump.push(context: context)
             }
         )
@@ -230,9 +238,10 @@ struct SettingsView: View {
         let hour = s.dailyReminderHour
         let enabled = s.dailyReminderEnabled
         let committed = s.madeCommitment
+        let streak = activeJourney.map { SobrietyService.daysSinceStart($0.startDate) } ?? 0
         Task {
             if enabled {
-                await NotificationService.scheduleDailyReminder(hour: hour, committed: committed)
+                await NotificationService.scheduleDailyReminder(hour: hour, committed: committed, streakDays: streak)
             } else {
                 await NotificationService.cancelDailyReminder()
             }
