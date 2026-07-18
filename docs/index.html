@@ -432,6 +432,83 @@
 
         .privacy a:hover { text-decoration: underline; }
 
+        /* More Info */
+        .more-info {
+            padding: 64px 24px;
+            background: #fff;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .more-info-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .more-info-header h2 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .more-info-header p {
+            font-size: 17px;
+            color: #6e6e73;
+        }
+
+        .more-info-content {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .more-info-section {
+            margin-bottom: 40px;
+        }
+
+        .more-info-section h3 {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #86868b;
+            margin-bottom: 12px;
+        }
+
+        .more-info-section p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #1d1d1f;
+            margin-bottom: 12px;
+        }
+
+        .more-info-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .more-info-section strong {
+            font-weight: 600;
+        }
+
+        .specs-table {
+            width: 100%;
+            font-size: 14px;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .specs-table td {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .specs-table td:first-child {
+            color: #86868b;
+            width: 140px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
         /* CTA */
         .cta {
             text-align: center;
@@ -668,6 +745,51 @@
             <h2>Private by design</h2>
             <p>Sober is built with privacy first. No accounts, no analytics, no ads, no third-party SDKs beyond Apple's StoreKit. Your data never leaves your device. All health information stays local in SwiftData.</p>
             <a href="privacy-policy.html">Privacy Policy &rarr;</a>
+        </div>
+    </section>
+
+    <section class="more-info">
+        <div class="container">
+            <div class="more-info-header">
+                <h2>More info</h2>
+                <p>How it's built and why it matters.</p>
+            </div>
+            <div class="more-info-content">
+                <div class="more-info-section">
+                    <h3>The Pitch</h3>
+                    <p>Most sobriety apps make you fill out forms and stare at a plain number. I wanted something that turns a day count into a feeling &mdash; a garden that visibly grows every time you check in, so progress is something you can see, not just recall.</p>
+                    <p>Sober is a day counter and a virtual garden in one. Check in once a day, watch your bonsai grow from seed toward a full grove, and see the health benefits and money you're getting back along the way. No signup, no cloud, no relapse shaming. The core app is free &mdash; forever.</p>
+                </div>
+
+                <div class="more-info-section">
+                    <h3>Bloom+</h3>
+                    <p>An optional upgrade for people who want the full picture. $4.99/month, $29.99/year, or $79.99 once for lifetime access &mdash; monthly and yearly include a 7-day free trial (if eligible).</p>
+                    <p><strong>Full health timeline.</strong> All 13 recovery benefits (backed by NIAAA, CDC, and AHA sources) with detailed explanations, not just the first 5.</p>
+                    <p><strong>Journal with prompts.</strong> Daily reflection prompts, freeform writing, and a feeling picker. Entries stay private and local, same as everything else.</p>
+                    <p><strong>Achievements.</strong> All 9 milestones across time (First Step, Quarter Master, Year One) and check-in streaks (Perfect Week, Diamond Discipline).</p>
+                    <p><strong>Money &amp; calories saved, all garden species.</strong> See your running savings against a daily cost you set, and unlock all 6 bonsai styles as your streak grows.</p>
+                </div>
+
+                <div class="more-info-section">
+                    <h3>Specs</h3>
+                    <table class="specs-table">
+                        <tr><td>Platform</td><td>iOS 17+, watchOS 10+</td></tr>
+                        <tr><td>Language</td><td>Swift 6 with strict concurrency</td></tr>
+                        <tr><td>Framework</td><td>SwiftUI · SwiftData · StoreKit</td></tr>
+                        <tr><td>Data</td><td>No accounts, no HealthKit, entirely on-device</td></tr>
+                        <tr><td>Storage</td><td>SwiftData, local only</td></tr>
+                        <tr><td>Widgets</td><td>Home Screen, Lock Screen, watchOS complications</td></tr>
+                    </table>
+                </div>
+
+                <div class="more-info-section">
+                    <h3>What Mattered</h3>
+                    <p><strong>The garden as feedback loop.</strong> A number resets your motivation every time you look at it; a growing tree doesn't. The garden ties every check-in to visible, cumulative progress instead of a count that just goes up.</p>
+                    <p><strong>No relapse shame.</strong> Missing a check-in or logging a slip doesn't punish you or reset your garden to zero &mdash; the app is built to keep you coming back, not make you afraid to open it.</p>
+                    <p><strong>Watch-first check-ins.</strong> The Apple Watch app makes the daily check-in a one-tap action from your wrist, so the habit survives on the days you don't want to open your phone.</p>
+                    <p><strong>Privacy as a feature.</strong> No accounts, no analytics, no ads, no third-party SDKs beyond StoreKit. Sobriety data is sensitive &mdash; the app never asks who you are or sends anything off-device.</p>
+                </div>
+            </div>
         </div>
     </section>
 
