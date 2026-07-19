@@ -10,9 +10,9 @@ OUT.mkdir(parents=True, exist_ok=True)
 W, H = 1290, 2796
 specs = [
     ('01_grow', 'frame_01_grow.png', 'raw_01_today.png'),
-    ('02_counted', 'frame_02_counted.png', 'raw_02_timeline.png'),
+    ('02_pocket', 'frame_04_pocket.png', 'raw_06_paywall.png'),
     ('03_recover', 'frame_03_recover.png', 'raw_03_health.png'),
-    ('04_pocket', 'frame_04_pocket.png', 'raw_06_paywall.png'),
+    ('04_counted', 'frame_02_counted.png', 'raw_02_timeline.png'),
     ('05_reflect', 'frame_05_reflect.png', 'raw_04_journal.png'),
     ('06_milestones', 'frame_06_milestones.png', 'raw_05_stats.png'),
 ]
@@ -53,4 +53,4 @@ for slug, *_ in specs:
 sheet = Image.new('RGB', (322*3, 699*2), '#FFFDF9')
 for i, im in enumerate(thumbs):
     sheet.paste(im, ((i%3)*322, (i//3)*699))
-sheet.save(OUT/'appstore_preview_contact_sheet.png', 'PNG', optimize=True)
+sheet.save(ROOT/'claude-design/appstore_preview_contact_sheet.png', 'PNG', optimize=True)
