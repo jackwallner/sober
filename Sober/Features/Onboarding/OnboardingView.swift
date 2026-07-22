@@ -10,6 +10,8 @@ struct OnboardingView: View {
     @State private var caloriesPerDay: Double = 600
     @State private var reminderHour: Int = 9
     @State private var trialInFlight = false
+    @State private var trialResolutionInFlight = false
+    @State private var trialResolutionError: String?
     @State private var trialError: String?
     @State private var restoreInFlight = false
     @State private var showPaywallFallback = false
@@ -183,7 +185,8 @@ struct OnboardingView: View {
                 .padding(.horizontal, Theme.Space.m)
             Spacer()
             bottomBar(
-                primaryTitle: "I commit to getting better",
+                primaryTitle: trialResolutionInFlight ? "Checking trial availability…" : "I commit to getting better",
+                busy: trialResolutionInFlight,
                 above: {
                     VStack(spacing: Theme.Space.s) {
                         Button { commit(committed: false) } label: {
@@ -193,11 +196,24 @@ struct OnboardingView: View {
                                 .underline()
                                 .padding(.vertical, 6)
                         }
+                        .disabled(trialResolutionInFlight)
                         Text("Either way is fine. You can revisit this any time in Settings.")
                             .font(Theme.caption())
                             .foregroundStyle(.white.opacity(0.7))
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, Theme.Space.m)
+                        if let trialResolutionError {
+                            Text(trialResolutionError)
+                                .font(Theme.caption(weight: .semibold))
+                                .foregroundStyle(Color(red: 1.0, green: 0.78, blue: 0.68))
+                                .multilineTextAlignment(.center)
+                            HStack(spacing: Theme.Space.l) {
+                                Button("Retry") { resolveTrialAfterCommit() }
+                                Button("Continue free") { finishOnboarding() }
+                            }
+                            .font(Theme.subhead(weight: .semibold))
+                            .foregroundStyle(.white)
+                        }
                     }
                 }
             ) { commit(committed: true) }
@@ -260,7 +276,11 @@ struct OnboardingView: View {
             // the others (sober_bloom_tab / sober_trial_sheet) so view→trial-start
             // conversion for the new step shows up in RevenueCat.
             if trialEligible {
-                subscriptions.trackPaywallImpression(id: "sober_onboarding_trial", oncePerSession: true)
+                subscriptions.trackPaywallImpression(
+                    id: "sober_onboarding_trial",
+                    package: subscriptions.directTrialPackage,
+                    oncePerSession: true
+                )
                 // Start the passive-nudge cooldown at this pitch. Without it the
                 // gate is empty on first run and the Home passive nudge re-pitches
                 // TrialOfferSheet ~6s after the user just declined this step.
@@ -434,16 +454,36 @@ struct OnboardingView: View {
         return 7
     }
 
-    /// Commit button: persist setup, then double down with the trial step when
-    /// one is available. Falls through to finishing when it isn't (no RC key,
-    /// already Pro, or trial already consumed).
+    /// Persist setup, then wait for a real RevenueCat eligibility decision. A
+    /// loading or network failure is never treated as a consumed trial.
     private func commit(committed: Bool) {
         persistSetup(committed: committed)
-        if trialEligible {
-            didShowOnboardingTrial = true
-            withAnimation { step = 5 }
-        } else {
+        resolveTrialAfterCommit()
+    }
+
+    private func resolveTrialAfterCommit() {
+        guard !trialResolutionInFlight else { return }
+        trialResolutionError = nil
+        trialResolutionInFlight = true
+        Task { @MainActor in
+            defer { trialResolutionInFlight = false }
+            #if canImport(RevenueCat)
+            guard subscriptions.isConfigured else {
+                trialResolutionError = "Couldn't check trial availability. Retry, or continue with the free version."
+                return
+            }
+            switch await subscriptions.resolveOnboardingTrial() {
+            case .eligible:
+                didShowOnboardingTrial = true
+                withAnimation { step = 5 }
+            case .ineligible:
+                finishOnboarding()
+            case .unavailable, .failed:
+                trialResolutionError = "Couldn't check trial availability. Retry, or continue with the free version."
+            }
+            #else
             finishOnboarding()
+            #endif
         }
     }
 

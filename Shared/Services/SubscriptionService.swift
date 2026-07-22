@@ -11,6 +11,13 @@ enum PurchaseState {
     case pending
 }
 
+enum OnboardingTrialResolution: Equatable {
+    case eligible
+    case ineligible
+    case unavailable
+    case failed
+}
+
 /// RevenueCat wrapper. `apiKey` is the production public SDK key from the
 /// RevenueCat dashboard (App Store app). The "pro" entitlement gates Pro
 /// features and must map to the three IAP products in the "default" offering.
@@ -44,8 +51,10 @@ final class SubscriptionService: NSObject {
     #if canImport(RevenueCat)
     private(set) var packages: [Package] = []
 
-    /// Per-product intro-offer eligibility from RevenueCat.
-    private(set) var introEligibility: [String: Bool] = [:]
+    /// Per-product intro-offer eligibility from RevenueCat. Preserve the full
+    /// status so onboarding can distinguish a confirmed ineligible account from
+    /// a temporary unknown result instead of silently skipping the trial.
+    private(set) var introEligibility: [String: IntroEligibilityStatus] = [:]
 
     /// True once RevenueCat has returned intro-offer eligibility. Until then the
     /// paywall must not promise a free trial it can't confirm (Apple 3.1.2).
@@ -53,6 +62,7 @@ final class SubscriptionService: NSObject {
     #endif
 
     private var paywallImpressionsThisSession: Set<String> = []
+    private var productFetchTask: Task<Void, Never>?
 
     /// Single gate the whole app reads. True for a real entitlement, a dev
     /// override, or an active complimentary trial.
@@ -89,6 +99,12 @@ final class SubscriptionService: NSObject {
     func configure() {
         #if canImport(RevenueCat)
         guard !isConfigured else { return }
+        #if targetEnvironment(simulator)
+        // StoreKit Testing supplies local products on simulator. Never configure
+        // the production RevenueCat project here or agent runs pollute customer
+        // counts and make the real install funnel impossible to interpret.
+        return
+        #else
         #if DEBUG
         Purchases.logLevel = .debug
         #endif
@@ -99,6 +115,7 @@ final class SubscriptionService: NSObject {
             await refresh(fetchPolicy: .fetchCurrent)
             await fetchProducts()
         }
+        #endif
         #endif
     }
 
@@ -131,7 +148,23 @@ final class SubscriptionService: NSObject {
     func fetchProducts() async {
         #if canImport(RevenueCat)
         guard isConfigured else { return }
+        if let productFetchTask {
+            await productFetchTask.value
+            return
+        }
+        let task = Task { @MainActor in
+            await performProductFetch()
+        }
+        productFetchTask = task
+        await task.value
+        productFetchTask = nil
+        #endif
+    }
+
+    #if canImport(RevenueCat)
+    private func performProductFetch() async {
         isLoadingProducts = true
+        introEligibilityResolved = false
         defer { isLoadingProducts = false }
         do {
             let offerings = try await Purchases.shared.offerings()
@@ -147,15 +180,20 @@ final class SubscriptionService: NSObject {
                 logger.error("Offerings loaded but the paywall offering has no packages. Check the RevenueCat \"default\" offering and product attachment.")
                 lastError = "Plans are temporarily unavailable. Please try again in a moment."
             } else {
+                let kinds = packages.map { String(describing: $0.soberPackageKind) }.joined(separator: ",")
+                logger.info("Loaded \(self.packages.count) packages [\(kinds, privacy: .public)]")
                 lastError = nil
             }
             await refreshIntroEligibility()
         } catch {
+            packages = []
+            introEligibility = [:]
+            introEligibilityResolved = false
             logger.error("Product fetch failed: \(String(describing: error), privacy: .public)")
             lastError = "Couldn't load subscription options. Check your connection and try again."
         }
-        #endif
     }
+    #endif
 
     #if canImport(RevenueCat)
     private func refreshIntroEligibility() async {
@@ -165,11 +203,17 @@ final class SubscriptionService: NSObject {
         guard !identifiers.isEmpty else {
             introEligibility = [:]
             introEligibilityResolved = true
+            logger.info("No fetched package contains an introductory offer")
             return
         }
         let result = await Purchases.shared.checkTrialOrIntroDiscountEligibility(productIdentifiers: identifiers)
-        introEligibility = result.mapValues { $0.status == .eligible }
+        introEligibility = result.mapValues(\.status)
         introEligibilityResolved = true
+        let statuses = result
+            .sorted { $0.key < $1.key }
+            .map { "\($0.key)=\($0.value.status.description)" }
+            .joined(separator: ",")
+        logger.info("Intro eligibility resolved [\(statuses, privacy: .public)]")
     }
 
     func isEligibleForIntroOffer(_ package: Package) -> Bool {
@@ -179,17 +223,20 @@ final class SubscriptionService: NSObject {
         // who has already consumed it (Apple 3.1.2). Flips to the real answer
         // once refreshIntroEligibility resolves.
         guard introEligibilityResolved else { return false }
-        return introEligibility[package.storeProduct.productIdentifier] ?? false
+        return introEligibility[package.storeProduct.productIdentifier] == .eligible
     }
 
-    func trackPaywallImpression(id: String, oncePerSession: Bool = false) {
+    func trackPaywallImpression(id: String, package: Package? = nil, oncePerSession: Bool = false) {
         guard isConfigured else { return }
         if oncePerSession {
             guard !paywallImpressionsThisSession.contains(id) else { return }
             paywallImpressionsThisSession.insert(id)
         }
         Purchases.shared.trackCustomPaywallImpression(
-            CustomPaywallImpressionParams(paywallId: id)
+            CustomPaywallImpressionParams(
+                paywallId: id,
+                offeringId: package?.presentedOfferingContext.offeringIdentifier
+            )
         )
     }
 
@@ -249,14 +296,60 @@ final class SubscriptionService: NSObject {
     }
 
     #if canImport(RevenueCat)
-    /// Monthly plan with a free-trial intro offer when available — the package
-    /// the one-tap trial sheet purchases. Monthly is the default trial entry
-    /// point; fall back to yearly, then any trial product.
+    /// Yearly plan with a free-trial intro offer when available — matching Quit
+    /// Zyn and the portfolio convention. Monthly remains the fallback.
     var directTrialPackage: Package? {
         let trialPackages = packages.filter { isEligibleForIntroOffer($0) }
-        return trialPackages.first { $0.soberPackageKind == .monthly }
-            ?? trialPackages.first { $0.soberPackageKind == .yearly }
-            ?? trialPackages.first
+        return Self.preferredTrialPackage(from: trialPackages)
+    }
+
+    static func preferredTrialPackage(from trialPackages: [Package]) -> Package? {
+        guard let preferredKind = preferredTrialKind(from: trialPackages.map(\.soberPackageKind)) else {
+            return nil
+        }
+        return trialPackages.first { $0.soberPackageKind == preferredKind }
+    }
+
+    nonisolated static func preferredTrialKind(from kinds: [SoberPackageKind]) -> SoberPackageKind? {
+        if kinds.contains(.yearly) { return .yearly }
+        if kinds.contains(.monthly) { return .monthly }
+        return kinds.first
+    }
+
+    func resolveOnboardingTrial() async -> OnboardingTrialResolution {
+        if isProSubscriber { return .ineligible }
+
+        if packages.isEmpty || !introEligibilityResolved || lastError != nil {
+            await fetchProducts()
+        }
+
+        if isProSubscriber { return .ineligible }
+        guard !packages.isEmpty else {
+            logger.error("Onboarding trial unavailable: no packages loaded")
+            return lastError == nil ? .unavailable : .failed
+        }
+
+        let trialPackages = packages.filter { $0.packageHasFreeTrialIntro() }
+        guard !trialPackages.isEmpty else {
+            logger.error("Onboarding trial unavailable: no package has a free-trial intro")
+            return .unavailable
+        }
+        guard introEligibilityResolved else {
+            logger.error("Onboarding trial failed: intro eligibility did not resolve")
+            return .failed
+        }
+        if Self.preferredTrialPackage(from: trialPackages.filter { isEligibleForIntroOffer($0) }) != nil {
+            return .eligible
+        }
+
+        let statuses = trialPackages.compactMap {
+            introEligibility[$0.storeProduct.productIdentifier]
+        }
+        if statuses.contains(.unknown) {
+            logger.error("Onboarding trial failed: RevenueCat returned unknown eligibility")
+            return .failed
+        }
+        return .ineligible
     }
 
     var trialOfferHeadlineLabel: String? {

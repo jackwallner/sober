@@ -3,6 +3,27 @@ import Foundation
 import SwiftData
 @testable import Sober
 
+#if canImport(RevenueCat)
+@Suite("Trial package preference")
+struct TrialPackagePreferenceTests {
+    @Test func yearlyWinsWhenBothTrialsExist() {
+        #expect(SubscriptionService.preferredTrialKind(from: [.monthly, .yearly]) == .yearly)
+    }
+
+    @Test func monthlyIsTheFallback() {
+        #expect(SubscriptionService.preferredTrialKind(from: [.monthly]) == .monthly)
+    }
+
+    @Test func unknownPackageIsStillUsable() {
+        #expect(SubscriptionService.preferredTrialKind(from: [.other]) == .other)
+    }
+
+    @Test func emptyPackagesStayUnavailable() {
+        #expect(SubscriptionService.preferredTrialKind(from: []) == nil)
+    }
+}
+#endif
+
 @Suite("Garden stage progression")
 struct GardenServiceTests {
     @Test func seedAtZero() {
