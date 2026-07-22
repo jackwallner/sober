@@ -30,10 +30,12 @@ schemes:
         SoberWidgets: all
         SoberTests: [test]
     test:
+      storeKitConfiguration: Sober.storekit
       targets:
         - SoberTests
     run:
       config: Debug
+      storeKitConfiguration: Sober.storekit
   SoberWatch:
     build:
       targets:
