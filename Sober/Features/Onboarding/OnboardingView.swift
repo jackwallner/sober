@@ -325,10 +325,9 @@ struct OnboardingView: View {
             // "Get Started" (StatScout soft-exit label), visually secondary.
             Button { finishOnboarding() } label: {
                 Text("Get Started")
-                    .font(Theme.subhead(weight: .medium))
-                    .foregroundStyle(.white.opacity(0.8))
-                    .underline()
-                    .padding(.vertical, 6)
+                    .font(Theme.caption())
+                    .foregroundStyle(.white.opacity(0.62))
+                    .padding(.vertical, 4)
             }
             .disabled(trialInFlight)
 
