@@ -21,6 +21,10 @@ struct TrialPackagePreferenceTests {
     @Test func emptyPackagesStayUnavailable() {
         #expect(SubscriptionService.preferredTrialKind(from: []) == nil)
     }
+
+    @Test func yearlyWinsRegardlessOfPackageOrder() {
+        #expect(SubscriptionService.preferredTrialKind(from: [.other, .monthly, .yearly]) == .yearly)
+    }
 }
 #endif
 

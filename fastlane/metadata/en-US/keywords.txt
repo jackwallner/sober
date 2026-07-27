@@ -1,1 +1,1 @@
-drink,less,quit,stop,recovery,addiction,relapse,cravings,mood,streak,abstinence,daily,clean,calendar
+alcohol,tracker,diary,cravings,relapse,calendar,watch,private,abstinence,recovery,streak,checkin

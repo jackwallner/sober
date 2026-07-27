@@ -13,9 +13,10 @@ import asc_lib
 
 BUNDLE_ID = "com.jackwallner.sober"
 EXPECTED_PRODUCTS = {
-    "monthly": "com.jackwallner.sober.pro.monthly",
-    "yearly": "com.jackwallner.sober.pro.yearly",
+    "monthly": ("com.jackwallner.sober.pro.monthly", "2.99"),
+    "yearly": ("com.jackwallner.sober.pro.yearly", "19.99"),
 }
+US_TERRITORY = "USA"
 
 
 def territory_from_id(encoded_id: str) -> str | None:
@@ -49,7 +50,7 @@ def main() -> None:
     by_product = {item["attributes"]["productId"]: item for item in subscriptions}
 
     failed = False
-    for label, product_id in EXPECTED_PRODUCTS.items():
+    for label, (product_id, expected_us_price) in EXPECTED_PRODUCTS.items():
         subscription = by_product.get(product_id)
         if subscription is None:
             print(f"{label}: MISSING {product_id}")
@@ -73,12 +74,26 @@ def main() -> None:
             ]
         )
         missing = sorted(priced - trial)
+        us_prices = asc_lib.list_all(
+            client,
+            f"/subscriptions/{subscription_id}/prices?filter[territory]={US_TERRITORY}"
+            "&include=subscriptionPricePoint&limit=200",
+        )
+        us_price = None
+        for item in us_prices:
+            price_point = item.get("relationships", {}).get("subscriptionPricePoint", {}).get("data") or {}
+            if not price_point:
+                continue
+            detail = client.get(f"/subscriptionPricePoints/{price_point['id']}")
+            us_price = detail.get("data", {}).get("attributes", {}).get("customerPrice")
+            break
         state = subscription["attributes"].get("state", "UNKNOWN")
         print(
-            f"{label}: state={state} priced={len(priced)} "
-            f"one_week_trials={len(trial)} missing={','.join(missing) or 'none'}"
+            f"{label}: state={state} us_price={us_price or 'missing'} expected={expected_us_price} "
+            f"priced={len(priced)} one_week_trials={len(trial)} "
+            f"missing={','.join(missing) or 'none'}"
         )
-        if state != "APPROVED" or missing:
+        if state != "APPROVED" or missing or us_price != expected_us_price:
             failed = True
 
     raise SystemExit(1 if failed else 0)

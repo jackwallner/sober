@@ -148,7 +148,7 @@ func requestSubsequentLockedFeaturePitch(_ intent: TrialOfferCoordinator.Intent)
 }
 
 enum TrialNudgeGate {
-    private static let scheduleHours: [Double] = [20, 28, 44, 96, 168]
+    private static let scheduleHours: [Double] = [48, 72, 120, 168, 336]
 
     private static var shownCount: Int {
         AppGroup.defaults.integer(forKey: AppGroup.trialNudgeCountKey)

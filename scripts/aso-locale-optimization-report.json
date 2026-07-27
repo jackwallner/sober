@@ -1,17 +1,17 @@
 {
   "ar-SA": {
     "name": {
-      "old": "سوبر – بلا كحول",
+      "old": "إقلاع الكحول: أيام جافة تطبيق",
       "new": "إقلاع الكحول: أيام جافة تطبيق",
       "len": 29
     },
     "subtitle": {
-      "old": "أيام جافة: العدّاد",
+      "old": "عداد التعافي & حديقة افتراضية",
       "new": "عداد التعافي & حديقة افتراضية",
       "len": 29
     },
     "keywords": {
-      "old": "شرب,أقل,إقلاع,إدمان,امتناع,تعافي,انتكاسة,شهوة,عادة,يوميات,تطبيق",
+      "old": "شرب,أقل,إدمان,امتناع,انتكاسة,شهوة,عادة,يوميات,سلسلة,تقويم,صحة,خاص,نبيذ,بيرة,streak,widget,calendar",
       "new": "شرب,أقل,إدمان,امتناع,انتكاسة,شهوة,عادة,يوميات,سلسلة,تقويم,صحة,خاص,نبيذ,بيرة,streak,widget,calendar",
       "len": 98
     },
@@ -19,17 +19,17 @@
   },
   "bn-BD": {
     "name": {
-      "old": "সোবার – মদ ছাড়া",
+      "old": "মদ ছাড়ুন – শুষ্ক দিন ট্র্যাক",
       "new": "মদ ছাড়ুন – শুষ্ক দিন ট্র্যাক",
       "len": 29
     },
     "subtitle": {
-      "old": "শুষ্ক দিন: গণনা",
+      "old": "সংযম গণনা ও ভার্চুয়াল বাগান",
       "new": "সংযম গণনা ও ভার্চুয়াল বাগান",
       "len": 28
     },
     "keywords": {
-      "old": "পান,কম,ত্যাগ,আসক্তি,সংযম,পুনরুদ্ধার,পুনরাবৃত্তি,লালসা,অভ্যাস,ডায়েরি,অ্যাপ",
+      "old": "পান,কম,ছাড়া,আসক্তি,পুনরুদ্ধার,পুনরাবৃত্তি,লালসা,অভ্যাস,ডায়েরি,ধারা,ক্যালেন্ডার,স্বাস্থ্য,ব্যক্তিগত",
       "new": "পান,কম,ছাড়া,আসক্তি,পুনরুদ্ধার,পুনরাবৃত্তি,লালসা,অভ্যাস,ডায়েরি,ধারা,ক্যালেন্ডার,স্বাস্থ্য,ব্যক্তিগত",
       "len": 100
     },
@@ -37,17 +37,17 @@
   },
   "ca": {
     "name": {
-      "old": "Sober – Sense alcohol",
+      "old": "Deixa l'alcohol: Dies secs",
       "new": "Deixa l'alcohol: Dies secs",
       "len": 26
     },
     "subtitle": {
-      "old": "Dies secs: comptador",
+      "old": "Comptador abstinència & jardí",
       "new": "Comptador abstinència & jardí",
       "len": 29
     },
     "keywords": {
-      "old": "beure,menys,deixar,addicció,abstinència,recuperació,recaiguda,desig,hàbit,diari,app",
+      "old": "beure,menys,addicció,recuperació,recaiguda,desig,humor,hàbit,diari,sèrie,calendari,salut,privat,vi",
       "new": "beure,menys,addicció,recuperació,recaiguda,desig,humor,hàbit,diari,sèrie,calendari,salut,privat,vi",
       "len": 98
     },
@@ -55,17 +55,17 @@
   },
   "cs": {
     "name": {
-      "old": "Sober – Bez alkoholu",
+      "old": "Přestaň pít: Suché dny & app",
       "new": "Přestaň pít: Suché dny & app",
       "len": 28
     },
     "subtitle": {
-      "old": "Suché dny: počítadlo",
+      "old": "Počítadlo abstinence & zahrada",
       "new": "Počítadlo abstinence & zahrada",
       "len": 30
     },
     "keywords": {
-      "old": "pít,méně,přestat,závislost,abstinence,zotavení,relaps,chuť,zvyk,deník,app",
+      "old": "méně,přestat,závislost,zotavení,relaps,chuť,nálada,zvyk,deník,série,kalendář,zdraví,soukromí,víno",
       "new": "méně,přestat,závislost,zotavení,relaps,chuť,nálada,zvyk,deník,série,kalendář,zdraví,soukromí,víno",
       "len": 97
     },
@@ -73,17 +73,17 @@
   },
   "da": {
     "name": {
-      "old": "Sober – Alkoholfri",
+      "old": "Stop med alkohol: Tørre dage",
       "new": "Stop med alkohol: Tørre dage",
       "len": 28
     },
     "subtitle": {
-      "old": "Tørre dage: tæller",
+      "old": "Genopretning & virtuel have",
       "new": "Genopretning & virtuel have",
       "len": 27
     },
     "keywords": {
-      "old": "drikke,mindre,stoppe,afhængighed,afholdenhed,bedring,tilbagefald,trang,vane,dagbog,streak",
+      "old": "drikke,mindre,afhængighed,afholdenhed,bedring,tilbagefald,trang,humør,vane,dagbog,serie,kalender,vin",
       "new": "drikke,mindre,afhængighed,afholdenhed,bedring,tilbagefald,trang,humør,vane,dagbog,serie,kalender,vin",
       "len": 100
     },
@@ -91,17 +91,17 @@
   },
   "de-DE": {
     "name": {
-      "old": "Sober: Alkoholfrei Tracker",
+      "old": "Alkohol stoppen: Trockene Tage",
       "new": "Alkohol stoppen: Trockene Tage",
       "len": 30
     },
     "subtitle": {
-      "old": "Trockene Tage: Zähler",
+      "old": "Nüchternheitszähler & Garten",
       "new": "Nüchternheitszähler & Garten",
       "len": 28
     },
     "keywords": {
-      "old": "trinken,weniger,aufhören,entzug,nüchtern,erholung,abstinenz,rückfall,gewohnheit,tagebuch,app,streak",
+      "old": "trinken,weniger,aufhören,entzug,sucht,erholung,serie,abstinenz,rückfall,stimmung,verlangen,kalender",
       "new": "trinken,weniger,aufhören,entzug,sucht,erholung,serie,abstinenz,rückfall,stimmung,verlangen,kalender",
       "len": 99
     },
@@ -109,17 +109,17 @@
   },
   "el": {
     "name": {
-      "old": "Sober – Χωρίς αλκοόλ",
+      "old": "Σταμάτα αλκοόλ: Ξηρές μέρες",
       "new": "Σταμάτα αλκοόλ: Ξηρές μέρες",
       "len": 27
     },
     "subtitle": {
-      "old": "Ξηρές μέρες: μετρητής",
+      "old": "Μετρητής αποκατάστασης & κήπος",
       "new": "Μετρητής αποκατάστασης & κήπος",
       "len": 30
     },
     "keywords": {
-      "old": "πίνω,λιγότερο,σταματώ,εξάρτηση,αποχή,ανάρρωση,υποτροπή,λαχτάρα,συνήθεια,ημερολόγιο,app",
+      "old": "πίνω,λιγότερο,σταματώ,εξάρτηση,αποχή,ανάρρωση,υποτροπή,λαχτάρα,διάθεση,συνήθεια,ημερολόγιο,σειρά",
       "new": "πίνω,λιγότερο,σταματώ,εξάρτηση,αποχή,ανάρρωση,υποτροπή,λαχτάρα,διάθεση,συνήθεια,ημερολόγιο,σειρά",
       "len": 96
     },
@@ -128,88 +128,88 @@
   "en-AU": {
     "name": {
       "old": "Sober Tracker - Alcohol Free",
-      "new": "Sober Tracker - Alcohol Free",
-      "len": 28
-    },
-    "subtitle": {
-      "old": "Dry Days: Sobriety Counter",
-      "new": "Dry Days, Sobriety & Garden",
+      "new": "Sober: Sobriety Day Counter",
       "len": 27
     },
-    "keywords": {
-      "old": "countdown,habit,app,quit,drinking,drink,less,control,daily,check,log,time,cut,streak,recovery,diary",
-      "new": "drink,less,quit,stop,recovery,addiction,relapse,cravings,mood,streak,abstinence,daily,clean,calendar",
-      "len": 100
+    "subtitle": {
+      "old": "Dry Days, Sobriety & Garden",
+      "new": "Quit Drinking, Grow Each Day",
+      "len": 28
     },
-    "description_chars": 825
+    "keywords": {
+      "old": "drink,less,quit,stop,recovery,addiction,relapse,cravings,mood,streak,abstinence,daily,clean,calendar",
+      "new": "alcohol,tracker,diary,cravings,relapse,calendar,watch,private,abstinence,recovery,streak,checkin",
+      "len": 96
+    },
+    "description_chars": 1564
   },
   "en-CA": {
     "name": {
       "old": "Sober Tracker - Alcohol Free",
-      "new": "Sober Tracker - Alcohol Free",
-      "len": 28
-    },
-    "subtitle": {
-      "old": "Dry Days: Sobriety Counter",
-      "new": "Dry Days, Sobriety & Garden",
+      "new": "Sober: Sobriety Day Counter",
       "len": 27
     },
-    "keywords": {
-      "old": "countdown,habit,app,quit,drinking,drink,less,control,daily,check,log,time,cut,streak,recovery,diary",
-      "new": "drink,less,quit,stop,recovery,addiction,relapse,cravings,mood,streak,abstinence,daily,clean,calendar",
-      "len": 100
+    "subtitle": {
+      "old": "Dry Days, Sobriety & Garden",
+      "new": "Quit Drinking, Grow Each Day",
+      "len": 28
     },
-    "description_chars": 825
+    "keywords": {
+      "old": "drink,less,quit,stop,recovery,addiction,relapse,cravings,mood,streak,abstinence,daily,clean,calendar",
+      "new": "alcohol,tracker,diary,cravings,relapse,calendar,watch,private,abstinence,recovery,streak,checkin",
+      "len": 96
+    },
+    "description_chars": 1564
   },
   "en-GB": {
     "name": {
       "old": "Sober Tracker - Alcohol Free",
-      "new": "Sober Tracker - Alcohol Free",
-      "len": 28
-    },
-    "subtitle": {
-      "old": "Dry Days: Sobriety Counter",
-      "new": "Dry Days, Sobriety & Garden",
+      "new": "Sober: Sobriety Day Counter",
       "len": 27
     },
-    "keywords": {
-      "old": "countdown,habit,app,quit,drinking,drink,less,control,daily,check,log,time,cut,streak,recovery,diary",
-      "new": "drink,less,quit,stop,recovery,addiction,relapse,cravings,mood,streak,abstinence,daily,clean,calendar",
-      "len": 100
+    "subtitle": {
+      "old": "Dry Days, Sobriety & Garden",
+      "new": "Quit Drinking, Grow Each Day",
+      "len": 28
     },
-    "description_chars": 825
+    "keywords": {
+      "old": "drink,less,quit,stop,recovery,addiction,relapse,cravings,mood,streak,abstinence,daily,clean,calendar",
+      "new": "alcohol,tracker,diary,cravings,relapse,calendar,watch,private,abstinence,recovery,streak,checkin",
+      "len": 96
+    },
+    "description_chars": 1564
   },
   "en-US": {
     "name": {
       "old": "Sober Tracker - Alcohol Free",
-      "new": "Sober Tracker - Alcohol Free",
-      "len": 28
-    },
-    "subtitle": {
-      "old": "Dry Days: Sobriety Counter",
-      "new": "Dry Days, Sobriety & Garden",
+      "new": "Sober: Sobriety Day Counter",
       "len": 27
     },
-    "keywords": {
-      "old": "countdown,habit,app,quit,drinking,drink,less,control,daily,check,log,time,cut,streak,recovery,diary",
-      "new": "drink,less,quit,stop,recovery,addiction,relapse,cravings,mood,streak,abstinence,daily,clean,calendar",
-      "len": 100
+    "subtitle": {
+      "old": "Dry Days, Sobriety & Garden",
+      "new": "Quit Drinking, Grow Each Day",
+      "len": 28
     },
-    "description_chars": 825
+    "keywords": {
+      "old": "drink,less,quit,stop,recovery,addiction,relapse,cravings,mood,streak,abstinence,daily,clean,calendar",
+      "new": "alcohol,tracker,diary,cravings,relapse,calendar,watch,private,abstinence,recovery,streak,checkin",
+      "len": 96
+    },
+    "description_chars": 1564
   },
   "es-ES": {
     "name": {
-      "old": "Sober – Sin alcohol",
+      "old": "Dejar alcohol: Días secos",
       "new": "Dejar alcohol: Días secos",
       "len": 25
     },
     "subtitle": {
-      "old": "Días secos: contador",
+      "old": "Contador sobriedad & jardín",
       "new": "Contador sobriedad & jardín",
       "len": 27
     },
     "keywords": {
-      "old": "beber,menos,dejar,adicción,antojo,abstinencia,recuperación,sobriedad,recaída,hábito,diario,app",
+      "old": "beber,menos,adicción,antojo,abstinencia,recuperación,recaída,humor,diario,serie,calendario,salud",
       "new": "beber,menos,adicción,antojo,abstinencia,recuperación,recaída,humor,diario,serie,calendario,salud",
       "len": 96
     },
@@ -217,17 +217,17 @@
   },
   "es-MX": {
     "name": {
-      "old": "Sober – Sin alcohol",
+      "old": "Dejar alcohol: Días secos",
       "new": "Dejar alcohol: Días secos",
       "len": 25
     },
     "subtitle": {
-      "old": "Días secos: contador",
+      "old": "Contador sobriedad & jardín",
       "new": "Contador sobriedad & jardín",
       "len": 27
     },
     "keywords": {
-      "old": "beber,menos,dejar,adicción,antojo,abstinencia,recuperación,sobriedad,recaída,hábito,diario,app",
+      "old": "beber,menos,adicción,antojo,abstinencia,recuperación,recaída,humor,diario,serie,calendario,salud",
       "new": "beber,menos,adicción,antojo,abstinencia,recuperación,recaída,humor,diario,serie,calendario,salud",
       "len": 96
     },
@@ -235,17 +235,17 @@
   },
   "fi": {
     "name": {
-      "old": "Sober – Alkoholiton",
+      "old": "Lopeta alkoholi: Kuivat päivät",
       "new": "Lopeta alkoholi: Kuivat päivät",
       "len": 30
     },
     "subtitle": {
-      "old": "Kuivat päivät: laskuri",
+      "old": "Raittiuslaskuri & puutarha",
       "new": "Raittiuslaskuri & puutarha",
       "len": 26
     },
     "keywords": {
-      "old": "juoda,vähemmän,lopettaa,riippuvuus,raittius,toipuminen,retkahdus,himo,tapa,päiväkirja,streak",
+      "old": "juoda,vähemmän,lopettaa,riippuvuus,toipuminen,retkahdus,himo,mieli,tapa,päiväkirja,sarja,kalenteri",
       "new": "juoda,vähemmän,lopettaa,riippuvuus,toipuminen,retkahdus,himo,mieli,tapa,päiväkirja,sarja,kalenteri",
       "len": 98
     },
@@ -253,17 +253,17 @@
   },
   "fr-CA": {
     "name": {
-      "old": "Sober – Sans alcool",
+      "old": "Arrêter alcool: Jours secs",
       "new": "Arrêter alcool: Jours secs",
       "len": 26
     },
     "subtitle": {
-      "old": "Jours secs : compteur",
+      "old": "Compteur sobriété & jardin",
       "new": "Compteur sobriété & jardin",
       "len": 26
     },
     "keywords": {
-      "old": "boire,moins,arrêter,sevrage,abstinence,envie,rétablissement,rechute,habitude,journal,appli",
+      "old": "boire,moins,sevrage,abstinence,rétablissement,envie,habitude,journal,série,dépendance,rechute,humeur",
       "new": "boire,moins,sevrage,abstinence,rétablissement,envie,habitude,journal,série,dépendance,rechute,humeur",
       "len": 100
     },
@@ -271,17 +271,17 @@
   },
   "fr-FR": {
     "name": {
-      "old": "Sober – Sans alcool",
+      "old": "Arrêter alcool: Jours secs",
       "new": "Arrêter alcool: Jours secs",
       "len": 26
     },
     "subtitle": {
-      "old": "Jours secs : compteur",
+      "old": "Compteur sobriété & jardin",
       "new": "Compteur sobriété & jardin",
       "len": 26
     },
     "keywords": {
-      "old": "boire,moins,arrêter,sevrage,abstinence,envie,rétablissement,rechute,habitude,journal,appli",
+      "old": "boire,moins,sevrage,abstinence,rétablissement,envie,habitude,journal,série,dépendance,rechute,humeur",
       "new": "boire,moins,sevrage,abstinence,rétablissement,envie,habitude,journal,série,dépendance,rechute,humeur",
       "len": 100
     },
@@ -289,17 +289,17 @@
   },
   "gu-IN": {
     "name": {
-      "old": "સોબર – દારૂ મુક્ત",
+      "old": "દારૂ છોડો – સૂકા દિવસ ટ્રેકર",
       "new": "દારૂ છોડો – સૂકા દિવસ ટ્રેકર",
       "len": 28
     },
     "subtitle": {
-      "old": "સૂકા દિવસ: કાઉન્ટર",
+      "old": "સંયમ ગણતરી અને વર્ચ્યુઅલ બગીચો",
       "new": "સંયમ ગણતરી અને વર્ચ્યુઅલ બગીચો",
       "len": 30
     },
     "keywords": {
-      "old": "પીવું,ઓછું,છોડવું,વ્યસન,ત્યાગ,પુનઃપ્રાપ્તિ,પુનરાવર્તન,તૃષ્ણા,આદત,ડાયરી,એપ",
+      "old": "પીવું,ઓછું,છોડવું,વ્યસન,ત્યાગ,પુનઃપ્રાપ્તિ,પુનરાવર્તન,તૃષ્ણા,આદત,ડાયરી,શ્રેણી,કેલેન્ડર,આરોગ્ય,ખાનગી",
       "new": "પીવું,ઓછું,છોડવું,વ્યસન,ત્યાગ,પુનઃપ્રાપ્તિ,પુનરાવર્તન,તૃષ્ણા,આદત,ડાયરી,શ્રેણી,કેલેન્ડર,આરોગ્ય,ખાનગી",
       "len": 99
     },
@@ -307,17 +307,17 @@
   },
   "he": {
     "name": {
-      "old": "סובר – נטול אלכוהול",
+      "old": "הפסקת אלכוהול: ימים יבשים",
       "new": "הפסקת אלכוהול: ימים יבשים",
       "len": 25
     },
     "subtitle": {
-      "old": "ימים יבשים: מונה",
+      "old": "מונה התאוששות וגן וירטואלי",
       "new": "מונה התאוששות וגן וירטואלי",
       "len": 26
     },
     "keywords": {
-      "old": "שתייה,פחות,הפסקה,התמכרות,התנזרות,החלמה,נפילה,תשוקה,הרגל,יומן,אפליקציה",
+      "old": "שתייה,פחות,הפסקה,התמכרות,התנזרות,החלמה,נפילה,תשוקה,הרגל,יומן,רצף,לוחשנה,גן,בריאות,פרטי,יין,בירה,wine",
       "new": "שתייה,פחות,הפסקה,התמכרות,התנזרות,החלמה,נפילה,תשוקה,הרגל,יומן,רצף,לוחשנה,גן,בריאות,פרטי,יין,בירה,wine",
       "len": 100
     },
@@ -325,17 +325,17 @@
   },
   "hi": {
     "name": {
-      "old": "सोबर – शराब मुक्त",
+      "old": "शराब छोड़ें – शुष्क दिन अॅप",
       "new": "शराब छोड़ें – शुष्क दिन अॅप",
       "len": 27
     },
     "subtitle": {
-      "old": "सूखे दिन: काउंटर",
+      "old": "संयम गिनती और वर्चुअल बगीचा",
       "new": "संयम गिनती और वर्चुअल बगीचा",
       "len": 27
     },
     "keywords": {
-      "old": "पीना,कम,छोड़ना,लत,संयम,सुधार,पुनरावृत्ति,लालसा,आदत,डायरी,ऐप",
+      "old": "पीना,कम,छोड़ना,लत,सुधार,पुनरावृत्ति,लालसा,आदत,डायरी,स्ट्रीक,कैलेंडर,स्वास्थ्य,निजी,वाइन,streak,detox",
       "new": "पीना,कम,छोड़ना,लत,सुधार,पुनरावृत्ति,लालसा,आदत,डायरी,स्ट्रीक,कैलेंडर,स्वास्थ्य,निजी,वाइन,streak,detox",
       "len": 100
     },
@@ -343,17 +343,17 @@
   },
   "hr": {
     "name": {
-      "old": "Sober – Bez alkohola",
+      "old": "Prestani piti: Suhi dani & app",
       "new": "Prestani piti: Suhi dani & app",
       "len": 30
     },
     "subtitle": {
-      "old": "Suhi dani: brojač",
+      "old": "Brojač abstinencije & vrt",
       "new": "Brojač abstinencije & vrt",
       "len": 25
     },
     "keywords": {
-      "old": "piti,manje,prestati,ovisnost,apstinencija,oporavak,relaps,želja,navika,dnevnik,app",
+      "old": "manje,prestati,ovisnost,apstinencija,oporavak,relaps,želja,raspoloženje,navika,dnevnik,niz,kalendar",
       "new": "manje,prestati,ovisnost,apstinencija,oporavak,relaps,želja,raspoloženje,navika,dnevnik,niz,kalendar",
       "len": 99
     },
@@ -361,17 +361,17 @@
   },
   "hu": {
     "name": {
-      "old": "Sober – Alkoholmentes",
+      "old": "Alkohol abbahagy: Száraz napok",
       "new": "Alkohol abbahagy: Száraz napok",
       "len": 30
     },
     "subtitle": {
-      "old": "Száraz napok: számláló",
+      "old": "Mérsékletességmérő & kert",
       "new": "Mérsékletességmérő & kert",
       "len": 25
     },
     "keywords": {
-      "old": "inni,kevesebb,abbahagy,függőség,elvonás,felépülés,visszaesés,vágy,szokás,napló,app",
+      "old": "inni,kevesebb,függőség,elvonás,felépülés,visszaesés,vágy,hangulat,szokás,napló,sorozat,naptár,privát",
       "new": "inni,kevesebb,függőség,elvonás,felépülés,visszaesés,vágy,hangulat,szokás,napló,sorozat,naptár,privát",
       "len": 100
     },
@@ -379,17 +379,17 @@
   },
   "id": {
     "name": {
-      "old": "Sober – Bebas Alkohol",
+      "old": "Berhenti alkohol: Hari kering",
       "new": "Berhenti alkohol: Hari kering",
       "len": 29
     },
     "subtitle": {
-      "old": "Hari kering: penghitung",
+      "old": "Penghitung abstinensi & taman",
       "new": "Penghitung abstinensi & taman",
       "len": 29
     },
     "keywords": {
-      "old": "minum,sedikit,berhenti,kecanduan,pantang,pemulihan,kambuh,hasrat,kebiasaan,jurnal,streak",
+      "old": "minum,sedikit,kecanduan,pantang,pemulihan,kambuh,hasrat,kebiasaan,jurnal,rangkai,kalender,kesehatan",
       "new": "minum,sedikit,kecanduan,pantang,pemulihan,kambuh,hasrat,kebiasaan,jurnal,rangkai,kalender,kesehatan",
       "len": 99
     },
@@ -397,17 +397,17 @@
   },
   "it": {
     "name": {
-      "old": "Sober – Senza alcol",
+      "old": "Smetti alcol: Giorni secchi",
       "new": "Smetti alcol: Giorni secchi",
       "len": 27
     },
     "subtitle": {
-      "old": "Giorni secchi: contatore",
+      "old": "Contatore sobrietà & giardino",
       "new": "Contatore sobrietà & giardino",
       "len": 29
     },
     "keywords": {
-      "old": "bere,meno,smettere,astinenza,dipendenza,recupero,ricaduta,voglia,craving,abitudine,diario,app",
+      "old": "bere,meno,smettere,astinenza,dipendenza,recupero,ricaduta,voglia,umore,abitudine,diario,serie,salute",
       "new": "bere,meno,smettere,astinenza,dipendenza,recupero,ricaduta,voglia,umore,abitudine,diario,serie,salute",
       "len": 100
     },
@@ -415,17 +415,17 @@
   },
   "ja": {
     "name": {
-      "old": "ソーバー：アルコールフリー",
+      "old": "アルコール禁酒・ドライデイ追跡SOBERアプリ版APP",
       "new": "アルコール禁酒・ドライデイ追跡SOBERアプリ版APP",
       "len": 27
     },
     "subtitle": {
-      "old": "ドライデイズ：カウンター",
+      "old": "無アルコール日数カウンター・バーチャル庭園SOBER版",
       "new": "無アルコール日数カウンター・バーチャル庭園SOBER版",
       "len": 27
     },
     "keywords": {
-      "old": "飲む,減らす,禁酒,依存,断酒,回復,再発,渇望,習慣,日記,アプリ",
+      "old": "飲む,減らす,禁酒,依存,断酒,回復,再発,渇望,習慣,日記,連続,記録,カレンダー,ウィジェット,庭,健康,非公開,ワイン,ビール,ドライ,デイ,追跡,成長,アプリ,ツール,dryday,フリー",
       "new": "飲む,減らす,禁酒,依存,断酒,回復,再発,渇望,習慣,日記,連続,記録,カレンダー,ウィジェット,庭,健康,非公開,ワイン,ビール,ドライ,デイ,追跡,成長,アプリ,ツール,dryday,フリー",
       "len": 98
     },
@@ -433,17 +433,17 @@
   },
   "kn-IN": {
     "name": {
-      "old": "ಸೋಬರ್ – ಮದ್ಯಮುಕ್ತ",
+      "old": "ಮದ್ಯ ಬಿಡಿ – ಒಣ ದಿನಗಳ ಟ್ರ್ಯಾಕರ್",
       "new": "ಮದ್ಯ ಬಿಡಿ – ಒಣ ದಿನಗಳ ಟ್ರ್ಯಾಕರ್",
       "len": 30
     },
     "subtitle": {
-      "old": "ಒಣ ದಿನಗಳು: ಕೌಂಟರ್",
+      "old": "ಸಂಯಮ ಎಣಿಕೆ ಮತ್ತು ವರ್ಚುವಲ್ ತೋಟ",
       "new": "ಸಂಯಮ ಎಣಿಕೆ ಮತ್ತು ವರ್ಚುವಲ್ ತೋಟ",
       "len": 29
     },
     "keywords": {
-      "old": "ಕುಡಿಯುವುದು,ಕಡಿಮೆ,ಬಿಡುವುದು,ಚಟ,ಸಂಯಮ,ಚೇತರಿಕೆ,ಮರುಕಳಿಕೆ,ಹಂಬಲ,ಅಭ್ಯಾಸ,ಡೈರಿ,ಆಪ್",
+      "old": "ಕುಡಿಯುವುದು,ಕಡಿಮೆ,ಬಿಡುವುದು,ಚಟ,ಚೇತರಿಕೆ,ಮರುಕಳಿಕೆ,ಹಂಬಲ,ಅಭ್ಯಾಸ,ಡೈರಿ,ಸರಣಿ,ಕ್ಯಾಲೆಂಡರ್,ಆರೋಗ್ಯ,ಖಾಸಗಿ,streak",
       "new": "ಕುಡಿಯುವುದು,ಕಡಿಮೆ,ಬಿಡುವುದು,ಚಟ,ಚೇತರಿಕೆ,ಮರುಕಳಿಕೆ,ಹಂಬಲ,ಅಭ್ಯಾಸ,ಡೈರಿ,ಸರಣಿ,ಕ್ಯಾಲೆಂಡರ್,ಆರೋಗ್ಯ,ಖಾಸಗಿ,streak",
       "len": 98
     },
@@ -451,17 +451,17 @@
   },
   "ko": {
     "name": {
-      "old": "소버 – 무알코올",
+      "old": "금주 알코올 드라이데이 추적 앱 프로그램 도구",
       "new": "금주 알코올 드라이데이 추적 앱 프로그램 도구",
       "len": 25
     },
     "subtitle": {
-      "old": "마른 날: 카운터",
+      "old": "무알코올 프리 일수 카운터 & 가상 정원 성장",
       "new": "무알코올 프리 일수 카운터 & 가상 정원 성장",
       "len": 25
     },
     "keywords": {
-      "old": "마시다,줄이다,끊다,중독,절주,회복,재발,갈망,습관,일기,앱",
+      "old": "마시다,줄이다,끊다,중독,절주,회복,재발,갈망,습관,일기,연속,기록,캘린더,위젯,건강,비공개,와인,맥주,드라이,데이,앱,sober,dryday,성장앱,절제,체크인,서비스,솔루션",
       "new": "마시다,줄이다,끊다,중독,절주,회복,재발,갈망,습관,일기,연속,기록,캘린더,위젯,건강,비공개,와인,맥주,드라이,데이,앱,sober,dryday,성장앱,절제,체크인,서비스,솔루션",
       "len": 98
     },
@@ -469,17 +469,17 @@
   },
   "ml-IN": {
     "name": {
-      "old": "സോബർ – മദ്യമുക്ത",
+      "old": "മദ്യം നിർത്തുക – ഉണങ്ങിയ ദിവസം",
       "new": "മദ്യം നിർത്തുക – ഉണങ്ങിയ ദിവസം",
       "len": 30
     },
     "subtitle": {
-      "old": "ഉണങ്ങിയ ദിനങ്ങൾ: കൗണ്ടർ",
+      "old": "സംയമ എണ്ണം & വെർച്വൽ തോട്ടം",
       "new": "സംയമ എണ്ണം & വെർച്വൽ തോട്ടം",
       "len": 27
     },
     "keywords": {
-      "old": "കുടിക്കൽ,കുറവ്,നിർത്തൽ,ആസക്തി,വർജനം,വീണ്ടെടുക്കൽ,വീഴ്ച,ആഗ്രഹം,ശീലം,ഡയറി,ആപ്പ്",
+      "old": "കുടിക്കൽ,കുറവ്,നിർത്തൽ,ആസക്തി,വർജനം,വീണ്ടെടുക്കൽ,വീഴ്ച,ആഗ്രഹം,ശീലം,ഡയറി,സീരീസ്,കലണ്ടർ,ആരോഗ്യം,streak",
       "new": "കുടിക്കൽ,കുറവ്,നിർത്തൽ,ആസക്തി,വർജനം,വീണ്ടെടുക്കൽ,വീഴ്ച,ആഗ്രഹം,ശീലം,ഡയറി,സീരീസ്,കലണ്ടർ,ആരോഗ്യം,streak",
       "len": 100
     },
@@ -487,17 +487,17 @@
   },
   "mr-IN": {
     "name": {
-      "old": "सोबर – दारूमुक्त",
+      "old": "दारू सोडा – कोरडे दिवस अॅप",
       "new": "दारू सोडा – कोरडे दिवस अॅप",
       "len": 26
     },
     "subtitle": {
-      "old": "कोरडे दिवस: काउंटर",
+      "old": "संयम मोजणी आणि वर्चुअल बाग",
       "new": "संयम मोजणी आणि वर्चुअल बाग",
       "len": 26
     },
     "keywords": {
-      "old": "पिणे,कमी,सोडणे,व्यसन,त्याग,पुनर्प्राप्ती,पुनरावृत्ती,तळमळ,सवय,डायरी,अॅप",
+      "old": "पिणे,कमी,सोडणे,व्यसन,त्याग,पुनर्प्राप्ती,पुनरावृत्ती,तळमळ,सवय,डायरी,मालिका,दिनदर्शिका,आरोग्य,खाजगी",
       "new": "पिणे,कमी,सोडणे,व्यसन,त्याग,पुनर्प्राप्ती,पुनरावृत्ती,तळमळ,सवय,डायरी,मालिका,दिनदर्शिका,आरोग्य,खाजगी",
       "len": 98
     },
@@ -505,17 +505,17 @@
   },
   "ms": {
     "name": {
-      "old": "Sober – Bebas Alkohol",
+      "old": "Berhenti alkohol: Hari kering",
       "new": "Berhenti alkohol: Hari kering",
       "len": 29
     },
     "subtitle": {
-      "old": "Hari kering: pembilang",
+      "old": "Pembilang abstinensi & taman",
       "new": "Pembilang abstinensi & taman",
       "len": 28
     },
     "keywords": {
-      "old": "minum,kurang,berhenti,ketagihan,pantang,pemulihan,kambuh,hasrat,tabiat,jurnal,streak",
+      "old": "minum,kurang,ketagihan,pantang,pemulihan,kambuh,hasrat,tabiat,diari,rangkai,kalendar,kesihatan,detox",
       "new": "minum,kurang,ketagihan,pantang,pemulihan,kambuh,hasrat,tabiat,diari,rangkai,kalendar,kesihatan,detox",
       "len": 100
     },
@@ -523,17 +523,17 @@
   },
   "nl-NL": {
     "name": {
-      "old": "Sober – Alcoholvrij",
+      "old": "Stop met drinken: Droge dagen",
       "new": "Stop met drinken: Droge dagen",
       "len": 29
     },
     "subtitle": {
-      "old": "Droge dagen: teller",
+      "old": "Herstelteller & virtuele tuin",
       "new": "Herstelteller & virtuele tuin",
       "len": 29
     },
     "keywords": {
-      "old": "stoppen,minder,drinken,verslaving,ontwenning,nuchter,herstel,terugval,gewoonte,dagboek,streak",
+      "old": "minder,verslaving,ontwenning,nuchter,terugval,verlangen,stemming,gewoonte,dagboek,serie,kalender",
       "new": "minder,verslaving,ontwenning,nuchter,terugval,verlangen,stemming,gewoonte,dagboek,serie,kalender",
       "len": 96
     },
@@ -541,17 +541,17 @@
   },
   "no": {
     "name": {
-      "old": "Sober – Alkoholfri",
+      "old": "Slutt med alkohol: Tørre dager",
       "new": "Slutt med alkohol: Tørre dager",
       "len": 30
     },
     "subtitle": {
-      "old": "Tørre dager: teller",
+      "old": "Gjenoppretting & virtuell hage",
       "new": "Gjenoppretting & virtuell hage",
       "len": 30
     },
     "keywords": {
-      "old": "drikke,mindre,slutte,avhengighet,avholdenhet,bedring,tilbakefall,sug,vane,dagbok,streak",
+      "old": "drikke,mindre,avhengighet,avholdenhet,bedring,tilbakefall,sug,humør,vane,dagbok,serie,kalender,helse",
       "new": "drikke,mindre,avhengighet,avholdenhet,bedring,tilbakefall,sug,humør,vane,dagbok,serie,kalender,helse",
       "len": 100
     },
@@ -559,17 +559,17 @@
   },
   "or-IN": {
     "name": {
-      "old": "ସୋବର – ମଦ୍ୟମୁକ୍ତ",
+      "old": "ମଦ୍ୟ ଛାଡ଼ – ଶୁଷ୍କ ଦିନ ଟ୍ରାକର",
       "new": "ମଦ୍ୟ ଛାଡ଼ – ଶୁଷ୍କ ଦିନ ଟ୍ରାକର",
       "len": 28
     },
     "subtitle": {
-      "old": "ଶୁଷ୍କ ଦିନ: ଗଣନା",
+      "old": "ସଂଯମ ଗଣନା ଓ ଭର୍ଚୁଆଲ୍ ବଗିଚା",
       "new": "ସଂଯମ ଗଣନା ଓ ଭର୍ଚୁଆଲ୍ ବଗିଚା",
       "len": 26
     },
     "keywords": {
-      "old": "ପିଇବା,କମ,ଛାଡିବା,ଆସକ୍ତି,ବିରତି,ପୁନରୁଦ୍ଧାର,ପୁନରାବୃତ୍ତି,ଲାଳସା,ଅଭ୍ୟାସ,ଡାଇରୀ,ଆପ୍",
+      "old": "ପିଇବା,କମ,ଛାଡିବା,ଆସକ୍ତି,ବିରତି,ପୁନରୁଦ୍ଧାର,ପୁନରାବୃତ୍ତି,ଲାଳସା,ଅଭ୍ୟାସ,ଡାଇରୀ,ଧାରା,କ୍ୟାଲେଣ୍ଡର,ସ୍ୱାସ୍ଥ୍ୟ",
       "new": "ପିଇବା,କମ,ଛାଡିବା,ଆସକ୍ତି,ବିରତି,ପୁନରୁଦ୍ଧାର,ପୁନରାବୃତ୍ତି,ଲାଳସା,ଅଭ୍ୟାସ,ଡାଇରୀ,ଧାରା,କ୍ୟାଲେଣ୍ଡର,ସ୍ୱାସ୍ଥ୍ୟ",
       "len": 96
     },
@@ -577,17 +577,17 @@
   },
   "pa-IN": {
     "name": {
-      "old": "ਸੋਬਰ – ਸ਼ਰਾਬ ਮੁਕਤ",
+      "old": "ਸ਼ਰਾਬ ਛੱਡੋ – ਸੁੱਕੇ ਦਿਨ ਐਪ",
       "new": "ਸ਼ਰਾਬ ਛੱਡੋ – ਸੁੱਕੇ ਦਿਨ ਐਪ",
       "len": 25
     },
     "subtitle": {
-      "old": "ਸੁੱਕੇ ਦਿਨ: ਕਾਊਂਟਰ",
+      "old": "ਅਨੁਸ਼ਾਸਨ ਗਿਣਤੀ & ਵਰਚੁਅਲ ਬਾਗ",
       "new": "ਅਨੁਸ਼ਾਸਨ ਗਿਣਤੀ & ਵਰਚੁਅਲ ਬਾਗ",
       "len": 27
     },
     "keywords": {
-      "old": "ਪੀਣਾ,ਘੱਟ,ਛੱਡਣਾ,ਆਦੀ,ਸੰਜਮ,ਬਰਾਮਦਗੀ,ਮੁੜ ਆਉਣਾ,ਤਰਸ,ਆਦਤ,ਡਾਇਰੀ,ਐਪ",
+      "old": "ਪੀਣਾ,ਘੱਟ,ਛੱਡਣਾ,ਆਦੀ,ਸੰਜਮ,ਬਰਾਮਦਗੀ,ਮੁੜ,ਤਰਸ,ਆਦਤ,ਡਾਇਰੀ,ਲਕੀਰ,ਕੈਲੰਡਰ,ਸਿਹਤ,ਨਿੱਜੀ,streak,widget,calendar,wine",
       "new": "ਪੀਣਾ,ਘੱਟ,ਛੱਡਣਾ,ਆਦੀ,ਸੰਜਮ,ਬਰਾਮਦਗੀ,ਮੁੜ,ਤਰਸ,ਆਦਤ,ਡਾਇਰੀ,ਲਕੀਰ,ਕੈਲੰਡਰ,ਸਿਹਤ,ਨਿੱਜੀ,streak,widget,calendar,wine",
       "len": 100
     },
@@ -595,17 +595,17 @@
   },
   "pl": {
     "name": {
-      "old": "Sober – Bez alkoholu",
+      "old": "Rzuć alkohol: Suche dni & app",
       "new": "Rzuć alkohol: Suche dni & app",
       "len": 29
     },
     "subtitle": {
-      "old": "Suche dni: licznik",
+      "old": "Licznik trzeźwości & ogród",
       "new": "Licznik trzeźwości & ogród",
       "len": 26
     },
     "keywords": {
-      "old": "pić,mniej,przestać,uzależnienie,abstynencja,odwyk,nawrót,głód,nawyk,dziennik,app",
+      "old": "pić,mniej,przestać,uzależnienie,abstynencja,odwyk,nawrót,głód,nastrój,nawyk,dziennik,seria,kalendarz",
       "new": "pić,mniej,przestać,uzależnienie,abstynencja,odwyk,nawrót,głód,nastrój,nawyk,dziennik,seria,kalendarz",
       "len": 100
     },
@@ -613,17 +613,17 @@
   },
   "pt-BR": {
     "name": {
-      "old": "Sober – Sem Álcool",
+      "old": "Parar álcool: Dias secos & app",
       "new": "Parar álcool: Dias secos & app",
       "len": 30
     },
     "subtitle": {
-      "old": "Dias secos: contador",
+      "old": "Contador recuperação & jardim",
       "new": "Contador recuperação & jardim",
       "len": 29
     },
     "keywords": {
-      "old": "beber,menos,parar,dependência,abstinência,recuperação,recaída,vontade,hábito,diário,app",
+      "old": "beber,menos,dependência,abstinência,recaída,vontade,humor,diário,serie,calendário,saúde,privado,wine",
       "new": "beber,menos,dependência,abstinência,recaída,vontade,humor,diário,serie,calendário,saúde,privado,wine",
       "len": 100
     },
@@ -631,17 +631,17 @@
   },
   "pt-PT": {
     "name": {
-      "old": "Sober – Sem Álcool",
+      "old": "Parar álcool: Dias secos & app",
       "new": "Parar álcool: Dias secos & app",
       "len": 30
     },
     "subtitle": {
-      "old": "Dias secos: contador",
+      "old": "Contador recuperação & jardim",
       "new": "Contador recuperação & jardim",
       "len": 29
     },
     "keywords": {
-      "old": "beber,menos,parar,dependência,abstinência,recuperação,recaída,vontade,hábito,diário,app",
+      "old": "beber,menos,dependência,abstinência,recaída,vontade,humor,diário,serie,calendário,saúde,privado,wine",
       "new": "beber,menos,dependência,abstinência,recaída,vontade,humor,diário,serie,calendário,saúde,privado,wine",
       "len": 100
     },
@@ -649,17 +649,17 @@
   },
   "ro": {
     "name": {
-      "old": "Sober – Fără alcool",
+      "old": "Oprește alcool: Zile uscate",
       "new": "Oprește alcool: Zile uscate",
       "len": 27
     },
     "subtitle": {
-      "old": "Zile uscate: contor",
+      "old": "Contor recuperare & grădină",
       "new": "Contor recuperare & grădină",
       "len": 27
     },
     "keywords": {
-      "old": "bea,puțin,opri,dependență,abstinență,recuperare,recădere,poftă,obicei,jurnal,app",
+      "old": "bea,maipuțin,opri,dependență,abstinență,recădere,poftă,dispoziție,obicei,jurnal,serie,calendar,vin",
       "new": "bea,maipuțin,opri,dependență,abstinență,recădere,poftă,dispoziție,obicei,jurnal,serie,calendar,vin",
       "len": 98
     },
@@ -667,17 +667,17 @@
   },
   "ru": {
     "name": {
-      "old": "Sober – Без алкоголя",
+      "old": "Брось алкоголь: Сухие дни",
       "new": "Брось алкоголь: Сухие дни",
       "len": 25
     },
     "subtitle": {
-      "old": "Сухие дни: счётчик",
+      "old": "Счётчик воздержания & сад",
       "new": "Счётчик воздержания & сад",
       "len": 25
     },
     "keywords": {
-      "old": "пить,меньше,бросить,зависимость,воздержание,восстановление,срыв,тяга,привычка,дневник,трезвость",
+      "old": "пить,меньше,бросить,зависимость,воздержание,восстановление,срыв,тяга,настроение,привычка,дневник",
       "new": "пить,меньше,бросить,зависимость,воздержание,восстановление,срыв,тяга,настроение,привычка,дневник",
       "len": 96
     },
@@ -685,17 +685,17 @@
   },
   "sk": {
     "name": {
-      "old": "Sober – Bez alkoholu",
+      "old": "Prestaň piť: Suché dni & app",
       "new": "Prestaň piť: Suché dni & app",
       "len": 28
     },
     "subtitle": {
-      "old": "Suché dni: počítadlo",
+      "old": "Počítadlo zotavenia & záhrada",
       "new": "Počítadlo zotavenia & záhrada",
       "len": 29
     },
     "keywords": {
-      "old": "piť,menej,prestať,závislosť,abstinencia,zotavenie,relaps,chuť,zvyk,denník,app",
+      "old": "menej,prestať,závislosť,abstinencia,zotavenie,relaps,chuť,nálada,zvyk,denník,séria,kalendár,zdravie",
       "new": "menej,prestať,závislosť,abstinencia,zotavenie,relaps,chuť,nálada,zvyk,denník,séria,kalendár,zdravie",
       "len": 99
     },
@@ -703,17 +703,17 @@
   },
   "sl-SI": {
     "name": {
-      "old": "Sober – Brez alkohola",
+      "old": "Nehaj piti: Suhi dnevi & app",
       "new": "Nehaj piti: Suhi dnevi & app",
       "len": 28
     },
     "subtitle": {
-      "old": "Suhi dnevi: števec",
+      "old": "Števec abstinence & virtualni",
       "new": "Števec abstinence & virtualni",
       "len": 29
     },
     "keywords": {
-      "old": "piti,manj,nehati,odvisnost,abstinenca,okrevanje,povratek,hrepenenje,navada,dnevnik,app",
+      "old": "manj,nehati,odvisnost,abstinenca,okrevanje,ponovitev,želja,razpoloženje,navada,dnevnik,niz,koledar",
       "new": "manj,nehati,odvisnost,abstinenca,okrevanje,ponovitev,želja,razpoloženje,navada,dnevnik,niz,koledar",
       "len": 98
     },
@@ -721,17 +721,17 @@
   },
   "sv": {
     "name": {
-      "old": "Sober – Alkoholfri",
+      "old": "Sluta dricka: Torra dagar",
       "new": "Sluta dricka: Torra dagar",
       "len": 25
     },
     "subtitle": {
-      "old": "Torra dagar: räknare",
+      "old": "Nykterhetsmätare & trädgård",
       "new": "Nykterhetsmätare & trädgård",
       "len": 27
     },
     "keywords": {
-      "old": "dricka,mindre,sluta,beroende,abstinens,återhämtning,återfall,sug,vana,dagbok,streak",
+      "old": "mindre,beroende,abstinens,återhämtning,återfall,sug,humör,vana,dagbok,serie,kalender,hälsa,privat,öl",
       "new": "mindre,beroende,abstinens,återhämtning,återfall,sug,humör,vana,dagbok,serie,kalender,hälsa,privat,öl",
       "len": 100
     },
@@ -739,17 +739,17 @@
   },
   "ta-IN": {
     "name": {
-      "old": "சோபர் – மதுவிலா",
+      "old": "மது விடு – உலர் நாள் டிராக்கர்",
       "new": "மது விடு – உலர் நாள் டிராக்கர்",
       "len": 30
     },
     "subtitle": {
-      "old": "உலர் நாட்கள்: கவுண்டர்",
+      "old": "தவிர்ப்பு எண்ணிக்கை & தோட்டம்",
       "new": "தவிர்ப்பு எண்ணிக்கை & தோட்டம்",
       "len": 29
     },
     "keywords": {
-      "old": "குடிப்பது,குறைவு,விடுவது,அடிமைத்தனம்,தவிர்ப்பு,மீட்பு,மீள்தொற்று,ஏக்கம்,பழக்கம்,டைரி,ஆப்",
+      "old": "குடிப்பது,குறைவு,அடிமை,மீட்பு,மீள்தொற்று,ஏக்கம்,பழக்கம்,டைரி,தொடர்,நாட்காட்டி,ஆரோக்கியம்,தனிப்பட்ட",
       "new": "குடிப்பது,குறைவு,அடிமை,மீட்பு,மீள்தொற்று,ஏக்கம்,பழக்கம்,டைரி,தொடர்,நாட்காட்டி,ஆரோக்கியம்,தனிப்பட்ட",
       "len": 98
     },
@@ -757,17 +757,17 @@
   },
   "te-IN": {
     "name": {
-      "old": "సోబర్ – మద్యముక్త",
+      "old": "మద్యం వదులు – ఎండిన రోజులు",
       "new": "మద్యం వదులు – ఎండిన రోజులు",
       "len": 26
     },
     "subtitle": {
-      "old": "ఎండిన రోజులు: కౌంటర్",
+      "old": "సంయమ లెక్క & వర్చువల్ తోట",
       "new": "సంయమ లెక్క & వర్చువల్ తోట",
       "len": 25
     },
     "keywords": {
-      "old": "తాగడం,తక్కువ,వదలడం,వ్యసనం,సంయమం,పునరుద్ధరణ,పునరావృత్తి,కోరిక,అలవాటు,డైరీ,యాప్",
+      "old": "తాగడం,తక్కువ,వదలడం,వ్యసనం,పునరుద్ధరణ,పునరావృత్తి,కోరిక,అలవాటు,డైరీ,సిరీస్,క్యాలెండర్,ఆరోగ్యం,streak",
       "new": "తాగడం,తక్కువ,వదలడం,వ్యసనం,పునరుద్ధరణ,పునరావృత్తి,కోరిక,అలవాటు,డైరీ,సిరీస్,క్యాలెండర్,ఆరోగ్యం,streak",
       "len": 99
     },
@@ -775,17 +775,17 @@
   },
   "th": {
     "name": {
-      "old": "โซเบอร์ – ไร้แอลกอฮอล์",
+      "old": "เลิกแอลกอฮอล์: วันแห้ง & app",
       "new": "เลิกแอลกอฮอล์: วันแห้ง & app",
       "len": 28
     },
     "subtitle": {
-      "old": "วันแห้ง: ตัวนับ",
+      "old": "นับวันไม่ดื่ม & สวนเสมือน",
       "new": "นับวันไม่ดื่ม & สวนเสมือน",
       "len": 25
     },
     "keywords": {
-      "old": "ดื่ม,น้อย,เลิก,ติดเหล้า,ฟื้นตัว,อยาก,นิสัย,ไดอารี,เลิกเหล้า,streak",
+      "old": "น้อยลง,ติด,งด,ฟื้นตัว,กลับมา,ความอยาก,นิสัย,ไดอารี่,สตรีค,ปฏิทิน,สวน,สุขภาพ,ส่วนตัว,ไวน์,เบียร์,wine",
       "new": "น้อยลง,ติด,งด,ฟื้นตัว,กลับมา,ความอยาก,นิสัย,ไดอารี่,สตรีค,ปฏิทิน,สวน,สุขภาพ,ส่วนตัว,ไวน์,เบียร์,wine",
       "len": 100
     },
@@ -793,17 +793,17 @@
   },
   "tr": {
     "name": {
-      "old": "Sober – Alkolsüz",
+      "old": "Bırak alkol: Kuru günler & app",
       "new": "Bırak alkol: Kuru günler & app",
       "len": 30
     },
     "subtitle": {
-      "old": "Kuru günler: sayaç",
+      "old": "Bağımlılık sayacı & bahçe",
       "new": "Bağımlılık sayacı & bahçe",
       "len": 25
     },
     "keywords": {
-      "old": "içmek,az,bırakmak,bağımlılık,ayıklık,iyileşme,nüks,istek,alışkanlık,günlük,uygulama",
+      "old": "içmek,az,ayıklık,iyileşme,nüks,istek,ruhhali,alışkanlık,günlük,dizi,takvim,sağlık,özel,şarap,bira",
       "new": "içmek,az,ayıklık,iyileşme,nüks,istek,ruhhali,alışkanlık,günlük,dizi,takvim,sağlık,özel,şarap,bira",
       "len": 97
     },
@@ -811,17 +811,17 @@
   },
   "uk": {
     "name": {
-      "old": "Sober – Без алкоголю",
+      "old": "Кинь алкоголь: Сухі дні & app",
       "new": "Кинь алкоголь: Сухі дні & app",
       "len": 29
     },
     "subtitle": {
-      "old": "Сухі дні: лічильник",
+      "old": "Лічильник тверезості & сад",
       "new": "Лічильник тверезості & сад",
       "len": 26
     },
     "keywords": {
-      "old": "пити,менше,кинути,залежність,утримання,одужання,зрив,тяга,звичка,щоденник,тверезість",
+      "old": "пити,менше,кинути,залежність,утримання,відновлення,зрив,тяга,настрій,звичка,щоденник,серія,календар",
       "new": "пити,менше,кинути,залежність,утримання,відновлення,зрив,тяга,настрій,звичка,щоденник,серія,календар",
       "len": 99
     },
@@ -829,17 +829,17 @@
   },
   "ur-PK": {
     "name": {
-      "old": "سوبر – شراب سے پاک",
+      "old": "شراب چھوڑیں – خشک دن ٹریکر ایپ",
       "new": "شراب چھوڑیں – خشک دن ٹریکر ایپ",
       "len": 30
     },
     "subtitle": {
-      "old": "خشک دن: کاؤنٹر",
+      "old": "پرہیز گنتی اور ورچوئل باغ",
       "new": "پرہیز گنتی اور ورچوئل باغ",
       "len": 25
     },
     "keywords": {
-      "old": "پینا,کم,چھوڑنا,نشہ,پرہیز,بحالی,دوبارہ لگنا,آرزو,عادت,ڈائری,ایپ",
+      "old": "پینا,کم,چھوڑنا,نشہ,بحالی,دوبارہ,آرزو,عادت,ڈائری,سلسلہ,کیلنڈر,صحت,نجی,streak,widget,calendar,health",
       "new": "پینا,کم,چھوڑنا,نشہ,بحالی,دوبارہ,آرزو,عادت,ڈائری,سلسلہ,کیلنڈر,صحت,نجی,streak,widget,calendar,health",
       "len": 98
     },
@@ -847,17 +847,17 @@
   },
   "vi": {
     "name": {
-      "old": "Sober – Không cồn",
+      "old": "Bỏ rượu: Ngày khô & theo dõi",
       "new": "Bỏ rượu: Ngày khô & theo dõi",
       "len": 28
     },
     "subtitle": {
-      "old": "Ngày khô: bộ đếm",
+      "old": "Đếm phục hồi & khu vườn ảo",
       "new": "Đếm phục hồi & khu vườn ảo",
       "len": 26
     },
     "keywords": {
-      "old": "uống,ít,cai,nghiện,kiêng,phục hồi,tái phát,thèm,thói quen,nhật ký,streak",
+      "old": "uống,íthơn,cai,nghiện,kiêng,táinghiện,thèm,thóiquen,nhậtký,chuỗi,lich,vuon,suckhoe,riengtu,ruou,bia",
       "new": "uống,íthơn,cai,nghiện,kiêng,táinghiện,thèm,thóiquen,nhậtký,chuỗi,lich,vuon,suckhoe,riengtu,ruou,bia",
       "len": 99
     },
@@ -865,17 +865,17 @@
   },
   "zh-Hans": {
     "name": {
-      "old": "清醒助手 - 无酒精",
+      "old": "戒酒助手｜干酒日酒精戒断追踪SOBER应用APP版",
       "new": "戒酒助手｜干酒日酒精戒断追踪SOBER应用APP版",
       "len": 25
     },
     "subtitle": {
-      "old": "干燥天数：计数器",
+      "old": "无酒精日计数器・虚拟花园成长应用助手SOBERAPP",
       "new": "无酒精日计数器・虚拟花园成长应用助手SOBERAPP",
       "len": 26
     },
     "keywords": {
-      "old": "喝,戒酒,少喝,上瘾,戒断,恢复,复发,渴望,习惯,日记,打卡",
+      "old": "喝酒,减少,戒酒,依赖,戒断,渴望,习惯,日记,连续,记录,日历,小组件,花园,健康,私密,复饮,葡萄酒,啤酒,干酒,追踪,计数器,虚拟,成长,应用,助手,dryday,酒精,干酒日,程序,工具,服务",
       "new": "喝酒,减少,戒酒,依赖,戒断,渴望,习惯,日记,连续,记录,日历,小组件,花园,健康,私密,复饮,葡萄酒,啤酒,干酒,追踪,计数器,虚拟,成长,应用,助手,dryday,酒精,干酒日,程序,工具,服务",
       "len": 100
     },
@@ -883,17 +883,17 @@
   },
   "zh-Hant": {
     "name": {
-      "old": "清醒助手 - 無酒精",
+      "old": "戒酒助手｜干酒日酒精戒斷追蹤SOBER應用APP版",
       "new": "戒酒助手｜干酒日酒精戒斷追蹤SOBER應用APP版",
       "len": 25
     },
     "subtitle": {
-      "old": "乾燥天數：計數器",
+      "old": "無酒精日計數器・虛擬花園成長應用助手SOBERAPP",
       "new": "無酒精日計數器・虛擬花園成長應用助手SOBERAPP",
       "len": 26
     },
     "keywords": {
-      "old": "喝,戒酒,少喝,上癮,戒斷,恢復,復發,渴望,習慣,日記,打卡",
+      "old": "喝酒,減少,戒酒,依賴,戒斷,渴望,習慣,日記,連續,記錄,日曆,小工具,花園,健康,私密,復飲,葡萄酒,啤酒,干酒,追蹤,計數器,虛擬,成長,應用,助手,dryday,酒精,干酒日,程序,工具,服務",
       "new": "喝酒,減少,戒酒,依賴,戒斷,渴望,習慣,日記,連續,記錄,日曆,小工具,花園,健康,私密,復飲,葡萄酒,啤酒,干酒,追蹤,計數器,虛擬,成長,應用,助手,dryday,酒精,干酒日,程序,工具,服務",
       "len": 100
     },
