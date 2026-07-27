@@ -125,7 +125,9 @@ def main() -> int:
         {"data": {"type": "reviewSubmissions", "id": sub_id, "attributes": {"submitted": True}}},
     )
     print(f"SUBMITTED reviewSubmission {sub_id} — version {version_string} will auto-release on approval")
-    L.save_state(version_string, "1.0", app_id)
+    live = L.find_live_version(c, app_id)
+    live_version = live["attributes"]["versionString"] if live else None
+    L.save_state(version_string, live_version, app_id)
     return 0
 
 
