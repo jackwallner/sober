@@ -107,6 +107,7 @@ struct PaywallView: View {
             if isPro && displayCloseButton { dismiss() }
         }
         .task {
+            ConversionDiagnostics.record(.trialOfferReached)
             subscriptions.trackPaywallImpression(id: impressionId)
             #if canImport(RevenueCat)
             if subscriptions.isConfigured, subscriptions.packages.isEmpty {
@@ -321,7 +322,7 @@ struct PaywallView: View {
     }
 
     private var sortedPackages: [Package] {
-        let order: [SoberPackageKind: Int] = [.monthly: 0, .yearly: 1, .lifetime: 2]
+        let order: [SoberPackageKind: Int] = [.yearly: 0, .monthly: 1, .lifetime: 2]
         return subscriptions.packages.sorted {
             (order[$0.soberPackageKind] ?? 9) < (order[$1.soberPackageKind] ?? 9)
         }
@@ -404,7 +405,7 @@ struct PaywallView: View {
                 .foregroundStyle(Theme.brandPrimary.opacity(0.8))
             Text(
                 showsTrialTrust
-                    ? "No payment now · Apple reminds you before billing · Data stays on-device"
+                    ? "No payment now · Apple handles billing reminders · Data stays on-device"
                     : "Your data stays on this device"
             )
             .font(Theme.caption())
@@ -459,8 +460,8 @@ struct PaywallView: View {
         return "\(price). \(renew)"
     }
 
-    /// Monthly-first default so the glance reads as a small commitment; yearly
-    /// stays available for users who want the best per-month value.
+    /// Yearly-first default keeps the one-tap trial aligned with the best value;
+    /// monthly remains the lower-commitment alternative.
     private func selectDefaultPackageIfNeeded() {
         #if DEBUG
         if let mode = PaywallScreenshotMode.current, !subscriptions.packages.isEmpty {
@@ -476,13 +477,14 @@ struct PaywallView: View {
         }
         #endif
         guard selectedPackage == nil, !subscriptions.packages.isEmpty else { return }
-        selectedPackage = subscriptions.packages.first { $0.soberPackageKind == .monthly }
-            ?? subscriptions.packages.first { $0.soberPackageKind == .yearly }
+        selectedPackage = subscriptions.packages.first { $0.soberPackageKind == .yearly }
+            ?? subscriptions.packages.first { $0.soberPackageKind == .monthly }
             ?? subscriptions.packages.first
     }
 
     private func startPurchase() {
         guard let package = selectedPackage else { return }
+        ConversionDiagnostics.record(.trialCTATapped)
         errorMessage = nil
         restoreMessage = nil
         isPurchasing = true
@@ -491,8 +493,10 @@ struct PaywallView: View {
             do {
                 switch try await subscriptions.purchase(package) {
                 case .purchased:
+                    ConversionDiagnostics.record(.purchaseSucceeded)
                     break // onChange(of: isProSubscriber) dismisses the sheet
                 case .pending:
+                    ConversionDiagnostics.record(.purchasePending)
                     // Deferred (Ask to Buy / SCA / parental approval): the
                     // transaction isn't complete yet. Keep the sheet open with a
                     // confirmation so it doesn't look like nothing happened; the
@@ -500,9 +504,11 @@ struct PaywallView: View {
                     // it's approved.
                     restoreMessage = "Your purchase is awaiting approval. Bloom+ unlocks as soon as it's confirmed."
                 case .cancelled:
+                    ConversionDiagnostics.record(.purchaseCancelled)
                     errorMessage = "Purchase cancelled. Tap again to continue."
                 }
             } catch {
+                ConversionDiagnostics.record(.purchaseFailed)
                 errorMessage = "Couldn't complete the purchase. Please try again."
             }
         }
@@ -618,7 +624,7 @@ private struct PlanCard: View {
     }
 
     private var badgeLabel: String? {
-        if kind == .yearly, let pct = savingsPercent { return "SAVE \(pct)%" }
+        if kind == .yearly, let pct = savingsPercent { return "RECOMMENDED · SAVE \(pct)%" }
         if kind == .lifetime { return "BEST DEAL" }
         if showsTrialBadge, kind == .monthly { return "FREE TRIAL" }
         return nil

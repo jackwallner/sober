@@ -402,16 +402,6 @@ final class SubscriptionService: NSObject {
     }
     #endif
 
-    /// Grant a one-time complimentary trial (surfaced at emotional milestones).
-    /// No-op if one has already been claimed.
-    func startComplimentaryTrial(days: Int) {
-        guard !hasClaimedTrial else { return }
-        let end = Calendar.current.date(byAdding: .day, value: days, to: .now) ?? .now
-        AppGroup.defaults.set(end.timeIntervalSince1970, forKey: Self.trialEndsKey)
-        AppGroup.defaults.set(true, forKey: Self.trialClaimedKey)
-        trialRevision += 1
-    }
-
     /// Debug-only escape hatch so the paywall and gated views can be exercised
     /// without a live RevenueCat key.
     func setLocalOverride(isPro: Bool) {

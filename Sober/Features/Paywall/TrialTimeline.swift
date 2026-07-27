@@ -19,7 +19,7 @@ struct TrialTimeline: View {
     private var steps: [(icon: String, title: String, detail: String, highlight: Bool)] {
         [
             ("lock.open.fill", "Today", "Everything unlocks. Full access, $0 due now.", true),
-            ("bell.fill", "Day \(reminderDay)", "We'll remind you before the trial ends.", false),
+            ("bell.fill", "Day \(reminderDay)", "Apple handles billing reminders for your subscription.", false),
             ("flag.checkered", "Day \(trialDays)",
              billingNote ?? "Cancel anytime before it ends. No surprise charges.", false),
         ]

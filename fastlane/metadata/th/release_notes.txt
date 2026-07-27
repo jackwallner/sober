@@ -1,1 +1,1 @@
-ปรับปรุงเบื้องหลังและแก้ไขข้อบกพร่องเพื่อให้ Sober ทำงานได้ราบรื่น ขอบคุณที่อยู่กับเรา
+A faster first start and a clearer Bloom+ trial make it easier to begin your sober counter, understand every plan, and keep going.
