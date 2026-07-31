@@ -1,1 +1,1 @@
-Your garden now grows in one clean piece. We fixed a drawing bug that could leave a branch and its leaves floating away from the trunk, and stopped the black pine's canopy being clipped on the home screen.
+Your garden now grows in one clean piece. We fixed a bug that could leave a branch and its leaves floating away from the trunk, and the black pine's canopy is no longer cut off on the home screen.

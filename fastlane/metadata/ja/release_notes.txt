@@ -1,1 +1,1 @@
-A faster first start and a clearer Bloom+ trial make it easier to begin your sober counter, understand every plan, and keep going.
+庭が一続きの姿で育つようになりました。枝と葉が幹から離れて浮いて見えることがある不具合を修正し、ホーム画面でクロマツの樹冠が見切れないようにしました。
