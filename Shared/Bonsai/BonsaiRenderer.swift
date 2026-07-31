@@ -309,6 +309,19 @@ private struct TrunkResult {
     var attach: [Attach: CGPoint]
 }
 
+/// x on a quadratic Bézier at a given y. The trunk edge curves are monotonic in
+/// y, so a bisection on t is exact enough to plant a branch on the silhouette.
+private func quadX(atY y: Double, _ p0: CGPoint, _ c: CGPoint, _ p2: CGPoint) -> Double {
+    var lo = 0.0, hi = 1.0
+    for _ in 0..<24 {
+        let t = (lo + hi) / 2
+        let yy = pow(1 - t, 2) * p0.y + 2 * t * (1 - t) * c.y + t * t * p2.y
+        if (p2.y > p0.y) == (yy < y) { lo = t } else { hi = t }
+    }
+    let t = (lo + hi) / 2
+    return pow(1 - t, 2) * p0.x + 2 * t * (1 - t) * c.x + t * t * p2.x
+}
+
 private func ribbonPath(through pts: [CGPoint], widths: [Double]) -> Path {
     var leftPts: [CGPoint] = []
     var rightPts: [CGPoint] = []
@@ -373,8 +386,19 @@ private func trunkTraditional(_ p: Params) -> TrunkResult {
     let b1End = CGPoint(x: b1Start.x - 38 * k, y: b1Start.y - 26 * k)
     let b2Start = CGPoint(x: m2R - 2, y: ymid2 + 4)
     let b2End = CGPoint(x: b2Start.x + 38 * k, y: b2Start.y - 34 * k)
-    let b3Start = CGPoint(x: bR - 2, y: baseY - 36)
-    let b3End = CGPoint(x: b3Start.x + 44 * k, y: b3Start.y - 36 * k)
+    // `bR` is the trunk half-width at the *base*; by y = baseY - 36 the S-curve
+    // has already pulled the silhouette inward, so anchoring the branch at bR
+    // left it (and the foliage cluster on its tip) floating off the trunk from
+    // day ~100 on. Keep the tip where it was and plant the start on the actual
+    // right edge, tucked 3pt under the trunk fill that draws over it.
+    let b3Anchor = CGPoint(x: bR - 2, y: baseY - 36)
+    let b3End = CGPoint(x: b3Anchor.x + 44 * k, y: b3Anchor.y - 36 * k)
+    let b3Start = CGPoint(
+        x: quadX(atY: b3Anchor.y,
+                 CGPoint(x: m2R, y: midY),
+                 CGPoint(x: m1R + 4, y: (baseY + midY) / 2),
+                 CGPoint(x: bR, y: baseY)) - 3,
+        y: b3Anchor.y)
 
     var branches: [(Path, Double)] = []
     if p.day >= 30 {
@@ -1639,6 +1663,47 @@ private func pineNeedlePair(_ ctx: inout GraphicsContext, x: Double, y: Double, 
     g.stroke(b, with: .color(color.opacity(opacity)), style: st)
 }
 
+private struct PadLive { let p: PinePad; let e, x, y, w, h: Double }
+
+/// The pads alive on `day`, in `pinePads` order.
+private func pineLivePads(_ day: Int, _ c: PineCanopy) -> [PadLive] {
+    var live: [PadLive] = []
+    for p in pinePads {
+        let e = p.app == 0 ? 1.0 : smoothstepS(p.app, p.app + p.span, Double(day))
+        if e < 0.02 { continue }
+        let y = lerp(c.baseY, c.topY, p.hFrac)
+        let leanAtH = lerp(0, c.topX - c.baseX, p.hFrac)
+        let padW = (10 + 78 * c.g) * p.wFrac
+        let x = c.baseX + leanAtH + p.side * p.reach * padW * 0.65 * e
+        let w = padW * (0.5 + 0.5 * e)
+        live.append(PadLive(p: p, e: e, x: x, y: y, w: w, h: w * 0.42))
+    }
+    return live
+}
+
+private struct NItem { var x, y, w, h, seed: Double; var light: Bool }
+
+/// Every needle blob painted on `day`: the pads themselves plus the tufts that
+/// sit on top of them. `drawPine` paints exactly this list and
+/// `pineContentRect` measures exactly this list, so the fill-mode zoom box can
+/// never drift from what is on screen. The tufts reach ~1.7 pad-widths out,
+/// which is why measuring pads alone used to crop the canopy.
+private func pineNeedleItems(_ day: Int, _ live: [PadLive]) -> [NItem] {
+    var items = live.map { NItem(x: $0.x, y: $0.y, w: $0.w, h: $0.h, seed: $0.p.seed, light: false) }
+    guard !live.isEmpty else { return items }
+    for T in pineTufts {
+        let e = smoothstepS(T.app, T.app + T.span, Double(day))
+        if e < 0.02 { continue }
+        let host = live[Int(floor(T.padU * Double(live.count))) % live.count]
+        let ex = 0.4 + 0.6 * e
+        let x = host.x + T.fx * host.w * ex
+        let y = host.y + T.fy * host.h
+        let w = host.w * T.sz * (0.6 + 0.4 * e)
+        items.append(NItem(x: x, y: y, w: w, h: w * 0.5, seed: T.seed, light: true))
+    }
+    return items
+}
+
 func drawPine(day rawDay: Int, in ctx: inout GraphicsContext) {
     let day = max(0, min(365, rawDay))
     let c = pineCanopy(day)
@@ -1646,23 +1711,7 @@ func drawPine(day rawDay: Int, in ctx: inout GraphicsContext) {
     drawPinePot(&ctx)
     drawPineTrunk(day: day, c: c, in: &ctx)
 
-    func padCentre(_ p: PinePad, _ e: Double) -> (x: Double, y: Double, w: Double, h: Double) {
-        let y = lerp(c.baseY, c.topY, p.hFrac)
-        let leanAtH = lerp(0, c.topX - c.baseX, p.hFrac)
-        let padW = (10 + 78 * c.g) * p.wFrac
-        let x = c.baseX + leanAtH + p.side * p.reach * padW * 0.65 * e
-        let w = padW * (0.5 + 0.5 * e)
-        return (x, y, w, w * 0.42)
-    }
-
-    struct PadLive { let p: PinePad; let e, x, y, w, h: Double }
-    var live: [PadLive] = []
-    for p in pinePads {
-        let e = p.app == 0 ? 1.0 : smoothstepS(p.app, p.app + p.span, Double(day))
-        if e < 0.02 { continue }
-        let cc = padCentre(p, e)
-        live.append(PadLive(p: p, e: e, x: cc.x, y: cc.y, w: cc.w, h: cc.h))
-    }
+    let live = pineLivePads(day, c)
 
     for it in live.sorted(by: { $0.y > $1.y }) where it.p.app != 0 {
         let leanAtH = lerp(0, c.topX - c.baseX, it.p.hFrac)
@@ -1674,20 +1723,7 @@ func drawPine(day rawDay: Int, in ctx: inout GraphicsContext) {
         ctx.stroke(b, with: .color(PinePal.barkDeep), style: StrokeStyle(lineWidth: w, lineCap: .round))
     }
 
-    struct NItem { var x, y, w, h, seed: Double; var light: Bool }
-    var items: [NItem] = live.map { NItem(x: $0.x, y: $0.y, w: $0.w, h: $0.h, seed: $0.p.seed, light: false) }
-    if !live.isEmpty {
-        for T in pineTufts {
-            let e = smoothstepS(T.app, T.app + T.span, Double(day))
-            if e < 0.02 { continue }
-            let host = live[Int(floor(T.padU * Double(live.count))) % live.count]
-            let ex = 0.4 + 0.6 * e
-            let x = host.x + T.fx * host.w * ex
-            let y = host.y + T.fy * host.h
-            let w = host.w * T.sz * (0.6 + 0.4 * e)
-            items.append(NItem(x: x, y: y, w: w, h: w * 0.5, seed: T.seed, light: true))
-        }
-    }
+    let items = pineNeedleItems(day, live)
     for it in items.sorted(by: { $0.y < $1.y }) {
         let clumps = it.light ? 0 : 4
         let lights = it.light ? 1 : 3
@@ -1727,17 +1763,14 @@ func pineContentRect(day: Int) -> CGRect {
     var minX = 186.0, maxX = 414.0
     var minY = 410.0
     let maxY = 460.0
-    for p in pinePads {
-        let e = p.app == 0 ? 1.0 : smoothstepS(p.app, p.app + p.span, Double(d))
-        if e < 0.02 { continue }
-        let y = lerp(c.baseY, c.topY, p.hFrac)
-        let leanAtH = lerp(0, c.topX - c.baseX, p.hFrac)
-        let padW = (10 + 78 * c.g) * p.wFrac
-        let x = c.baseX + leanAtH + p.side * p.reach * padW * 0.65 * e
-        let w = padW * (0.5 + 0.5 * e)
-        let h = w * 0.42
-        minX = min(minX, x - w); maxX = max(maxX, x + w)
-        minY = min(minY, y - h * 1.6)
+    // Measure every blob `drawPine` paints, not just the pads. `blobPath`
+    // jitters its radius by up to `noise` (0.32 for needles), so a blob of
+    // half-width w actually reaches w * 1.02 * 1.32.
+    let blobSlack = 1.36
+    for it in pineNeedleItems(d, pineLivePads(d, c)) {
+        minX = min(minX, it.x - it.w * blobSlack)
+        maxX = max(maxX, it.x + it.w * blobSlack)
+        minY = min(minY, it.y - it.h * 1.6)
     }
     minY = min(minY, c.topY - 10)
     var rect = CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
