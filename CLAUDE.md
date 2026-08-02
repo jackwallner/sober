@@ -2,7 +2,7 @@
 
 iOS + watchOS app that helps users track sobriety (alcohol-specific in v1). Day counter, sobriety calendar, virtual garden that grows with sober days, health-benefit timeline, journal, achievements, money/calories saved. Freemium with RevenueCat: core counter + garden + calendar are free, the rest is gated behind a Pro entitlement.
 
-XcodeGen project/scheme: `Sober`, simulator device `agent-sober`.
+XcodeGen project/scheme: `Sober`, sim lease owner `sober`.
 
 ## Tech stack
 - Swift 6 strict concurrency, SwiftUI, SwiftData (App Group store).
