@@ -189,3 +189,134 @@ struct SobrietyServiceTests {
         #expect(SobrietyService.daysSinceStart(weekAgo, asOf: now) == 8)
     }
 }
+
+@Suite("Milestone-eve reminder scheduling")
+struct MilestoneEveTests {
+    private static let calendar = Calendar(identifier: .gregorian)
+
+    private static func date(_ y: Int, _ m: Int, _ d: Int, _ h: Int = 9) -> Date {
+        calendar.date(from: DateComponents(year: y, month: m, day: d, hour: h))!
+    }
+
+    @Test func firesTheEveningBeforeTheMilestoneLands() {
+        let now = Self.date(2026, 8, 1, 8)
+        let fire = NotificationService.milestoneEveFireDate(
+            currentDays: 5, milestoneDays: 7, hour: 20, now: now, calendar: Self.calendar
+        )
+        // Day 5 today means day 7 lands in two days, so the nudge is tomorrow.
+        #expect(fire == Self.date(2026, 8, 2, 20))
+    }
+
+    @Test func firesTodayWhenTheMilestoneIsTomorrow() {
+        let now = Self.date(2026, 8, 1, 8)
+        let fire = NotificationService.milestoneEveFireDate(
+            currentDays: 6, milestoneDays: 7, hour: 20, now: now, calendar: Self.calendar
+        )
+        #expect(fire == Self.date(2026, 8, 1, 20))
+    }
+
+    @Test func skipsWhenTodaysSlotAlreadyPassed() {
+        let now = Self.date(2026, 8, 1, 21)
+        let fire = NotificationService.milestoneEveFireDate(
+            currentDays: 6, milestoneDays: 7, hour: 20, now: now, calendar: Self.calendar
+        )
+        #expect(fire == nil)
+    }
+
+    @Test func skipsWhenTheMilestoneIsAlreadyReached() {
+        let now = Self.date(2026, 8, 1, 8)
+        let fire = NotificationService.milestoneEveFireDate(
+            currentDays: 7, milestoneDays: 7, hour: 20, now: now, calendar: Self.calendar
+        )
+        #expect(fire == nil)
+    }
+}
+
+@Suite("Trial-ending reminder timing")
+struct TrialReminderTimingTests {
+    @Test func firesTwoDaysBeforeASevenDayTrial() {
+        let now = Date()
+        let ends = now.addingTimeInterval(7 * 86_400)
+        let fire = NotificationService.trialReminderFireDate(endsAt: ends, now: now)
+        let expected = ends.addingTimeInterval(-2 * 86_400)
+        #expect(fire != nil)
+        #expect(abs(fire!.timeIntervalSince(expected)) < 1)
+    }
+
+    @Test func usesTheMidpointForShortTrials() {
+        let now = Date()
+        let ends = now.addingTimeInterval(86_400)
+        let fire = NotificationService.trialReminderFireDate(endsAt: ends, now: now)
+        // A 1-day trial can't get a 2-day lead, so warn halfway through instead
+        // of not at all.
+        #expect(fire != nil)
+        #expect(abs(fire!.timeIntervalSince(now.addingTimeInterval(43_200))) < 1)
+    }
+
+    @Test func skipsTrialsAboutToEnd() {
+        let now = Date()
+        #expect(NotificationService.trialReminderFireDate(endsAt: now.addingTimeInterval(600), now: now) == nil)
+    }
+
+    @Test func skipsTrialsAlreadyOver() {
+        let now = Date()
+        #expect(NotificationService.trialReminderFireDate(endsAt: now.addingTimeInterval(-86_400), now: now) == nil)
+    }
+}
+
+@Suite("Review prompt milestone bypass")
+@MainActor
+struct ReviewPromptMilestoneTests {
+    /// Snapshots and restores the shared app-group state the tracker persists,
+    /// so running the suite doesn't leave a simulator install mid-funnel.
+    private func withCleanTracker(_ body: () -> Void) {
+        let launches = ReviewPromptTracker.appLaunchCount
+        let firstOpen = ReviewPromptTracker.firstAppOpenDate
+        let lastShown = ReviewPromptTracker.lastShownDate
+        let outcome = ReviewPromptTracker.outcome
+        let moments = ReviewPromptTracker.positiveMomentCount
+        defer {
+            ReviewPromptTracker.appLaunchCount = launches
+            ReviewPromptTracker.firstAppOpenDate = firstOpen
+            ReviewPromptTracker.lastShownDate = lastShown
+            ReviewPromptTracker.outcome = outcome
+            ReviewPromptTracker.positiveMomentCount = moments
+        }
+        ReviewPromptTracker.outcome = nil
+        ReviewPromptTracker.lastShownDate = nil
+        body()
+    }
+
+    @Test func milestoneSkipsTenureGates() {
+        withCleanTracker {
+            ReviewPromptTracker.appLaunchCount = 2
+            ReviewPromptTracker.positiveMomentCount = 1
+            ReviewPromptTracker.firstAppOpenDate = .now
+            #expect(ReviewPromptTracker.canPresentEnjoymentPrompt(hasCompletedSetup: true, isMilestone: true))
+        }
+    }
+
+    @Test func passivePromptStillWaitsOutTheGates() {
+        withCleanTracker {
+            ReviewPromptTracker.appLaunchCount = 2
+            ReviewPromptTracker.positiveMomentCount = 1
+            ReviewPromptTracker.firstAppOpenDate = .now
+            #expect(!ReviewPromptTracker.canPresentEnjoymentPrompt(hasCompletedSetup: true))
+        }
+    }
+
+    @Test func milestoneStillRespectsAResolvedPrompt() {
+        withCleanTracker {
+            ReviewPromptTracker.appLaunchCount = 9
+            ReviewPromptTracker.outcome = .openedWriteReview
+            #expect(!ReviewPromptTracker.canPresentEnjoymentPrompt(hasCompletedSetup: true, isMilestone: true))
+        }
+    }
+
+    @Test func milestoneStillRequiresFinishedOnboarding() {
+        withCleanTracker {
+            ReviewPromptTracker.appLaunchCount = 9
+            #expect(!ReviewPromptTracker.canPresentEnjoymentPrompt(hasCompletedSetup: false, isMilestone: true))
+        }
+    }
+}

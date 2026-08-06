@@ -280,6 +280,16 @@ final class SubscriptionService: NSObject {
         // visible in Console instead of silently leaving a paid user locked.
         logger.info("Applied customerInfo — active entitlements: [\(activeKeys, privacy: .public)] -> isPro \(active, privacy: .public)")
         entitlementActive = active
+
+        // Detect the trial here rather than at the purchase call site: this runs
+        // on every refresh and delegate push, so a trial started in onboarding,
+        // on another device, or restored later is still tracked.
+        let entitlement = customerInfo.entitlements[Self.proEntitlement]
+            ?? customerInfo.entitlements.active.values.first
+        TrialLifecycle.sync(
+            isTrialing: entitlement?.isActive == true && entitlement?.periodType == .trial,
+            endsAt: entitlement?.expirationDate
+        )
     }
     #endif
 

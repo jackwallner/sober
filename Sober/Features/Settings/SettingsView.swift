@@ -242,8 +242,20 @@ struct SettingsView: View {
         Task {
             if enabled {
                 await NotificationService.scheduleDailyReminder(hour: hour, committed: committed, streakDays: streak)
+                if let next = AchievementCatalog.nextTimeMilestone(after: streak) {
+                    await NotificationService.scheduleMilestoneEve(
+                        currentDays: streak,
+                        milestoneDays: next.dayThreshold,
+                        milestoneTitle: next.title,
+                        hour: hour
+                    )
+                }
+                await NotificationService.scheduleLapseNudge(streakDays: streak)
             } else {
                 await NotificationService.cancelDailyReminder()
+                // Milestone/lapse nudges ride on this opt-in — turning reminders
+                // off has to silence everything, not just the daily one.
+                NotificationService.cancelRetentionNudges()
             }
         }
     }

@@ -6,6 +6,9 @@ extension Notification.Name {
     /// Posted when the user taps the daily-reminder notification — MainTabView
     /// switches to Home so the check-in button is right there.
     static let soberOpenCheckIn = Notification.Name("com.jackwallner.sober.openCheckIn")
+    /// Posted when the user taps the trial-ending reminder — lands on Bloom+ so
+    /// they can see what they'd keep before deciding.
+    static let soberOpenBloomPlus = Notification.Name("com.jackwallner.sober.openBloomPlus")
 }
 
 /// Routes notification taps. Without a delegate, tapping the daily reminder
@@ -19,9 +22,17 @@ final class NotificationTapRouter: NSObject, UNUserNotificationCenterDelegate, @
         didReceive response: UNNotificationResponse
     ) async {
         let info = response.notification.request.content.userInfo
-        guard info[NotificationService.deepLinkKey] as? String == NotificationService.deepLinkCheckIn else { return }
-        await MainActor.run {
-            NotificationCenter.default.post(name: .soberOpenCheckIn, object: nil)
+        switch info[NotificationService.deepLinkKey] as? String {
+        case NotificationService.deepLinkCheckIn:
+            await MainActor.run {
+                NotificationCenter.default.post(name: .soberOpenCheckIn, object: nil)
+            }
+        case NotificationService.deepLinkBloomPlus:
+            await MainActor.run {
+                NotificationCenter.default.post(name: .soberOpenBloomPlus, object: nil)
+            }
+        default:
+            return
         }
     }
 }
@@ -180,6 +191,9 @@ struct MainTabView: View {
         .onChange(of: showTrialPaywall) { _, _ in syncPresentationFlag() }
         .onReceive(NotificationCenter.default.publisher(for: .soberOpenCheckIn)) { _ in
             tab = 0
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .soberOpenBloomPlus)) { _ in
+            tab = 4
         }
         .onChange(of: tab) { _, newTab in
             if newTab == 4, !subscriptions.isProSubscriber {
