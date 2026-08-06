@@ -22,17 +22,23 @@ enum ReviewPromptTracker {
     private static let outcomeKey = "reviewPrompt.outcome"
     private static let positiveMomentCountKey = "reviewPrompt.positiveMomentCount"
     private static let pendingPositiveMomentKey = "reviewPrompt.pendingPositiveMoment"
+    private static let pendingMilestoneMomentKey = "reviewPrompt.pendingMilestoneMoment"
 
     /// Minimum cold starts before passive prompts are considered.
     #if DEBUG
     static let minimumLaunchCount = 2
     #else
-    static let minimumLaunchCount = 5
+    static let minimumLaunchCount = 3
     #endif
-    static let minimumDaysSinceFirstOpen = 7
+    static let minimumDaysSinceFirstOpen = 3
     /// Minimum cumulative positive moments before the passive enjoyment funnel surfaces.
-    static let minimumPositiveMoments = 3
+    static let minimumPositiveMoments = 2
     static let cooldownDays = 120
+    /// Milestone peaks (a week reached, a tree completed) skip the tenure and
+    /// frequency thresholds. Those gates exist to avoid asking a stranger; a
+    /// user standing in a celebration screen is not a stranger. Still requires
+    /// finished setup, a second launch, and the resolved/cooldown checks.
+    static let minimumLaunchCountForMilestone = 2
 
     static var appLaunchCount: Int {
         get { max(defaults.integer(forKey: launchCountKey), 0) }
@@ -85,6 +91,13 @@ enum ReviewPromptTracker {
         set { defaults.set(newValue, forKey: pendingPositiveMomentKey) }
     }
 
+    /// True when the pending moment is a milestone peak rather than a routine
+    /// check-in, which relaxes the tenure gates for this one presentation.
+    static var hasPendingMilestoneMoment: Bool {
+        get { defaults.bool(forKey: pendingMilestoneMomentKey) }
+        set { defaults.set(newValue, forKey: pendingMilestoneMomentKey) }
+    }
+
     static func recordAppLaunch(now: Date = .now) {
         if firstAppOpenDate == nil {
             firstAppOpenDate = now
@@ -92,13 +105,20 @@ enum ReviewPromptTracker {
         appLaunchCount += 1
     }
 
-    static func recordPositiveMoment() {
+    /// - Parameter isMilestone: pass true for celebration peaks (a time
+    ///   milestone reached, a growth stage unlocked) so the prompt can surface
+    ///   at the emotional high instead of waiting out the passive thresholds.
+    static func recordPositiveMoment(isMilestone: Bool = false) {
         positiveMomentCount += 1
         hasPendingPositiveMoment = true
+        if isMilestone {
+            hasPendingMilestoneMoment = true
+        }
     }
 
     static func consumePendingPositiveMoment() {
         hasPendingPositiveMoment = false
+        hasPendingMilestoneMoment = false
     }
 
     static func passivePromptAllowed(now: Date = .now) -> Bool {
@@ -110,11 +130,15 @@ enum ReviewPromptTracker {
 
     static func canPresentEnjoymentPrompt(
         hasCompletedSetup: Bool,
+        isMilestone: Bool = false,
         now: Date = .now
     ) -> Bool {
         guard !ScreenshotConfig.isEnabled else { return false }
         guard hasCompletedSetup else { return false }
         guard passivePromptAllowed(now: now) else { return false }
+        if isMilestone {
+            return appLaunchCount >= minimumLaunchCountForMilestone
+        }
         guard appLaunchCount >= minimumLaunchCount else { return false }
         guard positiveMomentCount >= minimumPositiveMoments else { return false }
         guard let first = firstAppOpenDate else { return false }
@@ -128,7 +152,11 @@ enum ReviewPromptTracker {
         now: Date = .now
     ) -> Bool {
         guard hasPendingPositiveMoment else { return false }
-        return canPresentEnjoymentPrompt(hasCompletedSetup: hasCompletedSetup, now: now)
+        return canPresentEnjoymentPrompt(
+            hasCompletedSetup: hasCompletedSetup,
+            isMilestone: hasPendingMilestoneMoment,
+            now: now
+        )
     }
 
     static func markShown(now: Date = .now) {

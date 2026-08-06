@@ -26,6 +26,7 @@ struct HomeView: View {
     @State private var reviewPromptInitialStep: ReviewPromptSheet.Step = .enjoyment
     @State private var reviewPromptShownThisSession = false
     @State private var pendingNativeReviewAfterDismiss = false
+    @State private var showTrialRecap = false
     @StateObject private var reviewPromptCoordinator = ReviewPromptCoordinator.shared
     @Environment(\.requestReview) private var requestReview
 
@@ -47,6 +48,7 @@ struct HomeView: View {
 
                 if !showGrowth {
                     VStack(spacing: Theme.Space.l) {
+                        trialRecapBanner
                         counterHeader
                         gardenCard
                         checkInControl
@@ -118,6 +120,8 @@ struct HomeView: View {
                 checkForGrowth()
                 WidgetSnapshotPump.push(context: context)
                 refreshReminderCopy()
+                scheduleRetentionNudges()
+                refreshTrialRecap()
                 presentPostOnboardingPaywallIfNeeded()
             }
             .task { await presentPassiveTrialNudge(subscriptions, intent: .postOnboarding, delay: 6) }
@@ -131,7 +135,7 @@ struct HomeView: View {
                         withAnimation { showGrowth = false }
                         growthEvent = nil
                         WidgetSnapshotPump.push(context: context)
-                        recordPositiveMomentForReview()
+                        recordPositiveMomentForReview(isMilestone: true)
                         presentPostOnboardingPaywallIfNeeded()
                         scheduleTrialPitchAfterGrowthCelebration()
                     }
@@ -237,6 +241,54 @@ struct HomeView: View {
         return 300 + stageBoost + min(120, CGFloat(gardenContentScore) * 16)
     }
 
+    /// Final-stretch heads-up while a Bloom+ trial is running. Leads with what
+    /// the trial has been worth so the decision is about value, not about a
+    /// charge appearing out of nowhere.
+    @ViewBuilder
+    private var trialRecapBanner: some View {
+        if showTrialRecap, let remaining = TrialLifecycle.daysRemaining() {
+            HStack(spacing: Theme.Space.m) {
+                Image(systemName: "sparkles")
+                    .font(.title3)
+                    .foregroundStyle(Theme.brandPrimary)
+                    .frame(width: 28)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(remaining == 1 ? "Your Bloom+ trial ends tomorrow" : "Your Bloom+ trial ends in \(remaining) days")
+                        .font(Theme.subhead(weight: .semibold))
+                        .foregroundStyle(Theme.textPrimary)
+                    Text(trialRecapDetail)
+                        .font(Theme.caption())
+                        .foregroundStyle(Theme.textSecondary)
+                }
+                Spacer(minLength: 0)
+                Button {
+                    TrialLifecycle.dismissRecap()
+                    withAnimation { showTrialRecap = false }
+                } label: {
+                    Text("Got it")
+                        .font(Theme.caption(weight: .semibold))
+                }
+                .buttonStyle(.bordered)
+                .tint(Theme.brandPrimary)
+                .controlSize(.small)
+            }
+            .padding(12)
+            .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 16))
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(Theme.brandPrimary.opacity(0.28), lineWidth: 1)
+            )
+            .transition(.opacity)
+        }
+    }
+
+    private var trialRecapDetail: String {
+        if let summary = TrialLifecycle.recapSummary {
+            return "\(summary) Cancel any time in Settings."
+        }
+        return "Keep your full garden, journal, and savings, or cancel any time in Settings."
+    }
+
     @ViewBuilder
     private var checkInControl: some View {
         if !checkedInToday && daysMissed > 1 {
@@ -252,7 +304,8 @@ struct HomeView: View {
                         GardenService(context: context).water()
                         refreshCheckInState()
                         WidgetSnapshotPump.push(context: context)
-                        recordPositiveMomentForReview()
+                        recordPositiveMomentForReview(isMilestone: isTimeMilestoneDay)
+                        scheduleRetentionNudges()
                         recordCheckInForTrialPitch()
                     } label: {
                         Label("Still sober", systemImage: "checkmark.circle.fill")
@@ -315,7 +368,8 @@ struct HomeView: View {
                 GardenService(context: context).water()
                 refreshCheckInState()
                 WidgetSnapshotPump.push(context: context)
-                recordPositiveMomentForReview()
+                recordPositiveMomentForReview(isMilestone: isTimeMilestoneDay)
+                scheduleRetentionNudges()
                 recordCheckInForTrialPitch()
                 showCheckInDetail = true
             } label: {
@@ -399,9 +453,63 @@ struct HomeView: View {
         }
     }
 
-    private func recordPositiveMomentForReview() {
-        ReviewPromptTracker.recordPositiveMoment()
+    /// Milestone-eve and lapse nudges ride on the daily-reminder opt-in, so a
+    /// user who turned reminders off never gets them. Rescheduled on every Home
+    /// appearance and check-in: the lapse nudge is a rolling timer that only
+    /// fires for someone who stopped returning.
+    private func scheduleRetentionNudges() {
+        guard let s = settingsRows.first, s.dailyReminderEnabled else { return }
+        let hour = s.dailyReminderHour
+        let current = days
+        let next = AchievementCatalog.nextTimeMilestone(after: current)
+        Task {
+            await NotificationService.scheduleLapseNudge(streakDays: current)
+            if let next {
+                await NotificationService.scheduleMilestoneEve(
+                    currentDays: current,
+                    milestoneDays: next.dayThreshold,
+                    milestoneTitle: next.title,
+                    hour: hour
+                )
+            } else {
+                NotificationService.cancelMilestoneEve()
+            }
+        }
+    }
+
+    /// Refresh the banner and keep the trial-reminder copy stocked with real
+    /// numbers, so a notification scheduled later can name what they've built.
+    private func refreshTrialRecap() {
+        let cents = settingsRows.first?.costPerDayCents ?? 0
+        var parts = ["\(days) sober \(days == 1 ? "day" : "days")"]
+        if cents > 0 {
+            let dollars = Double(days * cents) / 100
+            let money = Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? "$\(Int(dollars))"
+            parts.append("\(money) saved")
+        }
+        TrialLifecycle.recapSummary = parts.joined(separator: " and ") + " so far."
+        showTrialRecap = TrialLifecycle.shouldShowRecap()
+    }
+
+    private static let currencyFormatter: NumberFormatter = {
+        let f = NumberFormatter()
+        f.numberStyle = .currency
+        f.maximumFractionDigits = 0
+        return f
+    }()
+
+    /// Time milestones and growth celebrations are the app's emotional peaks —
+    /// the review prompt relaxes its tenure gates for these, so ask there.
+    private func recordPositiveMomentForReview(isMilestone: Bool = false) {
+        ReviewPromptTracker.recordPositiveMoment(isMilestone: isMilestone)
         NotificationCenter.default.post(name: .soberPositiveMomentForReview, object: nil)
+    }
+
+    /// True on the exact day a time milestone lands (7, 30, 90, …).
+    private var isTimeMilestoneDay: Bool {
+        days > 0 && AchievementCatalog.all.contains {
+            $0.kind == .timeMilestone && $0.dayThreshold == days
+        }
     }
 
     private func scheduleReviewPromptAfterPositiveMoment() {
