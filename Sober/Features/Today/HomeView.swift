@@ -498,8 +498,8 @@ struct HomeView: View {
         return f
     }()
 
-    /// Time milestones and growth celebrations are the app's emotional peaks —
-    /// the review prompt relaxes its tenure gates for these, so ask there.
+    /// Time milestones and growth celebrations are the app's emotional peaks.
+    /// The review prompt relaxes its tenure gates for these, so ask there.
     private func recordPositiveMomentForReview(isMilestone: Bool = false) {
         ReviewPromptTracker.recordPositiveMoment(isMilestone: isMilestone)
         NotificationCenter.default.post(name: .soberPositiveMomentForReview, object: nil)

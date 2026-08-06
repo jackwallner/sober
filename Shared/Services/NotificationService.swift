@@ -138,7 +138,7 @@ enum NotificationService {
 
     /// Rolling return nudge. Every app open pushes it back, so it only reaches
     /// people who have actually drifted. Framed as a door left open, never as a
-    /// scolding — someone who slipped is exactly who we don't want to shame.
+    /// scolding. Someone who slipped is exactly who we don't want to shame.
     static func scheduleLapseNudge(streakDays: Int, now: Date = .now) async {
         let center = UNUserNotificationCenter.current()
         cancelLapseNudge()
@@ -178,7 +178,7 @@ enum NotificationService {
     // MARK: - Trial
 
     /// Heads-up before a free trial converts. Leads with what they've grown, not
-    /// with the charge — but states the date plainly, because a surprise bill is
+    /// with the charge, but states the date plainly, because a surprise bill is
     /// how you earn a one-star review.
     static func scheduleTrialEndingReminder(
         endsAt: Date,
