@@ -6,7 +6,7 @@ extension Notification.Name {
     /// Posted when the user taps the daily-reminder notification — MainTabView
     /// switches to Home so the check-in button is right there.
     static let soberOpenCheckIn = Notification.Name("com.jackwallner.sober.openCheckIn")
-    /// Posted when the user taps the trial-ending reminder — lands on Bloom+ so
+    /// Posted when the user taps the trial-ending reminder. Lands on Bloom+ so
     /// they can see what they'd keep before deciding.
     static let soberOpenBloomPlus = Notification.Name("com.jackwallner.sober.openBloomPlus")
 }

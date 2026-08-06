@@ -59,7 +59,7 @@ enum TrialLifecycle {
             clear()
             return
         }
-        // Same trial we already know about — leave the pending reminder alone.
+        // Same trial we already know about, so leave the pending reminder alone.
         if let current = endsAt, abs(current.timeIntervalSince(newEnd)) < 60 { return }
 
         defaults.set(newEnd.timeIntervalSince1970, forKey: endsAtKey)
@@ -74,7 +74,7 @@ enum TrialLifecycle {
         }
     }
 
-    /// Drops tracked state and the pending reminder — the trial converted, was
+    /// Drops tracked state and the pending reminder: the trial converted, was
     /// cancelled, or the entitlement is gone.
     static func clear() {
         guard defaults.double(forKey: endsAtKey) > 0 else { return }

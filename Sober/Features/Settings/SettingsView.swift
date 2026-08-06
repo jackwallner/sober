@@ -253,7 +253,7 @@ struct SettingsView: View {
                 await NotificationService.scheduleLapseNudge(streakDays: streak)
             } else {
                 await NotificationService.cancelDailyReminder()
-                // Milestone/lapse nudges ride on this opt-in — turning reminders
+                // Milestone/lapse nudges ride on this opt-in, so turning reminders
                 // off has to silence everything, not just the daily one.
                 NotificationService.cancelRetentionNudges()
             }
