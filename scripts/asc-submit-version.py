@@ -7,7 +7,7 @@ Usage:
 Steps:
   1. Resolve app + the target appStoreVersion (must be editable).
   2. Find the build by CFBundleVersion (ASC_BUILD); require processingState=VALID.
-  3. PATCH version: releaseType=AFTER_APPROVAL (auto-release on approval) + attach build.
+  3. PATCH version: releaseType (ASC_RELEASE_TYPE, default MANUAL) + attach build.
   4. Create/reuse a reviewSubmission, add the version as an item, submit.
 
 Export compliance is declared in Info.plist (ITSAppUsesNonExemptEncryption=false), so no
@@ -24,6 +24,10 @@ import asc_lib as L  # sibling module in scripts/ (sys.path[0] when run as a fil
 def main() -> int:
     dry = "--dry-run" in sys.argv
     version_string = os.environ.get("ASC_APP_VERSION", "1.1.1")
+    # MANUAL by default: approval and going live are separate decisions, and a
+    # release that changes price should wait for a human to press the button.
+    # Set ASC_RELEASE_TYPE=AFTER_APPROVAL to go live the moment review clears.
+    release_type = os.environ.get("ASC_RELEASE_TYPE", "MANUAL")
     build_number = os.environ.get("ASC_BUILD", "37")
 
     kid, iss, kp = L.load_credentials()
@@ -60,7 +64,7 @@ def main() -> int:
         return 2
 
     if dry:
-        print("[dry-run] would set releaseType=AFTER_APPROVAL, attach build, submit for review")
+        print(f"[dry-run] would set releaseType={release_type}, attach build, submit for review")
         return 0
 
     # 3. Auto-release + attach build
@@ -70,12 +74,12 @@ def main() -> int:
             "data": {
                 "type": "appStoreVersions",
                 "id": ver_id,
-                "attributes": {"releaseType": "AFTER_APPROVAL"},
+                "attributes": {"releaseType": release_type},
                 "relationships": {"build": {"data": {"type": "builds", "id": b["id"]}}},
             }
         },
     )
-    print("set releaseType=AFTER_APPROVAL + attached build")
+    print(f"set releaseType={release_type} + attached build")
 
     # 4. Review submission
     subs = L.list_all(
@@ -124,7 +128,9 @@ def main() -> int:
         f"/reviewSubmissions/{sub_id}",
         {"data": {"type": "reviewSubmissions", "id": sub_id, "attributes": {"submitted": True}}},
     )
-    print(f"SUBMITTED reviewSubmission {sub_id} — version {version_string} will auto-release on approval")
+    tail = ("will auto-release on approval" if release_type == "AFTER_APPROVAL"
+            else "awaits a manual release after approval")
+    print(f"SUBMITTED reviewSubmission {sub_id}: version {version_string} {tail}")
     live = L.find_live_version(c, app_id)
     live_version = live["attributes"]["versionString"] if live else None
     L.save_state(version_string, live_version, app_id)
