@@ -1,1 +1,1 @@
-Tvoj vrt zdaj raste kot ena celota. Odpravili smo napako, zaradi katere sta veja in njeno listje lahko lebdela ločeno od debla, krošnja črnega bora pa se na začetnem zaslonu ne obreže več.
+Izboljšave v ozadju in popravki napak, da Sober deluje gladko. Hvala, da ste z nami.

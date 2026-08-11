@@ -1,1 +1,1 @@
-Vaše zahrada teď roste v jednom celku. Opravili jsme chybu, kvůli které mohla větev s listy plavat mimo kmen, a koruna borovice černé už se na domovské obrazovce neořezává.
+Vylepšení na pozadí a opravy chyb, aby Sober běžel hladce. Děkujeme, že jste tu.

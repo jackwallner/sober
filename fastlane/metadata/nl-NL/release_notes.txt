@@ -1,1 +1,1 @@
-Je tuin groeit nu als één geheel. We hebben een fout verholpen waardoor een tak met bladeren los van de stam kon zweven, en de kroon van de zwarte den wordt niet meer afgesneden op het beginscherm.
+Verbeteringen achter de schermen en bugfixes zodat Sober soepel werkt. Bedankt dat je er bent.

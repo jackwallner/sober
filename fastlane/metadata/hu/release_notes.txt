@@ -1,1 +1,1 @@
-A kerted mostantól egyetlen egészként növekszik. Kijavítottunk egy hibát, amely miatt egy ág és a levelei elszakadva lebeghettek a törzstől, és a feketefenyő koronája többé nem vágódik le a kezdőképernyőn.
+Háttérbeli fejlesztések és hibajavítások, hogy a Sober gördülékenyen működjön. Köszönjük, hogy itt vagy.

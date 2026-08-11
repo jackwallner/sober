@@ -1,1 +1,1 @@
-Puutarhasi kasvaa nyt yhtenä kokonaisuutena. Korjasimme virheen, joka saattoi jättää oksan ja sen lehdet leijumaan irralleen rungosta, eikä mustamännyn latvus enää rajaudu pois aloitusnäytöllä.
+Taustaparannuksia ja virhekorjauksia, jotta Sober toimii sujuvasti. Kiitos, että olet mukana.
