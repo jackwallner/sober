@@ -1,1 +1,1 @@
-Tu jardín ahora crece de una sola pieza. Corregimos un error que podía dejar una rama y sus hojas flotando lejos del tronco, y la copa del pino negro ya no se recorta en la pantalla de inicio.
+Mejoras internas y correcciones de errores para que Sober funcione mejor. Gracias por estar aquí.

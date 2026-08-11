@@ -1,1 +1,1 @@
-Votre jardin pousse maintenant d'un seul tenant. Nous avons corrigé un bogue qui pouvait laisser une branche et ses feuilles flotter loin du tronc, et la cime du pin noir n'est plus coupée sur l'écran d'accueil.
+Améliorations en coulisses et corrections de bugs pour que Sober reste fluide. Merci d'être là.

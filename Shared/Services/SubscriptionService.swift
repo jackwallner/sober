@@ -306,8 +306,8 @@ final class SubscriptionService: NSObject {
     }
 
     #if canImport(RevenueCat)
-    /// Yearly plan with a free-trial intro offer when available — matching Quit
-    /// Zyn and the portfolio convention. Monthly remains the fallback.
+    /// The plan the one-tap onboarding trial actually buys: monthly when it
+    /// carries a free-trial intro offer, yearly as the fallback.
     var directTrialPackage: Package? {
         let trialPackages = packages.filter { isEligibleForIntroOffer($0) }
         return Self.preferredTrialPackage(from: trialPackages)
@@ -320,9 +320,15 @@ final class SubscriptionService: NSObject {
         return trialPackages.first { $0.soberPackageKind == preferredKind }
     }
 
+    /// Monthly first, and that is deliberate. Onboarding and the paywall serve
+    /// two different people: whoever taps through onboarding has not used the
+    /// app yet and is reacting to the recurring number on Apple's sheet, while
+    /// whoever opens the paywall later has already decided Bloom+ is worth
+    /// paying for. The paywall still leads with yearly; the onboarding trial
+    /// leads with the smaller recurring figure.
     nonisolated static func preferredTrialKind(from kinds: [SoberPackageKind]) -> SoberPackageKind? {
-        if kinds.contains(.yearly) { return .yearly }
         if kinds.contains(.monthly) { return .monthly }
+        if kinds.contains(.yearly) { return .yearly }
         return kinds.first
     }
 
@@ -366,14 +372,16 @@ final class SubscriptionService: NSObject {
         directTrialPackage?.soberIntroOfferLabel
     }
 
-    /// Full Apple-3.1.2 auto-renew disclosure for the direct-trial CTA
-    /// (StatScout `yearlyCTADisclosureText` structure: trial length, then the
-    /// real price of the package the button purchases, then auto-renew and the
-    /// cancel path). Nil until products load so the UI never shows a
-    /// placeholder price. Falls back to a price-only variant when the intro
-    /// offer isn't available to this Apple ID.
+    /// Full Apple-3.1.2 auto-renew disclosure for the direct-trial CTA: trial
+    /// length, then the real price of the package the button purchases, then
+    /// auto-renew and the cancel path. Nil until products load so the UI never
+    /// shows a placeholder price. Falls back to a price-only variant when the
+    /// intro offer isn't available to this Apple ID.
+    ///
+    /// The fallback package must stay in step with `preferredTrialKind`, or the
+    /// line quotes a plan the CTA does not buy (3.1.2, and a refund magnet).
     var directTrialCTADisclosureText: String? {
-        guard let package = directTrialPackage ?? packages.first(where: { $0.soberPackageKind == .yearly }) else {
+        guard let package = directTrialPackage ?? packages.first(where: { $0.soberPackageKind == .monthly }) else {
             return nil
         }
         let renew = "Auto-renews unless cancelled at least 24 hours before the end of the current period. Manage or cancel in Settings › Apple ID › Subscriptions."

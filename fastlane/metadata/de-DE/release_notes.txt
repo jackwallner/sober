@@ -1,1 +1,1 @@
-Dein Garten wächst jetzt als ein zusammenhängendes Ganzes. Wir haben einen Fehler behoben, durch den ein Ast samt Blättern losgelöst vom Stamm schweben konnte, und die Krone der Schwarzkiefer wird auf dem Startbildschirm nicht mehr abgeschnitten.
+Verbesserungen und Fehlerbehebungen im Hintergrund, damit Sober reibungslos läuft. Danke, dass du dabei bist.

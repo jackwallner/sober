@@ -1,1 +1,1 @@
-Din trädgård växer nu i ett enda stycke. Vi har åtgärdat ett fel som kunde få en gren och dess löv att sväva löst från stammen, och svarttallens krona beskärs inte längre på hemskärmen.
+Förbättringar bakom kulisserna och buggfixar så att Sober fungerar smidigt. Tack för att du är här.

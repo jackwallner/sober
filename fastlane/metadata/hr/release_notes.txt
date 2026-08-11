@@ -1,1 +1,1 @@
-Tvoj vrt sada raste kao jedna cjelina. Ispravili smo pogrešku zbog koje su grana i njezini listovi mogli lebdjeti odvojeno od debla, a krošnja crnog bora više se ne reže na početnom zaslonu.
+Poboljšanja u pozadini i ispravci grešaka kako bi Sober radio glatko. Hvala što ste tu.

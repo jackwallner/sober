@@ -1,1 +1,1 @@
-Il tuo giardino ora cresce in un unico pezzo. Abbiamo corretto un errore che poteva lasciare un ramo e le sue foglie fluttuare staccati dal tronco, e la chioma del pino nero non viene più tagliata nella schermata principale.
+Miglioramenti dietro le quinte e correzioni di bug per far funzionare Sober senza intoppi. Grazie di esserci.

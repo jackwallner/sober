@@ -539,9 +539,13 @@ struct PaywallView: View {
             VStack(spacing: 20) {
                 savingsValueHeader
                 benefitShowcase
-                Text("$4.99 / mo · $29.99 / yr · $79.99 lifetime")
+                // No amounts here. A price the store did not hand us is worse
+                // than no price at all, and a literal drifts a tier out of date
+                // the moment pricing moves.
+                Text("Prices come from the App Store and aren't available in this build.")
                     .font(Theme.caption(weight: .semibold))
                     .foregroundStyle(Theme.textSecondary)
+                    .multilineTextAlignment(.center)
                 Button {
                     subscriptions.setLocalOverride(isPro: true)
                     dismiss()
