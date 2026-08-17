@@ -25,11 +25,20 @@ enum ConversionDiagnostics {
         logger.info("Conversion event: \(event.rawValue, privacy: .public)")
     }
 
-    #if DEBUG
-    static var summary: [ConversionEvent: Int] {
-        Dictionary(uniqueKeysWithValues: ConversionEvent.allCases.map { event in
-            (event, AppGroup.defaults.integer(forKey: "conversion.\(event.rawValue)"))
-        })
+    static func count(of event: ConversionEvent) -> Int {
+        AppGroup.defaults.integer(forKey: "conversion.\(event.rawValue)")
     }
-    #endif
+
+    /// Every non-zero counter. Not DEBUG-gated: these counts spent their whole
+    /// life on-device, which made "nobody reached the offer" and "everybody
+    /// reached it and said no" indistinguishable from the outside.
+    /// `SubscriptionService` mirrors this onto the RevenueCat customer record so
+    /// the drop-off is answerable without a device in hand.
+    static var counts: [ConversionEvent: Int] {
+        var result: [ConversionEvent: Int] = [:]
+        for event in ConversionEvent.allCases where count(of: event) > 0 {
+            result[event] = count(of: event)
+        }
+        return result
+    }
 }
