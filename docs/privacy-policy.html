@@ -1,84 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2352A073'/%3E%3Cpath d='M16 6C16 6 10 12 10 18C10 23 13 26 16 26C19 26 22 23 22 18C22 12 16 6 16 6Z' fill='%237AC78C' opacity='0.8'/%3E%3Cpath d='M16 10C16 10 12.5 14 12.5 18C12.5 21 14 24 16 24C18 24 19.5 21 19.5 18C19.5 14 16 10 16 10Z' fill='%23F2C773'/%3E%3C/svg%3E">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2352A073'/%3E%3Cpath d='M16 6C16 6 10 12 10 18C10 23 13 26 16 26C19 26 22 23 22 18C22 12 16 6 16 6Z' fill='%237AC78C' opacity='0.8'/%3E%3Cpath d='M16 10C16 10 12.5 14 12.5 18C12.5 21 14 24 16 24C18 24 19.5 21 19.5 18C19.5 14 16 10 16 10Z' fill='%23F2C773'/%3E%3C/svg%3E">
-    <title>Sober - Privacy Policy</title>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 700px; margin: 0 auto; padding: 24px; line-height: 1.6; color: #333; }
-        h1 { font-size: 28px; margin-bottom: 4px; }
-        h2 { font-size: 20px; margin-top: 32px; }
-        .date { color: #888; font-size: 14px; margin-bottom: 32px; }
-        ul { padding-left: 20px; }
-        li { margin-bottom: 8px; }
-        .contact { background: #f5f5f7; padding: 16px; border-radius: 12px; margin-top: 32px; }
-        a { color: #0a84ff; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        .back { display: inline-block; margin-bottom: 24px; font-size: 14px; color: #888; }
-        .back:hover { color: #333; }
-    </style>
-</head>
-<body>
-    <a class="back" href="./">&larr; Sober</a>
-    <h1>Sober Privacy Policy</h1>
-    <p class="date">Last updated: May 25, 2026</p>
-
-    <h2>Overview</h2>
-    <p>Sober is a personal sobriety tracking app for iPhone and Apple Watch. The core experience is free. An optional Bloom+ subscription unlocks premium features. Your privacy is fundamental to how this app is built.</p>
-
-    <h2>Data Collection</h2>
-    <p><strong>Sober does not collect, transmit, or share any of your personal data.</strong></p>
-    <ul>
-        <li>No usage data is sent to any server</li>
-        <li>No analytics or tracking of any kind</li>
-        <li>No third-party SDKs or frameworks (except RevenueCat for subscription management and Apple's StoreKit for purchases)</li>
-        <li>No advertising</li>
-        <li>No account creation required</li>
-    </ul>
-
-    <h2>Purchases &amp; Subscriptions</h2>
-    <p>Sober offers an optional <strong>Bloom+</strong> subscription (and lifetime purchase) that unlocks premium features: full health benefit timeline with sources, journaling with daily prompts, all achievements, money and calories saved statistics, and additional bonsai styles and garden decorations.</p>
-    <p><strong>All payments are processed exclusively by Apple through StoreKit. Sober never receives, stores, or has access to your payment information</strong> — including credit card details, billing address, or Apple ID credentials.</p>
-    <p>To determine whether you have an active Bloom+ subscription or lifetime unlock, the app uses RevenueCat's SDK to verify receipt status. This check communicates with RevenueCat's servers solely for the purpose of confirming purchase status. RevenueCat does not receive any personal or health information — only anonymized purchase tokens.</p>
-    <p>Your purchase history and subscription management (upgrade, downgrade, cancel, or request a refund) are handled entirely by Apple through your Apple ID account. You can manage or cancel your subscription at any time in <strong>Settings &gt; Apple ID &gt; Subscriptions</strong> on your device.</p>
-    <p>Following a free trial or paid subscription period, if you cancel, your access to Bloom+ features ends at the close of the current billing period. No data is lost — your sobriety data and preferences remain on your device, and the free tier continues to work as before.</p>
-
-    <h2>Local Storage</h2>
-    <p>Sober stores all data locally on your device using SwiftData. This includes:</p>
-    <ul>
-        <li>Sobriety journey history (start dates, reset reasons)</li>
-        <li>Daily check-ins (sober status, mood, notes)</li>
-        <li>Journal entries</li>
-        <li>Garden state and species preferences</li>
-        <li>User settings (daily cost, calories, reminder preferences)</li>
-        <li>Achievement and health benefit unlock progress</li>
-    </ul>
-    <p>This data is stored in an App Group container (<code>group.com.jackwallner.sober</code>) that is shared between the iOS app, widgets, and Apple Watch companion. This data never leaves your device.</p>
-    <p>Your preferences (goals, display settings, appearance) are stored locally in UserDefaults on your device.</p>
-
-    <h2>Health Data</h2>
-    <p>Sober does not read from or write to Apple HealthKit. All health-related information (daily check-ins, mood, health benefit tracking) is entered directly by you and stored locally. Sober does not access or process any HealthKit data types.</p>
-
-    <h2>Data Export</h2>
-    <p>Sober does not currently offer a data export feature. All data remains on your device within the app's local SwiftData store.</p>
-
-    <h2>Data Retention &amp; Deletion</h2>
-    <p>All data remains on your device until you delete the app. Deleting Sober removes all locally stored data, including sobriety history, journal entries, and settings. No data persists on any external server because no data is ever transmitted externally.</p>
-    <p>To delete your data, uninstall the app from your device. No additional request is needed since no data exists outside your device.</p>
-
-    <h2>Children's Privacy</h2>
-    <p>Sober is not directed at children under the age of 13. The app does not knowingly collect any information from children under 13.</p>
-
-    <h2>Changes to This Policy</h2>
-    <p>If this privacy policy is updated, the changes will be reflected on this page with an updated date.</p>
-
-    <div class="contact">
-        <h2 style="margin-top: 0;">Contact</h2>
-        <p>If you have questions about this privacy policy, contact:<br>
-        <strong>jackwallner@gmail.com</strong></p>
-        <p>For general app support, visit <a href="support.html">Sober Support</a>.</p>
-    </div>
-</body>
-</html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Sober Privacy Policy</title><style>:root { color-scheme: light dark; }
+body { margin: 0; padding: 32px 20px 64px; font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1e2724; background: #fbfdfc; }
+main { max-width: 780px; margin: 0 auto; } h1 { line-height: 1.15; } h2 { margin-top: 32px; } p, li { color: #52625b; } a { color: #087866; } .date, footer { color: #71817a; font-size: 14px; } .nav { margin-bottom: 28px; font-size: 14px; } .card { margin-top: 30px; padding: 18px; border-radius: 14px; border: 1px solid #dbe8e2; background: #fff; }
+@media (prefers-color-scheme: dark) { body { color: #eef8f4; background: #10201c; } p, li { color: #b8d0c7; } a { color: #75dec2; } .date, footer { color: #91ada3; } .card { background: #173129; border-color: #2b4a40; } }</style></head>
+<body><main><nav class="nav"><a href="index.html">Back to Sober</a> · <a href="support.html">Support</a> · <a href="privacy-policy.html">Privacy</a> · <a href="terms.html">Terms</a></nav>
+<h1>Sober Privacy Policy</h1><p class="date">Last updated: August 17, 2026</p>
+<p>Sober is a personal sobriety tracking app for iPhone and Apple Watch. It does not require an account and does not read or write Apple Health.</p>
+<h2>Data stored on your devices</h2><p>Sobriety journey history, check-ins, mood, notes, journal entries, garden state, achievements, savings estimates, settings, and reminder preferences are stored locally in SwiftData, UserDefaults, and an App Group shared with the Watch and widgets. This information is not uploaded.</p>
+<h2>Purchases</h2><p>Bloom+ is offered through monthly and yearly auto-renewing subscriptions and a one-time lifetime purchase. Apple processes payment. RevenueCat verifies purchase status and may process an anonymous app user ID, purchase and entitlement information, and limited technical context. It does not receive your journal, check-ins, or other app content. See <a href="https://www.revenuecat.com/privacy/">RevenueCat's privacy policy</a>.</p>
+<h2>What we do not collect</h2><p>No account, server-side usage analytics, advertising, cross-app tracking, location, contacts, photos, or HealthKit data. We do not sell personal information.</p>
+<h2>Retention and deletion</h2><p>Local data remains until you delete it in the app, where available, or remove the app. Apple and RevenueCat retain transaction records as needed to process and restore purchases. Email support messages contain whatever you choose to send and are used to answer your request.</p>
+<h2>Children and changes</h2><p>Sober is not directed to children under 13 and does not knowingly collect personal information from children. We may update this policy when the app or its services change.</p>
+<div class="card"><strong>Contact</strong><p>Questions about this page? Email <a href="mailto:jackwallner@gmail.com">jackwallner@gmail.com</a>.</p></div>
+<footer><a href="index.html">Home</a> · <a href="support.html">Support</a> · <a href="privacy-policy.html">Privacy</a> · <a href="terms.html">Terms</a></footer></main></body></html>
