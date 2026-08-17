@@ -27,6 +27,7 @@ struct HomeView: View {
     @State private var reviewPromptShownThisSession = false
     @State private var pendingNativeReviewAfterDismiss = false
     @State private var showTrialRecap = false
+    @State private var postOnboardingPaywallTask: Task<Void, Never>?
     @StateObject private var reviewPromptCoordinator = ReviewPromptCoordinator.shared
     @Environment(\.requestReview) private var requestReview
 
@@ -429,11 +430,19 @@ struct HomeView: View {
             AppGroup.defaults.set(false, forKey: AppGroup.postOnboardingPaywallKey)
             return
         }
-        guard !showGrowth else { return }
-        AppGroup.defaults.set(false, forKey: AppGroup.postOnboardingPaywallKey)
-        Task { @MainActor in
+        // The in-view latch only dedupes the delay task (onAppear fires again on
+        // every tab switch). The persisted flag is what makes this one-shot, and
+        // it is consumed below, at the moment the pitch is actually requested.
+        guard !showGrowth, postOnboardingPaywallTask == nil else { return }
+        postOnboardingPaywallTask = Task { @MainActor in
+            defer { postOnboardingPaywallTask = nil }
             try? await Task.sleep(nanoseconds: 700_000_000)
+            // Clearing the flag before this guard burned the day-0 paywall for
+            // good whenever a growth celebration or review prompt landed inside
+            // the delay window, which 1.2.5's lower review thresholds made a
+            // regular event. Leaving it set retries on the next Home arrival.
             guard !showGrowth, !showReviewPrompt else { return }
+            AppGroup.defaults.set(false, forKey: AppGroup.postOnboardingPaywallKey)
             // Start the passive-nudge cooldown here so the day-0 popup and the
             // Home/Timeline/Health passive nudges don't fire back-to-back.
             TrialNudgeGate.markShown()

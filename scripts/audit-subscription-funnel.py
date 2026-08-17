@@ -6,6 +6,7 @@ from __future__ import annotations
 import base64
 import json
 import sys
+from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -13,8 +14,8 @@ import asc_lib
 
 BUNDLE_ID = "com.jackwallner.sober"
 EXPECTED_PRODUCTS = {
-    "monthly": ("com.jackwallner.sober.pro.monthly", "2.99"),
-    "yearly": ("com.jackwallner.sober.pro.yearly", "19.99"),
+    "monthly": ("com.jackwallner.sober.pro.monthly", "9.99"),
+    "yearly": ("com.jackwallner.sober.pro.yearly", "29.99"),
 }
 US_TERRITORY = "USA"
 
@@ -79,8 +80,19 @@ def main() -> None:
             f"/subscriptions/{subscription_id}/prices?filter[territory]={US_TERRITORY}"
             "&include=subscriptionPricePoint&limit=200",
         )
+        # A subscription with a scheduled raise carries several US price rows:
+        # the preserved legacy price (startDate None) plus one row per change.
+        # Taking whichever came back first reported $2.99 for three days after
+        # the August raise had already gone live, so pick the newest row whose
+        # startDate has actually arrived.
         us_price = None
-        for item in us_prices:
+        today = date.today().isoformat()
+        effective = [
+            item for item in us_prices
+            if (item["attributes"].get("startDate") or "0000-00-00") <= today
+        ]
+        effective.sort(key=lambda item: item["attributes"].get("startDate") or "0000-00-00")
+        for item in reversed(effective):
             price_point = item.get("relationships", {}).get("subscriptionPricePoint", {}).get("data") or {}
             if not price_point:
                 continue

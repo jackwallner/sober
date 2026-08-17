@@ -3,7 +3,7 @@
   "nonRenewingSubscriptions" : [],
   "products" : [
     {
-      "displayPrice" : "89.99",
+      "displayPrice" : "69.99",
       "familyShareable" : false,
       "internalID" : "S-LIFETIME",
       "localizations" : [
@@ -60,7 +60,7 @@
         {
           "adHocOffers" : [],
           "codeOffers" : [],
-          "displayPrice" : "39.99",
+          "displayPrice" : "29.99",
           "familyShareable" : false,
           "groupNumber" : 2,
           "internalID" : "S-YEARLY",
