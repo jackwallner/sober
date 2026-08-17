@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-"""Populate native 'What's New' (whatsNew) for every ASC 1.1.1 version localization.
+"""Populate native 'What's New' (whatsNew) for every localization of an ASC version.
 
-Metadata/polish release — notes are short and honest. Writes fastlane release_notes.txt
-too, then PATCHes whatsNew on each appStoreVersionLocalization (required for an update).
+Set ASC_APP_VERSION to the target version (the default below is only a fallback).
+Notes are short and honest, and the wording fits any maintenance release. Writes
+fastlane release_notes.txt too, then PATCHes whatsNew on each
+appStoreVersionLocalization (required for an update).
 """
 from __future__ import annotations
 
