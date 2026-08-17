@@ -347,6 +347,47 @@ func bboxMode(_ styles: [BonsaiStyle], stride: Int, outDir: String) {
     }
 }
 
+// MARK: - render mode: plain PNGs for eyeballing a specific frame
+
+@MainActor
+func renderMode(_ styles: [BonsaiStyle], days: [Int], outDir: String) {
+    for cfg in configs.filter({ onlyCfg == nil || $0.name == onlyCfg! }) {
+        for style in styles {
+            for day in days {
+                guard let rgba = renderRGBA(style: style, day: day, cfg: cfg) else { continue }
+                let n = cfg.px
+                var buf = rgba
+                for i in 0..<(n * n) {                       // flatten onto white
+                    let a = Double(buf[i * 4 + 3]) / 255
+                    for ch in 0..<3 {
+                        buf[i * 4 + ch] = UInt8(max(0, min(255, Double(buf[i * 4 + ch]) + 255 * (1 - a))))
+                    }
+                    buf[i * 4 + 3] = 255
+                }
+                let path = outDir + "/\(cfg.name)-\(style.rawValue)-d\(String(format: "%03d", day)).png"
+                buf.withUnsafeMutableBytes { raw in
+                    let c = CGContext(data: raw.baseAddress, width: n, height: n, bitsPerComponent: 8,
+                                      bytesPerRow: n * 4, space: CGColorSpaceCreateDeviceRGB(),
+                                      bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
+                    let rep = NSBitmapImageRep(cgImage: c.makeImage()!)
+                    try? rep.representation(using: .png, properties: [:])!.write(to: URL(fileURLWithPath: path))
+                }
+                print(path)
+            }
+        }
+    }
+}
+
+if args.contains("--mode=render") {
+    let days = (args.first(where: { $0.hasPrefix("--days=") })?.dropFirst(7))
+        .map { $0.split(separator: ",").compactMap { Int($0) } } ?? [365]
+    MainActor.assumeIsolated {
+        renderMode(BonsaiStyle.allCases.filter { onlyStyle == nil || $0.rawValue == onlyStyle! },
+                   days: days, outDir: outDir)
+    }
+    exit(0)
+}
+
 if args.contains("--mode=bbox") {
     MainActor.assumeIsolated {
         bboxMode(BonsaiStyle.allCases.filter { onlyStyle == nil || $0.rawValue == onlyStyle! },
