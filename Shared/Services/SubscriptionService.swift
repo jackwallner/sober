@@ -226,6 +226,25 @@ final class SubscriptionService: NSObject {
         return introEligibility[package.storeProduct.productIdentifier] == .eligible
     }
 
+    /// Mirror the on-device conversion counters onto the RevenueCat customer as
+    /// subscriber attributes (`funnel_*`).
+    ///
+    /// Deliberately NOT sent as extra custom paywall impressions: `paywall_
+    /// encounter_v3` treats every impression id as a paywall encounter, so
+    /// pushing funnel steps through that channel would drive the encounter rate
+    /// to 100% and destroy the one server-side number that currently works.
+    /// Attributes stay off the charts and are readable per customer.
+    func syncConversionAttributes() {
+        guard isConfigured else { return }
+        let counts = ConversionDiagnostics.counts
+        guard !counts.isEmpty else { return }
+        var attributes: [String: String] = [:]
+        for (event, count) in counts {
+            attributes["funnel_\(event.rawValue)"] = String(count)
+        }
+        Purchases.shared.attribution.setAttributes(attributes)
+    }
+
     func trackPaywallImpression(id: String, package: Package? = nil, oncePerSession: Bool = false) {
         guard isConfigured else { return }
         if oncePerSession {
