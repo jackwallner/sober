@@ -6,12 +6,12 @@ import SwiftData
 #if canImport(RevenueCat)
 @Suite("Trial package preference")
 struct TrialPackagePreferenceTests {
-    @Test func monthlyWinsWhenBothTrialsExist() {
-        #expect(SubscriptionService.preferredTrialKind(from: [.monthly, .yearly]) == .monthly)
+    @Test func yearlyWinsWhenBothTrialsExist() {
+        #expect(SubscriptionService.preferredTrialKind(from: [.monthly, .yearly]) == .yearly)
     }
 
-    @Test func yearlyIsTheFallback() {
-        #expect(SubscriptionService.preferredTrialKind(from: [.yearly]) == .yearly)
+    @Test func monthlyIsTheFallback() {
+        #expect(SubscriptionService.preferredTrialKind(from: [.monthly]) == .monthly)
     }
 
     @Test func unknownPackageIsStillUsable() {
@@ -22,8 +22,8 @@ struct TrialPackagePreferenceTests {
         #expect(SubscriptionService.preferredTrialKind(from: []) == nil)
     }
 
-    @Test func monthlyWinsRegardlessOfPackageOrder() {
-        #expect(SubscriptionService.preferredTrialKind(from: [.other, .yearly, .monthly]) == .monthly)
+    @Test func yearlyWinsRegardlessOfPackageOrder() {
+        #expect(SubscriptionService.preferredTrialKind(from: [.other, .monthly, .yearly]) == .yearly)
     }
 }
 #endif

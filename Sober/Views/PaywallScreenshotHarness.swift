@@ -18,7 +18,12 @@ struct PaywallScreenshotHarness: View {
                     TrialOfferSheet(
                         focus: nil,
                         offerLabel: trialPackage?.soberIntroOfferLabel ?? "7-day free trial",
-                        priceLabel: trialPackage?.soberPriceLabel ?? "$19.99 / year",
+                        // No literal fallback. Products don't load in a headless
+                        // sim, and the placeholder that used to sit here ($19.99
+                        // / year, two ladders out of date) would have been baked
+                        // into an App Store screenshot. Nil just drops the
+                        // billing line until a real StoreKit price exists.
+                        priceLabel: trialPackage?.soberPriceLabel,
                         directPurchase: true,
                         isPurchasing: false,
                         errorMessage: nil,

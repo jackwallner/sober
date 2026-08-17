@@ -347,6 +347,11 @@ struct OnboardingView: View {
             }
             var resolution = await subscriptions.resolveOnboardingTrial()
             if resolution == .failed || resolution == .unavailable {
+                // Give the network a beat. Retrying in the same runloop tick
+                // against a flaky connection just reproduces the same failure,
+                // and every failure here costs a trial offer at the highest
+                // intent moment the app ever gets.
+                try? await Task.sleep(nanoseconds: 1_200_000_000)
                 resolution = await subscriptions.resolveOnboardingTrial()
             }
             switch resolution {

@@ -156,9 +156,11 @@ struct RootView: View {
 struct MainTabView: View {
     @Environment(SubscriptionService.self) private var subscriptions
     @StateObject private var trialCoordinator = TrialOfferCoordinator.shared
+    @StateObject private var reviewCoordinator = ReviewPromptCoordinator.shared
     @State private var tab = 0
     @State private var showTrialPaywall = false
     @State private var trialOfferFocus: BloomFeature?
+    @State private var deferredTrialPitch: TrialOfferCoordinator.PendingRequest?
 
     var body: some View {
         TabView(selection: $tab) {
@@ -189,6 +191,18 @@ struct MainTabView: View {
             handleTrialPitch(request)
         }
         .onChange(of: showTrialPaywall) { _, _ in syncPresentationFlag() }
+        .onChange(of: reviewCoordinator.isPresentingSheet) { _, presenting in
+            guard !presenting, let pitch = deferredTrialPitch else { return }
+            deferredTrialPitch = nil
+            Task { @MainActor in
+                // Let the review sheet finish dismissing before a second sheet
+                // asks to present, or UIKit drops the new one on the floor.
+                try? await Task.sleep(nanoseconds: 600_000_000)
+                guard !ReviewPromptCoordinator.shared.isPresentingSheet,
+                      !showTrialPaywall else { return }
+                handleTrialPitch(pitch)
+            }
+        }
         .onReceive(NotificationCenter.default.publisher(for: .soberOpenCheckIn)) { _ in
             tab = 0
         }
@@ -217,9 +231,14 @@ struct MainTabView: View {
     #if canImport(RevenueCat)
     private func handleTrialPitch(_ request: TrialOfferCoordinator.PendingRequest) {
         guard !subscriptions.isProSubscriber else { return }
-        // A review prompt on screen wins; drop the pitch rather than stacking
-        // two sheet presentations from different view layers.
-        guard !ReviewPromptCoordinator.shared.isPresentingSheet else { return }
+        // A review prompt on screen wins, but hold the pitch instead of dropping
+        // it: the coordinator's request is already cleared by the time we get
+        // here, so returning threw the only trial offer that user was ever going
+        // to see. Re-runs when the review sheet goes away.
+        guard !ReviewPromptCoordinator.shared.isPresentingSheet else {
+            deferredTrialPitch = request
+            return
+        }
         let focus = request.intent.focusFeature
 
         switch request.policy {
