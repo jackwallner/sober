@@ -25,9 +25,18 @@ All share App Group `group.com.jackwallner.sober` for SwiftData container + widg
 
 Root flow: `SoberApp → RootView → (OnboardingView | MainTabView)`.
 
-## Pro entitlement (`"pro"`)
-- Free: day counter, single check-in/day, calendar, basic garden, first 2 health benefits.
-- Pro: full health timeline + sources, journal compose, achievement unlocks, money/calories saved, additional garden species.
+## Pro entitlement (`"pro"`, shown as Bloom+)
+The line is drawn by **tense**, not by feature count (re-cut 2026-08-21). Selling a
+bigger version of a complete free app is what put trial starts at 3%.
+- **Free owns the past**: day counter, single check-in/day, calendar, basic garden,
+  first 5 health benefits, earned achievement badges, and **money/calories kept so
+  far** (moved out of Pro in the Wave 1 re-cut, so the paywall can open with a
+  number the user already earned).
+- **Bloom+ owns the future**: the year-ahead projection, full health timeline +
+  sources, journal compose, additional garden species.
+
+Prices are never literals: read them from StoreKit, and express them against the
+user's own habit spend via `HabitPriceComparison` rather than quoting figures.
 
 ## App-specific notes
 - Enjoyment funnel triggers after **daily check-in** or **garden unlock celebration** (3.5s delay). (Shared funnel mechanics + playbook in the `ios-dev` skill.)

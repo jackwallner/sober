@@ -13,7 +13,7 @@ struct BloomPlusTabView: View {
             if subscriptions.isProSubscriber {
                 BloomPlusHubView()
             } else {
-                PaywallView(displayCloseButton: false, impressionId: "sober_bloom_tab")
+                PaywallView(displayCloseButton: false, showsLifetime: true, impressionId: "sober_bloom_tab")
             }
         }
     }

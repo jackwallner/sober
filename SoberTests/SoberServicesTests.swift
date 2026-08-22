@@ -320,3 +320,42 @@ struct ReviewPromptMilestoneTests {
         }
     }
 }
+
+@Suite("Habit price comparison")
+struct HabitPriceComparisonTests {
+    @Test func yearlyAgainstTwentyADayReadsAsADayAndAHalf() {
+        #expect(HabitPriceComparison.phrase(price: 29.99, costPerDay: 20) == "about a day and a half of drinking")
+    }
+
+    @Test func monthlyAgainstTwentyADayIsUnderADay() {
+        #expect(HabitPriceComparison.phrase(price: 9.99, costPerDay: 20) == "less than a day of drinking")
+    }
+
+    @Test func habitNounIsCallerSupplied() {
+        #expect(HabitPriceComparison.phrase(price: 34.99, costPerDay: 9, habitNoun: "pouches") == "about 4 days of pouches")
+    }
+
+    @Test func lightSpendersGetNoComparison() {
+        // $29.99 at $2/day is 15 habit-days, past the point where the
+        // comparison flatters the price, so it is suppressed entirely.
+        #expect(HabitPriceComparison.phrase(price: 29.99, costPerDay: 2) == nil)
+    }
+
+    @Test func missingSpendDataProducesNothing() {
+        #expect(HabitPriceComparison.phrase(price: 29.99, costPerDay: 0) == nil)
+        #expect(HabitPriceComparison.daysOfHabit(price: 0, costPerDay: 20) == nil)
+    }
+
+    @Test func exactlyAtTheCeilingStillRenders() {
+        #expect(HabitPriceComparison.phrase(price: 100, costPerDay: 10) == "about 10 days of drinking")
+    }
+
+    @Test func halfDaysAreSpelledOut() {
+        #expect(HabitPriceComparison.dayCount(0.5) == "less than a day")
+        #expect(HabitPriceComparison.dayCount(1.0) == "about a day")
+        #expect(HabitPriceComparison.dayCount(1.5) == "about a day and a half")
+        #expect(HabitPriceComparison.dayCount(2.0) == "about 2 days")
+        #expect(HabitPriceComparison.dayCount(2.4) == "about 2 and a half days")
+        #expect(HabitPriceComparison.dayCount(3.0) == "about 3 days")
+    }
+}
