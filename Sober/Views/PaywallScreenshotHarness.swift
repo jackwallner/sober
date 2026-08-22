@@ -33,7 +33,7 @@ struct PaywallScreenshotHarness: View {
                     )
                 }
             } else {
-                PaywallView(displayCloseButton: false, impressionId: "snapshot")
+                PaywallView(displayCloseButton: false, showsLifetime: true, impressionId: "snapshot")
             }
         }
         .environment(subscriptions)

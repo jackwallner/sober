@@ -1,5 +1,8 @@
 import SwiftData
 import SwiftUI
+#if canImport(RevenueCat)
+import RevenueCat
+#endif
 
 struct OnboardingView: View {
     @Environment(\.modelContext) private var context
@@ -15,6 +18,7 @@ struct OnboardingView: View {
     @State private var trialError: String?
     @State private var restoreInFlight = false
     @State private var didShowOnboardingTrial = false
+    @State private var showSkipTrialConfirm = false
 
     var body: some View {
         ZStack {
@@ -203,7 +207,7 @@ struct OnboardingView: View {
             VStack(alignment: .leading, spacing: Theme.Space.m) {
                 trialBenefit(icon: "tree.fill", text: "Grow and switch every bonsai species")
                 trialBenefit(icon: "heart.text.square.fill", text: "Follow 13 sourced recovery milestones")
-                trialBenefit(icon: "dollarsign.circle.fill", text: trialSavingsText)
+                trialBenefit(icon: "chart.line.uptrend.xyaxis", text: trialSavingsText)
                 trialBenefit(icon: "book.closed.fill", text: "Journal privately through difficult moments")
             }
             .padding(Theme.Space.m)
@@ -214,8 +218,21 @@ struct OnboardingView: View {
                 primaryTitle: trialCTATitle,
                 busy: trialInFlight,
                 showLegalFooter: true,
-                above: { trialAboveButton }
+                above: { trialAboveButton },
+                below: { skipTrialLink }
             ) { startOnboardingTrial() }
+        }
+        // Cancel role sits on "stay", not on "skip": an alert dismissed by
+        // gesture resolves to the cancel action, and that must not be the path
+        // that silently gives up the trial.
+        .alert("Keep the free version?", isPresented: $showSkipTrialConfirm) {
+            Button("Continue with the free version") {
+                ConversionDiagnostics.record(.freeVersionChosen)
+                finishOnboarding()
+            }
+            Button("Keep my free trial", role: .cancel) {}
+        } message: {
+            Text("You'll keep the day counter, the calendar, and your tree. Your year-ahead projection, the full health timeline, the journal, and the other species stay locked.")
         }
         .onAppear {
             didShowOnboardingTrial = true
@@ -245,24 +262,45 @@ struct OnboardingView: View {
 
     private var trialSavingsText: String {
         let yearlyDollars = Int(costPerDay) * 365
-        guard yearlyDollars > 0 else { return "Track money and calories retained" }
-        return "See your progress toward keeping \(formatCurrency(yearlyDollars)) this year"
+        guard yearlyDollars > 0 else { return "Project the year ahead, not just the days behind" }
+        return "Project the \(formatCurrency(yearlyDollars)) you'd keep over the next year"
+    }
+
+    /// The opt-out used to sit here, bold and underlined, directly above the
+    /// CTA, at the same visual weight as the action we want, at the moment the
+    /// user has the least reason to choose it. It now lives under the button as
+    /// a quiet link, behind one confirmation. The path stays fully available;
+    /// it just stops being the default-looking one.
+    @ViewBuilder
+    private var skipTrialLink: some View {
+        Button { showSkipTrialConfirm = true } label: {
+            Text("Continue with the free version")
+                .font(Theme.caption())
+                .foregroundStyle(.white.opacity(0.7))
+                .underline()
+                .padding(.vertical, 2)
+        }
+        .disabled(trialInFlight)
     }
 
     @ViewBuilder
     private var trialAboveButton: some View {
         VStack(spacing: Theme.Space.s) {
-            Button {
-                ConversionDiagnostics.record(.freeVersionChosen)
-                finishOnboarding()
-            } label: {
-                Text("Continue with the free version")
-                    .font(Theme.subhead(weight: .semibold))
-                    .foregroundStyle(.white.opacity(0.82))
-                    .underline()
-                    .padding(.vertical, 4)
+            if let habitLine = habitComparisonText {
+                HStack(spacing: 7) {
+                    Image(systemName: "arrow.left.arrow.right")
+                        .font(.system(size: 11, weight: .bold))
+                    Text(habitLine)
+                        .font(Theme.subhead(weight: .semibold))
+                        .fixedSize(horizontal: false, vertical: true)
+                    Spacer(minLength: 0)
+                }
+                .foregroundStyle(.white)
+                .padding(.horizontal, 13)
+                .padding(.vertical, 10)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(.white.opacity(0.16), in: RoundedRectangle(cornerRadius: 12))
             }
-            .disabled(trialInFlight)
 
             if let disclosure = trialDisclosureText {
                 Text(disclosure)
@@ -282,11 +320,12 @@ struct OnboardingView: View {
         }
     }
 
-    private func bottomBar<Above: View>(
+    private func bottomBar<Above: View, Below: View>(
         primaryTitle: String,
         busy: Bool = false,
         showLegalFooter: Bool = false,
         @ViewBuilder above: () -> Above = { EmptyView() },
+        @ViewBuilder below: () -> Below = { EmptyView() },
         action: @escaping () -> Void
     ) -> some View {
         VStack(spacing: Theme.Space.s) {
@@ -305,6 +344,8 @@ struct OnboardingView: View {
             }
             .background(.white.opacity(0.25), in: RoundedRectangle(cornerRadius: 18))
             .disabled(busy)
+
+            below()
 
             if showLegalFooter {
                 legalFooter
@@ -433,6 +474,19 @@ struct OnboardingView: View {
             AppGroup.defaults.set(true, forKey: AppGroup.postOnboardingPaywallKey)
         }
         WidgetSnapshotPump.push(context: context)
+    }
+
+    /// The closing argument, in the units the user set two screens ago: what a
+    /// year of Bloom+ costs measured against what they were spending on
+    /// alcohol. Never quotes an amount: the disclosure right below it carries
+    /// the real localized price (3.1.2).
+    private var habitComparisonText: String? {
+        #if canImport(RevenueCat)
+        guard let package = subscriptions.directTrialPackage else { return nil }
+        return package.soberHabitComparisonSentence(costPerDayCents: Int(costPerDay * 100))
+        #else
+        return nil
+        #endif
     }
 
     private var trialDisclosureText: String? {

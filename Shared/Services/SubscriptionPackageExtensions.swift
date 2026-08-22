@@ -157,6 +157,31 @@ extension Package {
     func packageHasFreeTrialIntro() -> Bool {
         soberIntroOfferLabel != nil
     }
+
+    /// "A year of Bloom+" / "A month of Bloom+" / "Bloom+ for life", the
+    /// subject of the habit-comparison sentence.
+    var soberDurationSubject: String {
+        switch soberPackageKind {
+        case .yearly: "A year of Bloom+"
+        case .monthly: "A month of Bloom+"
+        case .lifetime: "Bloom+ for life"
+        case .other: "Bloom+"
+        }
+    }
+
+    /// Full habit-relative sentence for this package, e.g. "A year of Bloom+
+    /// costs about a day and a half of drinking." Nil when the user hasn't
+    /// entered a daily spend or the comparison stops being flattering.
+    func soberHabitComparisonSentence(costPerDayCents: Int, habitNoun: String = "drinking") -> String? {
+        guard costPerDayCents > 0 else { return nil }
+        let price = (storeProduct.price as NSDecimalNumber).doubleValue
+        guard let phrase = HabitPriceComparison.phrase(
+            price: price,
+            costPerDay: Double(costPerDayCents) / 100,
+            habitNoun: habitNoun
+        ) else { return nil }
+        return "\(soberDurationSubject) costs \(phrase)."
+    }
 }
 
 extension Offering {

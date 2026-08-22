@@ -124,6 +124,14 @@ struct HomeView: View {
                 scheduleRetentionNudges()
                 refreshTrialRecap()
                 presentPostOnboardingPaywallIfNeeded()
+                #if DEBUG
+                // The pool devices' accessibility bridge is unreliable, so the
+                // sheets that can't be reached by `axe tap` get a launch
+                // argument, same as -seedDemo. DEBUG only.
+                if ProcessInfo.processInfo.arguments.contains("-showProgress") {
+                    showProgress = true
+                }
+                #endif
             }
             .task { await presentPassiveTrialNudge(subscriptions, intent: .postOnboarding, delay: 6) }
             .overlay {
@@ -687,15 +695,50 @@ struct ProgressSheet: View {
                     nextBenefitRow
                 }
 
-                if isPro {
+                // Free, for everyone. What you have already kept is the single
+                // strongest thing this app can say to a non-subscriber, and it
+                // spent its whole life behind the wall where nobody could be
+                // moved by it. Bloom+ sells the projection below, not this.
+                if hasSpendData {
                     Section {
                         savedRow(label: "Money", streak: moneySaved, lifetime: lifetimeMoneySaved, sub: "$\((settings?.costPerDayCents ?? 0) / 100) / day", icon: "dollarsign.circle.fill")
                         savedRow(label: "Calories", streak: caloriesAvoided.formatted(), lifetime: lifetimeCaloriesAvoided.formatted(), sub: "\(settings?.caloriesPerDay ?? 0) / day", icon: "flame.fill")
                         savedRow(label: "Body fat", streak: poundsOfFat(caloriesAvoided), lifetime: poundsOfFat(lifetimeCaloriesAvoided), sub: "~3,500 cal per lb", icon: "scalemass.fill")
                     } header: {
-                        Text("Saved")
+                        Text("Kept so far")
                     } footer: {
                         Text("Streak counts your current run. Lifetime counts every sober day you've ever logged, so past progress isn't lost on a reset.")
+                    }
+                }
+
+                if hasSpendData {
+                    Section {
+                        if isPro {
+                            yearAheadRow(
+                                label: "Money",
+                                value: projectedMoneyAYear,
+                                sub: "if you keep going for 12 months",
+                                icon: "dollarsign.circle.fill"
+                            )
+                            yearAheadRow(
+                                label: "Calories",
+                                value: projectedCaloriesAYear.formatted(),
+                                sub: "not drunk over 12 months",
+                                icon: "flame.fill"
+                            )
+                            yearAheadRow(
+                                label: "Body fat",
+                                value: poundsOfFat(projectedCaloriesAYear),
+                                sub: "~3,500 cal per lb",
+                                icon: "scalemass.fill"
+                            )
+                        } else {
+                            yearAheadLockedRow
+                        }
+                    } header: {
+                        Text("Your year ahead")
+                    } footer: {
+                        Text("A projection from your current daily figures, not a promise. Change them any time in Settings.")
                     }
                 }
 
@@ -736,10 +779,10 @@ struct ProgressSheet: View {
                     .foregroundStyle(Theme.brandPrimary)
                     .frame(width: 32)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("You've saved \(lifetimeMoneySaved) so far")
+                    Text("You've kept \(lifetimeMoneySaved) so far")
                         .font(Theme.subhead(weight: .semibold))
                         .foregroundStyle(Theme.textPrimary)
-                    Text("Start your free Bloom+ trial")
+                    Text("See what a year of this looks like")
                         .font(Theme.caption())
                         .foregroundStyle(Theme.textSecondary)
                 }
@@ -807,6 +850,60 @@ struct ProgressSheet: View {
                     .monospacedDigit()
             }
         }
+    }
+
+    /// Both the free "kept so far" block and the Bloom+ projection are
+    /// meaningless without a daily figure, so neither renders at zero.
+    private var hasSpendData: Bool {
+        (settings?.costPerDayCents ?? 0) > 0 || (settings?.caloriesPerDay ?? 0) > 0
+    }
+
+    private var projectedMoneyAYear: String {
+        let dollars = Double((settings?.costPerDayCents ?? 0) * 365) / 100
+        return Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? "$\(Int(dollars))"
+    }
+
+    private var projectedCaloriesAYear: Int { (settings?.caloriesPerDay ?? 0) * 365 }
+
+    private func yearAheadRow(label: String, value: String, sub: String, icon: String) -> some View {
+        HStack(spacing: Theme.Space.m) {
+            Image(systemName: icon)
+                .foregroundStyle(Theme.brandPrimary)
+                .frame(width: 32)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(label).font(Theme.body())
+                Text(sub).font(Theme.caption()).foregroundStyle(Theme.textSecondary)
+            }
+            Spacer()
+            Text(value)
+                .font(Theme.heading(weight: .semibold))
+                .foregroundStyle(Theme.brandPrimary)
+                .monospacedDigit()
+        }
+    }
+
+    private var yearAheadLockedRow: some View {
+        Button { requestSubsequentLockedFeaturePitch(.progressSheet) } label: {
+            HStack(spacing: Theme.Space.m) {
+                Image(systemName: "chart.line.uptrend.xyaxis")
+                    .foregroundStyle(Theme.brandPrimary)
+                    .frame(width: 32)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("See where this goes")
+                        .font(Theme.body())
+                        .foregroundStyle(Theme.textPrimary)
+                    Text("Bloom+ projects your money, calories, and tree a year out")
+                        .font(Theme.caption())
+                        .foregroundStyle(Theme.textSecondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: 0)
+                Image(systemName: "lock.fill")
+                    .font(Theme.caption(weight: .semibold))
+                    .foregroundStyle(Theme.textTertiary)
+            }
+        }
+        .buttonStyle(.plain)
     }
 
     /// Every sober day ever recorded — the basis for lifetime savings so a

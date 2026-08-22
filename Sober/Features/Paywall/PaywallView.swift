@@ -35,6 +35,14 @@ struct PaywallView: View {
     /// When set, the paywall leads with this locked feature (intent-driven pitch).
     var focus: BloomFeature? = nil
 
+    /// Lifetime is deliberately absent from every *pitch* paywall. It carries no
+    /// free trial, so putting it in front of someone we're asking to start one
+    /// offers them a way out of the funnel we're trying to move them through,
+    /// and Health & Fitness runs two-plan layouts on 60% of paywalls, the
+    /// highest of any category. It stays available on the Bloom+ tab for anyone
+    /// who goes looking for it.
+    var showsLifetime: Bool = false
+
     /// RevenueCat custom-paywall impression id for this entry point.
     var impressionId: String = "sober_paywall_sheet"
 
@@ -133,6 +141,7 @@ struct PaywallView: View {
     private var paywallContent: some View {
         VStack(spacing: 10) {
             savingsValueHeader
+            habitComparisonLine
             benefitShowcase
             planCards
 
@@ -265,6 +274,37 @@ struct PaywallView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
+    /// The one price anchor the App Store can't offer: what Bloom+ costs in the
+    /// units the user is already trying to spend less of. Tracks the selected
+    /// plan so switching to monthly re-frames the sentence rather than leaving
+    /// a stale yearly comparison on screen.
+    ///
+    /// Only on pitch paywalls. This content deliberately does not scroll (the
+    /// CTA is anchored and everything is sized to land on one page), so a new
+    /// row has to be paid for by one that left. On pitch paywalls the lifetime
+    /// card did leave; the Bloom+ tab still shows all three plans, so it keeps
+    /// its current height rather than risking a clipped CTA on an SE.
+    @ViewBuilder
+    private var habitComparisonLine: some View {
+        if !showsLifetime,
+           let sentence = selectedPackage?.soberHabitComparisonSentence(costPerDayCents: costPerDayCents) {
+            HStack(spacing: 7) {
+                Image(systemName: "arrow.left.arrow.right")
+                    .font(.system(size: 11, weight: .bold))
+                    .foregroundStyle(Theme.brandPrimary.opacity(0.85))
+                Text(sentence)
+                    .font(Theme.subhead(weight: .semibold))
+                    .foregroundStyle(Theme.textPrimary)
+                    .fixedSize(horizontal: false, vertical: true)
+                Spacer(minLength: 0)
+            }
+            .padding(.horizontal, 13)
+            .padding(.vertical, 10)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Theme.brandPrimary.opacity(0.08), in: RoundedRectangle(cornerRadius: 12))
+        }
+    }
+
     private var benefitShowcase: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Everything you unlock")
@@ -323,9 +363,9 @@ struct PaywallView: View {
 
     private var sortedPackages: [Package] {
         let order: [SoberPackageKind: Int] = [.yearly: 0, .monthly: 1, .lifetime: 2]
-        return subscriptions.packages.sorted {
-            (order[$0.soberPackageKind] ?? 9) < (order[$1.soberPackageKind] ?? 9)
-        }
+        return subscriptions.packages
+            .filter { showsLifetime || $0.soberPackageKind != .lifetime }
+            .sorted { (order[$0.soberPackageKind] ?? 9) < (order[$1.soberPackageKind] ?? 9) }
     }
 
     private var monthlyPackage: Package? {
@@ -476,10 +516,13 @@ struct PaywallView: View {
             return
         }
         #endif
-        guard selectedPackage == nil, !subscriptions.packages.isEmpty else { return }
-        selectedPackage = subscriptions.packages.first { $0.soberPackageKind == .yearly }
-            ?? subscriptions.packages.first { $0.soberPackageKind == .monthly }
-            ?? subscriptions.packages.first
+        // Select from the *visible* stack: with lifetime filtered out of pitch
+        // paywalls, falling back to `packages.first` could preselect a card the
+        // user can't see.
+        guard selectedPackage == nil, !sortedPackages.isEmpty else { return }
+        selectedPackage = sortedPackages.first { $0.soberPackageKind == .yearly }
+            ?? sortedPackages.first { $0.soberPackageKind == .monthly }
+            ?? sortedPackages.first
     }
 
     private func startPurchase() {
@@ -615,8 +658,13 @@ private struct PlanCard: View {
     private var subtitle: String? {
         // Keep this short: trial + per-month on one line truncates on Pro widths.
         if kind == .yearly, let perMonth = package.soberPerMonthLabel {
-            if showsTrialBadge {
-                return "7 days free · \(perMonth)"
+            // Derived, never literal: a hardcoded "7 days free" here silently
+            // misstates the offer the second the intro period changes in ASC.
+            if showsTrialBadge, let trial = package.soberIntroOfferLabel {
+                let period = trial.replacingOccurrences(
+                    of: " free trial", with: "", options: .caseInsensitive
+                )
+                return "\(period) free · \(perMonth)"
             }
             return perMonth
         }
@@ -627,9 +675,13 @@ private struct PlanCard: View {
         return nil
     }
 
+    /// One superlative per stack. Lifetime used to carry "BEST DEAL", which
+    /// competed with yearly's badge for the same slot and pointed the loudest
+    /// label on the screen at the only plan with no free trial. Its subtitle
+    /// already says "One-time · no subscription", so the badge said nothing the
+    /// card didn't.
     private var badgeLabel: String? {
         if kind == .yearly, let pct = savingsPercent { return "RECOMMENDED · SAVE \(pct)%" }
-        if kind == .lifetime { return "BEST DEAL" }
         if showsTrialBadge, kind == .monthly { return "FREE TRIAL" }
         return nil
     }

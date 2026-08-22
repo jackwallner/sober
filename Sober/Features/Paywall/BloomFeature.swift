@@ -1,6 +1,13 @@
 import SwiftUI
 
 /// Bloom+ capabilities — single source of truth for trial-sheet and paywall copy.
+///
+/// The line between free and Bloom+ is drawn by *tense*, not by feature count.
+/// Free owns the past: the counter, the calendar, today's tree, and the money
+/// kept so far. Bloom+ owns the future: the year-ahead projection, the tree
+/// you're growing toward, the journal you'll write in, the milestones still to
+/// come. Selling a bigger version of a complete free app is what put trial
+/// starts at 3%; selling the half the free app can't show is the bet.
 enum BloomFeature: CaseIterable {
     case gardenSpecies
     case healthTimeline
@@ -12,7 +19,7 @@ enum BloomFeature: CaseIterable {
         case .gardenSpecies: "leaf.fill"
         case .healthTimeline: "heart.text.square.fill"
         case .journal: "book.closed.fill"
-        case .savingsTracking: "dollarsign.circle.fill"
+        case .savingsTracking: "chart.line.uptrend.xyaxis"
         }
     }
 
@@ -21,7 +28,7 @@ enum BloomFeature: CaseIterable {
         case .gardenSpecies: "All 6 bonsai species"
         case .healthTimeline: "Full health timeline"
         case .journal: "Daily journal"
-        case .savingsTracking: "Money & calorie tracking"
+        case .savingsTracking: "Your year ahead"
         }
     }
 
@@ -30,7 +37,7 @@ enum BloomFeature: CaseIterable {
         case .gardenSpecies: "Switch your tree as your streak grows."
         case .healthTimeline: "13 recovery milestones with sources."
         case .journal: "Prompts and reflections on hard days."
-        case .savingsTracking: "Every dollar and calorie you avoid, tracked."
+        case .savingsTracking: "What you'll have kept by this time next year."
         }
     }
 
@@ -39,7 +46,7 @@ enum BloomFeature: CaseIterable {
         case .gardenSpecies: "Grow every species."
         case .healthTimeline: "See what's coming back."
         case .journal: "Write through the urges."
-        case .savingsTracking: "Watch your savings add up."
+        case .savingsTracking: "See where this goes."
         }
     }
 
@@ -48,7 +55,7 @@ enum BloomFeature: CaseIterable {
         case .gardenSpecies: "Unlock every bonsai species and switch whenever you like, plus the rest of Bloom+."
         case .healthTimeline: "Unlock the full 13-milestone recovery timeline, plus the rest of Bloom+."
         case .journal: "Daily journal prompts when you need them most, plus the rest of Bloom+."
-        case .savingsTracking: "Track every dollar and calorie you avoid, plus the rest of Bloom+."
+        case .savingsTracking: "Project your money, calories, and tree a year out, plus the rest of Bloom+."
         }
     }
 }
