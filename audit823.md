@@ -1192,3 +1192,44 @@ The Sober audit should be implemented in this order:
 8. Clean the agent documentation so Cursor, Claude, and Codex use current source symbols and clearly marked history.
 
 No current Sober-specific live rating, RevenueCat revenue, trial, or crash numbers were available in the inspected evidence. The historical conversion report is useful for forming hypotheses, not for claiming current performance. All live claims in this audit are timestamped or explicitly marked as not verified.
+
+## Activity and success context, 2026-08-23
+
+Classification: **active monetizing**. Confidence: **high**. Trend: **no ASC comparison displayed**.
+
+ASC release state: `iOS 1.2.8 Ready for Distribution`. ASC evidence: [Analytics Overview](https://appstoreconnect.apple.com/apps/6768869215/analytics/overview?dateSpec=d90), selected range `dateSpec=d90`.
+RevenueCat evidence: [Project Overview](https://app.revenuecat.com/projects/10cf6202/overview), production mode, selected range `Last 28 days, 2026-07-27 through 2026-08-23`.
+
+### Observed activity
+
+| Source | Metric | Value | Window or comparison |
+| --- | --- | ---: | --- |
+| ASC | First-time downloads | 354 | 90-day Analytics Overview |
+| ASC | Redownloads | 10 | 90-day Analytics Overview |
+| ASC | Conversion rate | 3.66% | comparison not displayed |
+| ASC | Proceeds | $142 | 90-day Analytics Overview |
+| ASC | In-app purchases | 29 | 90-day Analytics Overview |
+| RevenueCat | New customers | 236 | last 28 days |
+| RevenueCat | Active customers | 262 | last 28 days |
+| RevenueCat | Active trials | 4 | current total |
+| RevenueCat | Active subscriptions | 9 | current total |
+| RevenueCat | MRR | $18 | current total |
+| RevenueCat | Revenue | $114 | last 28 days |
+
+A missing value above means the source did not expose that metric in this read-only snapshot. It is not a zero.
+
+### Interpretation and implementation focus
+
+Sober is active and monetizing at a useful scale: 354 ASC first-time downloads, 3.66% ASC conversion, $142 ASC proceeds, 236 RevenueCat new customers, 4 active trials, 9 active subscriptions, and $114 RevenueCat revenue. The next agent should treat this as a working funnel, not a blank-slate redesign. Focus on trial eligibility, renewal and retention, health-safe trust copy, and release regression monitoring.
+
+The deterministic classifier recommends: Protect the current paid path, then use release and cohort baselines to decide whether acquisition or conversion is the next constraint.
+
+- Join ASC first-time download, first launch, first value, paywall shown, offer loaded, trial started, trial canceled, trial converted, entitlement active, restore, and purchase failure events with the app version and build.
+- Keep ASC's 90-day acquisition and proceeds window separate from RevenueCat's 28-day customer and revenue window. Do not calculate a conversion rate by dividing values from different windows.
+- Use a mature trial cohort and a minimum sample before choosing a native paywall or onboarding A/B winner. Record the offering identifier, package, placement, experiment variant, and build.
+- Put the app's classification and the next baseline date in the release handoff so Cursor, Claude, and Codex do not optimize from an old qualitative audit.
+
+### Boundary on success or death
+
+This snapshot supports the label **active monetizing**, not a lifetime verdict. The app has current paid activity, but ASC does not expose a positive comparison for the selected window. A later decision should include a clean 28-day RevenueCat trend, ASC acquisition and conversion trend, ratings and review count, crash and hang evidence, and a release-specific cohort.
+This dated section supersedes earlier statements in this file that per-app ASC or RevenueCat activity was unavailable as of 2026-08-23. Earlier statements remain historical evidence boundaries for their original audit pass.
