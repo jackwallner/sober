@@ -766,6 +766,28 @@ private struct PlanCard: View {
         kind == .lifetime ? Theme.accent : Theme.brandPrimary
     }
 
+    private var titleView: some View {
+        Text(package.soberDisplayName)
+            .font(Theme.subhead(weight: .bold))
+            .foregroundStyle(Theme.textPrimary)
+            .lineLimit(1)
+            .minimumScaleFactor(0.75)
+            .allowsTightening(true)
+    }
+
+    @ViewBuilder
+    private var badgeView: some View {
+        if let badgeLabel {
+            Text(badgeLabel)
+                .font(.system(size: 10, weight: .heavy))
+                .foregroundStyle(.white)
+                .padding(.horizontal, 7)
+                .padding(.vertical, 3)
+                .background(badgeFill, in: Capsule())
+                .fixedSize()
+        }
+    }
+
     var body: some View {
         Button(action: onTap) {
             HStack(spacing: 14) {
@@ -781,19 +803,14 @@ private struct PlanCard: View {
                 }
 
                 VStack(alignment: .leading, spacing: 3) {
-                    HStack(spacing: 6) {
-                        Text(package.soberDisplayName)
-                            .font(Theme.subhead(weight: .bold))
-                            .foregroundStyle(Theme.textPrimary)
-                            .layoutPriority(1)
-                        if let badgeLabel {
-                            Text(badgeLabel)
-                                .font(.system(size: 10, weight: .heavy))
-                                .foregroundStyle(.white)
-                                .padding(.horizontal, 7)
-                                .padding(.vertical, 3)
-                                .background(badgeFill, in: Capsule())
-                                .fixedSize()
+                    ViewThatFits(in: .horizontal) {
+                        HStack(spacing: 6) {
+                            titleView
+                            badgeView
+                        }
+                        VStack(alignment: .leading, spacing: 3) {
+                            titleView
+                            badgeView
                         }
                     }
 
