@@ -66,6 +66,10 @@ enum TrialLifecycle {
         defaults.removeObject(forKey: recapDismissedForKey)
         let summary = recapSummary
         Task {
+            // The paywall's trial timeline promises "we'll remind you before
+            // your trial ends". This is the moment that promise is made good:
+            // the user has just started a trial, so asking now is expected.
+            await NotificationService.ensureAuthorized()
             await NotificationService.scheduleTrialEndingReminder(
                 endsAt: newEnd,
                 summary: summary,

@@ -30,7 +30,51 @@ enum NotificationService {
         }
     }
 
+    /// Authorization state, without prompting.
+    static func authorizationStatus() async -> UNAuthorizationStatus {
+        await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
+    }
+
+    static func isDenied() async -> Bool {
+        await authorizationStatus() == .denied
+    }
+
+    /// True when a notification we schedule will actually be delivered.
+    ///
+    /// `UNUserNotificationCenter.add` succeeds whether or not the app has
+    /// permission — it just never displays — so for a long time every reminder
+    /// in this app was scheduled and silently dropped: nothing ever called
+    /// `requestAuthorization`, which is the only thing that raises the system
+    /// prompt. The daily reminder, the milestone nudge, the lapse nudge and the
+    /// trial-ending warning were all affected.
+    ///
+    /// This deliberately does NOT prompt. Scheduling happens on app open and on
+    /// every check-in, and a permission sheet thrown at someone who just opened
+    /// the app is the reliable way to get it declined forever.
+    static func isAuthorized() async -> Bool {
+        switch await authorizationStatus() {
+        case .authorized, .provisional, .ephemeral: return true
+        default: return false
+        }
+    }
+
+    /// Ask for permission, at a moment the user has just asked for something
+    /// that needs it: turning reminders on, or starting a trial they'll want
+    /// warning about. Returns false if they decline or already declined.
+    @discardableResult
+    static func ensureAuthorized() async -> Bool {
+        switch await authorizationStatus() {
+        case .notDetermined:
+            return await requestAuthorization()
+        case .denied:
+            return false
+        default:
+            return true
+        }
+    }
+
     static func scheduleDailyReminder(hour: Int, committed: Bool = true, streakDays: Int = 0) async {
+        guard await isAuthorized() else { return }
         let center = UNUserNotificationCenter.current()
         await cancelDailyReminder()
 
@@ -88,6 +132,7 @@ enum NotificationService {
         now: Date = .now,
         calendar: Calendar = .current
     ) async {
+        guard await isAuthorized() else { return }
         let center = UNUserNotificationCenter.current()
         cancelMilestoneEve()
 
@@ -140,6 +185,7 @@ enum NotificationService {
     /// people who have actually drifted. Framed as a door left open, never as a
     /// scolding. Someone who slipped is exactly who we don't want to shame.
     static func scheduleLapseNudge(streakDays: Int, now: Date = .now) async {
+        guard await isAuthorized() else { return }
         let center = UNUserNotificationCenter.current()
         cancelLapseNudge()
 
@@ -185,6 +231,7 @@ enum NotificationService {
         summary: String?,
         now: Date = .now
     ) async {
+        guard await isAuthorized() else { return }
         let center = UNUserNotificationCenter.current()
         cancelTrialEndingReminder()
 

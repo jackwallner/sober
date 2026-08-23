@@ -241,6 +241,10 @@ struct SettingsView: View {
         let streak = activeJourney.map { SobrietyService.daysSinceStart($0.startDate) } ?? 0
         Task {
             if enabled {
+                // Turning the toggle on is the user asking for notifications,
+                // so this is where we're allowed to raise the system prompt.
+                // Everything else only schedules when permission already exists.
+                await NotificationService.ensureAuthorized()
                 await NotificationService.scheduleDailyReminder(hour: hour, committed: committed, streakDays: streak)
                 if let next = AchievementCatalog.nextTimeMilestone(after: streak) {
                     await NotificationService.scheduleMilestoneEve(
