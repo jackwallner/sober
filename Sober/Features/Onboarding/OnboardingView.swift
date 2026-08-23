@@ -302,6 +302,13 @@ struct OnboardingView: View {
         return "Free until \(formatter.string(from: end)). We'll remind you before it ends."
     }
 
+    /// Same condition the paywall's timeline states. We ask for notification
+    /// permission when the trial starts, not here, so the promise above is made
+    /// before the user has had the chance to decline it.
+    private var trialReminderCaveat: String? {
+        trialChargeDateLine == nil ? nil : "Reminder needs notifications turned on."
+    }
+
     private func trialBenefit(icon: String, text: String) -> some View {
         HStack(alignment: .top, spacing: Theme.Space.m) {
             Image(systemName: icon)
@@ -370,6 +377,15 @@ struct OnboardingView: View {
                 .padding(.vertical, 10)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(.white.opacity(0.16), in: RoundedRectangle(cornerRadius: 12))
+
+                if let caveat = trialReminderCaveat {
+                    Text(caveat)
+                        .font(Theme.caption())
+                        .foregroundStyle(.white.opacity(0.6))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 13)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
 
             if let disclosure = trialDisclosureText {
