@@ -79,6 +79,7 @@ targets:
         excludes:
           - "Services/SubscriptionService.swift"
           - "Services/SubscriptionPackageExtensions.swift"
+          - "Services/PaywallPreviewStore.swift"
       - path: SoberWatch/PrivacyInfo.xcprivacy
         buildPhase: resources
     settings:
@@ -100,6 +101,7 @@ targets:
         excludes:
           - "Services/SubscriptionService.swift"
           - "Services/SubscriptionPackageExtensions.swift"
+          - "Services/PaywallPreviewStore.swift"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.jackwallner.sober.widgets

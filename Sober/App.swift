@@ -43,10 +43,35 @@ struct SoberApp: App {
 
     init() {
         SubscriptionService.shared.configure()
+        #if DEBUG
+        Self.loadPreviewStoreIfRequested()
+        #endif
         WatchConnectivityService.shared.activate()
         ReviewPromptTracker.recordAppLaunch()
         UNUserNotificationCenter.current().delegate = NotificationTapRouter.shared
     }
+
+    #if DEBUG
+    /// `-previewStore [-previewTrialDays N]` loads a local offering so the real
+    /// paywall renders on a headless simulator. Without it the simulator has no
+    /// RevenueCat packages at all (see `PaywallPreviewStore`) and every
+    /// store-derived string falls back to the dev placeholder, which is how a
+    /// hardcoded "7 days free" survived in the yearly card for three releases.
+    private static func loadPreviewStoreIfRequested() {
+        let args = ProcessInfo.processInfo.arguments
+        guard args.contains("-previewStore") else { return }
+        var days = 7
+        if let index = args.firstIndex(of: "-previewTrialDays"),
+           index + 1 < args.count,
+           let parsed = Int(args[index + 1]) {
+            days = parsed
+        }
+        SubscriptionService.shared.loadPreviewStore(
+            trialDays: days,
+            introEligible: !args.contains("-previewTrialUsed")
+        )
+    }
+    #endif
 
     var body: some Scene {
         WindowGroup {
