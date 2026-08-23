@@ -4,6 +4,8 @@ import SwiftData
 @testable import Sober
 
 #if canImport(RevenueCat)
+import RevenueCat
+
 @Suite("Trial package preference")
 struct TrialPackagePreferenceTests {
     @Test func yearlyWinsWhenBothTrialsExist() {
@@ -24,6 +26,102 @@ struct TrialPackagePreferenceTests {
 
     @Test func yearlyWinsRegardlessOfPackageOrder() {
         #expect(SubscriptionService.preferredTrialKind(from: [.other, .monthly, .yearly]) == .yearly)
+    }
+}
+
+@MainActor
+private final class RecordingTrialNotificationScheduler: TrialNotificationScheduling {
+    var authorizationRequests = 0
+    var scheduledReminder: (endsAt: Date, summary: String?, now: Date)?
+    var cancellations = 0
+
+    func ensureAuthorized() async -> Bool {
+        authorizationRequests += 1
+        return true
+    }
+
+    func scheduleTrialEndingReminder(endsAt: Date, summary: String?, now: Date) async {
+        scheduledReminder = (endsAt, summary, now)
+    }
+
+    func cancelTrialEndingReminder() {
+        cancellations += 1
+    }
+}
+
+@Suite("Trial purchase lifecycle")
+@MainActor
+struct TrialPurchaseLifecycleTests {
+    @Test func trialCustomerInfoRequestsPermissionAndSchedulesDayTwelve() async {
+        let scheduler = RecordingTrialNotificationScheduler()
+        let previousScheduler = TrialLifecycle.notificationScheduler
+        let service = SubscriptionService()
+        let now = Date(timeIntervalSince1970: 1_700_000_000)
+        let endsAt = now.addingTimeInterval(14 * 86_400)
+
+        TrialLifecycle.notificationScheduler = scheduler
+        defer {
+            _ = service.processPurchaseResult(
+                customerInfo: Self.customerInfo(isActive: false, periodType: .normal, expirationDate: nil, now: now),
+                userCancelled: false,
+                now: now
+            )
+            TrialLifecycle.notificationScheduler = previousScheduler
+        }
+
+        let state = service.processPurchaseResult(
+            customerInfo: Self.customerInfo(
+                isActive: true,
+                periodType: .trial,
+                expirationDate: endsAt,
+                now: now
+            ),
+            userCancelled: false,
+            now: now
+        )
+
+        for _ in 0..<3 { await Task.yield() }
+
+        #expect(state == .purchased)
+        #expect(service.isProSubscriber)
+        #expect(scheduler.authorizationRequests == 1)
+        #expect(scheduler.scheduledReminder?.endsAt == endsAt)
+        #expect(scheduler.scheduledReminder?.now == now)
+        #expect(TrialLifecycle.endsAt == endsAt)
+
+        let fireDate = NotificationService.trialReminderFireDate(endsAt: endsAt, now: now)
+        #expect(fireDate == endsAt.addingTimeInterval(-2 * 86_400))
+        #expect(TrialTimeline.reminderDay(forTrialOf: 14) == 12)
+    }
+
+    private static func customerInfo(
+        isActive: Bool,
+        periodType: PeriodType,
+        expirationDate: Date?,
+        now: Date
+    ) -> CustomerInfo {
+        let entitlement = EntitlementInfo(
+            identifier: SubscriptionService.proEntitlement,
+            isActive: isActive,
+            willRenew: isActive,
+            periodType: periodType,
+            latestPurchaseDate: now,
+            originalPurchaseDate: now,
+            expirationDate: expirationDate,
+            store: .appStore,
+            productIdentifier: "com.jackwallner.sober.pro.yearly",
+            isSandbox: true,
+            ownershipType: .purchased
+        )
+        let entitlements = EntitlementInfos(
+            entitlements: [SubscriptionService.proEntitlement: entitlement]
+        )
+        return CustomerInfo(
+            entitlements: entitlements,
+            requestDate: now,
+            firstSeen: now,
+            originalAppUserId: "trial-lifecycle-test"
+        )
     }
 }
 #endif

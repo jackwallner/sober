@@ -5,7 +5,7 @@ import os
 import RevenueCat
 #endif
 
-enum PurchaseState {
+enum PurchaseState: Equatable {
     case purchased
     case cancelled
     case pending
@@ -92,7 +92,7 @@ final class SubscriptionService: NSObject {
         return max(1, Calendar.current.dateComponents([.day], from: .now, to: end).day ?? 0)
     }
 
-    private override init() {
+    override init() {
         super.init()
     }
 
@@ -321,14 +321,10 @@ final class SubscriptionService: NSObject {
         defer { purchaseInFlight = false }
 
         let result = try await Purchases.shared.purchase(package: package)
-        apply(customerInfo: result.customerInfo)
-        if result.userCancelled {
-            return .cancelled
-        }
-        if result.customerInfo.hasSoberProEntitlement {
-            return .purchased
-        }
-        return .pending
+        return processPurchaseResult(
+            customerInfo: result.customerInfo,
+            userCancelled: result.userCancelled
+        )
     }
 
     func restorePurchases() async {
@@ -346,7 +342,7 @@ final class SubscriptionService: NSObject {
         }
     }
 
-    private func apply(customerInfo: CustomerInfo) {
+    private func apply(customerInfo: CustomerInfo, now: Date = .now) {
         let active = customerInfo.hasSoberProEntitlement
         let activeKeys = customerInfo.entitlements.active.keys.sorted().joined(separator: ", ")
         // Logged so a dashboard mismatch (products not attached to the "pro"
@@ -362,8 +358,24 @@ final class SubscriptionService: NSObject {
             ?? customerInfo.entitlements.active.values.first
         TrialLifecycle.sync(
             isTrialing: entitlement?.isActive == true && entitlement?.periodType == .trial,
-            endsAt: entitlement?.expirationDate
+            endsAt: entitlement?.expirationDate,
+            now: now
         )
+    }
+
+    /// Applies the same CustomerInfo returned by RevenueCat after a purchase.
+    /// Kept as one handler so tests can exercise the purchase-to-trial path with
+    /// a constructed sandbox CustomerInfo without configuring the production SDK.
+    @discardableResult
+    func processPurchaseResult(
+        customerInfo: CustomerInfo,
+        userCancelled: Bool,
+        now: Date = .now
+    ) -> PurchaseState {
+        apply(customerInfo: customerInfo, now: now)
+        if userCancelled { return .cancelled }
+        if customerInfo.hasSoberProEntitlement { return .purchased }
+        return .pending
     }
     #endif
 

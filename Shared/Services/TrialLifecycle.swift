@@ -1,5 +1,31 @@
 import Foundation
 
+@MainActor
+protocol TrialNotificationScheduling {
+    func ensureAuthorized() async -> Bool
+    func scheduleTrialEndingReminder(endsAt: Date, summary: String?, now: Date) async
+    func cancelTrialEndingReminder()
+}
+
+@MainActor
+private struct LiveTrialNotificationScheduler: TrialNotificationScheduling {
+    func ensureAuthorized() async -> Bool {
+        await NotificationService.ensureAuthorized()
+    }
+
+    func scheduleTrialEndingReminder(endsAt: Date, summary: String?, now: Date) async {
+        await NotificationService.scheduleTrialEndingReminder(
+            endsAt: endsAt,
+            summary: summary,
+            now: now
+        )
+    }
+
+    func cancelTrialEndingReminder() {
+        NotificationService.cancelTrialEndingReminder()
+    }
+}
+
 /// Tracks an in-flight Bloom+ free trial so the app can warn before it converts.
 ///
 /// Trials were previously invisible to the app: someone started a 7-day trial
@@ -13,6 +39,7 @@ import Foundation
 @MainActor
 enum TrialLifecycle {
     private static let defaults = AppGroup.defaults
+    static var notificationScheduler: any TrialNotificationScheduling = LiveTrialNotificationScheduler()
 
     private static let endsAtKey = "trialLifecycle.endsAt"
     private static let recapSummaryKey = "trialLifecycle.recapSummary"
@@ -65,12 +92,13 @@ enum TrialLifecycle {
         defaults.set(newEnd.timeIntervalSince1970, forKey: endsAtKey)
         defaults.removeObject(forKey: recapDismissedForKey)
         let summary = recapSummary
+        let scheduler = notificationScheduler
         Task {
             // The paywall's trial timeline promises "we'll remind you before
             // your trial ends". This is the moment that promise is made good:
             // the user has just started a trial, so asking now is expected.
-            await NotificationService.ensureAuthorized()
-            await NotificationService.scheduleTrialEndingReminder(
+            guard await scheduler.ensureAuthorized() else { return }
+            await scheduler.scheduleTrialEndingReminder(
                 endsAt: newEnd,
                 summary: summary,
                 now: now
@@ -84,7 +112,7 @@ enum TrialLifecycle {
         guard defaults.double(forKey: endsAtKey) > 0 else { return }
         defaults.removeObject(forKey: endsAtKey)
         defaults.removeObject(forKey: recapDismissedForKey)
-        NotificationService.cancelTrialEndingReminder()
+        notificationScheduler.cancelTrialEndingReminder()
     }
 
     // MARK: - In-app recap
