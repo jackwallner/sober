@@ -9,6 +9,17 @@ struct OnboardingView: View {
     @Environment(SubscriptionService.self) private var subscriptions
 
     @State private var step = 0
+    #if DEBUG
+    /// `-onboardingStep N` jumps straight to a step. The start-date wheel picker
+    /// wedges the accessibility bridge, so this is the only way to inspect the
+    /// trial screen on a headless simulator.
+    private static var launchStep: Int? {
+        let args = ProcessInfo.processInfo.arguments
+        guard let index = args.firstIndex(of: "-onboardingStep"),
+              index + 1 < args.count else { return nil }
+        return Int(args[index + 1])
+    }
+    #endif
     @State private var startDate: Date = .now
     @State private var costPerDay: Double = 20
     @State private var caloriesPerDay: Double = 600
@@ -37,6 +48,9 @@ struct OnboardingView: View {
             .foregroundStyle(.white)
         }
         .task {
+            #if DEBUG
+            if let launchStep = Self.launchStep { step = launchStep }
+            #endif
             ConversionDiagnostics.record(.onboardingReached)
             #if canImport(RevenueCat)
             if subscriptions.isConfigured, subscriptions.packages.isEmpty {
@@ -195,13 +209,22 @@ struct OnboardingView: View {
             Image(systemName: "sparkles")
                 .font(.system(size: 64, weight: .semibold))
             VStack(spacing: Theme.Space.s) {
-                Text("\(trialDays) days of Bloom+ free")
+                Text(trialHeadline)
                     .font(Theme.display(42, weight: .bold))
                     .multilineTextAlignment(.center)
-                Text("Try every tool that helps you keep the streak visible. Pay nothing today.")
+                    // "14 days of Bloom+ free" is two characters longer than the
+                    // 7-day version and truncated to "14 days of Bloom…" at 42pt.
+                    // Let it wrap, and shrink before it ever clips again.
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.7)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(trialSubhead)
                     .font(Theme.body())
                     .foregroundStyle(.white.opacity(0.88))
                     .multilineTextAlignment(.center)
+                    // Without this the parent compresses it to a single clipped
+                    // line, which hid the charge-date half of the sentence.
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
             VStack(alignment: .leading, spacing: Theme.Space.m) {
@@ -248,6 +271,37 @@ struct OnboardingView: View {
         }
     }
 
+    /// The objection at this moment is "am I about to be charged", not "what do
+    /// I get" — the benefit card below already answers the second one. Naming
+    /// the charge date is what converts, so the subhead states it plainly and
+    /// derives it, and says nothing about a date when the length is unknown.
+    private var trialSubhead: String {
+        guard let trialDays else {
+            return "Every tool that keeps the streak visible. Nothing is charged today."
+        }
+        return "Every tool that keeps the streak visible. Nothing is charged for \(trialDays) days."
+    }
+
+    /// One line, not the paywall's three-step timeline: onboarding is a
+    /// momentum moment and a full "here is when you get charged" diagram turns a
+    /// single tap into a deliberation. But the charge date is the objection that
+    /// actually stops people, and Apple sends nothing before a trial converts,
+    /// so a reminder we genuinely schedule is worth naming once.
+    ///
+    /// A real date beats a duration: "free until 5 Sep" is checkable in a way
+    /// that "14 days free" is not.
+    private var trialChargeDateLine: String? {
+        guard let trialDays,
+              let end = Calendar.current.date(byAdding: .day, value: trialDays, to: .now) else {
+            return nil
+        }
+        let formatter = DateFormatter()
+        formatter.dateFormat = DateFormatter.dateFormat(
+            fromTemplate: "MMMd", options: 0, locale: .current
+        )
+        return "Free until \(formatter.string(from: end)). We'll remind you before it ends."
+    }
+
     private func trialBenefit(icon: String, text: String) -> some View {
         HStack(alignment: .top, spacing: Theme.Space.m) {
             Image(systemName: icon)
@@ -291,6 +345,22 @@ struct OnboardingView: View {
                     Image(systemName: "arrow.left.arrow.right")
                         .font(.system(size: 11, weight: .bold))
                     Text(habitLine)
+                        .font(Theme.subhead(weight: .semibold))
+                        .fixedSize(horizontal: false, vertical: true)
+                    Spacer(minLength: 0)
+                }
+                .foregroundStyle(.white)
+                .padding(.horizontal, 13)
+                .padding(.vertical, 10)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(.white.opacity(0.16), in: RoundedRectangle(cornerRadius: 12))
+            }
+
+            if let reassurance = trialChargeDateLine {
+                HStack(spacing: 7) {
+                    Image(systemName: "bell.badge.fill")
+                        .font(.system(size: 11, weight: .bold))
+                    Text(reassurance)
                         .font(Theme.subhead(weight: .semibold))
                         .fixedSize(horizontal: false, vertical: true)
                     Spacer(minLength: 0)
@@ -498,15 +568,28 @@ struct OnboardingView: View {
     }
 
     private var trialCTATitle: String {
-        "Start my \(trialDays)-day free trial"
+        guard let trialDays else { return "Start my free trial" }
+        return "Start my \(trialDays)-day free trial"
     }
 
-    private var trialDays: Int {
+    /// Nil until the store tells us how long the trial actually is.
+    ///
+    /// This used to fall back to a literal 7, which is the same bug that left
+    /// "7 days free" on the paywall: the moment App Store Connect moves to 14
+    /// days, a slow product load makes onboarding advertise an offer that no
+    /// longer exists. Every piece of copy on this screen degrades to a
+    /// length-free version instead of guessing.
+    private var trialDays: Int? {
         #if canImport(RevenueCat)
-        subscriptions.trialOfferDayCount ?? 7
+        subscriptions.trialOfferDayCount
         #else
-        7
+        nil
         #endif
+    }
+
+    private var trialHeadline: String {
+        guard let trialDays else { return "Bloom+, free to try" }
+        return "\(trialDays) days of Bloom+ free"
     }
 
     private func formatCurrency(_ amount: Int) -> String {
