@@ -144,6 +144,27 @@ struct PaywallView: View {
     /// differences so the CTA always lands in the same place.
     #if canImport(RevenueCat)
     private var paywallContent: some View {
+        // One page by design, but not one page by force. Twice now a small copy
+        // addition (the trial timeline, then its notifications caveat) pushed
+        // the savings header into the status bar and the Terms/Privacy links off
+        // the bottom, and a fixed-height stack fails silently: it clips rather
+        // than complaining. Dropping Restore/Terms/Privacy off-screen is an
+        // App Store 3.1.2 problem, so this can't rely on nobody adding a line.
+        //
+        // minHeight ties the stack to the viewport, so on a tall screen it lays
+        // out exactly as before (the Spacer still anchors the CTA to the bottom)
+        // and nothing scrolls. On a short screen, or at a large Dynamic Type
+        // size, it scrolls instead of clipping.
+        GeometryReader { proxy in
+            ScrollView(showsIndicators: false) {
+                paywallStack
+                    .frame(minHeight: proxy.size.height, alignment: .top)
+            }
+            .scrollBounceBehavior(.basedOnSize)
+        }
+    }
+
+    private var paywallStack: some View {
         VStack(spacing: selectedTrialDays == nil ? 10 : 8) {
             savingsValueHeader
             habitComparisonLine
@@ -175,7 +196,7 @@ struct PaywallView: View {
         .padding(.horizontal, 22)
         .padding(.top, displayCloseButton ? 40 : 12)
         .padding(.bottom, 8)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .frame(maxWidth: .infinity, alignment: .top)
     }
 
     private var loadingState: some View {

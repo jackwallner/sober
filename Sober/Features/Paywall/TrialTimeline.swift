@@ -51,6 +51,15 @@ struct TrialTimeline: View {
         ]
     }
 
+    /// The reminder step promises a push, but at the time this screen is shown
+    /// permission usually hasn't been asked for yet (we ask when the trial
+    /// actually starts). If they decline it there, the promise is already made
+    /// and there's no going back to correct it, so the condition is stated here
+    /// rather than discovered later.
+    private var reminderFootnote: String? {
+        remindersEnabled ? "Reminder needs notifications turned on." : nil
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             ForEach(Array(steps.enumerated()), id: \.offset) { idx, step in
@@ -82,6 +91,15 @@ struct TrialTimeline: View {
                     .padding(.bottom, idx < steps.count - 1 ? (compact ? 4 : 8) : 0)
                     Spacer(minLength: 0)
                 }
+            }
+
+            if let reminderFootnote {
+                Text(reminderFootnote)
+                    .font(Theme.caption())
+                    .foregroundStyle(secondary.opacity(0.75))
+                    .padding(.top, compact ? 6 : 8)
+                    .padding(.leading, 42)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
     }
