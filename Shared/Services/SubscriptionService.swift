@@ -484,7 +484,9 @@ final class SubscriptionService: NSObject {
             packages.filter { isEligibleForIntroOffer($0) }.map(\.soberPackageKind)
         )
         guard trialKinds.contains(.monthly) || trialKinds.contains(.yearly) else { return nil }
-        let days = trialOfferDayCount ?? 7
+        // No literal fallback: a footnote that names the wrong number is worse
+        // than no footnote, and the plan cards already carry the real label.
+        guard let days = trialOfferDayCount else { return nil }
         let label = days == 1 ? "1-day" : "\(days)-day"
         switch (trialKinds.contains(.monthly), trialKinds.contains(.yearly)) {
         case (true, true):
