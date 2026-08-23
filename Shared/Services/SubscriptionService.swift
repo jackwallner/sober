@@ -119,6 +119,52 @@ final class SubscriptionService: NSObject {
         #endif
     }
 
+    #if canImport(RevenueCat)
+    /// True only when a real `Purchases` session exists. Every call that
+    /// touches `Purchases.shared` must gate on this rather than `isConfigured`:
+    /// the preview store sets `isConfigured` so the paywall renders, but there
+    /// is no configured SDK behind it and the accessor traps.
+    var storeIsLive: Bool {
+        #if DEBUG
+        return isConfigured && !isPreviewStore
+        #else
+        return isConfigured
+        #endif
+    }
+    #endif
+
+    #if DEBUG && canImport(RevenueCat)
+    /// True when the paywall is running against locally-built packages instead
+    /// of a live RevenueCat offering, so purchase paths know to no-op rather
+    /// than call into an unconfigured `Purchases`.
+    private(set) var isPreviewStore: Bool = false
+
+    /// Load a local offering so the real paywall renders on a headless
+    /// simulator. See `PaywallPreviewStore` for why this exists: `configure()`
+    /// intentionally refuses to run on simulator, which otherwise makes every
+    /// store-derived string on the paywall impossible to inspect before ship.
+    func loadPreviewStore(trialDays: Int, introEligible: Bool = true) {
+        let loaded = PaywallPreviewStore.packages(trialDays: trialDays).sorted {
+            let lhs = $0.soberPackageKind.rawValue
+            let rhs = $1.soberPackageKind.rawValue
+            if lhs != rhs { return lhs < rhs }
+            return $0.storeProduct.productIdentifier < $1.storeProduct.productIdentifier
+        }
+        packages = loaded
+        introEligibility = Dictionary(
+            uniqueKeysWithValues: PaywallPreviewStore.eligibleIdentifiers(in: loaded).map {
+                ($0, introEligible ? IntroEligibilityStatus.eligible : .ineligible)
+            }
+        )
+        introEligibilityResolved = true
+        isLoadingProducts = false
+        lastError = nil
+        isPreviewStore = true
+        isConfigured = true
+        logger.info("Preview store loaded with a \(trialDays)-day trial")
+    }
+    #endif
+
     func refresh() async {
         await refresh(fetchPolicy: .default)
     }
@@ -135,7 +181,7 @@ final class SubscriptionService: NSObject {
 
     func refresh(fetchPolicy: CacheFetchPolicy = .default) async {
         #if canImport(RevenueCat)
-        guard isConfigured else { return }
+        guard storeIsLive else { return }
         do {
             let info = try await Purchases.shared.customerInfo(fetchPolicy: fetchPolicy)
             apply(customerInfo: info)
@@ -147,7 +193,7 @@ final class SubscriptionService: NSObject {
 
     func fetchProducts() async {
         #if canImport(RevenueCat)
-        guard isConfigured else { return }
+        guard storeIsLive else { return }
         if let productFetchTask {
             await productFetchTask.value
             return
@@ -235,7 +281,7 @@ final class SubscriptionService: NSObject {
     /// to 100% and destroy the one server-side number that currently works.
     /// Attributes stay off the charts and are readable per customer.
     func syncConversionAttributes() {
-        guard isConfigured else { return }
+        guard storeIsLive else { return }
         let counts = ConversionDiagnostics.counts
         guard !counts.isEmpty else { return }
         var attributes: [String: String] = [:]
@@ -246,7 +292,7 @@ final class SubscriptionService: NSObject {
     }
 
     func trackPaywallImpression(id: String, package: Package? = nil, oncePerSession: Bool = false) {
-        guard isConfigured else { return }
+        guard storeIsLive else { return }
         if oncePerSession {
             guard !paywallImpressionsThisSession.contains(id) else { return }
             paywallImpressionsThisSession.insert(id)
@@ -261,7 +307,16 @@ final class SubscriptionService: NSObject {
 
     @discardableResult
     func purchase(_ package: Package) async throws -> PurchaseState {
-        guard isConfigured else { throw PurchaseError.notConfigured }
+        #if DEBUG
+        // Rendering harness: `Purchases` was never configured, so a real
+        // purchase would trap. Grant locally instead so the post-purchase
+        // states stay inspectable too.
+        if isPreviewStore {
+            setLocalOverride(isPro: true)
+            return .purchased
+        }
+        #endif
+        guard storeIsLive else { throw PurchaseError.notConfigured }
         purchaseInFlight = true
         defer { purchaseInFlight = false }
 
@@ -277,7 +332,7 @@ final class SubscriptionService: NSObject {
     }
 
     func restorePurchases() async {
-        guard isConfigured else { return }
+        guard storeIsLive else { return }
         lastError = nil
         do {
             let info = try await Purchases.shared.restorePurchases()
