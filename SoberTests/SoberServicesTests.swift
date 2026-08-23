@@ -359,3 +359,33 @@ struct HabitPriceComparisonTests {
         #expect(HabitPriceComparison.dayCount(3.0) == "about 3 days")
     }
 }
+
+@Suite("Trial timeline days")
+@MainActor
+struct TrialTimelineDayTests {
+    /// The paywall tells the user "Day 12: we'll remind you". If that number and
+    /// the day `scheduleTrialEndingReminder` actually fires ever drift apart, the
+    /// paywall is making a promise the app doesn't keep — which is the exact
+    /// class of bug that left "7 days free" hardcoded in the yearly card while
+    /// the real offer changed underneath it.
+    @Test(arguments: [3, 7, 14, 30])
+    func timelineReminderDayMatchesWhenTheReminderFires(trialDays: Int) {
+        let now = Date(timeIntervalSince1970: 1_700_000_000)
+        let endsAt = now.addingTimeInterval(TimeInterval(trialDays) * 86_400)
+
+        guard let fireDate = NotificationService.trialReminderFireDate(endsAt: endsAt, now: now) else {
+            Issue.record("No reminder scheduled for a \(trialDays)-day trial")
+            return
+        }
+
+        let shownDay = TrialTimeline.reminderDay(forTrialOf: trialDays)
+        let firedDay = Int((fireDate.timeIntervalSince(now) / 86_400).rounded())
+        #expect(shownDay == firedDay)
+    }
+
+    @Test func theReminderNeverLandsOnOrAfterTheChargeDay() {
+        for days in 1...30 {
+            #expect(TrialTimeline.reminderDay(forTrialOf: days) < max(2, days))
+        }
+    }
+}

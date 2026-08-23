@@ -51,6 +51,10 @@ struct PaywallView: View {
     @State private var errorMessage: String?
     @State private var restoreMessage: String?
     @State private var isRestoring = false
+    /// Drives the trial timeline's reminder step. `.notDetermined` counts as
+    /// enabled: starting the trial is what triggers the permission prompt, so
+    /// the promise is one we're about to be able to keep.
+    @State private var remindersDenied = false
 
     private var days: Int {
         guard let j = journeys.first(where: { $0.isActive }) else { return 0 }
@@ -115,6 +119,7 @@ struct PaywallView: View {
             if isPro && displayCloseButton { dismiss() }
         }
         .task {
+            remindersDenied = await NotificationService.isDenied()
             ConversionDiagnostics.record(.trialOfferReached)
             subscriptions.trackPaywallImpression(id: impressionId)
             #if canImport(RevenueCat)
@@ -139,13 +144,29 @@ struct PaywallView: View {
     /// differences so the CTA always lands in the same place.
     #if canImport(RevenueCat)
     private var paywallContent: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: selectedTrialDays == nil ? 10 : 8) {
             savingsValueHeader
             habitComparisonLine
             benefitShowcase
             planCards
 
             Spacer(minLength: 2)
+
+            if let trialDays = selectedTrialDays {
+                TrialTimeline(
+                    trialDays: trialDays,
+                    billingNote: nil,
+                    remindersEnabled: !remindersDenied,
+                    compact: true
+                )
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+                .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 18))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 18)
+                        .stroke(Theme.ringTrack.opacity(0.6), lineWidth: 1)
+                }
+            }
 
             purchaseSection
             trustRow
@@ -305,6 +326,38 @@ struct PaywallView: View {
         }
     }
 
+    /// Length of the trial the selected plan actually carries, or nil when this
+    /// user isn't being offered one. Derived from the store product every time.
+    private var selectedTrialDays: Int? {
+        guard let selectedPackage,
+              subscriptions.isEligibleForIntroOffer(selectedPackage),
+              let label = selectedPackage.soberIntroOfferLabel else { return nil }
+        let digits = String(label.drop { !$0.isNumber }.prefix { $0.isNumber })
+        return Int(digits)
+    }
+
+    /// The benefit list shrinks to two rows when the timeline is on screen.
+    /// This paywall is deliberately one page with no scrolling, and the timeline
+    /// costs about three benefit rows of height; measured on a 402x874 screen,
+    /// anything more than two rows clips the savings header into the status bar
+    /// and pushes Restore/Terms/Privacy off the bottom, which is an App Store
+    /// 3.1.2 problem on top of a layout one.
+    ///
+    /// Two is also the right editorial answer: at the moment someone is deciding
+    /// whether to start a trial, "when do I get charged?" outranks a fourth
+    /// feature bullet. The focused feature always survives the trim, so a
+    /// contextual paywall still leads with the thing the user just tapped.
+    private var visibleBenefits: [BloomFeature] {
+        let all = BloomFeature.allCases
+        guard selectedTrialDays != nil else { return all }
+        let limit = 2
+        var kept = all.filter { $0 == focus }
+        for feature in all where kept.count < limit && !kept.contains(feature) {
+            kept.append(feature)
+        }
+        return all.filter { kept.contains($0) }
+    }
+
     private var benefitShowcase: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Everything you unlock")
@@ -312,7 +365,7 @@ struct PaywallView: View {
                 .foregroundStyle(Theme.textPrimary)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
-            ForEach(BloomFeature.allCases, id: \.self) { feature in
+            ForEach(visibleBenefits, id: \.self) { feature in
                 benefitRow(feature, highlighted: focus == feature)
             }
         }
@@ -433,10 +486,12 @@ struct PaywallView: View {
         }
     }
 
-    /// Small trust signals. We deliberately omit a "Cancel anytime in Settings"
-    /// line: it isn't App Store mandated and drawing attention to cancellation
-    /// before purchase suppresses conversions. Apple's renewal notification
-    /// for trials is the only billing reassurance kept.
+    /// Small trust signals. The billing reassurance used to read "Apple handles
+    /// billing reminders", which isn't true: Apple does not reliably notify
+    /// before a free trial converts, and users who relied on it got charged and
+    /// left one-star reviews saying so. The reminder Sober schedules itself is
+    /// the real one, and it now has its own step in the trial timeline above, so
+    /// this row sticks to claims that hold.
     private var trustRow: some View {
         let showsTrialTrust = selectedPackage.map { subscriptions.isEligibleForIntroOffer($0) } ?? false
         return HStack(spacing: 6) {
@@ -445,7 +500,7 @@ struct PaywallView: View {
                 .foregroundStyle(Theme.brandPrimary.opacity(0.8))
             Text(
                 showsTrialTrust
-                    ? "No payment now · Apple handles billing reminders · Data stays on-device"
+                    ? "No payment now · Cancel any time · Data stays on-device"
                     : "Your data stays on this device"
             )
             .font(Theme.caption())
