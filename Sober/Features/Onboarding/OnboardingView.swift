@@ -195,10 +195,9 @@ struct OnboardingView: View {
                     .font(Theme.caption(weight: .semibold))
                     .foregroundStyle(Color(red: 1, green: 0.82, blue: 0.72))
                     .multilineTextAlignment(.center)
-                Button("Continue with the free version") { finishOnboarding() }
+                Button("Get started") { finishOnboarding() }
                     .font(Theme.subhead(weight: .semibold))
                     .foregroundStyle(.white)
-                    .underline()
             }
         }
     }
@@ -242,14 +241,19 @@ struct OnboardingView: View {
                 busy: trialInFlight,
                 showLegalFooter: true,
                 above: { trialAboveButton },
-                below: { skipTrialLink }
+                below: {
+                    VStack(spacing: Theme.Space.s) {
+                        trialRenewalDisclosure
+                        skipTrialLink
+                    }
+                }
             ) { startOnboardingTrial() }
         }
         // Cancel role sits on "stay", not on "skip": an alert dismissed by
         // gesture resolves to the cancel action, and that must not be the path
         // that silently gives up the trial.
         .alert("Keep the free version?", isPresented: $showSkipTrialConfirm) {
-            Button("Continue with the free version") {
+            Button("Get started") {
                 ConversionDiagnostics.record(.freeVersionChosen)
                 finishOnboarding()
             }
@@ -327,23 +331,33 @@ struct OnboardingView: View {
         return "Project the \(formatCurrency(yearlyDollars)) you'd keep over the next year"
     }
 
-    /// The opt-out used to sit here, bold and underlined, directly above the
-    /// CTA, at the same visual weight as the action we want, at the moment the
-    /// user has the least reason to choose it. It now lives under the button as
-    /// a quiet link, behind one confirmation. The path stays fully available;
-    /// it just stops being the default-looking one.
+    /// The opt-out used to sit above the CTA at the same visual weight as the
+    /// action we want, at the moment the user has the least reason to choose
+    /// it. It now lives under the button as a quiet, un-underlined link behind
+    /// one confirmation. The path stays fully available; it just stops being
+    /// the default-looking one.
     @ViewBuilder
     private var skipTrialLink: some View {
         Button { showSkipTrialConfirm = true } label: {
-            Text("Continue with the free version")
-                .font(Theme.caption())
+            Text("Get started")
+                .font(Theme.caption(weight: .semibold))
                 .foregroundStyle(.white.opacity(0.7))
-                .underline()
                 .padding(.vertical, 2)
         }
         .disabled(trialInFlight)
     }
 
+    /// Order here is deliberate, and it changed: the price used to be the least
+    /// prominent thing on the screen. Two full-width cards (habit comparison,
+    /// reminder) sat above a caption-sized 75%-opacity paragraph that opened
+    /// with the price and then buried it in auto-renew boilerplate. That is the
+    /// classic 3.1.2 rejection, and it also just reads badly.
+    ///
+    /// Now: the price is stated once, prominently, immediately above the button
+    /// that charges it. The habit comparison keeps its card because it is the
+    /// argument. The reminder drops to a caption because it is reassurance, not
+    /// a headline, and three stacked cards was the reason this screen felt like
+    /// it had no point of view.
     @ViewBuilder
     private var trialAboveButton: some View {
         VStack(spacing: Theme.Space.s) {
@@ -364,37 +378,27 @@ struct OnboardingView: View {
             }
 
             if let reassurance = trialChargeDateLine {
-                HStack(spacing: 7) {
+                HStack(alignment: .top, spacing: 6) {
                     Image(systemName: "bell.badge.fill")
-                        .font(.system(size: 11, weight: .bold))
-                    Text(reassurance)
-                        .font(Theme.subhead(weight: .semibold))
+                        .font(.system(size: 10, weight: .bold))
+                    Text(trialReminderCaveat.map { "\(reassurance) \($0)" } ?? reassurance)
                         .fixedSize(horizontal: false, vertical: true)
                     Spacer(minLength: 0)
                 }
-                .foregroundStyle(.white)
-                .padding(.horizontal, 13)
-                .padding(.vertical, 10)
+                .font(Theme.caption())
+                .foregroundStyle(.white.opacity(0.72))
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(.white.opacity(0.16), in: RoundedRectangle(cornerRadius: 12))
-
-                if let caveat = trialReminderCaveat {
-                    Text(caveat)
-                        .font(Theme.caption())
-                        .foregroundStyle(.white.opacity(0.6))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 13)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
+                .padding(.horizontal, 4)
             }
 
-            if let disclosure = trialDisclosureText {
-                Text(disclosure)
-                    .font(Theme.caption())
-                    .foregroundStyle(.white.opacity(0.75))
+            if let priceHeadline = trialPriceHeadline {
+                Text(priceHeadline)
+                    .font(Theme.body(weight: .bold))
+                    .foregroundStyle(.white)
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(.horizontal, Theme.Space.m)
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 2)
             }
 
             if let trialError {
@@ -403,6 +407,20 @@ struct OnboardingView: View {
                     .foregroundStyle(Color(red: 1, green: 0.82, blue: 0.72))
                     .multilineTextAlignment(.center)
             }
+        }
+    }
+
+    /// Auto-renew terms sit under the button, between the CTA and the legal
+    /// footer, so the price above is not swallowed by the boilerplate.
+    @ViewBuilder
+    private var trialRenewalDisclosure: some View {
+        if let renewal = trialRenewalText {
+            Text(renewal)
+                .font(Theme.caption())
+                .foregroundStyle(.white.opacity(0.7))
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.horizontal, Theme.Space.s)
         }
     }
 
@@ -447,7 +465,6 @@ struct OnboardingView: View {
         HStack(spacing: 12) {
             Button { restorePurchasesFromOnboarding() } label: {
                 Text(restoreInFlight ? "Restoring…" : "Restore")
-                    .underline()
             }
             .disabled(restoreInFlight)
             Text("·")
@@ -575,9 +592,17 @@ struct OnboardingView: View {
         #endif
     }
 
-    private var trialDisclosureText: String? {
+    private var trialPriceHeadline: String? {
         #if canImport(RevenueCat)
-        subscriptions.directTrialCTADisclosureText
+        subscriptions.directTrialPriceHeadline
+        #else
+        nil
+        #endif
+    }
+
+    private var trialRenewalText: String? {
+        #if canImport(RevenueCat)
+        subscriptions.directTrialRenewalDisclosure
         #else
         nil
         #endif
