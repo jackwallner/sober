@@ -1,1 +1,1 @@
-Vylepšení na pozadí a opravy chyb, aby Sober běžel hladce. Děkujeme, že jste tu.
+Zkušební období jsou teď přehlednější. Uvidíte, kdy vaše zkušební období končí, kdy by vám bylo účtováno, a můžete zapnout připomenutí den předem. Bloom+ také lépe ukazuje, co vás čeká dál.
