@@ -472,15 +472,35 @@ final class SubscriptionService: NSObject {
     /// out of step with the CTA and quote a plan the button does not buy (3.1.2,
     /// and a refund magnet).
     var directTrialCTADisclosureText: String? {
+        guard let headline = directTrialPriceHeadline else { return nil }
+        return "\(headline) \(Self.autoRenewDisclosure)"
+    }
+
+    /// The price half of the 3.1.2 disclosure, on its own so onboarding can give
+    /// it real visual weight next to the CTA.
+    ///
+    /// It used to exist only as the opening clause of a single caption-sized,
+    /// 75%-opacity paragraph that also carried the auto-renew boilerplate, sat
+    /// third in the stack under two louder cards, and so was the least prominent
+    /// thing on a screen whose whole job is to start a paid trial. "Clearly and
+    /// conspicuously" is the standard, and a legalese blob does not meet it.
+    var directTrialPriceHeadline: String? {
         guard let package = directTrialPackage ?? Self.preferredTrialPackage(from: packages) else {
             return nil
         }
-        let renew = "Auto-renews unless cancelled at least 24 hours before the end of the current period. Manage or cancel in Settings › Apple ID › Subscriptions."
         if isEligibleForIntroOffer(package), let trial = package.soberIntroOfferLabel {
-            return "\(trial.capitalized), then \(package.soberPriceLabel). \(renew)"
+            return "\(trial.capitalized), then \(package.soberPriceLabel)."
         }
-        return "\(package.soberPriceLabel). \(renew)"
+        return "\(package.soberPriceLabel)."
     }
+
+    /// Auto-renew terms and the cancel path. Stays caption-sized: Apple wants it
+    /// present and legible, not competing with the price.
+    var directTrialRenewalDisclosure: String? {
+        directTrialPriceHeadline == nil ? nil : Self.autoRenewDisclosure
+    }
+
+    private static let autoRenewDisclosure = "Auto-renews unless cancelled at least 24 hours before the end of the current period. Manage or cancel in Settings › Apple ID › Subscriptions."
 
     /// Parsed trial length for hero and plan-stack footnotes.
     var trialOfferDayCount: Int? {

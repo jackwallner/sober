@@ -164,8 +164,20 @@ struct PaywallView: View {
         }
     }
 
+    /// Tapping a plan card used to rebuild this stack four ways at once: the
+    /// VStack spacing changed, the habit line swapped text (and height), the
+    /// benefit list grew or shrank by two rows, and the trial timeline was
+    /// inserted or removed outright. All of it inside a GeometryReader whose
+    /// minHeight forces the ScrollView to re-measure, with no explicit
+    /// animation, so SwiftUI popped every change on a different implicit curve.
+    /// That is the "glitchy" selection: the page visibly reflowed on every tap.
+    ///
+    /// The fix is to make selection change appearance, not layout. Spacing is
+    /// fixed, the benefit list is a fixed length, and the timeline slot holds
+    /// its height while its contents cross-fade. One animation, keyed to the
+    /// selected plan, drives what is left.
     private var paywallStack: some View {
-        VStack(spacing: selectedTrialDays == nil ? 10 : 8) {
+        VStack(spacing: 9) {
             savingsValueHeader
             habitComparisonLine
             benefitShowcase
@@ -173,22 +185,7 @@ struct PaywallView: View {
 
             Spacer(minLength: 2)
 
-            if let trialDays = selectedTrialDays {
-                TrialTimeline(
-                    trialDays: trialDays,
-                    billingNote: nil,
-                    remindersEnabled: !remindersDenied,
-                    compact: true
-                )
-                .padding(.horizontal, 14)
-                .padding(.vertical, 10)
-                .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 18))
-                .overlay {
-                    RoundedRectangle(cornerRadius: 18)
-                        .stroke(Theme.ringTrack.opacity(0.6), lineWidth: 1)
-                }
-            }
-
+            trialTimelineSlot
             purchaseSection
             trustRow
             footerLinks
@@ -197,6 +194,50 @@ struct PaywallView: View {
         .padding(.top, displayCloseButton ? 40 : 12)
         .padding(.bottom, 8)
         .frame(maxWidth: .infinity, alignment: .top)
+        .animation(.easeInOut(duration: 0.2), value: selectedPackage?.identifier)
+    }
+
+    /// Reserved height whenever *any* offered plan carries a trial, so moving
+    /// between a trial plan and Lifetime fades the card instead of collapsing
+    /// the stack under the user's thumb.
+    @ViewBuilder
+    private var trialTimelineSlot: some View {
+        if anyPackageOffersTrial {
+            ZStack {
+                if let trialDays = selectedTrialDays {
+                    TrialTimeline(
+                        trialDays: trialDays,
+                        billingNote: nil,
+                        remindersEnabled: !remindersDenied,
+                        compact: true
+                    )
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 10)
+                    .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 18))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 18)
+                            .stroke(Theme.ringTrack.opacity(0.6), lineWidth: 1)
+                    }
+                    .transition(.opacity)
+                } else {
+                    // Lifetime has no trial, but the slot keeps its height.
+                    Text("One-time purchase. No trial, no renewal.")
+                        .font(Theme.caption())
+                        .foregroundStyle(Theme.textSecondary)
+                        .frame(maxWidth: .infinity)
+                        .transition(.opacity)
+                }
+            }
+            .frame(minHeight: trialTimelineSlotHeight, alignment: .center)
+        }
+    }
+
+    /// Measured against the compact timeline: three labelled steps plus its
+    /// card padding. Hard-coding it is what keeps the slot from resizing.
+    private var trialTimelineSlotHeight: CGFloat { 92 }
+
+    private var anyPackageOffersTrial: Bool {
+        sortedPackages.contains { subscriptions.isEligibleForIntroOffer($0) }
     }
 
     private var loadingState: some View {
@@ -327,6 +368,8 @@ struct PaywallView: View {
     /// card did leave; the Bloom+ tab still shows all three plans, so it keeps
     /// its current height rather than risking a clipped CTA on an SE.
     @ViewBuilder
+    /// Only rendered on pitch paywalls (never the Bloom+ tab, which shows
+    /// Lifetime), so its text changes with selection but its presence does not.
     private var habitComparisonLine: some View {
         if !showsLifetime,
            let sentence = selectedPackage?.soberHabitComparisonSentence(costPerDayCents: costPerDayCents) {
@@ -357,21 +400,20 @@ struct PaywallView: View {
         return Int(digits)
     }
 
-    /// The benefit list shrinks to two rows when the timeline is on screen.
-    /// This paywall is deliberately one page with no scrolling, and the timeline
-    /// costs about three benefit rows of height; measured on a 402x874 screen,
-    /// anything more than two rows clips the savings header into the status bar
-    /// and pushes Restore/Terms/Privacy off the bottom, which is an App Store
-    /// 3.1.2 problem on top of a layout one.
+    /// Always the same number of rows, whatever plan is selected.
     ///
-    /// Two is also the right editorial answer: at the moment someone is deciding
-    /// whether to start a trial, "when do I get charged?" outranks a fourth
-    /// feature bullet. The focused feature always survives the trim, so a
-    /// contextual paywall still leads with the thing the user just tapped.
+    /// This used to return all four benefits for a no-trial plan and two for a
+    /// trial plan. Since Lifetime carries no trial, tapping between Lifetime and
+    /// Yearly added or removed two rows mid-stack, which was the single largest
+    /// jump in the selection glitch. The trim itself is still right — at the
+    /// moment someone is deciding, "when am I charged?" outranks a fourth
+    /// bullet — so it is now unconditional rather than selection-dependent.
+    ///
+    /// The focused feature always survives, so a contextual paywall still leads
+    /// with the thing the user just tapped.
     private var visibleBenefits: [BloomFeature] {
         let all = BloomFeature.allCases
-        guard selectedTrialDays != nil else { return all }
-        let limit = 2
+        let limit = 3
         var kept = all.filter { $0 == focus }
         for feature in all where kept.count < limit && !kept.contains(feature) {
             kept.append(feature)
@@ -537,7 +579,6 @@ struct PaywallView: View {
         HStack(spacing: 12) {
             Button(action: startRestore) {
                 Text(isRestoring ? "Restoring…" : "Restore Purchases")
-                    .underline()
             }
             .buttonStyle(.plain)
             .disabled(isRestoring || isPurchasing)
