@@ -1,1 +1,1 @@
-Sober'ın sorunsuz çalışması için arka planda iyileştirmeler ve hata düzeltmeleri. Burada olduğun için teşekkürler.
+Deneme süreleri artık daha net. Denemenizin ne zaman bittiğini, ne zaman ücretlendirileceğinizi görebilir ve bir gün öncesi için hatırlatıcı açabilirsiniz. Bloom+ ayrıca yolculuğunuzda sırada ne olduğunu daha iyi gösteriyor.

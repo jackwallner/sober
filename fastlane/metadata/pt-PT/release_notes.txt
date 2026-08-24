@@ -1,1 +1,1 @@
-Melhorias nos bastidores e correções de erros para o Sober funcionar melhor. Obrigado por estar aqui.
+Os períodos experimentais ficaram mais claros. Vê quando termina, quando seria cobrado e pode ativar um lembrete no dia anterior. O Bloom+ também mostra melhor o que se segue no seu percurso.

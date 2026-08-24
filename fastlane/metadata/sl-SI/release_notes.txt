@@ -1,1 +1,1 @@
-Izboljšave v ozadju in popravki napak, da Sober deluje gladko. Hvala, da ste z nami.
+Preizkusna obdobja so zdaj jasnejša. Vidite, kdaj se vaše preizkusno obdobje konča, kdaj bi bili bremenjeni, in vklopite lahko opomnik dan prej. Bloom+ bolje pokaže tudi, kaj sledi na vaši poti.

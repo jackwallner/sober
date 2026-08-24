@@ -1,1 +1,1 @@
-Verbesserungen und Fehlerbehebungen im Hintergrund, damit Sober reibungslos läuft. Danke, dass du dabei bist.
+Testphasen sind jetzt klarer. Du siehst, wann deine Testphase endet, wann abgerechnet würde, und kannst eine Erinnerung für den Tag davor aktivieren. Bloom+ zeigt außerdem besser, was als Nächstes auf deinem Weg kommt.

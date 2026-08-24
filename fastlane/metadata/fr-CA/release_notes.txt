@@ -1,1 +1,1 @@
-Améliorations en coulisses et corrections de bugs pour que Sober reste fluide. Merci d'être là.
+Les essais gratuits sont plus clairs. Vous voyez quand votre essai se termine, quand vous seriez débité, et vous pouvez activer un rappel la veille. Bloom+ montre aussi mieux la suite de votre parcours.
