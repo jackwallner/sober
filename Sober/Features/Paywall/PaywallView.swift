@@ -200,44 +200,80 @@ struct PaywallView: View {
     /// Reserved height whenever *any* offered plan carries a trial, so moving
     /// between a trial plan and Lifetime fades the card instead of collapsing
     /// the stack under the user's thumb.
+    ///
+    /// Both states are always built and cross-faded by opacity, so the slot is
+    /// as tall as the taller of the two. A hardcoded 92pt used to do this job
+    /// and was short by roughly eighty points (the compact timeline is three
+    /// labelled steps plus a footnote), so selecting Lifetime on the Bloom+ tab
+    /// dropped the whole purchase dock down the screen.
     @ViewBuilder
     private var trialTimelineSlot: some View {
         if anyPackageOffersTrial {
+            let showsTimeline = selectedTrialDays != nil
             ZStack {
-                if let trialDays = selectedTrialDays {
-                    TrialTimeline(
-                        trialDays: trialDays,
-                        billingNote: nil,
-                        remindersEnabled: !remindersDenied,
-                        compact: true
-                    )
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 10)
-                    .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 18))
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 18)
-                            .stroke(Theme.ringTrack.opacity(0.6), lineWidth: 1)
-                    }
-                    .transition(.opacity)
-                } else {
-                    // Lifetime has no trial, but the slot keeps its height.
-                    Text("One-time purchase. No trial, no renewal.")
-                        .font(Theme.caption())
-                        .foregroundStyle(Theme.textSecondary)
-                        .frame(maxWidth: .infinity)
-                        .transition(.opacity)
-                }
+                trialTimelineCard(days: selectedTrialDays ?? longestOfferedTrialDays ?? 0)
+                    .opacity(showsTimeline ? 1 : 0)
+                    .accessibilityHidden(!showsTimeline)
+                // Lifetime has no trial, so it gets the same card at the same
+                // size rather than a bare sentence floating in the gap the
+                // reserved height leaves behind.
+                lifetimeNoteCard
+                    .opacity(showsTimeline ? 0 : 1)
+                    .accessibilityHidden(showsTimeline)
             }
-            .frame(minHeight: trialTimelineSlotHeight, alignment: .center)
         }
     }
 
-    /// Measured against the compact timeline: three labelled steps plus its
-    /// card padding. Hard-coding it is what keeps the slot from resizing.
-    private var trialTimelineSlotHeight: CGFloat { 92 }
+    private func trialTimelineCard(days: Int) -> some View {
+        TrialTimeline(
+            trialDays: days,
+            billingNote: nil,
+            remindersEnabled: !remindersDenied,
+            compact: true
+        )
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+        .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 18))
+        .overlay {
+            RoundedRectangle(cornerRadius: 18)
+                .stroke(Theme.ringTrack.opacity(0.6), lineWidth: 1)
+        }
+    }
+
+    private var lifetimeNoteCard: some View {
+        VStack(spacing: 6) {
+            Image(systemName: "infinity")
+                .font(.system(size: 14, weight: .bold))
+                .foregroundStyle(.white)
+                .frame(width: 30, height: 30)
+                .background(Theme.brandPrimary, in: Circle())
+            Text("One-time purchase")
+                .font(Theme.subhead(weight: .semibold))
+                .foregroundStyle(Theme.textPrimary)
+            Text("No trial, no renewal. Bloom+ stays unlocked.")
+                .font(Theme.caption())
+                .foregroundStyle(Theme.textSecondary)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+        .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 18))
+        .overlay {
+            RoundedRectangle(cornerRadius: 18)
+                .stroke(Theme.ringTrack.opacity(0.6), lineWidth: 1)
+        }
+    }
 
     private var anyPackageOffersTrial: Bool {
         sortedPackages.contains { subscriptions.isEligibleForIntroOffer($0) }
+    }
+
+    /// Sizes the hidden timeline while a no-trial plan is selected: the longest
+    /// offer on the stack is the tallest that card can ever be.
+    private var longestOfferedTrialDays: Int? {
+        sortedPackages.compactMap { trialDays(for: $0) }.max()
     }
 
     private var loadingState: some View {
@@ -393,9 +429,12 @@ struct PaywallView: View {
     /// Length of the trial the selected plan actually carries, or nil when this
     /// user isn't being offered one. Derived from the store product every time.
     private var selectedTrialDays: Int? {
-        guard let selectedPackage,
-              subscriptions.isEligibleForIntroOffer(selectedPackage),
-              let label = selectedPackage.soberIntroOfferLabel else { return nil }
+        selectedPackage.flatMap { trialDays(for: $0) }
+    }
+
+    private func trialDays(for package: Package) -> Int? {
+        guard subscriptions.isEligibleForIntroOffer(package),
+              let label = package.soberIntroOfferLabel else { return nil }
         let digits = String(label.drop { !$0.isNumber }.prefix { $0.isNumber })
         return Int(digits)
     }
@@ -525,15 +564,7 @@ struct PaywallView: View {
             .buttonStyle(.plain)
             .disabled(isPurchasing || selectedPackage == nil)
 
-            if let disclosureText {
-                Text(disclosureText)
-                    .font(Theme.caption())
-                    .foregroundStyle(Theme.textTertiary)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(3)
-                    .minimumScaleFactor(0.8)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
+            disclosureSlot
 
             if let errorMessage {
                 Text(errorMessage)
@@ -555,24 +586,40 @@ struct PaywallView: View {
     /// left one-star reviews saying so. The reminder Sober schedules itself is
     /// the real one, and it now has its own step in the trial timeline above, so
     /// this row sticks to claims that hold.
+    ///
+    /// Both variants are always built and cross-faded, like the disclosure and
+    /// the timeline: the trial line wraps to two lines where the no-trial one
+    /// fits on one, and a row that changes height under a bottom-anchored dock
+    /// moves the CTA out from under the user's thumb.
     private var trustRow: some View {
         let showsTrialTrust = selectedPackage.map { subscriptions.isEligibleForIntroOffer($0) } ?? false
-        return HStack(spacing: 6) {
-            Image(systemName: showsTrialTrust ? "bell.fill" : "lock.fill")
-                .font(.system(size: 11, weight: .semibold))
-                .foregroundStyle(Theme.brandPrimary.opacity(0.8))
-            Text(
-                showsTrialTrust
-                    ? "No payment now · Cancel any time · Data stays on-device"
-                    : "Your data stays on this device"
+        return ZStack {
+            trustLine(
+                icon: "bell.fill",
+                text: "No payment now · Cancel any time · Data stays on-device"
             )
-            .font(Theme.caption())
-            .foregroundStyle(Theme.textSecondary)
-            .multilineTextAlignment(.center)
-            .lineLimit(2)
-            .minimumScaleFactor(0.85)
+            .opacity(showsTrialTrust ? 1 : 0)
+            .accessibilityHidden(!showsTrialTrust)
+
+            trustLine(icon: "lock.fill", text: "Your data stays on this device")
+                .opacity(showsTrialTrust ? 0 : 1)
+                .accessibilityHidden(showsTrialTrust)
         }
         .padding(.horizontal, 4)
+    }
+
+    private func trustLine(icon: String, text: String) -> some View {
+        HStack(spacing: 6) {
+            Image(systemName: icon)
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundStyle(Theme.brandPrimary.opacity(0.8))
+            Text(text)
+                .font(Theme.caption())
+                .foregroundStyle(Theme.textSecondary)
+                .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .minimumScaleFactor(0.85)
+        }
     }
 
     private var footerLinks: some View {
@@ -604,8 +651,30 @@ struct PaywallView: View {
 
     /// Apple 3.1.2: full billed price, trial terms, auto-renew, and how to manage.
     /// Cancellation is in disclosure only — not a separate trust-row CTA.
-    private var disclosureText: String? {
-        guard let package = selectedPackage else { return nil }
+    ///
+    /// Every plan's disclosure is laid out at once and all but the selected one
+    /// hidden, so the slot is as tall as the longest of them. The lifetime line
+    /// is a line shorter than the auto-renew one, and this text sits between
+    /// the CTA and the bottom-anchored footer, so letting it resize moved the
+    /// button on every selection change.
+    private var disclosureSlot: some View {
+        ZStack {
+            ForEach(sortedPackages, id: \.identifier) { package in
+                let isSelected = package.identifier == selectedPackage?.identifier
+                Text(disclosure(for: package))
+                    .font(Theme.caption())
+                    .foregroundStyle(Theme.textTertiary)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(3)
+                    .minimumScaleFactor(0.8)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .opacity(isSelected ? 1 : 0)
+                    .accessibilityHidden(!isSelected)
+            }
+        }
+    }
+
+    private func disclosure(for package: Package) -> String {
         let price = package.soberPriceLabel
         if package.soberPackageKind == .lifetime {
             return "\(price). One-time purchase. Lifetime access, no subscription."

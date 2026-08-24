@@ -400,6 +400,16 @@ final class SubscriptionService: NSObject {
         return Self.preferredTrialPackage(from: trialPackages)
     }
 
+    /// What the one-tap onboarding CTA actually buys, trial or not.
+    ///
+    /// `directTrialPackage` is nil for an Apple ID that has already used its
+    /// intro offer, which used to mean onboarding had nothing to sell and fell
+    /// through to a paywall sheet on Home. Same preference order, minus the
+    /// eligibility filter, so a returning user still gets an offer in place.
+    var directOfferPackage: Package? {
+        directTrialPackage ?? Self.preferredTrialPackage(from: packages)
+    }
+
     static func preferredTrialPackage(from trialPackages: [Package]) -> Package? {
         guard let preferredKind = preferredTrialKind(from: trialPackages.map(\.soberPackageKind)) else {
             return nil
@@ -485,9 +495,7 @@ final class SubscriptionService: NSObject {
     /// thing on a screen whose whole job is to start a paid trial. "Clearly and
     /// conspicuously" is the standard, and a legalese blob does not meet it.
     var directTrialPriceHeadline: String? {
-        guard let package = directTrialPackage ?? Self.preferredTrialPackage(from: packages) else {
-            return nil
-        }
+        guard let package = directOfferPackage else { return nil }
         if isEligibleForIntroOffer(package), let trial = package.soberIntroOfferLabel {
             return "\(trial.capitalized), then \(package.soberPriceLabel)."
         }
