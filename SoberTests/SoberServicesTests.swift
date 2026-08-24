@@ -124,6 +124,39 @@ struct TrialPurchaseLifecycleTests {
         )
     }
 }
+
+/// The Apple ID that has already used its intro offer is the case that used to
+/// fall out of onboarding and land on a paywall sheet a second later: the
+/// direct-trial package is nil for them, so the offer step had nothing to sell.
+@Suite("Offer for an account with no trial left")
+@MainActor
+struct OnboardingOfferWithoutTrialTests {
+    @Test func anIneligibleAccountStillHasAPlanToBuy() {
+        let service = SubscriptionService()
+        service.loadPreviewStore(trialDays: 7, introEligible: false)
+
+        #expect(service.hasTrialOfferAvailable == false)
+        #expect(service.directTrialPackage == nil)
+        #expect(service.directOfferPackage?.soberPackageKind == .yearly)
+    }
+
+    @Test func theirPriceHeadlinePromisesNoTrial() {
+        let service = SubscriptionService()
+        service.loadPreviewStore(trialDays: 7, introEligible: false)
+
+        let headline = service.directTrialPriceHeadline
+        #expect(headline != nil)
+        #expect(headline?.localizedCaseInsensitiveContains("free") == false)
+    }
+
+    @Test func anEligibleAccountStillLeadsWithTheTrial() {
+        let service = SubscriptionService()
+        service.loadPreviewStore(trialDays: 7)
+
+        #expect(service.directOfferPackage?.identifier == service.directTrialPackage?.identifier)
+        #expect(service.directTrialPriceHeadline?.localizedCaseInsensitiveContains("free") == true)
+    }
+}
 #endif
 
 @Suite("Garden stage progression")

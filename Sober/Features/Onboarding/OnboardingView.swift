@@ -29,6 +29,10 @@ struct OnboardingView: View {
     @State private var trialError: String?
     @State private var restoreInFlight = false
     @State private var didShowOnboardingTrial = false
+    /// False once the store confirms this Apple ID has already used its intro
+    /// offer. The offer step still runs; it just sells the plan instead of a
+    /// trial, and never says the word "free".
+    @State private var offerIncludesTrial = true
     @State private var showSkipTrialConfirm = false
 
     var body: some View {
@@ -48,13 +52,22 @@ struct OnboardingView: View {
             .foregroundStyle(.white)
         }
         .task {
-            #if DEBUG
-            if let launchStep = Self.launchStep { step = launchStep }
-            #endif
             ConversionDiagnostics.record(.onboardingReached)
             #if canImport(RevenueCat)
             if subscriptions.isConfigured, subscriptions.packages.isEmpty {
                 await subscriptions.fetchProducts()
+            }
+            #endif
+            #if DEBUG
+            if let launchStep = Self.launchStep {
+                // The offer step normally learns this from
+                // `resolveTrialAndContinue`, which a direct jump skips. Read it
+                // from the store instead so `-previewTrialUsed` renders the
+                // no-trial copy rather than a trial the account can't have.
+                #if canImport(RevenueCat)
+                offerIncludesTrial = subscriptions.directTrialPackage != nil
+                #endif
+                step = launchStep
             }
             #endif
         }
@@ -266,8 +279,10 @@ struct OnboardingView: View {
             ConversionDiagnostics.record(.trialOfferReached)
             #if canImport(RevenueCat)
             subscriptions.trackPaywallImpression(
-                id: "sober_onboarding_trial_1_2_2",
-                package: subscriptions.directTrialPackage,
+                id: offerIncludesTrial
+                    ? "sober_onboarding_trial_1_2_2"
+                    : "sober_onboarding_offer_no_trial",
+                package: subscriptions.directOfferPackage,
                 oncePerSession: true
             )
             #endif
@@ -280,6 +295,9 @@ struct OnboardingView: View {
     /// the charge date is what converts, so the subhead states it plainly and
     /// derives it, and says nothing about a date when the length is unknown.
     private var trialSubhead: String {
+        guard offerIncludesTrial else {
+            return "Every tool that keeps the streak visible, unlocked today."
+        }
         guard let trialDays else {
             return "Every tool that keeps the streak visible. Nothing is charged today."
         }
@@ -295,7 +313,8 @@ struct OnboardingView: View {
     /// A real date beats a duration: "free until 5 Sep" is checkable in a way
     /// that "14 days free" is not.
     private var trialChargeDateLine: String? {
-        guard let trialDays,
+        guard offerIncludesTrial,
+              let trialDays,
               let end = Calendar.current.date(byAdding: .day, value: trialDays, to: .now) else {
             return nil
         }
@@ -500,9 +519,22 @@ struct OnboardingView: View {
             }
             switch resolution {
             case .eligible:
+                offerIncludesTrial = true
                 withAnimation { step = 3 }
             case .ineligible:
-                finishOnboarding()
+                // "Ineligible" is mostly "already used the trial on this Apple
+                // ID", not "has nothing to buy". Dropping straight into
+                // `finishOnboarding` here is what handed those users a paywall
+                // sheet on Home a second after onboarding vanished: the offer
+                // belongs in the flow, so show the same step without the trial
+                // language. Only a real subscriber, or a store with no
+                // purchasable plan, skips it.
+                if subscriptions.isProSubscriber || subscriptions.directOfferPackage == nil {
+                    finishOnboarding()
+                } else {
+                    offerIncludesTrial = false
+                    withAnimation { step = 3 }
+                }
             case .unavailable, .failed:
                 trialResolutionError = "Bloom+ plans are temporarily unavailable. You can retry or start free."
             }
@@ -514,8 +546,10 @@ struct OnboardingView: View {
 
     private func startOnboardingTrial() {
         #if canImport(RevenueCat)
-        guard let package = subscriptions.directTrialPackage else {
-            trialError = "Couldn't load the trial plan. Please try again."
+        guard let package = subscriptions.directOfferPackage else {
+            trialError = offerIncludesTrial
+                ? "Couldn't load the trial plan. Please try again."
+                : "Couldn't load the Bloom+ plan. Please try again."
             return
         }
         ConversionDiagnostics.record(.trialCTATapped)
@@ -585,7 +619,7 @@ struct OnboardingView: View {
     /// the real localized price (3.1.2).
     private var habitComparisonText: String? {
         #if canImport(RevenueCat)
-        guard let package = subscriptions.directTrialPackage else { return nil }
+        guard let package = subscriptions.directOfferPackage else { return nil }
         return package.soberHabitComparisonSentence(costPerDayCents: Int(costPerDay * 100))
         #else
         return nil
@@ -609,6 +643,7 @@ struct OnboardingView: View {
     }
 
     private var trialCTATitle: String {
+        guard offerIncludesTrial else { return "Unlock Bloom+" }
         guard let trialDays else { return "Start my free trial" }
         return "Start my \(trialDays)-day free trial"
     }
@@ -629,6 +664,7 @@ struct OnboardingView: View {
     }
 
     private var trialHeadline: String {
+        guard offerIncludesTrial else { return "Unlock Bloom+" }
         guard let trialDays else { return "Bloom+, free to try" }
         return "\(trialDays) days of Bloom+ free"
     }
