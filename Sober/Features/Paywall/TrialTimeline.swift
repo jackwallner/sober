@@ -59,7 +59,7 @@ struct TrialTimeline: View {
              false),
             ("flag.checkered", "Day \(trialDays)",
              billingNote ?? "Your subscription starts. Cancel any time before then.",
-             billingNote ?? "Billing starts. Cancel before then.", false),
+             billingNote ?? "Billing starts. Cancel by then.", false),
         ]
     }
 
