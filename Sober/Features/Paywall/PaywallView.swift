@@ -150,6 +150,13 @@ struct PaywallView: View {
     /// rather than needing a second set of ramps.
     private var pitchHeaderPremium: CGFloat { showsLifetime ? 0 : 35 }
 
+    /// Anyone who has already used their intro offer gets no trial timeline,
+    /// which takes a whole block — card plus gap, about 85pt — off the page.
+    /// Telling the metrics about it is what turns that into bigger cards
+    /// instead of bigger holes: `size` means "how much slack is there", and
+    /// this variant has a block's worth more of it.
+    private var missingTimelineRelief: CGFloat { anyPackageOffersTrial ? 0 : 85 }
+
     // MARK: - Native paywall
 
     /// Value (savings + benefits) up top, the plan stack in the middle, and the
@@ -171,7 +178,7 @@ struct PaywallView: View {
         // to be available to the dock as well, which is built outside the inner
         // reader and so cannot see it.
         GeometryReader { page in
-            let m = PaywallMetrics(pageHeight: page.size.height - pitchHeaderPremium)
+            let m = PaywallMetrics(pageHeight: page.size.height - pitchHeaderPremium + missingTimelineRelief)
             GeometryReader { proxy in
                 // `proxy.size.height` is already the region left over once the
                 // status bar, the tab bar, and the dock are taken out, because
@@ -213,15 +220,22 @@ struct PaywallView: View {
         let top = m.stackTopPadding(hasCloseButton: displayCloseButton)
         return PaywallPageLayout(
             pageHeight: max(0, pageHeight - top - Self.stackBottomPadding),
-            minGap: m.blockGap
+            minGap: m.blockGap,
+            maxGap: m.maxBlockGap
         ) {
+            // Type sets its own height; stretching a paragraph only pads it.
+            // The two card stacks are what grow, and the benefit card grows
+            // faster because it has rows to spread where the plan stack has
+            // three fixed decisions.
             VStack(spacing: 0) {
                 savingsValueHeader(m)
                 habitComparisonLine(m)
                     .padding(.top, m.lerp(8, 12))
             }
             benefitShowcase(m)
+                .paywallStretch(1.3)
             planCards(m)
+                .paywallStretch(1)
             trialTimelineSlot(m)
         }
         .modifier(PaywallStackProbe())
@@ -555,9 +569,15 @@ struct PaywallView: View {
     ///
     /// The focused feature always survives, so a contextual paywall still leads
     /// with the thing the user just tapped.
-    private var visibleBenefits: [BloomFeature] {
+    private func visibleBenefits(_ m: PaywallMetrics) -> [BloomFeature] {
         let all = BloomFeature.allCases
-        let limit = 3
+        // Four when there is no trial timeline to share the page with *and* the
+        // page is big enough to have been given the expanded treatment anyway.
+        // The missing block is otherwise a hole, and the fourth feature is the
+        // year-ahead projection — the one Bloom+ capability a returning
+        // non-trialist hasn't already seen the shape of. On a 4.7" screen there
+        // is no hole to fill: that page is over budget before the fourth row.
+        let limit = (!anyPackageOffersTrial && m.showsExpandedBenefits) ? 4 : 3
         var kept = all.filter { $0 == focus }
         for feature in all where kept.count < limit && !kept.contains(feature) {
             kept.append(feature)
@@ -575,14 +595,20 @@ struct PaywallView: View {
                 eyebrow("WHAT BLOOM+ UNLOCKS", size: m.sectionLabelSize)
                     .padding(.leading, 2)
             }
-            VStack(alignment: .leading, spacing: m.benefitRowSpacing) {
-                ForEach(visibleBenefits, id: \.self) { feature in
+            // Flexible gaps rather than fixed spacing, so a card handed extra
+            // height spreads its rows through it instead of leaving the slack
+            // under the last one. Safe here in a way it never was inside the
+            // scroll view: `PaywallPageLayout` proposes this card a definite
+            // height, which is the whole condition a spacer needs.
+            VStack(alignment: .leading, spacing: 0) {
+                ForEach(Array(visibleBenefits(m).enumerated()), id: \.element) { index, feature in
+                    if index > 0 { Spacer(minLength: m.benefitRowSpacing) }
                     benefitRow(feature, highlighted: focus == feature, m)
                 }
             }
             .padding(.horizontal, m.benefitCardPaddingH)
             .padding(.vertical, m.benefitCardPaddingV)
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
             .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: m.cardRadius))
             .overlay {
                 RoundedRectangle(cornerRadius: m.cardRadius)
@@ -590,6 +616,7 @@ struct PaywallView: View {
             }
             .shadow(color: .black.opacity(0.05), radius: 10, y: 4)
         }
+        .frame(maxHeight: .infinity)
     }
 
     private func benefitRow(_ feature: BloomFeature, highlighted: Bool, _ m: PaywallMetrics) -> some View {
@@ -641,6 +668,9 @@ struct PaywallView: View {
         subscriptions.packages.first { $0.soberPackageKind == .monthly }
     }
 
+    /// The three cards share whatever height the layout hands the stack, so a
+    /// page with room gets three taller decisions rather than three of the same
+    /// control with air around them.
     private func planCards(_ m: PaywallMetrics) -> some View {
         VStack(spacing: m.planSpacing) {
             ForEach(sortedPackages, id: \.identifier) { package in
@@ -653,8 +683,10 @@ struct PaywallView: View {
                 ) {
                     selectedPackage = package
                 }
+                .frame(maxHeight: .infinity)
             }
         }
+        .frame(maxHeight: .infinity)
     }
 
     private func purchaseSection(_ m: PaywallMetrics) -> some View {
@@ -1123,7 +1155,10 @@ private struct PlanCard: View {
             // its badge under the title on narrow widths, and a card with only
             // a minimum height let those three lines run into its own border.
             .padding(.vertical, metrics.planPaddingV)
-            .frame(minHeight: metrics.planMinHeight)
+            // `maxHeight` as well as the floor: the stack above divides its
+            // slot between the three cards, and the fill has to reach the
+            // card's own background or the row draws short inside a taller gap.
+            .frame(minHeight: metrics.planMinHeight, maxHeight: .infinity)
             .frame(maxWidth: .infinity)
             .background(
                 isSelected ? Theme.brandPrimary.opacity(0.08) : Theme.cardSurface,
@@ -1197,9 +1232,15 @@ struct PaywallPageLayout: Layout {
     /// from the proposal — a scroll view will not commit to a height along its
     /// scroll axis, which is the whole reason the spacers were unreliable.
     let pageHeight: CGFloat
-    /// The floor for each gap. Anything the blocks didn't take is shared out
-    /// above it, evenly, so surplus never pools in one place.
+    /// The floor for each gap.
     let minGap: CGFloat
+    /// And the ceiling, which is the part that matters. Sharing leftover height
+    /// evenly between the gaps is fine for the 20pt a well-calibrated page has
+    /// left over, and awful for the 200pt a page has when a whole block is
+    /// missing — which is exactly what happens to anyone who has already used
+    /// their trial and so never sees the timeline card. Past this, surplus is
+    /// the blocks' problem, not the gaps'.
+    let maxGap: CGFloat
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
         let width = proposal.width ?? 0
@@ -1213,10 +1254,27 @@ struct PaywallPageLayout: Layout {
         subviews: Subviews,
         cache: inout ()
     ) {
-        let heights = blockHeights(subviews, width: bounds.width)
+        var heights = blockHeights(subviews, width: bounds.width)
         let gaps = gapCount(heights)
-        let content = heights.reduce(0, +)
-        let gap = gaps > 0 ? max(minGap, (bounds.height - content) / CGFloat(gaps)) : 0
+        var free = bounds.height - heights.reduce(0, +)
+
+        var gap: CGFloat = 0
+        if gaps > 0 {
+            gap = min(maxGap, max(minGap, free / CGFloat(gaps)))
+            free -= gap * CGFloat(gaps)
+        }
+
+        // Whatever the gaps were not allowed to take goes to the blocks that
+        // said they could use it, in proportion to how eagerly they said so.
+        let weights = subviews.indices.map { index in
+            heights[index] > 0.5 ? max(0, subviews[index][PaywallStretchKey.self]) : 0
+        }
+        let totalWeight = weights.reduce(0, +)
+        if free > 0.5, totalWeight > 0 {
+            for index in heights.indices {
+                heights[index] += free * weights[index] / totalWeight
+            }
+        }
 
         var y = bounds.minY
         for (index, subview) in subviews.enumerated() {
@@ -1243,5 +1301,19 @@ struct PaywallPageLayout: Layout {
 
     private func naturalHeight(_ heights: [CGFloat]) -> CGFloat {
         heights.reduce(0, +) + minGap * CGFloat(gapCount(heights))
+    }
+}
+
+
+/// How eagerly a block takes leftover page height. Zero — the default — means
+/// it sizes to its content and nothing else, which is right for type: stretching
+/// a paragraph just pads it. The card stacks opt in.
+private struct PaywallStretchKey: LayoutValueKey {
+    static let defaultValue: CGFloat = 0
+}
+
+extension View {
+    func paywallStretch(_ weight: CGFloat) -> some View {
+        layoutValue(key: PaywallStretchKey.self, value: weight)
     }
 }

@@ -136,6 +136,10 @@ struct PaywallMetrics: Equatable {
     /// whatever the ramps didn't spend lands here split three ways instead of
     /// pooling in one hole above the CTA.
     var blockGap: CGFloat { slowLerp(9, 20) }
+    /// The most a gap is ever allowed to be. Past this the page has more slack
+    /// than the ramps predicted — a missing block, an unusually short hero —
+    /// and the right answer is taller cards, not wider holes.
+    var maxBlockGap: CGFloat { blockGap + lerp(9, 14) }
     func stackTopPadding(hasCloseButton: Bool) -> CGFloat {
         hasCloseButton ? lerp(34, 44) : lerp(8, 18)
     }
