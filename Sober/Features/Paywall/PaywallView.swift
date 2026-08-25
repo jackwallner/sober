@@ -55,6 +55,10 @@ struct PaywallView: View {
     /// enabled: starting the trial is what triggers the permission prompt, so
     /// the promise is one we're about to be able to keep.
     @State private var remindersDenied = false
+    /// `-paywallMetrics` only. What the page was given against what the stack
+    /// laid out to, which is what the ramps in `PaywallMetrics` are calibrated
+    /// against.
+    @State private var layoutProbe = PaywallLayoutProbe()
 
     private var days: Int {
         guard let j = journeys.first(where: { $0.isActive }) else { return 0 }
@@ -136,6 +140,16 @@ struct PaywallView: View {
         #endif
     }
 
+    /// The ramps in `PaywallMetrics` were calibrated on the Bloom+ tab, whose
+    /// header is the savings hero and whose stack carries three plans. A pitch
+    /// paywall swaps in a two-line focus headline and the habit-comparison
+    /// line, and drops the lifetime card; measured on a 6.3" screen that
+    /// combination runs about 35pt heavier overall. Taking it off the height
+    /// handed to the metrics keeps `size` meaning the one thing it is
+    /// calibrated to mean — how much slack this page has — on both variants,
+    /// rather than needing a second set of ramps.
+    private var pitchHeaderPremium: CGFloat { showsLifetime ? 0 : 35 }
+
     // MARK: - Native paywall
 
     /// Value (savings + benefits) up top, the plan stack in the middle, and the
@@ -151,21 +165,28 @@ struct PaywallView: View {
         // viewport clips silently instead of complaining, so the guarantee needs
         // to be structural: an inset cannot be covered by the bar, and the
         // scroll view is inset by exactly the dock's height.
-        GeometryReader { proxy in
-            // `proxy.size.height` is already the region left over once the
-            // status bar, the tab bar, and the dock are taken out, because the
-            // reader sits inside all three. (`safeAreaInsets` reports what was
-            // removed, so subtracting it here takes the same 330pt off twice and
-            // leaves a 200pt page.) Filling that height is what lets the spacers
-            // share the slack on a tall screen instead of pooling it all in one
-            // hole above the CTA.
-            ScrollView(showsIndicators: false) {
-                paywallStack
-                    .frame(minHeight: proxy.size.height, alignment: .top)
+        //
+        // The outer reader measures the whole page, dock included. That is the
+        // number `PaywallMetrics` wants — how big this device is — and it has
+        // to be available to the dock as well, which is built outside the inner
+        // reader and so cannot see it.
+        GeometryReader { page in
+            let m = PaywallMetrics(pageHeight: page.size.height - pitchHeaderPremium)
+            GeometryReader { proxy in
+                // `proxy.size.height` is already the region left over once the
+                // status bar, the tab bar, and the dock are taken out, because
+                // the reader sits inside all three. (`safeAreaInsets` reports
+                // what was removed, so subtracting it here takes the same 330pt
+                // off twice and leaves a 200pt page.) It is handed to the stack
+                // as a number rather than as a proposal, because a scroll view
+                // will not commit to a height along its own scroll axis.
+                ScrollView(showsIndicators: false) {
+                    paywallStack(m, fitting: proxy.size.height)
+                }
+                .scrollBounceBehavior(.basedOnSize)
             }
-            .scrollBounceBehavior(.basedOnSize)
+            .safeAreaInset(edge: .bottom, spacing: 0) { purchaseDock(m) }
         }
-        .safeAreaInset(edge: .bottom, spacing: 0) { purchaseDock }
     }
 
     /// Tapping a plan card used to rebuild this stack four ways at once: the
@@ -181,35 +202,58 @@ struct PaywallView: View {
     /// its height while its contents cross-fade. One animation, keyed to the
     /// selected plan, drives what is left.
     ///
-    /// Slack is shared by three equal spacers rather than spent on one. A single
-    /// spacer put every spare point of a 6.9" screen in the same place, so the
-    /// page read as four blocks crammed under the status bar and a hole above
-    /// the CTA. Split, each section breathes by the same amount.
-    ///
-    /// Every gap is a spacer's `minLength` and nothing else, so the floor and
-    /// the flex are one number. Stack spacing *plus* spacers charged every
-    /// device for the tightest one: the 6.1" class paid for a gap it could not
-    /// afford while the 6.9" spent its surplus twice.
-    private var paywallStack: some View {
-        VStack(spacing: 0) {
-            savingsValueHeader
-            habitComparisonLine
-                .padding(.top, 8)
-
-            Spacer(minLength: 8)
-            benefitShowcase
-
-            Spacer(minLength: 8)
-            planCards
-
-            Spacer(minLength: 8)
-            trialTimelineSlot
+    /// The four blocks are laid out by `PaywallPageLayout`, which splits
+    /// whatever is left over evenly between them. Splitting the surplus is only
+    /// half the fix, though: three equal spacers were still three equal holes
+    /// back when the only thing that ever grew was the space between the cards.
+    /// The other half is `PaywallMetrics`, which has already spent most of this
+    /// device's extra height on the blocks themselves, so by the time the
+    /// layout gets here there is not much surplus left to split.
+    private func paywallStack(_ m: PaywallMetrics, fitting pageHeight: CGFloat) -> some View {
+        let top = m.stackTopPadding(hasCloseButton: displayCloseButton)
+        return PaywallPageLayout(
+            pageHeight: max(0, pageHeight - top - Self.stackBottomPadding),
+            minGap: m.blockGap
+        ) {
+            VStack(spacing: 0) {
+                savingsValueHeader(m)
+                habitComparisonLine(m)
+                    .padding(.top, m.lerp(8, 12))
+            }
+            benefitShowcase(m)
+            planCards(m)
+            trialTimelineSlot(m)
         }
-        .padding(.horizontal, 22)
-        .padding(.top, displayCloseButton ? 38 : 10)
-        .padding(.bottom, 2)
+        .modifier(PaywallStackProbe())
+        .padding(.horizontal, m.horizontalGutter)
+        .padding(.top, top)
+        .padding(.bottom, Self.stackBottomPadding)
         .frame(maxWidth: .infinity, alignment: .top)
         .animation(.easeInOut(duration: 0.2), value: selectedPackage?.identifier)
+        .overlay(alignment: .topTrailing) { metricsReadout(m, fitting: pageHeight) }
+        .onPreferenceChange(PaywallLayoutProbeKey.self) { layoutProbe = $0 }
+    }
+
+    private static let stackBottomPadding: CGFloat = 2
+
+    /// `-paywallMetrics` prints the page height, the height left for the stack,
+    /// what the stack laid out to, and `size`. Every ramp in `PaywallMetrics`
+    /// was calibrated against these numbers on real device geometry, so keeping
+    /// the readout means the next tune-up doesn't start by guessing them again.
+    /// `c` above `fit` is the page overflowing: the trial timeline is being
+    /// scrolled out of sight and the ramps are spending more than they have.
+    @ViewBuilder
+    private func metricsReadout(_ m: PaywallMetrics, fitting pageHeight: CGFloat) -> some View {
+        #if DEBUG
+        if PaywallLayoutProbe.isEnabled {
+            Text("h \(Int(m.pageHeight)) fit \(Int(pageHeight)) c \(Int(layoutProbe.content)) t \(String(format: "%.2f", m.size))")
+                .font(.system(size: 9, weight: .bold, design: .monospaced))
+                .foregroundStyle(.white)
+                .padding(.horizontal, 5)
+                .padding(.vertical, 2)
+                .background(Color.red.opacity(0.85), in: Capsule())
+        }
+        #endif
     }
 
     /// CTA, price disclosure, trust line, and the legal links, held out of the
@@ -217,14 +261,14 @@ struct PaywallView: View {
     /// or the length of the copy above them. The cream background runs to the
     /// bottom of the screen (behind the tab bar) and fades in above the CTA, so
     /// content scrolling underneath dissolves instead of being sliced off.
-    private var purchaseDock: some View {
-        VStack(spacing: 8) {
-            purchaseSection
-            trustRow
-            footerLinks
+    private func purchaseDock(_ m: PaywallMetrics) -> some View {
+        VStack(spacing: m.dockSpacing) {
+            purchaseSection(m)
+            trustRow(m)
+            footerLinks(m)
         }
-        .padding(.horizontal, 22)
-        .padding(.top, 6)
+        .padding(.horizontal, m.horizontalGutter)
+        .padding(.top, m.lerp(6, 10))
         .padding(.bottom, 2)
         .frame(maxWidth: .infinity)
         .background { Theme.background.ignoresSafeArea(edges: .bottom) }
@@ -255,36 +299,44 @@ struct PaywallView: View {
     /// labelled steps plus a footnote), so selecting Lifetime on the Bloom+ tab
     /// dropped the whole purchase dock down the screen.
     @ViewBuilder
-    private var trialTimelineSlot: some View {
+    private func trialTimelineSlot(_ m: PaywallMetrics) -> some View {
         if anyPackageOffersTrial {
             let showsTimeline = selectedTrialDays != nil
             ZStack {
-                trialTimelineCard(days: selectedTrialDays ?? longestOfferedTrialDays ?? 0)
+                trialTimelineCard(days: selectedTrialDays ?? longestOfferedTrialDays ?? 0, m)
                     .opacity(showsTimeline ? 1 : 0)
                     .accessibilityHidden(!showsTimeline)
                 // Lifetime has no trial, so it gets the same card at the same
                 // size rather than a bare sentence floating in the gap the
                 // reserved height leaves behind.
-                lifetimeNoteCard
+                lifetimeNoteCard(m)
                     .opacity(showsTimeline ? 0 : 1)
                     .accessibilityHidden(showsTimeline)
             }
         }
     }
 
-    private func trialTimelineCard(days: Int) -> some View {
+    private func trialTimelineCard(days: Int, _ m: PaywallMetrics) -> some View {
         TrialTimeline(
             trialDays: days,
             billingNote: nil,
             remindersEnabled: !remindersDenied,
             compact: true,
-            layout: .horizontal
+            layout: .horizontal,
+            sizing: TrialTimeline.Sizing(
+                marker: m.timelineMarkerSize,
+                glyph: m.timelineGlyphSize,
+                title: m.timelineTitleSize,
+                detail: m.timelineDetailSize,
+                rowGap: m.timelineRowGap,
+                columnGap: m.timelineColumnGap
+            )
         )
-        .padding(.horizontal, 12)
-        .padding(.vertical, 8)
-        .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 18))
+        .padding(.horizontal, m.timelinePaddingH)
+        .padding(.vertical, m.timelinePaddingV)
+        .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: m.cardRadius))
         .overlay {
-            RoundedRectangle(cornerRadius: 18)
+            RoundedRectangle(cornerRadius: m.cardRadius)
                 .stroke(Theme.ringTrack.opacity(0.6), lineWidth: 1)
         }
     }
@@ -293,30 +345,30 @@ struct PaywallView: View {
     /// flexible spacer and drew itself as a near-empty box half the screen tall
     /// once the timeline it shares a slot with became a three-column strip. It
     /// now sizes to its content and centres in the slot.
-    private var lifetimeNoteCard: some View {
-        HStack(spacing: 11) {
+    private func lifetimeNoteCard(_ m: PaywallMetrics) -> some View {
+        HStack(spacing: m.lerp(11, 14)) {
             Image(systemName: "infinity")
-                .font(.system(size: 14, weight: .bold))
+                .font(.system(size: m.timelineGlyphSize + 2, weight: .bold))
                 .foregroundStyle(.white)
-                .frame(width: 30, height: 30)
+                .frame(width: m.timelineMarkerSize, height: m.timelineMarkerSize)
                 .background(Theme.brandPrimary, in: Circle())
             VStack(alignment: .leading, spacing: 2) {
                 Text("One-time purchase")
-                    .font(Theme.subhead(weight: .semibold))
+                    .font(m.rounded(m.benefitTitleSize, .semibold))
                     .foregroundStyle(Theme.textPrimary)
                 Text("No trial, no renewal. Bloom+ stays unlocked.")
-                    .font(Theme.caption())
+                    .font(m.rounded(m.timelineDetailSize))
                     .foregroundStyle(Theme.textSecondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
             Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, 14)
-        .padding(.vertical, 12)
-        .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 18))
+        .padding(.horizontal, m.timelinePaddingH + 2)
+        .padding(.vertical, m.timelinePaddingV + 4)
+        .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: m.cardRadius))
         .overlay {
-            RoundedRectangle(cornerRadius: 18)
+            RoundedRectangle(cornerRadius: m.cardRadius)
                 .stroke(Theme.ringTrack.opacity(0.6), lineWidth: 1)
         }
     }
@@ -341,7 +393,7 @@ struct PaywallView: View {
             Spacer()
             // Terms, Privacy, and Restore must stay reachable from every paywall
             // state (Apple 3.1.2), not just the loaded one.
-            footerLinks
+            footerLinks(.compact)
         }
         .padding(.horizontal, 22)
         .padding(.top, displayCloseButton ? 52 : 20)
@@ -374,7 +426,7 @@ struct PaywallView: View {
             Spacer()
             // Even when plans fail to load, a returning subscriber must be able to
             // restore, and Terms/Privacy must remain available (Apple 3.1.2).
-            footerLinks
+            footerLinks(.compact)
         }
         .padding(.horizontal, 22)
         .padding(.top, displayCloseButton ? 52 : 20)
@@ -382,9 +434,9 @@ struct PaywallView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
-    private func eyebrow(_ text: String) -> some View {
+    private func eyebrow(_ text: String, size: CGFloat = 11) -> some View {
         Text(text)
-            .font(.system(size: 11, weight: .heavy))
+            .font(.system(size: size, weight: .heavy))
             .tracking(1.2)
             .foregroundStyle(Theme.brandPrimary.opacity(0.9))
     }
@@ -394,52 +446,52 @@ struct PaywallView: View {
     /// upgrade as treating themselves to the tools that keep it going. Falls back
     /// to a focus/feature pitch when there's no savings data yet.
     @ViewBuilder
-    private var savingsValueHeader: some View {
-        VStack(alignment: .leading, spacing: 3) {
+    private func savingsValueHeader(_ m: PaywallMetrics) -> some View {
+        VStack(alignment: .leading, spacing: m.heroLineSpacing) {
             if let focus {
                 Text(focus.pitchHeadline)
-                    .font(.system(size: 26, weight: .bold, design: .rounded))
+                    .font(m.rounded(m.heroHeadlineSize, .bold))
                     .foregroundStyle(Theme.textPrimary)
                     .fixedSize(horizontal: false, vertical: true)
                 Text(hasSavings
                      ? "You've already saved \(moneySaved) staying sober. Treat yourself to the tools that keep it growing."
                      : focus.pitchSubheadline)
-                    .font(Theme.subhead())
+                    .font(m.rounded(m.heroSubheadSize))
                     .foregroundStyle(Theme.textSecondary)
                     .lineLimit(2)
                     .fixedSize(horizontal: false, vertical: true)
             } else if hasSavings {
-                eyebrow("YOU'VE SAVED SO FAR")
+                eyebrow("YOU'VE SAVED SO FAR", size: m.heroEyebrowSize)
                 Text(moneySaved)
-                    .font(.system(size: 36, weight: .heavy, design: .rounded))
+                    .font(.system(size: m.heroAmountSize, weight: .heavy, design: .rounded))
                     .foregroundStyle(Theme.brandPrimary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
                 Text("Across \(heroDays) sober day\(heroDays == 1 ? "" : "s"). Put a fraction toward keeping it.")
-                    .font(Theme.subhead())
+                    .font(m.rounded(m.heroSubheadSize))
                     .foregroundStyle(Theme.textSecondary)
                     .lineLimit(2)
                     .fixedSize(horizontal: false, vertical: true)
             } else if costPerDayCents > 0 {
-                eyebrow("YOUR MONEY, KEPT")
+                eyebrow("YOUR MONEY, KEPT", size: m.heroEyebrowSize)
                 let yearlyLabel = Self.currencyFormatter.string(from: NSNumber(value: yearlySpend)) ?? "$\(yearlySpend)"
                 Text("Up to \(yearlyLabel)/yr")
-                    .font(.system(size: 36, weight: .heavy, design: .rounded))
+                    .font(.system(size: m.heroAmountSize, weight: .heavy, design: .rounded))
                     .foregroundStyle(Theme.brandPrimary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
                 Text("Stays in your pocket, not on alcohol. Bloom+ keeps the streak that gets you there.")
-                    .font(Theme.subhead())
+                    .font(m.rounded(m.heroSubheadSize))
                     .foregroundStyle(Theme.textSecondary)
                     .lineLimit(2)
                     .fixedSize(horizontal: false, vertical: true)
             } else {
-                eyebrow("BLOOM+")
+                eyebrow("BLOOM+", size: m.heroEyebrowSize)
                 Text("Unlock the full toolkit")
-                    .font(.system(size: 28, weight: .bold, design: .rounded))
+                    .font(m.rounded(m.heroHeadlineSize + 2, .bold))
                     .foregroundStyle(Theme.textPrimary)
                 Text("Your garden, journal, health timeline, and savings. Everything that keeps you sober.")
-                    .font(Theme.subhead())
+                    .font(m.rounded(m.heroSubheadSize))
                     .foregroundStyle(Theme.textSecondary)
                     .lineLimit(2)
                     .fixedSize(horizontal: false, vertical: true)
@@ -459,23 +511,23 @@ struct PaywallView: View {
     @ViewBuilder
     /// Only rendered on pitch paywalls (never the Bloom+ tab, which shows
     /// Lifetime), so its text changes with selection but its presence does not.
-    private var habitComparisonLine: some View {
+    private func habitComparisonLine(_ m: PaywallMetrics) -> some View {
         if !showsLifetime,
            let sentence = selectedPackage?.soberHabitComparisonSentence(costPerDayCents: costPerDayCents) {
-            HStack(spacing: 7) {
+            HStack(spacing: m.lerp(7, 9)) {
                 Image(systemName: "arrow.left.arrow.right")
-                    .font(.system(size: 11, weight: .bold))
+                    .font(.system(size: m.lerp(11, 13), weight: .bold))
                     .foregroundStyle(Theme.brandPrimary.opacity(0.85))
                 Text(sentence)
-                    .font(Theme.subhead(weight: .semibold))
+                    .font(m.rounded(m.benefitTitleSize, .semibold))
                     .foregroundStyle(Theme.textPrimary)
                     .fixedSize(horizontal: false, vertical: true)
                 Spacer(minLength: 0)
             }
-            .padding(.horizontal, 13)
-            .padding(.vertical, 10)
+            .padding(.horizontal, m.lerp(13, 15))
+            .padding(.vertical, m.lerp(10, 13))
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Theme.brandPrimary.opacity(0.08), in: RoundedRectangle(cornerRadius: 12))
+            .background(Theme.brandPrimary.opacity(0.08), in: RoundedRectangle(cornerRadius: m.lerp(12, 15)))
         }
     }
 
@@ -513,45 +565,65 @@ struct PaywallView: View {
         return all.filter { kept.contains($0) }
     }
 
-    private var benefitShowcase: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            ForEach(visibleBenefits, id: \.self) { feature in
-                benefitRow(feature, highlighted: focus == feature)
+    /// On a screen with room, each benefit says what it *is* as well as what
+    /// it's called, and the card gets a label. Three one-line rows blown up to
+    /// fill a 6.9" phone is still three one-line rows; what a big screen should
+    /// buy the reader is more of the pitch, not a bigger version of less of it.
+    private func benefitShowcase(_ m: PaywallMetrics) -> some View {
+        VStack(alignment: .leading, spacing: m.lerp(5, 9)) {
+            if m.showsExpandedBenefits {
+                eyebrow("WHAT BLOOM+ UNLOCKS", size: m.sectionLabelSize)
+                    .padding(.leading, 2)
             }
+            VStack(alignment: .leading, spacing: m.benefitRowSpacing) {
+                ForEach(visibleBenefits, id: \.self) { feature in
+                    benefitRow(feature, highlighted: focus == feature, m)
+                }
+            }
+            .padding(.horizontal, m.benefitCardPaddingH)
+            .padding(.vertical, m.benefitCardPaddingV)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: m.cardRadius))
+            .overlay {
+                RoundedRectangle(cornerRadius: m.cardRadius)
+                    .stroke(Theme.ringTrack.opacity(0.6), lineWidth: 1)
+            }
+            .shadow(color: .black.opacity(0.05), radius: 10, y: 4)
         }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 9)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 18))
-        .overlay {
-            RoundedRectangle(cornerRadius: 18)
-                .stroke(Theme.ringTrack.opacity(0.6), lineWidth: 1)
-        }
-        .shadow(color: .black.opacity(0.05), radius: 10, y: 4)
     }
 
-    private func benefitRow(_ feature: BloomFeature, highlighted: Bool) -> some View {
-        HStack(alignment: .center, spacing: 12) {
+    private func benefitRow(_ feature: BloomFeature, highlighted: Bool, _ m: PaywallMetrics) -> some View {
+        HStack(alignment: .center, spacing: m.lerp(12, 14)) {
             Image(systemName: feature.icon)
-                .font(.system(size: 13, weight: .semibold))
+                .font(.system(size: m.benefitGlyphSize, weight: .semibold))
                 .foregroundStyle(.white)
-                .frame(width: 26, height: 26)
+                .frame(width: m.benefitIconSize, height: m.benefitIconSize)
                 .background(Theme.brandGradient, in: Circle())
 
-            Text(feature.title)
-                .font(Theme.subhead(weight: .semibold))
-                .foregroundStyle(Theme.textPrimary)
-                .lineLimit(1)
-                .minimumScaleFactor(0.8)
+            VStack(alignment: .leading, spacing: 1) {
+                Text(feature.title)
+                    .font(m.rounded(m.benefitTitleSize, .semibold))
+                    .foregroundStyle(Theme.textPrimary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                if m.showsExpandedBenefits {
+                    Text(feature.detail)
+                        .font(m.rounded(m.benefitDetailSize))
+                        .foregroundStyle(Theme.textSecondary)
+                        .lineLimit(2)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
 
             Spacer(minLength: 8)
 
             Image(systemName: "checkmark")
-                .font(.system(size: 12, weight: .heavy))
+                .font(.system(size: m.lerp(12, 14), weight: .heavy))
                 .foregroundStyle(Theme.brandPrimary.opacity(highlighted ? 1 : 0.55))
         }
-        .frame(height: 26)
+        .frame(minHeight: m.benefitIconSize)
         .padding(.horizontal, highlighted ? 8 : 0)
+        .padding(.vertical, highlighted ? m.lerp(2, 5) : 0)
         .background(
             highlighted ? Theme.brandPrimary.opacity(0.08) : .clear,
             in: RoundedRectangle(cornerRadius: 12)
@@ -569,14 +641,15 @@ struct PaywallView: View {
         subscriptions.packages.first { $0.soberPackageKind == .monthly }
     }
 
-    private var planCards: some View {
-        VStack(spacing: 6) {
+    private func planCards(_ m: PaywallMetrics) -> some View {
+        VStack(spacing: m.planSpacing) {
             ForEach(sortedPackages, id: \.identifier) { package in
                 PlanCard(
                     package: package,
                     isSelected: selectedPackage?.identifier == package.identifier,
                     showsTrialBadge: subscriptions.isEligibleForIntroOffer(package),
-                    monthlyReference: monthlyPackage
+                    monthlyReference: monthlyPackage,
+                    metrics: m
                 ) {
                     selectedPackage = package
                 }
@@ -584,12 +657,12 @@ struct PaywallView: View {
         }
     }
 
-    private var purchaseSection: some View {
-        VStack(spacing: 9) {
+    private func purchaseSection(_ m: PaywallMetrics) -> some View {
+        VStack(spacing: m.dockInnerSpacing) {
             Button(action: startPurchase) {
                 ZStack {
                     Text(ctaTitle)
-                        .font(Theme.body(weight: .bold))
+                        .font(m.rounded(m.ctaTitleSize, .bold))
                         .foregroundStyle(.white)
                         .lineLimit(1)
                         .minimumScaleFactor(0.72)
@@ -599,23 +672,23 @@ struct PaywallView: View {
                     }
                 }
                 .frame(maxWidth: .infinity)
-                .frame(height: 52)
+                .frame(height: m.ctaHeight)
             }
-            .background(Theme.brandGradient, in: RoundedRectangle(cornerRadius: 16))
+            .background(Theme.brandGradient, in: RoundedRectangle(cornerRadius: m.ctaRadius))
             .shadow(color: Theme.brandPrimary.opacity(0.3), radius: 12, y: 6)
             .buttonStyle(.plain)
             .disabled(isPurchasing || selectedPackage == nil)
 
-            disclosureSlot
+            disclosureSlot(m)
 
             if let errorMessage {
                 Text(errorMessage)
-                    .font(Theme.caption())
+                    .font(m.rounded(m.disclosureSize))
                     .foregroundStyle(Theme.danger)
                     .multilineTextAlignment(.center)
             } else if let restoreMessage {
                 Text(restoreMessage)
-                    .font(Theme.caption())
+                    .font(m.rounded(m.disclosureSize))
                     .foregroundStyle(Theme.textSecondary)
                     .multilineTextAlignment(.center)
             }
@@ -633,30 +706,31 @@ struct PaywallView: View {
     /// the timeline: the trial line wraps to two lines where the no-trial one
     /// fits on one, and a row that changes height under a bottom-anchored dock
     /// moves the CTA out from under the user's thumb.
-    private var trustRow: some View {
+    private func trustRow(_ m: PaywallMetrics) -> some View {
         let showsTrialTrust = selectedPackage.map { subscriptions.isEligibleForIntroOffer($0) } ?? false
         return ZStack {
             trustLine(
                 icon: "bell.fill",
-                text: "No payment now · Cancel any time · Data stays on-device"
+                text: "No payment now · Cancel any time · Data stays on-device",
+                m
             )
             .opacity(showsTrialTrust ? 1 : 0)
             .accessibilityHidden(!showsTrialTrust)
 
-            trustLine(icon: "lock.fill", text: "Your data stays on this device")
+            trustLine(icon: "lock.fill", text: "Your data stays on this device", m)
                 .opacity(showsTrialTrust ? 0 : 1)
                 .accessibilityHidden(showsTrialTrust)
         }
         .padding(.horizontal, 4)
     }
 
-    private func trustLine(icon: String, text: String) -> some View {
+    private func trustLine(icon: String, text: String, _ m: PaywallMetrics) -> some View {
         HStack(spacing: 6) {
             Image(systemName: icon)
-                .font(.system(size: 11, weight: .semibold))
+                .font(.system(size: m.lerp(11, 12), weight: .semibold))
                 .foregroundStyle(Theme.brandPrimary.opacity(0.8))
             Text(text)
-                .font(Theme.caption())
+                .font(m.rounded(m.trustSize))
                 .foregroundStyle(Theme.textSecondary)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
@@ -664,8 +738,8 @@ struct PaywallView: View {
         }
     }
 
-    private var footerLinks: some View {
-        HStack(spacing: 12) {
+    private func footerLinks(_ m: PaywallMetrics) -> some View {
+        HStack(spacing: m.lerp(12, 16)) {
             Button(action: startRestore) {
                 Text(isRestoring ? "Restoring…" : "Restore Purchases")
             }
@@ -676,7 +750,7 @@ struct PaywallView: View {
             Text("·")
             Link("Privacy Policy", destination: PaywallLinks.privacyPolicy)
         }
-        .font(Theme.caption())
+        .font(m.rounded(m.footerSize))
         .foregroundStyle(Theme.textTertiary)
         .tint(Theme.brandPrimary)
     }
@@ -699,12 +773,12 @@ struct PaywallView: View {
     /// is a line shorter than the auto-renew one, and this text sits between
     /// the CTA and the bottom-anchored footer, so letting it resize moved the
     /// button on every selection change.
-    private var disclosureSlot: some View {
+    private func disclosureSlot(_ m: PaywallMetrics) -> some View {
         ZStack {
             ForEach(sortedPackages, id: \.identifier) { package in
                 let isSelected = package.identifier == selectedPackage?.identifier
                 Text(disclosure(for: package))
-                    .font(Theme.caption())
+                    .font(m.rounded(m.disclosureSize))
                     // Tertiary sand-gray on cream is the palette's lightest text
                     // and this is the one block on the paywall a user actually
                     // has to be able to read before paying. Secondary keeps it
@@ -813,8 +887,8 @@ struct PaywallView: View {
     private var devPlaceholder: some View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 20) {
-                savingsValueHeader
-                benefitShowcase
+                savingsValueHeader(.compact)
+                benefitShowcase(.compact)
                 // No amounts here. A price the store did not hand us is worse
                 // than no price at all, and a literal drifts a tier out of date
                 // the moment pricing moves.
@@ -874,6 +948,10 @@ private struct PlanCard: View {
     /// Used to derive a "save X%" badge and a strikethrough anchor price on
     /// non-monthly plans. Nil hides the comparison.
     let monthlyReference: Package?
+    /// Every dimension on the card, ramped to the height of the page it sits
+    /// on. A plan row that is 52pt tall on a 6.9" screen is a control, not a
+    /// choice worth making.
+    let metrics: PaywallMetrics
     let onTap: () -> Void
 
     private var kind: SoberPackageKind { package.soberPackageKind }
@@ -938,7 +1016,7 @@ private struct PlanCard: View {
 
     private var titleView: some View {
         Text(package.soberDisplayName)
-            .font(Theme.subhead(weight: .bold))
+            .font(metrics.rounded(metrics.planTitleSize, .bold))
             .foregroundStyle(Theme.textPrimary)
             .lineLimit(1)
             .minimumScaleFactor(0.75)
@@ -954,7 +1032,7 @@ private struct PlanCard: View {
 
     private func badgeChip(_ text: String) -> some View {
         Text(text)
-            .font(.system(size: 10, weight: .heavy))
+            .font(.system(size: metrics.planBadgeSize, weight: .heavy))
             .foregroundStyle(.white)
             // Shrink-to-fit rather than `fixedSize`. Held at its ideal width the
             // badge and the price together demanded ~356pt, more than a 375pt
@@ -962,26 +1040,26 @@ private struct PlanCard: View {
             // pulled every other card in the stack out with it.
             .lineLimit(1)
             .minimumScaleFactor(0.8)
-            .padding(.horizontal, 7)
-            .padding(.vertical, 3)
+            .padding(.horizontal, metrics.lerp(7, 9))
+            .padding(.vertical, metrics.lerp(3, 4))
             .background(badgeFill, in: Capsule())
     }
 
     var body: some View {
         Button(action: onTap) {
-            HStack(spacing: 14) {
+            HStack(spacing: metrics.lerp(14, 16)) {
                 ZStack {
                     Circle()
                         .stroke(isSelected ? Theme.brandPrimary : Theme.ringTrack, lineWidth: 2)
-                        .frame(width: 22, height: 22)
+                        .frame(width: metrics.planRadioSize, height: metrics.planRadioSize)
                     if isSelected {
                         Circle()
                             .fill(Theme.brandPrimary)
-                            .frame(width: 12, height: 12)
+                            .frame(width: metrics.planRadioSize * 0.55, height: metrics.planRadioSize * 0.55)
                     }
                 }
 
-                VStack(alignment: .leading, spacing: 3) {
+                VStack(alignment: .leading, spacing: metrics.lerp(3, 4)) {
                     // One decision, made where the width is actually known.
                     // Nesting a second ViewThatFits inside the badge made the
                     // choice against a proposal the outer stack had already
@@ -993,11 +1071,11 @@ private struct PlanCard: View {
                     // row taller than the two under it, which is 18pt the
                     // 6.1" class does not have and an uneven stack besides.
                     ViewThatFits(in: .horizontal) {
-                        HStack(spacing: 6) {
+                        HStack(spacing: metrics.lerp(6, 8)) {
                             titleView
                             badge(badgeLabel)
                         }
-                        HStack(spacing: 6) {
+                        HStack(spacing: metrics.lerp(6, 8)) {
                             titleView
                             badge(shortBadgeLabel ?? badgeLabel)
                         }
@@ -1009,7 +1087,7 @@ private struct PlanCard: View {
 
                     if let subtitle {
                         Text(subtitle)
-                            .font(Theme.caption(weight: .semibold))
+                            .font(metrics.rounded(metrics.planSubtitleSize, .semibold))
                             .foregroundStyle(Theme.textSecondary)
                             .lineLimit(1)
                             .minimumScaleFactor(0.8)
@@ -1022,13 +1100,13 @@ private struct PlanCard: View {
                 // are communicated by the badge + subtitle, never by hiding price.
                 VStack(alignment: .trailing, spacing: 2) {
                     Text(package.soberPriceLabel)
-                        .font(Theme.subhead(weight: .bold).monospacedDigit())
+                        .font(metrics.rounded(metrics.planPriceSize, .bold).monospacedDigit())
                         .foregroundStyle(Theme.textPrimary)
                         .lineLimit(1)
                         .minimumScaleFactor(0.8)
                     if let anchorPrice {
                         Text(anchorPrice)
-                            .font(Theme.caption().monospacedDigit())
+                            .font(metrics.rounded(metrics.planAnchorSize).monospacedDigit())
                             .strikethrough(true, color: Theme.textTertiary)
                             .foregroundStyle(Theme.textTertiary)
                             .lineLimit(1)
@@ -1040,19 +1118,19 @@ private struct PlanCard: View {
                 // scale down instead of forcing the card wider than the phone.
                 .layoutPriority(1)
             }
-            .padding(.horizontal, 16)
+            .padding(.horizontal, metrics.planPaddingH)
             // Vertical padding as well as a floor: the recommended plan wraps
             // its badge under the title on narrow widths, and a card with only
             // a minimum height let those three lines run into its own border.
-            .padding(.vertical, 7)
-            .frame(minHeight: 52)
+            .padding(.vertical, metrics.planPaddingV)
+            .frame(minHeight: metrics.planMinHeight)
             .frame(maxWidth: .infinity)
             .background(
                 isSelected ? Theme.brandPrimary.opacity(0.08) : Theme.cardSurface,
-                in: RoundedRectangle(cornerRadius: 16)
+                in: RoundedRectangle(cornerRadius: metrics.planRadius)
             )
             .overlay {
-                RoundedRectangle(cornerRadius: 16)
+                RoundedRectangle(cornerRadius: metrics.planRadius)
                     .stroke(isSelected ? Theme.brandPrimary : Theme.ringTrack.opacity(0.6),
                             lineWidth: isSelected ? 2 : 1)
             }
@@ -1061,3 +1139,109 @@ private struct PlanCard: View {
     }
 }
 #endif
+
+
+/// DEBUG calibration plumbing for `-paywallMetrics`. Compiled always (it costs
+/// one transparent background) so the readout can't rot between tune-ups.
+struct PaywallLayoutProbe: Equatable {
+    /// The laid-out stack's height. Above the page height it is overflowing and
+    /// the trial timeline is being scrolled out of sight.
+    var content: CGFloat = 0
+
+    #if DEBUG
+    static let isEnabled = ProcessInfo.processInfo.arguments.contains("-paywallMetrics")
+    #else
+    static let isEnabled = false
+    #endif
+}
+
+struct PaywallLayoutProbeKey: PreferenceKey {
+    static let defaultValue = PaywallLayoutProbe()
+    static func reduce(value: inout PaywallLayoutProbe, nextValue: () -> PaywallLayoutProbe) {
+        value.content = max(value.content, nextValue().content)
+    }
+}
+
+private struct PaywallStackProbe: ViewModifier {
+    func body(content: Content) -> some View {
+        content.background {
+            if PaywallLayoutProbe.isEnabled {
+                GeometryReader { g in
+                    Color.clear.preference(
+                        key: PaywallLayoutProbeKey.self,
+                        value: PaywallLayoutProbe(content: g.size.height)
+                    )
+                }
+            }
+        }
+    }
+}
+
+
+/// Lays the paywall's four blocks down one page and splits whatever is left
+/// over evenly between them.
+///
+/// This is a `Layout` rather than a `VStack` of `Spacer(minLength:)`s because
+/// the stack version was not deterministic. Inside a `ScrollView`, whether a
+/// flexible spacer expands depends on whether the proposal that reaches it is
+/// definite, and that answer changed with the content: the same page filled
+/// correctly at one size and left a 70pt hole above the CTA one step up. A
+/// layout handed the page height outright cannot be talked out of it.
+///
+/// It also makes the fallback explicit. When the blocks want more than the page
+/// has — a 4.7" screen, or a large Dynamic Type size — the layout reports its
+/// natural height and the scroll view takes over, rather than silently pinning
+/// the gaps to their minimum and clipping the last card.
+struct PaywallPageLayout: Layout {
+    /// The height to fill, from the reader around the scroll view rather than
+    /// from the proposal — a scroll view will not commit to a height along its
+    /// scroll axis, which is the whole reason the spacers were unreliable.
+    let pageHeight: CGFloat
+    /// The floor for each gap. Anything the blocks didn't take is shared out
+    /// above it, evenly, so surplus never pools in one place.
+    let minGap: CGFloat
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        let width = proposal.width ?? 0
+        let heights = blockHeights(subviews, width: width)
+        return CGSize(width: width, height: max(naturalHeight(heights), pageHeight))
+    }
+
+    func placeSubviews(
+        in bounds: CGRect,
+        proposal: ProposedViewSize,
+        subviews: Subviews,
+        cache: inout ()
+    ) {
+        let heights = blockHeights(subviews, width: bounds.width)
+        let gaps = gapCount(heights)
+        let content = heights.reduce(0, +)
+        let gap = gaps > 0 ? max(minGap, (bounds.height - content) / CGFloat(gaps)) : 0
+
+        var y = bounds.minY
+        for (index, subview) in subviews.enumerated() {
+            let height = heights[index]
+            subview.place(
+                at: CGPoint(x: bounds.minX, y: y),
+                anchor: .topLeading,
+                proposal: ProposedViewSize(width: bounds.width, height: height)
+            )
+            // An absent block (the timeline slot, when no plan offers a trial)
+            // takes no room and earns no gap.
+            guard height > 0.5 else { continue }
+            y += height + gap
+        }
+    }
+
+    private func blockHeights(_ subviews: Subviews, width: CGFloat) -> [CGFloat] {
+        subviews.map { $0.sizeThatFits(ProposedViewSize(width: width, height: nil)).height }
+    }
+
+    private func gapCount(_ heights: [CGFloat]) -> Int {
+        max(0, heights.filter { $0 > 0.5 }.count - 1)
+    }
+
+    private func naturalHeight(_ heights: [CGFloat]) -> CGFloat {
+        heights.reduce(0, +) + minGap * CGFloat(gapCount(heights))
+    }
+}
