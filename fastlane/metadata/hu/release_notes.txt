@@ -1,1 +1,1 @@
-A próbaidőszakok most átláthatóbbak. Látod, mikor ér véget a próbaidőszakod, mikor terhelnénk meg, és bekapcsolhatsz egy emlékeztetőt az előző napra. A Bloom+ azt is jobban mutatja, mi következik az utadon.
+Háttérbeli fejlesztések és hibajavítások, hogy a Sober gördülékenyen működjön. Köszönjük, hogy itt vagy.

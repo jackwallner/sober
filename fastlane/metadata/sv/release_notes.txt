@@ -1,1 +1,1 @@
-Provperioder är tydligare nu. Du ser när din provperiod tar slut, när du skulle debiteras och kan slå på en påminnelse dagen innan. Bloom+ visar också bättre vad som kommer härnäst på din resa.
+Förbättringar bakom kulisserna och buggfixar så att Sober fungerar smidigt. Tack för att du är här.

@@ -1,1 +1,1 @@
-Masa uji coba kini lebih jelas. Kamu bisa melihat kapan masa uji cobamu berakhir, kapan kamu akan ditagih, dan mengaktifkan pengingat sehari sebelumnya. Bloom+ juga lebih baik menunjukkan apa yang berikutnya.
+Peningkatan di balik layar dan perbaikan bug agar Sober berjalan lancar. Terima kasih telah hadir.

@@ -1,1 +1,1 @@
-Prøveperioder er tydeligere nå. Du ser når prøveperioden din slutter, når du ville blitt belastet, og kan slå på en påminnelse dagen før. Bloom+ viser også bedre hva som kommer videre.
+Forbedringer bak kulissene og feilrettinger så Sober fungerer problemfritt. Takk for at du er her.
