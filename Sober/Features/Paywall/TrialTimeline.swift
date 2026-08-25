@@ -28,10 +28,23 @@ struct TrialTimeline: View {
     /// half the height: on the Bloom+ tab the vertical version was the single
     /// tallest block on a page that already didn't fit inside the tab bar.
     var layout: Layout = .vertical
+    /// Horizontal-layout dimensions. The paywall ramps these with the height of
+    /// the page so the strip grows with the cards around it instead of staying
+    /// a 28pt row marooned in a card that got bigger without it.
+    var sizing = Sizing()
 
     enum Layout {
         case vertical
         case horizontal
+    }
+
+    struct Sizing: Equatable {
+        var marker: CGFloat = 28
+        var glyph: CGFloat = 12
+        var title: CGFloat = 12
+        var detail: CGFloat = 12
+        var rowGap: CGFloat = 7
+        var columnGap: CGFloat = 5
     }
 
     private var primary: Color { onBrand ? .white : Theme.textPrimary }
@@ -84,18 +97,18 @@ struct TrialTimeline: View {
     /// full sentences wrap to four lines there and give back the height this
     /// layout exists to save.
     private var horizontalBody: some View {
-        VStack(spacing: 7) {
+        VStack(spacing: sizing.rowGap) {
             HStack(alignment: .top, spacing: 4) {
                 ForEach(Array(steps.enumerated()), id: \.offset) { _, step in
-                    VStack(spacing: 5) {
+                    VStack(spacing: sizing.columnGap) {
                         marker(icon: step.icon, highlight: step.highlight)
                         Text(step.title)
-                            .font(Theme.caption(weight: .bold))
+                            .font(.system(size: sizing.title, weight: .bold, design: .rounded))
                             .foregroundStyle(primary)
                             .lineLimit(1)
                             .minimumScaleFactor(0.8)
                         Text(step.short)
-                            .font(Theme.caption())
+                            .font(.system(size: sizing.detail, design: .rounded))
                             .foregroundStyle(secondary)
                             .multilineTextAlignment(.center)
                             .fixedSize(horizontal: false, vertical: true)
@@ -108,13 +121,15 @@ struct TrialTimeline: View {
                     Rectangle()
                         .fill(accent.opacity(0.25))
                         .frame(width: geo.size.width / 3 * 2, height: 2)
-                        .position(x: geo.size.width / 2, y: 14)
+                        // Half the marker, so the rule meets the circles'
+                        // centres whatever size they are ramped to.
+                        .position(x: geo.size.width / 2, y: sizing.marker / 2)
                 }
             }
 
             if let reminderFootnote {
                 Text(reminderFootnote)
-                    .font(Theme.caption())
+                    .font(.system(size: sizing.detail, design: .rounded))
                     .foregroundStyle(secondary.opacity(0.75))
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
@@ -128,12 +143,12 @@ struct TrialTimeline: View {
         ZStack {
             Circle()
                 .fill(onBrand ? Theme.brandPrimary : Theme.cardSurface)
-                .frame(width: 28, height: 28)
+                .frame(width: sizing.marker, height: sizing.marker)
             Circle()
                 .fill(highlight ? accent : accent.opacity(0.15))
-                .frame(width: 28, height: 28)
+                .frame(width: sizing.marker, height: sizing.marker)
             Image(systemName: icon)
-                .font(.system(size: 12, weight: .bold))
+                .font(.system(size: sizing.glyph, weight: .bold))
                 .foregroundStyle(highlight ? (onBrand ? Theme.brandPrimary : .white) : accent)
         }
     }
