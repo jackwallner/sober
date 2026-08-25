@@ -194,7 +194,21 @@ struct MainTabView: View {
     @Environment(SubscriptionService.self) private var subscriptions
     @StateObject private var trialCoordinator = TrialOfferCoordinator.shared
     @StateObject private var reviewCoordinator = ReviewPromptCoordinator.shared
+    #if DEBUG
+    /// `-tab N` opens straight onto a tab. The Bloom+ paywall only lays out the
+    /// way a user sees it when the tab bar is eating the bottom of the screen,
+    /// and there is no other way to get there on a headless simulator.
+    private static var launchTab: Int {
+        let args = ProcessInfo.processInfo.arguments
+        guard let index = args.firstIndex(of: "-tab"),
+              index + 1 < args.count,
+              let parsed = Int(args[index + 1]) else { return 0 }
+        return parsed
+    }
+    @State private var tab = MainTabView.launchTab
+    #else
     @State private var tab = 0
+    #endif
     @State private var showTrialPaywall = false
     @State private var trialOfferFocus: BloomFeature?
     @State private var deferredTrialPitch: TrialOfferCoordinator.PendingRequest?

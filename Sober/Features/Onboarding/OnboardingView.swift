@@ -107,7 +107,7 @@ struct OnboardingView: View {
             }
             .padding(.horizontal, Theme.Space.m)
             Spacer()
-            bottomBar(primaryTitle: "Start my counter") { step = 1 }
+            bottomBar(primaryTitle: "Start my counter") { withAnimation { step = 1 } }
         }
     }
 
@@ -137,7 +137,7 @@ struct OnboardingView: View {
                 .colorScheme(.dark)
                 .tint(.white)
             Spacer(minLength: Theme.Space.s)
-            bottomBar(primaryTitle: "Continue") { step = 2 }
+            bottomBar(primaryTitle: "Continue") { withAnimation { step = 2 } }
         }
     }
 
@@ -261,14 +261,11 @@ struct OnboardingView: View {
                 busy: trialInFlight,
                 showLegalFooter: true,
                 above: { trialAboveButton },
-                below: {
-                    VStack(spacing: Theme.Space.s) {
-                        trialRenewalDisclosure
-                        skipTrialLink
-                    }
-                }
+                below: { trialRenewalDisclosure }
             ) { startOnboardingTrial() }
         }
+        .animation(nil, value: trialInFlight)
+        .animation(nil, value: trialError)
         // Cancel role sits on "stay", not on "skip": an alert dismissed by
         // gesture resolves to the cancel action, and that must not be the path
         // that silently gives up the trial.
@@ -357,11 +354,9 @@ struct OnboardingView: View {
         return "Project the \(formatCurrency(yearlyDollars)) you'd keep over the next year"
     }
 
-    /// The opt-out used to sit above the CTA at the same visual weight as the
-    /// action we want, at the moment the user has the least reason to choose
-    /// it. It now lives under the button as a quiet, un-underlined link behind
-    /// one confirmation. The path stays fully available; it just stops being
-    /// the default-looking one.
+    /// Quiet opt-out, parked in the slot the price used to occupy: directly
+    /// above the trial button, not under the legal dump. Same weight as before
+    /// so it stays the alternative, not a second CTA.
     @ViewBuilder
     private var skipTrialLink: some View {
         Button { showSkipTrialConfirm = true } label: {
@@ -373,17 +368,9 @@ struct OnboardingView: View {
         .disabled(trialInFlight)
     }
 
-    /// Order here is deliberate, and it changed: the price used to be the least
-    /// prominent thing on the screen. Two full-width cards (habit comparison,
-    /// reminder) sat above a caption-sized 75%-opacity paragraph that opened
-    /// with the price and then buried it in auto-renew boilerplate. That is the
-    /// classic 3.1.2 rejection, and it also just reads badly.
-    ///
-    /// Now: the price is stated once, prominently, immediately above the button
-    /// that charges it. The habit comparison keeps its card because it is the
-    /// argument. The reminder drops to a caption because it is reassurance, not
-    /// a headline, and three stacked cards was the reason this screen felt like
-    /// it had no point of view.
+    /// Dock order, top to bottom: the habit argument, the price (one slot up
+    /// from the button so it isn't competing with the tap), the reminder, then
+    /// Get started in the old price slot, then the trial CTA.
     @ViewBuilder
     private var trialAboveButton: some View {
         VStack(spacing: Theme.Space.s) {
@@ -403,20 +390,6 @@ struct OnboardingView: View {
                 .background(.white.opacity(0.16), in: RoundedRectangle(cornerRadius: 12))
             }
 
-            if let reassurance = trialChargeDateLine {
-                HStack(alignment: .top, spacing: 6) {
-                    Image(systemName: "bell.badge.fill")
-                        .font(.system(size: 10, weight: .bold))
-                    Text(trialReminderCaveat.map { "\(reassurance) \($0)" } ?? reassurance)
-                        .fixedSize(horizontal: false, vertical: true)
-                    Spacer(minLength: 0)
-                }
-                .font(Theme.caption())
-                .foregroundStyle(.white.opacity(0.72))
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 4)
-            }
-
             if let priceHeadline = trialPriceHeadline {
                 Text(priceHeadline)
                     .font(Theme.body(weight: .bold))
@@ -424,16 +397,62 @@ struct OnboardingView: View {
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity)
-                    .padding(.top, 2)
             }
 
-            if let trialError {
-                Text(trialError)
-                    .font(Theme.caption(weight: .semibold))
-                    .foregroundStyle(Color(red: 1, green: 0.82, blue: 0.72))
-                    .multilineTextAlignment(.center)
-            }
+            trialStatusSlot
+            skipTrialLink
         }
+    }
+
+    /// Reminder copy and a real purchase error share one slot, sized to
+    /// whichever is taller. Cancelling Apple's sheet does not write here: that
+    /// used to grow a warning, shove the hero up, then collapse again on the
+    /// next tap. Dismissing the sheet now returns the same screen.
+    @ViewBuilder
+    private var trialStatusSlot: some View {
+        if let reassurance = trialReassuranceText {
+            ZStack(alignment: .top) {
+                reassuranceLine(reassurance).hidden()
+                errorLine(Self.trialFailureCopy).hidden()
+                if let trialError {
+                    errorLine(trialError)
+                } else {
+                    reassuranceLine(reassurance)
+                }
+            }
+        } else if let trialError {
+            errorLine(trialError)
+        }
+    }
+
+    private static let trialFailureCopy = "Couldn't load the Bloom+ plan. Please try again."
+
+    private var trialReassuranceText: String? {
+        guard let reassurance = trialChargeDateLine else { return nil }
+        return trialReminderCaveat.map { "\(reassurance) \($0)" } ?? reassurance
+    }
+
+    private func reassuranceLine(_ text: String) -> some View {
+        HStack(alignment: .top, spacing: 6) {
+            Image(systemName: "bell.badge.fill")
+                .font(.system(size: 10, weight: .bold))
+            Text(text)
+                .fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 0)
+        }
+        .font(Theme.caption())
+        .foregroundStyle(.white.opacity(0.72))
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, 4)
+    }
+
+    private func errorLine(_ text: String) -> some View {
+        Text(text)
+            .font(Theme.caption(weight: .semibold))
+            .foregroundStyle(Color(red: 1, green: 0.82, blue: 0.72))
+            .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
+            .frame(maxWidth: .infinity)
     }
 
     /// Auto-renew terms sit under the button, between the CTA and the legal
@@ -455,7 +474,7 @@ struct OnboardingView: View {
     }
 
     /// The tallest thing any step puts under its primary button: the offer
-    /// step's auto-renew disclosure, opt-out link and legal footer. Laid out
+    /// step's auto-renew disclosure and legal footer. Laid out
     /// hidden on every step so the button itself never moves between taps.
     ///
     /// It is built from the real views and the real disclosure string rather
@@ -463,10 +482,7 @@ struct OnboardingView: View {
     /// user's type size changes.
     private var subDockReserve: some View {
         VStack(spacing: Theme.Space.s) {
-            VStack(spacing: Theme.Space.s) {
-                disclosureLine(SubscriptionService.autoRenewDisclosure)
-                skipTrialLink
-            }
+            disclosureLine(SubscriptionService.autoRenewDisclosure)
             legalFooter
         }
         .hidden()
@@ -477,12 +493,13 @@ struct OnboardingView: View {
     /// Every step docks its primary button on the same pixel.
     ///
     /// The dock is bottom-anchored, so what sits *under* the button decides how
-    /// high it floats. The offer step carries a disclosure, an opt-out link and
-    /// the legal footer; the steps before it carried a 14pt spacer, which left
+    /// high it floats. The offer step carries a disclosure and the legal
+    /// footer; the steps before it used to carry a 14pt spacer, which left
     /// their CTA roughly 90pt lower and moved the target out from under the
     /// thumb on the walk into the one tap that matters. The slot below the
     /// button is now `subDockReserve` on every step, with the real content laid
-    /// over it.
+    /// over it. Purchase taps are not wrapped in `withAnimation`: that was
+    /// animating the error line in and out and sliding the whole screen.
     private func bottomBar<Above: View, Below: View>(
         primaryTitle: String,
         busy: Bool = false,
@@ -493,7 +510,7 @@ struct OnboardingView: View {
     ) -> some View {
         VStack(spacing: Theme.Space.s) {
             above()
-            Button(action: { withAnimation { action() } }) {
+            Button(action: action) {
                 ZStack {
                     Text(primaryTitle)
                         .font(Theme.body(weight: .semibold))
@@ -569,7 +586,7 @@ struct OnboardingView: View {
             bottomBar(
                 primaryTitle: "Turn on reminders",
                 busy: reminderRequestInFlight,
-                below: { skipRemindersLink }
+                above: { skipRemindersLink }
             ) { enableRemindersAndFinish() }
         }
         .onAppear { ConversionDiagnostics.record(.remindersStepReached) }
@@ -683,7 +700,6 @@ struct OnboardingView: View {
                     finishOnboarding()
                 case .cancelled:
                     ConversionDiagnostics.record(.purchaseCancelled)
-                    trialError = "Trial start cancelled. Tap again when you're ready."
                 }
             } catch {
                 ConversionDiagnostics.record(.purchaseFailed)
