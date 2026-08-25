@@ -138,30 +138,34 @@ struct PaywallView: View {
 
     // MARK: - Native paywall
 
-    /// Everything fits on one page — no scrolling. Value (savings + benefits)
-    /// sits up top, the plan stack in the middle, and the purchase block anchored
-    /// at the bottom, with a single flexible Spacer absorbing device-size
-    /// differences so the CTA always lands in the same place.
+    /// Value (savings + benefits) up top, the plan stack in the middle, and the
+    /// purchase dock pinned to the bottom as a safe-area inset.
     #if canImport(RevenueCat)
     private var paywallContent: some View {
-        // One page by design, but not one page by force. Twice now a small copy
-        // addition (the trial timeline, then its notifications caveat) pushed
-        // the savings header into the status bar and the Terms/Privacy links off
-        // the bottom, and a fixed-height stack fails silently: it clips rather
-        // than complaining. Dropping Restore/Terms/Privacy off-screen is an
-        // App Store 3.1.2 problem, so this can't rely on nobody adding a line.
-        //
-        // minHeight ties the stack to the viewport, so on a tall screen it lays
-        // out exactly as before (the Spacer still anchors the CTA to the bottom)
-        // and nothing scrolls. On a short screen, or at a large Dynamic Type
-        // size, it scrolls instead of clipping.
+        // The dock is an inset rather than the last rows of a stack that is
+        // merely *told* to be one page tall. Measuring the page against
+        // `proxy.size.height` looked right and wasn't: that height runs to the
+        // bottom of the screen, underneath the tab bar, so on the Bloom+ tab the
+        // stack ended behind the bar and took Restore/Terms/Privacy with it.
+        // Losing those is an App Store 3.1.2 problem, and a stack sized past the
+        // viewport clips silently instead of complaining, so the guarantee needs
+        // to be structural: an inset cannot be covered by the bar, and the
+        // scroll view is inset by exactly the dock's height.
         GeometryReader { proxy in
+            // `proxy.size.height` is already the region left over once the
+            // status bar, the tab bar, and the dock are taken out, because the
+            // reader sits inside all three. (`safeAreaInsets` reports what was
+            // removed, so subtracting it here takes the same 330pt off twice and
+            // leaves a 200pt page.) Filling that height is what lets the spacers
+            // share the slack on a tall screen instead of pooling it all in one
+            // hole above the CTA.
             ScrollView(showsIndicators: false) {
                 paywallStack
                     .frame(minHeight: proxy.size.height, alignment: .top)
             }
             .scrollBounceBehavior(.basedOnSize)
         }
+        .safeAreaInset(edge: .bottom, spacing: 0) { purchaseDock }
     }
 
     /// Tapping a plan card used to rebuild this stack four ways at once: the
@@ -176,26 +180,70 @@ struct PaywallView: View {
     /// fixed, the benefit list is a fixed length, and the timeline slot holds
     /// its height while its contents cross-fade. One animation, keyed to the
     /// selected plan, drives what is left.
+    ///
+    /// Slack is shared by three equal spacers rather than spent on one. A single
+    /// spacer put every spare point of a 6.9" screen in the same place, so the
+    /// page read as four blocks crammed under the status bar and a hole above
+    /// the CTA. Split, each section breathes by the same amount.
+    ///
+    /// Every gap is a spacer's `minLength` and nothing else, so the floor and
+    /// the flex are one number. Stack spacing *plus* spacers charged every
+    /// device for the tightest one: the 6.1" class paid for a gap it could not
+    /// afford while the 6.9" spent its surplus twice.
     private var paywallStack: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 0) {
             savingsValueHeader
             habitComparisonLine
+                .padding(.top, 8)
+
+            Spacer(minLength: 8)
             benefitShowcase
+
+            Spacer(minLength: 8)
             planCards
 
-            Spacer(minLength: 2)
-
+            Spacer(minLength: 8)
             trialTimelineSlot
+        }
+        .padding(.horizontal, 22)
+        .padding(.top, displayCloseButton ? 38 : 10)
+        .padding(.bottom, 2)
+        .frame(maxWidth: .infinity, alignment: .top)
+        .animation(.easeInOut(duration: 0.2), value: selectedPackage?.identifier)
+    }
+
+    /// CTA, price disclosure, trust line, and the legal links, held out of the
+    /// scroll so they are on screen whatever the device, the Dynamic Type size,
+    /// or the length of the copy above them. The cream background runs to the
+    /// bottom of the screen (behind the tab bar) and fades in above the CTA, so
+    /// content scrolling underneath dissolves instead of being sliced off.
+    private var purchaseDock: some View {
+        VStack(spacing: 8) {
             purchaseSection
             trustRow
             footerLinks
         }
         .padding(.horizontal, 22)
-        .padding(.top, displayCloseButton ? 40 : 12)
-        .padding(.bottom, 8)
-        .frame(maxWidth: .infinity, alignment: .top)
-        .animation(.easeInOut(duration: 0.2), value: selectedPackage?.identifier)
+        .padding(.top, 6)
+        .padding(.bottom, 2)
+        .frame(maxWidth: .infinity)
+        .background { Theme.background.ignoresSafeArea(edges: .bottom) }
+        // The fade belongs to the dock's height. Hung above it as an offset
+        // overlay it drew over live content instead of reserving room, so at
+        // rest the card above the CTA dissolved halfway through and read as a
+        // clipped card rather than a scroll edge.
+        .padding(.top, Self.dockFadeHeight)
+        .background(alignment: .top) {
+            LinearGradient(
+                colors: [Theme.background.opacity(0), Theme.background],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .frame(height: Self.dockFadeHeight)
+        }
     }
+
+    private static let dockFadeHeight: CGFloat = 10
 
     /// Reserved height whenever *any* offered plan carries a trial, so moving
     /// between a trial plan and Lifetime fades the card instead of collapsing
@@ -233,7 +281,7 @@ struct PaywallView: View {
             layout: .horizontal
         )
         .padding(.horizontal, 12)
-        .padding(.vertical, 10)
+        .padding(.vertical, 8)
         .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 18))
         .overlay {
             RoundedRectangle(cornerRadius: 18)
@@ -363,7 +411,7 @@ struct PaywallView: View {
             } else if hasSavings {
                 eyebrow("YOU'VE SAVED SO FAR")
                 Text(moneySaved)
-                    .font(.system(size: 40, weight: .heavy, design: .rounded))
+                    .font(.system(size: 36, weight: .heavy, design: .rounded))
                     .foregroundStyle(Theme.brandPrimary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
@@ -376,7 +424,7 @@ struct PaywallView: View {
                 eyebrow("YOUR MONEY, KEPT")
                 let yearlyLabel = Self.currencyFormatter.string(from: NSNumber(value: yearlySpend)) ?? "$\(yearlySpend)"
                 Text("Up to \(yearlyLabel)/yr")
-                    .font(.system(size: 40, weight: .heavy, design: .rounded))
+                    .font(.system(size: 36, weight: .heavy, design: .rounded))
                     .foregroundStyle(Theme.brandPrimary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
@@ -405,11 +453,9 @@ struct PaywallView: View {
     /// plan so switching to monthly re-frames the sentence rather than leaving
     /// a stale yearly comparison on screen.
     ///
-    /// Only on pitch paywalls. This content deliberately does not scroll (the
-    /// CTA is anchored and everything is sized to land on one page), so a new
-    /// row has to be paid for by one that left. On pitch paywalls the lifetime
-    /// card did leave; the Bloom+ tab still shows all three plans, so it keeps
-    /// its current height rather than risking a clipped CTA on an SE.
+    /// Only on pitch paywalls, which can afford the row: they drop the lifetime
+    /// card, where the Bloom+ tab carries all three plans and is the variant
+    /// that runs out of page first.
     @ViewBuilder
     /// Only rendered on pitch paywalls (never the Bloom+ tab, which shows
     /// Lifetime), so its text changes with selection but its presence does not.
@@ -468,16 +514,13 @@ struct PaywallView: View {
     }
 
     private var benefitShowcase: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            eyebrow("EVERYTHING YOU UNLOCK")
-                .frame(maxWidth: .infinity, alignment: .leading)
-
+        VStack(alignment: .leading, spacing: 4) {
             ForEach(visibleBenefits, id: \.self) { feature in
                 benefitRow(feature, highlighted: focus == feature)
             }
         }
         .padding(.horizontal, 14)
-        .padding(.vertical, 11)
+        .padding(.vertical, 9)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 18))
         .overlay {
@@ -507,7 +550,7 @@ struct PaywallView: View {
                 .font(.system(size: 12, weight: .heavy))
                 .foregroundStyle(Theme.brandPrimary.opacity(highlighted ? 1 : 0.55))
         }
-        .frame(height: 32)
+        .frame(height: 26)
         .padding(.horizontal, highlighted ? 8 : 0)
         .background(
             highlighted ? Theme.brandPrimary.opacity(0.08) : .clear,
@@ -527,7 +570,7 @@ struct PaywallView: View {
     }
 
     private var planCards: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 6) {
             ForEach(sortedPackages, id: \.identifier) { package in
                 PlanCard(
                     package: package,
@@ -542,7 +585,7 @@ struct PaywallView: View {
     }
 
     private var purchaseSection: some View {
-        VStack(spacing: 6) {
+        VStack(spacing: 9) {
             Button(action: startPurchase) {
                 ZStack {
                     Text(ctaTitle)
@@ -662,10 +705,15 @@ struct PaywallView: View {
                 let isSelected = package.identifier == selectedPackage?.identifier
                 Text(disclosure(for: package))
                     .font(Theme.caption())
-                    .foregroundStyle(Theme.textTertiary)
+                    // Tertiary sand-gray on cream is the palette's lightest text
+                    // and this is the one block on the paywall a user actually
+                    // has to be able to read before paying. Secondary keeps it
+                    // quiet without making it a squint.
+                    .foregroundStyle(Theme.textSecondary)
                     .multilineTextAlignment(.center)
-                    .lineLimit(3)
-                    .minimumScaleFactor(0.8)
+                    .lineSpacing(1)
+                    .lineLimit(4)
+                    .minimumScaleFactor(0.85)
                     .fixedSize(horizontal: false, vertical: true)
                     .opacity(isSelected ? 1 : 0)
                     .accessibilityHidden(!isSelected)
@@ -678,7 +726,7 @@ struct PaywallView: View {
         if package.soberPackageKind == .lifetime {
             return "\(price). One-time purchase. Lifetime access, no subscription."
         }
-        let renew = "Auto-renews unless cancelled at least 24 hours before the end of the current period. Manage or cancel in Settings."
+        let renew = "Auto-renews until cancelled in Settings, at least 24 hours before renewal."
         if subscriptions.isEligibleForIntroOffer(package), let trial = package.soberIntroOfferLabel {
             return "\(trial.capitalized), then \(price). \(renew)"
         }
@@ -853,9 +901,10 @@ private struct PlanCard: View {
             }
             return perMonth
         }
-        if kind == .monthly, showsTrialBadge, let trial = package.soberIntroOfferLabel {
-            return trial.capitalized
-        }
+        // Monthly's trial lives in its badge, which spells out the length. A
+        // "7-Day Free Trial" subtitle under a "7-DAY FREE TRIAL" badge said the
+        // same thing twice and cost the card a third row.
+        if kind == .monthly { return nil }
         if kind == .lifetime { return "One-time · no subscription" }
         return nil
     }
@@ -867,6 +916,18 @@ private struct PlanCard: View {
     /// card didn't.
     private var badgeLabel: String? {
         if kind == .yearly, let pct = savingsPercent { return "RECOMMENDED · SAVE \(pct)%" }
+        if showsTrialBadge, kind == .monthly {
+            return package.soberIntroOfferLabel?.uppercased() ?? "FREE TRIAL"
+        }
+        return nil
+    }
+
+    /// Dropped to when the full badge won't fit, on a 4.7" screen or at a large
+    /// Dynamic Type size. Scaling the type down only bought a few points before
+    /// the label truncated to "RECOMMENDED · SAVE 7…", which turns the one badge
+    /// carrying the offer into a riddle; the discount is the part worth keeping.
+    private var shortBadgeLabel: String? {
+        if kind == .yearly, let pct = savingsPercent { return "SAVE \(pct)%" }
         if showsTrialBadge, kind == .monthly { return "FREE TRIAL" }
         return nil
     }
@@ -885,16 +946,25 @@ private struct PlanCard: View {
     }
 
     @ViewBuilder
-    private var badgeView: some View {
-        if let badgeLabel {
-            Text(badgeLabel)
-                .font(.system(size: 10, weight: .heavy))
-                .foregroundStyle(.white)
-                .padding(.horizontal, 7)
-                .padding(.vertical, 3)
-                .background(badgeFill, in: Capsule())
-                .fixedSize()
+    private func badge(_ text: String?) -> some View {
+        if let text {
+            badgeChip(text)
         }
+    }
+
+    private func badgeChip(_ text: String) -> some View {
+        Text(text)
+            .font(.system(size: 10, weight: .heavy))
+            .foregroundStyle(.white)
+            // Shrink-to-fit rather than `fixedSize`. Held at its ideal width the
+            // badge and the price together demanded ~356pt, more than a 375pt
+            // phone has after gutters, so the card grew past the screen and
+            // pulled every other card in the stack out with it.
+            .lineLimit(1)
+            .minimumScaleFactor(0.8)
+            .padding(.horizontal, 7)
+            .padding(.vertical, 3)
+            .background(badgeFill, in: Capsule())
     }
 
     var body: some View {
@@ -912,14 +982,28 @@ private struct PlanCard: View {
                 }
 
                 VStack(alignment: .leading, spacing: 3) {
+                    // One decision, made where the width is actually known.
+                    // Nesting a second ViewThatFits inside the badge made the
+                    // choice against a proposal the outer stack had already
+                    // narrowed, so a 6.1" screen with room for the full badge
+                    // still got the short one.
+                    //
+                    // Shortening the label is preferred over dropping it to a
+                    // second row: the wrapped badge made the recommended plan a
+                    // row taller than the two under it, which is 18pt the
+                    // 6.1" class does not have and an uneven stack besides.
                     ViewThatFits(in: .horizontal) {
                         HStack(spacing: 6) {
                             titleView
-                            badgeView
+                            badge(badgeLabel)
+                        }
+                        HStack(spacing: 6) {
+                            titleView
+                            badge(shortBadgeLabel ?? badgeLabel)
                         }
                         VStack(alignment: .leading, spacing: 3) {
                             titleView
-                            badgeView
+                            badge(shortBadgeLabel ?? badgeLabel)
                         }
                     }
 
@@ -948,12 +1032,20 @@ private struct PlanCard: View {
                             .strikethrough(true, color: Theme.textTertiary)
                             .foregroundStyle(Theme.textTertiary)
                             .lineLimit(1)
+                            .minimumScaleFactor(0.8)
                     }
                 }
-                .fixedSize(horizontal: true, vertical: false)
+                // Priority, not a fixed width: the price still wins the space it
+                // needs against the title column, but on a narrow screen it can
+                // scale down instead of forcing the card wider than the phone.
+                .layoutPriority(1)
             }
             .padding(.horizontal, 16)
-            .frame(minHeight: 56)
+            // Vertical padding as well as a floor: the recommended plan wraps
+            // its badge under the title on narrow widths, and a card with only
+            // a minimum height let those three lines run into its own border.
+            .padding(.vertical, 7)
+            .frame(minHeight: 52)
             .frame(maxWidth: .infinity)
             .background(
                 isSelected ? Theme.brandPrimary.opacity(0.08) : Theme.cardSurface,
