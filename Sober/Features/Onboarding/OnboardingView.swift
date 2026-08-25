@@ -29,6 +29,12 @@ struct OnboardingView: View {
     @State private var trialError: String?
     @State private var restoreInFlight = false
     @State private var didShowOnboardingTrial = false
+    @State private var reminderRequestInFlight = false
+    /// Set by the reminders step, read by `persistSetup`. Onboarding used to
+    /// hard-code this to false and nothing ever raised the system prompt, so a
+    /// user who never opened Settings had every nudge in the app scheduled and
+    /// silently dropped.
+    @State private var dailyRemindersOptIn = false
     /// False once the store confirms this Apple ID has already used its intro
     /// offer. The offer step still runs; it just sells the plan instead of a
     /// trial, and never says the word "free".
@@ -44,6 +50,7 @@ struct OnboardingView: View {
                 case 1: startDateStep
                 case 2: savingsStep
                 case 3: trialStep
+                case 4: remindersStep
                 default: promiseStep
                 }
             }
@@ -434,15 +441,48 @@ struct OnboardingView: View {
     @ViewBuilder
     private var trialRenewalDisclosure: some View {
         if let renewal = trialRenewalText {
-            Text(renewal)
-                .font(Theme.caption())
-                .foregroundStyle(.white.opacity(0.7))
-                .multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(.horizontal, Theme.Space.s)
+            disclosureLine(renewal)
         }
     }
 
+    private func disclosureLine(_ text: String) -> some View {
+        Text(text)
+            .font(Theme.caption())
+            .foregroundStyle(.white.opacity(0.7))
+            .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
+            .padding(.horizontal, Theme.Space.s)
+    }
+
+    /// The tallest thing any step puts under its primary button: the offer
+    /// step's auto-renew disclosure, opt-out link and legal footer. Laid out
+    /// hidden on every step so the button itself never moves between taps.
+    ///
+    /// It is built from the real views and the real disclosure string rather
+    /// than a reserved point height, so it cannot drift when the copy or the
+    /// user's type size changes.
+    private var subDockReserve: some View {
+        VStack(spacing: Theme.Space.s) {
+            VStack(spacing: Theme.Space.s) {
+                disclosureLine(SubscriptionService.autoRenewDisclosure)
+                skipTrialLink
+            }
+            legalFooter
+        }
+        .hidden()
+        .allowsHitTesting(false)
+        .accessibilityHidden(true)
+    }
+
+    /// Every step docks its primary button on the same pixel.
+    ///
+    /// The dock is bottom-anchored, so what sits *under* the button decides how
+    /// high it floats. The offer step carries a disclosure, an opt-out link and
+    /// the legal footer; the steps before it carried a 14pt spacer, which left
+    /// their CTA roughly 90pt lower and moved the target out from under the
+    /// thumb on the walk into the one tap that matters. The slot below the
+    /// button is now `subDockReserve` on every step, with the real content laid
+    /// over it.
     private func bottomBar<Above: View, Below: View>(
         primaryTitle: String,
         busy: Bool = false,
@@ -468,14 +508,12 @@ struct OnboardingView: View {
             .background(.white.opacity(0.25), in: RoundedRectangle(cornerRadius: 18))
             .disabled(busy)
 
-            below()
-
-            if showLegalFooter {
-                legalFooter
-            } else {
-                Color.clear
-                    .frame(height: 14)
-                    .accessibilityHidden(true)
+            ZStack(alignment: .top) {
+                subDockReserve
+                VStack(spacing: Theme.Space.s) {
+                    below()
+                    if showLegalFooter { legalFooter }
+                }
             }
         }
     }
@@ -494,6 +532,84 @@ struct OnboardingView: View {
         .font(Theme.caption())
         .foregroundStyle(.white.opacity(0.75))
         .tint(.white)
+    }
+
+    /// The last step, and the only place the app has ever asked for
+    /// notifications on the free path.
+    ///
+    /// Every reminder we schedule is guarded by `NotificationService
+    /// .isAuthorized`, and `persistSetup` used to hard-code `dailyReminderEnabled
+    /// = false`, so the daily nudge, the milestone eve, the lapse nudge and the
+    /// trial warning were all dead for anyone who never went looking in
+    /// Settings. Asking here, after the offer is resolved, keeps the prompt off
+    /// the paid decision and still lands while the user is set-up minded.
+    private var remindersStep: some View {
+        VStack(spacing: Theme.Space.xl) {
+            Spacer()
+            ZStack {
+                Circle()
+                    .fill(.white.opacity(0.14))
+                    .frame(width: 150, height: 150)
+                Image(systemName: "bell.badge.fill")
+                    .font(.system(size: 68, weight: .semibold))
+            }
+            VStack(spacing: Theme.Space.m) {
+                Text("One nudge a day, if you want it.")
+                    .font(Theme.display(40, weight: .semibold))
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text("A reminder to log the day and water your bonsai, a note when a milestone is a day out, and a heads-up before a free trial converts. Nothing else, and you can turn it all off in Settings.")
+                    .font(Theme.body())
+                    .foregroundStyle(.white.opacity(0.88))
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.horizontal, Theme.Space.s)
+            }
+            Spacer()
+            bottomBar(
+                primaryTitle: "Turn on reminders",
+                busy: reminderRequestInFlight,
+                below: { skipRemindersLink }
+            ) { enableRemindersAndFinish() }
+        }
+        .onAppear { ConversionDiagnostics.record(.remindersStepReached) }
+    }
+
+    @ViewBuilder
+    private var skipRemindersLink: some View {
+        Button { completeOnboarding() } label: {
+            Text("Not now")
+                .font(Theme.caption(weight: .semibold))
+                .foregroundStyle(.white.opacity(0.7))
+                .padding(.vertical, 2)
+        }
+        .disabled(reminderRequestInFlight)
+    }
+
+    private func enableRemindersAndFinish() {
+        guard !reminderRequestInFlight else { return }
+        reminderRequestInFlight = true
+        Task { @MainActor in
+            let granted = await NotificationService.ensureAuthorized()
+            reminderRequestInFlight = false
+            dailyRemindersOptIn = granted
+            ConversionDiagnostics.record(granted ? .remindersGranted : .remindersDeclined)
+            if granted {
+                let settings = SettingsService(context: context).current()
+                let hour = settings.dailyReminderHour
+                let committed = settings.madeCommitment
+                let streak = SobrietyService.daysSinceStart(min(startDate, .now))
+                // Home schedules the milestone and lapse nudges on its own once
+                // the opt-in is stored; the daily one is the only reminder
+                // nothing else creates.
+                await NotificationService.scheduleDailyReminder(
+                    hour: hour,
+                    committed: committed,
+                    streakDays: streak
+                )
+            }
+            completeOnboarding()
+        }
     }
 
     private func resolveTrialAndContinue() {
@@ -593,14 +709,23 @@ struct OnboardingView: View {
         let settings = SettingsService(context: context).current()
         settings.costPerDayCents = Int(costPerDay * 100)
         settings.caloriesPerDay = Int(caloriesPerDay)
-        settings.dailyReminderEnabled = false
+        settings.dailyReminderEnabled = dailyRemindersOptIn
         settings.madeCommitment = false
         _ = SobrietyService(context: context).startJourney(at: min(startDate, .now))
         _ = GardenService(context: context).current()
         try? context.save()
     }
 
+    /// Every exit from the offer step lands here: purchased, skipped, or the
+    /// store never answered. It no longer ends onboarding, it advances to the
+    /// reminders step, which is what actually completes it.
     private func finishOnboarding() {
+        guard step != 4 else { return }
+        persistSetup()
+        withAnimation { step = 4 }
+    }
+
+    private func completeOnboarding() {
         persistSetup()
         let settings = SettingsService(context: context).current()
         settings.hasCompletedOnboarding = true

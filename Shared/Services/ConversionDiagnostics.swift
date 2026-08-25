@@ -11,6 +11,9 @@ enum ConversionEvent: String, CaseIterable {
     case purchaseFailed
     case purchasePending
     case purchaseSucceeded
+    case remindersStepReached
+    case remindersGranted
+    case remindersDeclined
 }
 
 enum ConversionDiagnostics {
