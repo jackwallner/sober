@@ -177,7 +177,7 @@ struct PaywallView: View {
     /// its height while its contents cross-fade. One animation, keyed to the
     /// selected plan, drives what is left.
     private var paywallStack: some View {
-        VStack(spacing: 9) {
+        VStack(spacing: 8) {
             savingsValueHeader
             habitComparisonLine
             benefitShowcase
@@ -229,9 +229,10 @@ struct PaywallView: View {
             trialDays: days,
             billingNote: nil,
             remindersEnabled: !remindersDenied,
-            compact: true
+            compact: true,
+            layout: .horizontal
         )
-        .padding(.horizontal, 14)
+        .padding(.horizontal, 12)
         .padding(.vertical, 10)
         .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 18))
         .overlay {
@@ -240,25 +241,31 @@ struct PaywallView: View {
         }
     }
 
+    /// Deliberately not `maxHeight: .infinity`: a greedy card ate the stack's
+    /// flexible spacer and drew itself as a near-empty box half the screen tall
+    /// once the timeline it shares a slot with became a three-column strip. It
+    /// now sizes to its content and centres in the slot.
     private var lifetimeNoteCard: some View {
-        VStack(spacing: 6) {
+        HStack(spacing: 11) {
             Image(systemName: "infinity")
                 .font(.system(size: 14, weight: .bold))
                 .foregroundStyle(.white)
                 .frame(width: 30, height: 30)
                 .background(Theme.brandPrimary, in: Circle())
-            Text("One-time purchase")
-                .font(Theme.subhead(weight: .semibold))
-                .foregroundStyle(Theme.textPrimary)
-            Text("No trial, no renewal. Bloom+ stays unlocked.")
-                .font(Theme.caption())
-                .foregroundStyle(Theme.textSecondary)
-                .multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("One-time purchase")
+                    .font(Theme.subhead(weight: .semibold))
+                    .foregroundStyle(Theme.textPrimary)
+                Text("No trial, no renewal. Bloom+ stays unlocked.")
+                    .font(Theme.caption())
+                    .foregroundStyle(Theme.textSecondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer(minLength: 0)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 14)
-        .padding(.vertical, 10)
+        .padding(.vertical, 12)
         .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 18))
         .overlay {
             RoundedRectangle(cornerRadius: 18)
@@ -356,11 +363,11 @@ struct PaywallView: View {
             } else if hasSavings {
                 eyebrow("YOU'VE SAVED SO FAR")
                 Text(moneySaved)
-                    .font(.system(size: 44, weight: .heavy, design: .rounded))
+                    .font(.system(size: 40, weight: .heavy, design: .rounded))
                     .foregroundStyle(Theme.brandPrimary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
-                Text("Across \(heroDays) sober day\(heroDays == 1 ? "" : "s"). You've earned this. Put a fraction toward staying sober for good.")
+                Text("Across \(heroDays) sober day\(heroDays == 1 ? "" : "s"). Put a fraction toward keeping it.")
                     .font(Theme.subhead())
                     .foregroundStyle(Theme.textSecondary)
                     .lineLimit(2)
@@ -461,10 +468,8 @@ struct PaywallView: View {
     }
 
     private var benefitShowcase: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Everything you unlock")
-                .font(Theme.subhead(weight: .bold))
-                .foregroundStyle(Theme.textPrimary)
+        VStack(alignment: .leading, spacing: 6) {
+            eyebrow("EVERYTHING YOU UNLOCK")
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             ForEach(visibleBenefits, id: \.self) { feature in
@@ -472,7 +477,7 @@ struct PaywallView: View {
             }
         }
         .padding(.horizontal, 14)
-        .padding(.vertical, 12)
+        .padding(.vertical, 11)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 18))
         .overlay {
@@ -485,30 +490,24 @@ struct PaywallView: View {
     private func benefitRow(_ feature: BloomFeature, highlighted: Bool) -> some View {
         HStack(alignment: .center, spacing: 12) {
             Image(systemName: feature.icon)
-                .font(.system(size: 14, weight: .semibold))
+                .font(.system(size: 13, weight: .semibold))
                 .foregroundStyle(.white)
-                .frame(width: 30, height: 30)
+                .frame(width: 26, height: 26)
                 .background(Theme.brandGradient, in: Circle())
 
-            VStack(alignment: .leading, spacing: 1) {
-                Text(feature.title)
-                    .font(Theme.subhead(weight: .semibold))
-                    .foregroundStyle(Theme.textPrimary)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.85)
-                Text(feature.detail)
-                    .font(Theme.caption())
-                    .foregroundStyle(Theme.textSecondary)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.8)
-            }
+            Text(feature.title)
+                .font(Theme.subhead(weight: .semibold))
+                .foregroundStyle(Theme.textPrimary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+
             Spacer(minLength: 8)
 
             Image(systemName: "checkmark")
                 .font(.system(size: 12, weight: .heavy))
                 .foregroundStyle(Theme.brandPrimary.opacity(highlighted ? 1 : 0.55))
         }
-        .frame(height: 38)
+        .frame(height: 32)
         .padding(.horizontal, highlighted ? 8 : 0)
         .background(
             highlighted ? Theme.brandPrimary.opacity(0.08) : .clear,
@@ -528,7 +527,7 @@ struct PaywallView: View {
     }
 
     private var planCards: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 8) {
             ForEach(sortedPackages, id: \.identifier) { package in
                 PlanCard(
                     package: package,
@@ -954,7 +953,7 @@ private struct PlanCard: View {
                 .fixedSize(horizontal: true, vertical: false)
             }
             .padding(.horizontal, 16)
-            .frame(minHeight: 60)
+            .frame(minHeight: 56)
             .frame(maxWidth: .infinity)
             .background(
                 isSelected ? Theme.brandPrimary.opacity(0.08) : Theme.cardSurface,
