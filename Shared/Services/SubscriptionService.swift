@@ -391,6 +391,13 @@ final class SubscriptionService: NSObject {
         #endif
     }
 
+    /// Auto-renew terms and the cancel path. Stays caption-sized wherever it is
+    /// shown: Apple wants it present and legible, not competing with the price.
+    ///
+    /// Outside the RevenueCat guard because onboarding reserves this string's
+    /// height on every step, including the ones that never touch the store.
+    nonisolated static let autoRenewDisclosure = "Auto-renews unless cancelled at least 24 hours before the end of the current period. Manage or cancel in Settings › Apple ID › Subscriptions."
+
     #if canImport(RevenueCat)
     /// The plan the one-tap onboarding trial actually buys: yearly when it
     /// carries a free-trial intro offer this Apple ID is still eligible for,
@@ -508,7 +515,6 @@ final class SubscriptionService: NSObject {
         directTrialPriceHeadline == nil ? nil : Self.autoRenewDisclosure
     }
 
-    private static let autoRenewDisclosure = "Auto-renews unless cancelled at least 24 hours before the end of the current period. Manage or cancel in Settings › Apple ID › Subscriptions."
 
     /// Parsed trial length for hero and plan-stack footnotes.
     var trialOfferDayCount: Int? {
