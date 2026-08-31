@@ -11,3 +11,6 @@ BLOOM+ (ಐಚ್ಛಿಕ)
 • Apple Watch ಮತ್ತು ವಿಜೆಟ್
 
 ಉಚಿತ ಡೌನ್‌ಲೋಡ್. Bloom+ ಯಾವುದೇ ಸಮಯ.
+
+ಬಳಕೆಯ ನಿಯಮಗಳು (Apple ನ ಪ್ರಮಾಣಿತ EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+ಗೌಪ್ಯತಾ ನೀತಿ: https://jackwallner.github.io/sober/privacy-policy.html

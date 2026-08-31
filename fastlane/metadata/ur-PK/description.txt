@@ -11,3 +11,6 @@ BLOOM+ (اختیاری)
 • Apple Watch اور وجیٹ
 
 مفت ڈاؤن لوڈ۔ Bloom+ کبھی بھی۔
+
+استعمال کی شرائط (Apple کا معیاری EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+پرائیویسی پالیسی: https://jackwallner.github.io/sober/privacy-policy.html

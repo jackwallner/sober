@@ -11,3 +11,6 @@ BLOOM+ (VOLITELNÉ)
 • Apple Watch a widgety
 
 Stáhněte zdarma. Bloom+ kdykoli.
+
+Podmínky použití (standardní EULA Applu): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Zásady ochrany osobních údajů: https://jackwallner.github.io/sober/privacy-policy.html

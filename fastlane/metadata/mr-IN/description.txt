@@ -11,3 +11,6 @@ BLOOM+ (पर्यायी)
 • Apple Watch आणि विजेट
 
 मोफत डाउनलोड. Bloom+ कधीही.
+
+वापराच्या अटी (Apple चा मानक EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+गोपनीयता धोरण: https://jackwallner.github.io/sober/privacy-policy.html
