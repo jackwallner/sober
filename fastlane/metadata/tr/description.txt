@@ -11,3 +11,6 @@ BLOOM+ (İSTEĞE BAĞLI)
 • Apple Watch ve widget'lar
 
 Ücretsiz indirin. Bloom+ istediğiniz zaman.
+
+Kullanım Koşulları (Apple'ın standart EULA'sı): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Gizlilik Politikası: https://jackwallner.github.io/sober/privacy-policy.html

@@ -16,3 +16,6 @@ BLOOM+ (OPZIONALE)
 Smetti di bere o accumula giorni secchi: Sober Tracker semplifica il percorso.
 
 Download gratuito. Bloom+ quando vuoi.
+
+Termini d'uso (EULA standard di Apple): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Informativa sulla privacy: https://jackwallner.github.io/sober/privacy-policy.html

@@ -11,3 +11,6 @@ BLOOM+ (VALINNAINEN)
 • Apple Watch ja widgetit
 
 Lataa ilmaiseksi. Bloom+ milloin haluat.
+
+Käyttöehdot (Applen vakio-EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Tietosuojakäytäntö: https://jackwallner.github.io/sober/privacy-policy.html

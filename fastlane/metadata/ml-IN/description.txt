@@ -11,3 +11,6 @@ BLOOM+ (ഓപ്ഷണൽ)
 • Apple Watch, വിജറ്റ്
 
 സൗജന്യ ഡൗൺലോഡ്. Bloom+ എപ്പോഴും.
+
+ഉപയോഗ നിബന്ധനകൾ (Apple ന്റെ സ്റ്റാൻഡേർഡ് EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+സ്വകാര്യതാ നയം: https://jackwallner.github.io/sober/privacy-policy.html

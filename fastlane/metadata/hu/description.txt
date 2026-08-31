@@ -11,3 +11,6 @@ BLOOM+ (OPCIONÁLIS)
 • Apple Watch és widgetek
 
 Töltsd le ingyen. Bloom+ bármikor.
+
+Felhasználási feltételek (az Apple általános EULA-ja): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Adatvédelmi irányelvek: https://jackwallner.github.io/sober/privacy-policy.html

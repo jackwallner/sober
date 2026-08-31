@@ -11,3 +11,6 @@ BLOOM+ (વૈકલ્પિક)
 • Apple Watch અને વિજેટ
 
 મફત ડાઉનલોડ. Bloom+ ક્યારે પણ.
+
+ઉપયોગની શરતો (Apple ની માનક EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+ગોપનીયતા નીતિ: https://jackwallner.github.io/sober/privacy-policy.html
