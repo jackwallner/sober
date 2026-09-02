@@ -48,6 +48,14 @@ struct SoberApp: App {
         #endif
         WatchConnectivityService.shared.activate()
         ReviewPromptTracker.recordAppLaunch()
+        ConversionDiagnostics.recordAppOpen()
+        #if DEBUG
+        if RevenueCatProbe.isEnabled {
+            // Same entry point the real paywall screens call, so what this
+            // proves is the actual path and not a parallel one.
+            SubscriptionService.shared.trackPaywallImpression(id: RevenueCatProbe.impressionID)
+        }
+        #endif
         UNUserNotificationCenter.current().delegate = NotificationTapRouter.shared
     }
 
