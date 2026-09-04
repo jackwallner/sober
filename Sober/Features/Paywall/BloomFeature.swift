@@ -73,6 +73,7 @@ final class TrialOfferCoordinator: ObservableObject {
         case settings
         case growthCelebration
         case checkInMilestone
+        case cravingRelief
 
         var focusFeature: BloomFeature? {
             switch self {
@@ -80,7 +81,7 @@ final class TrialOfferCoordinator: ObservableObject {
             case .healthTimeline: .healthTimeline
             case .gardenSpecies: .gardenSpecies
             case .progressSheet: .savingsTracking
-            case .postOnboarding, .settings, .growthCelebration, .checkInMilestone: nil
+            case .postOnboarding, .settings, .growthCelebration, .checkInMilestone, .cravingRelief: nil
             }
         }
     }

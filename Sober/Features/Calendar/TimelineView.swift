@@ -88,9 +88,9 @@ struct TimelineView: View {
                 presenting: pendingSlipDay
             ) { day in
                 Button("Cancel", role: .cancel) { pendingSlipDay = nil }
-                Button("Log slip & reset", role: .destructive) { confirmSlip(on: day) }
+                Button("Log slip") { confirmSlip(on: day) }
             } message: { _ in
-                Text("Logging a slip resets your day counter to start fresh. Your calendar history and grove of completed trees stay.")
+                Text("Your day counter restarts the day after the slip. Your tree keeps most of its growth, and your longest streak, calendar history, and grove all stay.")
             }
         }
     }
@@ -369,15 +369,12 @@ struct TimelineView: View {
 
     private func confirmSlip(on day: Date) {
         let trimmed = draftNote.trimmingCharacters(in: .whitespacesAndNewlines)
-        CheckInService(context: context).checkIn(
-            for: day, wasSober: false, mood: draftMood, note: trimmed.isEmpty ? nil : trimmed
+        SlipRecorder.record(
+            on: day,
+            mood: draftMood,
+            note: trimmed.isEmpty ? nil : trimmed,
+            context: context
         )
-        // Slip resets the journey; a past-dated slip starts the fresh streak
-        // the day after, and Home's auto-fill makes the calendar agree.
-        let dayAfter = Calendar.current.date(byAdding: .day, value: 1, to: day) ?? day
-        SobrietyService(context: context).resetJourney(startingAt: dayAfter)
-        GardenService(context: context).resetForNewJourney()
-        WidgetSnapshotPump.push(context: context)
         pendingSlipDay = nil
     }
 

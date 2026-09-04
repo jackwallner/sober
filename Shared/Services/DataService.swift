@@ -13,6 +13,7 @@ enum DataService {
             UnlockedHealthBenefit.self,
             GardenState.self,
             UserSettings.self,
+            CravingEpisode.self,
         ])
         let url = containerURL
 

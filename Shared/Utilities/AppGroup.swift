@@ -24,6 +24,7 @@ enum AppGroup {
     static let journalTabVisitCountKey = "journalTabVisitCount"
     static let checkInCompletedCountKey = "checkInCompletedCount"
     static let growthCelebrationCountKey = "growthCelebrationCount"
+    static let cravingRodeOutCountKey = "cravingRodeOutCount"
 
     static var defaults: UserDefaults {
         UserDefaults(suiteName: identifier) ?? .standard

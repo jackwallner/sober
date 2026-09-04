@@ -20,6 +20,10 @@ final class GardenState {
     /// a post-reset journey's completions would be swallowed until they
     /// exceeded the lifetime total.
     var groveCountAtJourneyStart: Int = 0
+    /// Days of growth the live tree inherited from the tree that was standing
+    /// when the user last slipped. The day counter restarts at a slip; the tree
+    /// does not. See `GardenService.recordSlip`.
+    var carryoverDays: Int = 0
 
     init(
         id: UUID = UUID(),
