@@ -25,6 +25,28 @@ All share App Group `group.com.jackwallner.sober` for SwiftData container + widg
 
 Root flow: `SoberApp → RootView → (OnboardingView | MainTabView)`.
 
+## Craving mode + slips (added 2026-09-03)
+The two features aimed at the moments the app used to have nothing to say to.
+Both cores are in `Shared/`, both are **free and ungated**, and every
+habit-specific word in them lives in `Shared/Utilities/HabitVocabulary.swift`.
+**That file is the fork point**: porting all of this to Quit Zyn is an edit to
+it, not a sweep through the feature code. Never write "alcohol" or "drink" in
+craving/slip/patterns code, add a term there instead.
+- **Craving mode** (`Sober/Features/Craving/CravingModeView.swift`): full-screen
+  box-breathing ride-it-out session, logged as `CravingEpisode`. No paywall
+  anywhere in the flow. Intensity and trigger are captured on the way *out*, not
+  the way in. Copy arc lives in `Shared/Catalogs/CravingCoachCatalog.swift`.
+- **Slips don't erase the garden.** `GardenService.recordSlip` banks half the
+  tree's growth into `GardenState.carryoverDays`; the tree renders at
+  `GardenService.treeDays(streakDays:carryover:)` while the counter keeps showing
+  the honest streak. Carryover is clamped below the 365-day cycle so it can never
+  wrap and shrink the tree. Everything that logs a slip goes through
+  `SlipRecorder` so Home and Timeline can't drift apart again.
+- **`DailyCheckIn.wasLogged`** separates a day the user tapped from one
+  `fillJourney` filled in. Home's week strip (`TendedWeek` + `WeekStripView`) and
+  Timeline's calendar shading both key off it, and so does
+  `daysSinceLastCheckIn` (counting rows made it permanently return 1).
+
 ## Pro entitlement (`"pro"`, shown as Bloom+)
 The line is drawn by **tense**, not by feature count (re-cut 2026-08-21). Selling a
 bigger version of a complete free app is what put trial starts at 3%.
@@ -34,6 +56,12 @@ bigger version of a complete free app is what put trial starts at 3%.
   number the user already earned).
 - **Bloom+ owns the future**: the year-ahead projection, full health timeline +
   sources, journal compose, additional garden species.
+- **Bloom+ owns *you*** (added 2026-09-03, now the headline): `CravingInsights`
+  reads the user's own logged urges back to them, and `BloomFeature.patterns`
+  leads the paywall. The enum's declaration order *is* the paywall's priority
+  order. Every reading has a sample floor and returns nil below it rather than
+  inventing a claim; `nextUnlock` says what's still coming. Riding out an urge
+  routes to the `.patterns` pitch, the highest-intent moment in the app.
 
 Prices are never literals: read them from StoreKit, and express them against the
 user's own habit spend via `HabitPriceComparison` rather than quoting figures.
