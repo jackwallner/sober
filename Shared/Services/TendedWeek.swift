@@ -75,6 +75,13 @@ enum TendedWeek {
         return "mostly \(moodLabels[index])"
     }
 
+    /// The Home card sits between a checkmark and a button, and the full
+    /// sentence does not fit there: it clipped to "Tend a day to start...".
+    /// The sentence stays on the Progress sheet, which has the width for it.
+    static func compactSummary(_ days: [TendedDay]) -> String {
+        "\(tendedCount(days))/\(length) tended"
+    }
+
     /// The line under the strip. Deliberately never scolds: a low count is
     /// reported, not judged, because the one thing that reliably makes someone
     /// stop opening a recovery app is being told off by it.

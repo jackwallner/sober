@@ -18,6 +18,7 @@ struct HomeView: View {
     @State private var bestStreak = 0
     @State private var lifetimeSoberDays = 0
     @State private var week: [TendedDay] = []
+    @State private var todayWasSlip = false
     @State private var checkedInToday = false
     @State private var daysMissed = 0
     @State private var showSettings = false
@@ -383,6 +384,31 @@ struct HomeView: View {
             .overlay(
                 RoundedRectangle(cornerRadius: 18).stroke(Theme.ringTrack, lineWidth: 1)
             )
+        } else if todayWasSlip {
+            // `checkedInToday` only means "the user logged something today",
+            // and a slip is something. Falling through to the card below had
+            // Home congratulating people with a green tick and a watered
+            // bonsai on the day they told it they drank.
+            HStack(spacing: 12) {
+                Image(systemName: "leaf.fill")
+                    .font(.title2)
+                    .foregroundStyle(Theme.brandPrimary)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Today is logged as a slip")
+                        .font(Theme.subhead(weight: .semibold))
+                        .foregroundStyle(Theme.textPrimary)
+                    Text("Your tree kept its growth. Day one starts now.")
+                        .font(Theme.caption())
+                        .foregroundStyle(Theme.textSecondary)
+                }
+                Spacer(minLength: 0)
+            }
+            .padding(14)
+            .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 18))
+            .overlay(
+                RoundedRectangle(cornerRadius: 18)
+                    .stroke(Theme.ringTrack, lineWidth: 1)
+            )
         } else if checkedInToday {
             // After check-in, show what the action actually accomplished rather
             // than a static "done" pill, so the tap feels consequential.
@@ -400,11 +426,10 @@ struct HomeView: View {
                     // because they did.
                     HStack(spacing: Theme.Space.s) {
                         WeekStripView(days: week)
-                        Text(TendedWeek.summary(week))
+                        Text(TendedWeek.compactSummary(week))
                             .font(Theme.caption())
                             .foregroundStyle(Theme.textSecondary)
                             .lineLimit(1)
-                            .minimumScaleFactor(0.8)
                     }
                 }
                 Spacer(minLength: 0)
@@ -492,6 +517,7 @@ struct HomeView: View {
     private func refreshCheckInState() {
         let svc = CheckInService(context: context)
         checkedInToday = svc.hasCheckedIn()
+        todayWasSlip = svc.loggedSlip()
         daysMissed = svc.daysSinceLastCheckIn()
         lifetimeSoberDays = svc.lifetimeSoberDayCount()
         bestStreak = SobrietyService(context: context).longestStreakDays()
@@ -795,7 +821,13 @@ struct ProgressSheet: View {
 
     private var weekLine: String {
         let summary = TendedWeek.summary(week)
-        guard let mood = TendedWeek.moodSummary(week) else { return summary }
+        // The mood clause only makes sense hanging off a count. Appending it
+        // to the zero-day prompt produced "Tend a day to start your week ·
+        // felt mostly good", which a user who checked in and then logged a
+        // slip could actually see.
+        guard TendedWeek.tendedCount(week) > 0, let mood = TendedWeek.moodSummary(week) else {
+            return summary
+        }
         return "\(summary) · felt \(mood)"
     }
 

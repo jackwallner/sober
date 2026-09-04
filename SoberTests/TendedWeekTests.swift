@@ -150,3 +150,69 @@ struct CheckInLoggingTests {
         #expect(svc.lifetimeSoberDayCount() == 3)
     }
 }
+
+@Suite("Today's slip is not a check-in")
+@MainActor
+struct SlipDayDisplayTests {
+    private let container: ModelContainer
+
+    init() throws {
+        container = try ModelContainer(
+            for: DailyCheckIn.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
+    }
+
+    private func service() -> CheckInService {
+        CheckInService(context: container.mainContext)
+    }
+
+    /// Home keyed its "Today is logged, your bonsai is watered" card off
+    /// hasCheckedIn, which only means the user logged *something*. Logging a
+    /// slip is something, so the app congratulated people on the day they told
+    /// it they drank.
+    @Test func aSlipLoggedTodayIsReportedAsASlip() {
+        let svc = service()
+        svc.checkIn(wasSober: false)
+        #expect(svc.hasCheckedIn() == true)
+        #expect(svc.loggedSlip() == true)
+    }
+
+    @Test func anOrdinaryCheckInIsNotASlip() {
+        let svc = service()
+        svc.checkIn()
+        #expect(svc.loggedSlip() == false)
+    }
+
+    @Test func anAutoFilledDayIsNeitherLoggedNorASlip() {
+        let svc = service()
+        svc.fillJourney(start: DateHelpers.daysAgo(2), through: .now)
+        #expect(svc.hasCheckedIn() == false)
+        #expect(svc.loggedSlip() == false)
+    }
+
+    /// The Home card sits between a checkmark and a button; the full sentence
+    /// clipped to "Tend a day to start..." there.
+    @Test func compactSummaryStaysShortEnoughForTheHomeCard() {
+        let week = TendedWeek.days(facts: [])
+        #expect(TendedWeek.compactSummary(week) == "0/7 tended")
+        #expect(TendedWeek.compactSummary(week).count < 15)
+    }
+}
+
+@Suite("Week line copy")
+struct WeekLineTests {
+    private let today = DateHelpers.startOfDay(Date(timeIntervalSince1970: 1_756_000_000))
+
+    /// A user who checks in with a mood and then logs a slip that same day
+    /// leaves the week with zero tended days but a recorded mood, which read
+    /// as "Tend a day to start your week - felt mostly good".
+    @Test func theMoodClauseNeedsACountToHangOff() {
+        let week = TendedWeek.days(endingOn: today, facts: [
+            CheckInFacts(day: today, wasSober: false, wasLogged: true, mood: 4)
+        ])
+        #expect(TendedWeek.tendedCount(week) == 0)
+        #expect(TendedWeek.moodSummary(week) == "mostly good")
+        #expect(TendedWeek.summary(week) == "Tend a day to start your week")
+    }
+}
