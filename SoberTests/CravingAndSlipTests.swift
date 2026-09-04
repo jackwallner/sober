@@ -42,15 +42,24 @@ struct TreeCarryoverTests {
 @Suite("Recording a slip")
 @MainActor
 struct SlipCarryoverTests {
-    private func container() throws -> ModelContainer {
-        try ModelContainer(
+    /// The container has to outlive the service. Handing back only
+    /// `container.mainContext` lets the container deallocate on the same line,
+    /// which takes the context's store with it.
+    private let container: ModelContainer
+
+    init() throws {
+        container = try ModelContainer(
             for: GardenState.self,
             configurations: ModelConfiguration(isStoredInMemoryOnly: true)
         )
     }
 
+    private func service() -> GardenService {
+        GardenService(context: container.mainContext)
+    }
+
     @Test func slipBanksHalfTheTree() throws {
-        let svc = GardenService(context: try container().mainContext)
+        let svc = service()
         #expect(svc.recordSlip(previousStreakDays: 40) == 20)
         #expect(svc.current().carryoverDays == 20)
     }
@@ -58,14 +67,14 @@ struct SlipCarryoverTests {
     /// Two slips in a row must not reduce the tree to nothing in one step, but
     /// they must compound rather than each measuring against the raw streak.
     @Test func repeatedSlipsCompoundFromWhatTheTreeActuallyHad() throws {
-        let svc = GardenService(context: try container().mainContext)
+        let svc = service()
         #expect(svc.recordSlip(previousStreakDays: 40) == 20)
         // Streak of 4 on a tree already carrying 20 is a 24-day tree.
         #expect(svc.recordSlip(previousStreakDays: 4) == 12)
     }
 
     @Test func slipKeepsTheGroveAndDropsVitalityWithoutKillingIt() throws {
-        let svc = GardenService(context: try container().mainContext)
+        let svc = service()
         svc.processCycleCompletions(days: 366)
         #expect(svc.current().completedTreeStyles.count == 1)
 
@@ -78,7 +87,7 @@ struct SlipCarryoverTests {
     /// A deliberate reset is the user saying they set the counter up wrong,
     /// which is the one case where the tree really should start over.
     @Test func deliberateResetClearsCarryover() throws {
-        let svc = GardenService(context: try container().mainContext)
+        let svc = service()
         svc.recordSlip(previousStreakDays: 40)
         svc.resetForNewJourney()
         #expect(svc.current().carryoverDays == 0)
@@ -88,16 +97,21 @@ struct SlipCarryoverTests {
 @Suite("Craving session logging")
 @MainActor
 struct CravingServiceTests {
-    private func service() throws -> CravingService {
-        let container = try ModelContainer(
+    private let container: ModelContainer
+
+    init() throws {
+        container = try ModelContainer(
             for: CravingEpisode.self,
             configurations: ModelConfiguration(isStoredInMemoryOnly: true)
         )
-        return CravingService(context: container.mainContext)
+    }
+
+    private func service() -> CravingService {
+        CravingService(context: container.mainContext)
     }
 
     @Test func onlyRiddenOutSessionsCountTowardTheTally() throws {
-        let svc = try service()
+        let svc = service()
         svc.record(startedAt: .now, secondsElapsed: 180, outcome: .rodeItOut, intensity: 4)
         svc.record(startedAt: .now, secondsElapsed: 30, outcome: .gaveIn, intensity: 5)
         svc.record(startedAt: .now, secondsElapsed: 10, outcome: .unresolved, intensity: 3)
@@ -106,7 +120,7 @@ struct CravingServiceTests {
     }
 
     @Test func intensityIsClampedToTheScale() throws {
-        let svc = try service()
+        let svc = service()
         let low = svc.record(startedAt: .now, secondsElapsed: 5, outcome: .rodeItOut, intensity: -2)
         let high = svc.record(startedAt: .now, secondsElapsed: 5, outcome: .rodeItOut, intensity: 99)
         #expect(low.intensity == 1)
@@ -114,7 +128,7 @@ struct CravingServiceTests {
     }
 
     @Test func outcomeSurvivesTheRawStringRoundTrip() throws {
-        let svc = try service()
+        let svc = service()
         let episode = svc.record(startedAt: .now, secondsElapsed: 60, outcome: .gaveIn, intensity: 3)
         #expect(episode.outcome == .gaveIn)
         episode.outcome = .rodeItOut
