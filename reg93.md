@@ -138,4 +138,21 @@ Expected: require the peak window to contain fewer than all records, and base un
 - The existing floating tab bar overlap on lower Timeline and Health content was visible in build 83 as well, so it was not counted as an 83 to 87 regression.
 - No crash or diagnostic-signature comparison was possible from ASC because no usable diagnostic data was available.
 
-No application source, project, or configuration files were changed for this audit. This report is the only task-owned artifact.
+No application source, project, or configuration files were changed for the audit itself. The fixes recorded below were made afterwards.
+
+## Resolution (2026-09-04, build 88)
+
+Every finding above is fixed. 126 tests pass (113 before, plus 13 regression tests in `SoberTests/UpgradeAndSlipRegressionTests.swift`).
+
+| ID | Fix | Where |
+|---|---|---|
+| R93-01 | One-time migration marks every pre-`wasLogged` row as tended, run from `SoberApp.init` so it lands before the first `fillJourney` of the session. Guarded by an App Group flag so it can never sweep up this build's assumed rows. | `CheckInService.migrateLegacyCheckInsIfNeeded`, `Sober/App.swift`, `AppGroup.legacyCheckInsMarkedLoggedKey` |
+| R93-02 | `backfillSoberDays` anchors on `lastLoggedCheckInDate()` instead of `lastCheckInDate()`, and promotes the assumed sober rows already inside the span rather than skipping them. A logged slip in the range is left untouched. Batched into one fetch. | `Shared/Services/CheckInService.swift` |
+| R93-03 | Streak and carryover are computed as of the selected slip date via the new `SobrietyService.dayCount(asOf:)`, which resolves whichever journey covered that day. The sheet preview reads the same function the recorder does. | `SlipRecorder.streakDays(endingOn:context:)`, `SobrietyService.dayCount(asOf:)`, `SlipSheet.streakAtSlip` |
+| R93-04 | Finishing Craving Mode with "I gave in" now opens the slip flow, raised from the cover's `onDismiss` so the sheet actually presents. Cancellable, so nothing is recorded until the user confirms. Skipped when today already has a logged slip. | `Sober/Features/Today/HomeView.swift` |
+| R93-05 | Timeline and Garden Customization both draw the tree from a carryover-aware day count. Timeline applies carryover only to dates inside the active journey, where it is meaningful. The counter line still shows the honest streak. | `TimelineView.treeDays(on:)`, `GardenCustomizationView.treeDays` |
+| R93-06 | Copy changed rather than the count: dropping assumed days would have shrunk the money and calorie totals underneath. Home reads "N days sober", and the Kept-so-far footer says the lifetime figure includes days the app filled in. | `HomeView.historyLine`, savings footer, `SlipSheet` |
+| R93-07 | `SlipRecorder.record` treats a second slip on a day that already has one as an edit: the note and mood are saved, the garden's 50% rule is not applied again. | `Shared/Services/SlipRecorder.swift` |
+| R93-08 | `peakWindow`'s second guard clause restated the guard at the top of the function and so could never fire; it now requires the window to hold fewer than all records. `nextUnlock` counts sessions with a recorded outcome instead of rows, and its copy adapts when timing cards are already showing. | `Shared/Services/CravingInsights.swift`, `PatternsView` |
+
+Not changed, deliberately: `lifetimeSoberDayCount()` still counts every sober row. Assumed days are real sober days, and excluding them would have made a user's kept money and calories drop on upgrade. The distinction now lives in the copy.

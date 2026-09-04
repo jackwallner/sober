@@ -41,6 +41,23 @@ struct TimelineView: View {
         return DateHelpers.daysBetween(j.startDate, d) + 1
     }
 
+    /// The age the tree is drawn at for a given date, carryover included.
+    ///
+    /// Carryover describes what the current tree inherited when the last slip
+    /// started this journey, so it applies to dates inside the active journey
+    /// and to nothing before it. Reconstructing from the raw streak showed a
+    /// day-one tree here while Home showed the inherited one for the same day.
+    private func treeDays(on date: Date) -> Int {
+        let count = soberDays(on: date)
+        guard let start = activeStart,
+              DateHelpers.startOfDay(date) >= DateHelpers.startOfDay(start)
+        else { return count }
+        return GardenService.treeDays(
+            streakDays: count,
+            carryover: gardenStates.first?.carryoverDays ?? 0
+        )
+    }
+
     private var bonsaiStyle: BonsaiStyle {
         switch gardenStates.first?.activeBonsaiStyleID {
         case "cascade-bonsai": return .cascade
@@ -251,9 +268,11 @@ struct TimelineView: View {
     // MARK: - Reconstructed tree for the selected day
 
     private var treeRow: some View {
+        // The counter line shows the honest streak; only the tree inherits.
         let dayCount = soberDays(on: selectedDate)
-        let cycle = GardenService.cycleProgress(forDays: dayCount)
-        let stage = GardenService.stage(forDays: dayCount)
+        let drawnDays = treeDays(on: selectedDate)
+        let cycle = GardenService.cycleProgress(forDays: drawnDays)
+        let stage = GardenService.stage(forDays: drawnDays)
         let isToday = DateHelpers.startOfDay(selectedDate) == DateHelpers.startOfDay()
 
         return VStack(alignment: .leading, spacing: Theme.Space.m) {
@@ -278,7 +297,7 @@ struct TimelineView: View {
             }
             .frame(height: 200)
 
-            diffNarration(dayCount: dayCount)
+            diffNarration(dayCount: drawnDays)
         }
     }
 

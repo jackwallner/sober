@@ -77,8 +77,11 @@ enum CravingInsights {
             if count > best.count { best = (start, count) }
         }
         // A window holding everything the user has ever logged says nothing
-        // beyond "you log at some point in the day".
-        guard best.count >= 2, best.count < facts.count || facts.count >= minimumForTiming else { return nil }
+        // beyond "you log at some point in the day". The second clause used to
+        // be `|| facts.count >= minimumForTiming`, which the guard at the top
+        // has already established, so the check could never fire and four
+        // urges inside one evening produced a confident "Hardest between".
+        guard best.count >= 2, best.count < facts.count else { return nil }
         return best
     }
 
@@ -232,13 +235,23 @@ enum CravingInsights {
     /// What is still coming, for a screen that does not have enough data yet.
     /// This is the retention loop for a subscriber: the tool is free, and using
     /// it is what fills in the part they paid for.
-    static func nextUnlock(_ cravings: [CravingFacts]) -> String? {
+    ///
+    /// Counts sessions that can actually feed an insight, not sessions on
+    /// disk. Totalling every record meant four abandoned sessions silently
+    /// satisfied the unlock, so the line disappeared while the screen it was
+    /// explaining stayed empty. A session only counts once the user answered
+    /// how it ended, which is what `rideOutRate` and the timing readings need.
+    static func nextUnlock(_ cravings: [CravingFacts], showing insightCount: Int = 0) -> String? {
         let needed = max(minimumForRate, minimumForTiming)
-        guard cravings.count < needed else { return nil }
-        let remaining = needed - cravings.count
+        let usable = cravings.filter { $0.outcome == .rodeItOut || $0.outcome == .gaveIn }.count
+        guard usable < needed else { return nil }
+        let remaining = needed - usable
+        // Timing readings need only a start time, so a screen can already be
+        // showing something when the ones that need an outcome are still short.
+        let verb = insightCount > 0 ? "keep filling in" : "start filling in"
         return remaining == 1
-            ? "One more logged \(HabitVocabulary.urgeNoun) and your patterns start filling in."
-            : "\(remaining) more logged \(HabitVocabulary.urgeNounPlural) and your patterns start filling in."
+            ? "One more logged \(HabitVocabulary.urgeNoun) and your patterns \(verb)."
+            : "\(remaining) more logged \(HabitVocabulary.urgeNounPlural) and your patterns \(verb)."
     }
 
     /// The one personal line the ride-it-out screen can show mid-session.

@@ -18,7 +18,14 @@ struct GardenCustomizationView: View {
         guard let j = journeys.first(where: { $0.isActive }) else { return 0 }
         return SobrietyService.daysSinceStart(j.startDate)
     }
-    private var dayInCycle: Int { GardenService.cycleProgress(forDays: days).dayInCycle }
+    /// The age the tree is actually drawn at, carryover included. Previewing
+    /// the raw streak here meant a user who had just slipped saw a mature tree
+    /// on Home and a seedling on the species picker, which reads as the app
+    /// taking back the growth the slip flow promised it would keep.
+    private var treeDays: Int {
+        GardenService.treeDays(streakDays: days, carryover: gardenState?.carryoverDays ?? 0)
+    }
+    private var dayInCycle: Int { GardenService.cycleProgress(forDays: treeDays).dayInCycle }
     private var isPro: Bool { subscriptions.isProSubscriber }
     private var activeStyleID: String { gardenState?.activeBonsaiStyleID ?? GardenItemCatalog.freeSpeciesID }
     private var species: [GardenItem] { GardenItemCatalog.species }
@@ -55,7 +62,7 @@ struct GardenCustomizationView: View {
 
     private var gardenPreview: some View {
         GardenSceneView(
-            days: days,
+            days: treeDays,
             vitality: gardenState?.vitality ?? 1.0,
             activeBonsaiStyleID: activeStyleID,
             isPro: isPro,

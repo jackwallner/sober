@@ -99,22 +99,43 @@ final class CheckInService {
         if didInsert { try? context.save() }
     }
 
-    /// Backfill check-ins as sober for every day from the last recorded check-in
-    /// (or today if there is none) up through today. Idempotent.
+    /// Backfill check-ins as sober for every day from the last day the user
+    /// actually tended (or today if there is none) up through today. Idempotent.
+    ///
+    /// Anchored on the last *logged* day, not the last row on disk: `fillJourney`
+    /// has already written assumed rows through yesterday by the time Home can
+    /// offer "Still sober", so anchoring on any row made the action cover today
+    /// alone while the week strip and calendar kept showing the span it claimed
+    /// to confirm as untended. Days already in the span are promoted rather than
+    /// skipped, since the user has now spoken for them.
+    ///
+    /// A logged slip inside the span is left exactly as it is: confirming a
+    /// stretch of days never overwrites something the user told the app happened.
     func backfillSoberDays(through end: Date = .now) {
         let today = DateHelpers.startOfDay(end)
         let cal = Calendar.current
         let from: Date = {
-            if let last = lastCheckInDate() {
+            if let last = lastLoggedCheckInDate() {
                 return cal.date(byAdding: .day, value: 1, to: DateHelpers.startOfDay(last)) ?? today
             }
             return today
         }()
+        guard from <= today else { return }
+
+        // One fetch for the whole span rather than one per day: a user back
+        // after a long absence would otherwise pay a fetch per missed day on
+        // the main actor, in the tap handler.
+        let existing = Dictionary(
+            fetch(from: from, to: today).map { ($0.day, $0) },
+            uniquingKeysWith: { a, _ in a }
+        )
         var cursor = from
         while cursor <= today {
-            if find(day: cursor) == nil {
-                // The user answered "still sober" for this whole span, so
-                // every day in it is tended rather than assumed.
+            if let row = existing[cursor] {
+                // The user answered "still sober" for this whole span, so an
+                // assumed day inside it is now tended.
+                if row.wasSober { row.wasLogged = true }
+            } else {
                 context.insert(DailyCheckIn(day: cursor, wasSober: true, wasLogged: true))
             }
             guard let next = cal.date(byAdding: .day, value: 1, to: cursor) else { break }
@@ -123,8 +144,38 @@ final class CheckInService {
         try? context.save()
     }
 
-    /// Every sober day ever logged, across all journeys. This is the number
+    /// One-time upgrade repair for rows written before `wasLogged` existed.
+    ///
+    /// The field shipped with a default of `false` so the SwiftData migration
+    /// could stay lightweight, which meant an upgrading user's entire tended
+    /// history came back reading as days the app had assumed: Home offered a
+    /// second check-in for a day already logged, and the calendar faded a real
+    /// record. Every pre-upgrade row came from a real tap or from a backfill
+    /// that older builds treated as a check-in, so "tended" is the meaning
+    /// those rows were written with.
+    ///
+    /// Must run before this build's first `fillJourney`, or the assumed rows
+    /// that call creates would be swept up with the legacy ones. `SoberApp.init`
+    /// is that point.
+    static func migrateLegacyCheckInsIfNeeded(context: ModelContext) {
+        let defaults = AppGroup.defaults
+        guard !defaults.bool(forKey: AppGroup.legacyCheckInsMarkedLoggedKey) else { return }
+        defaults.set(true, forKey: AppGroup.legacyCheckInsMarkedLoggedKey)
+
+        let descriptor = FetchDescriptor<DailyCheckIn>(predicate: #Predicate { !$0.wasLogged })
+        guard let legacy = try? context.fetch(descriptor), !legacy.isEmpty else { return }
+        for row in legacy { row.wasLogged = true }
+        try? context.save()
+    }
+
+    /// Every sober day on record, across all journeys. This is the number
     /// that makes a slip survivable: the streak restarts, this does not.
+    ///
+    /// Deliberately counts assumed days alongside tended ones - a day the user
+    /// stayed sober through without opening the app still happened, and
+    /// dropping it would shrink the money and calorie totals underneath. The
+    /// copy that presents this number says "counted", never "logged", because
+    /// `wasLogged` is the only thing that can claim the tap.
     func lifetimeSoberDayCount() -> Int {
         let descriptor = FetchDescriptor<DailyCheckIn>(
             predicate: #Predicate { $0.wasSober }

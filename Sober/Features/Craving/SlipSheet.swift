@@ -26,12 +26,19 @@ struct SlipSheet: View {
         DateHelpers.daysAgo(max(0, currentStreakDays - 1))
     }
 
+    /// The run the selected day actually ended. Picking a date ten days back
+    /// used to leave the preview quoting today's streak, so the sheet promised
+    /// growth from days that came after the slip it was about to log.
+    private var streakAtSlip: Int {
+        SlipRecorder.streakDays(endingOn: day, context: context)
+    }
+
     /// What the tree will inherit if they log it. Computed from the same
-    /// function that does the real work, so the promise and the behaviour
+    /// functions that do the real work, so the promise and the behaviour
     /// cannot drift apart.
     private var previewCarryover: Int {
         let state = GardenService(context: context).current()
-        let had = GardenService.treeDays(streakDays: currentStreakDays, carryover: state.carryoverDays)
+        let had = GardenService.treeDays(streakDays: streakAtSlip, carryover: state.carryoverDays)
         return min(364, Int(Double(had) * GardenService.slipCarryoverFraction))
     }
 
@@ -71,7 +78,7 @@ struct SlipSheet: View {
             Section {
                 keepRow("leaf.fill", "Your tree keeps \(previewCarryover) day\(previewCarryover == 1 ? "" : "s") of growth")
                 keepRow("flag.fill", "Your longest streak still stands")
-                keepRow("calendar", "Every sober day you've logged still counts")
+                keepRow("calendar", "Every sober day you've counted still counts")
             } header: {
                 Text("What you keep")
             } footer: {

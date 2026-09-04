@@ -68,6 +68,30 @@ final class SobrietyService {
         return SobrietyService.daysSinceStart(journey.startDate, asOf: date)
     }
 
+    /// Whole days accrued as of `date` by whichever journey covered that date.
+    ///
+    /// Unlike `currentDayCount(asOf:)` this keeps answering correctly once a
+    /// later reset has ended the journey in question, which is what a
+    /// back-dated slip needs: the streak that was running on the day of the
+    /// event, not the one running when the user got around to entering it.
+    /// Journeys are scanned oldest-first so a date sitting on the boundary
+    /// between a journey that ended and the one that replaced it resolves to
+    /// the run that was actually going on that day.
+    func dayCount(asOf date: Date) -> Int {
+        let day = DateHelpers.startOfDay(date)
+        let descriptor = FetchDescriptor<SobrietyJourney>(
+            sortBy: [SortDescriptor(\.startDate, order: .forward)]
+        )
+        let journeys = (try? context.fetch(descriptor)) ?? []
+        let covering = journeys.first { j in
+            guard day >= DateHelpers.startOfDay(j.startDate) else { return false }
+            guard let end = j.endDate else { return true }
+            return day <= DateHelpers.startOfDay(end)
+        }
+        guard let journey = covering else { return 0 }
+        return SobrietyService.daysSinceStart(journey.startDate, asOf: date)
+    }
+
     /// Hours since the active journey's start.
     func currentHours(asOf date: Date = .now) -> Double {
         guard let journey = activeJourney() else { return 0 }

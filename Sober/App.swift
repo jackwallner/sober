@@ -57,6 +57,11 @@ struct SoberApp: App {
         }
         #endif
         UNUserNotificationCenter.current().delegate = NotificationTapRouter.shared
+        // Before any view can run `fillJourney`, or this build's assumed rows
+        // would be marked tended along with the legacy ones.
+        CheckInService.migrateLegacyCheckInsIfNeeded(
+            context: DataService.sharedModelContainer.mainContext
+        )
     }
 
     #if DEBUG

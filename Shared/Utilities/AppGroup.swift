@@ -21,6 +21,11 @@ enum AppGroup {
         "bloomActionCount_\(intent)"
     }
 
+    /// Set once the pre-1.3.1 check-in rows have been marked as tended.
+    /// `wasLogged` shipped with a default of false, so without this every day
+    /// an earlier build recorded came back reading as "the app assumed this".
+    static let legacyCheckInsMarkedLoggedKey = "legacyCheckInsMarkedLogged"
+
     static let journalTabVisitCountKey = "journalTabVisitCount"
     static let checkInCompletedCountKey = "checkInCompletedCount"
     static let growthCelebrationCountKey = "growthCelebrationCount"
