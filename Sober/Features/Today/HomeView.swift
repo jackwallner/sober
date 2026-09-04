@@ -15,6 +15,9 @@ struct HomeView: View {
     @State private var showResetAlert = false
     @State private var showSlipSheet = false
     @State private var showCraving = false
+    /// Set when the user ends Craving Mode with "I gave in", so the slip flow
+    /// can open once the full-screen cover is actually off screen.
+    @State private var slipPendingAfterCraving = false
     @State private var bestStreak = 0
     @State private var lifetimeSoberDays = 0
     @State private var week: [TendedDay] = []
@@ -172,7 +175,14 @@ struct HomeView: View {
                     checkedInToday = CheckInService(context: context).hasCheckedIn()
                 }
             }
-            .fullScreenCover(isPresented: $showCraving) {
+            .fullScreenCover(isPresented: $showCraving, onDismiss: {
+                // Presented on dismiss rather than inside the callback: a sheet
+                // raised while the cover is still tearing down never appears.
+                if slipPendingAfterCraving {
+                    slipPendingAfterCraving = false
+                    showSlipSheet = true
+                }
+            }) {
                 CravingModeView { outcome in
                     handleCravingFinished(outcome)
                 }
@@ -241,14 +251,14 @@ struct HomeView: View {
     }
 
     /// The record behind the current run. Hidden on a first, unbroken journey,
-    /// where "best 12, 12 days logged" only restates the number above it; it
+    /// where "best 12, 12 days sober" only restates the number above it; it
     /// appears once there is history the counter alone does not show, which in
     /// practice is the moment after a slip, when it matters most.
     private var historyLine: String? {
         guard bestStreak > days || lifetimeSoberDays > days else { return nil }
         var parts: [String] = []
         if bestStreak > days { parts.append("Best \(bestStreak)") }
-        if lifetimeSoberDays > days { parts.append("\(lifetimeSoberDays) days logged") }
+        if lifetimeSoberDays > days { parts.append("\(lifetimeSoberDays) days sober") }
         return parts.joined(separator: " · ")
     }
 
@@ -533,6 +543,14 @@ struct HomeView: View {
     private func handleCravingFinished(_ outcome: CravingOutcome) {
         WidgetSnapshotPump.push(context: context)
         refreshCheckInState()
+        // "I gave in" is a disclosure, not just a craving outcome. It used to
+        // record the episode and drop the user back on a counter that still
+        // claimed an unbroken streak, with nothing offering a way forward from
+        // the thing they had just admitted. Hand them the slip flow, which is
+        // cancellable and changes nothing until they confirm.
+        if outcome == .gaveIn, !CheckInService(context: context).loggedSlip() {
+            slipPendingAfterCraving = true
+        }
         guard outcome == .rodeItOut else { return }
         recordPositiveMomentForReview()
         guard !isPro else { return }
@@ -893,7 +911,7 @@ struct ProgressSheet: View {
                     } header: {
                         Text("Kept so far")
                     } footer: {
-                        Text("Streak counts your current run. Lifetime counts every sober day you've ever logged, so past progress isn't lost on a reset.")
+                        Text("Streak counts your current run. Lifetime counts every sober day on your record, including days the app filled in for you, so past progress isn't lost on a reset.")
                     }
                 }
 

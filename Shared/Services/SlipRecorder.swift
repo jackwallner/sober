@@ -16,6 +16,18 @@ enum SlipRecorder {
         let carryoverDays: Int
     }
 
+    /// The streak the user was on at the end of `day`, which for a back-dated
+    /// slip is not the streak they are on now.
+    ///
+    /// Reading the live counter meant a slip entered from ten days ago was
+    /// scored against today's run: the confirmation named a streak that had
+    /// not happened yet on the date being logged, and the garden inherited
+    /// growth from days that came after the event. The as-of count keeps the
+    /// result tied to when the slip happened rather than to when it was typed in.
+    static func streakDays(endingOn day: Date, context: ModelContext) -> Int {
+        max(0, SobrietyService(context: context).dayCount(asOf: day))
+    }
+
     /// Log a slip on `day`, restart the counter the day after, and let the
     /// garden bank half the tree.
     ///
@@ -30,16 +42,33 @@ enum SlipRecorder {
         context: ModelContext
     ) -> Outcome {
         let sobriety = SobrietyService(context: context)
-        let previousStreak = sobriety.currentDayCount()
+        let checkIns = CheckInService(context: context)
+        let garden = GardenService(context: context)
 
-        CheckInService(context: context).checkIn(for: day, wasSober: false, mood: mood, note: note)
+        // Re-submitting a slip for a day that already has one is an edit, not a
+        // second event. The counter reset is idempotent, but the garden's 50%
+        // rule is not: applying it again halved the inherited growth a second
+        // time, so a double tap quietly shrank the tree the flow had just
+        // promised would keep it.
+        if checkIns.loggedSlip(on: day) {
+            checkIns.checkIn(for: day, wasSober: false, mood: mood, note: note)
+            WidgetSnapshotPump.push(context: context)
+            return Outcome(
+                previousStreakDays: streakDays(endingOn: day, context: context),
+                carryoverDays: garden.current().carryoverDays
+            )
+        }
+
+        let previousStreak = streakDays(endingOn: day, context: context)
+
+        checkIns.checkIn(for: day, wasSober: false, mood: mood, note: note)
 
         let dayAfter = Calendar.current.date(
             byAdding: .day, value: 1, to: DateHelpers.startOfDay(day)
         ) ?? day
         sobriety.resetJourney(startingAt: dayAfter)
 
-        let carryover = GardenService(context: context).recordSlip(previousStreakDays: previousStreak)
+        let carryover = garden.recordSlip(previousStreakDays: previousStreak)
         WidgetSnapshotPump.push(context: context)
 
         return Outcome(previousStreakDays: previousStreak, carryoverDays: carryover)

@@ -41,8 +41,9 @@ struct PatternsView: View {
                 } else {
                     header
                     if cravings.count >= CravingInsights.minimumForTiming { hourChart }
-                    ForEach(insights) { insightCard($0) }
-                    if let next = CravingInsights.nextUnlock(cravings) {
+                    let shown = insights
+                    ForEach(shown) { insightCard($0) }
+                    if let next = CravingInsights.nextUnlock(cravings, showing: shown.count) {
                         hint(next)
                     }
                 }
