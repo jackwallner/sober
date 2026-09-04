@@ -40,6 +40,14 @@ final class CheckInService {
         find(day: DateHelpers.startOfDay(date))?.wasLogged ?? false
     }
 
+    /// Whether the day the user logged today was a slip. Home needs this
+    /// because `hasCheckedIn` answers "did they log something", and logging a
+    /// slip is very much logging something.
+    func loggedSlip(on date: Date = .now) -> Bool {
+        guard let entry = find(day: DateHelpers.startOfDay(date)) else { return false }
+        return entry.wasLogged && !entry.wasSober
+    }
+
     /// Facts about a date range, detached from SwiftData so views and tests
     /// can reason about a week without a ModelContext.
     func facts(from start: Date, to end: Date) -> [CheckInFacts] {
