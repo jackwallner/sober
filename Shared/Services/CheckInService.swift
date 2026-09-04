@@ -88,6 +88,15 @@ final class CheckInService {
         try? context.save()
     }
 
+    /// Every sober day ever logged, across all journeys. This is the number
+    /// that makes a slip survivable: the streak restarts, this does not.
+    func lifetimeSoberDayCount() -> Int {
+        let descriptor = FetchDescriptor<DailyCheckIn>(
+            predicate: #Predicate { $0.wasSober }
+        )
+        return (try? context.fetchCount(descriptor)) ?? 0
+    }
+
     /// Number of full days since the last check-in. Returns 0 if checked in today
     /// or if there has never been a check-in.
     func daysSinceLastCheckIn(asOf now: Date = .now) -> Int {

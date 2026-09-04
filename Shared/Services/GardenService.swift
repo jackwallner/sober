@@ -127,6 +127,57 @@ final class GardenService {
             .last(where: { inCycle >= $0.dayThreshold }) ?? .seed
     }
 
+    // ── Slip carryover ──
+
+    /// Fraction of the tree's growth that survives a slip.
+    ///
+    /// Half is a judgement call, not a measurement: enough that a 40-day tree
+    /// visibly stays a tree, little enough that the counter restarting still
+    /// means something. The point is that the single most common moment for
+    /// someone to delete a recovery app is the morning after a slip, and an
+    /// app that answers that morning by wiping the garden back to bare soil is
+    /// arguing for its own deletion.
+    static let slipCarryoverFraction = 0.5
+
+    /// The day count the *tree* is drawn at, as opposed to the day count the
+    /// counter shows. They are the same number until the user's first slip.
+    ///
+    /// Carryover only ever lifts the tree inside its first cycle. Past a full
+    /// year the streak has outgrown anything the previous tree left it, and
+    /// adding to it would wrap the 365-day boundary and shrink the tree, which
+    /// is the exact thing this mechanic exists to prevent.
+    nonisolated static func treeDays(streakDays: Int, carryover: Int) -> Int {
+        guard carryover > 0, streakDays > 0, streakDays < 365 else { return streakDays }
+        return min(364, streakDays + carryover)
+    }
+
+    /// Convenience for callers that already hold the state row.
+    func treeDays(streakDays: Int) -> Int {
+        Self.treeDays(streakDays: streakDays, carryover: current().carryoverDays)
+    }
+
+    /// Record a slip against the garden: bank half of what the tree had grown,
+    /// stop celebrations from replaying, and knock vitality down without
+    /// killing it. Unlike `resetForNewJourney` this keeps the placed items and
+    /// the inherited growth, because a slip is an event in the journey rather
+    /// than the start of a different one.
+    ///
+    /// Returns the new carryover so the caller can tell the user what the tree
+    /// kept, which is the only reason the number is worth computing.
+    @discardableResult
+    func recordSlip(previousStreakDays: Int) -> Int {
+        let state = current()
+        let had = Self.treeDays(streakDays: previousStreakDays, carryover: state.carryoverDays)
+        let kept = min(364, Int(Double(had) * Self.slipCarryoverFraction))
+        state.carryoverDays = kept
+        state.lastUnlockNotifiedAtDays = 0
+        state.groveCountAtJourneyStart = state.completedTreeStyles.count
+        state.vitality = max(0.3, state.vitality - 0.3)
+        state.lastWateredAt = nil
+        try? context.save()
+        return kept
+    }
+
     // ── Cycle ──
 
     /// One bonsai grows over 365 days. At day 365 it completes; on day 366 a
@@ -190,8 +241,12 @@ final class GardenService {
     /// Clear growth tracking so stage celebrations replay on a new journey, and
     /// reset the live tree to a fresh sapling. Completed trees in the grove are
     /// kept — they're a permanent record of cycles actually finished.
+    /// A deliberate reset (the user correcting a wrong start date, not a
+    /// slip) starts the tree over from bare soil, carryover included. Slips go
+    /// through `recordSlip` instead.
     func resetForNewJourney() {
         let state = current()
+        state.carryoverDays = 0
         state.lastUnlockNotifiedAtDays = 0
         state.groveCountAtJourneyStart = state.completedTreeStyles.count
         state.placedItemIDs.removeAll()

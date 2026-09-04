@@ -13,7 +13,10 @@ struct HomeView: View {
     @Query private var settingsRows: [UserSettings]
 
     @State private var showResetAlert = false
-    @State private var showSlipAlert = false
+    @State private var showSlipSheet = false
+    @State private var showCraving = false
+    @State private var bestStreak = 0
+    @State private var lifetimeSoberDays = 0
     @State private var checkedInToday = false
     @State private var daysMissed = 0
     @State private var showSettings = false
@@ -39,8 +42,15 @@ struct HomeView: View {
         return SobrietyService.daysSinceStart(j.startDate)
     }
     private var isPro: Bool { subscriptions.isProSubscriber }
-    private var dayInCycle: Int { GardenService.cycleProgress(forDays: days).dayInCycle }
-    private var stage: BonsaiStage { GardenService.stage(forDays: days) }
+    /// The day count the tree is drawn at. Equal to `days` until the user's
+    /// first slip, after which it also carries the growth the previous tree
+    /// handed down. The counter above the garden always shows the honest
+    /// streak; only the tree inherits.
+    private var treeDays: Int {
+        GardenService.treeDays(streakDays: days, carryover: gardenState?.carryoverDays ?? 0)
+    }
+    private var dayInCycle: Int { GardenService.cycleProgress(forDays: treeDays).dayInCycle }
+    private var stage: BonsaiStage { GardenService.stage(forDays: treeDays) }
 
     var body: some View {
         NavigationStack {
@@ -53,6 +63,7 @@ struct HomeView: View {
                         counterHeader
                         gardenCard
                         checkInControl
+                        cravingControl
                     }
                     .padding(.horizontal, Theme.Space.l)
                     .padding(.top, Theme.Space.s)
@@ -77,6 +88,13 @@ struct HomeView: View {
                             Label("Settings", systemImage: "gearshape")
                         }
                         Divider()
+                        // A slip is an ordinary, non-destructive entry: it is
+                        // logged, and the tree and the history survive it. The
+                        // destructive item below is the other thing entirely,
+                        // for someone who set the counter up wrong.
+                        Button { showSlipSheet = true } label: {
+                            Label("I slipped", systemImage: "arrow.uturn.backward")
+                        }
                         Button(role: .destructive) { showResetAlert = true } label: {
                             Label("Reset counter", systemImage: "arrow.counterclockwise")
                         }
@@ -96,17 +114,6 @@ struct HomeView: View {
                 }
             } message: {
                 Text("Your day counter will restart at zero. Your history is kept.")
-            }
-            .alert("It's okay. You're still on the journey.", isPresented: $showSlipAlert) {
-                Button("Not yet", role: .cancel) {}
-                Button("Start fresh") {
-                    SobrietyService(context: context).reset()
-                    GardenService(context: context).resetForNewJourney()
-                    refreshCheckInState()
-                    WidgetSnapshotPump.push(context: context)
-                }
-            } message: {
-                Text("Slips happen. Your history stays, and your tree carries everything you've already grown. Begin a new day when you're ready.")
             }
             .onAppear {
                 GardenService(context: context).applyVitalityDecay()
@@ -157,6 +164,17 @@ struct HomeView: View {
                     .presentationDetents([.height(320)])
             }
             .sheet(isPresented: $showSettings) { SettingsView() }
+            .sheet(isPresented: $showSlipSheet) {
+                SlipSheet(currentStreakDays: days) {
+                    refreshCheckInState()
+                    checkedInToday = CheckInService(context: context).hasCheckedIn()
+                }
+            }
+            .fullScreenCover(isPresented: $showCraving) {
+                CravingModeView { outcome in
+                    handleCravingFinished(outcome)
+                }
+            }
             .sheet(isPresented: $showCustomize) { GardenCustomizationView() }
             .sheet(isPresented: $showProgress) {
                 ProgressSheet(days: days, gardenState: gardenState, isPro: isPro)
@@ -209,9 +227,27 @@ struct HomeView: View {
                 .tracking(2.0)
                 .textCase(.uppercase)
                 .foregroundStyle(Theme.textSecondary)
+            if let history = historyLine {
+                Text(history)
+                    .font(Theme.caption())
+                    .foregroundStyle(Theme.textTertiary)
+                    .padding(.top, 4)
+            }
         }
         .frame(maxWidth: .infinity)
         .accessibilityElement(children: .combine)
+    }
+
+    /// The record behind the current run. Hidden on a first, unbroken journey,
+    /// where "best 12, 12 days logged" only restates the number above it; it
+    /// appears once there is history the counter alone does not show, which in
+    /// practice is the moment after a slip, when it matters most.
+    private var historyLine: String? {
+        guard bestStreak > days || lifetimeSoberDays > days else { return nil }
+        var parts: [String] = []
+        if bestStreak > days { parts.append("Best \(bestStreak)") }
+        if lifetimeSoberDays > days { parts.append("\(lifetimeSoberDays) days logged") }
+        return parts.joined(separator: " · ")
     }
 
     /// The garden, framed as a card that claims all the vertical space between
@@ -222,7 +258,7 @@ struct HomeView: View {
     /// pushes for even more room.
     private var gardenCard: some View {
         PannableGardenView(
-            days: days,
+            days: treeDays,
             vitality: gardenState?.vitality ?? 1.0,
             activeBonsaiStyleID: gardenState?.activeBonsaiStyleID ?? GardenItemCatalog.freeSpeciesID,
             isPro: isPro,
@@ -245,9 +281,14 @@ struct HomeView: View {
         gardenState?.completedTreeStyles.count ?? 0
     }
 
+    /// The craving control below the check-in row costs about 54pt including
+    /// its gap. Home does not scroll, so that has to come out of somewhere;
+    /// taking it off the garden's floor keeps the vertical budget exactly
+    /// where it was on the smallest supported screen rather than pushing the
+    /// CTA under the tab bar.
     private var gardenMinHeight: CGFloat {
         let stageBoost: CGFloat = stage == .seed ? 0 : 60
-        return 300 + stageBoost + min(120, CGFloat(gardenContentScore) * 16)
+        return 246 + stageBoost + min(120, CGFloat(gardenContentScore) * 16)
     }
 
     /// Final-stretch heads-up while a Bloom+ trial is running. Leads with what
@@ -325,8 +366,8 @@ struct HomeView: View {
                     .buttonStyle(.borderedProminent)
                     .tint(Theme.brandPrimary)
 
-                    Button(role: .destructive) {
-                        showSlipAlert = true
+                    Button {
+                        showSlipSheet = true
                     } label: {
                         Text("I slipped")
                             .fontWeight(.medium)
@@ -404,18 +445,74 @@ struct HomeView: View {
         }
     }
 
+    /// The only control on Home that is for a bad moment rather than a good
+    /// one, and the only reason to open this app when nothing has gone right.
+    /// Free, ungated, and always present: the check-in above it can be done
+    /// once a day, but an urge does not schedule itself.
+    private var cravingControl: some View {
+        Button { showCraving = true } label: {
+            HStack(spacing: Theme.Space.m) {
+                Image(systemName: "wind")
+                    .font(Theme.body(weight: .semibold))
+                    .foregroundStyle(Theme.brandPrimary)
+                VStack(alignment: .leading, spacing: 1) {
+                    Text("I'm having a \(HabitVocabulary.urgeNoun)")
+                        .font(Theme.subhead(weight: .semibold))
+                        .foregroundStyle(Theme.textPrimary)
+                    Text(CravingCoach.buttonSubtitle)
+                        .font(Theme.caption())
+                        .foregroundStyle(Theme.textSecondary)
+                }
+                Spacer(minLength: 0)
+                Image(systemName: "chevron.right")
+                    .font(Theme.caption(weight: .semibold))
+                    .foregroundStyle(Theme.textTertiary)
+            }
+            .padding(.horizontal, Theme.Space.l)
+            .padding(.vertical, 10)
+            .frame(maxWidth: .infinity)
+            .background(Theme.cardSurface, in: Capsule())
+            .overlay(Capsule().stroke(Theme.ringTrack, lineWidth: 1))
+        }
+        .buttonStyle(.plain)
+    }
+
     // MARK: - State
 
     private func refreshCheckInState() {
         let svc = CheckInService(context: context)
         checkedInToday = svc.hasCheckedIn()
         daysMissed = svc.daysSinceLastCheckIn()
+        lifetimeSoberDays = svc.lifetimeSoberDayCount()
+        bestStreak = SobrietyService(context: context).longestStreakDays()
+    }
+
+    /// Riding out an urge is the single highest-intent moment this app has:
+    /// the user just used it for something hard and it worked. The review and
+    /// trial prompts both key off that, on the same gated schedule as every
+    /// other positive moment so it can't turn into a shakedown.
+    private func handleCravingFinished(_ outcome: CravingOutcome) {
+        WidgetSnapshotPump.push(context: context)
+        refreshCheckInState()
+        guard outcome == .rodeItOut else { return }
+        recordPositiveMomentForReview()
+        guard !isPro else { return }
+        let count = TrialSubsequentPitchGate.incrementPersistedCount(key: AppGroup.cravingRodeOutCountKey)
+        Task {
+            await evaluateUsageBasedTrialPitch(
+                subscriptions,
+                intent: .cravingRelief,
+                usageCount: count,
+                threshold: 2,
+                delay: 3
+            )
+        }
     }
 
     private func checkForGrowth() {
         let svc = GardenService(context: context)
         svc.processCycleCompletions(days: days)
-        var event = svc.processGrowthEvents(days: days)
+        var event = svc.processGrowthEvents(days: treeDays)
         AchievementService(context: context).processUnlocks(currentDays: days)
         guard event != nil else { return }
         if case .treeCompleted = event {

@@ -12,11 +12,15 @@ enum WidgetSnapshotPump {
         let active = sobriety.activeJourney()
         let days = sobriety.currentDayCount()
         let gs = garden.current()
+        // The widget draws the tree, so it follows the tree's day count
+        // (streak plus slip carryover), while the streak it prints stays
+        // the honest one.
+        let treeDays = GardenService.treeDays(streakDays: days, carryover: gs.carryoverDays)
         let snap = WidgetSnapshot(
             sobrietyStartDate: active?.startDate,
             currentStreakDays: days,
             longestStreakDays: sobriety.longestStreakDays(),
-            bonsaiStage: GardenService.stage(forDays: days).rawValue,
+            bonsaiStage: GardenService.stage(forDays: treeDays).rawValue,
             bonsaiStyleID: gs.activeBonsaiStyleID,
             gardenVitality: gs.vitality,
             placedItemIDs: gs.placedItemIDs,
