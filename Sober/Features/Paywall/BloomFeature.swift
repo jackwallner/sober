@@ -8,14 +8,23 @@ import SwiftUI
 /// you're growing toward, the journal you'll write in, the milestones still to
 /// come. Selling a bigger version of a complete free app is what put trial
 /// starts at 3%; selling the half the free app can't show is the bet.
+///
+/// `patterns` leads, and the declaration order here is the paywall's priority
+/// order (`visibleBenefits` keeps the first N). Everything below it can be
+/// computed from a start date, which is why the old list read as a bigger
+/// version of the free app; patterns is the only one that cannot exist without
+/// the user's own record, and it is the only one a competitor cannot copy off
+/// a screenshot.
 enum BloomFeature: CaseIterable {
-    case gardenSpecies
+    case patterns
     case healthTimeline
-    case journal
     case savingsTracking
+    case journal
+    case gardenSpecies
 
     var icon: String {
         switch self {
+        case .patterns: "chart.bar.xaxis"
         case .gardenSpecies: "leaf.fill"
         case .healthTimeline: "heart.text.square.fill"
         case .journal: "book.closed.fill"
@@ -25,6 +34,7 @@ enum BloomFeature: CaseIterable {
 
     var title: String {
         switch self {
+        case .patterns: "Your \(HabitVocabulary.urgeNoun) patterns"
         case .gardenSpecies: "All 6 bonsai species"
         case .healthTimeline: "Full health timeline"
         case .journal: "Daily journal"
@@ -34,6 +44,7 @@ enum BloomFeature: CaseIterable {
 
     var detail: String {
         switch self {
+        case .patterns: "When they hit, what sets them off, how long yours last."
         case .gardenSpecies: "Switch your tree as your streak grows."
         case .healthTimeline: "13 recovery milestones with sources."
         case .journal: "Prompts and reflections on hard days."
@@ -43,6 +54,7 @@ enum BloomFeature: CaseIterable {
 
     var pitchHeadline: String {
         switch self {
+        case .patterns: "Learn your own pattern."
         case .gardenSpecies: "Grow every species."
         case .healthTimeline: "See what's coming back."
         case .journal: "Write through the urges."
@@ -52,6 +64,7 @@ enum BloomFeature: CaseIterable {
 
     var pitchSubheadline: String {
         switch self {
+        case .patterns: "See when your \(HabitVocabulary.urgeNounPlural) hit, what sets them off, and how long yours actually last, plus the rest of Bloom+."
         case .gardenSpecies: "Unlock every bonsai species and switch whenever you like, plus the rest of Bloom+."
         case .healthTimeline: "Unlock the full 13-milestone recovery timeline, plus the rest of Bloom+."
         case .journal: "Daily journal prompts when you need them most, plus the rest of Bloom+."
@@ -74,6 +87,7 @@ final class TrialOfferCoordinator: ObservableObject {
         case growthCelebration
         case checkInMilestone
         case cravingRelief
+        case patterns
 
         var focusFeature: BloomFeature? {
             switch self {
@@ -81,7 +95,11 @@ final class TrialOfferCoordinator: ObservableObject {
             case .healthTimeline: .healthTimeline
             case .gardenSpecies: .gardenSpecies
             case .progressSheet: .savingsTracking
-            case .postOnboarding, .settings, .growthCelebration, .checkInMilestone, .cravingRelief: nil
+            // Riding out an urge is the moment the patterns pitch is actually
+            // about something the user just did, so it leads with that rather
+            // than the generic page.
+            case .cravingRelief, .patterns: .patterns
+            case .postOnboarding, .settings, .growthCelebration, .checkInMilestone: nil
             }
         }
     }

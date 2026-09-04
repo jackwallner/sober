@@ -330,6 +330,7 @@ struct MainTabView: View {
 
     private func paywallImpressionId(for focus: BloomFeature?) -> String {
         switch focus {
+        case .patterns: "sober_paywall_patterns"
         case .gardenSpecies: "sober_paywall_garden"
         case .healthTimeline: "sober_paywall_health"
         case .journal: "sober_paywall_journal"

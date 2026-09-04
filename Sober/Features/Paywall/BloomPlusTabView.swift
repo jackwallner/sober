@@ -31,6 +31,7 @@ private struct BloomPlusHubView: View {
     @Query private var settingsRows: [UserSettings]
     @Query private var checkIns: [DailyCheckIn]
     @Query private var unlockedAchievements: [UnlockedAchievement]
+    @Query private var episodes: [CravingEpisode]
 
     @State private var showProgress = false
 
@@ -60,6 +61,7 @@ private struct BloomPlusHubView: View {
                     moneyHero
                     statRow
                     if yearlyProjection > 0 { projectionCard }
+                    patternsCard
                     milestonesCard
                     Button { showProgress = true } label: {
                         HStack {
@@ -161,6 +163,49 @@ private struct BloomPlusHubView: View {
         }
         .padding(Theme.Space.m)
         .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 16))
+    }
+
+    /// The reason to open this tab on a day nothing happened. Money kept is a
+    /// number the free app already shows; this is the one thing here that only
+    /// exists because the subscriber logged it.
+    private var patternsCard: some View {
+        NavigationLink {
+            PatternsView()
+        } label: {
+            HStack(spacing: Theme.Space.m) {
+                Image(systemName: "chart.bar.xaxis")
+                    .font(.title3)
+                    .foregroundStyle(.white)
+                    .frame(width: 38, height: 38)
+                    .background(Theme.brandGradient, in: Circle())
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Your patterns")
+                        .font(Theme.body(weight: .semibold))
+                        .foregroundStyle(Theme.textPrimary)
+                    Text(patternsSubtitle)
+                        .font(Theme.caption())
+                        .foregroundStyle(Theme.textSecondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: 0)
+                Image(systemName: "chevron.right")
+                    .font(Theme.caption(weight: .semibold))
+                    .foregroundStyle(Theme.textTertiary)
+            }
+            .padding(Theme.Space.m)
+            .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 16))
+        }
+        .buttonStyle(.plain)
+    }
+
+    private var patternsSubtitle: String {
+        let rodeOut = episodes.filter { $0.outcome == .rodeItOut }.count
+        guard rodeOut > 0 else {
+            return "When your \(HabitVocabulary.urgeNounPlural) hit and what sets them off"
+        }
+        return rodeOut == 1
+            ? "1 \(HabitVocabulary.urgeNoun) ridden out so far"
+            : "\(rodeOut) \(HabitVocabulary.urgeNounPlural) ridden out so far"
     }
 
     private var milestonesCard: some View {

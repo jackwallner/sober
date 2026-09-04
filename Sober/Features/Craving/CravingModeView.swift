@@ -16,6 +16,7 @@ struct CravingModeView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(SubscriptionService.self) private var subscriptions
 
     /// Called once the episode has been written, with the outcome the user
     /// chose, so Home can react (celebrate, nudge, refresh).
@@ -31,6 +32,11 @@ struct CravingModeView: View {
     @State private var intensity = 3
     @State private var trigger: String?
     @State private var rodeOutTotal = 0
+    /// The one personal line Bloom+ adds to the session, resolved once on
+    /// appear rather than per tick. Nil for a free subscriber and for anyone
+    /// without enough history to say anything true, so the free session is the
+    /// session as it always was rather than a nagged version of it.
+    @State private var coachLine: String?
 
     private let tick = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
@@ -52,6 +58,9 @@ struct CravingModeView: View {
         .onAppear {
             UIApplication.shared.isIdleTimerDisabled = true
             animate(to: breathPhase)
+            if subscriptions.isProSubscriber {
+                coachLine = CravingInsights.coachLine(CravingService(context: context).facts())
+            }
         }
         .onDisappear { UIApplication.shared.isIdleTimerDisabled = false }
         .interactiveDismissDisabled(step == .breathing)
@@ -135,13 +144,25 @@ struct CravingModeView: View {
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(breathPhase.label)
 
-            Text(CravingCoach.line(elapsed: elapsed, target: targetSeconds))
-                .font(Theme.body())
-                .foregroundStyle(Theme.textPrimary)
-                .multilineTextAlignment(.center)
-                .frame(maxWidth: 320)
-                .fixedSize(horizontal: false, vertical: true)
-                .animation(.easeInOut, value: CravingCoach.line(elapsed: elapsed, target: targetSeconds))
+            VStack(spacing: Theme.Space.s) {
+                Text(CravingCoach.line(elapsed: elapsed, target: targetSeconds))
+                    .font(Theme.body())
+                    .foregroundStyle(Theme.textPrimary)
+                    .multilineTextAlignment(.center)
+                    .animation(.easeInOut, value: CravingCoach.line(elapsed: elapsed, target: targetSeconds))
+                // Held back until the user is far enough in that a line about
+                // their own history reads as reassurance rather than a stat.
+                if let coachLine, elapsed >= targetSeconds / 3 {
+                    Text(coachLine)
+                        .font(Theme.subhead(weight: .semibold))
+                        .foregroundStyle(Theme.brandPrimary)
+                        .multilineTextAlignment(.center)
+                        .transition(.opacity)
+                }
+            }
+            .frame(maxWidth: 320)
+            .fixedSize(horizontal: false, vertical: true)
+            .animation(.easeInOut, value: elapsed >= targetSeconds / 3)
 
             Spacer(minLength: 0)
 
@@ -282,6 +303,13 @@ struct CravingModeView: View {
                     .foregroundStyle(Theme.textSecondary)
                     .multilineTextAlignment(.center)
             }
+            if let doneLine {
+                Text(doneLine)
+                    .font(Theme.subhead())
+                    .foregroundStyle(Theme.textTertiary)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
             Spacer()
             Button { dismiss() } label: {
                 Text("Back to the garden")
@@ -296,6 +324,15 @@ struct CravingModeView: View {
             .padding(.bottom, Theme.Space.xl)
         }
         .padding(Theme.Space.xl)
+    }
+
+    /// Bloom+ closes the loop: the session the user just logged changes the
+    /// number they see when they finish it.
+    private var doneLine: String? {
+        guard subscriptions.isProSubscriber,
+              let rate = CravingInsights.rideOutRate(CravingService(context: context).facts())
+        else { return nil }
+        return "\(rate.rode) of your last \(rate.resolved) ended this way."
     }
 
     // MARK: - Persistence
