@@ -17,6 +17,7 @@ struct HomeView: View {
     @State private var showCraving = false
     @State private var bestStreak = 0
     @State private var lifetimeSoberDays = 0
+    @State private var week: [TendedDay] = []
     @State private var checkedInToday = false
     @State private var daysMissed = 0
     @State private var showSettings = false
@@ -389,13 +390,22 @@ struct HomeView: View {
                 Image(systemName: "checkmark.circle.fill")
                     .font(.title2)
                     .foregroundStyle(Theme.brandPrimary)
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: 5) {
                     Text("Today is logged")
                         .font(Theme.subhead(weight: .semibold))
                         .foregroundStyle(Theme.textPrimary)
-                    Text("Your bonsai is watered · \(days)-day streak going")
-                        .font(Theme.caption())
-                        .foregroundStyle(Theme.textSecondary)
+                    // The tap's receipt. A day counter would have said the same
+                    // thing whether or not the user ever opened the app, so the
+                    // confirmation shows the one record that only exists
+                    // because they did.
+                    HStack(spacing: Theme.Space.s) {
+                        WeekStripView(days: week)
+                        Text(TendedWeek.summary(week))
+                            .font(Theme.caption())
+                            .foregroundStyle(Theme.textSecondary)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.8)
+                    }
                 }
                 Spacer(minLength: 0)
                 Button { showCheckInDetail = true } label: {
@@ -485,6 +495,9 @@ struct HomeView: View {
         daysMissed = svc.daysSinceLastCheckIn()
         lifetimeSoberDays = svc.lifetimeSoberDayCount()
         bestStreak = SobrietyService(context: context).longestStreakDays()
+        week = TendedWeek.days(
+            facts: svc.facts(from: DateHelpers.daysAgo(TendedWeek.length - 1), to: .now)
+        )
     }
 
     /// Riding out an urge is the single highest-intent moment this app has:
@@ -773,6 +786,19 @@ struct ProgressSheet: View {
     let isPro: Bool
 
     private var settings: UserSettings? { settingsRows.first }
+
+    private var week: [TendedDay] {
+        TendedWeek.days(facts: checkIns.map {
+            CheckInFacts(day: $0.day, wasSober: $0.wasSober, wasLogged: $0.wasLogged, mood: $0.mood)
+        })
+    }
+
+    private var weekLine: String {
+        let summary = TendedWeek.summary(week)
+        guard let mood = TendedWeek.moodSummary(week) else { return summary }
+        return "\(summary) · felt \(mood)"
+    }
+
     /// Trial-led upsell only when a free trial is actually on the table for
     /// this Apple ID (3.1.2) — otherwise the nudge would promise a trial the
     /// paywall can't deliver.
@@ -790,6 +816,23 @@ struct ProgressSheet: View {
                 Section("Next up") {
                     nextMilestoneRow
                     nextBenefitRow
+                }
+
+                // Free, on purpose. The week strip and the mood read are the
+                // payoff for checking in, and a payoff behind a paywall is not
+                // a payoff, it is a hostage.
+                Section {
+                    VStack(alignment: .leading, spacing: Theme.Space.s) {
+                        WeekStripView(days: week, dotSize: 14)
+                        Text(weekLine)
+                            .font(Theme.caption())
+                            .foregroundStyle(Theme.textSecondary)
+                    }
+                    .padding(.vertical, Theme.Space.xs)
+                } header: {
+                    Text("This week")
+                } footer: {
+                    Text("A filled dot is a day you checked in. A hollow one is a sober day the app filled in for you.")
                 }
 
                 // Free, for everyone. What you have already kept is the single

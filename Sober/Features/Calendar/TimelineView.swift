@@ -219,11 +219,16 @@ struct TimelineView: View {
         let beforeStart = earliestStart.map { day < DateHelpers.startOfDay($0) } ?? false
         let isSelected = day == DateHelpers.startOfDay(selectedDate)
 
+        // A day the user tended reads solid; a day the app filled in on their
+        // behalf reads faint. They used to be the same block of green, which
+        // made a month of tending indistinguishable from a month of the
+        // calendar advancing by itself.
         let bg: Color
         if inFuture || beforeStart { bg = .clear }
-        else if checkIn?.wasSober == true { bg = Theme.success.opacity(0.85) }
         else if checkIn?.wasSober == false { bg = Theme.danger.opacity(0.75) }
+        else if checkIn?.wasSober == true { bg = Theme.success.opacity(checkIn?.wasLogged == true ? 0.85 : 0.3) }
         else { bg = Theme.cardSurface }
+        let readsAsFilled = checkIn?.wasSober == false || checkIn?.wasLogged == true
 
         return Text("\(Calendar.current.component(.day, from: date))")
             .font(Theme.caption(weight: .bold))
@@ -234,7 +239,7 @@ struct TimelineView: View {
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(isSelected ? Theme.brandPrimary : .clear, lineWidth: 2)
             )
-            .foregroundStyle(checkIn != nil ? .white : Theme.textPrimary)
+            .foregroundStyle(readsAsFilled ? .white : Theme.textPrimary)
             .opacity(inFuture || beforeStart ? 0.5 : 1)
             .contentShape(Rectangle())
             .onTapGesture {
