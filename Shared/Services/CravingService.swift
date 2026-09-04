@@ -45,6 +45,19 @@ final class CravingService {
         return (try? context.fetch(descriptor)) ?? []
     }
 
+    /// Detached from SwiftData so `CravingInsights` can stay pure.
+    func facts() -> [CravingFacts] {
+        all().map {
+            CravingFacts(
+                startedAt: $0.startedAt,
+                secondsElapsed: $0.secondsElapsed,
+                outcome: $0.outcome,
+                intensity: $0.intensity,
+                trigger: $0.trigger
+            )
+        }
+    }
+
     func recent(limit: Int = 5) -> [CravingEpisode] {
         Array(all().prefix(limit))
     }

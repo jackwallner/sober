@@ -835,6 +835,20 @@ struct ProgressSheet: View {
                     Text("A filled dot is a day you checked in. A hollow one is a sober day the app filled in for you.")
                 }
 
+                Section {
+                    if isPro {
+                        NavigationLink { PatternsView() } label: {
+                            progressRow(
+                                icon: "chart.bar.xaxis",
+                                title: "Your patterns",
+                                detail: "When your \(HabitVocabulary.urgeNounPlural) hit and what sets them off"
+                            )
+                        }
+                    } else {
+                        patternsLockedRow
+                    }
+                }
+
                 // Free, for everyone. What you have already kept is the single
                 // strongest thing this app can say to a non-subscriber, and it
                 // spent its whole life behind the wall where nobody could be
@@ -1020,6 +1034,30 @@ struct ProgressSheet: View {
                 .foregroundStyle(Theme.brandPrimary)
                 .monospacedDigit()
         }
+    }
+
+    private var patternsLockedRow: some View {
+        Button { requestSubsequentLockedFeaturePitch(.patterns) } label: {
+            HStack(spacing: Theme.Space.m) {
+                Image(systemName: "chart.bar.xaxis")
+                    .foregroundStyle(Theme.brandPrimary)
+                    .frame(width: 32)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Learn your own pattern")
+                        .font(Theme.body())
+                        .foregroundStyle(Theme.textPrimary)
+                    Text("Bloom+ reads your logged \(HabitVocabulary.urgeNounPlural) back to you: when they hit, what sets them off, how long yours last")
+                        .font(Theme.caption())
+                        .foregroundStyle(Theme.textSecondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: 0)
+                Image(systemName: "lock.fill")
+                    .font(Theme.caption(weight: .semibold))
+                    .foregroundStyle(Theme.textTertiary)
+            }
+        }
+        .buttonStyle(.plain)
     }
 
     private var yearAheadLockedRow: some View {
