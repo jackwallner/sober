@@ -1,1 +1,1 @@
-inni,kevesebb,függőség,elvonás,felépülés,visszaesés,vágy,hangulat,szokás,napló,sorozat,naptár,privát
+inni,kevesebb,függőség,widget,felépülés,visszaesés,vágy,hangulat,szokás,napló,sorozat,naptár,privát

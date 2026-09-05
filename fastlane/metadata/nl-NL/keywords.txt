@@ -1,1 +1,1 @@
-minder,verslaving,ontwenning,nuchter,terugval,verlangen,stemming,gewoonte,dagboek,serie,kalender
+minder,verslaving,widget,nuchter,terugval,verlangen,stemming,gewoonte,dagboek,serie,kalender

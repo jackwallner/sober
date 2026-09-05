@@ -1,1 +1,1 @@
-trinken,weniger,aufhören,entzug,sucht,erholung,serie,abstinenz,rückfall,stimmung,verlangen,kalender
+trinken,weniger,aufhören,widget,sucht,erholung,serie,tagebuch,rückfall,stimmung,verlangen,kalender

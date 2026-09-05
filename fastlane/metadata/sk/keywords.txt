@@ -1,1 +1,1 @@
-menej,prestať,závislosť,abstinencia,zotavenie,relaps,chuť,nálada,zvyk,denník,séria,kalendár,zdravie
+menej,prestať,závislosť,widget,zotavenie,relaps,chuť,nálada,zvyk,denník,séria,kalendár,zdravie
