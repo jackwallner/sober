@@ -61,15 +61,20 @@ struct SoberDayCounterView: View {
     let snapshot: WidgetSnapshot
     let days: Int
 
-    private var stage: BonsaiStage { GardenService.stage(forDays: days) }
+    /// The tree follows the garden's day count (streak plus slip carryover);
+    /// the number printed beside it stays the honest streak. Deriving the stage
+    /// from `days` drew a day-one sapling in the widget while Home showed the
+    /// tree the slip had just promised the user they had kept.
+    private var treeDays: Int { snapshot.treeDays(streakDays: days) }
+    private var stage: BonsaiStage { GardenService.stage(forDays: treeDays) }
     /// Past the first year, the bare in-cycle stage reads like a bug next to a
     /// big day count ("14600 days · Seedling") — prefix the year for context,
     /// matching the garden's stage badge.
     private var stageTitle: String {
-        let completed = GardenService.cycleProgress(forDays: days).completed
+        let completed = GardenService.cycleProgress(forDays: treeDays).completed
         return completed > 0 ? "Year \(completed + 1) · \(stage.title)" : stage.title
     }
-    private var dayInCycle: Int { GardenService.cycleProgress(forDays: days).dayInCycle }
+    private var dayInCycle: Int { GardenService.cycleProgress(forDays: treeDays).dayInCycle }
     private var bonsaiStyle: BonsaiStyle {
         switch snapshot.bonsaiStyleID {
         case "cascade-bonsai", "cascade": return .cascade

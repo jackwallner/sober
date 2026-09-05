@@ -169,6 +169,7 @@ final class GardenService {
         let state = current()
         let had = Self.treeDays(streakDays: previousStreakDays, carryover: state.carryoverDays)
         let kept = min(364, Int(Double(had) * Self.slipCarryoverFraction))
+        state.carryoverBeforeSlip = state.carryoverDays
         state.carryoverDays = kept
         state.lastUnlockNotifiedAtDays = 0
         state.groveCountAtJourneyStart = state.completedTreeStyles.count
@@ -176,6 +177,29 @@ final class GardenService {
         state.lastWateredAt = nil
         try? context.save()
         return kept
+    }
+
+    /// Give the tree back what the slip took, for a user correcting a slip they
+    /// did not mean to log. The exact pre-slip carryover is restored from
+    /// `carryoverBeforeSlip` rather than re-derived, because halving throws away
+    /// the odd day and an undo that quietly shrinks the tree is its own bug.
+    ///
+    /// `restoredStreakDays` is the counter the correction puts back. The growth
+    /// watermark moves up to match it so the user isn't walked back through
+    /// every stage celebration the tree already earned on the way up.
+    @discardableResult
+    func undoSlip(restoredStreakDays: Int) -> Int {
+        let state = current()
+        let restored = state.carryoverBeforeSlip
+        state.carryoverDays = restored
+        state.carryoverBeforeSlip = 0
+        state.lastUnlockNotifiedAtDays = max(
+            state.lastUnlockNotifiedAtDays,
+            Self.treeDays(streakDays: restoredStreakDays, carryover: restored)
+        )
+        state.vitality = min(1.0, state.vitality + 0.3)
+        try? context.save()
+        return restored
     }
 
     // ── Cycle ──

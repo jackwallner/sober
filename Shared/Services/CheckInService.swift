@@ -204,6 +204,18 @@ final class CheckInService {
         return try? context.fetch(descriptor).first?.day
     }
 
+    /// The most recent day the user logged as a slip, if any. `SlipRecorder`
+    /// needs it so a slip entered out of order can't restart the counter from a
+    /// date that a later slip has already superseded.
+    func lastSlipDate() -> Date? {
+        var descriptor = FetchDescriptor<DailyCheckIn>(
+            predicate: #Predicate { $0.wasLogged && !$0.wasSober },
+            sortBy: [SortDescriptor(\.day, order: .reverse)]
+        )
+        descriptor.fetchLimit = 1
+        return try? context.fetch(descriptor).first?.day
+    }
+
     func lastLoggedCheckInDate() -> Date? {
         var descriptor = FetchDescriptor<DailyCheckIn>(
             predicate: #Predicate { $0.wasLogged },
