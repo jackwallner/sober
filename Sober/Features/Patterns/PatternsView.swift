@@ -73,8 +73,17 @@ struct PatternsView: View {
         .padding(.vertical, Theme.Space.xxl)
     }
 
+    /// The headline divides by sessions the user answered for, not by every
+    /// row on disk. Counting abandoned sessions in the denominator made the one
+    /// number the screen says about them read as failures they never had — the
+    /// exact pessimism `CravingInsights.rideOutRate` exists to avoid — and left
+    /// the total silently disagreeing with the rate card underneath it. Open
+    /// sessions are named separately rather than hidden, since they are still
+    /// urges the user logged and they still feed the timing readings.
     private var header: some View {
-        let rodeOut = cravings.filter { $0.outcome == .rodeItOut }.count
+        let answered = CravingInsights.resolved(cravings)
+        let rodeOut = answered.filter { $0.outcome == .rodeItOut }.count
+        let openEnded = cravings.count - answered.count
         return VStack(spacing: 4) {
             Text("\(rodeOut)")
                 .font(Theme.bigNumber(56))
@@ -87,9 +96,12 @@ struct PatternsView: View {
                 .tracking(1.2)
                 .textCase(.uppercase)
                 .foregroundStyle(Theme.textSecondary)
-            Text("out of \(cravings.count) logged")
+            Text(openEnded > 0
+                 ? "out of \(answered.count) you saw through · \(openEnded) left open"
+                 : "out of \(answered.count) logged")
                 .font(Theme.caption())
                 .foregroundStyle(Theme.textTertiary)
+                .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, Theme.Space.l)

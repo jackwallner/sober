@@ -25,9 +25,14 @@ struct WatchRootView: View {
         return max(0, DateHelpers.daysBetween(start, .now)) + 1
     }
 
+    /// The stage badge describes the tree, so it follows the garden's day count
+    /// (streak plus slip carryover) rather than the streak printed above it.
+    /// Same rule as Home and the widget.
+    private var treeDays: Int { snapshot.treeDays(streakDays: days) }
+
     private var stageTitle: String {
-        let title = GardenService.stage(forDays: days).title
-        let completed = GardenService.cycleProgress(forDays: days).completed
+        let title = GardenService.stage(forDays: treeDays).title
+        let completed = GardenService.cycleProgress(forDays: treeDays).completed
         return completed > 0 ? "Year \(completed + 1) · \(title)" : title
     }
 
@@ -66,7 +71,7 @@ struct WatchRootView: View {
     }
 
     private var stageIcon: String {
-        switch GardenService.stage(forDays: days).rawValue {
+        switch GardenService.stage(forDays: treeDays).rawValue {
         case 0: return "circle"
         case 1, 2: return "leaf.fill"
         case 3, 4: return "tree.fill"

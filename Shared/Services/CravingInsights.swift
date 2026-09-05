@@ -44,12 +44,20 @@ enum CravingInsights {
 
     // MARK: - Individual readings
 
+    /// Sessions the user actually answered for. Timing readings deliberately
+    /// count every session, answered or not, because an urge that started at
+    /// 9pm started at 9pm regardless of how the screen was closed. Anything
+    /// phrased as an outcome has to divide by this instead.
+    static func resolved(_ facts: [CravingFacts]) -> [CravingFacts] {
+        facts.filter { $0.outcome == .rodeItOut || $0.outcome == .gaveIn }
+    }
+
     /// Share of resolved sessions the user stayed with. Unresolved sessions are
     /// excluded rather than counted as failures: someone who closed the screen
     /// did not necessarily drink, and guessing against them would make the one
     /// number they see about themselves quietly pessimistic.
     static func rideOutRate(_ facts: [CravingFacts]) -> (rode: Int, resolved: Int)? {
-        let resolved = facts.filter { $0.outcome == .rodeItOut || $0.outcome == .gaveIn }
+        let resolved = resolved(facts)
         guard resolved.count >= minimumForRate else { return nil }
         return (resolved.filter { $0.outcome == .rodeItOut }.count, resolved.count)
     }
@@ -243,7 +251,7 @@ enum CravingInsights {
     /// how it ended, which is what `rideOutRate` and the timing readings need.
     static func nextUnlock(_ cravings: [CravingFacts], showing insightCount: Int = 0) -> String? {
         let needed = max(minimumForRate, minimumForTiming)
-        let usable = cravings.filter { $0.outcome == .rodeItOut || $0.outcome == .gaveIn }.count
+        let usable = resolved(cravings).count
         guard usable < needed else { return nil }
         let remaining = needed - usable
         // Timing readings need only a start time, so a screen can already be

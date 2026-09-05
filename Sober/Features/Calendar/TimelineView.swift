@@ -363,19 +363,33 @@ struct TimelineView: View {
         noteField(existing: existing)
 
         if let checkIn = existing {
-            Button(role: checkIn.wasSober ? .destructive : nil) {
-                if checkIn.wasSober { pendingSlipDay = day }
-                else { logCheckIn(on: day, wasSober: true) }
-            } label: {
-                Label(checkIn.wasSober ? "Change to slip" : "Change to sober",
-                      systemImage: "arrow.left.arrow.right")
-            }
             if checkIn.wasSober {
+                Button(role: .destructive) {
+                    pendingSlipDay = day
+                } label: {
+                    Label("Change to slip", systemImage: "arrow.left.arrow.right")
+                }
                 Button(role: .destructive) {
                     deleteCheckIn(checkIn)
                 } label: {
                     Label("Delete log", systemImage: "trash")
                 }
+            } else if SlipRecorder.canUndo(on: day, context: context) {
+                // Goes through `SlipRecorder.undo`, not a plain check-in edit.
+                // Flipping only the row turned the day green next to a counter
+                // still sitting at the reset the slip caused.
+                Button {
+                    undoSlip(on: day)
+                } label: {
+                    Label("Change to sober", systemImage: "arrow.uturn.backward")
+                }
+                Text("Puts your counter and your tree back the way they were before this slip.")
+                    .font(Theme.caption())
+                    .foregroundStyle(Theme.textSecondary)
+            } else {
+                Text("A slip can only be taken back while it's the most recent one on your record.")
+                    .font(Theme.caption())
+                    .foregroundStyle(Theme.textSecondary)
             }
         } else {
             Button {
@@ -464,6 +478,18 @@ struct TimelineView: View {
             note: trimmed.isEmpty ? nil : trimmed
         )
         WidgetSnapshotPump.push(context: context)
+    }
+
+    /// Reverse a slip in full: calendar row, counter, journey, and garden.
+    /// `SlipRecorder` owns the sequence so this can't drift from Home again.
+    private func undoSlip(on day: Date) {
+        let trimmed = draftNote.trimmingCharacters(in: .whitespacesAndNewlines)
+        SlipRecorder.undo(
+            on: day,
+            mood: draftMood,
+            note: trimmed.isEmpty ? nil : trimmed,
+            context: context
+        )
     }
 
     private func deleteCheckIn(_ checkIn: DailyCheckIn) {

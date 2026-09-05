@@ -118,3 +118,71 @@ Expected: update the 1.3.1 description and What’s New text to match the build'
 Hold build 88 until R94-01 and R94-02 are fixed and covered by regression tests. Before submission, install the next candidate through TestFlight on a real device and retest backdated slips, slip correction, widget/watch carryover, upgrade migration, and the full craving-to-slip path. Correct the ASC metadata and populate What to Test so the internal group exercises the changed surfaces.
 
 No application source, project, or configuration files were changed for this audit. Only this report was added.
+
+---
+
+## Resolution (2026-09-04)
+
+R94-01 through R94-04 are fixed on `main`; R94-05 is store metadata and is
+tracked separately below. 15 regression tests were added in
+`SoberTests/SlipCorrectionRegressionTests.swift`; the suite is 141 tests, 0
+failures. The upgrade path was re-run on the leased simulator: build 88 was
+installed and seeded (28-day run, slip logged), then this build was installed
+over it without erasing data.
+
+### R94-01 — fixed
+
+`SobrietyService.resetJourney` takes `endingPreviousOn:` and `SlipRecorder`
+passes the slip day, so the run a slip ends closes on that day instead of at
+`.now`. Journeys no longer overlap, and a slip back-dated ten days now leaves
+the longest streak at the 17-day run it interrupted rather than raising it to 27.
+
+The audit's second-order case is also closed: `SlipRecorder` now restarts from
+the *latest* slip on record, so entering an older slip after a newer one can't
+wind the counter forward past a slip that already happened, and it skips the
+reset entirely when that would only add a zero-length stub.
+
+### R94-02 — fixed
+
+`SlipRecorder.undo` reverses the whole operation (check-in, journey, garden
+carryover, widget snapshot) and `SlipRecorder.canUndo` gates the affordance.
+Timeline calls those instead of writing a bare check-in. `GardenState` gained
+`carryoverBeforeSlip` so the tree gets back exactly what it had rather than an
+estimate — halving is not invertible.
+
+Undo is deliberately limited to the slip the counter is currently sitting on.
+Reopening an older one would resurrect a run a later slip already closed, which
+is a rewrite of history rather than an undo; Timeline says so in place of the
+button rather than offering a correction it cannot complete.
+
+Runtime, on the upgraded install: from the seeded slip (counter at 1), Timeline
+> today > Change to sober now returns Home to 28 days sober with the slip banner
+gone and the tree intact. Before the fix Home stayed at 1.
+
+### R94-03 — fixed
+
+`WidgetSnapshot` carries `carryoverDays`, and the widget and watch both derive
+the stage from `snapshot.treeDays(streakDays:)`. The stored `bonsaiStage` could
+never be the thing they draw, because both recompute the day count at render
+time so they roll over at midnight without the app; they needed the carryover to
+redo the same sum. `WidgetSnapshot` also decodes field by field now, so a
+payload written by an older build still loads instead of blanking the widget to
+0 days on the first launch after an update.
+
+### R94-04 — fixed
+
+The Patterns headline divides by sessions the user answered for
+(`CravingInsights.resolved`), not by every row on disk. Counting abandoned
+sessions in the denominator made the one number the screen says about the user
+read as failures they never had — the exact pessimism `rideOutRate` already
+avoids — and left the total disagreeing with the rate card below it. Open
+sessions are now named rather than hidden. Timing readings still count every
+started session, because an urge that started at 9pm started at 9pm however the
+screen was closed.
+
+### R94-05 — not fixed, deliberately
+
+Still open. It is App Store listing copy across the localized 1.3.1 draft, not
+app code, and rewriting ~40 locale descriptions is its own task with its own
+review. It does not block a TestFlight build; it blocks submission. Do it before
+the 1.3.1 App Store submission.

@@ -24,6 +24,11 @@ final class GardenState {
     /// when the user last slipped. The day counter restarts at a slip; the tree
     /// does not. See `GardenService.recordSlip`.
     var carryoverDays: Int = 0
+    /// What `carryoverDays` was immediately before the most recent slip, so
+    /// correcting a mis-tapped slip gives the tree back exactly what it had
+    /// rather than an estimate. `recordSlip` overwrites the live value, and
+    /// halving is not invertible. See `GardenService.undoSlip`.
+    var carryoverBeforeSlip: Int = 0
 
     init(
         id: UUID = UUID(),

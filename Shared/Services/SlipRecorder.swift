@@ -63,14 +63,67 @@ enum SlipRecorder {
 
         checkIns.checkIn(for: day, wasSober: false, mood: mood, note: note)
 
+        // The fresh run begins the day after the *latest* slip on record, not
+        // necessarily the day after this one. Entering an older slip after a
+        // newer one would otherwise wind the counter forward past a slip that
+        // has already happened.
+        let latestSlip = checkIns.lastSlipDate() ?? day
+        let restartFrom = max(DateHelpers.startOfDay(day), DateHelpers.startOfDay(latestSlip))
         let dayAfter = Calendar.current.date(
-            byAdding: .day, value: 1, to: DateHelpers.startOfDay(day)
+            byAdding: .day, value: 1, to: restartFrom
         ) ?? day
-        sobriety.resetJourney(startingAt: dayAfter)
+        // An out-of-order slip leaves the current run beginning exactly where it
+        // already began, so closing it and opening an identical one would only
+        // litter the record with a zero-length stub.
+        let alreadyRestarted = sobriety.activeJourney().map {
+            DateHelpers.startOfDay($0.startDate) >= DateHelpers.startOfDay(dayAfter)
+        } ?? false
+        if !alreadyRestarted {
+            // The run that just ended stopped on the slip day, not today: closing
+            // it at `.now` left it overlapping the fresh run whenever the slip
+            // was back-dated, so a slip from ten days ago *raised* the longest
+            // streak.
+            sobriety.resetJourney(startingAt: dayAfter, endingPreviousOn: day)
+        }
 
         let carryover = garden.recordSlip(previousStreakDays: previousStreak)
         WidgetSnapshotPump.push(context: context)
 
         return Outcome(previousStreakDays: previousStreak, carryoverDays: carryover)
+    }
+
+    /// Whether a slip on `day` can still be taken back in full: the check-in
+    /// flipped, the run it ended reopened, and the garden's growth returned.
+    ///
+    /// Views ask before offering the correction. Timeline used to offer
+    /// "Change to sober" unconditionally while only rewriting the calendar row,
+    /// so the day went green next to a counter still sitting at the reset the
+    /// slip caused. An affordance that can't finish the job shouldn't be there.
+    static func canUndo(on day: Date, context: ModelContext) -> Bool {
+        CheckInService(context: context).loggedSlip(on: day)
+            && SobrietyService(context: context).canReopenJourney(endedOn: day)
+    }
+
+    /// Take back a slip on `day`, reversing every part of `record`.
+    ///
+    /// Returns false and changes nothing when the slip can't be fully reversed,
+    /// so a caller never shows a half-applied correction. Mis-tapping "I
+    /// slipped" is one of the worst things this app can let happen to someone,
+    /// and until now it was permanent.
+    @discardableResult
+    static func undo(on day: Date, mood: Int? = nil, note: String? = nil, context: ModelContext) -> Bool {
+        let checkIns = CheckInService(context: context)
+        let sobriety = SobrietyService(context: context)
+        let garden = GardenService(context: context)
+
+        guard checkIns.loggedSlip(on: day) else { return false }
+        // Reopen first: if the counter can't be put back, the calendar row must
+        // stay as it is rather than disagree with it.
+        guard let restoredStreak = sobriety.reopenJourney(endedOn: day) else { return false }
+
+        checkIns.checkIn(for: day, wasSober: true, mood: mood, note: note)
+        garden.undoSlip(restoredStreakDays: restoredStreak)
+        WidgetSnapshotPump.push(context: context)
+        return true
     }
 }

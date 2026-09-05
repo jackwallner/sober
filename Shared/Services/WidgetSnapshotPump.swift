@@ -25,7 +25,12 @@ enum WidgetSnapshotPump {
             gardenVitality: gs.vitality,
             placedItemIDs: gs.placedItemIDs,
             unlockedItemIDs: gs.unlockedItemIDs,
-            generatedAt: .now
+            generatedAt: .now,
+            // Carried, not just baked into `bonsaiStage`: both consumers
+            // recompute the day count at their own render time so they roll
+            // over at midnight without the app, and they need the carryover to
+            // redo the same sum.
+            carryoverDays: gs.carryoverDays
         )
         WidgetSnapshotStore.save(snap)
         #if os(iOS)
