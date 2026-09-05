@@ -1,1 +1,1 @@
-drikke,mindre,avhengighet,avholdenhet,bedring,tilbakefall,sug,humør,vane,dagbok,serie,kalender,helse
+drikke,mindre,avhengighet,widget,bedring,tilbakefall,sug,humør,vane,dagbok,serie,kalender,helse

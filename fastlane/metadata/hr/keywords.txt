@@ -1,1 +1,1 @@
-manje,prestati,ovisnost,apstinencija,oporavak,relaps,želja,raspoloženje,navika,dnevnik,niz,kalendar
+manje,prestati,ovisnost,widget,oporavak,relaps,želja,raspoloženje,navika,dnevnik,niz,kalendar

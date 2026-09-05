@@ -1,1 +1,1 @@
-manj,nehati,odvisnost,abstinenca,okrevanje,ponovitev,želja,razpoloženje,navada,dnevnik,niz,koledar
+manj,nehati,odvisnost,widget,okrevanje,ponovitev,želja,razpoloženje,navada,dnevnik,niz,koledar
