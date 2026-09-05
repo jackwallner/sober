@@ -180,9 +180,43 @@ sessions are now named rather than hidden. Timing readings still count every
 started session, because an urge that started at 9pm started at 9pm however the
 screen was closed.
 
-### R94-05 — not fixed, deliberately
+### R94-05 — fixed
 
-Still open. It is App Store listing copy across the localized 1.3.1 draft, not
-app code, and rewriting ~40 locale descriptions is its own task with its own
-review. It does not block a TestFlight build; it blocks submission. Do it before
-the 1.3.1 App Store submission.
+The audit scoped this to the four English locales. It was all **50**: every
+localized description carried the same stale structure, so the mismatch was on
+every product page, not just the English ones.
+
+Corrected across all 50 locales:
+
+- **Moved out of BLOOM+, into the free list**: money and calories kept so far,
+  achievements and milestones, Apple Watch and home-screen widgets. None of the
+  three has been gated since the Wave 1 re-cut shipped in build 83 — the listing
+  had been advertising free features as paid on the live App Store page.
+- **Added to the free list**: craving mode, and that a slip doesn't erase the
+  garden. Neither had ever appeared on the page.
+- **Added to BLOOM+, leading**: the craving-patterns reading, which is the
+  feature the subscription is now built around and was missing entirely.
+- **Replaced** the money bullet in BLOOM+ with the year-ahead projection, which
+  is what is actually gated.
+
+The Bloom+ list now matches `BloomFeature.allCases` in declaration order.
+Verified against ASC after upload: 50/50 locales carry the EULA link, none
+quotes a price figure, none exceeds 4000 characters, and no locale still lists
+the watch or widgets as a paid feature.
+
+### Also fixed while getting 1.3.1 submission-ready
+
+- **What's New was empty on all 50 locales**, which is a hard submission
+  blocker. Written and uploaded for all 50.
+- **Build 89 was not attached to the 1.3.1 version.** Attached.
+- **TestFlight "What to Test" was empty**, as the audit's release
+  recommendation noted. Written for build 89, covering slip undo, back-dated
+  slips, the non-reversible older slip, widget and watch carryover, and the
+  upgrade path.
+
+### Still outstanding before submitting
+
+Real-device verification. Everything above was checked on the simulator and
+against ASC; the audit's recommendation to install the candidate through
+TestFlight on a real device and retest the slip paths has not been done, and
+cannot be from here.
