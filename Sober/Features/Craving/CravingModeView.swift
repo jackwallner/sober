@@ -29,7 +29,8 @@ struct CravingModeView: View {
     @State private var elapsed = 0
     @State private var targetSeconds = HabitVocabulary.typicalUrgeSeconds
     @State private var circleScale: CGFloat = 0.72
-    @State private var intensity = 3
+    @State private var intensity: Int?
+    @State private var hasFinished = false
     @State private var trigger: String?
     @State private var rodeOutTotal = 0
     /// The one personal line Bloom+ adds to the session, resolved once on
@@ -223,7 +224,7 @@ struct CravingModeView: View {
                         .foregroundStyle(Theme.textPrimary)
                     HStack(spacing: Theme.Space.s) {
                         ForEach(1...5, id: \.self) { value in
-                            Button { intensity = value } label: {
+                            Button { intensity = intensity == value ? nil : value } label: {
                                 Text("\(value)")
                                     .font(Theme.body(weight: .semibold))
                                     .foregroundStyle(intensity == value ? .white : Theme.textSecondary)
@@ -236,6 +237,7 @@ struct CravingModeView: View {
                             }
                             .buttonStyle(.plain)
                             .accessibilityLabel("Intensity \(value) of 5")
+                            .accessibilityAddTraits(intensity == value ? .isSelected : [])
                         }
                     }
                     HStack {
@@ -260,6 +262,13 @@ struct CravingModeView: View {
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 14)
                             .background(Theme.brandPrimary, in: Capsule())
+                    }
+                    .buttonStyle(.plain)
+
+                    Button { finish(outcome: .unresolved) } label: {
+                        Text("Not sure yet. Close session")
+                            .font(Theme.subhead(weight: .semibold))
+                            .foregroundStyle(Theme.textSecondary)
                     }
                     .buttonStyle(.plain)
 
@@ -338,6 +347,8 @@ struct CravingModeView: View {
     // MARK: - Persistence
 
     private func finish(outcome: CravingOutcome) {
+        guard !hasFinished else { return }
+        hasFinished = true
         let service = CravingService(context: context)
         service.record(
             startedAt: startedAt,

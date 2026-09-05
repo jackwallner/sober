@@ -34,7 +34,9 @@ final class CravingEpisode {
     var startedAt: Date
     /// Nil only while a session is on screen; set the moment it resolves.
     var endedAt: Date?
-    /// 1...5, captured *after* the session rather than before. Asking someone
+    /// 1...5 when answered, or 0 when skipped. Captured after the session.
+    /// Keeping an unanswered sentinel preserves the existing stored schema.
+    /// Asking someone
     /// to rate an urge before riding it out adds friction at the worst
     /// possible second, and the retrospective rating is the one that predicts
     /// anything anyway.

@@ -47,16 +47,36 @@ final class WatchConnectivityService: NSObject {
         try? session.updateApplicationContext([Self.snapshotContextKey: data])
         #endif
     }
+
+    /// The launch snapshot may arrive before asynchronous activation finishes.
+    /// Retry the persisted latest value when the watch becomes available.
+    private func sendLatestSnapshot() {
+        #if os(iOS)
+        guard let data = try? JSONEncoder().encode(WidgetSnapshotStore.load()) else { return }
+        send(snapshot: data)
+        #endif
+    }
 }
 
 #if canImport(WatchConnectivity)
 extension WatchConnectivityService: WCSessionDelegate {
     nonisolated func session(_ session: WCSession,
                              activationDidCompleteWith activationState: WCSessionActivationState,
-                             error: Error?) {}
+                             error: Error?) {
+        guard activationState == .activated else { return }
+        Task { @MainActor in
+            self.sendLatestSnapshot()
+        }
+    }
 
     #if os(iOS)
     nonisolated func sessionDidBecomeInactive(_ session: WCSession) {}
+
+    nonisolated func sessionWatchStateDidChange(_ session: WCSession) {
+        Task { @MainActor in
+            self.sendLatestSnapshot()
+        }
+    }
 
     nonisolated func sessionDidDeactivate(_ session: WCSession) {
         // Re-activate so a newly paired watch keeps receiving snapshots.

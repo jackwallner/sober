@@ -21,14 +21,14 @@ final class CravingService {
         startedAt: Date,
         secondsElapsed: Int,
         outcome: CravingOutcome,
-        intensity: Int,
+        intensity: Int?,
         trigger: String? = nil,
         now: Date = .now
     ) -> CravingEpisode {
         let episode = CravingEpisode(
             startedAt: startedAt,
             endedAt: now,
-            intensity: min(5, max(1, intensity)),
+            intensity: intensity.map { min(5, max(1, $0)) } ?? 0,
             outcome: outcome,
             trigger: trigger,
             secondsElapsed: max(0, secondsElapsed)
