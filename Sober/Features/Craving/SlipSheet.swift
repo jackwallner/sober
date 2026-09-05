@@ -77,12 +77,12 @@ struct SlipSheet: View {
 
             Section {
                 keepRow("leaf.fill", "Your tree keeps \(previewCarryover) day\(previewCarryover == 1 ? "" : "s") of growth")
-                keepRow("flag.fill", "Your longest streak still stands")
+                keepRow("flag.fill", "Your past streaks stay on your record")
                 keepRow("calendar", "Every sober day you've counted still counts")
             } header: {
                 Text("What you keep")
             } footer: {
-                Text("Your day counter restarts the day after the slip, so the days since then are still counted.")
+                Text("Your counter restarts after the slip. A slip today starts day 1; for a past slip, the days since then are counted. Your longest streak reflects the corrected dates.")
             }
 
             Section {

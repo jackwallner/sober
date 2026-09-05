@@ -107,7 +107,7 @@ struct TimelineView: View {
                 Button("Cancel", role: .cancel) { pendingSlipDay = nil }
                 Button("Log slip") { confirmSlip(on: day) }
             } message: { _ in
-                Text("Your day counter restarts the day after the slip. Your tree keeps most of its growth, and your longest streak, calendar history, and grove all stay.")
+                Text("Your day counter restarts after the slip. Your tree carries some growth forward, and your calendar history and completed trees stay. Your longest streak reflects the corrected dates.")
             }
         }
     }
@@ -346,7 +346,7 @@ struct TimelineView: View {
         let day = DateHelpers.startOfDay(selectedDate)
         let existing = checkInsByDay[day]
 
-        if let checkIn = existing {
+        if let checkIn = existing, checkIn.wasLogged {
             HStack(spacing: Theme.Space.m) {
                 Image(systemName: checkIn.wasSober ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
                     .foregroundStyle(checkIn.wasSober ? Theme.success : Theme.danger)
@@ -355,6 +355,9 @@ struct TimelineView: View {
                     .foregroundStyle(Theme.textPrimary)
                 Spacer()
             }
+        } else if existing != nil {
+            Text("Counted toward your journey. Not checked in yet.")
+                .foregroundStyle(Theme.textSecondary)
         }
 
         // Mood + note appear before the log buttons too, so retroactive
@@ -362,7 +365,7 @@ struct TimelineView: View {
         moodPicker(existing: existing)
         noteField(existing: existing)
 
-        if let checkIn = existing {
+        if let checkIn = existing, checkIn.wasLogged {
             if checkIn.wasSober {
                 Button(role: .destructive) {
                     pendingSlipDay = day
@@ -431,6 +434,7 @@ struct TimelineView: View {
                         draftMood = (draftMood == value) ? nil : value
                         if let ci = existing {
                             ci.mood = draftMood
+                            ci.wasLogged = true
                             saveCheckInEdit()
                         }
                     } label: {
@@ -453,14 +457,18 @@ struct TimelineView: View {
     private func noteField(existing: DailyCheckIn?) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text("Note").font(Theme.caption(weight: .semibold)).foregroundStyle(Theme.textSecondary)
-            TextField("How did the day go?", text: $draftNote, axis: .vertical)
-                .lineLimit(1...4)
-                .onChange(of: draftNote) { _, new in
+            TextField("How did the day go?", text: Binding(
+                get: { draftNote },
+                set: { new in
+                    draftNote = new
                     if let ci = existing {
                         ci.note = new.isEmpty ? nil : new
+                        ci.wasLogged = true
                         saveCheckInEdit()
                     }
                 }
+            ), axis: .vertical)
+                .lineLimit(1...4)
         }
     }
 

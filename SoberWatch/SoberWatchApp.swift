@@ -14,7 +14,9 @@ struct SoberWatchApp: App {
 }
 
 struct WatchRootView: View {
+    @Environment(\.scenePhase) private var scenePhase
     @State private var snapshot: WidgetSnapshot = WidgetSnapshotStore.load()
+    @State private var now = Date.now
 
     /// The stored streak is frozen at the last iPhone app launch. Derive the
     /// live count from the start date (1-based, matching
@@ -22,7 +24,7 @@ struct WatchRootView: View {
     /// calendar even when the phone app hasn't been opened.
     private var days: Int {
         guard let start = snapshot.sobrietyStartDate else { return snapshot.currentStreakDays }
-        return max(0, DateHelpers.daysBetween(start, .now)) + 1
+        return max(0, DateHelpers.daysBetween(start, now)) + 1
     }
 
     /// The stage badge describes the tree, so it follows the garden's day count
@@ -65,6 +67,12 @@ struct WatchRootView: View {
             .padding(.top, 4)
         }
         .onAppear { snapshot = WidgetSnapshotStore.load() }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
+                now = .now
+                snapshot = WidgetSnapshotStore.load()
+            }
+        }
         .onReceive(NotificationCenter.default.publisher(for: .soberWatchSnapshotUpdated)) { _ in
             snapshot = WidgetSnapshotStore.load()
         }

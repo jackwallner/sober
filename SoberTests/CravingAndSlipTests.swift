@@ -127,6 +127,15 @@ struct CravingServiceTests {
         #expect(high.intensity == 5)
     }
 
+    @Test func skippingIntensityDoesNotInventAnAnswer() throws {
+        let svc = CravingService(context: container.mainContext)
+        let episode = svc.record(
+            startedAt: .now, secondsElapsed: 60, outcome: .unresolved, intensity: nil
+        )
+        #expect(episode.intensity == 0)
+        #expect(svc.facts().first?.intensity == 0)
+    }
+
     @Test func outcomeSurvivesTheRawStringRoundTrip() throws {
         let svc = service()
         let episode = svc.record(startedAt: .now, secondsElapsed: 60, outcome: .gaveIn, intensity: 3)

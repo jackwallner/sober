@@ -15,9 +15,8 @@ struct HomeView: View {
     @State private var showResetAlert = false
     @State private var showSlipSheet = false
     @State private var showCraving = false
-    /// Set when the user ends Craving Mode with "I gave in", so the slip flow
-    /// can open once the full-screen cover is actually off screen.
-    @State private var slipPendingAfterCraving = false
+    /// Follow-up sheets wait until the session and its completion screen close.
+    @State private var pendingCravingOutcome: CravingOutcome?
     @State private var bestStreak = 0
     @State private var lifetimeSoberDays = 0
     @State private var week: [TendedDay] = []
@@ -178,13 +177,12 @@ struct HomeView: View {
             .fullScreenCover(isPresented: $showCraving, onDismiss: {
                 // Presented on dismiss rather than inside the callback: a sheet
                 // raised while the cover is still tearing down never appears.
-                if slipPendingAfterCraving {
-                    slipPendingAfterCraving = false
-                    showSlipSheet = true
-                }
+                guard let outcome = pendingCravingOutcome else { return }
+                pendingCravingOutcome = nil
+                handleCravingFinished(outcome)
             }) {
                 CravingModeView { outcome in
-                    handleCravingFinished(outcome)
+                    pendingCravingOutcome = outcome
                 }
             }
             .sheet(isPresented: $showCustomize) { GardenCustomizationView() }
@@ -549,7 +547,7 @@ struct HomeView: View {
         // the thing they had just admitted. Hand them the slip flow, which is
         // cancellable and changes nothing until they confirm.
         if outcome == .gaveIn, !CheckInService(context: context).loggedSlip() {
-            slipPendingAfterCraving = true
+            showSlipSheet = true
         }
         guard outcome == .rodeItOut else { return }
         recordPositiveMomentForReview()
