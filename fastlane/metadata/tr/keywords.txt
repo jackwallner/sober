@@ -1,1 +1,1 @@
-içmek,az,ayıklık,iyileşme,nüks,istek,ruhhali,alışkanlık,günlük,dizi,takvim,sağlık,özel,şarap,bira
+içmek,az,ayıklık,iyileşme,nüks,istek,ruhhali,alışkanlık,günlük,dizi,takvim,widget,özel,şarap,bira
