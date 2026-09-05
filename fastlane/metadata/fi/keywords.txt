@@ -1,1 +1,1 @@
-juoda,vähemmän,lopettaa,riippuvuus,toipuminen,retkahdus,himo,mieli,tapa,päiväkirja,sarja,kalenteri
+juoda,vähemmän,lopettaa,riippuvuus,toipuminen,retkahdus,himo,widget,tapa,päiväkirja,sarja,kalenteri
