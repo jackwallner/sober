@@ -114,11 +114,11 @@ enum HealthBenefitCatalog {
         HealthBenefit(
             id: "immune-boost",
             hoursRequired: 24 * 180,
-            title: "Immune System Boost",
-            summary: "Immune function improves.",
-            detail: "By around six months, immune function tends to improve, and many people report getting sick less often.",
-            sourceLabel: "NIAAA · Immune Function",
-            sourceURL: URL(string: "https://pubs.niaaa.nih.gov/publications/arh34-4/319-323.htm")
+            title: "Six-Month Milestone",
+            summary: "A longer-term progress marker.",
+            detail: "Around six months, take stock of the routines and personal progress that brought you here.",
+            sourceLabel: "Sober · Personal progress",
+            sourceURL: nil
         ),
         HealthBenefit(
             id: "skin-renewal",
