@@ -7,6 +7,9 @@ import SwiftData
 @MainActor
 final class CravingService {
     private let context: ModelContext
+    /// False when the last `record` could not be written, so the session screen
+    /// does not celebrate a row that is not on disk.
+    private(set) var lastSaveSucceeded = true
 
     init(context: ModelContext) {
         self.context = context
@@ -34,7 +37,7 @@ final class CravingService {
             secondsElapsed: max(0, secondsElapsed)
         )
         context.insert(episode)
-        context.saveOrReport()
+        lastSaveSucceeded = context.saveOrReport()
         return episode
     }
 

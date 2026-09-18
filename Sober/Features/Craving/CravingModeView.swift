@@ -359,7 +359,10 @@ struct CravingModeView: View {
         )
         onFinish(outcome)
 
-        guard outcome == .rodeItOut else { dismiss(); return }
+        // A failed save must not end on "Logged." with a count that includes
+        // the unsaved row. Close the cover so the "Not saved" alert underneath
+        // can show.
+        guard outcome == .rodeItOut, service.lastSaveSucceeded else { dismiss(); return }
         rodeOutTotal = service.rodeOutCount()
         withAnimation { step = .done }
     }
