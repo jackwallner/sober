@@ -729,7 +729,7 @@ struct OnboardingView: View {
         settings.madeCommitment = false
         _ = SobrietyService(context: context).startJourney(at: min(startDate, .now))
         _ = GardenService(context: context).current()
-        try? context.save()
+        context.saveOrReport()
     }
 
     /// Every exit from the offer step lands here: purchased, skipped, or the
@@ -745,7 +745,7 @@ struct OnboardingView: View {
         persistSetup()
         let settings = SettingsService(context: context).current()
         settings.hasCompletedOnboarding = true
-        try? context.save()
+        context.saveOrReport()
         ConversionDiagnostics.record(.onboardingCompleted)
 
         if !didShowOnboardingTrial {

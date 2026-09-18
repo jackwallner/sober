@@ -77,7 +77,7 @@ struct JournalView: View {
         for index in offsets {
             context.delete(entries[index])
         }
-        try? context.save()
+        context.saveOrReport()
     }
 
     private var promptRow: some View {
@@ -161,7 +161,7 @@ private struct JournalEntryDetailSheet: View {
                             let trimmed = editedText.trimmingCharacters(in: .whitespacesAndNewlines)
                             if !trimmed.isEmpty {
                                 entry.text = trimmed
-                                try? context.save()
+                                context.saveOrReport()
                             }
                             isEditing = false
                         }
@@ -174,7 +174,7 @@ private struct JournalEntryDetailSheet: View {
                     HStack {
                         Button(role: .destructive) {
                             context.delete(entry)
-                            try? context.save()
+                            context.saveOrReport()
                             dismiss()
                         } label: {
                             Image(systemName: "trash")
@@ -265,7 +265,7 @@ private struct ComposeEntrySheet: View {
                             ? JournalEntry(promptID: nil, kind: .freeform, text: text, feeling: feeling)
                             : JournalEntry(promptID: prompt.id, kind: prompt.kind, text: text, feeling: feeling)
                         context.insert(entry)
-                        try? context.save()
+                        context.saveOrReport()
                         dismiss()
                     }
                     .disabled(text.trimmingCharacters(in: .whitespaces).isEmpty)

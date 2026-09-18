@@ -15,9 +15,9 @@ final class SettingsService {
         if let existing = try? context.fetch(descriptor).first { return existing }
         let fresh = UserSettings()
         context.insert(fresh)
-        try? context.save()
+        context.saveOrReport()
         return fresh
     }
 
-    func save() { try? context.save() }
+    func save() { context.saveOrReport() }
 }

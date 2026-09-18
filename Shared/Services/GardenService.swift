@@ -92,7 +92,7 @@ final class GardenService {
         if let existing = try? context.fetch(descriptor).first { return existing }
         let fresh = GardenState()
         context.insert(fresh)
-        try? context.save()
+        context.saveOrReport()
         return fresh
     }
 
@@ -102,7 +102,7 @@ final class GardenService {
         let state = current()
         state.lastWateredAt = date
         state.vitality = min(1.0, state.vitality + 0.25)
-        try? context.save()
+        context.saveOrReport()
     }
 
     /// Gently fade vitality for days elapsed since the garden was last watered.
@@ -115,7 +115,7 @@ final class GardenService {
         let daysMissed = DateHelpers.daysBetween(last, date)
         guard daysMissed > 0 else { return }
         state.vitality = max(0.3, state.vitality - Double(daysMissed) * 0.1)
-        try? context.save()
+        context.saveOrReport()
     }
 
     // ── Stage ──
@@ -175,7 +175,7 @@ final class GardenService {
         state.groveCountAtJourneyStart = state.completedTreeStyles.count
         state.vitality = max(0.3, state.vitality - 0.3)
         state.lastWateredAt = nil
-        try? context.save()
+        context.saveOrReport()
         return kept
     }
 
@@ -198,7 +198,7 @@ final class GardenService {
             Self.treeDays(streakDays: restoredStreakDays, carryover: restored)
         )
         state.vitality = min(1.0, state.vitality + 0.3)
-        try? context.save()
+        context.saveOrReport()
         return restored
     }
 
@@ -227,7 +227,7 @@ final class GardenService {
         for _ in have..<expected {
             state.completedTreeStyles.append(state.activeBonsaiStyleID)
         }
-        try? context.save()
+        context.saveOrReport()
         return expected - have
     }
 
@@ -258,7 +258,7 @@ final class GardenService {
         let state = current()
         let previous = state.lastUnlockNotifiedAtDays
         state.lastUnlockNotifiedAtDays = max(previous, days)
-        try? context.save()
+        context.saveOrReport()
         return Self.growthEvent(previousDays: previous, currentDays: days)
     }
 
@@ -276,7 +276,7 @@ final class GardenService {
         state.placedItemIDs.removeAll()
         state.vitality = 1.0
         state.lastWateredAt = nil
-        try? context.save()
+        context.saveOrReport()
     }
 
     // ── Species ──
@@ -288,6 +288,6 @@ final class GardenService {
         guard GardenItemCatalog.canUseSpecies(id: styleID, isPro: isPro) else { return }
         let state = current()
         state.activeBonsaiStyleID = styleID
-        try? context.save()
+        context.saveOrReport()
     }
 }
