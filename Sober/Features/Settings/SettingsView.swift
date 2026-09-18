@@ -228,7 +228,7 @@ struct SettingsView: View {
             get: { s[keyPath: keyPath] },
             set: {
                 s[keyPath: keyPath] = $0
-                try? context.save()
+                context.saveOrReport()
             }
         )
     }

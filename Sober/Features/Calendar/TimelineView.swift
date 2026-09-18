@@ -473,7 +473,7 @@ struct TimelineView: View {
     }
 
     private func saveCheckInEdit() {
-        try? context.save()
+        context.saveOrReport()
         WidgetSnapshotPump.push(context: context)
     }
 
@@ -502,7 +502,7 @@ struct TimelineView: View {
 
     private func deleteCheckIn(_ checkIn: DailyCheckIn) {
         context.delete(checkIn)
-        try? context.save()
+        context.saveOrReport()
         WidgetSnapshotPump.push(context: context)
     }
 }

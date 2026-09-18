@@ -30,7 +30,7 @@ final class CheckInService {
             let entry = DailyCheckIn(day: day, wasSober: wasSober, mood: mood, note: note, wasLogged: logged)
             context.insert(entry)
         }
-        try? context.save()
+        context.saveOrReport()
     }
 
     /// Whether the user has actually checked in on this day, as opposed to the
@@ -96,7 +96,7 @@ final class CheckInService {
             guard let next = cal.date(byAdding: .day, value: 1, to: cursor) else { break }
             cursor = next
         }
-        if didInsert { try? context.save() }
+        if didInsert { context.saveOrReport() }
     }
 
     /// Backfill check-ins as sober for every day from the last day the user
@@ -141,7 +141,7 @@ final class CheckInService {
             guard let next = cal.date(byAdding: .day, value: 1, to: cursor) else { break }
             cursor = next
         }
-        try? context.save()
+        context.saveOrReport()
     }
 
     /// One-time upgrade repair for rows written before `wasLogged` existed.
@@ -165,7 +165,7 @@ final class CheckInService {
         let descriptor = FetchDescriptor<DailyCheckIn>(predicate: #Predicate { !$0.wasLogged })
         guard let legacy = try? context.fetch(descriptor), !legacy.isEmpty else { return }
         for row in legacy { row.wasLogged = true }
-        try? context.save()
+        context.saveOrReport()
     }
 
     /// Every sober day on record, across all journeys. This is the number

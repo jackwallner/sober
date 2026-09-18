@@ -21,11 +21,11 @@ enum DataService {
             return container
         }
 
-        // Corrupt store — wipe and retry
-        let storeFiles = [url, url.appendingPathExtension("wal"), url.appendingPathExtension("shm")]
-        for file in storeFiles {
-            try? FileManager.default.removeItem(at: file)
-        }
+        // A failed migration or half-written file can leave the store unopenable.
+        // It holds the sobriety date and every check-in, and exists nowhere else,
+        // so move it aside instead of deleting it, then retry with a fresh store.
+        logger.error("ModelContainer failed to open; quarantining the store and retrying")
+        quarantineStore(at: url)
         if let container = makeContainer(schema: schema, url: url) {
             return container
         }
@@ -35,11 +35,34 @@ enum DataService {
         do {
             return try ModelContainer(for: schema, configurations: [inMemory])
         } catch {
-            let logger = Logger(subsystem: "com.jackwallner.sober", category: "DataService")
             logger.critical("ModelContainer failed even in-memory: \(String(describing: error), privacy: .public)")
             return try! ModelContainer(for: schema, configurations: [inMemory])
         }
     }()
+
+    private static let logger = Logger(subsystem: "com.jackwallner.sober", category: "DataService")
+
+    /// Renames the store and its SQLite sidecars to `<name>.corrupt-<uuid>` so a
+    /// fresh store can open at `url`. Returns the quarantined copies.
+    @discardableResult
+    nonisolated static func quarantineStore(at url: URL, fileManager: FileManager = .default) -> [URL] {
+        let suffix = ".corrupt-\(UUID().uuidString)"
+        let candidates = [
+            url,
+            URL(fileURLWithPath: url.path + "-wal"),
+            URL(fileURLWithPath: url.path + "-shm"),
+            url.appendingPathExtension("wal"),
+            url.appendingPathExtension("shm")
+        ]
+        var moved: [URL] = []
+        for file in candidates where fileManager.fileExists(atPath: file.path) {
+            let destination = URL(fileURLWithPath: file.path + suffix)
+            if (try? fileManager.moveItem(at: file, to: destination)) != nil {
+                moved.append(destination)
+            }
+        }
+        return moved
+    }
 
     private static func makeContainer(schema: Schema, url: URL) -> ModelContainer? {
         let config = ModelConfiguration(

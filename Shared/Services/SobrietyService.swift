@@ -25,7 +25,7 @@ final class SobrietyService {
         }
         let new = SobrietyJourney(startDate: startDate)
         context.insert(new)
-        try? context.save()
+        context.saveOrReport()
         return new
     }
 
@@ -34,7 +34,7 @@ final class SobrietyService {
     func updateStartDate(_ date: Date) {
         guard let journey = activeJourney() else { return }
         journey.startDate = min(date, .now)
-        try? context.save()
+        context.saveOrReport()
     }
 
     func reset(reason: String? = nil) {
@@ -44,7 +44,7 @@ final class SobrietyService {
         }
         let new = SobrietyJourney(startDate: .now)
         context.insert(new)
-        try? context.save()
+        context.saveOrReport()
     }
 
     /// End the active journey and begin a new one at `start` (clamped to now).
@@ -70,7 +70,7 @@ final class SobrietyService {
         }
         let new = SobrietyJourney(startDate: min(start, .now))
         context.insert(new)
-        try? context.save()
+        context.saveOrReport()
         return new
     }
 
@@ -93,7 +93,7 @@ final class SobrietyService {
         context.delete(active)
         closed.endDate = nil
         closed.resetReason = nil
-        try? context.save()
+        context.saveOrReport()
         return SobrietyService.daysSinceStart(closed.startDate)
     }
 

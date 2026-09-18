@@ -30,7 +30,7 @@ final class AchievementService {
                 context.insert(UnlockedAchievement(achievementID: a.id))
             }
         }
-        try? context.save()
+        context.saveOrReport()
     }
 
     func unlocked() -> [UnlockedAchievement] {
