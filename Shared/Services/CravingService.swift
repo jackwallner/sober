@@ -37,6 +37,14 @@ final class CravingService {
             secondsElapsed: max(0, secondsElapsed)
         )
         context.insert(episode)
+        #if DEBUG
+        // UI tests cannot fill the disk, so this stands in for a save the store rejects.
+        if ProcessInfo.processInfo.arguments.contains("-simulateCravingSaveFailure") {
+            SaveFailureReporter.shared.report(CocoaError(.fileWriteOutOfSpace))
+            lastSaveSucceeded = false
+            return episode
+        }
+        #endif
         lastSaveSucceeded = context.saveOrReport()
         return episode
     }
