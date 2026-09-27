@@ -1,4 +1,4 @@
-# Sober — Claude Project Guide
+# Sober Project Guide
 
 iOS + watchOS app that helps users track sobriety (alcohol-specific in v1). Day counter, sobriety calendar, virtual garden that grows with sober days, health-benefit timeline, journal, achievements, money/calories saved. Freemium with RevenueCat: core counter + garden + calendar are free, the rest is gated behind a Pro entitlement.
 
@@ -9,19 +9,19 @@ XcodeGen project/scheme: `Sober`, sim lease owner `sober`.
 - iOS 17, watchOS 10. XcodeGen (`project.yml`). RevenueCat 5.14+ via SPM. WidgetKit.
 
 ## Targets (project.yml)
-- `Sober` (iOS app) — bundle `com.jackwallner.sober`
-- `SoberWatch` (watchOS app) — `com.jackwallner.sober.watch`
-- `SoberWidgets` (iOS widget extension) — `com.jackwallner.sober.widgets`
+- `Sober` (iOS app): bundle `com.jackwallner.sober`
+- `SoberWatch` (watchOS app): `com.jackwallner.sober.watch`
+- `SoberWidgets` (iOS widget extension): `com.jackwallner.sober.widgets`
 - `SoberTests` (unit tests)
 
 All share App Group `group.com.jackwallner.sober` for SwiftData container + widget snapshots.
 
 ## Architecture
-- `Shared/Models/` — SwiftData `@Model` types: SobrietyJourney, DailyCheckIn, JournalEntry, GardenState, UserSettings, UnlockedAchievement, UnlockedHealthBenefit.
-- `Shared/Services/` — DataService (container), SobrietyService, CheckInService, SettingsService, GardenService, NotificationService, SubscriptionService (RevenueCat wrapper), WidgetSnapshotPump.
-- `Shared/Catalogs/` — static content: HealthBenefitCatalog (13 NIAAA milestones), AchievementCatalog, JournalPromptCatalog, GardenSpeciesCatalog.
-- `Shared/Utilities/` — Theme, DateHelpers, AppGroup, WidgetSnapshot.
-- `Sober/Features/` — feature folders (Onboarding, Today, Calendar, Health, Journal, Achievements, Stats, Settings, Paywall, Components).
+- `Shared/Models/`: SwiftData `@Model` types: SobrietyJourney, DailyCheckIn, JournalEntry, GardenState, UserSettings, UnlockedAchievement, UnlockedHealthBenefit.
+- `Shared/Services/`: DataService (container), SobrietyService, CheckInService, SettingsService, GardenService, NotificationService, SubscriptionService (RevenueCat wrapper), WidgetSnapshotPump.
+- `Shared/Catalogs/`: static content: HealthBenefitCatalog (13 NIAAA milestones), AchievementCatalog, JournalPromptCatalog, GardenSpeciesCatalog.
+- `Shared/Utilities/`: Theme, DateHelpers, AppGroup, WidgetSnapshot.
+- `Sober/Features/`: feature folders (Onboarding, Today, Calendar, Health, Journal, Achievements, Stats, Settings, Paywall, Components).
 
 Root flow: `SoberApp → RootView → (OnboardingView | MainTabView)`.
 
@@ -74,4 +74,4 @@ user's own habit spend via `HabitPriceComparison` rather than quoting figures.
 
 ---
 Shared iOS conventions (build, simulator, release/TestFlight, ASC key, signing, RevenueCat dev tips, review funnel, gotchas):
-always-loaded global CLAUDE.md + the `ios-dev` skill.
+the global agent rules + the `ios-dev` skill.
