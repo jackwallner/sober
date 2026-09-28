@@ -3,7 +3,7 @@ import Foundation
 import SwiftData
 @testable import Sober
 
-/// The build 83 to 87 audit (`reg93.md`) found four bugs that share one root:
+/// The build 83 to 87 audit (`project-docs/audits/reg93.md`) found four bugs that share one root:
 /// `wasLogged` and carryover were added without being taught to every path
 /// that already existed. These pin the repaired behaviour.
 

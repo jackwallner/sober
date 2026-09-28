@@ -3,7 +3,7 @@ import Foundation
 import SwiftData
 @testable import Sober
 
-/// The build 83 to 88 audit (`reg94.md`). Three of its findings share a root:
+/// The build 83 to 88 audit (`project-docs/audits/reg94.md`). Three of its findings share a root:
 /// the slip path was written forwards only, so anything that had to reason
 /// *backwards* from a slip — what the run before it was worth, how to take one
 /// back, what the tree should look like on another device — read the wrong
