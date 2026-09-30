@@ -1,1 +1,1 @@
-alcohol,tracker,diary,cravings,relapse,calendar,watch,private,widget,recovery,streak,checkin,journal
+alcohol,tracker,diary,relapse,calendar,watch,widget,recovery,streak,journal,free,dry,abstinence
