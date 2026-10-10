@@ -11,7 +11,7 @@ object StoreLinks {
     const val SUPPORT_EMAIL = "jackwallner+st@gmail.com"
     const val FEEDBACK_EMAIL = "jackwallner@gmail.com"
     const val PRIVACY_URL = "https://jackwallner.github.io/sober/android-privacy.html"
-    const val TERMS_URL = "https://jackwallner.github.io/sober/terms.html"
+    const val TERMS_URL = "https://jackwallner.github.io/sober/android-terms.html"
 
     fun manageSubscriptionURL(productId: String?): String =
         if (productId == null) "https://play.google.com/store/account/subscriptions"
