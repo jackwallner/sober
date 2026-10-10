@@ -97,13 +97,13 @@ object DebugLaunchOptions {
         }
     }
 
-    /** `PaywallPreviewStore`: the live ladder, so the real paywall renders without a store. */
+    /** `PaywallPreviewStore`: the Android US ladder, so the real paywall renders without a store. */
     private fun previewPlans(trialDays: Int): List<Plan> {
         val trial = if (trialDays % 7 == 0) PlanPeriod(trialDays / 7, PeriodUnit.WEEK) else PlanPeriod(maxOf(1, trialDays), PeriodUnit.DAY)
         return listOf(
-            Plan("\$rc_annual", "com.jackwallner.sober.pro.yearly", PackageKind.YEARLY, 29_990_000, "$29.99", "USD", PlanPeriod(1, PeriodUnit.YEAR), trial, "Bloom+ Yearly"),
-            Plan("\$rc_monthly", "com.jackwallner.sober.pro.monthly", PackageKind.MONTHLY, 9_990_000, "$9.99", "USD", PlanPeriod(1, PeriodUnit.MONTH), trial, "Bloom+ Monthly"),
-            Plan("\$rc_lifetime", "com.jackwallner.sober.pro.lifetime", PackageKind.LIFETIME, 69_990_000, "$69.99", "USD", null, null, "Bloom+ Lifetime"),
+            Plan("\$rc_annual", "com.jackwallner.sober.pro.yearly", PackageKind.YEARLY, 24_990_000, "$24.99", "USD", PlanPeriod(1, PeriodUnit.YEAR), trial, "Bloom+ Yearly"),
+            Plan("\$rc_monthly", "com.jackwallner.sober.pro.monthly", PackageKind.MONTHLY, 7_990_000, "$7.99", "USD", PlanPeriod(1, PeriodUnit.MONTH), trial, "Bloom+ Monthly"),
+            Plan("\$rc_lifetime", "com.jackwallner.sober.pro.lifetime", PackageKind.LIFETIME, 54_990_000, "$54.99", "USD", null, null, "Bloom+ Lifetime"),
         )
     }
 }

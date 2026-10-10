@@ -5,52 +5,29 @@ Source of truth for the Play Console store listing. Adapted from
 widget; Google Play billing and cancellation wording). No prices in copy:
 Play shows them.
 
-## App name (27/30)
+## Listing text
 
-Sober: Sobriety Day Counter
+Title, short and full description per locale live in
+`metadata/android/<locale>/` (fastlane supply layout), uploaded with:
 
-## Short description (75/80)
+    fastlane supply --json_key <service account> --package_name com.jackwallner.sober \
+      --metadata_path android/play-assets/metadata/android --track internal \
+      --skip_upload_apk true --skip_upload_aab true --skip_upload_changelogs true --sync_image_upload true
 
-Count sober days, ride out cravings, and grow a bonsai with every day you keep
-
-## Full description
-
-Sober helps you stay alcohol free with a clear day counter, a one-tap daily check-in, and a bonsai that grows with every sober day.
-
-FREE, FOR EVERYONE
-• Sober day counter with your longest streak and every sober day you have counted
-• One-tap daily check-in with mood and a note
-• Timeline calendar that shows the tree as it looked on any day
-• A growing bonsai garden, with a new tree joining your grove each full year
-• Craving mode: a few minutes of guided box breathing to ride out an urge, free and unlimited
-• Slips don't erase your garden: your tree keeps half its growth, your history stays
-• Money and calories kept so far
-• The first health milestones, with sources
-• Home-screen widget
-• Private on your phone, no account
-
-BLOOM+ (OPTIONAL)
-• Your craving patterns: when they hit, what sets them off, and how long yours last
-• The full health timeline, 13 milestones with sources
-• Your year ahead: what you will have kept by this time next year
-• Daily journal with prompts for hard days
-• All 6 bonsai species: traditional, cascading, windswept, cherry blossom, Japanese maple, and black pine
-
-Whether you are quitting drinking, cutting back, or building dry days, Sober keeps recovery simple and kind. Logging a slip is an ordinary entry, never a reset of everything you built.
-
-Eligible new subscribers can try Bloom+ free for 7 days. Bloom+ is available monthly or yearly, plus a one-time lifetime option. Prices are shown in the app before you buy and vary by region. Payment is charged to your Google Play account. Subscriptions renew automatically until canceled; cancel any time in Google Play under Payments & subscriptions.
-
-Sober is a wellness tracker, not medical care, diagnosis, or treatment. If stopping alcohol may put you at risk of withdrawal, contact a qualified clinician. In the US, the SAMHSA National Helpline (1-800-662-4357) is free, confidential, and open 24/7.
-
-Privacy Policy: https://jackwallner.github.io/sober/android-privacy.html
-Terms of Use: https://jackwallner.github.io/sober/android-terms.html
+Locales: en-US (default), en-GB/AU/CA/IN, de-DE, fr-FR/CA, es-ES/419/US, pt-BR.
+ASO: titles lead with "Sober" plus the highest-intent local phrase (sobriety
+day counter, alkoholfrei, sin/sem alcohol, jours sobres); short descriptions
+open with the local "quit drinking". No prices, no em dashes, no medical claims.
+Graphics are en-US only; other locales fall back to them.
 
 ## Graphics
 
 - App icon: `icon-512.png` (512 x 512), from the iOS icon (`scripts/make_android_icon.py`)
 - Feature graphic: `feature-graphic.png` (1024 x 500)
 - Phone screenshots: `screenshots/` (1080 x 1920), captured from the debug build
-  with launch extras and composited by `scripts/play_screenshot_compositor.py`
+  with launch extras and composited by `scripts/play_screenshot_compositor.py`,
+  copied into `metadata/android/en-US/images/`. No paywall shot: prices vary
+  by region and the preview store's prices would drift from Play's.
 
 ## Store settings
 
@@ -70,9 +47,17 @@ RevenueCat project `proj15d6bf77` (Sober Android): Test Store app
 | `com.jackwallner.sober.pro.yearly` | Subscription | base plan `yearly` (P1Y), offer `trial-7d` (P1W free, new customers) | `$rc_annual` |
 | `com.jackwallner.sober.pro.lifetime` | One-time product | none | `$rc_lifetime` |
 
-US prices follow the live iOS ladder ($9.99 / $29.99 / $69.99, verified in ASC
-2026-08-16). Review Play's converted local prices before activating. The iOS
-RevenueCat project `proj10cf6202` is untouched.
+Android US ladder: $7.99 / $24.99 / $54.99, about 20% under the iOS ladder
+($9.99 / $29.99 / $69.99), because Android users pay less per install
+(decided 2026-10-10). Local prices are Play's conversion of the US price, then
+the fleet PPP curve (`~/ios/pricing/refratio.json`) in the same 23 markets iOS
+discounts. AR, AZ and UZ bill in USD on Play; ET is not billable. All set by
+`scripts/play-products.py`. The iOS RevenueCat project `proj10cf6202` is untouched.
+
+RevenueCat Play app `app4a2732350e` holds the Play service-account credentials
+(the shared `revenuecat-service-account`, granted app-level access to Sober
+only). Play products: `com.jackwallner.sober.pro.monthly:monthly`,
+`com.jackwallner.sober.pro.yearly:yearly`, `com.jackwallner.sober.pro.lifetime`.
 
 ## Policy answers (from the code)
 
