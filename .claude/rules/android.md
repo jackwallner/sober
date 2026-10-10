@@ -58,8 +58,11 @@ paths:
 - Play Console: E3 Apps account `8314164911785412040`, app `4975012758183799641`.
   Managed publishing is ON.
 - State 2026-10-10: versionCode 1 (1.3.2) live on internal testing; production
-  release, 178 countries, listing (12 locales) and every App content
-  declaration saved; production not yet sent for review.
+  release (178 countries, 12 listing locales, all App content declarations,
+  reviewer code in Sign in details) sent for review 2026-10-10. Managed
+  publishing: approval does not publish; Jack clicks Publish.
+- Sign in details: the dialog's Add only stages the entry; the page-level Save
+  persists it. Never type the raw review code; Jack pastes it.
 
 ## Emulator (remote Pro only)
 
