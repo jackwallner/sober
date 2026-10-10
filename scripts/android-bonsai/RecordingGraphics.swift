@@ -89,7 +89,6 @@ enum Paint {
 
 final class DrawingRecord {
     var commands: [[String: Any]] = []
-    var foliageStart = -1
 }
 
 struct GraphicsContext {
@@ -111,7 +110,7 @@ struct GraphicsContext {
 
     private func append(_ path: Path, paint: Paint, width: Double?, cap: LineCap = .butt) {
         var command: [String: Any] = [
-            "p": path.values.map { ($0 * 100).rounded() / 100 },
+            "p": path.values.map { ($0 * 1000).rounded() / 1000 },
             "t": [transform.a, transform.b, transform.c, transform.d, transform.tx, transform.ty].map(rounded),
             "o": rounded(opacity),
         ]
