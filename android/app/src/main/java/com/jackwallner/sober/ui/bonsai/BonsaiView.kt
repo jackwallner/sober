@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 
@@ -112,7 +113,8 @@ internal class BonsaiScene private constructor(private val ops: List<Op>) {
             val paint = c.paint
             val color = when (paint) {
                 is BonsaiPaint.Solid -> composeColor(paint.color, c.opacity)
-                is BonsaiPaint.LinearGradient -> Color.Unspecified
+                // Android paint alpha still modulates a shader: keep it opaque, the stops carry opacity.
+                is BonsaiPaint.LinearGradient -> Color.Black
             }
             val shader = (paint as? BonsaiPaint.LinearGradient)?.let {
                 LinearGradientShader(
@@ -164,4 +166,29 @@ internal class BonsaiScene private constructor(private val ops: List<Op>) {
             return path
         }
     }
+}
+
+/** The same drawing into an offscreen bitmap, for the home-screen widget. */
+fun renderBonsaiBitmap(
+    day: Int,
+    style: BonsaiStyle,
+    vitality: Double,
+    widthPx: Int,
+    heightPx: Int,
+    fill: Boolean,
+): android.graphics.Bitmap {
+    val image = androidx.compose.ui.graphics.ImageBitmap(widthPx, heightPx)
+    val canvas = ComposeCanvas(image)
+    val scene = BonsaiScene.build(day, style, if (style.usesVitality) vitality.coerceIn(0.0, 1.0) else 1.0)
+    val rect = if (fill) bonsaiContentRect(day, style) else BRect(0.0, 0.0, 600.0, 600.0)
+    val pad = if (fill) 1.04 else 1.0
+    val width = widthPx.toDouble()
+    val height = heightPx.toDouble()
+    val scale = minOf(width / (rect.width * pad), height / (rect.height * pad))
+    val offX = (width - rect.width * scale) / 2 - rect.minX * scale
+    val offY = if (fill) (height - rect.height * scale) - rect.minY * scale else (height - rect.height * scale) / 2 - rect.minY * scale
+    canvas.translate(offX.toFloat(), offY.toFloat())
+    canvas.scale(scale.toFloat(), scale.toFloat())
+    scene.draw(canvas, Paint().apply { isAntiAlias = true })
+    return image.asAndroidBitmap()
 }

@@ -11,6 +11,7 @@ val localProperties = Properties().apply {
 }
 val playKey = localProperties.getProperty("REVENUECAT_PLAY_KEY", "")
 val testKey = localProperties.getProperty("REVENUECAT_TEST_KEY", "")
+val reviewCodeDigest = localProperties.getProperty("PLAY_REVIEW_CODE_SHA256", "")
 val uploadKeyStore = localProperties.getProperty("PLAY_UPLOAD_KEYSTORE", "")
 val uploadKeyAlias = localProperties.getProperty("PLAY_UPLOAD_KEY_ALIAS", "")
 val uploadStorePassword = localProperties.getProperty("PLAY_UPLOAD_STORE_PASSWORD", "")
@@ -19,6 +20,9 @@ val uploadKeyPassword = localProperties.getProperty("PLAY_UPLOAD_KEY_PASSWORD", 
 val validateReleaseConfiguration = tasks.register("validateReleaseConfiguration") {
     doLast {
         check(playKey.startsWith("goog_")) { "Set REVENUECAT_PLAY_KEY in ignored android/local.properties before release." }
+        check(reviewCodeDigest.matches(Regex("[a-f0-9]{64}"))) {
+            "Set PLAY_REVIEW_CODE_SHA256 in ignored android/local.properties before release."
+        }
         check(uploadKeyStore.isNotBlank() && rootProject.file(uploadKeyStore).isFile) {
             "Set PLAY_UPLOAD_KEYSTORE to the external upload keystore before release."
         }
@@ -40,6 +44,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["clearPackageData"] = "true"
         buildConfigField("String", "REVENUECAT_API_KEY", "\"$testKey\"")
+        buildConfigField("String", "PLAY_REVIEW_CODE_SHA256", "\"$reviewCodeDigest\"")
     }
     buildFeatures {
         buildConfig = true
@@ -59,6 +64,8 @@ android {
         debug { isDebuggable = true }
         release {
             isMinifyEnabled = true
+            // Play's release dashboard flags an unshrunk bundle as a memory cost.
+            isShrinkResources = true
             if (uploadKeyStore.isNotBlank()) signingConfig = signingConfigs.getByName("playUpload")
             buildConfigField("String", "REVENUECAT_API_KEY", "\"$playKey\"")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -110,4 +117,8 @@ dependencies {
     androidTestUtil("androidx.test:orchestrator:1.6.1")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.json:json:20240303")
+    constraints {
+        // review-ktx 2.0.2 pulls fragment 1.1.0, which Play reports as outdated.
+        implementation("androidx.fragment:fragment:1.8.9") { because("Play flags fragment 1.1.0 as an outdated SDK") }
+    }
 }
