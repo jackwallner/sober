@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Sober" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">#F6EFE0</item>
+        <item name="android:navigationBarColor">#F6EFE0</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowBackground">#F6EFE0</item>
+        <item name="android:colorAccent">#2F5B45</item>
+    </style>
+</resources>
