@@ -19,7 +19,7 @@ settings:
 packages:
   RevenueCat:
     url: https://github.com/RevenueCat/purchases-ios-spm.git
-    from: 5.67.0
+    from: 5.91.0
 
 schemes:
   SoberUITests:
