@@ -144,25 +144,18 @@ struct SettingsView: View {
                     Text("Free, confidential help is available any time. Reaching out is a strength, not a setback.")
                 }
                 Section("Help") {
-                    resourceLink(url: "mailto:jackwallner+st@gmail.com",
-                                 icon: "envelope.fill",
-                                 title: "Contact Support",
-                                 subtitle: "Questions or trouble? Reach out.")
-                    // Two plain rows, no "Enjoying it?" gate in front of
+                    // One mail row for questions, ideas and problems, and a
+                    // separate review row. No "Enjoying it?" gate in front of
                     // either (App Review 5.6.1).
+                    resourceLink(url: "mailto:jackwallner+st@gmail.com?subject=Sober%20feedback",
+                                 icon: "envelope.fill",
+                                 title: "Send Feedback",
+                                 subtitle: "Questions, ideas, or trouble? Reach out.")
                     Button {
                         ReviewPromptTracker.markOpenedWriteReview()
                         UIApplication.shared.open(AppStoreReviewLinks.writeReviewURL)
                     } label: {
-                        helpRow(icon: "star.fill", title: "Write a review", subtitle: "On the App Store")
-                    }
-                    if let feedback = AppStoreReviewLinks.feedbackMailURL {
-                        Button {
-                            ReviewPromptTracker.markFeedbackSubmitted()
-                            UIApplication.shared.open(feedback)
-                        } label: {
-                            helpRow(icon: "bubble.left.fill", title: "Send feedback", subtitle: "Tell the developer what would help")
-                        }
+                        helpRow(icon: "star.fill", title: "Rate Sober", subtitle: "On the App Store")
                     }
                 }
                 Section("Legal") {

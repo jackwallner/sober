@@ -6,10 +6,12 @@ extension Notification.Name {
     static let soberPositiveMomentForReview = Notification.Name("com.jackwallner.sober.positiveMomentForReview")
 }
 
-/// What the user did from Settings' review and feedback rows. Either one ends
-/// the passive asks, the same as the old funnel's answers did.
+/// What the user did about a review. Only opening the review page ends the
+/// passive asks: someone who sent feedback can still rate.
 enum ReviewPromptOutcome: String, Sendable {
     case openedWriteReview
+    /// Written by the old feedback funnel (1.3.2 and earlier). Kept so those
+    /// installs decode it; it no longer stops anything.
     case submittedFeedback
 }
 
@@ -24,23 +26,15 @@ enum ReviewPromptTracker {
     private static let outcomeKey = "reviewPrompt.outcome"
     private static let positiveMomentCountKey = "reviewPrompt.positiveMomentCount"
     private static let pendingPositiveMomentKey = "reviewPrompt.pendingPositiveMoment"
-    private static let pendingMilestoneMomentKey = "reviewPrompt.pendingMilestoneMoment"
 
-    /// Minimum cold starts before passive prompts are considered.
-    #if DEBUG
+    /// Ask early. Most installs are gone within a week, and a rating from
+    /// someone who checked in twice beats no rating at all. The only tenure
+    /// gate is "not the first session": a second cold start.
     static let minimumLaunchCount = 2
-    #else
-    static let minimumLaunchCount = 3
-    #endif
-    static let minimumDaysSinceFirstOpen = 3
-    /// Minimum cumulative positive moments before a passive review request.
-    static let minimumPositiveMoments = 2
-    static let cooldownDays = 120
-    /// Milestone peaks (a week reached, a tree completed) skip the tenure and
-    /// frequency thresholds. Those gates exist to avoid asking a stranger; a
-    /// user standing in a celebration screen is not a stranger. Still requires
-    /// finished setup, a second launch, and the resolved/cooldown checks.
-    static let minimumLaunchCountForMilestone = 2
+    /// Days between our calls. Apple shows the prompt at most three times a
+    /// year per device and decides each time, so this paces the asks rather
+    /// than the user's answers.
+    static let cooldownDays = 30
 
     static var appLaunchCount: Int {
         get { max(defaults.integer(forKey: launchCountKey), 0) }
@@ -93,13 +87,6 @@ enum ReviewPromptTracker {
         set { defaults.set(newValue, forKey: pendingPositiveMomentKey) }
     }
 
-    /// True when the pending moment is a milestone peak rather than a routine
-    /// check-in, which relaxes the tenure gates for this one presentation.
-    static var hasPendingMilestoneMoment: Bool {
-        get { defaults.bool(forKey: pendingMilestoneMomentKey) }
-        set { defaults.set(newValue, forKey: pendingMilestoneMomentKey) }
-    }
-
     static func recordAppLaunch(now: Date = .now) {
         if firstAppOpenDate == nil {
             firstAppOpenDate = now
@@ -107,46 +94,27 @@ enum ReviewPromptTracker {
         appLaunchCount += 1
     }
 
-    /// - Parameter isMilestone: pass true for celebration peaks (a time
-    ///   milestone reached, a growth stage unlocked) so the prompt can surface
-    ///   at the emotional high instead of waiting out the passive thresholds.
-    static func recordPositiveMoment(isMilestone: Bool = false) {
+    static func recordPositiveMoment() {
         positiveMomentCount += 1
         hasPendingPositiveMoment = true
-        if isMilestone {
-            hasPendingMilestoneMoment = true
-        }
     }
 
     static func consumePendingPositiveMoment() {
         hasPendingPositiveMoment = false
-        hasPendingMilestoneMoment = false
     }
 
     static func passivePromptAllowed(now: Date = .now) -> Bool {
-        guard outcome == nil else { return false }
+        guard outcome != .openedWriteReview else { return false }
         guard let last = lastShownDate else { return true }
         let cooldown = TimeInterval(cooldownDays) * 86_400
         return now.timeIntervalSince(last) >= cooldown
     }
 
-    static func canRequestReview(
-        hasCompletedSetup: Bool,
-        isMilestone: Bool = false,
-        now: Date = .now
-    ) -> Bool {
+    static func canRequestReview(hasCompletedSetup: Bool, now: Date = .now) -> Bool {
         guard !ScreenshotConfig.isEnabled else { return false }
         guard hasCompletedSetup else { return false }
         guard passivePromptAllowed(now: now) else { return false }
-        if isMilestone {
-            return appLaunchCount >= minimumLaunchCountForMilestone
-        }
-        guard appLaunchCount >= minimumLaunchCount else { return false }
-        guard positiveMomentCount >= minimumPositiveMoments else { return false }
-        guard let first = firstAppOpenDate else { return false }
-        let minInterval = TimeInterval(minimumDaysSinceFirstOpen) * 86_400
-        guard now.timeIntervalSince(first) >= minInterval else { return false }
-        return true
+        return appLaunchCount >= minimumLaunchCount
     }
 
     static func shouldRequestAfterPositiveMoment(
@@ -154,11 +122,7 @@ enum ReviewPromptTracker {
         now: Date = .now
     ) -> Bool {
         guard hasPendingPositiveMoment else { return false }
-        return canRequestReview(
-            hasCompletedSetup: hasCompletedSetup,
-            isMilestone: hasPendingMilestoneMoment,
-            now: now
-        )
+        return canRequestReview(hasCompletedSetup: hasCompletedSetup, now: now)
     }
 
     static func markShown(now: Date = .now) {
@@ -168,11 +132,6 @@ enum ReviewPromptTracker {
 
     static func markOpenedWriteReview() {
         outcome = .openedWriteReview
-        markShown()
-    }
-
-    static func markFeedbackSubmitted() {
-        outcome = .submittedFeedback
         markShown()
     }
 }

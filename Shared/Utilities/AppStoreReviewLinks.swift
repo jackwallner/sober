@@ -10,15 +10,6 @@ enum AppStoreReviewLinks {
         URL(string: writeReviewURLString)!
     }
 
-    /// A mail draft to the developer. Settings' "Send feedback" row.
-    static var feedbackMailURL: URL? {
-        var components = URLComponents()
-        components.scheme = "mailto"
-        components.path = "jackwallner@gmail.com"
-        components.queryItems = [URLQueryItem(name: "subject", value: "Sober feedback")]
-        return components.url
-    }
-
     private static var writeReviewURLString: String {
         if let country = storefrontCountryCode {
             return "https://apps.apple.com/\(country)/app/id\(appStoreID)?action=write-review"

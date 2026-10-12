@@ -395,7 +395,7 @@ struct TrialReminderTimingTests {
     }
 }
 
-@Suite("Review prompt milestone bypass")
+@Suite("Review prompt gates")
 @MainActor
 struct ReviewPromptMilestoneTests {
     /// Snapshots and restores the shared app-group state the tracker persists,
@@ -418,36 +418,50 @@ struct ReviewPromptMilestoneTests {
         body()
     }
 
-    @Test func milestoneSkipsTenureGates() {
+    @Test func asksFromTheSecondSession() {
         withCleanTracker {
             ReviewPromptTracker.appLaunchCount = 2
-            ReviewPromptTracker.positiveMomentCount = 1
             ReviewPromptTracker.firstAppOpenDate = .now
-            #expect(ReviewPromptTracker.canRequestReview(hasCompletedSetup: true, isMilestone: true))
+            #expect(ReviewPromptTracker.canRequestReview(hasCompletedSetup: true))
         }
     }
 
-    @Test func passivePromptStillWaitsOutTheGates() {
+    @Test func neverAsksInTheFirstSession() {
         withCleanTracker {
-            ReviewPromptTracker.appLaunchCount = 2
-            ReviewPromptTracker.positiveMomentCount = 1
-            ReviewPromptTracker.firstAppOpenDate = .now
+            ReviewPromptTracker.appLaunchCount = 1
             #expect(!ReviewPromptTracker.canRequestReview(hasCompletedSetup: true))
         }
     }
 
-    @Test func milestoneStillRespectsAResolvedPrompt() {
+    @Test func openingTheReviewPageEndsTheAsks() {
         withCleanTracker {
             ReviewPromptTracker.appLaunchCount = 9
             ReviewPromptTracker.outcome = .openedWriteReview
-            #expect(!ReviewPromptTracker.canRequestReview(hasCompletedSetup: true, isMilestone: true))
+            #expect(!ReviewPromptTracker.canRequestReview(hasCompletedSetup: true))
         }
     }
 
-    @Test func milestoneStillRequiresFinishedOnboarding() {
+    @Test func sendingFeedbackStillLeavesARatingAsk() {
         withCleanTracker {
             ReviewPromptTracker.appLaunchCount = 9
-            #expect(!ReviewPromptTracker.canRequestReview(hasCompletedSetup: false, isMilestone: true))
+            ReviewPromptTracker.outcome = .submittedFeedback
+            ReviewPromptTracker.lastShownDate = Date.now.addingTimeInterval(-31 * 86_400)
+            #expect(ReviewPromptTracker.canRequestReview(hasCompletedSetup: true))
+        }
+    }
+
+    @Test func waitsOutTheCooldown() {
+        withCleanTracker {
+            ReviewPromptTracker.appLaunchCount = 9
+            ReviewPromptTracker.lastShownDate = Date.now.addingTimeInterval(-10 * 86_400)
+            #expect(!ReviewPromptTracker.canRequestReview(hasCompletedSetup: true))
+        }
+    }
+
+    @Test func stillRequiresFinishedOnboarding() {
+        withCleanTracker {
+            ReviewPromptTracker.appLaunchCount = 9
+            #expect(!ReviewPromptTracker.canRequestReview(hasCompletedSetup: false))
         }
     }
 }
