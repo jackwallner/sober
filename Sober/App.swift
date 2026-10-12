@@ -182,6 +182,7 @@ struct RootView: View {
     ///                 the counter, calendar, health timeline, and money/calories
     ///                 saved all derive from one number and can't contradict
     ///                 each other the way the hand-captured 1.1.4 frames did
+    ///   -seedGoal N : set a 30/90/365-day goal on the seeded journey
     ///   -demoPro    : flip the local Pro override on
     private func seedDemoIfRequested() {
         let args = ProcessInfo.processInfo.arguments
@@ -200,11 +201,18 @@ struct RootView: View {
         var days = 24
         if let index = args.firstIndex(of: "-seedDays"),
            index + 1 < args.count,
-           let parsed = Int(args[index + 1]), parsed > 0 {
+           let parsed = Int(args[index + 1]), parsed >= 0 {
             days = parsed
         }
         let start = Calendar.current.date(byAdding: .day, value: -days, to: .now) ?? .now
-        _ = SobrietyService(context: context).startJourney(at: start)
+        let journey = SobrietyService(context: context).startJourney(at: start)
+        // -seedGoal N: a goal N days from the start, as onboarding would set.
+        if let index = args.firstIndex(of: "-seedGoal"),
+           index + 1 < args.count,
+           let goalDays = Int(args[index + 1]),
+           let preset = GoalPreset(rawValue: goalDays) {
+            journey.goalDate = preset.date(from: start)
+        }
         _ = GardenService(context: context).current()
         CheckInService(context: context).fillJourney(start: start, through: .now)
         seedJournal(start: start)
@@ -234,7 +242,6 @@ struct RootView: View {
 struct MainTabView: View {
     @Environment(SubscriptionService.self) private var subscriptions
     @StateObject private var trialCoordinator = TrialOfferCoordinator.shared
-    @StateObject private var reviewCoordinator = ReviewPromptCoordinator.shared
     #if DEBUG
     /// `-tab N` opens straight onto a tab. The Bloom+ paywall only lays out the
     /// way a user sees it when the tab bar is eating the bottom of the screen,
@@ -252,7 +259,6 @@ struct MainTabView: View {
     #endif
     @State private var showTrialPaywall = false
     @State private var trialOfferFocus: BloomFeature?
-    @State private var deferredTrialPitch: TrialOfferCoordinator.PendingRequest?
 
     var body: some View {
         TabView(selection: $tab) {
@@ -283,18 +289,6 @@ struct MainTabView: View {
             handleTrialPitch(request)
         }
         .onChange(of: showTrialPaywall) { _, _ in syncPresentationFlag() }
-        .onChange(of: reviewCoordinator.isPresentingSheet) { _, presenting in
-            guard !presenting, let pitch = deferredTrialPitch else { return }
-            deferredTrialPitch = nil
-            Task { @MainActor in
-                // Let the review sheet finish dismissing before a second sheet
-                // asks to present, or UIKit drops the new one on the floor.
-                try? await Task.sleep(nanoseconds: 600_000_000)
-                guard !ReviewPromptCoordinator.shared.isPresentingSheet,
-                      !showTrialPaywall else { return }
-                handleTrialPitch(pitch)
-            }
-        }
         .onReceive(NotificationCenter.default.publisher(for: .soberOpenCheckIn)) { _ in
             tab = 0
         }
@@ -323,14 +317,6 @@ struct MainTabView: View {
     #if canImport(RevenueCat)
     private func handleTrialPitch(_ request: TrialOfferCoordinator.PendingRequest) {
         guard !subscriptions.isProSubscriber else { return }
-        // A review prompt on screen wins, but hold the pitch instead of dropping
-        // it: the coordinator's request is already cleared by the time we get
-        // here, so returning threw the only trial offer that user was ever going
-        // to see. Re-runs when the review sheet goes away.
-        guard !ReviewPromptCoordinator.shared.isPresentingSheet else {
-            deferredTrialPitch = request
-            return
-        }
         let focus = request.intent.focusFeature
 
         switch request.policy {
@@ -364,6 +350,8 @@ struct MainTabView: View {
     private func paywallImpressionId(for focus: BloomFeature?) -> String {
         switch focus {
         case .patterns: "sober_paywall_patterns"
+        case .goalProjection: "sober_paywall_goal"
+        case .urgePlaybook: "sober_paywall_playbook"
         case .gardenSpecies: "sober_paywall_garden"
         case .healthTimeline: "sober_paywall_health"
         case .journal: "sober_paywall_journal"

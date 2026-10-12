@@ -21,6 +21,11 @@ struct CravingModeView: View {
     /// Called once the episode has been written, with the outcome the user
     /// chose, so Home can react (celebrate, nudge, refresh).
     var onFinish: (CravingOutcome) -> Void = { _ in }
+    /// Called from the done screen's playbook card, with the plan the user's
+    /// trigger maps to. Home acts on it once the cover has closed: it opens
+    /// the playbook for Bloom+ and the pitch for everyone else, so no paywall
+    /// is ever drawn inside this flow.
+    var onOpenPlaybook: (UrgeTrigger?) -> Void = { _ in }
 
     private enum Step { case breathing, reflect, done }
 
@@ -320,6 +325,7 @@ struct CravingModeView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
             Spacer()
+            playbookCard
             Button { dismiss() } label: {
                 Text("Back to the garden")
                     .font(Theme.body(weight: .semibold))
@@ -333,6 +339,44 @@ struct CravingModeView: View {
             .padding(.bottom, Theme.Space.xl)
         }
         .padding(Theme.Space.xl)
+    }
+
+    /// The "what next" card: the plan for whatever set this one off, or the
+    /// whole playbook when no trigger was picked. A card, not a paywall. The
+    /// lock only says where the tap leads.
+    private var playbookCard: some View {
+        let plan = UrgePlaybookCatalog.plan(forTag: trigger)
+        return Button {
+            onOpenPlaybook(plan?.trigger)
+            dismiss()
+        } label: {
+            HStack(spacing: Theme.Space.m) {
+                Image(systemName: plan?.icon ?? "list.bullet.clipboard")
+                    .font(Theme.body(weight: .semibold))
+                    .foregroundStyle(.white)
+                    .frame(width: 38, height: 38)
+                    .background(Theme.brandGradient, in: Circle())
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Your plan for next time")
+                        .font(Theme.subhead(weight: .semibold))
+                        .foregroundStyle(Theme.textPrimary)
+                    Text(plan.map { "\($0.title): \($0.steps.count) steps and what to say." }
+                         ?? "Six trigger plans: what to do and what to say.")
+                        .font(Theme.caption())
+                        .foregroundStyle(Theme.textSecondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: 0)
+                Image(systemName: subscriptions.isProSubscriber ? "chevron.right" : "lock.fill")
+                    .font(Theme.caption(weight: .semibold))
+                    .foregroundStyle(Theme.textTertiary)
+            }
+            .padding(Theme.Space.m)
+            .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 16))
+            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Theme.ringTrack, lineWidth: 1))
+        }
+        .buttonStyle(.plain)
+        .padding(.horizontal, Theme.Space.xl)
     }
 
     /// Bloom+ closes the loop: the session the user just logged changes the

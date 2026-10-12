@@ -53,6 +53,9 @@ struct PannableGardenView: View {
             .frame(width: viewport.width, height: viewport.height)
             .clipShape(RoundedRectangle(cornerRadius: 24))
             .contentShape(Rectangle())
+            // Pan only once zoomed in. At base zoom there is nothing to pan to
+            // (clampOffset returns .zero), and an always-on drag would swallow
+            // the vertical swipe that scrolls Home to the cards below.
             .gesture(
                 DragGesture()
                     .updating($drag) { value, state, _ in state = value.translation }
@@ -64,20 +67,21 @@ struct PannableGardenView: View {
                             world: CGSize(width: worldW, height: worldH),
                             viewport: viewport
                         )
+                    },
+                including: scale > minScale ? .all : .subviews
+            )
+            .simultaneousGesture(
+                MagnificationGesture()
+                    .updating($pinch) { value, state, _ in state = value }
+                    .onEnded { value in
+                        scale = clampScale(scale * value)
+                        offset = clampOffset(
+                            offset,
+                            scale: scale,
+                            world: CGSize(width: worldW, height: worldH),
+                            viewport: viewport
+                        )
                     }
-                    .simultaneously(with:
-                        MagnificationGesture()
-                            .updating($pinch) { value, state, _ in state = value }
-                            .onEnded { value in
-                                scale = clampScale(scale * value)
-                                offset = clampOffset(
-                                    offset,
-                                    scale: scale,
-                                    world: CGSize(width: worldW, height: worldH),
-                                    viewport: viewport
-                                )
-                            }
-                    )
             )
             .overlay(alignment: .bottomTrailing) {
                 if scale > minScale || offset != .zero {

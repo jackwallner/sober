@@ -423,7 +423,7 @@ struct ReviewPromptMilestoneTests {
             ReviewPromptTracker.appLaunchCount = 2
             ReviewPromptTracker.positiveMomentCount = 1
             ReviewPromptTracker.firstAppOpenDate = .now
-            #expect(ReviewPromptTracker.canPresentEnjoymentPrompt(hasCompletedSetup: true, isMilestone: true))
+            #expect(ReviewPromptTracker.canRequestReview(hasCompletedSetup: true, isMilestone: true))
         }
     }
 
@@ -432,7 +432,7 @@ struct ReviewPromptMilestoneTests {
             ReviewPromptTracker.appLaunchCount = 2
             ReviewPromptTracker.positiveMomentCount = 1
             ReviewPromptTracker.firstAppOpenDate = .now
-            #expect(!ReviewPromptTracker.canPresentEnjoymentPrompt(hasCompletedSetup: true))
+            #expect(!ReviewPromptTracker.canRequestReview(hasCompletedSetup: true))
         }
     }
 
@@ -440,14 +440,14 @@ struct ReviewPromptMilestoneTests {
         withCleanTracker {
             ReviewPromptTracker.appLaunchCount = 9
             ReviewPromptTracker.outcome = .openedWriteReview
-            #expect(!ReviewPromptTracker.canPresentEnjoymentPrompt(hasCompletedSetup: true, isMilestone: true))
+            #expect(!ReviewPromptTracker.canRequestReview(hasCompletedSetup: true, isMilestone: true))
         }
     }
 
     @Test func milestoneStillRequiresFinishedOnboarding() {
         withCleanTracker {
             ReviewPromptTracker.appLaunchCount = 9
-            #expect(!ReviewPromptTracker.canPresentEnjoymentPrompt(hasCompletedSetup: false, isMilestone: true))
+            #expect(!ReviewPromptTracker.canRequestReview(hasCompletedSetup: false, isMilestone: true))
         }
     }
 }

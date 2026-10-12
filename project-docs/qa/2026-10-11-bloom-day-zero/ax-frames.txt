@@ -1,0 +1,42 @@
+continue=(16.0, 698.3333333333334, 370.0, 52.33333333333326)
+trialCTA=(16.0, 698.3333333333334, 370.0, 52.33333333333326)
+
+Attributes: Application, 0x106325540, pid: 30650, label: 'Sober Tracker'
+Element subtree:
+ →Application, 0x106325540, pid: 30650, label: 'Sober Tracker'
+    Window (Main), 0x106325180, {{0.0, 0.0}, {402.0, 874.0}}
+      Other, 0x106325680, {{0.0, 0.0}, {402.0, 874.0}}
+        Other, 0x106325900, {{0.0, 0.0}, {402.0, 874.0}}
+          Other, 0x106325cc0, {{0.0, 0.0}, {402.0, 874.0}}
+            Other, 0x106325b80, {{0.0, 0.0}, {402.0, 874.0}}
+              StaticText, 0x106325e00, {{76.2, 108.7}, {249.7, 100.3}}, label: '7 days of Bloom+ free'
+              StaticText, 0x106326800, {{16.0, 217.0}, {370.0, 40.7}}, label: 'Every tool that keeps the streak visible. Nothing is charged for 7 days.'
+              Image, 0x106326d00, {{33.0, 287.0}, {15.3, 16.7}}, identifier: 'flag.checkered', label: 'Checkered Flag'
+              StaticText, 0x106326f80, {{64.0, 285.7}, {205.3, 40.7}}, label: 'By Nov 9: $600 kept and 6 milestones passed'
+              Image, 0x1063270c0, {{32.3, 339.7}, {15.7, 15.7}}, identifier: 'heart.text.square.fill', label: 'Heart With Text In A Filled Square'
+              StaticText, 0x106326e40, {{64.0, 338.3}, {267.3, 40.7}}, label: 'Tomorrow 5:38 AM: Blood Alcohol Clearing. Then 12 more, each dated.'
+              Image, 0x106327200, {{32.7, 392.3}, {14.7, 21.7}}, identifier: 'list.bullet.clipboard', label: 'Bulleted List On A Clipboard'
+              StaticText, 0x106327480, {{64.0, 391.0}, {291.0, 40.7}}, label: 'A plan for the first urge: what to do and what to say.'
+              Image, 0x1063275c0, {{30.3, 445.0}, {19.3, 16.0}}, identifier: 'chart.bar.xaxis', label: 'Bar Chart With An X Axis'
+              StaticText, 0x106327340, {{64.0, 443.7}, {268.3, 40.7}}, label: 'Your own urge patterns once you've logged a few.'
+              Image, 0x106327700, {{30.3, 564.3}, {11.0, 13.3}}, identifier: 'arrow.left.arrow.right', label: 'Left And Right Arrows'
+              StaticText, 0x106327980, {{49.7, 553.0}, {292.3, 36.0}}, label: 'A year of Bloom+ costs about a day and a half of drinking.'
+              StaticText, 0x106327ac0, {{56.0, 607.0}, {290.0, 20.3}}, label: '7-Day Free Trial, then $29.99 / year.'
+              Image, 0x106327840, {{21.0, 636.3}, {10.0, 11.3}}, identifier: 'bell.badge.fill', label: 'Bell With A Notification Badge, Filled'
+              StaticText, 0x106327c00, {{37.7, 635.3}, {327.0, 28.7}}, label: 'Free until Oct 18. We'll remind you before it ends. Reminder needs notifications turned on.'
+              Button, 0x106327d40, {{168.3, 672.0}, {65.3, 18.3}}, label: 'Get started'
+              Button, 0x106327e80, {{16.0, 698.3}, {370.0, 52.3}}, label: 'Start my 7-day free trial'
+              Other, 0x1063248c0, {{19.3, 758.7}, {363.3, 65.3}}
+              StaticText, 0x106324f00, {{27.3, 758.7}, {347.3, 43.0}}, label: 'Auto-renews unless cancelled at least 24 hours before the end of the current period. Manage or cancel in Settings › Apple ID › Subscriptions.'
+              Button, 0x102e8b0c0, {{115.3, 809.7}, {42.3, 14.3}}, label: 'Restore'
+              StaticText, 0x102e8b340, {{169.5, 809.7}, {3.7, 14.3}}, label: '·'
+              Link, 0x102e8af80, {{185.3, 809.7}, {33.3, 14.3}}, label: 'Terms'
+              StaticText, 0x102e8ad00, {{230.5, 809.7}, {3.7, 14.3}}, label: '·'
+              Link, 0x102e8b200, {{246.3, 809.7}, {40.7, 14.3}}, label: 'Privacy'
+Path to element:
+ →Application, 0x106325540, pid: 30650, label: 'Sober Tracker'
+Query chain:
+ →Find: Target Application 'com.jackwallner.sober'
+  Output: {
+    Application, 0x102e8b980, pid: 30650, label: 'Sober Tracker'
+  }

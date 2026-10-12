@@ -19,7 +19,7 @@ All share App Group `group.com.jackwallner.sober` for SwiftData container + widg
 ## Architecture
 - `Shared/Models/`: SwiftData `@Model` types: SobrietyJourney, DailyCheckIn, JournalEntry, GardenState, UserSettings, UnlockedAchievement, UnlockedHealthBenefit.
 - `Shared/Services/`: DataService (container), SobrietyService, CheckInService, SettingsService, GardenService, NotificationService, SubscriptionService (RevenueCat wrapper), WidgetSnapshotPump.
-- `Shared/Catalogs/`: static content: HealthBenefitCatalog (13 NIAAA milestones), AchievementCatalog, JournalPromptCatalog, GardenSpeciesCatalog.
+- `Shared/Catalogs/`: static content: HealthBenefitCatalog (13 NIAAA milestones), AchievementCatalog, JournalPromptCatalog, GardenSpeciesCatalog, UrgePlaybookCatalog (six trigger plans).
 - `Shared/Utilities/`: Theme, DateHelpers, AppGroup, WidgetSnapshot.
 - `Sober/Features/`: feature folders (Onboarding, Today, Calendar, Health, Journal, Achievements, Stats, Settings, Paywall, Components).
 
@@ -62,12 +62,33 @@ bigger version of a complete free app is what put trial starts at 3%.
   order. Every reading has a sample floor and returns nil below it rather than
   inventing a claim; `nextUnlock` says what's still coming. Riding out an urge
   routes to the `.patterns` pitch, the highest-intent moment in the app.
+- **Bloom+ owns day zero** (added 1.3.3): the onboarding trial page sold things
+  that only pay off weeks in, so it converted ~5%. Two features a new user wants
+  tonight now sit right after `.patterns` in `BloomFeature`:
+  - **Goal date**: onboarding step 3 asks "What are you working toward?" and
+    stores `SobrietyJourney.goalDate` (start of day; optional, so the migration
+    is lightweight). Slips and restarts carry a goal that is still ahead.
+    Free gets the countdown on Home; Bloom+ gets `GoalProjection` (money,
+    calories, `HabitVocabulary.habitInstancePlural` not had, milestones passed by
+    then). Editable in Settings (`GoalEditorView`).
+  - **Urge playbook**: `UrgePlaybookCatalog`, one plan per `UrgeTrigger` with 3
+    to 4 steps and one line to say when offered. Every trigger chip maps to a
+    plan (`tagMap`, tested). Gated card on Home and the "what next" card on the
+    craving done screen; the card exits the cover and Home opens the pitch, so
+    the ride-out flow itself still has no paywall in it.
+  - **Dated milestones** (`MilestoneSchedule`) are free for everyone on Home
+    (next three, titles hidden past the free five) and date the Health timeline.
+  - The trial page's four rows are computed from the onboarding answers; its
+    impression id is `sober_onboarding_trial_1_3_3`. Its CTA must stay on the
+    Continue button's frame: `BloomDayZeroCaptureUITests` asserts it.
+- Home scrolls since 1.3.3: the top block is viewport-sized less a 64pt peek of
+  the cards below. The garden only pans once zoomed, so a swipe on it scrolls.
 
 Prices are never literals: read them from StoreKit, and express them against the
 user's own habit spend via `HabitPriceComparison` rather than quoting figures.
 
 ## App-specific notes
-- Enjoyment funnel triggers after **daily check-in** or **garden unlock celebration** (3.5s delay). (Shared funnel mechanics + playbook in the `ios-dev` skill.)
+- Ratings: no enjoyment gate (App Review 5.6.1 rejected that pattern on another fleet app). After a **daily check-in** or **garden unlock celebration**, Home waits 3.5s and calls `requestReview()` directly, behind `ReviewPromptTracker`'s launch, tenure and 120-day cooldown gates. Settings has separate **Write a review** and **Send feedback** rows; either one ends the passive asks.
 - `Sober.storekit` tests the paywall in the simulator without RevenueCat dashboard config.
 - SwiftData migrations: any change to a `@Model`'s stored properties needs a schema migration (lightweight is fine for now; wipe-and-retry on corruption).
 - Widget snapshots are decoupled from SwiftData via `WidgetSnapshotStore` so the widget doesn't need a SwiftData schema.
