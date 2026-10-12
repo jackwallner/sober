@@ -50,7 +50,8 @@ paths:
 ## Release
 
 - Listing text and graphics: `android/play-assets/metadata/android/<locale>/`
-  (fastlane supply layout); see `android/play-assets/listing-en-US.md` for the
+  (fastlane supply layout, 50 locales, checked by
+  `scripts/validate-play-listing.py --app sober`); see `android/play-assets/listing-en-US.md` for the
   upload command, policy answers and Data safety.
 - Bundles: `PLAY_SERVICE_ACCOUNT_JSON=~/.config/google-play/mahj-service-account.json
   ./scripts/play-upload.sh internal-draft` (tests, signs, verifies, uploads).
@@ -61,6 +62,8 @@ paths:
   release (178 countries, 12 listing locales, all App content declarations,
   reviewer code in Sign in details) sent for review 2026-10-10. Managed
   publishing: approval does not publish; Jack clicks Publish.
+- 2026-10-11: listing text expanded from 12 to 50 locales and staged over the
+  API with changes not sent for review; it goes out with the next send.
 - Sign in details: the dialog's Add only stages the entry; the page-level Save
   persists it. Never type the raw review code; Jack pastes it.
 
