@@ -80,12 +80,13 @@ struct GoalProjection: Equatable {
         let perInstance = HabitVocabulary.caloriesPerInstance
         habitInstances = (caloriesPerDay > 0 && perInstance > 0) ? calories / perInstance : nil
 
-        // "By Nov 9" reads as by the end of that day, so a milestone landing
-        // that evening counts.
-        let horizon = calendar.date(byAdding: .day, value: 1, to: goalDay) ?? goalDay
-        let schedule = MilestoneSchedule.all(start: start)
-        milestonesPassed = schedule.filter { $0.date <= horizon }.map(\.benefit)
-        milestonesStillAhead = schedule.filter { $0.date <= horizon && $0.date > now }.map(\.benefit)
+        // Milestones are counted the way their labels read: a goal of day 30
+        // covers the "30 days" milestones and a 1-year goal covers "1 year",
+        // even though by the clock those land a few hours into the next day.
+        let coveredHours = Double(dayCountAtGoal) * 24
+        let covered = MilestoneSchedule.all(start: start).filter { $0.benefit.hoursRequired <= coveredHours }
+        milestonesPassed = covered.map(\.benefit)
+        milestonesStillAhead = covered.filter { $0.date > now }.map(\.benefit)
     }
 
     var hasSpend: Bool { moneyCents > 0 }
@@ -100,11 +101,20 @@ struct GoalProjection: Equatable {
 
     var moneyText: String { Self.currency(cents: moneyCents) }
 
-    /// "Nov 9" in the user's locale.
-    static func shortDate(_ date: Date, locale: Locale = .current) -> String {
+    /// "Nov 9" in the user's locale, or "Oct 11, 2027" once the date is in
+    /// another year. Without the year a 1-year goal reads as yesterday.
+    static func shortDate(
+        _ date: Date,
+        now: Date = .now,
+        calendar: Calendar = .current,
+        locale: Locale = .current
+    ) -> String {
         let formatter = DateFormatter()
+        formatter.calendar = calendar
+        formatter.timeZone = calendar.timeZone
         formatter.locale = locale
-        formatter.setLocalizedDateFormatFromTemplate("MMMd")
+        let sameYear = calendar.component(.year, from: date) == calendar.component(.year, from: now)
+        formatter.setLocalizedDateFormatFromTemplate(sameYear ? "MMMd" : "yMMMd")
         return formatter.string(from: date)
     }
 

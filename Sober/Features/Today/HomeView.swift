@@ -92,6 +92,11 @@ struct HomeView: View {
             }
             .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
+            // Home scrolls now. A solid bar in the page colour keeps the garden
+            // from sliding under the clock and the two corner buttons; at rest
+            // it is invisible against the same background.
+            .toolbarBackground(Theme.background, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button { showProgress = true } label: {
@@ -181,7 +186,7 @@ struct HomeView: View {
                         withAnimation { showGrowth = false }
                         growthEvent = nil
                         WidgetSnapshotPump.push(context: context)
-                        recordPositiveMomentForReview(isMilestone: true)
+                        recordPositiveMomentForReview()
                         presentPostOnboardingPaywallIfNeeded()
                         scheduleTrialPitchAfterGrowthCelebration()
                     }
@@ -241,8 +246,10 @@ struct HomeView: View {
 
     // MARK: - Ahead
 
-    /// How much of the first card below the fold shows on the first screen.
-    private static let aheadPeek: CGFloat = 64
+    /// How much of the first card below the fold shows on the first screen:
+    /// its header and first row, clear of the floating tab bar, so the peek
+    /// reads as a card to scroll to rather than text caught under the bar.
+    private static let aheadPeek: CGFloat = 104
     /// The top block's floor: counter, the garden's own minimum, and the two
     /// controls. Below this the garden would be squeezed rather than scrolled.
     private static let topBlockMinHeight: CGFloat = 560
@@ -428,7 +435,7 @@ struct HomeView: View {
                         GardenService(context: context).water()
                         refreshCheckInState()
                         WidgetSnapshotPump.push(context: context)
-                        recordPositiveMomentForReview(isMilestone: isTimeMilestoneDay)
+                        recordPositiveMomentForReview()
                         scheduleRetentionNudges()
                         recordCheckInForTrialPitch()
                     } label: {
@@ -525,7 +532,7 @@ struct HomeView: View {
                 GardenService(context: context).water()
                 refreshCheckInState()
                 WidgetSnapshotPump.push(context: context)
-                recordPositiveMomentForReview(isMilestone: isTimeMilestoneDay)
+                recordPositiveMomentForReview()
                 scheduleRetentionNudges()
                 recordCheckInForTrialPitch()
                 showCheckInDetail = true
@@ -734,35 +741,36 @@ struct HomeView: View {
         return f
     }()
 
-    /// Time milestones and growth celebrations are the app's emotional peaks.
-    /// The review prompt relaxes its tenure gates for these, so ask there.
-    private func recordPositiveMomentForReview(isMilestone: Bool = false) {
-        ReviewPromptTracker.recordPositiveMoment(isMilestone: isMilestone)
+    /// A check-in, a ridden-out craving, or a growth celebration. Each one
+    /// may request the system rating prompt once Home is clear.
+    private func recordPositiveMomentForReview() {
+        ReviewPromptTracker.recordPositiveMoment()
         NotificationCenter.default.post(name: .soberPositiveMomentForReview, object: nil)
-    }
-
-    /// True on the exact day a time milestone lands (7, 30, 90, …).
-    private var isTimeMilestoneDay: Bool {
-        days > 0 && AchievementCatalog.all.contains {
-            $0.kind == .timeMilestone && $0.dayThreshold == days
-        }
     }
 
     /// App Review 5.6.1: no "Enjoying it?" question in front of the ask. At a
     /// positive moment the system rating prompt is requested directly, on the
     /// same cooldown and gates the old funnel used, and Apple decides whether
     /// it actually appears.
+    /// Nothing of Home's is on screen over it.
+    private var isHomeClear: Bool {
+        !showGrowth && !showCheckInDetail && !showSlipSheet && !showCraving
+            && !showSettings && !showCustomize && !showProgress && !showPlaybook
+            && !showGoalEditor && !showResetAlert
+    }
+
     private func scheduleReviewRequestAfterPositiveMoment() {
         guard ReviewPromptTracker.shouldRequestAfterPositiveMoment(hasCompletedSetup: hasCompletedOnboarding),
               !reviewPromptShownThisSession,
-              !showGrowth,
-              !showCheckInDetail
+              isHomeClear
         else { return }
 
         Task { @MainActor in
             try? await Task.sleep(nanoseconds: 3_500_000_000)
-            guard !showGrowth,
-                  !showCheckInDetail,
+            // Never over something the user opened from the same moment, like
+            // the playbook from a ridden-out craving. The moment stays pending
+            // and the next one asks.
+            guard isHomeClear,
                   // A trial pitch may have been scheduled from the same moment
                   // (e.g. a growth-celebration dismiss); never ask over it.
                   !TrialOfferCoordinator.shared.isPresentingSheet,

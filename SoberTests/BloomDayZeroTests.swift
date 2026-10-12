@@ -48,10 +48,9 @@ struct GoalProjectionTests {
         #expect(p.moneyCents == 60_000)
         #expect(p.calories == 18_000)
         #expect(p.habitInstances == 18_000 / HabitVocabulary.caloriesPerInstance)
-        // 30 calendar days ending Mar 30 is 710 hours from a 10 AM start: the
-        // six milestones through two weeks, not the 720-hour ones.
-        #expect(p.milestonesPassed.count == 6)
-        #expect(p.milestonesStillAhead.count == 6)
+        // A 30-day goal covers the milestones labelled 30 days as well.
+        #expect(p.milestonesPassed.count == 8)
+        #expect(p.milestonesStillAhead.count == 8)
         #expect(!p.isReached)
     }
 
@@ -62,9 +61,9 @@ struct GoalProjectionTests {
             costPerDayCents: 2000, caloriesPerDay: 0, calendar: utc
         )
         #expect(p.daysToGo == 20)
-        #expect(p.milestonesPassed.count == 6)
-        // Only the two-week milestone (Mar 15) is still to come.
-        #expect(p.milestonesStillAhead.map(\.id) == ["reduced-anxiety"])
+        #expect(p.milestonesPassed.count == 8)
+        // The two-week and the two 30-day milestones are still to come.
+        #expect(p.milestonesStillAhead.map(\.id) == ["reduced-anxiety", "liver-fat-reduction", "weight-stabilization"])
         #expect(p.habitInstances == nil)
     }
 
@@ -80,6 +79,15 @@ struct GoalProjectionTests {
         #expect(noSpend.pitchLine == nil)
     }
 
+    @Test func oneYearGoalCoversTheOneYearMilestone() {
+        let start = date(3, 1, 10)
+        let p = GoalProjection(
+            start: start, goal: GoalPreset.oneYear.date(from: start, calendar: utc), now: start,
+            costPerDayCents: 0, caloriesPerDay: 0, calendar: utc
+        )
+        #expect(p.milestonesPassed.count == HealthBenefitCatalog.all.count)
+    }
+
     @Test func goalDayIsReached() {
         let p = GoalProjection(
             start: date(3, 1, 10), goal: date(3, 30), now: date(3, 30, 18),
@@ -87,6 +95,15 @@ struct GoalProjectionTests {
         )
         #expect(p.isReached)
         #expect(p.daysToGo == 0)
+    }
+
+    @Test func goalDateShowsTheYearOnlyWhenItDiffers() {
+        let en = Locale(identifier: "en_US")
+        let now = date(10, 12, 9)
+        #expect(GoalProjection.shortDate(date(11, 10), now: now, calendar: utc, locale: en) == "Nov 10")
+        // A 1-year goal started Oct 12 lands Oct 11 next year, not yesterday.
+        let yearOut = GoalPreset.oneYear.date(from: now, calendar: utc)
+        #expect(GoalProjection.shortDate(yearOut, now: now, calendar: utc, locale: en) == "Oct 11, 2027")
     }
 
     @Test func aSlipCarriesOnlyAGoalStillAhead() {

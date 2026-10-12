@@ -336,8 +336,8 @@ struct OnboardingView: View {
             VStack(alignment: .leading, spacing: Theme.Space.m) {
                 trialBenefit(icon: "flag.checkered", text: trialGoalText)
                 trialBenefit(icon: "heart.text.square.fill", text: MilestoneSchedule.pitchLine(start: effectiveStart))
-                trialBenefit(icon: "list.bullet.clipboard", text: "A plan for the first urge: what to do and what to say.")
-                trialBenefit(icon: "chart.bar.xaxis", text: "Your own urge patterns once you've logged a few.")
+                trialBenefit(icon: "list.bullet.clipboard", text: "A plan for the first \(HabitVocabulary.urgeNoun): what to do and what to say.")
+                trialBenefit(icon: "chart.bar.xaxis", text: "Your own \(HabitVocabulary.urgeNoun) patterns once you've logged a few.")
             }
             .padding(Theme.Space.m)
             .background(.white.opacity(0.13), in: RoundedRectangle(cornerRadius: 18))
