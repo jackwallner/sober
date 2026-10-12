@@ -23,6 +23,8 @@ Um mês sem álcool, um desafio de 30 dias ou uma vida sóbria de vez: o Sober d
 
 Novos assinantes elegíveis podem testar o Bloom+ grátis por 7 dias. O Bloom+ está disponível por mês ou por ano, além de uma compra única vitalícia. Os preços aparecem no app antes da compra e variam por região. O pagamento é cobrado na sua conta do Google Play. A assinatura é renovada automaticamente até ser cancelada; cancele quando quiser no Google Play, em Pagamentos e assinaturas.
 
+O app está em inglês.
+
 O Sober é uma ferramenta de bem-estar, não cuidado médico, diagnóstico ou tratamento. Se parar de beber puder trazer risco de abstinência, procure um profissional de saúde.
 
 Privacidade: https://jackwallner.github.io/sober/android-privacy.html

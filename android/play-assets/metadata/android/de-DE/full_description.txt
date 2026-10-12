@@ -23,6 +23,8 @@ Ob trockener Monat, 30-Tage-Challenge oder ein dauerhaft nüchternes Leben: Sobe
 
 Berechtigte Neukunden können Bloom+ 7 Tage kostenlos testen. Bloom+ gibt es monatlich oder jährlich sowie als einmaligen Lifetime-Kauf. Preise werden vor dem Kauf in der App angezeigt und variieren je nach Region. Die Zahlung erfolgt über dein Google-Play-Konto. Abos verlängern sich automatisch, bis du sie kündigst; kündigen kannst du jederzeit in Google Play unter Zahlungen und Abos.
 
+Die App ist auf Englisch.
+
 Sober ist ein Wellness-Tracker und keine medizinische Versorgung, Diagnose oder Behandlung. Wenn ein Alkoholstopp für dich Entzugsrisiken birgt, wende dich an medizinisches Fachpersonal.
 
 Datenschutz: https://jackwallner.github.io/sober/android-privacy.html

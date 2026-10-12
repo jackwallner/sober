@@ -14,7 +14,13 @@ Title, short and full description per locale live in
       --metadata_path android/play-assets/metadata/android --track internal \
       --skip_upload_apk true --skip_upload_aab true --skip_upload_changelogs true --sync_image_upload true
 
-Locales: en-US (default), en-GB/AU/CA/IN, de-DE, fr-FR/CA, es-ES/419/US, pt-BR.
+Locales (50): en-US (default), en-GB/AU/CA/IN, de-DE, fr-FR/CA, es-ES/419/US,
+pt-BR/PT, it-IT, nl-NL, sv-SE, no-NO, da-DK, fi-FI, pl-PL, cs-CZ, sk, sl, hr,
+hu-HU, ro, el-GR, tr-TR, ru-RU, uk, ar, iw-IL, hi-IN, bn-BD, mr-IN, ta-IN,
+te-IN, kn-IN, ml-IN, id, ms, ms-MY, th, vi, ja-JP, ko-KR, zh-CN/TW/HK, ca.
+Search terms per locale come from the matching iOS `fastlane/metadata` keywords.
+Every non-English description says the app is in English (the Android app is
+not localized). Check with `scripts/validate-play-listing.py --app sober`.
 ASO: titles lead with "Sober" plus the highest-intent local phrase (sobriety
 day counter, alkoholfrei, sin/sem alcohol, jours sobres); short descriptions
 open with the local "quit drinking". No prices, no em dashes, no medical claims.
