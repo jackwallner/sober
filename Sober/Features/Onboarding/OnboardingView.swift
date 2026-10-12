@@ -40,6 +40,8 @@ struct OnboardingView: View {
     /// trial, and never says the word "free".
     @State private var offerIncludesTrial = true
     @State private var showSkipTrialConfirm = false
+    @State private var goalChoice: GoalChoice = .preset(.thirtyDays)
+    @State private var customGoalDate = Calendar.current.date(byAdding: .day, value: 30, to: .now) ?? .now
 
     var body: some View {
         ZStack {
@@ -49,8 +51,9 @@ struct OnboardingView: View {
                 case 0: promiseStep
                 case 1: startDateStep
                 case 2: savingsStep
-                case 3: trialStep
-                case 4: remindersStep
+                case 3: goalStep
+                case 4: trialStep
+                case 5: remindersStep
                 default: promiseStep
                 }
             }
@@ -174,12 +177,91 @@ struct OnboardingView: View {
 
             savingsProjection
             Spacer(minLength: Theme.Space.s)
+            bottomBar(primaryTitle: "Continue") { withAnimation { step = 3 } }
+        }
+    }
+
+    /// The goal question. Its answer is what makes the offer on the next screen
+    /// about a date this user picked rather than about features.
+    private var goalStep: some View {
+        VStack(spacing: Theme.Space.l) {
+            Spacer(minLength: Theme.Space.s)
+            Text("What are you working toward?")
+                .font(Theme.display())
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+            Text("Home counts down to it. You can change it later.")
+                .font(Theme.subhead())
+                .foregroundStyle(.white.opacity(0.8))
+                .multilineTextAlignment(.center)
+
+            VStack(spacing: Theme.Space.s) {
+                ForEach(availableGoalPresets) { preset in
+                    goalOption(.preset(preset), title: preset.label, detail: GoalProjection.shortDate(preset.date(from: effectiveStart)))
+                }
+                goalOption(.custom, title: "Pick a date", detail: nil)
+                    .overlay(alignment: .trailing) {
+                        if goalChoice == .custom {
+                            DatePicker("Goal date", selection: $customGoalDate, in: GoalChoice.earliestCustomDate..., displayedComponents: [.date])
+                                .labelsHidden()
+                                .datePickerStyle(.compact)
+                                .colorScheme(.dark)
+                                .padding(.trailing, Theme.Space.s)
+                        }
+                    }
+                goalOption(.none, title: "No goal yet", detail: nil)
+            }
+
+            Spacer(minLength: Theme.Space.s)
             bottomBar(
                 primaryTitle: trialResolutionInFlight ? "Checking trial availability…" : "Continue",
                 busy: trialResolutionInFlight,
                 above: { resolutionError }
             ) { resolveTrialAndContinue() }
         }
+        .onAppear {
+            // A start date further back than a preset's day count has already
+            // passed that goal, so it is not offered and cannot stay selected.
+            if case .preset(let preset) = goalChoice, !availableGoalPresets.contains(preset) {
+                goalChoice = availableGoalPresets.first.map(GoalChoice.preset) ?? .none
+            }
+        }
+    }
+
+    private var effectiveStart: Date { min(startDate, .now) }
+
+    private var availableGoalPresets: [GoalPreset] {
+        GoalPreset.allCases.filter { $0.isAhead(start: effectiveStart) }
+    }
+
+    private var selectedGoalDate: Date? {
+        goalChoice.resolvedDate(start: effectiveStart, customDate: customGoalDate)
+    }
+
+    private func goalOption(_ choice: GoalChoice, title: String, detail: String?) -> some View {
+        let selected = goalChoice == choice
+        return Button { withAnimation(.easeOut(duration: 0.15)) { goalChoice = choice } } label: {
+            HStack(spacing: Theme.Space.m) {
+                Image(systemName: selected ? "checkmark.circle.fill" : "circle")
+                    .font(Theme.body(weight: .semibold))
+                    .foregroundStyle(.white.opacity(selected ? 1 : 0.55))
+                Text(title)
+                    .font(Theme.body(weight: .semibold))
+                Spacer(minLength: 0)
+                if let detail {
+                    Text(detail)
+                        .font(Theme.subhead())
+                        .foregroundStyle(.white.opacity(0.75))
+                }
+            }
+            .padding(.horizontal, Theme.Space.l)
+            .padding(.vertical, 14)
+            .frame(maxWidth: .infinity)
+            .background(.white.opacity(selected ? 0.24 : 0.12), in: RoundedRectangle(cornerRadius: 16))
+            .contentShape(RoundedRectangle(cornerRadius: 16))
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(selected ? .isSelected : [])
     }
 
     @ViewBuilder
@@ -223,10 +305,11 @@ struct OnboardingView: View {
     }
 
     private var trialStep: some View {
+        // No hero glyph: the four dated lines below need the room, and with the
+        // sparkles above them the page overflowed and pushed the CTA off the
+        // Continue button's pixel.
         VStack(spacing: Theme.Space.l) {
             Spacer(minLength: Theme.Space.s)
-            Image(systemName: "sparkles")
-                .font(.system(size: 64, weight: .semibold))
             VStack(spacing: Theme.Space.s) {
                 Text(trialHeadline)
                     .font(Theme.display(42, weight: .bold))
@@ -246,11 +329,15 @@ struct OnboardingView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
 
+            // Present tense and dated, computed from the answers this user
+            // just gave: what their goal is worth, when the next milestone
+            // lands, a plan for tonight. The old rows sold species and a
+            // journal, which only pay off weeks in.
             VStack(alignment: .leading, spacing: Theme.Space.m) {
-                trialBenefit(icon: "tree.fill", text: "Grow and switch every bonsai species")
-                trialBenefit(icon: "heart.text.square.fill", text: "Follow 13 sourced recovery milestones")
-                trialBenefit(icon: "chart.line.uptrend.xyaxis", text: trialSavingsText)
-                trialBenefit(icon: "book.closed.fill", text: "Journal privately through difficult moments")
+                trialBenefit(icon: "flag.checkered", text: trialGoalText)
+                trialBenefit(icon: "heart.text.square.fill", text: MilestoneSchedule.pitchLine(start: effectiveStart))
+                trialBenefit(icon: "list.bullet.clipboard", text: "A plan for the first urge: what to do and what to say.")
+                trialBenefit(icon: "chart.bar.xaxis", text: "Your own urge patterns once you've logged a few.")
             }
             .padding(Theme.Space.m)
             .background(.white.opacity(0.13), in: RoundedRectangle(cornerRadius: 18))
@@ -276,7 +363,7 @@ struct OnboardingView: View {
             }
             Button("Keep my free trial", role: .cancel) {}
         } message: {
-            Text("You'll keep the day counter, the calendar, and your tree. Your year-ahead projection, the full health timeline, the journal, and the other species stay locked.")
+            Text("You'll keep the day counter, the calendar, your tree, and the countdown to your goal. Your goal projection, the urge playbook, the full health timeline, the journal, and the other species stay locked.")
         }
         .onAppear {
             didShowOnboardingTrial = true
@@ -284,7 +371,7 @@ struct OnboardingView: View {
             #if canImport(RevenueCat)
             subscriptions.trackPaywallImpression(
                 id: offerIncludesTrial
-                    ? "sober_onboarding_trial_1_2_2"
+                    ? "sober_onboarding_trial_1_3_3"
                     : "sober_onboarding_offer_no_trial",
                 package: subscriptions.directOfferPackage,
                 oncePerSession: true
@@ -346,6 +433,21 @@ struct OnboardingView: View {
                 .fixedSize(horizontal: false, vertical: true)
             Spacer(minLength: 0)
         }
+    }
+
+    /// "By Nov 9: $600 kept and 7 milestones passed", or the year-ahead line
+    /// when there is no goal or no spend to make it concrete.
+    private var trialGoalText: String {
+        if let goal = selectedGoalDate,
+           let line = GoalProjection(
+               start: effectiveStart,
+               goal: goal,
+               costPerDayCents: Int(costPerDay * 100),
+               caloriesPerDay: Int(caloriesPerDay)
+           ).pitchLine {
+            return line
+        }
+        return trialSavingsText
     }
 
     private var trialSavingsText: String {
@@ -653,7 +755,7 @@ struct OnboardingView: View {
             switch resolution {
             case .eligible:
                 offerIncludesTrial = true
-                withAnimation { step = 3 }
+                withAnimation { step = 4 }
             case .ineligible:
                 // "Ineligible" is mostly "already used the trial on this Apple
                 // ID", not "has nothing to buy". Dropping straight into
@@ -666,7 +768,7 @@ struct OnboardingView: View {
                     finishOnboarding()
                 } else {
                     offerIncludesTrial = false
-                    withAnimation { step = 3 }
+                    withAnimation { step = 4 }
                 }
             case .unavailable, .failed:
                 trialResolutionError = "Bloom+ plans are temporarily unavailable. You can retry or start free."
@@ -727,7 +829,8 @@ struct OnboardingView: View {
         settings.caloriesPerDay = Int(caloriesPerDay)
         settings.dailyReminderEnabled = dailyRemindersOptIn
         settings.madeCommitment = false
-        _ = SobrietyService(context: context).startJourney(at: min(startDate, .now))
+        let journey = SobrietyService(context: context).startJourney(at: effectiveStart)
+        journey.goalDate = selectedGoalDate
         _ = GardenService(context: context).current()
         context.saveOrReport()
     }
@@ -736,9 +839,9 @@ struct OnboardingView: View {
     /// store never answered. It no longer ends onboarding, it advances to the
     /// reminders step, which is what actually completes it.
     private func finishOnboarding() {
-        guard step != 4 else { return }
+        guard step != 5 else { return }
         persistSetup()
-        withAnimation { step = 4 }
+        withAnimation { step = 5 }
     }
 
     private func completeOnboarding() {

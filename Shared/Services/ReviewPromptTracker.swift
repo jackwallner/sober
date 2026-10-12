@@ -1,11 +1,13 @@
 import Foundation
 
 extension Notification.Name {
-    /// Posted after a satisfaction moment on Home — host may present the enjoyment funnel after a short delay.
+    /// Posted after a satisfaction moment on Home. Home may request the system
+    /// rating prompt after a short delay, with no question in front of it.
     static let soberPositiveMomentForReview = Notification.Name("com.jackwallner.sober.positiveMomentForReview")
 }
 
-/// How the user last resolved the in-app review / feedback prompt.
+/// What the user did from Settings' review and feedback rows. Either one ends
+/// the passive asks, the same as the old funnel's answers did.
 enum ReviewPromptOutcome: String, Sendable {
     case openedWriteReview
     case submittedFeedback
@@ -31,7 +33,7 @@ enum ReviewPromptTracker {
     static let minimumLaunchCount = 3
     #endif
     static let minimumDaysSinceFirstOpen = 3
-    /// Minimum cumulative positive moments before the passive enjoyment funnel surfaces.
+    /// Minimum cumulative positive moments before a passive review request.
     static let minimumPositiveMoments = 2
     static let cooldownDays = 120
     /// Milestone peaks (a week reached, a tree completed) skip the tenure and
@@ -128,7 +130,7 @@ enum ReviewPromptTracker {
         return now.timeIntervalSince(last) >= cooldown
     }
 
-    static func canPresentEnjoymentPrompt(
+    static func canRequestReview(
         hasCompletedSetup: Bool,
         isMilestone: Bool = false,
         now: Date = .now
@@ -147,12 +149,12 @@ enum ReviewPromptTracker {
         return true
     }
 
-    static func shouldShowAfterPositiveMoment(
+    static func shouldRequestAfterPositiveMoment(
         hasCompletedSetup: Bool,
         now: Date = .now
     ) -> Bool {
         guard hasPendingPositiveMoment else { return false }
-        return canPresentEnjoymentPrompt(
+        return canRequestReview(
             hasCompletedSetup: hasCompletedSetup,
             isMilestone: hasPendingMilestoneMoment,
             now: now

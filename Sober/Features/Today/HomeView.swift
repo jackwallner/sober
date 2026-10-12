@@ -29,13 +29,15 @@ struct HomeView: View {
     @State private var growthEvent: GardenGrowthEvent?
     @State private var showGrowth = false
     @State private var showCheckInDetail = false
-    @State private var showReviewPrompt = false
-    @State private var reviewPromptInitialStep: ReviewPromptSheet.Step = .enjoyment
     @State private var reviewPromptShownThisSession = false
-    @State private var pendingNativeReviewAfterDismiss = false
     @State private var showTrialRecap = false
     @State private var postOnboardingPaywallTask: Task<Void, Never>?
-    @StateObject private var reviewPromptCoordinator = ReviewPromptCoordinator.shared
+    @State private var showPlaybook = false
+    @State private var playbookTrigger: UrgeTrigger?
+    /// Set by the craving session's "what next" card; acted on once the cover
+    /// has finished closing, for the same reason as `pendingCravingOutcome`.
+    @State private var pendingPlaybookRequest: UrgeTrigger??
+    @State private var showGoalEditor = false
     @Environment(\.requestReview) private var requestReview
 
     private var activeJourney: SobrietyJourney? { journeys.first { $0.isActive } }
@@ -62,16 +64,30 @@ struct HomeView: View {
                 Theme.background.ignoresSafeArea()
 
                 if !showGrowth {
-                    VStack(spacing: Theme.Space.l) {
-                        trialRecapBanner
-                        counterHeader
-                        gardenCard
-                        checkInControl
-                        cravingControl
+                    // Home scrolls now, but the first screen is the same one it
+                    // has always been: the top block is sized to the viewport,
+                    // less a peek of the cards below so they read as reachable.
+                    // On a screen too short for the block's own minimum it
+                    // simply scrolls sooner.
+                    GeometryReader { geo in
+                        ScrollView {
+                            VStack(spacing: Theme.Space.l) {
+                                VStack(spacing: Theme.Space.l) {
+                                    trialRecapBanner
+                                    counterHeader
+                                    gardenCard
+                                    checkInControl
+                                    cravingControl
+                                }
+                                .frame(height: max(geo.size.height - Self.aheadPeek, Self.topBlockMinHeight))
+                                aheadSection
+                            }
+                            .padding(.horizontal, Theme.Space.l)
+                            .padding(.top, Theme.Space.s)
+                            .padding(.bottom, Theme.Space.l)
+                        }
+                        .scrollIndicators(.hidden)
                     }
-                    .padding(.horizontal, Theme.Space.l)
-                    .padding(.top, Theme.Space.s)
-                    .padding(.bottom, Theme.Space.m)
                 }
             }
             .navigationTitle("")
@@ -142,6 +158,16 @@ struct HomeView: View {
                 if ProcessInfo.processInfo.arguments.contains("-showProgress") {
                     showProgress = true
                 }
+                // -showPlaybook [trigger]: the playbook, optionally on one plan.
+                let args = ProcessInfo.processInfo.arguments
+                if let index = args.firstIndex(of: "-showPlaybook") {
+                    let trigger = index + 1 < args.count ? UrgeTrigger(rawValue: args[index + 1]) : nil
+                    // After RootView's seeding task has applied -demoPro.
+                    Task { @MainActor in
+                        try? await Task.sleep(nanoseconds: 800_000_000)
+                        openPlaybook(trigger)
+                    }
+                }
                 #endif
             }
             .task { await presentPassiveTrialNudge(subscriptions, intent: .postOnboarding, delay: 6) }
@@ -168,6 +194,18 @@ struct HomeView: View {
                     .presentationDetents([.height(320)])
             }
             .sheet(isPresented: $showSettings) { SettingsView() }
+            .sheet(isPresented: $showPlaybook) { UrgePlaybookView(initialTrigger: playbookTrigger) }
+            .sheet(isPresented: $showGoalEditor) {
+                NavigationStack {
+                    GoalEditorView()
+                        .toolbar {
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Done") { showGoalEditor = false }
+                            }
+                        }
+                }
+                .presentationDetents([.medium, .large])
+            }
             .sheet(isPresented: $showSlipSheet) {
                 SlipSheet(currentStreakDays: days) {
                     refreshCheckInState()
@@ -177,46 +215,72 @@ struct HomeView: View {
             .fullScreenCover(isPresented: $showCraving, onDismiss: {
                 // Presented on dismiss rather than inside the callback: a sheet
                 // raised while the cover is still tearing down never appears.
-                guard let outcome = pendingCravingOutcome else { return }
-                pendingCravingOutcome = nil
-                handleCravingFinished(outcome)
-            }) {
-                CravingModeView { outcome in
-                    pendingCravingOutcome = outcome
+                let playbook = pendingPlaybookRequest
+                pendingPlaybookRequest = nil
+                if let outcome = pendingCravingOutcome {
+                    pendingCravingOutcome = nil
+                    handleCravingFinished(outcome, openingPlaybook: playbook != nil)
                 }
+                if let playbook { openPlaybook(playbook) }
+            }) {
+                CravingModeView(
+                    onFinish: { outcome in pendingCravingOutcome = outcome },
+                    onOpenPlaybook: { trigger in pendingPlaybookRequest = .some(trigger) }
+                )
             }
             .sheet(isPresented: $showCustomize) { GardenCustomizationView() }
             .sheet(isPresented: $showProgress) {
                 ProgressSheet(days: days, gardenState: gardenState, isPro: isPro)
                     .presentationDetents([.medium, .large])
             }
-            .sheet(isPresented: $showReviewPrompt, onDismiss: {
-                if pendingNativeReviewAfterDismiss {
-                    pendingNativeReviewAfterDismiss = false
-                    requestReview()
-                }
-            }) {
-                ReviewPromptSheet(initialStep: reviewPromptInitialStep, onFinish: handleReviewPromptFinish)
-            }
             .onReceive(NotificationCenter.default.publisher(for: .soberPositiveMomentForReview)) { _ in
-                scheduleReviewPromptAfterPositiveMoment()
-            }
-            .onChange(of: showReviewPrompt) { _, presented in
-                ReviewPromptCoordinator.shared.isPresentingSheet = presented
-            }
-            .onChange(of: reviewPromptCoordinator.pendingPresentation) { _, presentation in
-                guard let presentation else { return }
-                defer { reviewPromptCoordinator.clear() }
-                guard !showGrowth else { return }
-                showSettings = false
-                switch presentation {
-                case .enjoymentPrompt:
-                    presentReviewPrompt(step: .enjoyment)
-                case .feedbackOnly:
-                    presentReviewPrompt(step: .feedback)
-                }
+                scheduleReviewRequestAfterPositiveMoment()
             }
         }
+    }
+
+    // MARK: - Ahead
+
+    /// How much of the first card below the fold shows on the first screen.
+    private static let aheadPeek: CGFloat = 64
+    /// The top block's floor: counter, the garden's own minimum, and the two
+    /// controls. Below this the garden would be squeezed rather than scrolled.
+    private static let topBlockMinHeight: CGFloat = 560
+
+    private var settings: UserSettings? { settingsRows.first }
+
+    /// Everything about what's coming: the next dated milestones (free), the
+    /// goal (countdown free, projection Bloom+) and the playbook (Bloom+).
+    @ViewBuilder
+    private var aheadSection: some View {
+        if let journey = activeJourney {
+            VStack(spacing: Theme.Space.m) {
+                UpcomingMilestonesCard(start: journey.startDate, isPro: isPro) {
+                    requestSubsequentLockedFeaturePitch(.healthTimeline)
+                }
+                GoalCard(
+                    start: journey.startDate,
+                    goal: journey.goalDate,
+                    isPro: isPro,
+                    costPerDayCents: settings?.costPerDayCents ?? 0,
+                    caloriesPerDay: settings?.caloriesPerDay ?? 0,
+                    onEdit: { showGoalEditor = true },
+                    onLockedTap: { requestSubsequentLockedFeaturePitch(.goalProjection) }
+                )
+                PlaybookCard(isPro: isPro) { openPlaybook(nil) }
+            }
+        }
+    }
+
+    /// Bloom+ opens the playbook (on a plan, when a session named its
+    /// trigger); everyone else gets the playbook pitch.
+    private func openPlaybook(_ trigger: UrgeTrigger?) {
+        guard isPro else {
+            requestSubsequentLockedFeaturePitch(.urgePlaybook)
+            return
+        }
+        playbookTrigger = trigger
+        showPlaybook = true
     }
 
     // MARK: - Counter + garden
@@ -538,7 +602,7 @@ struct HomeView: View {
     /// the user just used it for something hard and it worked. The review and
     /// trial prompts both key off that, on the same gated schedule as every
     /// other positive moment so it can't turn into a shakedown.
-    private func handleCravingFinished(_ outcome: CravingOutcome) {
+    private func handleCravingFinished(_ outcome: CravingOutcome, openingPlaybook: Bool = false) {
         WidgetSnapshotPump.push(context: context)
         refreshCheckInState()
         // "I gave in" is a disclosure, not just a craving outcome. It used to
@@ -553,6 +617,9 @@ struct HomeView: View {
         recordPositiveMomentForReview()
         guard !isPro else { return }
         let count = TrialSubsequentPitchGate.incrementPersistedCount(key: AppGroup.cravingRodeOutCountKey)
+        // The user already asked for the playbook pitch from the session's
+        // exit card. A second, passive pitch behind it would be a shakedown.
+        guard !openingPlaybook else { return }
         Task {
             await evaluateUsageBasedTrialPitch(
                 subscriptions,
@@ -601,7 +668,7 @@ struct HomeView: View {
             // good whenever a growth celebration or review prompt landed inside
             // the delay window, which 1.2.5's lower review thresholds made a
             // regular event. Leaving it set retries on the next Home arrival.
-            guard !showGrowth, !showReviewPrompt else { return }
+            guard !showGrowth else { return }
             AppGroup.defaults.set(false, forKey: AppGroup.postOnboardingPaywallKey)
             // Start the passive-nudge cooldown here so the day-0 popup and the
             // Home/Timeline/Health passive nudges don't fire back-to-back.
@@ -681,44 +748,31 @@ struct HomeView: View {
         }
     }
 
-    private func scheduleReviewPromptAfterPositiveMoment() {
-        guard ReviewPromptTracker.shouldShowAfterPositiveMoment(hasCompletedSetup: hasCompletedOnboarding),
+    /// App Review 5.6.1: no "Enjoying it?" question in front of the ask. At a
+    /// positive moment the system rating prompt is requested directly, on the
+    /// same cooldown and gates the old funnel used, and Apple decides whether
+    /// it actually appears.
+    private func scheduleReviewRequestAfterPositiveMoment() {
+        guard ReviewPromptTracker.shouldRequestAfterPositiveMoment(hasCompletedSetup: hasCompletedOnboarding),
               !reviewPromptShownThisSession,
               !showGrowth,
-              !showCheckInDetail,
-              !showReviewPrompt
+              !showCheckInDetail
         else { return }
 
         Task { @MainActor in
             try? await Task.sleep(nanoseconds: 3_500_000_000)
             guard !showGrowth,
                   !showCheckInDetail,
-                  !showReviewPrompt,
                   // A trial pitch may have been scheduled from the same moment
-                  // (e.g. a growth-celebration dismiss) and already be on
-                  // screen from MainTabView's layer — never stack on top of it.
+                  // (e.g. a growth-celebration dismiss); never ask over it.
                   !TrialOfferCoordinator.shared.isPresentingSheet,
                   TrialOfferCoordinator.shared.pendingRequest == nil,
-                  ReviewPromptTracker.shouldShowAfterPositiveMoment(hasCompletedSetup: hasCompletedOnboarding)
+                  ReviewPromptTracker.shouldRequestAfterPositiveMoment(hasCompletedSetup: hasCompletedOnboarding)
             else { return }
-            ReviewPromptTracker.consumePendingPositiveMoment()
-            reviewPromptInitialStep = .enjoyment
             reviewPromptShownThisSession = true
-            showReviewPrompt = true
+            ReviewPromptTracker.markShown()
+            requestReview()
         }
-    }
-
-    private func handleReviewPromptFinish(_ outcome: ReviewPromptDismissOutcome) {
-        showReviewPrompt = false
-        if outcome == .enjoyedMaybeLater {
-            pendingNativeReviewAfterDismiss = true
-        }
-    }
-
-    private func presentReviewPrompt(step: ReviewPromptSheet.Step) {
-        reviewPromptInitialStep = step
-        reviewPromptShownThisSession = true
-        showReviewPrompt = true
     }
 
     private func recordCheckInForTrialPitch() {

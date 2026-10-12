@@ -60,6 +60,18 @@ struct SettingsView: View {
                     } footer: {
                         Text("Adjust the date your journey began.")
                     }
+                    Section("Goal") {
+                        NavigationLink {
+                            GoalEditorView()
+                        } label: {
+                            HStack {
+                                Text("Working toward")
+                                Spacer()
+                                Text(journey.goalDate.map { GoalProjection.shortDate($0) } ?? "No goal")
+                                    .foregroundStyle(Theme.textSecondary)
+                            }
+                        }
+                    }
                 }
                 if let s = settings {
                     Section {
@@ -136,8 +148,21 @@ struct SettingsView: View {
                                  icon: "envelope.fill",
                                  title: "Contact Support",
                                  subtitle: "Questions or trouble? Reach out.")
-                    Button("Rate or Send Feedback") {
-                        ReviewPromptCoordinator.shared.requestEnjoymentPrompt()
+                    // Two plain rows, no "Enjoying it?" gate in front of
+                    // either (App Review 5.6.1).
+                    Button {
+                        ReviewPromptTracker.markOpenedWriteReview()
+                        UIApplication.shared.open(AppStoreReviewLinks.writeReviewURL)
+                    } label: {
+                        helpRow(icon: "star.fill", title: "Write a review", subtitle: "On the App Store")
+                    }
+                    if let feedback = AppStoreReviewLinks.feedbackMailURL {
+                        Button {
+                            ReviewPromptTracker.markFeedbackSubmitted()
+                            UIApplication.shared.open(feedback)
+                        } label: {
+                            helpRow(icon: "bubble.left.fill", title: "Send feedback", subtitle: "Tell the developer what would help")
+                        }
                     }
                 }
                 Section("Legal") {
@@ -177,6 +202,22 @@ struct SettingsView: View {
         let urlString = UIApplication.openNotificationSettingsURLString
         if let url = URL(string: urlString) {
             UIApplication.shared.open(url)
+        }
+    }
+
+    private func helpRow(icon: String, title: String, subtitle: String) -> some View {
+        HStack(spacing: 12) {
+            Image(systemName: icon)
+                .font(Theme.body())
+                .foregroundStyle(Theme.brandPrimary)
+                .frame(width: 26)
+            VStack(alignment: .leading, spacing: 1) {
+                Text(title)
+                    .foregroundStyle(Theme.textPrimary)
+                Text(subtitle)
+                    .font(Theme.caption())
+                    .foregroundStyle(Theme.textSecondary)
+            }
         }
     }
 

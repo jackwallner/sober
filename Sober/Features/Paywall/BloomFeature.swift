@@ -15,8 +15,15 @@ import SwiftUI
 /// version of the free app; patterns is the only one that cannot exist without
 /// the user's own record, and it is the only one a competitor cannot copy off
 /// a screenshot.
+///
+/// `goalProjection` and `urgePlaybook` follow it (added 1.3.3) because they are
+/// the two things a user on day zero wants right now: what the date they just
+/// picked is worth, and a plan for the first hard evening. Everything after
+/// them only pays off once the user has been here a while.
 enum BloomFeature: CaseIterable {
     case patterns
+    case goalProjection
+    case urgePlaybook
     case healthTimeline
     case savingsTracking
     case journal
@@ -25,6 +32,8 @@ enum BloomFeature: CaseIterable {
     var icon: String {
         switch self {
         case .patterns: "chart.bar.xaxis"
+        case .goalProjection: "flag.checkered"
+        case .urgePlaybook: "list.bullet.clipboard"
         case .gardenSpecies: "leaf.fill"
         case .healthTimeline: "heart.text.square.fill"
         case .journal: "book.closed.fill"
@@ -35,6 +44,8 @@ enum BloomFeature: CaseIterable {
     var title: String {
         switch self {
         case .patterns: "Your \(HabitVocabulary.urgeNoun) patterns"
+        case .goalProjection: "Your goal, projected"
+        case .urgePlaybook: "\(HabitVocabulary.urgeNoun.capitalized) playbook"
         case .gardenSpecies: "All 6 bonsai species"
         case .healthTimeline: "Full health timeline"
         case .journal: "Daily journal"
@@ -45,6 +56,8 @@ enum BloomFeature: CaseIterable {
     var detail: String {
         switch self {
         case .patterns: "When they hit, what sets them off, how long yours last."
+        case .goalProjection: "Money, calories, and milestones by the date you picked."
+        case .urgePlaybook: "A plan for each trigger: what to do and what to say."
         case .gardenSpecies: "Switch your tree as your streak grows."
         case .healthTimeline: "13 recovery milestones with sources."
         case .journal: "Prompts and reflections on hard days."
@@ -55,6 +68,8 @@ enum BloomFeature: CaseIterable {
     var pitchHeadline: String {
         switch self {
         case .patterns: "Learn your own pattern."
+        case .goalProjection: "See your goal day."
+        case .urgePlaybook: "Have a plan ready."
         case .gardenSpecies: "Grow every species."
         case .healthTimeline: "See what's coming back."
         case .journal: "Write through the urges."
@@ -65,6 +80,8 @@ enum BloomFeature: CaseIterable {
     var pitchSubheadline: String {
         switch self {
         case .patterns: "See when your \(HabitVocabulary.urgeNounPlural) hit, what sets them off, and how long yours actually last, plus the rest of Bloom+."
+        case .goalProjection: "See what you'll have kept and which milestones you'll have passed by your goal date, plus the rest of Bloom+."
+        case .urgePlaybook: "Six plans for the first hard moments: what to do, and what to say when you're offered \(HabitVocabulary.habitInstance). Plus the rest of Bloom+."
         case .gardenSpecies: "Unlock every bonsai species and switch whenever you like, plus the rest of Bloom+."
         case .healthTimeline: "Unlock the full 13-milestone recovery timeline, plus the rest of Bloom+."
         case .journal: "Daily journal prompts when you need them most, plus the rest of Bloom+."
@@ -88,6 +105,8 @@ final class TrialOfferCoordinator: ObservableObject {
         case checkInMilestone
         case cravingRelief
         case patterns
+        case goalProjection
+        case urgePlaybook
 
         var focusFeature: BloomFeature? {
             switch self {
@@ -99,6 +118,8 @@ final class TrialOfferCoordinator: ObservableObject {
             // about something the user just did, so it leads with that rather
             // than the generic page.
             case .cravingRelief, .patterns: .patterns
+            case .goalProjection: .goalProjection
+            case .urgePlaybook: .urgePlaybook
             case .postOnboarding, .settings, .growthCelebration, .checkInMilestone: nil
             }
         }

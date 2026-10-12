@@ -11,6 +11,14 @@ struct HealthView: View {
         return DateHelpers.hoursBetween(j.startDate, .now)
     }
 
+    /// When a milestone lands for this user, as "Fri, Oct 24" rather than "in 2w".
+    private func dateLabel(_ benefit: HealthBenefit) -> String {
+        guard let start = journeys.first(where: { $0.isActive })?.startDate else {
+            return "in \(benefit.displayWait)"
+        }
+        return MilestoneSchedule.label(for: start.addingTimeInterval(benefit.hoursRequired * 3600))
+    }
+
     /// Free users see the first 5 unlocked benefits + locked previews. This
     /// covers the high-motivation early-recovery wins (through ~2 weeks) so
     /// non-Pro users get tangible feedback before the paywall pinches.
@@ -38,7 +46,7 @@ struct HealthView: View {
                         // Beyond the free window, *all* future milestones (earned or
                         // not-yet-earned) are part of the Bloom+ value prop and
                         // render as a Pro tease rather than revealing the title.
-                        BenefitRow(benefit: benefit, unlocked: visible, blurred: !visible && !inFreeWindow)
+                        BenefitRow(benefit: benefit, unlocked: visible, blurred: !visible && !inFreeWindow, waitLabel: dateLabel(benefit))
                             .contentShape(Rectangle())
                             .onTapGesture {
                                 if !subscriptions.isProSubscriber && idx >= freeRevealCount {
@@ -124,7 +132,7 @@ struct HealthView: View {
                     .lineLimit(2)
             }
             Spacer(minLength: Theme.Space.s)
-            Text("in \(n.displayWait)")
+            Text(dateLabel(n))
                 .font(Theme.caption(weight: .semibold))
                 .foregroundStyle(Theme.textSecondary)
                 .monospacedDigit()
@@ -138,6 +146,8 @@ private struct BenefitRow: View {
     let unlocked: Bool
     /// True when the user has *earned* this benefit by time, but it's gated behind Bloom+.
     let blurred: Bool
+    /// When it lands, already formatted.
+    let waitLabel: String
 
     private var proGated: Bool { blurred }
 
@@ -217,7 +227,7 @@ private struct BenefitRow: View {
                 .font(Theme.caption(weight: .semibold))
                 .foregroundStyle(Theme.brandPrimary)
         } else {
-            Text("in \(benefit.displayWait)")
+            Text(waitLabel)
                 .font(Theme.caption(weight: .semibold))
                 .foregroundStyle(Theme.textTertiary)
                 .monospacedDigit()

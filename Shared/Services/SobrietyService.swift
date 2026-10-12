@@ -20,10 +20,9 @@ final class SobrietyService {
     @discardableResult
     func startJourney(at startDate: Date = .now) -> SobrietyJourney {
         // End any open journey first
-        if let current = activeJourney() {
-            current.endDate = .now
-        }
-        let new = SobrietyJourney(startDate: startDate)
+        let current = activeJourney()
+        current?.endDate = .now
+        let new = SobrietyJourney(startDate: startDate, goalDate: Self.carriedGoal(from: current))
         context.insert(new)
         context.saveOrReport()
         return new
@@ -37,12 +36,27 @@ final class SobrietyService {
         context.saveOrReport()
     }
 
+    /// Set or clear the goal on the active journey. Stored as a start of day so
+    /// "29 days to go" never flips at an odd hour.
+    func setGoal(_ date: Date?) {
+        guard let journey = activeJourney() else { return }
+        journey.goalDate = date.map { DateHelpers.startOfDay($0) }
+        context.saveOrReport()
+    }
+
+    /// A slip or a restart keeps a goal that is still ahead: the date the user
+    /// is working toward did not move because the counter did. A goal already
+    /// behind them is done, so it is not carried into the next run.
+    nonisolated static func carriedGoal(from journey: SobrietyJourney?, now: Date = .now) -> Date? {
+        guard let goal = journey?.goalDate, goal > DateHelpers.startOfDay(now) else { return nil }
+        return goal
+    }
+
     func reset(reason: String? = nil) {
-        if let current = activeJourney() {
-            current.endDate = .now
-            current.resetReason = reason
-        }
-        let new = SobrietyJourney(startDate: .now)
+        let current = activeJourney()
+        current?.endDate = .now
+        current?.resetReason = reason
+        let new = SobrietyJourney(startDate: .now, goalDate: Self.carriedGoal(from: current))
         context.insert(new)
         context.saveOrReport()
     }
@@ -63,12 +77,13 @@ final class SobrietyService {
         endingPreviousOn end: Date = .now,
         reason: String? = "slip"
     ) -> SobrietyJourney {
-        if let current = activeJourney() {
+        let current = activeJourney()
+        if let current {
             // A run can't end before it began, or in the future.
             current.endDate = max(current.startDate, min(end, .now))
             current.resetReason = reason
         }
-        let new = SobrietyJourney(startDate: min(start, .now))
+        let new = SobrietyJourney(startDate: min(start, .now), goalDate: Self.carriedGoal(from: current))
         context.insert(new)
         context.saveOrReport()
         return new

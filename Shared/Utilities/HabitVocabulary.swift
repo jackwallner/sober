@@ -27,6 +27,19 @@ enum HabitVocabulary {
     /// Sober: "a drink". Quit Zyn: "a pouch".
     static let habitInstance = "a drink"
 
+    /// Plural of a single instance, used after a count ("58 ___ not had").
+    /// Sober: "drinks". Quit Zyn: "pouches".
+    static let habitInstancePlural = "drinks"
+
+    /// Rough calories in one instance, used to turn the user's daily calorie
+    /// figure into a count of instances. A standard beer or glass of wine is
+    /// about 150. A fork with no calories sets this to 0, which hides the count.
+    static let caloriesPerInstance = 150
+
+    /// What to hold instead, with its article, for the urge playbook.
+    /// Sober: "a soda water with lime". Quit Zyn: "a piece of gum".
+    static let replacementInstance = "a soda water with lime"
+
     /// What the app calls an urge, lowercase. Both current apps say "craving";
     /// it stays configurable because it is the most-repeated noun in the
     /// feature and a fork may prefer "urge".
