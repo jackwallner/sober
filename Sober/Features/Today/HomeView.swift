@@ -194,7 +194,9 @@ struct HomeView: View {
                     .zIndex(100)
                 }
             }
-            .sheet(isPresented: $showCheckInDetail) {
+            // A check-in opens this sheet at once, so the ask scheduled by the
+            // check-in usually finds it still up. Retry once it closes.
+            .sheet(isPresented: $showCheckInDetail, onDismiss: scheduleReviewRequestAfterPositiveMoment) {
                 CheckInDetailSheet()
                     .presentationDetents([.height(320)])
             }

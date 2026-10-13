@@ -406,12 +406,14 @@ struct ReviewPromptMilestoneTests {
         let lastShown = ReviewPromptTracker.lastShownDate
         let outcome = ReviewPromptTracker.outcome
         let moments = ReviewPromptTracker.positiveMomentCount
+        let pending = ReviewPromptTracker.hasPendingPositiveMoment
         defer {
             ReviewPromptTracker.appLaunchCount = launches
             ReviewPromptTracker.firstAppOpenDate = firstOpen
             ReviewPromptTracker.lastShownDate = lastShown
             ReviewPromptTracker.outcome = outcome
             ReviewPromptTracker.positiveMomentCount = moments
+            ReviewPromptTracker.hasPendingPositiveMoment = pending
         }
         ReviewPromptTracker.outcome = nil
         ReviewPromptTracker.lastShownDate = nil
@@ -455,6 +457,19 @@ struct ReviewPromptMilestoneTests {
             ReviewPromptTracker.appLaunchCount = 9
             ReviewPromptTracker.lastShownDate = Date.now.addingTimeInterval(-10 * 86_400)
             #expect(!ReviewPromptTracker.canRequestReview(hasCompletedSetup: true))
+        }
+    }
+
+    /// A check-in's ask often finds its note sheet still open. The moment must
+    /// survive that skip so the sheet's dismissal can still ask.
+    @Test func blockedAskKeepsTheMomentPending() {
+        withCleanTracker {
+            ReviewPromptTracker.appLaunchCount = 9
+            ReviewPromptTracker.recordPositiveMoment()
+            #expect(ReviewPromptTracker.shouldRequestAfterPositiveMoment(hasCompletedSetup: true))
+            #expect(ReviewPromptTracker.shouldRequestAfterPositiveMoment(hasCompletedSetup: true))
+            ReviewPromptTracker.markShown()
+            #expect(!ReviewPromptTracker.shouldRequestAfterPositiveMoment(hasCompletedSetup: true))
         }
     }
 
