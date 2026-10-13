@@ -64,6 +64,10 @@ paths:
   publishing: approval does not publish; Jack clicks Publish.
 - 2026-10-11: listing text expanded from 12 to 50 locales and staged over the
   API with changes not sent for review; it goes out with the next send.
+- 2026-10-12: first review rejected, "Privacy policy link is inactive": the
+  Android policy pages never closed `<style>`, so they rendered blank while
+  returning 200. Fixed on main (3d29779); all 60 changes resent the same day,
+  managed publishing now off. Check policy pages render in a browser, not curl.
 - Sign in details: the dialog's Add only stages the entry; the page-level Save
   persists it. Never type the raw review code; Jack pastes it.
 
