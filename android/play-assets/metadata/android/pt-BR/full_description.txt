@@ -1,0 +1,31 @@
+Sober é um contador de sobriedade calmo e privado para quem quer parar de beber, dar uma pausa ou beber menos. Conte cada dia sem álcool, faça o check-in com um toque e veja um bonsai crescer com a sua sequência.
+
+POR QUE AS PESSOAS CONTINUAM USANDO
+• Contador de dias: sequência atual, maior sequência e todos os dias sóbrios que você contou
+• Check-in diário com um toque, humor e uma nota curta
+• Um jardim de bonsai que cresce a cada dia sóbrio, e a cada ano completo uma nova árvore entra no seu bosque
+• Modo vontade: alguns minutos de respiração quadrada guiada para deixar passar a vontade de beber, grátis e ilimitado
+• Uma recaída não apaga tudo: registre com honestidade, sua árvore mantém metade do crescimento e seu histórico fica
+• Calendário que mostra como sua árvore estava em qualquer dia
+• Dinheiro e calorias economizados, com os seus próprios números
+• Marcos de saúde com fontes, do primeiro dia a um ano
+• Widget na tela inicial com seus dias e sua árvore
+• Lembretes gentis, sem culpa, que você pode desligar
+
+BLOOM+ (OPCIONAL)
+• Seus padrões de vontade: quando aparecem, o que os provoca e quanto costumam durar
+• A linha do tempo de saúde completa, 13 marcos com fontes
+• Seu ano pela frente: o dinheiro e as calorias que você vai manter daqui a um ano
+• Um diário com perguntas para os dias difíceis
+• As 6 espécies de bonsai: tradicional, cascata, varrido pelo vento, cerejeira em flor, bordo japonês e pinheiro negro
+
+Um mês sem álcool, um desafio de 30 dias ou uma vida sóbria de vez: o Sober deixa o caminho simples e gentil. Sem conta, sem anúncios, e seus dados ficam no seu celular.
+
+Novos assinantes elegíveis podem testar o Bloom+ grátis por 7 dias. O Bloom+ está disponível por mês ou por ano, além de uma compra única vitalícia. Os preços aparecem no app antes da compra e variam por região. O pagamento é cobrado na sua conta do Google Play. A assinatura é renovada automaticamente até ser cancelada; cancele quando quiser no Google Play, em Pagamentos e assinaturas.
+
+O app está em inglês.
+
+O Sober é uma ferramenta de bem-estar, não cuidado médico, diagnóstico ou tratamento. Se parar de beber puder trazer risco de abstinência, procure um profissional de saúde.
+
+Privacidade: https://jackwallner.github.io/sober/android-privacy.html
+Termos de uso: https://jackwallner.github.io/sober/android-terms.html

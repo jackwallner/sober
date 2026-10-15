@@ -1,0 +1,29 @@
+Sober is a calm, private sobriety tracker for anyone who wants to quit drinking, stop drinking for a while, or cut back. Count every alcohol-free day, check in with one tap, and watch a bonsai grow with your sober streak.
+
+WHY PEOPLE KEEP USING IT
+• Sobriety day counter: your current streak, your longest streak, and every sober day you have counted
+• One-tap daily check-in with mood and a short note
+• A bonsai garden that grows every sober day, with a new tree joining your grove each full year
+• Craving mode: a few minutes of guided box breathing to ride out an urge to drink, free and unlimited
+• A slip is not the end: log it honestly and your tree keeps half its growth, your history stays
+• Timeline calendar that shows how your tree looked on any day
+• Money and calories kept so far, from your own daily numbers
+• Health milestones with sources, from the first day to a full year
+• Home-screen widget with your day count and tree
+• Gentle reminders you can turn off, never guilt
+
+BLOOM+ (OPTIONAL UPGRADE)
+• Your craving patterns: when they hit, what sets them off, and how long yours usually last
+• The full 13-milestone health timeline with sources
+• Your year ahead: the money and calories you will keep by this time next year
+• A daily journal with prompts for hard days
+• All 6 bonsai species: traditional, cascading, windswept, cherry blossom, Japanese maple, and black pine
+
+Whether you are taking a dry month, doing a 30-day challenge, or building a sober life for good, Sober keeps recovery simple and kind. No account, no ads, and your sobriety data stays on your phone.
+
+Eligible new subscribers can try Bloom+ free for 7 days. Bloom+ is available monthly or yearly, plus a one-time lifetime option. Prices are shown in the app before you buy and vary by region. Payment is charged to your Google Play account. Subscriptions renew automatically until canceled; cancel any time in Google Play under Payments & subscriptions.
+
+Sober is a wellness tracker, not medical care, diagnosis, or treatment. If stopping alcohol may put you at risk of withdrawal, contact a qualified clinician. If you need support, contact a local health service or helpline.
+
+Privacy Policy: https://jackwallner.github.io/sober/android-privacy.html
+Terms of Use: https://jackwallner.github.io/sober/android-terms.html

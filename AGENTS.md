@@ -93,6 +93,13 @@ user's own habit spend via `HabitPriceComparison` rather than quoting figures.
 - SwiftData migrations: any change to a `@Model`'s stored properties needs a schema migration (lightweight is fine for now; wipe-and-retry on corruption).
 - Widget snapshots are decoupled from SwiftData via `WidgetSnapshotStore` so the widget doesn't need a SwiftData schema.
 
+## Android port
+Native Kotlin/Compose port in `android/`, released on Google Play. Rules, billing,
+release state and the remote-Pro emulator recipe: `.claude/rules/android.md`.
+
+## Rules index
+- `.claude/rules/android.md`: Android port (paths `android/**`, Play scripts).
+
 ---
 Shared iOS conventions (build, simulator, release/TestFlight, ASC key, signing, RevenueCat dev tips, review funnel, gotchas):
 the global agent rules + the `ios-dev` skill.

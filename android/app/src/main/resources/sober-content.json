@@ -1,0 +1,450 @@
+{
+  "achievements" : [
+    {
+      "dayThreshold" : 0,
+      "description" : "Begin your journey to sobriety.",
+      "icon" : "leaf.fill",
+      "id" : "first-step",
+      "kind" : "timeMilestone",
+      "title" : "First Step"
+    },
+    {
+      "dayThreshold" : 7,
+      "description" : "Complete your first week.",
+      "icon" : "shield.lefthalf.filled",
+      "id" : "strong-foundation",
+      "kind" : "timeMilestone",
+      "title" : "Strong Foundation"
+    },
+    {
+      "dayThreshold" : 30,
+      "description" : "One month milestone reached.",
+      "icon" : "star.fill",
+      "id" : "rising-star",
+      "kind" : "timeMilestone",
+      "title" : "Rising Star"
+    },
+    {
+      "dayThreshold" : 90,
+      "description" : "Three months strong.",
+      "icon" : "medal.fill",
+      "id" : "quarter-master",
+      "kind" : "timeMilestone",
+      "title" : "Quarter Master"
+    },
+    {
+      "dayThreshold" : 180,
+      "description" : "Six months of sobriety.",
+      "icon" : "trophy.fill",
+      "id" : "half-year-hero",
+      "kind" : "timeMilestone",
+      "title" : "Half-Year Hero"
+    },
+    {
+      "dayThreshold" : 365,
+      "description" : "A full year. Incredible.",
+      "icon" : "crown.fill",
+      "id" : "year-one",
+      "kind" : "timeMilestone",
+      "title" : "Year One"
+    },
+    {
+      "dayThreshold" : 7,
+      "description" : "Daily check-ins for 7 days straight.",
+      "icon" : "flame.fill",
+      "id" : "perfect-week",
+      "kind" : "streak",
+      "title" : "Perfect Week"
+    },
+    {
+      "dayThreshold" : 30,
+      "description" : "30 consecutive check-ins.",
+      "icon" : "flame.fill",
+      "id" : "consistency-champion",
+      "kind" : "streak",
+      "title" : "Consistency Champion"
+    },
+    {
+      "dayThreshold" : 100,
+      "description" : "100 consecutive check-ins.",
+      "icon" : "diamond.fill",
+      "id" : "diamond-discipline",
+      "kind" : "streak",
+      "title" : "Diamond Discipline"
+    }
+  ],
+  "coachLines" : [
+    "You don't have to do anything else right now. Just stay here and breathe.",
+    "This is near the top of it. Cravings climb fast and then they stop climbing.",
+    "Notice it without arguing with it. You're not trying to win, you're waiting it out.",
+    "It's already smaller than it was a minute ago, even if it doesn't feel finished.",
+    "Almost through. Whatever's left of it is on its way out."
+  ],
+  "healthBenefits" : [
+    {
+      "detail" : "Alcohol metabolism varies with the amount consumed and individual factors. A timer cannot tell you when alcohol has cleared or when it is safe to drive.",
+      "hoursRequired" : 6,
+      "id" : "blood-alcohol-clearing",
+      "sourceLabel" : "NIAAA · Alcohol Metabolism",
+      "sourceURL" : "https://www.niaaa.nih.gov/publications/brochures-and-fact-sheets/alcohol-metabolism",
+      "summary" : "Learn how alcohol is processed.",
+      "title" : "Alcohol metabolism"
+    },
+    {
+      "detail" : "Alcohol can affect blood sugar regulation. Changes after stopping differ between people; this app does not measure your blood sugar or insulin response.",
+      "hoursRequired" : 24,
+      "id" : "blood-sugar-stabilization",
+      "sourceLabel" : "NIAAA · Alcohol & Health",
+      "sourceURL" : "https://www.niaaa.nih.gov/alcohol-health",
+      "summary" : "Learn about alcohol and blood sugar.",
+      "title" : "Blood sugar context"
+    },
+    {
+      "detail" : "Alcohol can affect hydration. Your day count is not a hydration measurement or a prediction of when symptoms will change.",
+      "hoursRequired" : 48,
+      "id" : "rehydration",
+      "sourceLabel" : "NIAAA",
+      "sourceURL" : "https://www.niaaa.nih.gov/alcohol-health",
+      "summary" : "Learn about alcohol and hydration.",
+      "title" : "Hydration"
+    },
+    {
+      "detail" : "Alcohol can affect sleep. Some people notice changes after stopping, but the timing and experience vary. This milestone does not measure sleep or promise a recovery date.",
+      "hoursRequired" : 72,
+      "id" : "sleep-quality",
+      "sourceLabel" : "NIAAA · Alcohol & Sleep",
+      "sourceURL" : "https://pubs.niaaa.nih.gov/publications/arh25-2/101-109.htm",
+      "summary" : "Notice your own sleep routine.",
+      "title" : "Sleep and alcohol"
+    },
+    {
+      "detail" : "People may notice changes in concentration after reducing or stopping alcohol. Individual experiences vary; this app does not assess cognitive function.",
+      "hoursRequired" : 168,
+      "id" : "mental-clarity",
+      "sourceLabel" : "NIAAA",
+      "sourceURL" : "https://www.niaaa.nih.gov/alcohol-health",
+      "summary" : "Reflect on your own experience.",
+      "title" : "Mental clarity"
+    },
+    {
+      "detail" : "Alcohol and anxiety can interact in different ways. This app does not assess or treat anxiety. Speak with a qualified clinician about symptoms or concerns.",
+      "hoursRequired" : 336,
+      "id" : "reduced-anxiety",
+      "sourceLabel" : "NIAAA",
+      "sourceURL" : "https://www.niaaa.nih.gov/alcohol-health",
+      "summary" : "Information, not a diagnosis.",
+      "title" : "Anxiety and alcohol"
+    },
+    {
+      "detail" : "Research describes links between alcohol use and liver health. Your elapsed time does not establish a change in liver fat or blood tests. Discuss your health with a clinician.",
+      "hoursRequired" : 720,
+      "id" : "liver-fat-reduction",
+      "sourceLabel" : "NIAAA · Alcohol & the Liver",
+      "sourceURL" : "https://pubs.niaaa.nih.gov/publications/arh27-3/277-284.htm",
+      "summary" : "Learn about alcohol and the liver.",
+      "title" : "Liver health"
+    },
+    {
+      "detail" : "The app's calorie totals use the amount you entered. They do not predict weight change, measure body fat, or account for changes in food intake.",
+      "hoursRequired" : 720,
+      "id" : "weight-stabilization",
+      "sourceLabel" : "CDC",
+      "sourceURL" : "https://www.cdc.gov/alcohol/index.html",
+      "summary" : "Understand the calories in your routine.",
+      "title" : "Alcohol calories"
+    },
+    {
+      "detail" : "Alcohol use can affect blood pressure, but responses and timing vary. This app does not measure blood pressure or predict when it will change.",
+      "hoursRequired" : 1440,
+      "id" : "blood-pressure",
+      "sourceLabel" : "AHA",
+      "sourceURL" : "https://www.heart.org/en/healthy-living/healthy-eating/eat-smart/nutrition-basics/alcohol-and-heart-health",
+      "summary" : "Learn about alcohol and heart health.",
+      "title" : "Blood pressure information"
+    },
+    {
+      "detail" : "Alcohol use and heart health are linked in research. Your counter is not a measurement of resting heart rate, arterial function, or cardiovascular recovery.",
+      "hoursRequired" : 2160,
+      "id" : "cardiovascular",
+      "sourceLabel" : "AHA",
+      "sourceURL" : "https://www.heart.org/",
+      "summary" : "Read the cited background information.",
+      "title" : "Heart health information"
+    },
+    {
+      "detail" : "Around six months, take stock of the routines and personal progress that brought you here.",
+      "hoursRequired" : 4320,
+      "id" : "immune-boost",
+      "sourceLabel" : "Sober · Personal progress",
+      "sourceURL" : null,
+      "summary" : "A longer-term progress marker.",
+      "title" : "Six-Month Milestone"
+    },
+    {
+      "detail" : "Alcohol can affect hydration and skin. Changes vary between people; this milestone does not establish when a visible or medical change will occur.",
+      "hoursRequired" : 4320,
+      "id" : "skin-renewal",
+      "sourceLabel" : "NIAAA · Alcohol & Health",
+      "sourceURL" : "https://www.niaaa.nih.gov/alcohol-health",
+      "summary" : "Notice changes without a promised timeline.",
+      "title" : "Skin and hydration"
+    },
+    {
+      "detail" : "A year is a meaningful progress marker, not a declaration of full recovery. Discuss your individual health and risks with a qualified clinician.",
+      "hoursRequired" : 8760,
+      "id" : "full-body-recovery",
+      "sourceLabel" : "NIAAA · Long-term Outcomes",
+      "sourceURL" : "https://www.niaaa.nih.gov/alcohol-health",
+      "summary" : "A year of personal progress.",
+      "title" : "One-Year Milestone"
+    }
+  ],
+  "journalPrompts" : [
+    {
+      "id" : "p1",
+      "kind" : "daily",
+      "text" : "How has my daily life changed since I stopped drinking?"
+    },
+    {
+      "id" : "p2",
+      "kind" : "daily",
+      "text" : "What's one thing I'm grateful for today?"
+    },
+    {
+      "id" : "p3",
+      "kind" : "daily",
+      "text" : "Where did I feel strongest today?"
+    },
+    {
+      "id" : "p4",
+      "kind" : "challenge",
+      "text" : "What triggers came up today, and how did I respond?"
+    },
+    {
+      "id" : "p5",
+      "kind" : "daily",
+      "text" : "Describe a moment of peace I experienced recently."
+    },
+    {
+      "id" : "p6",
+      "kind" : "daily",
+      "text" : "What's going well today? How can I keep this momentum?"
+    },
+    {
+      "id" : "p7",
+      "kind" : "challenge",
+      "text" : "If I had a drink today, what would I lose?"
+    },
+    {
+      "id" : "p8",
+      "kind" : "daily",
+      "text" : "Who supported me today, even in a small way?"
+    },
+    {
+      "id" : "p9",
+      "kind" : "daily",
+      "text" : "What did my body thank me for today?"
+    },
+    {
+      "id" : "p10",
+      "kind" : "daily",
+      "text" : "What am I looking forward to this week?"
+    },
+    {
+      "id" : "p11",
+      "kind" : "challenge",
+      "text" : "Name a situation that used to involve drinking. How did I navigate it?"
+    },
+    {
+      "id" : "p12",
+      "kind" : "daily",
+      "text" : "What's one healthy habit I'd like to build next?"
+    },
+    {
+      "id" : "p13",
+      "kind" : "daily",
+      "text" : "How is my sleep different now?"
+    },
+    {
+      "id" : "p14",
+      "kind" : "daily",
+      "text" : "What did I do today that my future self will thank me for?"
+    },
+    {
+      "id" : "p15",
+      "kind" : "challenge",
+      "text" : "Where do I notice cravings hide?"
+    },
+    {
+      "id" : "p16",
+      "kind" : "daily",
+      "text" : "What does sobriety give me that drinking never could?"
+    },
+    {
+      "id" : "p17",
+      "kind" : "daily",
+      "text" : "Describe a small win from today."
+    },
+    {
+      "id" : "p18",
+      "kind" : "daily",
+      "text" : "What's a relationship that's improving since I quit?"
+    },
+    {
+      "id" : "p19",
+      "kind" : "challenge",
+      "text" : "What would a 'reset' actually cost me, in days and dollars?"
+    },
+    {
+      "id" : "p20",
+      "kind" : "daily",
+      "text" : "Three words to describe how I feel right now."
+    }
+  ],
+  "schemaVersion" : 1,
+  "species" : [
+    {
+      "colors" : [
+        "#528547",
+        "#73471F"
+      ],
+      "description" : "A timeless upright bonsai. Symmetrical, balanced, serene.",
+      "displayName" : "Traditional Bonsai",
+      "icon" : "leaf.fill",
+      "id" : "traditional-bonsai",
+      "order" : 0
+    },
+    {
+      "colors" : [
+        "#477A38",
+        "#663D19"
+      ],
+      "description" : "The cascade style mimics a tree growing on a cliff, plunging downward.",
+      "displayName" : "Cascading Bonsai",
+      "icon" : "arrow.down.to.line.compact",
+      "id" : "cascade-bonsai",
+      "order" : 1
+    },
+    {
+      "colors" : [
+        "#F2B2CC",
+        "#7D5C45"
+      ],
+      "description" : "A flowering sakura wrapped in soft pink bloom. Petals drift down as your streak grows.",
+      "displayName" : "Cherry Blossom",
+      "icon" : "camera.macro",
+      "id" : "sakura-bonsai",
+      "order" : 2
+    },
+    {
+      "colors" : [
+        "#C74729",
+        "#6E594A"
+      ],
+      "description" : "A lacy maple in warm autumn red and gold. Star-shaped leaves drift down as the days add up.",
+      "displayName" : "Japanese Maple",
+      "icon" : "leaf.fill",
+      "id" : "maple-bonsai",
+      "order" : 3
+    },
+    {
+      "colors" : [
+        "#2E614A",
+        "#594536"
+      ],
+      "description" : "An evergreen pine with cloud-like needle tiers and a gnarled, weathered trunk.",
+      "displayName" : "Black Pine",
+      "icon" : "tree.fill",
+      "id" : "pine-bonsai",
+      "order" : 4
+    },
+    {
+      "colors" : [
+        "#386129",
+        "#804C1F"
+      ],
+      "description" : "Shaped by a lifetime of wind. Every branch tells a story of endurance.",
+      "displayName" : "Windswept Bonsai",
+      "icon" : "wind",
+      "id" : "windswept-bonsai",
+      "order" : 5
+    }
+  ],
+  "stages" : [
+    {
+      "dayThreshold" : 0,
+      "growthMessage" : "A seed is planted. Every great tree starts here.",
+      "id" : 0,
+      "title" : "Seed"
+    },
+    {
+      "dayThreshold" : 3,
+      "growthMessage" : "Your first sprout has broken the soil.",
+      "id" : 1,
+      "title" : "Sprout"
+    },
+    {
+      "dayThreshold" : 7,
+      "growthMessage" : "A seedling stands tall. Roots are taking hold.",
+      "id" : 2,
+      "title" : "Seedling"
+    },
+    {
+      "dayThreshold" : 14,
+      "growthMessage" : "Your bonsai is filling out into a young tree.",
+      "id" : 3,
+      "title" : "Young Bonsai"
+    },
+    {
+      "dayThreshold" : 30,
+      "growthMessage" : "Branches are reaching wider. The shape is emerging.",
+      "id" : 4,
+      "title" : "Adolescent"
+    },
+    {
+      "dayThreshold" : 60,
+      "growthMessage" : "Your bonsai has matured into a full, leafy canopy.",
+      "id" : 5,
+      "title" : "Mature"
+    },
+    {
+      "dayThreshold" : 90,
+      "growthMessage" : "Refined and dense. The work of real patience.",
+      "id" : 6,
+      "title" : "Refined"
+    },
+    {
+      "dayThreshold" : 180,
+      "growthMessage" : "Ancient and weathered. This tree has seen a lot.",
+      "id" : 7,
+      "title" : "Ancient"
+    },
+    {
+      "dayThreshold" : 365,
+      "growthMessage" : "A legendary bonsai. A full year of growth made visible.",
+      "id" : 8,
+      "title" : "Legendary"
+    }
+  ],
+  "vocabulary" : {
+    "habitGerund" : "drinking",
+    "habitInstance" : "a drink",
+    "maxUrgeSeconds" : 600,
+    "minUrgeSeconds" : 60,
+    "reasonPlaceholder" : "So I can be present with my kids",
+    "substance" : "alcohol",
+    "triggers" : [
+      "Social event",
+      "Stress",
+      "Boredom",
+      "After work",
+      "With a meal",
+      "Argument",
+      "Celebration",
+      "Tired"
+    ],
+    "typicalUrgeSeconds" : 180,
+    "urgeNoun" : "craving",
+    "urgeNounPlural" : "cravings"
+  }
+}

@@ -1,0 +1,939 @@
+{
+  "carryover" : [
+    {
+      "carryover" : 0,
+      "days" : -3,
+      "treeDays" : -3
+    },
+    {
+      "carryover" : 5,
+      "days" : -3,
+      "treeDays" : -3
+    },
+    {
+      "carryover" : 20,
+      "days" : -3,
+      "treeDays" : -3
+    },
+    {
+      "carryover" : 364,
+      "days" : -3,
+      "treeDays" : -3
+    },
+    {
+      "carryover" : 0,
+      "days" : 0,
+      "treeDays" : 0
+    },
+    {
+      "carryover" : 5,
+      "days" : 0,
+      "treeDays" : 0
+    },
+    {
+      "carryover" : 20,
+      "days" : 0,
+      "treeDays" : 0
+    },
+    {
+      "carryover" : 364,
+      "days" : 0,
+      "treeDays" : 0
+    },
+    {
+      "carryover" : 0,
+      "days" : 1,
+      "treeDays" : 1
+    },
+    {
+      "carryover" : 5,
+      "days" : 1,
+      "treeDays" : 6
+    },
+    {
+      "carryover" : 20,
+      "days" : 1,
+      "treeDays" : 21
+    },
+    {
+      "carryover" : 364,
+      "days" : 1,
+      "treeDays" : 364
+    },
+    {
+      "carryover" : 0,
+      "days" : 2,
+      "treeDays" : 2
+    },
+    {
+      "carryover" : 5,
+      "days" : 2,
+      "treeDays" : 7
+    },
+    {
+      "carryover" : 20,
+      "days" : 2,
+      "treeDays" : 22
+    },
+    {
+      "carryover" : 364,
+      "days" : 2,
+      "treeDays" : 364
+    },
+    {
+      "carryover" : 0,
+      "days" : 3,
+      "treeDays" : 3
+    },
+    {
+      "carryover" : 5,
+      "days" : 3,
+      "treeDays" : 8
+    },
+    {
+      "carryover" : 20,
+      "days" : 3,
+      "treeDays" : 23
+    },
+    {
+      "carryover" : 364,
+      "days" : 3,
+      "treeDays" : 364
+    },
+    {
+      "carryover" : 0,
+      "days" : 6,
+      "treeDays" : 6
+    },
+    {
+      "carryover" : 5,
+      "days" : 6,
+      "treeDays" : 11
+    },
+    {
+      "carryover" : 20,
+      "days" : 6,
+      "treeDays" : 26
+    },
+    {
+      "carryover" : 364,
+      "days" : 6,
+      "treeDays" : 364
+    },
+    {
+      "carryover" : 0,
+      "days" : 7,
+      "treeDays" : 7
+    },
+    {
+      "carryover" : 5,
+      "days" : 7,
+      "treeDays" : 12
+    },
+    {
+      "carryover" : 20,
+      "days" : 7,
+      "treeDays" : 27
+    },
+    {
+      "carryover" : 364,
+      "days" : 7,
+      "treeDays" : 364
+    },
+    {
+      "carryover" : 0,
+      "days" : 13,
+      "treeDays" : 13
+    },
+    {
+      "carryover" : 5,
+      "days" : 13,
+      "treeDays" : 18
+    },
+    {
+      "carryover" : 20,
+      "days" : 13,
+      "treeDays" : 33
+    },
+    {
+      "carryover" : 364,
+      "days" : 13,
+      "treeDays" : 364
+    },
+    {
+      "carryover" : 0,
+      "days" : 14,
+      "treeDays" : 14
+    },
+    {
+      "carryover" : 5,
+      "days" : 14,
+      "treeDays" : 19
+    },
+    {
+      "carryover" : 20,
+      "days" : 14,
+      "treeDays" : 34
+    },
+    {
+      "carryover" : 364,
+      "days" : 14,
+      "treeDays" : 364
+    },
+    {
+      "carryover" : 0,
+      "days" : 29,
+      "treeDays" : 29
+    },
+    {
+      "carryover" : 5,
+      "days" : 29,
+      "treeDays" : 34
+    },
+    {
+      "carryover" : 20,
+      "days" : 29,
+      "treeDays" : 49
+    },
+    {
+      "carryover" : 364,
+      "days" : 29,
+      "treeDays" : 364
+    },
+    {
+      "carryover" : 0,
+      "days" : 30,
+      "treeDays" : 30
+    },
+    {
+      "carryover" : 5,
+      "days" : 30,
+      "treeDays" : 35
+    },
+    {
+      "carryover" : 20,
+      "days" : 30,
+      "treeDays" : 50
+    },
+    {
+      "carryover" : 364,
+      "days" : 30,
+      "treeDays" : 364
+    },
+    {
+      "carryover" : 0,
+      "days" : 59,
+      "treeDays" : 59
+    },
+    {
+      "carryover" : 5,
+      "days" : 59,
+      "treeDays" : 64
+    },
+    {
+      "carryover" : 20,
+      "days" : 59,
+      "treeDays" : 79
+    },
+    {
+      "carryover" : 364,
+      "days" : 59,
+      "treeDays" : 364
+    },
+    {
+      "carryover" : 0,
+      "days" : 60,
+      "treeDays" : 60
+    },
+    {
+      "carryover" : 5,
+      "days" : 60,
+      "treeDays" : 65
+    },
+    {
+      "carryover" : 20,
+      "days" : 60,
+      "treeDays" : 80
+    },
+    {
+      "carryover" : 364,
+      "days" : 60,
+      "treeDays" : 364
+    },
+    {
+      "carryover" : 0,
+      "days" : 89,
+      "treeDays" : 89
+    },
+    {
+      "carryover" : 5,
+      "days" : 89,
+      "treeDays" : 94
+    },
+    {
+      "carryover" : 20,
+      "days" : 89,
+      "treeDays" : 109
+    },
+    {
+      "carryover" : 364,
+      "days" : 89,
+      "treeDays" : 364
+    },
+    {
+      "carryover" : 0,
+      "days" : 90,
+      "treeDays" : 90
+    },
+    {
+      "carryover" : 5,
+      "days" : 90,
+      "treeDays" : 95
+    },
+    {
+      "carryover" : 20,
+      "days" : 90,
+      "treeDays" : 110
+    },
+    {
+      "carryover" : 364,
+      "days" : 90,
+      "treeDays" : 364
+    },
+    {
+      "carryover" : 0,
+      "days" : 179,
+      "treeDays" : 179
+    },
+    {
+      "carryover" : 5,
+      "days" : 179,
+      "treeDays" : 184
+    },
+    {
+      "carryover" : 20,
+      "days" : 179,
+      "treeDays" : 199
+    },
+    {
+      "carryover" : 364,
+      "days" : 179,
+      "treeDays" : 364
+    },
+    {
+      "carryover" : 0,
+      "days" : 180,
+      "treeDays" : 180
+    },
+    {
+      "carryover" : 5,
+      "days" : 180,
+      "treeDays" : 185
+    },
+    {
+      "carryover" : 20,
+      "days" : 180,
+      "treeDays" : 200
+    },
+    {
+      "carryover" : 364,
+      "days" : 180,
+      "treeDays" : 364
+    },
+    {
+      "carryover" : 0,
+      "days" : 364,
+      "treeDays" : 364
+    },
+    {
+      "carryover" : 5,
+      "days" : 364,
+      "treeDays" : 364
+    },
+    {
+      "carryover" : 20,
+      "days" : 364,
+      "treeDays" : 364
+    },
+    {
+      "carryover" : 364,
+      "days" : 364,
+      "treeDays" : 364
+    },
+    {
+      "carryover" : 0,
+      "days" : 365,
+      "treeDays" : 365
+    },
+    {
+      "carryover" : 5,
+      "days" : 365,
+      "treeDays" : 365
+    },
+    {
+      "carryover" : 20,
+      "days" : 365,
+      "treeDays" : 365
+    },
+    {
+      "carryover" : 364,
+      "days" : 365,
+      "treeDays" : 365
+    },
+    {
+      "carryover" : 0,
+      "days" : 366,
+      "treeDays" : 366
+    },
+    {
+      "carryover" : 5,
+      "days" : 366,
+      "treeDays" : 366
+    },
+    {
+      "carryover" : 20,
+      "days" : 366,
+      "treeDays" : 366
+    },
+    {
+      "carryover" : 364,
+      "days" : 366,
+      "treeDays" : 366
+    },
+    {
+      "carryover" : 0,
+      "days" : 400,
+      "treeDays" : 400
+    },
+    {
+      "carryover" : 5,
+      "days" : 400,
+      "treeDays" : 400
+    },
+    {
+      "carryover" : 20,
+      "days" : 400,
+      "treeDays" : 400
+    },
+    {
+      "carryover" : 364,
+      "days" : 400,
+      "treeDays" : 400
+    },
+    {
+      "carryover" : 0,
+      "days" : 730,
+      "treeDays" : 730
+    },
+    {
+      "carryover" : 5,
+      "days" : 730,
+      "treeDays" : 730
+    },
+    {
+      "carryover" : 20,
+      "days" : 730,
+      "treeDays" : 730
+    },
+    {
+      "carryover" : 364,
+      "days" : 730,
+      "treeDays" : 730
+    },
+    {
+      "carryover" : 0,
+      "days" : 731,
+      "treeDays" : 731
+    },
+    {
+      "carryover" : 5,
+      "days" : 731,
+      "treeDays" : 731
+    },
+    {
+      "carryover" : 20,
+      "days" : 731,
+      "treeDays" : 731
+    },
+    {
+      "carryover" : 364,
+      "days" : 731,
+      "treeDays" : 731
+    },
+    {
+      "carryover" : 0,
+      "days" : 1080,
+      "treeDays" : 1080
+    },
+    {
+      "carryover" : 5,
+      "days" : 1080,
+      "treeDays" : 1080
+    },
+    {
+      "carryover" : 20,
+      "days" : 1080,
+      "treeDays" : 1080
+    },
+    {
+      "carryover" : 364,
+      "days" : 1080,
+      "treeDays" : 1080
+    }
+  ],
+  "coach" : [
+    {
+      "elapsed" : 0,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 0
+    },
+    {
+      "elapsed" : 1,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 0
+    },
+    {
+      "elapsed" : 9,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 0
+    },
+    {
+      "elapsed" : 14,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 0
+    },
+    {
+      "elapsed" : 15,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 0
+    },
+    {
+      "elapsed" : 34,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 0
+    },
+    {
+      "elapsed" : 35,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 0
+    },
+    {
+      "elapsed" : 59,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 0
+    },
+    {
+      "elapsed" : 60,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 0
+    },
+    {
+      "elapsed" : 84,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 0
+    },
+    {
+      "elapsed" : 85,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 0
+    },
+    {
+      "elapsed" : 99,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 0
+    },
+    {
+      "elapsed" : 100,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 0
+    },
+    {
+      "elapsed" : 180,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 0
+    },
+    {
+      "elapsed" : 600,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 0
+    },
+    {
+      "elapsed" : 0,
+      "line" : "You don't have to do anything else right now. Just stay here and breathe.",
+      "target" : 60
+    },
+    {
+      "elapsed" : 1,
+      "line" : "You don't have to do anything else right now. Just stay here and breathe.",
+      "target" : 60
+    },
+    {
+      "elapsed" : 9,
+      "line" : "This is near the top of it. Cravings climb fast and then they stop climbing.",
+      "target" : 60
+    },
+    {
+      "elapsed" : 14,
+      "line" : "This is near the top of it. Cravings climb fast and then they stop climbing.",
+      "target" : 60
+    },
+    {
+      "elapsed" : 15,
+      "line" : "This is near the top of it. Cravings climb fast and then they stop climbing.",
+      "target" : 60
+    },
+    {
+      "elapsed" : 34,
+      "line" : "Notice it without arguing with it. You're not trying to win, you're waiting it out.",
+      "target" : 60
+    },
+    {
+      "elapsed" : 35,
+      "line" : "Notice it without arguing with it. You're not trying to win, you're waiting it out.",
+      "target" : 60
+    },
+    {
+      "elapsed" : 59,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 60
+    },
+    {
+      "elapsed" : 60,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 60
+    },
+    {
+      "elapsed" : 84,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 60
+    },
+    {
+      "elapsed" : 85,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 60
+    },
+    {
+      "elapsed" : 99,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 60
+    },
+    {
+      "elapsed" : 100,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 60
+    },
+    {
+      "elapsed" : 180,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 60
+    },
+    {
+      "elapsed" : 600,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 60
+    },
+    {
+      "elapsed" : 0,
+      "line" : "You don't have to do anything else right now. Just stay here and breathe.",
+      "target" : 180
+    },
+    {
+      "elapsed" : 1,
+      "line" : "You don't have to do anything else right now. Just stay here and breathe.",
+      "target" : 180
+    },
+    {
+      "elapsed" : 9,
+      "line" : "You don't have to do anything else right now. Just stay here and breathe.",
+      "target" : 180
+    },
+    {
+      "elapsed" : 14,
+      "line" : "You don't have to do anything else right now. Just stay here and breathe.",
+      "target" : 180
+    },
+    {
+      "elapsed" : 15,
+      "line" : "You don't have to do anything else right now. Just stay here and breathe.",
+      "target" : 180
+    },
+    {
+      "elapsed" : 34,
+      "line" : "This is near the top of it. Cravings climb fast and then they stop climbing.",
+      "target" : 180
+    },
+    {
+      "elapsed" : 35,
+      "line" : "This is near the top of it. Cravings climb fast and then they stop climbing.",
+      "target" : 180
+    },
+    {
+      "elapsed" : 59,
+      "line" : "This is near the top of it. Cravings climb fast and then they stop climbing.",
+      "target" : 180
+    },
+    {
+      "elapsed" : 60,
+      "line" : "This is near the top of it. Cravings climb fast and then they stop climbing.",
+      "target" : 180
+    },
+    {
+      "elapsed" : 84,
+      "line" : "Notice it without arguing with it. You're not trying to win, you're waiting it out.",
+      "target" : 180
+    },
+    {
+      "elapsed" : 85,
+      "line" : "Notice it without arguing with it. You're not trying to win, you're waiting it out.",
+      "target" : 180
+    },
+    {
+      "elapsed" : 99,
+      "line" : "Notice it without arguing with it. You're not trying to win, you're waiting it out.",
+      "target" : 180
+    },
+    {
+      "elapsed" : 100,
+      "line" : "Notice it without arguing with it. You're not trying to win, you're waiting it out.",
+      "target" : 180
+    },
+    {
+      "elapsed" : 180,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 180
+    },
+    {
+      "elapsed" : 600,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 180
+    },
+    {
+      "elapsed" : 0,
+      "line" : "You don't have to do anything else right now. Just stay here and breathe.",
+      "target" : 600
+    },
+    {
+      "elapsed" : 1,
+      "line" : "You don't have to do anything else right now. Just stay here and breathe.",
+      "target" : 600
+    },
+    {
+      "elapsed" : 9,
+      "line" : "You don't have to do anything else right now. Just stay here and breathe.",
+      "target" : 600
+    },
+    {
+      "elapsed" : 14,
+      "line" : "You don't have to do anything else right now. Just stay here and breathe.",
+      "target" : 600
+    },
+    {
+      "elapsed" : 15,
+      "line" : "You don't have to do anything else right now. Just stay here and breathe.",
+      "target" : 600
+    },
+    {
+      "elapsed" : 34,
+      "line" : "You don't have to do anything else right now. Just stay here and breathe.",
+      "target" : 600
+    },
+    {
+      "elapsed" : 35,
+      "line" : "You don't have to do anything else right now. Just stay here and breathe.",
+      "target" : 600
+    },
+    {
+      "elapsed" : 59,
+      "line" : "You don't have to do anything else right now. Just stay here and breathe.",
+      "target" : 600
+    },
+    {
+      "elapsed" : 60,
+      "line" : "You don't have to do anything else right now. Just stay here and breathe.",
+      "target" : 600
+    },
+    {
+      "elapsed" : 84,
+      "line" : "You don't have to do anything else right now. Just stay here and breathe.",
+      "target" : 600
+    },
+    {
+      "elapsed" : 85,
+      "line" : "You don't have to do anything else right now. Just stay here and breathe.",
+      "target" : 600
+    },
+    {
+      "elapsed" : 99,
+      "line" : "This is near the top of it. Cravings climb fast and then they stop climbing.",
+      "target" : 600
+    },
+    {
+      "elapsed" : 100,
+      "line" : "This is near the top of it. Cravings climb fast and then they stop climbing.",
+      "target" : 600
+    },
+    {
+      "elapsed" : 180,
+      "line" : "This is near the top of it. Cravings climb fast and then they stop climbing.",
+      "target" : 600
+    },
+    {
+      "elapsed" : 600,
+      "line" : "Almost through. Whatever's left of it is on its way out.",
+      "target" : 600
+    }
+  ],
+  "counts" : {
+    "achievements" : 9,
+    "healthBenefits" : 13,
+    "journalPrompts" : 20,
+    "species" : 6,
+    "stages" : 9
+  },
+  "growth" : [
+    {
+      "completed" : 0,
+      "dayInCycle" : 0,
+      "days" : -3,
+      "stage" : 0
+    },
+    {
+      "completed" : 0,
+      "dayInCycle" : 0,
+      "days" : 0,
+      "stage" : 0
+    },
+    {
+      "completed" : 0,
+      "dayInCycle" : 1,
+      "days" : 1,
+      "stage" : 0
+    },
+    {
+      "completed" : 0,
+      "dayInCycle" : 2,
+      "days" : 2,
+      "stage" : 0
+    },
+    {
+      "completed" : 0,
+      "dayInCycle" : 3,
+      "days" : 3,
+      "stage" : 1
+    },
+    {
+      "completed" : 0,
+      "dayInCycle" : 6,
+      "days" : 6,
+      "stage" : 1
+    },
+    {
+      "completed" : 0,
+      "dayInCycle" : 7,
+      "days" : 7,
+      "stage" : 2
+    },
+    {
+      "completed" : 0,
+      "dayInCycle" : 13,
+      "days" : 13,
+      "stage" : 2
+    },
+    {
+      "completed" : 0,
+      "dayInCycle" : 14,
+      "days" : 14,
+      "stage" : 3
+    },
+    {
+      "completed" : 0,
+      "dayInCycle" : 29,
+      "days" : 29,
+      "stage" : 3
+    },
+    {
+      "completed" : 0,
+      "dayInCycle" : 30,
+      "days" : 30,
+      "stage" : 4
+    },
+    {
+      "completed" : 0,
+      "dayInCycle" : 59,
+      "days" : 59,
+      "stage" : 4
+    },
+    {
+      "completed" : 0,
+      "dayInCycle" : 60,
+      "days" : 60,
+      "stage" : 5
+    },
+    {
+      "completed" : 0,
+      "dayInCycle" : 89,
+      "days" : 89,
+      "stage" : 5
+    },
+    {
+      "completed" : 0,
+      "dayInCycle" : 90,
+      "days" : 90,
+      "stage" : 6
+    },
+    {
+      "completed" : 0,
+      "dayInCycle" : 179,
+      "days" : 179,
+      "stage" : 6
+    },
+    {
+      "completed" : 0,
+      "dayInCycle" : 180,
+      "days" : 180,
+      "stage" : 7
+    },
+    {
+      "completed" : 0,
+      "dayInCycle" : 364,
+      "days" : 364,
+      "stage" : 7
+    },
+    {
+      "completed" : 0,
+      "dayInCycle" : 365,
+      "days" : 365,
+      "stage" : 8
+    },
+    {
+      "completed" : 1,
+      "dayInCycle" : 1,
+      "days" : 366,
+      "stage" : 0
+    },
+    {
+      "completed" : 1,
+      "dayInCycle" : 35,
+      "days" : 400,
+      "stage" : 4
+    },
+    {
+      "completed" : 1,
+      "dayInCycle" : 365,
+      "days" : 730,
+      "stage" : 8
+    },
+    {
+      "completed" : 2,
+      "dayInCycle" : 1,
+      "days" : 731,
+      "stage" : 0
+    },
+    {
+      "completed" : 2,
+      "dayInCycle" : 350,
+      "days" : 1080,
+      "stage" : 7
+    }
+  ]
+}

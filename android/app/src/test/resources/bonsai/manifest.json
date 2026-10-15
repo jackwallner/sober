@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 2,
+  "source": "Shared/Bonsai/BonsaiRenderer.swift",
+  "sourceSHA256": "d1bca37d5c6ccf168d723b46f93d17baae9bc1112a10cd7a05c81527a095b661",
+  "adapterSHA256": "78d7d6fe478c3a148dd58d13cb3bb36e0022fd5af148bf4ce1171420dfc03f78",
+  "styles": [
+    "traditional",
+    "cascade",
+    "windswept",
+    "sakura",
+    "maple",
+    "pine"
+  ],
+  "fullFrameCount": 2196,
+  "sampledFrameCount": 150,
+  "sampledDays": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    14,
+    21,
+    30,
+    45,
+    60,
+    90,
+    120,
+    180,
+    270,
+    300,
+    364,
+    365
+  ],
+  "lowVitality": [
+    {
+      "vitality": 0.4,
+      "days": [
+        8,
+        100,
+        365
+      ],
+      "styles": [
+        "traditional",
+        "cascade",
+        "windswept"
+      ]
+    },
+    {
+      "vitality": 0.0,
+      "days": [
+        365
+      ],
+      "styles": [
+        "traditional",
+        "cascade",
+        "windswept"
+      ]
+    }
+  ]
+}
