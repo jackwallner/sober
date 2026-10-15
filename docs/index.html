@@ -27,6 +27,7 @@
   "@graph": [
     {
       "@type": "MobileApplication",
+      "dateModified": "2026-10-15",
       "@id": "https://jackwallner.com/ios/sober/#app",
       "name": "Sober: Sobriety Day Counter",
       "description": "Sober: Sobriety Day Counter is a free sobriety counter app for iPhone and Apple Watch. It counts your days sober, adds a daily check-in with a bonsai garden that grows as your streak does, and shows widgets and watch complications. No account is needed and your data stays on your device.",
@@ -244,7 +245,7 @@
         }
 
         .hero h1 span {
-            color: #52A073;
+            color: #42825d;
         }
 
         .hero .tagline {
@@ -257,7 +258,7 @@
 
         .hero .platforms {
             font-size: 13px;
-            color: #86868b;
+            color: #6e6e73;
             letter-spacing: 0.3px;
             margin-bottom: 36px;
         }
@@ -345,20 +346,6 @@
         .feature-card {
             background: #fff;
             padding: 36px 32px;
-        }
-
-        .feature-card .label {
-            display: inline-block;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: #86868b;
-            margin-bottom: 10px;
-        }
-
-        .feature-card .label.pro {
-            color: #52A073;
         }
 
         .feature-card h3 {
@@ -468,7 +455,7 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            color: #86868b;
+            color: #6e6e73;
             margin-bottom: 12px;
         }
 
@@ -500,7 +487,7 @@
         }
 
         .specs-table td:first-child {
-            color: #86868b;
+            color: #6e6e73;
             width: 140px;
             font-size: 12px;
             text-transform: uppercase;
@@ -524,7 +511,7 @@
 
         .cta p {
             font-size: 15px;
-            color: #86868b;
+            color: #6e6e73;
             margin-bottom: 28px;
         }
 
@@ -533,11 +520,11 @@
             text-align: center;
             padding: 20px 24px;
             font-size: 12px;
-            color: #86868b;
+            color: #6e6e73;
         }
 
         footer a {
-            color: #86868b;
+            color: #6e6e73;
             text-decoration: none;
             margin: 0 10px;
         }
@@ -599,6 +586,12 @@
             color: #6e6e73;
             margin-top: 10px;
         }
+        .feature-card .tier {
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #42825d;
+        }
     </style>
 </head>
 <body>
@@ -656,47 +649,42 @@
         </div>
         <div class="features-grid">
             <div class="feature-card">
-                <span class="label">Today</span>
                 <h3>Day counter</h3>
                 <p>See how many days since you started, your next milestone, and upcoming health benefit, all on one screen.</p>
             </div>
             <div class="feature-card">
-                <span class="label">Garden</span>
                 <h3>Watch it grow</h3>
                 <p>A virtual garden that grows from seed to ancient tree as your streak continues. Water it daily with your check-in.</p>
             </div>
             <div class="feature-card">
-                <span class="label">Health</span>
                 <h3>Body recovery timeline</h3>
                 <p>13 health benefits backed by NIAAA, CDC, and AHA. See blood sugar stabilize at 24h, liver health improve at 30 days, and lower long-term risk after a year.</p>
             </div>
             <div class="feature-card">
-                <span class="label pro">Pro Feature</span>
                 <h3>Full health timeline</h3>
                 <p>See all 13 benefits with detailed explanations and source links. See the complete picture of your body's recovery.</p>
+                <p class="tier">Included with Pro</p>
             </div>
             <div class="feature-card">
-                <span class="label">Calendar</span>
                 <h3>See your progress</h3>
                 <p>A color-coded calendar showing sober (green), not sober (red), and yet to check in (gray). Track your success rate over time.</p>
             </div>
             <div class="feature-card">
-                <span class="label pro">Pro Feature</span>
                 <h3>Journal with prompts</h3>
                 <p>Daily reflection prompts, freeform writing, and a feeling picker. All entries are private and stored locally on your device.</p>
+                <p class="tier">Included with Pro</p>
             </div>
             <div class="feature-card">
-                <span class="label pro">Pro Feature</span>
                 <h3>Achievements</h3>
                 <p>9 milestones across time (First Step, Quarter Master, Year One) and check-in streaks (Perfect Week, Diamond Discipline).</p>
+                <p class="tier">Included with Pro</p>
             </div>
             <div class="feature-card">
-                <span class="label pro">Pro Feature</span>
                 <h3>Money &amp; calories saved</h3>
                 <p>See how much money and how many calories you've saved since starting your journey. Set your own daily cost and calorie estimates.</p>
+                <p class="tier">Included with Pro</p>
             </div>
             <div class="feature-card">
-                <span class="label">Widgets</span>
                 <h3>At a glance</h3>
                 <p>Your day count on your home screen, lock screen, and Apple Watch. System and accessory complications included.</p>
             </div>
@@ -805,7 +793,7 @@
     </section>
 
     <footer>
-        <div class="divider">&copy; 2026 Jack Wallner</div>
+        <div class="divider">&copy; 2026 Jack Wallner · Last updated <time datetime="2026-10-15" data-updated>October 15, 2026</time></div>
         <div>
             <a href="sobriety-milestones.html">Milestones guide</a>
             <a href="i-am-sober-alternative.html">I Am Sober alternatives</a>
