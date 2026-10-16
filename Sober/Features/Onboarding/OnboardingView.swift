@@ -329,15 +329,16 @@ struct OnboardingView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
 
-            // Present tense and dated, computed from the answers this user
-            // just gave: what their goal is worth, when the next milestone
-            // lands, a plan for tonight. The old rows sold species and a
-            // journal, which only pay off weeks in.
+            // The free row leads. On the 1.2.2 and 1.3.3 pages three in four
+            // viewers closed the app on this screen without tapping anything,
+            // as if the trial were the price of entry. Mahj's page opens with
+            // what stays free and converts 43% of viewers. Then the dated,
+            // computed Bloom+ rows from the answers this user just gave.
             VStack(alignment: .leading, spacing: Theme.Space.m) {
+                trialBenefit(icon: "checkmark.seal.fill", text: "Your day counter, widget and Watch stay free, forever.")
                 trialBenefit(icon: "flag.checkered", text: trialGoalText)
                 trialBenefit(icon: "heart.text.square.fill", text: MilestoneSchedule.pitchLine(start: effectiveStart))
                 trialBenefit(icon: "list.bullet.clipboard", text: "A plan for the first \(HabitVocabulary.urgeNoun): what to do and what to say.")
-                trialBenefit(icon: "chart.bar.xaxis", text: "Your own \(HabitVocabulary.urgeNoun) patterns once you've logged a few.")
             }
             .padding(Theme.Space.m)
             .background(.white.opacity(0.13), in: RoundedRectangle(cornerRadius: 18))
@@ -371,7 +372,7 @@ struct OnboardingView: View {
             #if canImport(RevenueCat)
             subscriptions.trackPaywallImpression(
                 id: offerIncludesTrial
-                    ? "sober_onboarding_trial_1_3_3"
+                    ? "sober_onboarding_trial_1_3_4"
                     : "sober_onboarding_offer_no_trial",
                 package: subscriptions.directOfferPackage,
                 oncePerSession: true

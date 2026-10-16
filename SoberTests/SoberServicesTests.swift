@@ -8,12 +8,12 @@ import RevenueCat
 
 @Suite("Trial package preference")
 struct TrialPackagePreferenceTests {
-    @Test func yearlyWinsWhenBothTrialsExist() {
-        #expect(SubscriptionService.preferredTrialKind(from: [.monthly, .yearly]) == .yearly)
+    @Test func monthlyWinsWhenBothTrialsExist() {
+        #expect(SubscriptionService.preferredTrialKind(from: [.yearly, .monthly]) == .monthly)
     }
 
-    @Test func monthlyIsTheFallback() {
-        #expect(SubscriptionService.preferredTrialKind(from: [.monthly]) == .monthly)
+    @Test func yearlyIsTheFallback() {
+        #expect(SubscriptionService.preferredTrialKind(from: [.yearly]) == .yearly)
     }
 
     @Test func unknownPackageIsStillUsable() {
@@ -24,8 +24,8 @@ struct TrialPackagePreferenceTests {
         #expect(SubscriptionService.preferredTrialKind(from: []) == nil)
     }
 
-    @Test func yearlyWinsRegardlessOfPackageOrder() {
-        #expect(SubscriptionService.preferredTrialKind(from: [.other, .monthly, .yearly]) == .yearly)
+    @Test func monthlyWinsRegardlessOfPackageOrder() {
+        #expect(SubscriptionService.preferredTrialKind(from: [.other, .yearly, .monthly]) == .monthly)
     }
 }
 
@@ -137,7 +137,7 @@ struct OnboardingOfferWithoutTrialTests {
 
         #expect(service.hasTrialOfferAvailable == false)
         #expect(service.directTrialPackage == nil)
-        #expect(service.directOfferPackage?.soberPackageKind == .yearly)
+        #expect(service.directOfferPackage?.soberPackageKind == .monthly)
     }
 
     @Test func theirPriceHeadlinePromisesNoTrial() {
