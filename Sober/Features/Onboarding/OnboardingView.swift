@@ -307,43 +307,21 @@ struct OnboardingView: View {
     private var trialStep: some View {
         // No hero glyph: the four dated lines below need the room, and with the
         // sparkles above them the page overflowed and pushed the CTA off the
-        // Continue button's pixel.
+        // Continue button's pixel. Where even that is too tall (a 375x667 SE
+        // lost Restore, Terms and Privacy), the pitch scrolls and the dock stays.
         VStack(spacing: Theme.Space.l) {
-            Spacer(minLength: Theme.Space.s)
-            VStack(spacing: Theme.Space.s) {
-                Text(trialHeadline)
-                    .font(Theme.display(42, weight: .bold))
-                    .multilineTextAlignment(.center)
-                    // "14 days of Bloom+ free" is two characters longer than the
-                    // 7-day version and truncated to "14 days of Bloom…" at 42pt.
-                    // Let it wrap, and shrink before it ever clips again.
-                    .lineLimit(2)
-                    .minimumScaleFactor(0.7)
-                    .fixedSize(horizontal: false, vertical: true)
-                Text(trialSubhead)
-                    .font(Theme.body())
-                    .foregroundStyle(.white.opacity(0.88))
-                    .multilineTextAlignment(.center)
-                    // Without this the parent compresses it to a single clipped
-                    // line, which hid the charge-date half of the sentence.
-                    .fixedSize(horizontal: false, vertical: true)
+            ViewThatFits(in: .vertical) {
+                trialPitch
+                ScrollView {
+                    trialPitch
+                        .padding(.bottom, Self.scrollFadeHeight)
+                }
+                .scrollBounceBehavior(.basedOnSize)
+                .scrollIndicatorsFlash(onAppear: true)
+                .mask(scrollFadeMask)
             }
+            .frame(maxHeight: .infinity)
 
-            // The free row leads. On the 1.2.2 and 1.3.3 pages three in four
-            // viewers closed the app on this screen without tapping anything,
-            // as if the trial were the price of entry. Mahj's page opens with
-            // what stays free and converts 43% of viewers. Then the dated,
-            // computed Bloom+ rows from the answers this user just gave.
-            VStack(alignment: .leading, spacing: Theme.Space.m) {
-                trialBenefit(icon: "checkmark.seal.fill", text: "Your day counter, widget and Watch stay free, forever.")
-                trialBenefit(icon: "flag.checkered", text: trialGoalText)
-                trialBenefit(icon: "heart.text.square.fill", text: MilestoneSchedule.pitchLine(start: effectiveStart))
-                trialBenefit(icon: "list.bullet.clipboard", text: "A plan for the first \(HabitVocabulary.urgeNoun): what to do and what to say.")
-            }
-            .padding(Theme.Space.m)
-            .background(.white.opacity(0.13), in: RoundedRectangle(cornerRadius: 18))
-
-            Spacer(minLength: Theme.Space.s)
             bottomBar(
                 primaryTitle: trialCTATitle,
                 busy: trialInFlight,
@@ -379,6 +357,55 @@ struct OnboardingView: View {
             )
             #endif
             TrialNudgeGate.markShown()
+        }
+    }
+
+    private var trialPitch: some View {
+        VStack(spacing: Theme.Space.l) {
+            VStack(spacing: Theme.Space.s) {
+                Text(trialHeadline)
+                    .font(Theme.display(42, weight: .bold))
+                    .multilineTextAlignment(.center)
+                    // "14 days of Bloom+ free" is two characters longer than the
+                    // 7-day version and truncated to "14 days of Bloom…" at 42pt.
+                    // Let it wrap, and shrink before it ever clips again.
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.7)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(trialSubhead)
+                    .font(Theme.body())
+                    .foregroundStyle(.white.opacity(0.88))
+                    .multilineTextAlignment(.center)
+                    // Without this the parent compresses it to a single clipped
+                    // line, which hid the charge-date half of the sentence.
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
+            // The free row leads. On the 1.2.2 and 1.3.3 pages three in four
+            // viewers closed the app on this screen without tapping anything,
+            // as if the trial were the price of entry. Mahj's page opens with
+            // what stays free and converts 43% of viewers. Then the dated,
+            // computed Bloom+ rows from the answers this user just gave.
+            VStack(alignment: .leading, spacing: Theme.Space.m) {
+                trialBenefit(icon: "checkmark.seal.fill", text: "Your day counter, widget and Watch stay free, forever.")
+                trialBenefit(icon: "flag.checkered", text: trialGoalText)
+                trialBenefit(icon: "heart.text.square.fill", text: MilestoneSchedule.pitchLine(start: effectiveStart))
+                trialBenefit(icon: "list.bullet.clipboard", text: "A plan for the first \(HabitVocabulary.urgeNoun): what to do and what to say.")
+            }
+            .padding(Theme.Space.m)
+            .background(.white.opacity(0.13), in: RoundedRectangle(cornerRadius: 18))
+        }
+    }
+
+    private static let scrollFadeHeight: CGFloat = 28
+
+    /// Fades the scrolled pitch into the dock instead of slicing a row in half,
+    /// so it reads as "there is more" on the phones where it scrolls.
+    private var scrollFadeMask: some View {
+        VStack(spacing: 0) {
+            Rectangle()
+            LinearGradient(colors: [.black, .clear], startPoint: .top, endPoint: .bottom)
+                .frame(height: Self.scrollFadeHeight)
         }
     }
 
