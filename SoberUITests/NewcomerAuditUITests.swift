@@ -42,20 +42,21 @@ final class NewcomerAuditUITests: XCTestCase {
         step(app, "03-savings", tap: "Continue")
         step(app, "04-goal", tap: "Continue")
         step(app, "05-trial")
-        let skip = app.buttons.containing(NSPredicate(format: "label CONTAINS[c] %@ OR label CONTAINS[c] %@ OR label CONTAINS[c] %@", "not now", "skip", "continue with")).firstMatch
-        if skip.exists { skip.tap(); sleep(1); step(app, "05b-after-skip") }
+        let free = app.buttons["Get started"]
+        if free.waitForExistence(timeout: 5) { notes.append("trial-exit frame \(free.frame) hittable=\(free.isHittable)"); free.tap() }
         let alert = app.alerts.firstMatch
-        if alert.waitForExistence(timeout: 2) { keep(app, "05c-alert"); alert.buttons["Get started"].tap() }
+        if alert.waitForExistence(timeout: 3) { keep(app, "05c-alert"); alert.buttons["Get started"].tap() }
         step(app, "06-reminders")
         let notNow = app.buttons["Not now"]
         if notNow.waitForExistence(timeout: 5) { notNow.tap() }
+        if app.alerts.firstMatch.waitForExistence(timeout: 2) { keep(app, "06b-system-alert"); app.alerts.firstMatch.buttons.element(boundBy: 0).tap() }
         sleep(3)
         step(app, "07-home")
         for tab in ["Timeline", "Health", "Journal"] {
-            let t = app.tabBars.buttons[tab]
+            let t = app.buttons[tab].firstMatch
             if t.exists { t.tap(); step(app, "08-tab-\(tab)") } else { notes.append("MISSING tab \(tab)") }
         }
-        app.tabBars.buttons.element(boundBy: 0).tap()
+        if app.buttons["Home"].exists { app.buttons["Home"].firstMatch.tap() }
         sleep(1)
         let craving = app.buttons.containing(NSPredicate(format: "label BEGINSWITH %@", "I'm having a")).firstMatch
         if craving.waitForExistence(timeout: 5) {
