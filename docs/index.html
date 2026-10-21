@@ -33,12 +33,12 @@
       "name": "Sober: Sobriety Day Counter",
       "description": "Sober: Sobriety Day Counter is a free sobriety counter app for iPhone and Apple Watch. It counts your days sober, adds a daily check-in with a bonsai garden that grows as your streak does, and shows widgets and watch complications. No account is needed and your data stays on your device.",
       "applicationCategory": "HealthApplication",
-      "operatingSystem": "iOS 17+, watchOS 10+",
+      "operatingSystem": "iOS 17+, watchOS 10+, Android 8.0+",
       "url": "https://jackwallner.com/ios/sober/",
       "alternateName": "Sober",
       "downloadUrl": "https://apps.apple.com/us/app/id6768869215",
-      "installUrl": "https://apps.apple.com/us/app/id6768869215",
-      "sameAs": "https://apps.apple.com/us/app/id6768869215",
+      "installUrl": ["https://apps.apple.com/us/app/id6768869215", "https://play.google.com/store/apps/details?id=com.jackwallner.sober"],
+      "sameAs": ["https://apps.apple.com/us/app/id6768869215", "https://play.google.com/store/apps/details?id=com.jackwallner.sober"],
       "screenshot": [
         "https://jackwallner.github.io/sober/screenshot-1-counter.png",
         "https://jackwallner.github.io/sober/screenshot-2-calendar.png",
@@ -277,6 +277,13 @@
         }
 
         .download-btn:hover { opacity: 0.85; }
+
+        .store-badges { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; }
+        .play-badge { display: inline-flex; transition: opacity 0.15s; }
+        .play-badge:hover { opacity: 0.85; }
+        .play-badge img { display: block; height: 46px; width: auto; }
+        .nav-actions { display: flex; align-items: center; gap: 10px; }
+        .nav-actions .play-badge img { height: 36px; }
 
         /* Screenshot showcase */
         .showcase {
@@ -607,7 +614,10 @@
                 </svg>
                 <span>Sober</span>
             </a>
-            <a class="nav-link" href="https://apps.apple.com/us/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-home&amp;mt=8">Download</a>
+            <div class="nav-actions">
+                <a class="nav-link" href="https://apps.apple.com/us/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-home&amp;mt=8">Download</a>
+                <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.jackwallner.sober" rel="noopener"><img src="google-play-badge.png" alt="Get it on Google Play" width="121" height="36"></a>
+            </div>
         </div>
     </nav>
 
@@ -615,7 +625,10 @@
         <h1>A sobriety day counter, <span>with a garden that grows</span></h1>
         <p class="tagline">Sober is a free sobriety day counter app for iPhone and Apple Watch, with a virtual garden, health milestones, a journal, and more, all private and on your device.</p>
         <p class="platforms">iPhone &middot; Apple Watch &middot; Widgets</p>
-        <a class="download-btn" href="https://apps.apple.com/us/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-home&amp;mt=8">Download for free</a>
+        <div class="store-badges">
+            <a class="download-btn" href="https://apps.apple.com/us/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-home&amp;mt=8">Download for free</a>
+            <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.jackwallner.sober" rel="noopener"><img src="google-play-badge.png" alt="Get it on Google Play" width="155" height="46"></a>
+        </div>
     </section>
 
     <section class="showcase">
@@ -789,8 +802,11 @@
 
     <section class="cta">
         <h2>Start your count</h2>
-        <p>Free on the App Store. No account required. Upgrade to Bloom+ anytime.</p>
-        <a class="download-btn" href="https://apps.apple.com/us/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-home&amp;mt=8">Download for free</a>
+        <p>Free on the App Store and Google Play. No account required. Upgrade to Bloom+ anytime.</p>
+        <div class="store-badges">
+            <a class="download-btn" href="https://apps.apple.com/us/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-home&amp;mt=8">Download for free</a>
+            <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.jackwallner.sober" rel="noopener"><img src="google-play-badge.png" alt="Get it on Google Play" width="155" height="46"></a>
+        </div>
     </section>
 
     <footer>

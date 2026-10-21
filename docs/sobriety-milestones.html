@@ -158,6 +158,12 @@ article th { font-weight: 600; background: #f5f5f7; }
 .cta-box { background: #f5f5f7; border-radius: 16px; padding: 28px; margin: 36px 0; text-align: center; }
 .cta-box p { font-size: 15px; color: #515154; margin-bottom: 16px; }
 .cta-box a.btn { display: inline-block; background: #1d1d1f; color: #fff; font-size: 15px; font-weight: 500; padding: 12px 28px; border-radius: 980px; text-decoration: none; }
+.store-badges { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; }
+.play-badge { display: inline-flex; transition: opacity 0.15s; }
+.play-badge:hover { opacity: 0.85; }
+.play-badge img { display: block; height: 46px; width: auto; }
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+.nav-actions .play-badge img { height: 36px; }
 footer { text-align: center; padding: 20px 24px; font-size: 12px; color: #6e6e73; border-top: 1px solid rgba(0,0,0,0.06); }
 footer a { color: #6e6e73; text-decoration: none; margin: 0 10px; }
 @media (max-width: 768px) { article h1 { font-size: 28px; } article { padding: 40px 0 56px; } article .answer { font-size: 17px; } article table { font-size: 14px; } }
@@ -174,7 +180,10 @@ footer a { color: #6e6e73; text-decoration: none; margin: 0 10px; }
                 </svg>
                 <span>Sober</span>
             </a>
-            <a class="nav-link" href="https://apps.apple.com/us/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-sobriety-milestones&amp;mt=8">Download</a>
+            <div class="nav-actions">
+                <a class="nav-link" href="https://apps.apple.com/us/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-sobriety-milestones&amp;mt=8">Download</a>
+                <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.jackwallner.sober" rel="noopener"><img src="google-play-badge.png" alt="Get it on Google Play" width="121" height="36"></a>
+            </div>
         </div>
     </nav>
 
@@ -221,8 +230,11 @@ footer a { color: #6e6e73; text-decoration: none; margin: 0 10px; }
             <p><a href="./">Sober</a> is a private day counter for iPhone and Apple Watch. It counts your days from the start date you set, shows the next milestone, and draws a bonsai that grows with each daily check-in. Achievements mark 1 week, 30 days, 90 days, 180 days and 1 year, and the health timeline lists 13 dated markers with their NIAAA, CDC and AHA sources. There is no account, and your data stays on your device. If you log a slip, the counter restarts from that date and the garden keeps part of its growth. Comparing apps? See the <a href="i-am-sober-alternative.html">I Am Sober alternatives</a>.</p>
 
             <div class="cta-box">
-                <p>Free day counter for iPhone and Apple Watch. No account needed.</p>
-                <a class="btn" href="https://apps.apple.com/us/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-sobriety-milestones&amp;mt=8">Download Sober</a>
+                <p>Free day counter for iPhone, Apple Watch and Android. No account needed.</p>
+                <div class="store-badges">
+                    <a class="btn" href="https://apps.apple.com/us/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-sobriety-milestones&amp;mt=8">Download Sober</a>
+                    <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.jackwallner.sober" rel="noopener"><img src="google-play-badge.png" alt="Get it on Google Play" width="155" height="46"></a>
+                </div>
             </div>
 
             <h2>Frequently asked questions</h2>
