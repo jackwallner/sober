@@ -57,7 +57,7 @@ paths:
   ./scripts/play-upload.sh internal-draft` (tests, signs, verifies, uploads).
   Bump `versionCode` in `android/app/build.gradle.kts` before every upload.
 - Play Console: E3 Apps account `8314164911785412040`, app `4975012758183799641`.
-  Managed publishing is ON.
+  Managed publishing is off (since 2026-10-12).
 - State 2026-10-10: versionCode 1 (1.3.2) live on internal testing; production
   release (178 countries, 12 listing locales, all App content declarations,
   reviewer code in Sign in details) sent for review 2026-10-10. Managed
