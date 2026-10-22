@@ -95,7 +95,7 @@ struct PaywallView: View {
 
             #if canImport(RevenueCat)
             if subscriptions.isConfigured {
-                if subscriptions.isLoadingProducts && subscriptions.packages.isEmpty {
+                if subscriptions.isCheckingEntitlements || (subscriptions.isLoadingProducts && subscriptions.packages.isEmpty) {
                     loadingState
                 } else if subscriptions.packages.isEmpty {
                     emptyState
@@ -117,7 +117,7 @@ struct PaywallView: View {
                 closeButton
             }
         }
-        .onChange(of: subscriptions.isProSubscriber) { _, isPro in
+        .onChange(of: subscriptions.isProSubscriber, initial: true) { _, isPro in
             // Only auto-dismiss when presented as a sheet — the Bloom+ tab
             // stays put and swaps to the subscriber hub instead.
             if isPro && displayCloseButton { dismiss() }

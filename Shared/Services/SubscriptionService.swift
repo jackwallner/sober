@@ -5,6 +5,68 @@ import os
 import RevenueCat
 #endif
 
+#if canImport(RevenueCat)
+/// The purchase boundary is injectable so entitlement flows can run without StoreKit.
+@MainActor
+protocol RevenueCatClient: AnyObject {
+    var cachedCustomerInfo: CustomerInfo? { get }
+    func customerInfo(fetchPolicy: CacheFetchPolicy) async throws -> CustomerInfo
+    func paywallOffering(forceRefresh: Bool) async throws -> RevenueCat.Offering?
+    func purchase(package: Package) async throws -> PurchaseResultData
+    func restorePurchases() async throws -> CustomerInfo
+    func introEligibility(productIdentifiers: [String]) async -> [String: IntroEligibilityStatus]
+    func setSubscriberAttributes(_ attributes: [String: String])
+    func recordImpression(_ params: CustomPaywallImpressionParams)
+}
+
+extension Purchases: RevenueCatClient {
+    func paywallOffering(forceRefresh: Bool) async throws -> RevenueCat.Offering? {
+        let offerings: Offerings
+        if forceRefresh, let refreshed = try await syncAttributesAndOfferingsIfNeeded() {
+            offerings = refreshed
+        } else {
+            offerings = try await self.offerings()
+        }
+        return offerings.offering(identifier: "default") ?? offerings.current
+    }
+
+    func introEligibility(productIdentifiers: [String]) async -> [String: IntroEligibilityStatus] {
+        await checkTrialOrIntroDiscountEligibility(productIdentifiers: productIdentifiers).mapValues(\.status)
+    }
+
+    func setSubscriberAttributes(_ attributes: [String: String]) {
+        attribution.setAttributes(attributes)
+    }
+
+    func recordImpression(_ params: CustomPaywallImpressionParams) {
+        trackCustomPaywallImpression(params)
+    }
+}
+
+enum RevenueCatEnvironment {
+    static func key(production: String, isDebug: Bool, isSimulator: Bool, testKey: String?) -> String? {
+        if isDebug { return testKey?.hasPrefix("test_") == true ? testKey : nil }
+        return !isSimulator && production.hasPrefix("appl_") ? production : nil
+    }
+
+    static var isDebug: Bool {
+        #if DEBUG
+        true
+        #else
+        false
+        #endif
+    }
+
+    static var isSimulator: Bool {
+        #if targetEnvironment(simulator)
+        true
+        #else
+        false
+        #endif
+    }
+}
+#endif
+
 enum PurchaseState: Equatable {
     case purchased
     case cancelled
@@ -39,9 +101,15 @@ final class SubscriptionService: NSObject {
 
     private let logger = Logger(subsystem: "com.jackwallner.sober", category: "Subscriptions")
 
+    private(set) var hasResolvedEntitlements = false
     private var entitlementActive: Bool = false
     private var localOverride: Bool = false
     private var trialRevision: Int = 0
+    private let clientOverride: (any RevenueCatClient)?
+    private var client: any RevenueCatClient { clientOverride ?? Purchases.shared }
+    private var lastCustomerInfoDate: Date?
+    private(set) var entitlementCheckFailed = false
+    var isCheckingEntitlements: Bool { storeIsLive && !hasResolvedEntitlements && !isProSubscriber && !entitlementCheckFailed }
     private(set) var isConfigured: Bool = false
 
     private(set) var isLoadingProducts: Bool = false
@@ -92,47 +160,48 @@ final class SubscriptionService: NSObject {
         return max(1, Calendar.current.dateComponents([.day], from: .now, to: end).day ?? 0)
     }
 
-    override init() {
+    init(client: (any RevenueCatClient)? = nil) {
+        clientOverride = client
         super.init()
+        isConfigured = client != nil
     }
 
     func configure() {
-        #if canImport(RevenueCat)
-        guard !isConfigured else { return }
-        #if targetEnvironment(simulator)
-        // StoreKit Testing supplies local products on simulator. Never configure
-        // the production RevenueCat project here or agent runs pollute customer
-        // counts and make the real install funnel impossible to interpret.
-        #if DEBUG
-        // The one exception, behind a launch argument: the Test Store key is a
-        // separate RevenueCat app inside the same project, so a probe run creates
-        // a Test Store customer and cannot touch App Store customers, revenue or
-        // charts. It exists so the funnel attributes can be proven from a
-        // simulator instead of waiting on a physical device. See RevenueCatProbe.
-        if RevenueCatProbe.isEnabled {
-            Purchases.logLevel = .debug
-            Purchases.configure(
-                with: Configuration.Builder(withAPIKey: RevenueCatProbe.testStoreKey)
-                    .with(appUserID: RevenueCatProbe.appUserID)
-                    .build()
-            )
-            Purchases.shared.delegate = self
-            isConfigured = true
-        }
-        #endif
-        return
-        #else
-        #if DEBUG
-        Purchases.logLevel = .debug
-        #endif
-        Purchases.configure(withAPIKey: Self.apiKey)
-        Purchases.shared.delegate = self
-        isConfigured = true
+        configureIfNeeded()
+        guard storeIsLive else { return }
+        if let cached = client.cachedCustomerInfo { apply(customerInfo: cached) }
         Task {
             await refresh(fetchPolicy: .fetchCurrent)
             await fetchProducts()
         }
+    }
+
+    private func configureIfNeeded() {
+        #if canImport(RevenueCat)
+        guard !isConfigured else { return }
+        #if DEBUG
+        let testKey = RevenueCatProbe.isEnabled ? RevenueCatProbe.testStoreKey : nil
+        #else
+        let testKey: String? = nil
         #endif
+        guard let key = RevenueCatEnvironment.key(
+            production: Self.apiKey,
+            isDebug: RevenueCatEnvironment.isDebug,
+            isSimulator: RevenueCatEnvironment.isSimulator,
+            testKey: testKey
+        ) else { return }
+        #if DEBUG
+        Purchases.logLevel = .debug
+        Purchases.configure(
+            with: Configuration.Builder(withAPIKey: key)
+                .with(appUserID: RevenueCatProbe.appUserID)
+                .build()
+        )
+        #else
+        Purchases.configure(withAPIKey: key)
+        #endif
+        Purchases.shared.delegate = self
+        isConfigured = true
         #endif
     }
 
@@ -199,10 +268,12 @@ final class SubscriptionService: NSObject {
     func refresh(fetchPolicy: CacheFetchPolicy = .default) async {
         #if canImport(RevenueCat)
         guard storeIsLive else { return }
+        entitlementCheckFailed = false
         do {
-            let info = try await Purchases.shared.customerInfo(fetchPolicy: fetchPolicy)
+            let info = try await client.customerInfo(fetchPolicy: fetchPolicy)
             apply(customerInfo: info)
         } catch {
+            entitlementCheckFailed = true
             // Leave previous state on network errors.
         }
         #endif
@@ -230,8 +301,7 @@ final class SubscriptionService: NSObject {
         introEligibilityResolved = false
         defer { isLoadingProducts = false }
         do {
-            let offerings = try await Purchases.shared.offerings()
-            let offering = offerings.soberPaywallOffering
+            let offering = try await client.paywallOffering(forceRefresh: false)
             packages = offering?.soberSortedPackages ?? []
             if packages.isEmpty {
                 // The network call succeeded but the paywall offering is missing
@@ -269,12 +339,12 @@ final class SubscriptionService: NSObject {
             logger.info("No fetched package contains an introductory offer")
             return
         }
-        let result = await Purchases.shared.checkTrialOrIntroDiscountEligibility(productIdentifiers: identifiers)
-        introEligibility = result.mapValues(\.status)
+        let result = await client.introEligibility(productIdentifiers: identifiers)
+        introEligibility = result
         introEligibilityResolved = true
         let statuses = result
             .sorted { $0.key < $1.key }
-            .map { "\($0.key)=\($0.value.status.description)" }
+            .map { "\($0.key)=\($0.value.description)" }
             .joined(separator: ",")
         logger.info("Intro eligibility resolved [\(statuses, privacy: .public)]")
     }
@@ -308,7 +378,7 @@ final class SubscriptionService: NSObject {
         // of onboarding, these say how often and how early they were pitched.
         attributes.merge(ConversionDiagnostics.subscriberAttributes) { _, fleet in fleet }
         guard !attributes.isEmpty else { return }
-        Purchases.shared.attribution.setAttributes(attributes)
+        client.setSubscriberAttributes(attributes)
     }
 
     func trackPaywallImpression(id: String, package: Package? = nil, oncePerSession: Bool = false) {
@@ -319,7 +389,7 @@ final class SubscriptionService: NSObject {
         }
         ConversionDiagnostics.recordPitchView(impressionID: id)
         syncConversionAttributes()
-        Purchases.shared.trackCustomPaywallImpression(
+        client.recordImpression(
             CustomPaywallImpressionParams(
                 paywallId: id,
                 offeringId: package?.presentedOfferingContext.offeringIdentifier
@@ -339,11 +409,14 @@ final class SubscriptionService: NSObject {
         }
         #endif
         guard storeIsLive else { throw PurchaseError.notConfigured }
+        if !hasResolvedEntitlements { await refresh() }
+        if isProSubscriber { return .purchased }
+        guard hasResolvedEntitlements else { throw PurchaseError.notConfigured }
         purchaseInFlight = true
         defer { purchaseInFlight = false }
 
         let startedTrial = isEligibleForIntroOffer(package)
-        let result = try await Purchases.shared.purchase(package: package)
+        let result = try await client.purchase(package: package)
         let state = processPurchaseResult(
             customerInfo: result.customerInfo,
             userCancelled: result.userCancelled
@@ -363,7 +436,7 @@ final class SubscriptionService: NSObject {
         guard storeIsLive else { return }
         lastError = nil
         do {
-            let info = try await Purchases.shared.restorePurchases()
+            let info = try await client.restorePurchases()
             apply(customerInfo: info)
             if !entitlementActive {
                 lastError = "No active Bloom+ purchase was found for this Apple ID."
@@ -375,6 +448,9 @@ final class SubscriptionService: NSObject {
     }
 
     private func apply(customerInfo: CustomerInfo, now: Date = .now) {
+        guard lastCustomerInfoDate.map({ customerInfo.requestDate >= $0 }) ?? true else { return }
+        lastCustomerInfoDate = customerInfo.requestDate
+        hasResolvedEntitlements = true
         let active = customerInfo.hasSoberProEntitlement
         let activeKeys = customerInfo.entitlements.active.keys.sorted().joined(separator: ", ")
         // Logged so a dashboard mismatch (products not attached to the "pro"
@@ -406,7 +482,7 @@ final class SubscriptionService: NSObject {
     ) -> PurchaseState {
         apply(customerInfo: customerInfo, now: now)
         if userCancelled { return .cancelled }
-        if customerInfo.hasSoberProEntitlement { return .purchased }
+        if entitlementActive { return .purchased }
         return .pending
     }
     #endif
@@ -579,9 +655,11 @@ final class SubscriptionService: NSObject {
 
     /// Debug-only escape hatch so the paywall and gated views can be exercised
     /// without a live RevenueCat key.
+    #if DEBUG
     func setLocalOverride(isPro: Bool) {
         localOverride = isPro
     }
+    #endif
 }
 
 #if canImport(RevenueCat)
@@ -601,9 +679,12 @@ extension CustomerInfo {
 
 extension SubscriptionService: PurchasesDelegate {
     nonisolated func purchases(_ purchases: Purchases, receivedUpdated customerInfo: CustomerInfo) {
-        Task { @MainActor in
-            SubscriptionService.shared.apply(customerInfo: customerInfo)
-        }
+        receive(customerInfo)
+    }
+
+    @discardableResult
+    nonisolated func receive(_ customerInfo: CustomerInfo) -> Task<Void, Never> {
+        Task { @MainActor in self.apply(customerInfo: customerInfo) }
     }
 }
 
