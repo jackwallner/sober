@@ -2,7 +2,7 @@ import XCTest
 
 /// Persona audit walk: a skeptical free user finds what is paid, tries the
 /// locked doors, looks for Restore and for a way to cancel, and backs out.
-/// Screenshots are kept as attachments; the run is screen-recorded.
+/// Screenshots are kept as attachments; no video is recorded.
 final class SubscriptionAuditUITests: XCTestCase {
     override func setUp() { continueAfterFailure = true }
 
@@ -41,6 +41,9 @@ final class SubscriptionAuditUITests: XCTestCase {
         app.tabBars.buttons["Health"].tap()
         sleep(1)
         keep(app, "a02-health")
+        sleep(3)
+        note("health tab selected after 4s=\(app.tabBars.buttons["Health"].isSelected)")
+        keep(app, "a02b-health-settled")
         let unlockRow = app.buttons.containing(NSPredicate(format: "label CONTAINS %@", "Bloom+")).firstMatch
         if unlockRow.waitForExistence(timeout: 3) {
             unlockRow.tap()
@@ -97,5 +100,35 @@ final class SubscriptionAuditUITests: XCTestCase {
                 keep(app, "a12-settings-restore-result")
             }
         } else { note("no Settings in menu") }
+    }
+
+    /// Subscriber view: where would a paying user look to manage or cancel?
+    func testSubscriberManageWalk() {
+        let app = XCUIApplication(bundleIdentifier: "com.jackwallner.sober")
+        app.launchArguments += ["-seedDemo", "-seedDays", "10", "-previewStore", "-demoPro"]
+        app.launch()
+        XCTAssertTrue(app.tabBars.buttons["Health"].waitForExistence(timeout: 30))
+        sleep(2)
+        keep(app, "p01-home-pro")
+        note("pro tab labels=\(app.tabBars.buttons.allElementsBoundByIndex.map(\.label))")
+
+        app.tabBars.buttons["Health"].tap()
+        sleep(3)
+        keep(app, "p02-health-pro")
+
+        app.tabBars.buttons["Home"].tap()
+        sleep(1)
+        app.navigationBars.buttons.matching(NSPredicate(format: "label != %@", "Progress")).firstMatch.tap()
+        sleep(1)
+        let settings = app.buttons["Settings"]
+        if settings.waitForExistence(timeout: 3) {
+            settings.tap()
+            sleep(2)
+            keep(app, "p03-settings-pro")
+            let manage = app.buttons.matching(NSPredicate(
+                format: "label CONTAINS[c] 'manage' OR label CONTAINS[c] 'cancel' OR label CONTAINS[c] 'subscription'"))
+            note("pro settings manage/cancel controls=\(manage.count) labels=\(manage.allElementsBoundByIndex.map(\.label))")
+            note("pro settings staticText manage/cancel=\(app.staticTexts.matching(NSPredicate(format: "label CONTAINS[c] 'manage' OR label CONTAINS[c] 'cancel'")).count)")
+        } else { note("no Settings in menu (pro)") }
     }
 }
