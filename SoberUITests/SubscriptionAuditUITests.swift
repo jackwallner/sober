@@ -110,7 +110,7 @@ final class SubscriptionAuditUITests: XCTestCase {
         XCTAssertTrue(app.tabBars.buttons["Health"].waitForExistence(timeout: 30))
         sleep(2)
         keep(app, "p01-home-pro")
-        note("pro tab labels=\(app.tabBars.buttons.allElementsBoundByIndex.map(\.label))")
+        note("pro tab labels=\(app.tabBars.buttons.allElementsBoundByIndex.map { $0.label })")
 
         app.tabBars.buttons["Health"].tap()
         sleep(3)
@@ -127,7 +127,7 @@ final class SubscriptionAuditUITests: XCTestCase {
             keep(app, "p03-settings-pro")
             let manage = app.buttons.matching(NSPredicate(
                 format: "label CONTAINS[c] 'manage' OR label CONTAINS[c] 'cancel' OR label CONTAINS[c] 'subscription'"))
-            note("pro settings manage/cancel controls=\(manage.count) labels=\(manage.allElementsBoundByIndex.map(\.label))")
+            note("pro settings manage/cancel controls=\(manage.count) labels=\(manage.allElementsBoundByIndex.map { $0.label })")
             note("pro settings staticText manage/cancel=\(app.staticTexts.matching(NSPredicate(format: "label CONTAINS[c] 'manage' OR label CONTAINS[c] 'cancel'")).count)")
         } else { note("no Settings in menu (pro)") }
     }
