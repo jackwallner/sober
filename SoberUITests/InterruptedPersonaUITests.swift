@@ -109,23 +109,58 @@ final class InterruptedPersonaUITests: XCTestCase {
 
     // MARK: Onboarding
 
+    /// Run alone on a fresh simulator: any earlier -seedDemo launch persists
+    /// the completed-onboarding flag and lands this test on Home.
     func testOnboardingResumeAfterKill() {
         var app = launch([])
-        let next = app.buttons.element(boundBy: 0)
-        XCTAssertTrue(next.waitForExistence(timeout: 20))
+        let start = app.buttons["Start my counter"]
+        XCTAssertTrue(start.waitForExistence(timeout: 30), "buttons: \(app.buttons.allElementsBoundByIndex.map { $0.label })")
         keep("o1-first")
-        // Advance as far as the cost step.
-        for _ in 0..<2 {
-            let cont = app.buttons.matching(NSPredicate(format: "label IN %@", ["Continue", "Get started", "Begin", "Next", "Let's go"])).firstMatch
-            if cont.waitForExistence(timeout: 5) { cont.tap() }
-            sleep(1)
-        }
-        keep("o2-mid")
-        note("mid-onboarding buttons: \(app.buttons.allElementsBoundByIndex.map { $0.label })")
+        start.tap()
+        sleep(2)
+        keep("o2-step1-start-date")
+        note("step 1 buttons: \(app.buttons.allElementsBoundByIndex.map { $0.label })")
+        let cont = app.buttons["Continue"]
+        if cont.waitForExistence(timeout: 5) { cont.tap(); sleep(2) }
+        keep("o3-step2-savings")
+        note("step 2 buttons: \(app.buttons.allElementsBoundByIndex.map { $0.label })")
         app.terminate()
         app = launch([])
-        sleep(3)
-        keep("o3-after-kill")
+        sleep(4)
+        keep("o4-after-kill")
+        let back = app.buttons["Start my counter"].exists
         note("after kill buttons: \(app.buttons.allElementsBoundByIndex.map { $0.label })")
+        note("restarted at step 0: \(back)")
+        XCTAssertFalse(back, "Onboarding restarted at step 0 after kill")
+    }
+
+    // MARK: Timeline note draft
+
+    func testTimelineNoteDraft() {
+        var app = launch(["-seedDemo", "-demoPro", "-tab", "1"])
+        let field = app.textFields["How did the day go?"]
+        let scroll = app.tables.firstMatch
+        var tries = 0
+        while !field.exists && tries < 6 { scroll.swipeUp(); tries += 1 }
+        XCTAssertTrue(field.waitForExistence(timeout: 20), "note field missing")
+        keep("t1-before")
+        field.tap()
+        field.typeText("Rough evening, wrote this before the phone rang")
+        keep("t2-typed")
+        interrupt(seconds: 4)
+        app.activate()
+        sleep(1)
+        keep("t3-after-app-switch")
+        note("after app switch note: \(app.textFields.matching(NSPredicate(format: \"value CONTAINS 'Rough evening'\")).count)")
+        app.terminate()
+        app = launch(["-seedDemo", "-demoPro", "-tab", "1"])
+        sleep(3)
+        tries = 0
+        while !app.textFields["How did the day go?"].exists && tries < 6 { app.tables.firstMatch.swipeUp(); tries += 1 }
+        keep("t4-after-kill")
+        let f2 = app.textFields["How did the day go?"]
+        let v = f2.value as? String ?? "nil"
+        note("after kill note value: \(v)")
+        XCTAssertTrue(v.contains("Rough evening"), "Timeline note draft lost after kill: '\(v)'")
     }
 }
