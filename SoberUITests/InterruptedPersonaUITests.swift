@@ -139,9 +139,8 @@ final class InterruptedPersonaUITests: XCTestCase {
     func testTimelineNoteDraft() {
         var app = launch(["-seedDemo", "-demoPro", "-tab", "1"])
         let field = app.textFields["How did the day go?"]
-        let scroll = app.tables.firstMatch
-        var tries = 0
-        while !field.exists && tries < 6 { scroll.swipeUp(); tries += 1 }
+                var tries = 0
+        while !field.exists && tries < 6 { app.swipeUp(); tries += 1 }
         XCTAssertTrue(field.waitForExistence(timeout: 20), "note field missing")
         keep("t1-before")
         field.tap()
@@ -151,12 +150,13 @@ final class InterruptedPersonaUITests: XCTestCase {
         app.activate()
         sleep(1)
         keep("t3-after-app-switch")
-        note("after app switch note: \(app.textFields.matching(NSPredicate(format: \"value CONTAINS 'Rough evening'\")).count)")
+        let kept = NSPredicate(format: "value CONTAINS %@", "Rough evening")
+        note("after app switch note matches: \(app.textFields.matching(kept).count)")
         app.terminate()
         app = launch(["-seedDemo", "-demoPro", "-tab", "1"])
         sleep(3)
         tries = 0
-        while !app.textFields["How did the day go?"].exists && tries < 6 { app.tables.firstMatch.swipeUp(); tries += 1 }
+        while !app.textFields["How did the day go?"].exists && tries < 6 { app.swipeUp(); tries += 1 }
         keep("t4-after-kill")
         let f2 = app.textFields["How did the day go?"]
         let v = f2.value as? String ?? "nil"
