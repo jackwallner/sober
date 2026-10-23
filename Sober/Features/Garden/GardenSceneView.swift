@@ -39,29 +39,34 @@ struct GardenSceneView: View {
                 // ── Ground ──
                 groundView
 
-                // ── Grove (completed trees, behind centerpiece) ──
-                grove(in: s)
+                WindClock { wind in
+                    ZStack {
+                        // ── Grove (completed trees, behind centerpiece) ──
+                        grove(in: s, wind: wind)
 
-                // ── Bonsai (centerpiece) ──
-                // `fill: true` zooms the canvas onto the actual plant and
-                // bottom-anchors the pot, so the tree fills the frame instead
-                // of floating small in a 600pt square.
-                BonsaiView(
-                    day: dayInCycle,
-                    style: bonsaiStyle,
-                    vitality: vitality,
-                    fill: true
-                )
-                .frame(
-                    width: centerWidth(container: s),
-                    height: centerHeight(container: s)
-                )
-                .contentShape(Rectangle())
-                .onTapGesture { onSwapBonsai?() }
-                .position(
-                    x: s.width * 0.5,
-                    y: groundLineY(s) - centerHeight(container: s) / 2
-                )
+                        // ── Bonsai (centerpiece) ──
+                        // `fill: true` zooms the canvas onto the actual plant and
+                        // bottom-anchors the pot, so the tree fills the frame instead
+                        // of floating small in a 600pt square.
+                        BonsaiView(
+                            day: dayInCycle,
+                            style: bonsaiStyle,
+                            vitality: vitality,
+                            fill: true,
+                            wind: wind
+                        )
+                        .frame(
+                            width: centerWidth(container: s),
+                            height: centerHeight(container: s)
+                        )
+                        .contentShape(Rectangle())
+                        .onTapGesture { onSwapBonsai?() }
+                        .position(
+                            x: s.width * 0.5,
+                            y: groundLineY(s) - centerHeight(container: s) / 2
+                        )
+                    }
+                }
 
                 // ── Overlays: stage info + grove count (top-right), species switcher ──
                 VStack {
@@ -192,7 +197,7 @@ struct GardenSceneView: View {
     private static let groveSlots: [CGFloat] = [0.10, 0.90, 0.23, 0.77, 0.36, 0.64]
 
     @ViewBuilder
-    private func grove(in size: CGSize) -> some View {
+    private func grove(in size: CGSize, wind: BonsaiWind?) -> some View {
         let visible = Array(groveStyles.prefix(Self.groveSlots.count))
         let groundY = groundLineY(size)
         let baseW = min(size.width * 0.16, 58)
@@ -204,7 +209,8 @@ struct GardenSceneView: View {
                 day: 365,
                 style: Self.styleEnum(for: styleID),
                 vitality: 1.0,
-                fill: true
+                fill: true,
+                wind: wind?.offset(by: 1700 * Double(idx + 1))
             )
             .frame(width: w, height: w)
             .opacity(0.78 - Double(idx / 2) * 0.08)
