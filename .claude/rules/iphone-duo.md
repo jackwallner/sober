@@ -20,8 +20,9 @@ paths:
   iPhones never build it. `TimelineView(isPane: true)` skips the appear nudge
   (on screen from launch, it would pitch every cold start), uses an inline
   title, shows the selected day's tree as a thumbnail beside its caption and
-  growth note, and moves the current/longest/total summary below the check-in. The full-size
-  200 pt tree card started below the 669 pt viewport and read as an empty sky box.
+  growth note, and moves the current/longest/total summary below the
+  check-in. The full-size 200 pt tree card started below the 669 pt viewport
+  and read as an empty sky box.
 - Each pane gets `horizontalSizeClass = .compact`, so it lays out as on a phone.
 - One navigation on every tab: split, each tab applies `.leadingPaneTab`, i.e.
   `toolbarVerticalBehavior(.disabled)` plus `clearsFloatingTabBar`. Without
@@ -41,5 +42,8 @@ paths:
   No `--url`: `simctl openurl` raises a confirm alert. The seed processes
   achievement unlocks, so a run that opens on Bloom+ shows earned badges.
   `-tourTab N` switches tab nine seconds in, for a recording with motion.
+  Leave `--record-seconds` off `gh-sim all`: its test-phase recorder never
+  finalizes and then blocks the launch recorders. Record with a separate
+  `gh-sim launch --record-seconds 20`.
 - Not yet split-aware: sheets (Progress, Customize garden, trial pitch) and the
   craving cover present at regular width across the whole inner display.
