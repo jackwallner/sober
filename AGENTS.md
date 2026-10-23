@@ -99,6 +99,7 @@ release state and the remote-Pro emulator recipe: `.claude/rules/android.md`.
 
 ## Rules index
 - `.claude/rules/android.md`: Android port (paths `android/**`, Play scripts).
+- `.claude/rules/garden-motion.md`: bonsai sway and falling petals (paths `Shared/Bonsai/**`, `Sober/Features/Garden/**`).
 
 ---
 Shared iOS conventions (build, simulator, release/TestFlight, ASC key, signing, RevenueCat dev tips, review funnel, gotchas):
