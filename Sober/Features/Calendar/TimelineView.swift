@@ -136,9 +136,10 @@ struct TimelineView: View {
 
     // MARK: - Unfolded Duo pane
 
-    /// Clears the landscape status bar, which sits in the pane's top
-    /// trailing corner, so the calendar card can run to the pane's edge.
-    private static let paneHeaderHeight: CGFloat = 76
+    /// Clears the landscape status bar, which runs about 100 pt down the
+    /// pane's top trailing corner (the pane has no top safe-area inset), so
+    /// the calendar card can run to the pane's edge.
+    private static let paneHeaderHeight: CGFloat = 100
     private static let paneCardRadius: CGFloat = 22
 
     /// The pane beside Home: the month, the selected day and the streaks fill
@@ -207,11 +208,24 @@ struct TimelineView: View {
         return Grid(horizontalSpacing: 0) {
             GridRow {
                 statCell(value: "\(days)", label: "Current")
-                Divider()
+                statDivider
                 statCell(value: "\(longestStreak)", label: "Longest")
-                Divider()
+                statDivider
                 statCell(value: "\(totalSober)", label: "Total")
             }
+        }
+    }
+
+    /// Outside a List row a Divider in the Grid lies flat, so the pane draws
+    /// its own vertical rule.
+    @ViewBuilder
+    private var statDivider: some View {
+        if isPane {
+            Rectangle()
+                .fill(Color(.separator))
+                .frame(width: 1, height: 40)
+        } else {
+            Divider()
         }
     }
 

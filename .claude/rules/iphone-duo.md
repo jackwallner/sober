@@ -23,7 +23,9 @@ paths:
   thumbnail beside its caption), streak summary, then the check-in. The List
   kept the landscape status bar's trailing inset (about 65 pt) all the way
   down, so the pane sat off-centre; the cards ignore the trailing safe area
-  and a 76 pt header row keeps the calendar below the status bar. Day cells
+  and a 100 pt header row keeps the calendar below the status bar (the
+  pane has no top safe-area inset; the status bar runs about 100 pt down its
+  top trailing corner). Day cells
   are 32 pt there so the first screen holds whole cards.
 - Each pane gets `horizontalSizeClass = .compact`, so it lays out as on a phone.
 - One navigation on every tab: split, each tab applies `.leadingPaneTab`, i.e.
