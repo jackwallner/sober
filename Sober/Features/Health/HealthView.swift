@@ -23,18 +23,25 @@ struct HealthView: View {
     /// covers the high-motivation early-recovery wins (through ~2 weeks) so
     /// non-Pro users get tangible feedback before the paywall pinches.
     private let freeRevealCount = 5
+    /// On the unfolded Duo a section header the pane can't show a row under
+    /// is hidden with that row, never left above an empty gap.
+    private static let headerKeepWithNext: CGFloat = 72
 
     var body: some View {
         NavigationStack {
             List {
                 Section {
                     recoveryHeaderRow
+                        .paneListRow()
                     if let n = HealthBenefitCatalog.next(after: hours) {
-                        if subscriptions.isProSubscriber {
-                            nextUpRow(n)
-                        } else {
-                            nextUpLockedRow
+                        Group {
+                            if subscriptions.isProSubscriber {
+                                nextUpRow(n)
+                            } else {
+                                nextUpLockedRow
+                            }
                         }
+                        .paneListRow()
                     }
                 }
 
@@ -53,11 +60,14 @@ struct HealthView: View {
                                     requestSubsequentLockedFeaturePitch(.healthTimeline)
                                 }
                             }
+                            .paneListRow()
                     }
                 } header: {
                     Text("Benefits")
+                        .paneRow(keepWithNext: Self.headerKeepWithNext)
                 } footer: {
                     Text("General wellness information, not medical advice. Timelines vary from person to person. For medical concerns, talk to a healthcare professional.")
+                        .paneRow()
                 }
             }
             .listStyle(.insetGrouped)

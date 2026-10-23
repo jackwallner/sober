@@ -33,19 +33,51 @@ struct UnfoldedSplitTests {
     }
 
     @Test func foldedKeepsThePhoneLayout() {
-        #expect(TabBarClearance.make(isSplit: false, barInset: 81) == TabBarClearance(fade: 0, hidden: 0, contentPadding: 0))
+        #expect(TabBarClearance.make(isSplit: false, barInset: 81) == TabBarClearance(hidden: 0, contentPadding: 0))
     }
 
     @Test func splitHidesEverythingUnderTheBar() {
         let clearance = TabBarClearance.make(isSplit: true, barInset: 81)
-        // Content is gone a gap above the bar's top edge, and fades out above that.
+        // Content is gone a gap above the bar's top edge.
         #expect(clearance.hidden == 81 + TabBarClearance.gap)
-        #expect(clearance.fade > 0)
-        // The last row can scroll fully above the fade, so it is never cut.
-        #expect(clearance.contentPadding >= clearance.fade + TabBarClearance.gap)
+        // The last row can scroll all the way up to that line, so it is never cut.
+        #expect(clearance.contentPadding == TabBarClearance.gap)
     }
 
     @Test func negativeInsetNeverUncoversTheBar() {
         #expect(TabBarClearance.make(isSplit: true, barInset: -4).hidden == TabBarClearance.gap)
+    }
+
+    // Pane cut: the line sits at 574 in each case.
+
+    @Test func rowsClearOfTheLineCutAtTheLine() {
+        let rows = [PaneCut.Row(minY: 100, maxY: 300, inGroupedCard: false),
+                    PaneCut.Row(minY: 316, maxY: 574, inGroupedCard: false),
+                    PaneCut.Row(minY: 590, maxY: 700, inGroupedCard: false)]
+        #expect(PaneCut.make(line: 574, rows: rows) == PaneCut(y: 574, closesCard: false))
+    }
+
+    @Test func aSlicedCardIsHiddenWhole() {
+        let rows = [PaneCut.Row(minY: 300, maxY: 500, inGroupedCard: false),
+                    PaneCut.Row(minY: 516, maxY: 640, inGroupedCard: false)]
+        #expect(PaneCut.make(line: 574, rows: rows) == PaneCut(y: 516, closesCard: false))
+    }
+
+    @Test func aSlicedListRowClosesItsCardAboveTheSeparator() {
+        let rows = [PaneCut.Row(minY: 360, maxY: 494, inGroupedCard: true),
+                    PaneCut.Row(minY: 494, maxY: 630, inGroupedCard: true)]
+        #expect(PaneCut.make(line: 574, rows: rows) == PaneCut(y: 493, closesCard: true))
+    }
+
+    @Test func aHeaderGoesWithItsFirstRow() {
+        // The header's frame is stretched by its keep-with-next allowance.
+        let rows = [PaneCut.Row(minY: 540, maxY: 560 + 72, inGroupedCard: false),
+                    PaneCut.Row(minY: 568, maxY: 700, inGroupedCard: true)]
+        #expect(PaneCut.make(line: 574, rows: rows) == PaneCut(y: 540, closesCard: false))
+    }
+
+    @Test func aTallRowIsSlicedRatherThanEmptyThePane() {
+        let rows = [PaneCut.Row(minY: 574 - PaneCut.maxLift - 1, maxY: 900, inGroupedCard: false)]
+        #expect(PaneCut.make(line: 574, rows: rows) == PaneCut(y: 574, closesCard: false))
     }
 }

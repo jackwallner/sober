@@ -46,29 +46,57 @@ extension GeometryProxy {
     }
 }
 
-/// Heights for the leading pane's clearance above the floating tab bar. Split,
-/// a tab's content fades out over `fade` and is gone `gap` above the bar's
-/// safe-area edge, so no row ever sits under the bar or shows through it;
-/// a bottom scroll content margin of `fade + gap` lets the last row scroll
-/// fully clear of the fade. Folded, every height is zero and the phone layout is
+/// Heights for a pane's clearance above its floating tab bar (the Timeline
+/// pane: above the home indicator). Split, content ends `gap` above the bar's
+/// safe-area edge, and a bottom scroll content margin of `gap` lets the last
+/// row scroll up to that line. Folded, both are zero and the phone layout is
 /// untouched.
 struct TabBarClearance: Equatable, Sendable {
-    var fade: CGFloat
-    /// Masked out below the fade: the bar's inset plus the gap.
+    /// Masked out from the bottom: the bar's inset plus the gap.
     var hidden: CGFloat
-    /// Bottom scroll content margin, so scrolled-to-end rows clear the fade.
+    /// Bottom scroll content margin, so a scrolled-to-end row meets the line.
     var contentPadding: CGFloat
 
-    static let fadeHeight: CGFloat = 36
-    static let gap: CGFloat = 8
+    static let gap: CGFloat = 12
 
     static func make(isSplit: Bool, barInset: CGFloat) -> TabBarClearance {
-        guard isSplit else { return TabBarClearance(fade: 0, hidden: 0, contentPadding: 0) }
-        return TabBarClearance(
-            fade: fadeHeight,
-            hidden: max(barInset, 0) + gap,
-            contentPadding: fadeHeight + gap
-        )
+        guard isSplit else { return TabBarClearance(hidden: 0, contentPadding: 0) }
+        return TabBarClearance(hidden: max(barInset, 0) + gap, contentPadding: gap)
+    }
+}
+
+/// Where a pane's content stops above its bar. A row the clearance line would
+/// slice is hidden whole instead: the cut moves up to that row's top, so the
+/// pane never shows half a card or a ghost of one fading out. A row that
+/// starts more than `maxLift` above the line is sliced at the line rather
+/// than leave the pane mostly empty.
+struct PaneCut: Equatable, Sendable {
+    /// In the same space as the rows' frames.
+    var y: CGFloat
+    /// The cut runs between two rows of one grouped list card, so the card
+    /// gets rounded bottom corners there, as if the section ended.
+    var closesCard: Bool
+
+    struct Row: Equatable, Sendable {
+        var minY: CGFloat
+        var maxY: CGFloat
+        var inGroupedCard: Bool
+    }
+
+    static let maxLift: CGFloat = 220
+    /// An inset grouped list card's inset from the pane edge and its corners.
+    static let cardInset: CGFloat = 20
+    static let cardCornerRadius: CGFloat = 24
+
+    static func make(line: CGFloat, rows: some Sequence<Row>) -> PaneCut {
+        let sliced = rows.filter { row in
+            row.minY < line - 0.5 && row.maxY > line + 0.5 && line - row.minY <= maxLift
+        }
+        guard let first = sliced.min(by: { $0.minY < $1.minY }) else {
+            return PaneCut(y: line, closesCard: false)
+        }
+        // A grouped row's separator sits on the row above, so cut a point higher.
+        return PaneCut(y: first.minY - (first.inGroupedCard ? 1 : 0), closesCard: first.inGroupedCard)
     }
 }
 
@@ -76,6 +104,15 @@ extension EnvironmentValues {
     /// True inside a pane of the unfolded Duo split, for the rare screen that
     /// must size itself to the pane rather than to a phone (Home's top block).
     @Entry var isUnfoldedPane: Bool = false
+    /// The split pane's row frames, for `PaneCut`. `nil` folded, so the phone
+    /// layout does no bookkeeping while it scrolls.
+    @Entry var paneRows: PaneRows? = nil
+}
+
+/// Row frames reported by `paneRow()` and read by the pane's mask.
+@MainActor @Observable
+final class PaneRows {
+    var rows: [UUID: PaneCut.Row] = [:]
 }
 
 extension View {
@@ -93,12 +130,24 @@ extension View {
         }
     }
 
-    /// See `TabBarClearance`. The mask stays in place folded (fully open
-    /// there), so folding never rebuilds the tab. The Timeline pane, which has
-    /// no tab bar, uses it too, so its list fades above the home indicator
-    /// instead of slicing a row at the screen edge.
+    /// See `TabBarClearance` and `PaneCut`. The mask stays in place folded
+    /// (fully open there), so folding never rebuilds the tab. The Timeline
+    /// pane, which has no tab bar, uses it too, so no row is sliced at the
+    /// screen edge.
     func clearsFloatingTabBar(_ isSplit: Bool, backdrop: Color = Theme.background) -> some View {
         modifier(ClearsFloatingTabBar(isSplit: isSplit, backdrop: backdrop))
+    }
+
+    /// A whole card or line the pane cut hides rather than slices.
+    /// `keepWithNext` holds a section header back with its first row.
+    func paneRow(keepWithNext: CGFloat = 0) -> some View {
+        modifier(PaneRowReporter(keepWithNext: keepWithNext, inGroupedCard: false))
+    }
+
+    /// A row of an inset grouped List. It reports its cell's frame through
+    /// the row background, which fills the cell, padding included.
+    func paneListRow() -> some View {
+        modifier(PaneListRow())
     }
 }
 
@@ -106,6 +155,7 @@ private struct ClearsFloatingTabBar: ViewModifier {
     let isSplit: Bool
     let backdrop: Color
     @State private var barInset: CGFloat = 0
+    @State private var rows = PaneRows()
 
     private var clearance: TabBarClearance {
         .make(isSplit: isSplit, barInset: barInset)
@@ -113,33 +163,81 @@ private struct ClearsFloatingTabBar: ViewModifier {
 
     func body(content: Content) -> some View {
         content
+            .environment(\.paneRows, isSplit ? rows : nil)
             // Scroll content margins, not safe-area padding: the margin reaches
             // the scroll views inside each tab's NavigationStack, padding didn't.
             .contentMargins(.bottom, clearance.contentPadding, for: .scrollContent)
             .bottomScrollEdgeEffectHidden(isSplit)
             .mask {
-                VStack(spacing: 0) {
-                    Rectangle()
-                    // Ink dissolves over the first 16 pt and the rest is clear
-                    // page, so no line shows as faint ghost glyphs above the bar.
-                    LinearGradient(
-                        stops: [
-                            .init(color: .black, location: 0),
-                            .init(color: .black.opacity(0.4), location: 0.2),
-                            .init(color: .black.opacity(0.06), location: 0.35),
-                            .init(color: .clear, location: 0.45),
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    .frame(height: clearance.fade)
-                    Color.clear.frame(height: clearance.hidden)
-                }
-                .ignoresSafeArea()
+                PaneCutMask(rows: rows, hidden: clearance.hidden, isSplit: isSplit)
+                    .ignoresSafeArea()
             }
             // The bar floats on the page's own colour, not on a cut-off row.
             .background(backdrop.ignoresSafeArea())
             .onGeometryChange(for: CGFloat.self) { $0.safeAreaInsets.bottom } action: { barInset = $0 }
+    }
+}
+
+private struct PaneCutMask: View {
+    let rows: PaneRows
+    let hidden: CGFloat
+    let isSplit: Bool
+
+    var body: some View {
+        GeometryReader { proxy in
+            let frame = proxy.frame(in: .global)
+            let cut = isSplit
+                ? PaneCut.make(line: frame.maxY - hidden, rows: rows.rows.values)
+                : PaneCut(y: frame.maxY, closesCard: false)
+            let y = min(max(cut.y - frame.minY, 0), frame.height)
+            let radius = cut.closesCard ? min(PaneCut.cardCornerRadius, y / 2) : 0
+            // Two overlapping shapes rather than one path, so no seam shows
+            // where the straight part meets the rounded card bottom.
+            ZStack(alignment: .top) {
+                Rectangle().frame(height: y - radius)
+                if radius > 0 {
+                    UnevenRoundedRectangle(
+                        bottomLeadingRadius: radius,
+                        bottomTrailingRadius: radius,
+                        style: .continuous
+                    )
+                    .frame(height: radius * 2)
+                    .padding(.horizontal, PaneCut.cardInset)
+                    .offset(y: y - radius * 2)
+                }
+            }
+            .frame(width: frame.width, height: frame.height, alignment: .top)
+        }
+    }
+}
+
+private struct PaneRowReporter: ViewModifier {
+    let keepWithNext: CGFloat
+    let inGroupedCard: Bool
+    @Environment(\.paneRows) private var paneRows
+    @State private var id = UUID()
+
+    func body(content: Content) -> some View {
+        content
+            .onGeometryChange(for: CGRect.self) { $0.frame(in: .global) } action: { frame in
+                let row = PaneCut.Row(minY: frame.minY, maxY: frame.maxY + keepWithNext, inGroupedCard: inGroupedCard)
+                if paneRows?.rows[id] != row { paneRows?.rows[id] = row }
+            }
+            .onDisappear { paneRows?.rows[id] = nil }
+    }
+}
+
+private struct PaneListRow: ViewModifier {
+    @Environment(\.paneRows) private var paneRows
+
+    func body(content: Content) -> some View {
+        // Folded, the system's own row background, untouched.
+        content.listRowBackground(
+            paneRows.map { _ in
+                Color(.secondarySystemGroupedBackground)
+                    .modifier(PaneRowReporter(keepWithNext: 0, inGroupedCard: true))
+            }
+        )
     }
 }
 

@@ -247,9 +247,8 @@ struct HomeView: View {
     /// controls. Below this the garden would be squeezed rather than scrolled.
     private static let topBlockMinHeight: CGFloat = 560
     /// The unfolded Duo's leading pane is a phone's height less the floating
-    /// tab bar, so there the block ends above the fade over the bar (no peek)
-    /// and the garden gives up height; otherwise the check-in and craving
-    /// controls fell into the fade.
+    /// tab bar, so there the block ends a clear gap above the bar (no peek:
+    /// the pane hides a card it would slice) and the garden gives up height.
     private static let paneTopBlockMinHeight: CGFloat = 420
     private static let paneGardenMinHeight: CGFloat = 200
 
@@ -257,8 +256,8 @@ struct HomeView: View {
         guard isUnfoldedPane else {
             return max(viewport - Self.aheadPeek, Self.topBlockMinHeight)
         }
-        let fade = TabBarClearance.make(isSplit: true, barInset: 0).contentPadding
-        return max(viewport - fade - Theme.Space.s, Self.paneTopBlockMinHeight)
+        let clearance = TabBarClearance.make(isSplit: true, barInset: 0).contentPadding
+        return max(viewport - clearance - Theme.Space.l, Self.paneTopBlockMinHeight)
     }
 
     private var settings: UserSettings? { settingsRows.first }
@@ -272,6 +271,7 @@ struct HomeView: View {
                 UpcomingMilestonesCard(start: journey.startDate, isPro: isPro) {
                     requestSubsequentLockedFeaturePitch(.healthTimeline)
                 }
+                .paneRow()
                 GoalCard(
                     start: journey.startDate,
                     goal: journey.goalDate,
@@ -281,7 +281,9 @@ struct HomeView: View {
                     onEdit: { showGoalEditor = true },
                     onLockedTap: { requestSubsequentLockedFeaturePitch(.goalProjection) }
                 )
+                .paneRow()
                 PlaybookCard(isPro: isPro) { openPlaybook(nil) }
+                    .paneRow()
             }
         }
     }

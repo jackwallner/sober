@@ -18,9 +18,9 @@ struct TimelineView: View {
     @State private var pendingSlipDay: Date?
     /// The unfolded Duo's Timeline pane beside Home. It is on screen from
     /// launch, so it skips the appear nudge (that would pitch every cold start
-    /// rather than a visit). In a 669 pt landscape pane the calendar fills the
-    /// viewport, so the selected day's tree sits beside its caption and the
-    /// streak summary, which Home's counter already covers, moves below.
+    /// rather than a visit). In a 669 pt landscape pane it is a column of
+    /// cards (`paneScroll`): the selected day's tree sits beside its caption so
+    /// the month, the day and the streaks fit the first screen.
     private let isPane: Bool
 
     init(isPane: Bool = false) {
@@ -81,55 +81,115 @@ struct TimelineView: View {
 
     var body: some View {
         NavigationStack {
-            List {
-                if !isPane {
-                    summarySection
+            content
+                .task {
+                    guard !isPane else { return }
+                    await presentPassiveTrialNudge(subscriptions, intent: .progressSheet)
                 }
+                .onAppear { loadDraft() }
+                .onChange(of: selectedDate) { _, _ in loadDraft() }
+                .alert(
+                    "Log a slip?",
+                    isPresented: Binding(get: { pendingSlipDay != nil }, set: { if !$0 { pendingSlipDay = nil } }),
+                    presenting: pendingSlipDay
+                ) { day in
+                    Button("Cancel", role: .cancel) { pendingSlipDay = nil }
+                    Button("Log slip") { confirmSlip(on: day) }
+                } message: { _ in
+                    Text("Your day counter restarts after the slip. Your tree carries some growth forward, and your calendar history and completed trees stay. Your longest streak reflects the corrected dates.")
+                }
+        }
+    }
 
-                Section {
+    /// `isPane` is fixed for an instance, so this never swaps layouts live.
+    @ViewBuilder
+    private var content: some View {
+        if isPane { paneScroll } else { list }
+    }
+
+    private var list: some View {
+        List {
+            summarySection
+
+            Section {
+                monthNav
+                    // The month title is a heading, not a row: no rule under it.
+                    .listRowSeparator(.hidden)
+                monthGrid
+                    .listRowInsets(EdgeInsets(top: 0, leading: Theme.Space.s, bottom: Theme.Space.s, trailing: Theme.Space.s))
+            }
+
+            Section("Selected day") {
+                treeRow
+                    .listRowInsets(EdgeInsets(top: Theme.Space.s, leading: Theme.Space.l, bottom: Theme.Space.m, trailing: Theme.Space.l))
+            }
+
+            if !selectedIsFuture {
+                Section("Check-in") {
+                    checkInEditor
+                }
+            }
+        }
+        .listStyle(.insetGrouped)
+        .navigationTitle("Timeline")
+    }
+
+    // MARK: - Unfolded Duo pane
+
+    /// Clears the landscape status bar, which sits in the pane's top
+    /// trailing corner, so the calendar card can run to the pane's edge.
+    private static let paneHeaderHeight: CGFloat = 76
+    private static let paneCardRadius: CGFloat = 22
+
+    /// The pane beside Home: the month, the selected day and the streaks fill
+    /// the first screen as whole cards, with the day's check-in below. Cards
+    /// rather than a List, so the pane runs edge to edge: the List kept the
+    /// status bar's trailing inset all the way down and sat off-centre.
+    private var paneScroll: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: Theme.Space.m) {
+                Text("Timeline")
+                    .font(.largeTitle.bold())
+                    .frame(height: Self.paneHeaderHeight, alignment: .bottomLeading)
+                    .accessibilityAddTraits(.isHeader)
+                paneCard(spacing: Theme.Space.s) {
                     monthNav
                     monthGrid
-                        .listRowInsets(EdgeInsets(top: 0, leading: Theme.Space.s, bottom: Theme.Space.s, trailing: Theme.Space.s))
                 }
-
-                Section("Selected day") {
-                    Group {
-                        if isPane { compactTreeRow } else { treeRow }
-                    }
-                    .listRowInsets(EdgeInsets(top: Theme.Space.s, leading: Theme.Space.l, bottom: Theme.Space.m, trailing: Theme.Space.l))
-                }
-
+                paneCard { compactTreeRow }
+                paneCard { summaryRow.fixedSize(horizontal: false, vertical: true) }
                 if !selectedIsFuture {
-                    Section("Check-in") {
+                    paneCard {
+                        Text("Check-in")
+                            .font(Theme.subhead(weight: .semibold))
+                            .foregroundStyle(Theme.textSecondary)
                         checkInEditor
                     }
                 }
-
-                if isPane {
-                    summarySection
-                }
             }
-            .listStyle(.insetGrouped)
-            .navigationTitle("Timeline")
-            // The pane needs its height for the calendar and the selected day.
-            .navigationBarTitleDisplayMode(isPane ? .inline : .automatic)
-            .task {
-                guard !isPane else { return }
-                await presentPassiveTrialNudge(subscriptions, intent: .progressSheet)
-            }
-            .onAppear { loadDraft() }
-            .onChange(of: selectedDate) { _, _ in loadDraft() }
-            .alert(
-                "Log a slip?",
-                isPresented: Binding(get: { pendingSlipDay != nil }, set: { if !$0 { pendingSlipDay = nil } }),
-                presenting: pendingSlipDay
-            ) { day in
-                Button("Cancel", role: .cancel) { pendingSlipDay = nil }
-                Button("Log slip") { confirmSlip(on: day) }
-            } message: { _ in
-                Text("Your day counter restarts after the slip. Your tree carries some growth forward, and your calendar history and completed trees stay. Your longest streak reflects the corrected dates.")
-            }
+            .padding(.horizontal, PaneCut.cardInset)
+            .padding(.bottom, Theme.Space.l)
         }
+        .scrollIndicators(.hidden)
+        .background(Color(.systemGroupedBackground))
+        .ignoresSafeArea(.container, edges: .trailing)
+        .toolbar(.hidden, for: .navigationBar)
+    }
+
+    private func paneCard<Content: View>(
+        spacing: CGFloat = Theme.Space.m,
+        @ViewBuilder _ content: () -> Content
+    ) -> some View {
+        VStack(alignment: .leading, spacing: spacing) {
+            content()
+        }
+        .padding(14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            Color(.secondarySystemGroupedBackground),
+            in: RoundedRectangle(cornerRadius: Self.paneCardRadius, style: .continuous)
+        )
+        .paneRow()
     }
 
     private func loadDraft() {
@@ -235,11 +295,14 @@ struct TimelineView: View {
                 if let date {
                     dayCell(date: date)
                 } else {
-                    Color.clear.frame(height: 36)
+                    Color.clear.frame(height: dayCellHeight)
                 }
             }
         }
     }
+
+    /// A little shorter in the pane, so its first screen holds whole cards.
+    private var dayCellHeight: CGFloat { isPane ? 32 : 36 }
 
     private var weekdaySymbols: [String] {
         let f = DateFormatter()
@@ -270,7 +333,7 @@ struct TimelineView: View {
         return Text("\(Calendar.current.component(.day, from: date))")
             .font(Theme.caption(weight: .bold))
             .frame(maxWidth: .infinity)
-            .frame(height: 36)
+            .frame(height: dayCellHeight)
             .background(bg, in: RoundedRectangle(cornerRadius: 8))
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
@@ -310,7 +373,7 @@ struct TimelineView: View {
                     .id(cycle.dayInCycle)
                     .transition(.opacity)
             }
-            .frame(width: 104, height: 104)
+            .frame(width: 96, height: 96)
 
             VStack(alignment: .leading, spacing: Theme.Space.s) {
                 VStack(alignment: .leading, spacing: 2) {

@@ -7,6 +7,9 @@ struct JournalView: View {
     @Query(sort: \JournalEntry.createdAt, order: .reverse) private var entries: [JournalEntry]
     @State private var showCompose = false
     @State private var selectedEntry: JournalEntry?
+    /// On the unfolded Duo a section header the pane can't show a row under
+    /// is hidden with that row, never left above an empty gap.
+    private static let headerKeepWithNext: CGFloat = 72
 
     /// Free users get one real entry before the gate — a locked door you've
     /// never walked through is much harder to pay for than one you have.
@@ -17,11 +20,15 @@ struct JournalView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section("Prompt of the day") {
+                Section {
                     promptRow
+                        .paneListRow()
+                } header: {
+                    Text("Prompt of the day")
+                        .paneRow(keepWithNext: Self.headerKeepWithNext)
                 }
 
-                Section("Entries") {
+                Section {
                     if entries.isEmpty {
                         Text(subscriptions.isProSubscriber
                              ? "No entries yet. Use the pencil to write your first."
@@ -29,14 +36,19 @@ struct JournalView: View {
                             .font(Theme.subhead())
                             .foregroundStyle(Theme.textSecondary)
                             .padding(.vertical, Theme.Space.s)
+                            .paneListRow()
                     } else {
                         ForEach(entries) { entry in
                             EntryRow(entry: entry)
                                 .contentShape(Rectangle())
                                 .onTapGesture { selectedEntry = entry }
+                                .paneListRow()
                         }
                         .onDelete(perform: deleteEntries)
                     }
+                } header: {
+                    Text("Entries")
+                        .paneRow(keepWithNext: Self.headerKeepWithNext)
                 }
             }
             .listStyle(.insetGrouped)
