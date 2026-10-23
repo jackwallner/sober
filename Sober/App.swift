@@ -314,6 +314,7 @@ struct MainTabView: View {
                 .frame(maxWidth: split?.primaryWidth ?? .infinity, maxHeight: .infinity)
             if timelinePaneHasAppeared {
                 TimelineView(isPane: true)
+                    .clearsFloatingTabBar(split != nil, backdrop: Color(.systemGroupedBackground))
                     .environment(\.horizontalSizeClass, .compact)
                     .frame(maxWidth: split?.secondaryWidth ?? .infinity, maxHeight: .infinity)
                     .padding(.leading, split?.secondaryX ?? 0)
@@ -448,5 +449,6 @@ private extension View {
     func leadingPaneTab(isSplit: Bool) -> some View {
         horizontalBarsInPane(isSplit)
             .clearsFloatingTabBar(isSplit)
+            .environment(\.isUnfoldedPane, isSplit)
     }
 }

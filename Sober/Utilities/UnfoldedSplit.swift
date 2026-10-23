@@ -72,6 +72,12 @@ struct TabBarClearance: Equatable, Sendable {
     }
 }
 
+extension EnvironmentValues {
+    /// True inside a pane of the unfolded Duo split, for the rare screen that
+    /// must size itself to the pane rather than to a phone (Home's top block).
+    @Entry var isUnfoldedPane: Bool = false
+}
+
 extension View {
     /// One pane of the unfolded split keeps the phone's horizontal bars. iOS
     /// 27.1 otherwise moves a tab's toolbar, and the tab bar with it, into a
@@ -88,14 +94,17 @@ extension View {
     }
 
     /// See `TabBarClearance`. The mask stays in place folded (fully open
-    /// there), so folding never rebuilds the tab.
-    func clearsFloatingTabBar(_ isSplit: Bool) -> some View {
-        modifier(ClearsFloatingTabBar(isSplit: isSplit))
+    /// there), so folding never rebuilds the tab. The Timeline pane, which has
+    /// no tab bar, uses it too, so its list fades above the home indicator
+    /// instead of slicing a row at the screen edge.
+    func clearsFloatingTabBar(_ isSplit: Bool, backdrop: Color = Theme.background) -> some View {
+        modifier(ClearsFloatingTabBar(isSplit: isSplit, backdrop: backdrop))
     }
 }
 
 private struct ClearsFloatingTabBar: ViewModifier {
     let isSplit: Bool
+    let backdrop: Color
     @State private var barInset: CGFloat = 0
 
     private var clearance: TabBarClearance {
@@ -126,8 +135,8 @@ private struct ClearsFloatingTabBar: ViewModifier {
                 }
                 .ignoresSafeArea()
             }
-            // The bar floats on the page's own cream, not on a cut-off row.
-            .background(Theme.background.ignoresSafeArea())
+            // The bar floats on the page's own colour, not on a cut-off row.
+            .background(backdrop.ignoresSafeArea())
             .onGeometryChange(for: CGFloat.self) { $0.safeAreaInsets.bottom } action: { barInset = $0 }
     }
 }

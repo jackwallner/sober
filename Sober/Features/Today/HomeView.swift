@@ -40,6 +40,7 @@ struct HomeView: View {
     @State private var pendingPlaybookRequest: UrgeTrigger??
     @State private var showGoalEditor = false
     @Environment(\.requestReview) private var requestReview
+    @Environment(\.isUnfoldedPane) private var isUnfoldedPane
 
     private var activeJourney: SobrietyJourney? { journeys.first { $0.isActive } }
     private var hasCompletedOnboarding: Bool { settingsRows.first?.hasCompletedOnboarding ?? false }
@@ -80,7 +81,7 @@ struct HomeView: View {
                                     checkInControl
                                     cravingControl
                                 }
-                                .frame(height: max(geo.size.height - Self.aheadPeek, Self.topBlockMinHeight))
+                                .frame(height: topBlockHeight(viewport: geo.size.height))
                                 aheadSection
                             }
                             .padding(.horizontal, Theme.Space.l)
@@ -245,6 +246,18 @@ struct HomeView: View {
     /// The top block's floor: counter, the garden's own minimum, and the two
     /// controls. Below this the garden would be squeezed rather than scrolled.
     private static let topBlockMinHeight: CGFloat = 560
+    /// The unfolded Duo's leading pane is a phone's height less the floating
+    /// tab bar, so there the block fills the viewport with no peek and the
+    /// garden gives up height; otherwise the check-in and craving controls
+    /// fell into the fade above the bar.
+    private static let paneTopBlockMinHeight: CGFloat = 420
+    private static let paneGardenMinHeight: CGFloat = 200
+
+    private func topBlockHeight(viewport: CGFloat) -> CGFloat {
+        isUnfoldedPane
+            ? max(viewport, Self.paneTopBlockMinHeight)
+            : max(viewport - Self.aheadPeek, Self.topBlockMinHeight)
+    }
 
     private var settings: UserSettings? { settingsRows.first }
 
@@ -360,6 +373,7 @@ struct HomeView: View {
     /// where it was on the smallest supported screen rather than pushing the
     /// CTA under the tab bar.
     private var gardenMinHeight: CGFloat {
+        if isUnfoldedPane { return Self.paneGardenMinHeight }
         let stageBoost: CGFloat = stage == .seed ? 0 : 60
         return 246 + stageBoost + min(120, CGFloat(gardenContentScore) * 16)
     }
