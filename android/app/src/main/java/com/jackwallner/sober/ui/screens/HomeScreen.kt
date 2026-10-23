@@ -1,5 +1,9 @@
 package com.jackwallner.sober.ui.screens
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -25,8 +29,10 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -44,6 +50,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.jackwallner.sober.DebugLaunchOptions
 import com.jackwallner.sober.data.PitchIntent
 import com.jackwallner.sober.data.PitchPolicy
@@ -89,6 +99,8 @@ fun HomeScreen() {
     val subscriptions = graph.subscriptions
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    var dayRefresh by remember { mutableIntStateOf(0) }
     val state = store.state
     val isPro = subscriptions.isPro
 
@@ -177,9 +189,30 @@ fun HomeScreen() {
         scope.launch { graph.pitches.usageBased(PitchIntent.CRAVING_RELIEF, count, threshold = 2, delaySeconds = 3.0) }
     }
 
-    LaunchedEffect(Unit) {
+    DisposableEffect(context, lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) dayRefresh++
+        }
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                dayRefresh++
+            }
+        }
+        val filter = IntentFilter().apply {
+            addAction(Intent.ACTION_DATE_CHANGED)
+            addAction(Intent.ACTION_TIME_CHANGED)
+            addAction(Intent.ACTION_TIMEZONE_CHANGED)
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        ContextCompat.registerReceiver(context, receiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+            context.unregisterReceiver(receiver)
+        }
+    }
+    LaunchedEffect(dayRefresh) {
         store.refresh()
-        growthEvent = store.processGrowth()
+        store.processGrowth()?.let { growthEvent = it }
         val settings = store.settings
         if (settings.dailyReminderEnabled) graph.notifications.refreshDailyReminder(settings.dailyReminderHour, settings.madeCommitment, store.days)
         scheduleRetentionNudges()
@@ -188,8 +221,9 @@ fun HomeScreen() {
         if (cents > 0) parts += "${Format.currency(store.days * cents / 100.0)} saved"
         graph.trial.recapSummary = parts.joinToString(" and ") + " so far."
         showTrialRecap = graph.trial.shouldShowRecap()
-        presentPostOnboardingPaywallIfNeeded()
+        graph.refreshWidgets()
     }
+    LaunchedEffect(Unit) { presentPostOnboardingPaywallIfNeeded() }
     LaunchedEffect(Unit) { graph.pitches.passiveNudge(PitchIntent.POST_ONBOARDING, delaySeconds = 6.0) }
 
     Box(Modifier.fillMaxSize().background(SoberColors.background)) {

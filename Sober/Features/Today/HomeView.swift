@@ -1,6 +1,7 @@
 import SwiftData
 import StoreKit
 import SwiftUI
+import UIKit
 
 /// Home: the garden IS the home. A full-bleed, explorable scene with the day
 /// counter, check-in, and growth surfaced as overlays on top of it. Replaces
@@ -141,20 +142,7 @@ struct HomeView: View {
                 Text("Your day counter will restart at zero. Your history is kept.")
             }
             .onAppear {
-                GardenService(context: context).applyVitalityDecay()
-                if let j = activeJourney {
-                    // Backfill only through yesterday so today stays unlogged and
-                    // the active "Check in for today" control is reachable (auto-
-                    // filling today would always render the "Today is logged"
-                    // state before the user ever taps).
-                    CheckInService(context: context).fillJourney(start: j.startDate, through: DateHelpers.daysAgo(1))
-                }
-                refreshCheckInState()
-                checkForGrowth()
-                WidgetSnapshotPump.push(context: context)
-                refreshReminderCopy()
-                scheduleRetentionNudges()
-                refreshTrialRecap()
+                refreshDailyState()
                 presentPostOnboardingPaywallIfNeeded()
                 #if DEBUG
                 // The pool devices' accessibility bridge is unreliable, so the
@@ -175,6 +163,7 @@ struct HomeView: View {
                 }
                 #endif
             }
+            .modifier(HomeDayRefresh(perform: refreshDailyState))
             .task { await presentPassiveTrialNudge(subscriptions, intent: .postOnboarding, delay: 6) }
             .overlay {
                 if showGrowth, let event = growthEvent {
@@ -594,6 +583,23 @@ struct HomeView: View {
     }
 
     // MARK: - State
+
+    private func refreshDailyState() {
+        GardenService(context: context).applyVitalityDecay()
+        if let j = activeJourney {
+            // Backfill only through yesterday so today stays unlogged and
+            // the active "Check in for today" control is reachable (auto-
+            // filling today would always render the "Today is logged"
+            // state before the user ever taps).
+            CheckInService(context: context).fillJourney(start: j.startDate, through: DateHelpers.daysAgo(1))
+        }
+        refreshCheckInState()
+        checkForGrowth()
+        WidgetSnapshotPump.push(context: context)
+        refreshReminderCopy()
+        scheduleRetentionNudges()
+        refreshTrialRecap()
+    }
 
     private func refreshCheckInState() {
         let svc = CheckInService(context: context)
@@ -1258,4 +1264,23 @@ struct ProgressSheet: View {
         f.maximumFractionDigits = 0
         return f
     }()
+}
+
+/// Keep mounted Home state current across suspension, midnight and clock changes.
+struct HomeDayRefresh: ViewModifier {
+    @Environment(\.scenePhase) private var scenePhase
+    let perform: () -> Void
+
+    func body(content: Content) -> some View {
+        content
+            .onChange(of: scenePhase) { _, phase in
+                if phase == .active { perform() }
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .NSCalendarDayChanged)) { _ in
+                perform()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
+                perform()
+            }
+    }
 }
