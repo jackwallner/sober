@@ -120,14 +120,14 @@ private struct ClearsFloatingTabBar: ViewModifier {
             .mask {
                 VStack(spacing: 0) {
                     Rectangle()
-                    // Front-loaded, so text in the fade's lower half is gone
-                    // rather than faint ghost glyphs above the cut.
+                    // Ink dissolves over the first 16 pt and the rest is clear
+                    // page, so no line shows as faint ghost glyphs above the bar.
                     LinearGradient(
                         stops: [
                             .init(color: .black, location: 0),
-                            .init(color: .black.opacity(0.5), location: 0.25),
-                            .init(color: .black.opacity(0.12), location: 0.45),
-                            .init(color: .clear, location: 0.6),
+                            .init(color: .black.opacity(0.4), location: 0.2),
+                            .init(color: .black.opacity(0.06), location: 0.35),
+                            .init(color: .clear, location: 0.45),
                         ],
                         startPoint: .top,
                         endPoint: .bottom
