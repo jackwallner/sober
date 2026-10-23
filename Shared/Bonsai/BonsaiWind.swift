@@ -11,13 +11,15 @@ struct BonsaiWind {
     /// The same wind, later in its cycle, so grove trees don't sway in step.
     func offset(by ms: Double) -> BonsaiWind { BonsaiWind(t: t + ms) }
 
-    /// Leans everything drawn after this call about `pivot`. A seed (day 0)
-    /// stays still; a sprout bends more than a tree.
+    /// Bends everything drawn after this call: a horizontal shear about the
+    /// soil line, so the trunk's base stays planted in the roots and the top
+    /// travels furthest. A rotation would rock the whole tree on a hinge.
+    /// A sprout bends more than a tree.
     func bend(_ ctx: inout GraphicsContext, pivot: CGPoint, sprout: Bool = false) {
-        let amp = sprout ? 2.2 : 1.0
+        let amp = sprout ? 2.4 : 1.3
         let deg = amp * (0.72 * wave(5600, 0) + 0.28 * wave(8900, 0.31))
         ctx.translateBy(x: pivot.x, y: pivot.y)
-        ctx.rotate(by: .degrees(deg))
+        ctx.concatenate(CGAffineTransform(a: 1, b: 0, c: tan(deg * .pi / 180), d: 1, tx: 0, ty: 0))
         ctx.translateBy(x: -pivot.x, y: -pivot.y)
     }
 
@@ -33,17 +35,21 @@ struct BonsaiWind {
     }
 
     /// An airborne petal or leaf: it falls from `top` to `bottom` on its own
-    /// loop (`seed` and `pace` in 0...1 pick phase and speed), drifting
-    /// downwind and rocking. It fades only as it appears and lands.
+    /// loop (`seed` and `pace` in 0...1 pick phase and speed), swinging side
+    /// to side like a pendulum as it drifts downwind. It tips into each swing
+    /// and sinks slower at the ends of one. It fades only as it appears and lands.
     func fall(seed: Double, pace: Double, x: Double, top: Double, bottom: Double, rotDeg: Double)
         -> (x: Double, y: Double, rotDeg: Double, opacity: Double) {
-        let period = 8000 + 4500 * pace
+        let period = 5200 + 2800 * pace
         var p = (t / period + seed).truncatingRemainder(dividingBy: 1)
         if p < 0 { p += 1 }
-        return (x: x + 16 * p + 5 * wave(2600, seed),
-                y: top + (bottom - top) * p,
-                rotDeg: rotDeg + 150 * p + 16 * wave(1900, seed + 0.2),
-                opacity: min(1, p / 0.12) * min(1, (1 - p) / 0.18))
+        let swing = 0.75 * wave(1500 + 500 * pace, seed * 3) + 0.25 * wave(2300, seed * 7)
+        let width = 7 + 6 * seed
+        let sink = top + (bottom - top) * p - 3 * abs(swing)
+        return (x: x + 14 * p + width * swing * (1 - p * 0.6),
+                y: min(bottom, sink),
+                rotDeg: rotDeg + 40 * swing,
+                opacity: min(1, p / 0.12) * min(1, (1 - p) / 0.08))
     }
 
     private func wave(_ period: Double, _ phase: Double) -> Double {
@@ -51,10 +57,10 @@ struct BonsaiWind {
     }
 }
 
-/// Runs a `BonsaiWind` at 30 fps while the garden is on screen and the app is
-/// active. The sway moves well under a point per frame, so 60 fps would only
-/// cost battery. Pausing holds the pose and resuming continues from it, so
-/// the tree never jumps. Reduce Motion gets the still tree.
+/// Runs a `BonsaiWind` at 60 fps while the garden is on screen and the app is
+/// active; 120 Hz would double the cost for a sway nobody can tell apart.
+/// Pausing holds the pose and resuming continues from it, so the tree never
+/// jumps. Reduce Motion gets the still tree.
 struct WindClock<Content: View>: View {
     @ViewBuilder let content: (BonsaiWind?) -> Content
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -66,7 +72,7 @@ struct WindClock<Content: View>: View {
     private var paused: Bool { scenePhase != .active || !onScreen }
 
     var body: some View {
-        SwiftUI.TimelineView(.animation(minimumInterval: 1.0 / 30, paused: paused || reduceMotion)) { tl in
+        SwiftUI.TimelineView(.animation(minimumInterval: 1.0 / 60, paused: paused || reduceMotion)) { tl in
             let now = pausedAt ?? tl.date
             content(reduceMotion ? nil : BonsaiWind(t: now.timeIntervalSince(start) * 1000))
         }

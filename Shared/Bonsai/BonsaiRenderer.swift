@@ -1018,7 +1018,9 @@ private func drawSakuraPetals(day: Int, c: SakuraCanopy, wind: BonsaiWind?, in c
                         color: color, opacity: 0.85)
             continue
         }
-        let f = wind.fall(seed: h2, pace: h3, x: x0, top: top, bottom: 432, rotDeg: (h1 - 0.5) * 150)
+        // Lands on the soil inside the pot, where the fallen petals lie.
+        let f = wind.fall(seed: h2, pace: h3, x: c.cX + (h1 - 0.5) * c.Rx * 1.6, top: top,
+                          bottom: 409 + 5 * h3, rotDeg: (h1 - 0.5) * 150)
         sakuraPetal(&ctx, x: f.x, y: f.y, s: 3 + h3 * 2.4, rotDeg: f.rotDeg,
                     color: color, opacity: 0.85 * f.opacity)
     }
@@ -1383,7 +1385,9 @@ private func drawMapleLeaves(day: Int, c: MapleCanopy, wind: BonsaiWind?, in ctx
                       rotDeg: (h1 - 0.5) * 200, color: fill, opacity: 0.85)
             continue
         }
-        let f = wind.fall(seed: h2, pace: h3, x: x0, top: top, bottom: 432, rotDeg: (h1 - 0.5) * 200)
+        // Lands on the soil inside the pot, where the fallen leaves lie.
+        let f = wind.fall(seed: h2, pace: h3, x: c.cX + (h1 - 0.5) * c.Rx * 1.6, top: top,
+                          bottom: 408 + 6 * h3, rotDeg: (h1 - 0.5) * 200)
         mapleLeaf(&ctx, x: f.x, y: f.y, s: 3 + h3 * 2.2,
                   rotDeg: f.rotDeg, color: fill, opacity: 0.85 * f.opacity)
     }
