@@ -168,7 +168,7 @@ struct TimelineView: View {
                     }
                 }
             }
-            .padding(.horizontal, PaneCut.cardInset)
+            .padding(.horizontal, PaneCut.Card.groupedList.inset)
             .padding(.bottom, Theme.Space.l)
         }
         .scrollIndicators(.hidden)

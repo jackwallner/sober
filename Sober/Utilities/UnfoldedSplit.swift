@@ -73,30 +73,37 @@ struct TabBarClearance: Equatable, Sendable {
 struct PaneCut: Equatable, Sendable {
     /// In the same space as the rows' frames.
     var y: CGFloat
-    /// The cut runs between two rows of one grouped list card, so the card
-    /// gets rounded bottom corners there, as if the section ended.
-    var closesCard: Bool
+    /// The cut runs between two rows of this card, so the card gets rounded
+    /// bottom corners there, as if it ended. `nil` between cards.
+    var card: Card?
+
+    /// A card whose rows report one by one: its inset from the pane edge
+    /// and its corner radius.
+    struct Card: Equatable, Sendable {
+        var inset: CGFloat
+        var cornerRadius: CGFloat
+
+        /// An inset grouped List section.
+        static let groupedList = Card(inset: 20, cornerRadius: 24)
+    }
 
     struct Row: Equatable, Sendable {
         var minY: CGFloat
         var maxY: CGFloat
-        var inGroupedCard: Bool
+        var card: Card?
     }
 
     static let maxLift: CGFloat = 220
-    /// An inset grouped list card's inset from the pane edge and its corners.
-    static let cardInset: CGFloat = 20
-    static let cardCornerRadius: CGFloat = 24
 
     static func make(line: CGFloat, rows: some Sequence<Row>) -> PaneCut {
         let sliced = rows.filter { row in
             row.minY < line - 0.5 && row.maxY > line + 0.5 && line - row.minY <= maxLift
         }
         guard let first = sliced.min(by: { $0.minY < $1.minY }) else {
-            return PaneCut(y: line, closesCard: false)
+            return PaneCut(y: line, card: nil)
         }
-        // A grouped row's separator sits on the row above, so cut a point higher.
-        return PaneCut(y: first.minY - (first.inGroupedCard ? 1 : 0), closesCard: first.inGroupedCard)
+        // A card row's separator sits on the row above, so cut a point higher.
+        return PaneCut(y: first.minY - (first.card == nil ? 0 : 1), card: first.card)
     }
 }
 
@@ -141,7 +148,13 @@ extension View {
     /// A whole card or line the pane cut hides rather than slices.
     /// `keepWithNext` holds a section header back with its first row.
     func paneRow(keepWithNext: CGFloat = 0) -> some View {
-        modifier(PaneRowReporter(keepWithNext: keepWithNext, inGroupedCard: false))
+        modifier(PaneRowReporter(keepWithNext: keepWithNext, card: nil))
+    }
+
+    /// One row of a card that is not a List section. The cut can close the
+    /// card after any whole row instead of hiding all of it.
+    func paneCardRow(_ card: PaneCut.Card) -> some View {
+        modifier(PaneRowReporter(keepWithNext: 0, card: card))
     }
 
     /// A row of an inset grouped List. It reports its cell's frame through
@@ -188,9 +201,9 @@ private struct PaneCutMask: View {
             let frame = proxy.frame(in: .global)
             let cut = isSplit
                 ? PaneCut.make(line: frame.maxY - hidden, rows: rows.rows.values)
-                : PaneCut(y: frame.maxY, closesCard: false)
+                : PaneCut(y: frame.maxY, card: nil)
             let y = min(max(cut.y - frame.minY, 0), frame.height)
-            let radius = cut.closesCard ? min(PaneCut.cardCornerRadius, y / 2) : 0
+            let radius = cut.card.map { min($0.cornerRadius, y / 2) } ?? 0
             // Two overlapping shapes rather than one path, so no seam shows
             // where the straight part meets the rounded card bottom.
             ZStack(alignment: .top) {
@@ -202,7 +215,7 @@ private struct PaneCutMask: View {
                         style: .continuous
                     )
                     .frame(height: radius * 2)
-                    .padding(.horizontal, PaneCut.cardInset)
+                    .padding(.horizontal, cut.card?.inset ?? 0)
                     .offset(y: y - radius * 2)
                 }
             }
@@ -213,14 +226,14 @@ private struct PaneCutMask: View {
 
 private struct PaneRowReporter: ViewModifier {
     let keepWithNext: CGFloat
-    let inGroupedCard: Bool
+    let card: PaneCut.Card?
     @Environment(\.paneRows) private var paneRows
     @State private var id = UUID()
 
     func body(content: Content) -> some View {
         content
             .onGeometryChange(for: CGRect.self) { $0.frame(in: .global) } action: { frame in
-                let row = PaneCut.Row(minY: frame.minY, maxY: frame.maxY + keepWithNext, inGroupedCard: inGroupedCard)
+                let row = PaneCut.Row(minY: frame.minY, maxY: frame.maxY + keepWithNext, card: card)
                 if paneRows?.rows[id] != row { paneRows?.rows[id] = row }
             }
             .onDisappear { paneRows?.rows[id] = nil }
@@ -235,7 +248,7 @@ private struct PaneListRow: ViewModifier {
         content.listRowBackground(
             paneRows.map { _ in
                 Color(.secondarySystemGroupedBackground)
-                    .modifier(PaneRowReporter(keepWithNext: 0, inGroupedCard: true))
+                    .modifier(PaneRowReporter(keepWithNext: 0, card: .groupedList))
             }
         )
     }

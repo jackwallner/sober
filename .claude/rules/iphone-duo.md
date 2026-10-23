@@ -6,7 +6,7 @@ paths:
   - "SoberTests/UnfoldedSplitTests.swift"
 ---
 
-# Sober: iPhone Duo (2026-10-22, bars, pane and cut fixed 2026-10-23)
+# Sober: iPhone Duo (2026-10-22, bars, pane, cut and Health rows fixed 2026-10-23)
 
 - Unfolded (regular width, at least 720 pt), `MainTabView` frames the tab view
   (Home, Health, Journal, Bloom+ and the tab bar) on the leading side of the
@@ -44,7 +44,14 @@ paths:
   outside a tab's NavigationStack never reached its scroll views). Folded,
   the mask is fully open and no row reports. Home reads `\.isUnfoldedPane`
   and sizes its top block to end above the line, with a lower garden floor.
-  A new card in a split tab needs the tag, or the line slices it.
+  A new card in a split tab needs the tag, or the line slices it. A card
+  that is not a List section can tag each row with `.paneCardRow(card)`
+  (Bloom+ milestones), so the cut closes it after the rows that fit.
+- Hiding whole rows leaves up to one row of empty page above the bar, so tall
+  rows must not sit at the bottom of a pane. Health's earned benefits are
+  one-line rows (title, the day it landed) in the pane and open on tap
+  (`BenefitRowStyle`, tested): four fit under the summary card. As full
+  cards only one fit and the review rejected the empty band below it.
 - Captures: one `gh-sim all --device 'iPhone Duo'` run with
   `--args "-seedDemo -seedDays 127 -seedGoal 365 -demoPro"` and one
   `--screen "-tab N"` per surface (0 Home, 2 Health, 3 Journal, 4 Bloom+).

@@ -62,7 +62,7 @@ private struct BloomPlusHubView: View {
                     statRow.paneRow()
                     if yearlyProjection > 0 { projectionCard.paneRow() }
                     patternsCard.paneRow()
-                    milestonesCard.paneRow()
+                    milestonesCard
                     Button { showProgress = true } label: {
                         HStack {
                             Label("See full progress", systemImage: "chart.bar.fill")
@@ -214,6 +214,8 @@ private struct BloomPlusHubView: View {
         let hours = Double(max(0, days - 1)) * 24
         let nextBenefit = HealthBenefitCatalog.next(after: hours)
         let earned = unlockedAchievements.count
+        // Rows report one by one, so the unfolded pane closes the card after
+        // the rows that fit rather than hide it whole above an empty band.
         return VStack(spacing: 0) {
             milestoneRow(
                 icon: "flag.fill",
@@ -251,7 +253,10 @@ private struct BloomPlusHubView: View {
                 .monospacedDigit()
         }
         .padding(Theme.Space.m)
+        .paneCardRow(Self.milestonesCardShape)
     }
+
+    private static let milestonesCardShape = PaneCut.Card(inset: Theme.Space.l, cornerRadius: 16)
 
     private static let currency: NumberFormatter = {
         let f = NumberFormatter()

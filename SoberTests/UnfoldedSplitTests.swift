@@ -51,33 +51,49 @@ struct UnfoldedSplitTests {
     // Pane cut: the line sits at 574 in each case.
 
     @Test func rowsClearOfTheLineCutAtTheLine() {
-        let rows = [PaneCut.Row(minY: 100, maxY: 300, inGroupedCard: false),
-                    PaneCut.Row(minY: 316, maxY: 574, inGroupedCard: false),
-                    PaneCut.Row(minY: 590, maxY: 700, inGroupedCard: false)]
-        #expect(PaneCut.make(line: 574, rows: rows) == PaneCut(y: 574, closesCard: false))
+        let rows = [PaneCut.Row(minY: 100, maxY: 300, card: nil),
+                    PaneCut.Row(minY: 316, maxY: 574, card: nil),
+                    PaneCut.Row(minY: 590, maxY: 700, card: nil)]
+        #expect(PaneCut.make(line: 574, rows: rows) == PaneCut(y: 574, card: nil))
     }
 
     @Test func aSlicedCardIsHiddenWhole() {
-        let rows = [PaneCut.Row(minY: 300, maxY: 500, inGroupedCard: false),
-                    PaneCut.Row(minY: 516, maxY: 640, inGroupedCard: false)]
-        #expect(PaneCut.make(line: 574, rows: rows) == PaneCut(y: 516, closesCard: false))
+        let rows = [PaneCut.Row(minY: 300, maxY: 500, card: nil),
+                    PaneCut.Row(minY: 516, maxY: 640, card: nil)]
+        #expect(PaneCut.make(line: 574, rows: rows) == PaneCut(y: 516, card: nil))
     }
 
     @Test func aSlicedListRowClosesItsCardAboveTheSeparator() {
-        let rows = [PaneCut.Row(minY: 360, maxY: 494, inGroupedCard: true),
-                    PaneCut.Row(minY: 494, maxY: 630, inGroupedCard: true)]
-        #expect(PaneCut.make(line: 574, rows: rows) == PaneCut(y: 493, closesCard: true))
+        let rows = [PaneCut.Row(minY: 360, maxY: 494, card: .groupedList),
+                    PaneCut.Row(minY: 494, maxY: 630, card: .groupedList)]
+        #expect(PaneCut.make(line: 574, rows: rows) == PaneCut(y: 493, card: .groupedList))
     }
 
     @Test func aHeaderGoesWithItsFirstRow() {
         // The header's frame is stretched by its keep-with-next allowance.
-        let rows = [PaneCut.Row(minY: 540, maxY: 560 + 72, inGroupedCard: false),
-                    PaneCut.Row(minY: 568, maxY: 700, inGroupedCard: true)]
-        #expect(PaneCut.make(line: 574, rows: rows) == PaneCut(y: 540, closesCard: false))
+        let rows = [PaneCut.Row(minY: 540, maxY: 560 + 72, card: nil),
+                    PaneCut.Row(minY: 568, maxY: 700, card: .groupedList)]
+        #expect(PaneCut.make(line: 574, rows: rows) == PaneCut(y: 540, card: nil))
     }
 
     @Test func aTallRowIsSlicedRatherThanEmptyThePane() {
-        let rows = [PaneCut.Row(minY: 574 - PaneCut.maxLift - 1, maxY: 900, inGroupedCard: false)]
-        #expect(PaneCut.make(line: 574, rows: rows) == PaneCut(y: 574, closesCard: false))
+        let rows = [PaneCut.Row(minY: 574 - PaneCut.maxLift - 1, maxY: 900, card: nil)]
+        #expect(PaneCut.make(line: 574, rows: rows) == PaneCut(y: 574, card: nil))
+    }
+}
+
+@Suite("Health rows in the pane")
+struct BenefitRowStyleTests {
+    @Test func foldedEarnedBenefitsShowInFull() {
+        #expect(!BenefitRowStyle.isCollapsed(isPane: false, unlocked: true, expanded: false))
+    }
+
+    @Test func paneListsEarnedBenefitsOneLineEachUntilTapped() {
+        #expect(BenefitRowStyle.isCollapsed(isPane: true, unlocked: true, expanded: false))
+        #expect(!BenefitRowStyle.isCollapsed(isPane: true, unlocked: true, expanded: true))
+    }
+
+    @Test func lockedRowsKeepTheirTease() {
+        #expect(!BenefitRowStyle.isCollapsed(isPane: true, unlocked: false, expanded: false))
     }
 }

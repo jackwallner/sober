@@ -5,6 +5,9 @@ struct HealthView: View {
     @Environment(\.modelContext) private var context
     @Environment(SubscriptionService.self) private var subscriptions
     @Query(sort: \SobrietyJourney.startDate, order: .reverse) private var journeys: [SobrietyJourney]
+    @Environment(\.isUnfoldedPane) private var isUnfoldedPane
+    /// Earned benefits opened in the unfolded pane, where they start collapsed.
+    @State private var expanded: Set<String> = []
 
     private var hours: Double {
         guard let j = journeys.first(where: { $0.isActive }) else { return 0 }
@@ -17,6 +20,13 @@ struct HealthView: View {
             return "in \(benefit.displayWait)"
         }
         return MilestoneSchedule.label(for: start.addingTimeInterval(benefit.hoursRequired * 3600))
+    }
+
+    /// The day an earned benefit landed, for its collapsed pane row.
+    private func earnedLabel(_ benefit: HealthBenefit) -> String {
+        guard let start = journeys.first(where: { $0.isActive })?.startDate else { return "" }
+        return start.addingTimeInterval(benefit.hoursRequired * 3600)
+            .formatted(.dateTime.month(.abbreviated).day())
     }
 
     /// Free users see the first 5 unlocked benefits + locked previews. This
@@ -53,13 +63,22 @@ struct HealthView: View {
                         // Beyond the free window, *all* future milestones (earned or
                         // not-yet-earned) are part of the Bloom+ value prop and
                         // render as a Pro tease rather than revealing the title.
-                        BenefitRow(benefit: benefit, unlocked: visible, blurred: !visible && !inFreeWindow, waitLabel: dateLabel(benefit))
+                        let collapsed = BenefitRowStyle.isCollapsed(
+                            isPane: isUnfoldedPane, unlocked: visible, expanded: expanded.contains(benefit.id)
+                        )
+                        BenefitRow(
+                            benefit: benefit, unlocked: visible, blurred: !visible && !inFreeWindow,
+                            waitLabel: dateLabel(benefit), collapsed: collapsed, earnedLabel: earnedLabel(benefit)
+                        )
                             .contentShape(Rectangle())
                             .onTapGesture {
                                 if !subscriptions.isProSubscriber && idx >= freeRevealCount {
                                     requestSubsequentLockedFeaturePitch(.healthTimeline)
+                                } else if isUnfoldedPane && visible {
+                                    withAnimation(.snappy) { expanded.formSymmetricDifference([benefit.id]) }
                                 }
                             }
+                            .accessibilityAddTraits(isUnfoldedPane && visible ? .isButton : [])
                             .paneListRow()
                     }
                 } header: {
@@ -150,6 +169,16 @@ struct HealthView: View {
     }
 }
 
+/// On the unfolded Duo an earned benefit starts as a one-line row (title and
+/// the day it landed) and opens on tap, so the pane lists several of them
+/// under the summary instead of one tall card. Folded, every earned benefit
+/// shows in full, as before.
+enum BenefitRowStyle {
+    static func isCollapsed(isPane: Bool, unlocked: Bool, expanded: Bool) -> Bool {
+        isPane && unlocked && !expanded
+    }
+}
+
 private struct BenefitRow: View {
     let benefit: HealthBenefit
     /// True when fully revealed (timed-unlock met AND user has access).
@@ -158,16 +187,20 @@ private struct BenefitRow: View {
     let blurred: Bool
     /// When it lands, already formatted.
     let waitLabel: String
+    /// Earned, shown as a one-line row: see `BenefitRowStyle`.
+    let collapsed: Bool
+    /// The day it landed, the collapsed row's trailing label.
+    let earnedLabel: String
 
     private var proGated: Bool { blurred }
 
     var body: some View {
-        HStack(alignment: .top, spacing: Theme.Space.m) {
+        HStack(alignment: collapsed ? .center : .top, spacing: Theme.Space.m) {
             Image(systemName: leadingIcon)
                 .font(.title3)
                 .foregroundStyle(leadingTint)
                 .frame(width: 32)
-                .padding(.top, 2)
+                .padding(.top, collapsed ? 0 : 2)
             VStack(alignment: .leading, spacing: 4) {
                 HStack(alignment: .top, spacing: Theme.Space.s) {
                     Text(proGated ? "A future milestone" : benefit.title)
@@ -177,13 +210,13 @@ private struct BenefitRow: View {
                     Spacer(minLength: Theme.Space.xs)
                     trailingLabel
                 }
-                if !proGated {
+                if !proGated && !collapsed {
                     Text(benefit.summary)
                         .font(Theme.caption())
                         .foregroundStyle(Theme.textSecondary)
                         .fixedSize(horizontal: false, vertical: true)
                 }
-                if unlocked {
+                if unlocked && !collapsed {
                     Text(benefit.detail)
                         .font(Theme.caption())
                         .foregroundStyle(Theme.textSecondary)
@@ -208,7 +241,9 @@ private struct BenefitRow: View {
                 }
             }
         }
-        .padding(.vertical, Theme.Space.xs)
+        // Collapsed rows drop the extra padding, so four fit under the pane's
+        // summary card.
+        .padding(.vertical, collapsed ? 0 : Theme.Space.xs)
     }
 
     /// Three visual states so users can tell at a glance *why* a benefit is
@@ -230,7 +265,12 @@ private struct BenefitRow: View {
 
     @ViewBuilder
     private var trailingLabel: some View {
-        if unlocked {
+        if collapsed {
+            Text(earnedLabel)
+                .font(Theme.caption(weight: .semibold))
+                .foregroundStyle(Theme.textTertiary)
+                .monospacedDigit()
+        } else if unlocked {
             EmptyView()
         } else if proGated {
             Text("Bloom+")
