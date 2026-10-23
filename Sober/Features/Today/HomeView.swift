@@ -142,6 +142,7 @@ struct HomeView: View {
                 Text("Your day counter will restart at zero. Your history is kept.")
             }
             .onAppear {
+                GardenService(context: context).applyVitalityDecay()
                 refreshDailyState()
                 presentPostOnboardingPaywallIfNeeded()
                 #if DEBUG
@@ -585,7 +586,6 @@ struct HomeView: View {
     // MARK: - State
 
     private func refreshDailyState() {
-        GardenService(context: context).applyVitalityDecay()
         if let j = activeJourney {
             // Backfill only through yesterday so today stays unlogged and
             // the active "Check in for today" control is reachable (auto-

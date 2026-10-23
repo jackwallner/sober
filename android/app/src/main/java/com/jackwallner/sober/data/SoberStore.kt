@@ -159,9 +159,9 @@ class SoberStore(
 
     // MARK: - Home
 
-    /** Home's onAppear: decay, backfill through yesterday, grove and badges. */
-    fun refresh(): Boolean = update { old ->
-        var next = SoberEngine.decayVitality(old, clock)
+    /** Daily backfill, grove and badges. Only appearance applies vitality decay. */
+    fun refresh(applyDecay: Boolean = true): Boolean = update { old ->
+        var next = if (applyDecay) SoberEngine.decayVitality(old, clock) else old
         next = SoberEngine.fillJourney(next, clock.today().minusDays(1), clock)
         val current = JourneyDays.current(next, clock)
         next = SoberEngine.completeCycles(next, current)

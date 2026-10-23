@@ -2,6 +2,8 @@ package com.jackwallner.sober
 
 import com.jackwallner.sober.content.SoberContent
 import com.jackwallner.sober.data.SoberCodec
+import com.jackwallner.sober.data.SoberStore
+import com.jackwallner.sober.data.StateFile
 import com.jackwallner.sober.model.AppClock
 import com.jackwallner.sober.model.CheckIn
 import com.jackwallner.sober.model.CravingEpisode
@@ -56,6 +58,31 @@ class SoberEngineTest {
         assertEquals(6, state.checkIns.size)
         assertTrue(state.checkIns.all { it.wasSober && !it.wasLogged })
         assertFalse(SoberEngine.hasCheckedIn(state, clock.today()))
+    }
+
+    @Test fun dayRefreshLeavesTodayUnloggedWithoutRepeatingAppearanceDecay() {
+        val file = object : StateFile {
+            override fun read(): String? = null
+            override fun write(text: String) {}
+            override fun keepUnreadable(text: String, stamp: Long) {}
+        }
+        val store = SoberStore(file, clock, SoberContent.shared)
+        store.persistSetup(day(4).atStartOfDay(clock.zone()).toInstant(), 100, 200, false)
+        store.checkInToday()
+        clock.instant = clock.instant.plusSeconds(3 * 86400L)
+        store.refresh()
+        val vitality = store.state.garden.vitality
+        assertEquals(0.7, vitality, 0.0001)
+
+        repeat(2) { store.refresh(applyDecay = false) }
+
+        assertEquals(vitality, store.state.garden.vitality, 0.0001)
+        assertFalse(store.hasCheckedIn())
+        assertFalse(store.loggedSlip())
+        assertEquals(3, store.daysSinceLastCheckIn())
+        val week = TendedWeek.days(store.today, store.state.checkIns)
+        assertEquals(clock.today(), week.last().day)
+        assertEquals(DayMark.BLANK, week.last().mark)
     }
 
     @Test fun loggedDaysAreNeverDemotedByBackfill() {

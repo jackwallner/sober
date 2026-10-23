@@ -101,6 +101,7 @@ fun HomeScreen() {
     val scope = rememberCoroutineScope()
     val lifecycleOwner = LocalLifecycleOwner.current
     var dayRefresh by remember { mutableIntStateOf(0) }
+    var hasRefreshed by remember { mutableStateOf(false) }
     val state = store.state
     val isPro = subscriptions.isPro
 
@@ -211,7 +212,8 @@ fun HomeScreen() {
         }
     }
     LaunchedEffect(dayRefresh) {
-        store.refresh()
+        store.refresh(applyDecay = !hasRefreshed)
+        hasRefreshed = true
         store.processGrowth()?.let { growthEvent = it }
         val settings = store.settings
         if (settings.dailyReminderEnabled) graph.notifications.refreshDailyReminder(settings.dailyReminderHour, settings.madeCommitment, store.days)
