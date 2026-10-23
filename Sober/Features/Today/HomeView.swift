@@ -247,16 +247,18 @@ struct HomeView: View {
     /// controls. Below this the garden would be squeezed rather than scrolled.
     private static let topBlockMinHeight: CGFloat = 560
     /// The unfolded Duo's leading pane is a phone's height less the floating
-    /// tab bar, so there the block fills the viewport with no peek and the
-    /// garden gives up height; otherwise the check-in and craving controls
-    /// fell into the fade above the bar.
+    /// tab bar, so there the block ends above the fade over the bar (no peek)
+    /// and the garden gives up height; otherwise the check-in and craving
+    /// controls fell into the fade.
     private static let paneTopBlockMinHeight: CGFloat = 420
     private static let paneGardenMinHeight: CGFloat = 200
 
     private func topBlockHeight(viewport: CGFloat) -> CGFloat {
-        isUnfoldedPane
-            ? max(viewport, Self.paneTopBlockMinHeight)
-            : max(viewport - Self.aheadPeek, Self.topBlockMinHeight)
+        guard isUnfoldedPane else {
+            return max(viewport - Self.aheadPeek, Self.topBlockMinHeight)
+        }
+        let fade = TabBarClearance.make(isSplit: true, barInset: 0).contentPadding
+        return max(viewport - fade - Theme.Space.s, Self.paneTopBlockMinHeight)
     }
 
     private var settings: UserSettings? { settingsRows.first }

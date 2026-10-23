@@ -302,17 +302,17 @@ struct TimelineView: View {
         let stage = GardenService.stage(forDays: drawnDays)
         let isToday = DateHelpers.startOfDay(selectedDate) == DateHelpers.startOfDay()
 
-        return VStack(alignment: .leading, spacing: Theme.Space.m) {
-            HStack(spacing: Theme.Space.l) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 14).fill(Theme.skyGradient)
-                    BonsaiView(day: cycle.dayInCycle, style: bonsaiStyle, vitality: 1.0, fill: true)
-                        .padding(6)
-                        .id(cycle.dayInCycle)
-                        .transition(.opacity)
-                }
-                .frame(width: 104, height: 104)
+        return HStack(spacing: Theme.Space.l) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 14).fill(Theme.skyGradient)
+                BonsaiView(day: cycle.dayInCycle, style: bonsaiStyle, vitality: 1.0, fill: true)
+                    .padding(6)
+                    .id(cycle.dayInCycle)
+                    .transition(.opacity)
+            }
+            .frame(width: 104, height: 104)
 
+            VStack(alignment: .leading, spacing: Theme.Space.s) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(isToday ? "Today" : DateHelpers.mediumDate(selectedDate))
                         .font(Theme.body())
@@ -321,10 +321,9 @@ struct TimelineView: View {
                         .font(Theme.subhead())
                         .foregroundStyle(Theme.textSecondary)
                 }
-                Spacer(minLength: 0)
+                diffNarration(dayCount: drawnDays)
             }
-
-            diffNarration(dayCount: drawnDays)
+            Spacer(minLength: 0)
         }
     }
 

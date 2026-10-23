@@ -49,14 +49,14 @@ extension GeometryProxy {
 /// Heights for the leading pane's clearance above the floating tab bar. Split,
 /// a tab's content fades out over `fade` and is gone `gap` above the bar's
 /// safe-area edge, so no row ever sits under the bar or shows through it;
-/// bottom safe-area padding of `fade + gap` lets the last row scroll fully
-/// clear of the fade. Folded, every height is zero and the phone layout is
+/// a bottom scroll content margin of `fade + gap` lets the last row scroll
+/// fully clear of the fade. Folded, every height is zero and the phone layout is
 /// untouched.
 struct TabBarClearance: Equatable, Sendable {
     var fade: CGFloat
     /// Masked out below the fade: the bar's inset plus the gap.
     var hidden: CGFloat
-    /// Added to the content's bottom safe area so scrolled-to-end rows clear the fade.
+    /// Bottom scroll content margin, so scrolled-to-end rows clear the fade.
     var contentPadding: CGFloat
 
     static let fadeHeight: CGFloat = 36
@@ -113,19 +113,21 @@ private struct ClearsFloatingTabBar: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .safeAreaPadding(.bottom, clearance.contentPadding)
+            // Scroll content margins, not safe-area padding: the margin reaches
+            // the scroll views inside each tab's NavigationStack, padding didn't.
+            .contentMargins(.bottom, clearance.contentPadding, for: .scrollContent)
             .bottomScrollEdgeEffectHidden(isSplit)
             .mask {
                 VStack(spacing: 0) {
                     Rectangle()
-                    // Eased, so a row low in the fade is gone rather than a
-                    // faint sliver above the cut.
+                    // Front-loaded, so text in the fade's lower half is gone
+                    // rather than faint ghost glyphs above the cut.
                     LinearGradient(
                         stops: [
                             .init(color: .black, location: 0),
-                            .init(color: .black.opacity(0.45), location: 0.4),
-                            .init(color: .black.opacity(0.08), location: 0.7),
-                            .init(color: .clear, location: 0.85),
+                            .init(color: .black.opacity(0.5), location: 0.25),
+                            .init(color: .black.opacity(0.12), location: 0.45),
+                            .init(color: .clear, location: 0.6),
                         ],
                         startPoint: .top,
                         endPoint: .bottom

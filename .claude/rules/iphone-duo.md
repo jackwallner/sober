@@ -20,7 +20,7 @@ paths:
   iPhones never build it. `TimelineView(isPane: true)` skips the appear nudge
   (on screen from launch, it would pitch every cold start), uses an inline
   title, shows the selected day's tree as a thumbnail beside its caption and
-  moves the current/longest/total summary below the check-in. The full-size
+  growth note, and moves the current/longest/total summary below the check-in. The full-size
   200 pt tree card started below the 669 pt viewport and read as an empty sky box.
 - Each pane gets `horizontalSizeClass = .compact`, so it lays out as on a phone.
 - One navigation on every tab: split, each tab applies `.leadingPaneTab`, i.e.
@@ -28,9 +28,13 @@ paths:
   the first, iOS 27.1 put the toolbar and tab bar in a vertical rail on tabs
   with toolbar items (Home, Journal) and a bottom bar on the rest. The second
   masks tab content out above the floating bar (eased fade, `TabBarClearance`,
-  tested) and pads the bottom safe area so the last row scrolls clear; the bar
-  sits on the cream page. The mask stays folded (fully open) so folding never
-  rebuilds a tab.
+  tested) and adds a bottom `contentMargins` so the last row scrolls clear
+  (`safeAreaPadding` outside a tab's NavigationStack never reached its scroll
+  views or Home's GeometryReader); the bar sits on the cream page. The mask
+  stays folded (fully open) so folding never rebuilds a tab. The Timeline pane
+  gets the same fade above the home indicator, so no row is sliced at the
+  screen edge. Home reads `\.isUnfoldedPane` and sizes its top block to end
+  above the fade, with a lower garden floor.
 - Captures: one `gh-sim all --device 'iPhone Duo'` run with
   `--args "-seedDemo -seedDays 127 -seedGoal 365 -demoPro"` and one
   `--screen "-tab N"` per surface (0 Home, 2 Health, 3 Journal, 4 Bloom+).
