@@ -16,6 +16,13 @@ struct TimelineView: View {
     @State private var draftMood: Int?
     @State private var draftNote: String = ""
     @State private var pendingSlipDay: Date?
+    /// Off for the unfolded Duo's Timeline pane: it is on screen from launch, so
+    /// a nudge on appear would pitch every cold start rather than a visit.
+    private let nudgesOnAppear: Bool
+
+    init(nudgesOnAppear: Bool = true) {
+        self.nudgesOnAppear = nudgesOnAppear
+    }
 
     private var checkInsByDay: [Date: DailyCheckIn] {
         Dictionary(checkIns.map { (DateHelpers.startOfDay($0.day), $0) }, uniquingKeysWith: { a, _ in a })
@@ -96,7 +103,10 @@ struct TimelineView: View {
             }
             .listStyle(.insetGrouped)
             .navigationTitle("Timeline")
-            .task { await presentPassiveTrialNudge(subscriptions, intent: .progressSheet) }
+            .task {
+                guard nudgesOnAppear else { return }
+                await presentPassiveTrialNudge(subscriptions, intent: .progressSheet)
+            }
             .onAppear { loadDraft() }
             .onChange(of: selectedDate) { _, _ in loadDraft() }
             .alert(

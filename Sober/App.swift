@@ -213,7 +213,9 @@ struct RootView: View {
            let preset = GoalPreset(rawValue: goalDays) {
             journey.goalDate = preset.date(from: start)
         }
-        _ = GardenService(context: context).current()
+        // A user this far in has already seen each stage's celebration; left at
+        // zero, the first Home appearance replays one over the screen.
+        GardenService(context: context).current().lastUnlockNotifiedAtDays = days + 1
         CheckInService(context: context).fillJourney(start: start, through: .now)
         seedJournal(start: start)
         try? context.save()
@@ -239,8 +241,14 @@ struct RootView: View {
     #endif
 }
 
+private struct PaneGeometry: Equatable, Sendable {
+    var width: CGFloat = 0
+    var fold: ClosedRange<CGFloat>?
+}
+
 struct MainTabView: View {
     @Environment(SubscriptionService.self) private var subscriptions
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @StateObject private var trialCoordinator = TrialOfferCoordinator.shared
     #if DEBUG
     /// `-tab N` opens straight onto a tab. The Bloom+ paywall only lays out the
@@ -254,20 +262,82 @@ struct MainTabView: View {
         return parsed
     }
     @State private var tab = MainTabView.launchTab
+
+    /// `-tourTab N` switches to tab N nine seconds after launch, so a Duo
+    /// recording shows a real tab change before the screenshot.
+    private func runTourTabIfRequested() async {
+        let args = ProcessInfo.processInfo.arguments
+        guard let index = args.firstIndex(of: "-tourTab"),
+              index + 1 < args.count,
+              let target = Int(args[index + 1]) else { return }
+        try? await Task.sleep(for: .seconds(9))
+        tab = target
+    }
     #else
     @State private var tab = 0
     #endif
     @State private var showTrialPaywall = false
     @State private var trialOfferFocus: BloomFeature?
+    /// The container's width and fold, measured so the unfolded iPhone Duo can
+    /// put the tabs and Timeline on opposite sides of the fold.
+    @State private var paneGeometry = PaneGeometry()
+    /// Set the first time the Duo unfolds and never cleared, so folding only
+    /// moves frames and the Timeline pane keeps its selected day. Ordinary
+    /// iPhones never build it.
+    @State private var timelinePaneHasAppeared = false
+
+    /// Unfolded, Timeline has its own pane beside the tabs, so it is never a tab.
+    private var split: UnfoldedSplit? {
+        UnfoldedSplit.make(
+            width: paneGeometry.width,
+            isRegularWidth: horizontalSizeClass == .regular,
+            fold: paneGeometry.fold
+        )
+    }
+
+    /// Each unfolded pane is phone-width, so its screen lays out as on a phone.
+    private var paneSizeClass: UserInterfaceSizeClass? {
+        split == nil ? horizontalSizeClass : .compact
+    }
 
     var body: some View {
+        ZStack(alignment: .topLeading) {
+            tabs
+                .environment(\.horizontalSizeClass, paneSizeClass)
+                .frame(maxWidth: split?.primaryWidth ?? .infinity, maxHeight: .infinity)
+            if timelinePaneHasAppeared {
+                TimelineView(nudgesOnAppear: false)
+                    .environment(\.horizontalSizeClass, .compact)
+                    .frame(maxWidth: split?.secondaryWidth ?? .infinity, maxHeight: .infinity)
+                    .padding(.leading, split?.secondaryX ?? 0)
+                    .opacity(split == nil ? 0 : 1)
+                    .allowsHitTesting(split != nil)
+                    .accessibilityHidden(split == nil)
+            }
+        }
+        .onGeometryChange(for: PaneGeometry.self) { proxy in
+            PaneGeometry(width: proxy.size.width, fold: proxy.verticalFold())
+        } action: { paneGeometry = $0 }
+        .onChange(of: split != nil, initial: true) { _, isSplit in
+            guard isSplit else { return }
+            timelinePaneHasAppeared = true
+            if tab == 1 { tab = 0 }
+        }
+        #if DEBUG
+        .task { await runTourTabIfRequested() }
+        #endif
+    }
+
+    private var tabs: some View {
         TabView(selection: $tab) {
             HomeView()
                 .tabItem { Label("Home", systemImage: "leaf.fill") }
                 .tag(0)
-            TimelineView()
-                .tabItem { Label("Timeline", systemImage: "calendar") }
-                .tag(1)
+            if split == nil {
+                TimelineView()
+                    .tabItem { Label("Timeline", systemImage: "calendar") }
+                    .tag(1)
+            }
             HealthView()
                 .tabItem { Label("Health", systemImage: "heart.fill") }
                 .tag(2)
