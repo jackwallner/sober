@@ -241,9 +241,9 @@ private struct BenefitRow: View {
                 }
             }
         }
-        // Collapsed rows drop the extra padding, so four fit under the pane's
-        // summary card.
-        .padding(.vertical, collapsed ? 0 : Theme.Space.xs)
+        // Collapsed, the row trims the List's own inset to a standard 44 pt
+        // row: at 53 pt the fourth missed the pane's cut line by a point.
+        .padding(.vertical, collapsed ? -4 : Theme.Space.xs)
     }
 
     /// Three visual states so users can tell at a glance *why* a benefit is
