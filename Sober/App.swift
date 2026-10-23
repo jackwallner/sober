@@ -221,6 +221,9 @@ struct RootView: View {
         // zero, the first Home appearance replays one over the screen.
         GardenService(context: context).current().lastUnlockNotifiedAtDays = days + 1
         CheckInService(context: context).fillJourney(start: start, through: .now)
+        // Badges are otherwise earned when Home appears, so a capture that opens
+        // on another tab showed none. The counter is 1-based (start day is Day 1).
+        AchievementService(context: context).processUnlocks(currentDays: days + 1)
         seedJournal(start: start)
         try? context.save()
         WidgetSnapshotPump.push(context: context)
@@ -310,7 +313,7 @@ struct MainTabView: View {
                 .environment(\.horizontalSizeClass, paneSizeClass)
                 .frame(maxWidth: split?.primaryWidth ?? .infinity, maxHeight: .infinity)
             if timelinePaneHasAppeared {
-                TimelineView(nudgesOnAppear: false)
+                TimelineView(isPane: true)
                     .environment(\.horizontalSizeClass, .compact)
                     .frame(maxWidth: split?.secondaryWidth ?? .infinity, maxHeight: .infinity)
                     .padding(.leading, split?.secondaryX ?? 0)
@@ -335,6 +338,7 @@ struct MainTabView: View {
     private var tabs: some View {
         TabView(selection: $tab) {
             HomeView()
+                .leadingPaneTab(isSplit: split != nil)
                 .tabItem { Label("Home", systemImage: "leaf.fill") }
                 .tag(0)
             if split == nil {
@@ -343,12 +347,15 @@ struct MainTabView: View {
                     .tag(1)
             }
             HealthView()
+                .leadingPaneTab(isSplit: split != nil)
                 .tabItem { Label("Health", systemImage: "heart.fill") }
                 .tag(2)
             JournalView()
+                .leadingPaneTab(isSplit: split != nil)
                 .tabItem { Label("Journal", systemImage: "book.fill") }
                 .tag(3)
             BloomPlusTabView()
+                .leadingPaneTab(isSplit: split != nil)
                 .tabItem {
                     Label(
                         subscriptions.isProSubscriber ? "Bloom+" : "Upgrade",
@@ -432,5 +439,14 @@ struct MainTabView: View {
         case .savingsTracking: "sober_paywall_savings"
         case nil: "sober_paywall_general"
         }
+    }
+}
+
+private extension View {
+    /// A tab in the leading pane: phone bars, and nothing under the floating
+    /// tab bar while split. Folded, both are the system default.
+    func leadingPaneTab(isSplit: Bool) -> some View {
+        horizontalBarsInPane(isSplit)
+            .clearsFloatingTabBar(isSplit)
     }
 }

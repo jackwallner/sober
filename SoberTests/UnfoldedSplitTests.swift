@@ -31,4 +31,21 @@ struct UnfoldedSplitTests {
         #expect(UnfoldedSplit.make(width: 719, isRegularWidth: true, fold: nil) == nil)
         #expect(UnfoldedSplit.make(width: 720, isRegularWidth: true, fold: nil)?.primaryWidth == 360)
     }
+
+    @Test func foldedKeepsThePhoneLayout() {
+        #expect(TabBarClearance.make(isSplit: false, barInset: 81) == TabBarClearance(fade: 0, hidden: 0, contentPadding: 0))
+    }
+
+    @Test func splitHidesEverythingUnderTheBar() {
+        let clearance = TabBarClearance.make(isSplit: true, barInset: 81)
+        // Content is gone a gap above the bar's top edge, and fades out above that.
+        #expect(clearance.hidden == 81 + TabBarClearance.gap)
+        #expect(clearance.fade > 0)
+        // The last row can scroll fully above the fade, so it is never cut.
+        #expect(clearance.contentPadding >= clearance.fade + TabBarClearance.gap)
+    }
+
+    @Test func negativeInsetNeverUncoversTheBar() {
+        #expect(TabBarClearance.make(isSplit: true, barInset: -4).hidden == TabBarClearance.gap)
+    }
 }

@@ -3,9 +3,10 @@ paths:
   - "Sober/App.swift"
   - "Sober/Utilities/UnfoldedSplit.swift"
   - "Sober/Features/Calendar/TimelineView.swift"
+  - "SoberTests/UnfoldedSplitTests.swift"
 ---
 
-# Sober: iPhone Duo (2026-10-22)
+# Sober: iPhone Duo (2026-10-22, bars and pane fixed 2026-10-23)
 
 - Unfolded (regular width, at least 720 pt), `MainTabView` frames the tab view
   (Home, Health, Journal, Bloom+ and the tab bar) on the leading side of the
@@ -16,10 +17,25 @@ paths:
   unfolded Duo held in portrait (669 pt) keep the single column.
 - The Timeline pane is built the first time the Duo unfolds and stays mounted, so
   folding only moves frames and the pane keeps its selected day. Ordinary
-  iPhones never build it. It passes `nudgesOnAppear: false`: it is on screen from
-  launch, so its appear nudge would pitch every cold start.
+  iPhones never build it. `TimelineView(isPane: true)` skips the appear nudge
+  (on screen from launch, it would pitch every cold start), uses an inline
+  title, shows the selected day's tree as a thumbnail beside its caption and
+  moves the current/longest/total summary below the check-in. The full-size
+  200 pt tree card started below the 669 pt viewport and read as an empty sky box.
 - Each pane gets `horizontalSizeClass = .compact`, so it lays out as on a phone.
-- Captures: `gh-sim launch --device 'iPhone Duo'` with
-  `-seedDemo -seedDays 127 -seedGoal 365 -demoPro -tab N` (one inner surface per
-  job; `simctl openurl` raises a confirm alert, so there are no URL routes).
+- One navigation on every tab: split, each tab applies `.leadingPaneTab`, i.e.
+  `toolbarVerticalBehavior(.disabled)` plus `clearsFloatingTabBar`. Without
+  the first, iOS 27.1 put the toolbar and tab bar in a vertical rail on tabs
+  with toolbar items (Home, Journal) and a bottom bar on the rest. The second
+  masks tab content out above the floating bar (eased fade, `TabBarClearance`,
+  tested) and pads the bottom safe area so the last row scrolls clear; the bar
+  sits on the cream page. The mask stays folded (fully open) so folding never
+  rebuilds a tab.
+- Captures: one `gh-sim all --device 'iPhone Duo'` run with
+  `--args "-seedDemo -seedDays 127 -seedGoal 365 -demoPro"` and one
+  `--screen "-tab N"` per surface (0 Home, 2 Health, 3 Journal, 4 Bloom+).
+  No `--url`: `simctl openurl` raises a confirm alert. The seed processes
+  achievement unlocks, so a run that opens on Bloom+ shows earned badges.
   `-tourTab N` switches tab nine seconds in, for a recording with motion.
+- Not yet split-aware: sheets (Progress, Customize garden, trial pitch) and the
+  craving cover present at regular width across the whole inner display.

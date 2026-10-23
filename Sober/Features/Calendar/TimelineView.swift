@@ -16,12 +16,15 @@ struct TimelineView: View {
     @State private var draftMood: Int?
     @State private var draftNote: String = ""
     @State private var pendingSlipDay: Date?
-    /// Off for the unfolded Duo's Timeline pane: it is on screen from launch, so
-    /// a nudge on appear would pitch every cold start rather than a visit.
-    private let nudgesOnAppear: Bool
+    /// The unfolded Duo's Timeline pane beside Home. It is on screen from
+    /// launch, so it skips the appear nudge (that would pitch every cold start
+    /// rather than a visit). In a 669 pt landscape pane the calendar fills the
+    /// viewport, so the selected day's tree sits beside its caption and the
+    /// streak summary, which Home's counter already covers, moves below.
+    private let isPane: Bool
 
-    init(nudgesOnAppear: Bool = true) {
-        self.nudgesOnAppear = nudgesOnAppear
+    init(isPane: Bool = false) {
+        self.isPane = isPane
     }
 
     private var checkInsByDay: [Date: DailyCheckIn] {
@@ -79,9 +82,8 @@ struct TimelineView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section {
-                    summaryRow
-                        .listRowInsets(EdgeInsets(top: Theme.Space.m, leading: Theme.Space.l, bottom: Theme.Space.m, trailing: Theme.Space.l))
+                if !isPane {
+                    summarySection
                 }
 
                 Section {
@@ -91,8 +93,10 @@ struct TimelineView: View {
                 }
 
                 Section("Selected day") {
-                    treeRow
-                        .listRowInsets(EdgeInsets(top: Theme.Space.s, leading: Theme.Space.l, bottom: Theme.Space.m, trailing: Theme.Space.l))
+                    Group {
+                        if isPane { compactTreeRow } else { treeRow }
+                    }
+                    .listRowInsets(EdgeInsets(top: Theme.Space.s, leading: Theme.Space.l, bottom: Theme.Space.m, trailing: Theme.Space.l))
                 }
 
                 if !selectedIsFuture {
@@ -100,11 +104,17 @@ struct TimelineView: View {
                         checkInEditor
                     }
                 }
+
+                if isPane {
+                    summarySection
+                }
             }
             .listStyle(.insetGrouped)
             .navigationTitle("Timeline")
+            // The pane needs its height for the calendar and the selected day.
+            .navigationBarTitleDisplayMode(isPane ? .inline : .automatic)
             .task {
-                guard nudgesOnAppear else { return }
+                guard !isPane else { return }
                 await presentPassiveTrialNudge(subscriptions, intent: .progressSheet)
             }
             .onAppear { loadDraft() }
@@ -275,7 +285,48 @@ struct TimelineView: View {
             }
     }
 
+    private var summarySection: some View {
+        Section {
+            summaryRow
+                .listRowInsets(EdgeInsets(top: Theme.Space.m, leading: Theme.Space.l, bottom: Theme.Space.m, trailing: Theme.Space.l))
+        }
+    }
+
     // MARK: - Reconstructed tree for the selected day
+
+    /// The pane's selected day: the tree as a thumbnail beside its caption.
+    private var compactTreeRow: some View {
+        let dayCount = soberDays(on: selectedDate)
+        let drawnDays = treeDays(on: selectedDate)
+        let cycle = GardenService.cycleProgress(forDays: drawnDays)
+        let stage = GardenService.stage(forDays: drawnDays)
+        let isToday = DateHelpers.startOfDay(selectedDate) == DateHelpers.startOfDay()
+
+        return VStack(alignment: .leading, spacing: Theme.Space.m) {
+            HStack(spacing: Theme.Space.l) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 14).fill(Theme.skyGradient)
+                    BonsaiView(day: cycle.dayInCycle, style: bonsaiStyle, vitality: 1.0, fill: true)
+                        .padding(6)
+                        .id(cycle.dayInCycle)
+                        .transition(.opacity)
+                }
+                .frame(width: 104, height: 104)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(isToday ? "Today" : DateHelpers.mediumDate(selectedDate))
+                        .font(Theme.body())
+                        .foregroundStyle(Theme.textPrimary)
+                    Text("Day \(dayCount) · \(stage.title)")
+                        .font(Theme.subhead())
+                        .foregroundStyle(Theme.textSecondary)
+                }
+                Spacer(minLength: 0)
+            }
+
+            diffNarration(dayCount: drawnDays)
+        }
+    }
 
     private var treeRow: some View {
         // The counter line shows the honest streak; only the tree inherits.
