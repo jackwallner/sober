@@ -16,8 +16,6 @@ private enum Pal {
     static let leafSage   = Color(hex: 0x519E73)
     static let leafFresh  = Color(hex: 0x7BC68C)
     static let leafLight  = Color(hex: 0xA9D4A8)
-    static let leafLightC = Color(hex: 0xC7E5B8)
-    static let leafAutumn = Color(hex: 0xD8A35E)
     static let barkDeep   = Color(hex: 0x3E2A1B)
     static let barkMid    = Color(hex: 0x6B4A2E)
     static let barkLight  = Color(hex: 0xA07B52)
@@ -27,11 +25,6 @@ private enum Pal {
     static let soilDark   = Color(hex: 0x221710)
     static let soilMid    = Color(hex: 0x3A2A1C)
     static let moss       = Color(hex: 0x9DB16E)
-
-    static let autumnShadow = Color(hex: 0x5C3D1F)
-    static let autumnMid    = Color(hex: 0xB07A3C)
-    static let autumnHi     = Color(hex: 0xF2D593)
-    static let deepShadow   = Color(hex: 0x1F4630)
 }
 
 extension Color {
@@ -101,7 +94,7 @@ private func fillRotatedEllipse(
 
 // MARK: - Cluster (foliage blob)
 
-private enum Tone: String { case sage, fresh, autumn, deep }
+private enum Tone: String { case sage, fresh, deep }
 
 private struct ClusterSpec {
     var attach: Attach?
@@ -133,67 +126,21 @@ private func draw(
     tone: Tone, saturation: Double, seed: Double,
     in ctx: inout GraphicsContext
 ) {
-    let trio: (Color, Color, Color, Color)
+    let ink: FoliageInk
     switch tone {
-    case .sage:   trio = (Pal.leafDeep,     Pal.leafSage,   Pal.leafFresh,   Pal.leafLight)
-    case .fresh:  trio = (Pal.leafDeep,     Pal.leafFresh,  Pal.leafLight,   Pal.leafLightC)
-    case .autumn: trio = (Pal.autumnShadow, Pal.autumnMid,  Pal.leafAutumn,  Pal.autumnHi)
-    case .deep:   trio = (Pal.deepShadow,   Pal.leafDeep,   Pal.leafSage,    Pal.leafFresh)
+    case .sage:  ink = FoliageInk(shadow: RGB(0x2F5E45), mid: RGB(0x519E73), light: RGB(0x7BC68C), hi: RGB(0xA9D4A8))
+    case .fresh: ink = FoliageInk(shadow: RGB(0x3B6E4E), mid: RGB(0x6BB57F), light: RGB(0x9CD39C), hi: RGB(0xC7E5B8))
+    case .deep:  ink = FoliageInk(shadow: RGB(0x1F4630), mid: RGB(0x2F5E45), light: RGB(0x519E73), hi: RGB(0x7BC68C))
     }
-    let (shadow, mid, midLight, light) = trio
-    let sat = max(0.4, saturation)
-    let r: (Double) -> Double = { rand01(seed, $0) }
-    let tilt = (r(99) - 0.5) * 20
-
-    var g = ctx
-    g.translateBy(x: cx, y: cy)
-
-    let shadowBlob = blobPath(cx: size * 0.10, cy: size * 0.14, rBase: size * 1.02,
-                              seed: seed * 1.1, points: 13, squashY: 0.82, noise: 0.22, tiltDeg: tilt)
-    g.fill(shadowBlob, with: .color(shadow.opacity(0.78 * sat)))
-
-    for i in 0..<3 {
-        let a = Double.pi * (0.15 + Double(i) * 0.6)
-        let off = size * (0.95 + r(Double(i + 50)) * 0.1)
-        let exCx = cos(a) * off + size * 0.06
-        let exCy = sin(a) * off * 0.8 + size * 0.06
-        let rad = size * (0.08 + r(Double(i + 51)) * 0.05)
-        let p = blobPath(cx: exCx, cy: exCy, rBase: rad, seed: seed * 29 + Double(i) * 13,
-                         points: 7, squashY: 0.9, noise: 0.35)
-        g.fill(p, with: .color(shadow.opacity(0.55 * sat)))
-    }
-
-    let midBlob = blobPath(cx: 0, cy: 0, rBase: size * 0.92,
-                           seed: seed * 1.3 + 7, points: 14, squashY: 0.86, noise: 0.26, tiltDeg: tilt * 0.7)
-    g.fill(midBlob, with: .color(mid.opacity(0.94 * sat)))
-
-    for i in 0..<5 {
-        let a = Double(i) / 5 * .pi * 1.4 - .pi * 0.95
-        let off = size * (0.32 + r(Double(i * 5 + 2)) * 0.22)
-        let cxL = cos(a) * off
-        let cyL = sin(a) * off * 0.7 - size * 0.08
-        let rad = size * (0.18 + r(Double(i * 5 + 3)) * 0.12)
-        let p = blobPath(cx: cxL, cy: cyL, rBase: rad, seed: seed * 17 + Double(i) * 31,
-                         points: 9, squashY: 0.9, noise: 0.32)
-        g.fill(p, with: .color(midLight.opacity(0.7 * sat)))
-    }
-
-    for i in 0..<4 {
-        let a = -Double.pi * 0.75 + Double(i) / 4 * .pi * 0.7
-        let off = size * (0.45 + r(Double(i * 7 + 9)) * 0.18)
-        let cxL = cos(a) * off
-        let cyL = sin(a) * off * 0.55 - size * 0.18
-        let rad = size * (0.09 + r(Double(i * 7 + 11)) * 0.07)
-        let p = blobPath(cx: cxL, cy: cyL, rBase: rad, seed: seed * 23 + Double(i) * 41,
-                         points: 8, squashY: 0.95, noise: 0.28)
-        g.fill(p, with: .color(light.opacity(0.82 * sat)))
-    }
+    paintPad(&ctx, cx: cx, cy: cy, rx: size, ry: size * 0.78, seed: seed * 7.3,
+             ink: ink, dry: min(0.7, max(0, 1 - saturation) * 1.4), detail: size > 10 ? 1 : 0, flat: 0.5)
 }
 
 // MARK: - Pot
 
 private func drawPot(style: BonsaiStyle, in ctx: inout GraphicsContext) {
     if style == .cascade {
+        paintPotFeet(&ctx, left: 228, right: 372, y: 460, color: Pal.potRim)
         // narrower drum pot — soil top at y=378
         var body = Path()
         body.move(to: CGPoint(x: 218, y: 380))
@@ -229,6 +176,7 @@ private func drawPot(style: BonsaiStyle, in ctx: inout GraphicsContext) {
     }
 
     // traditional & windswept — wide trapezoid, soil top y=411
+    paintPotFeet(&ctx, left: 184, right: 416, y: 460, color: Pal.potRim)
     var body = Path()
     body.move(to: CGPoint(x: 170, y: 415))
     body.addLine(to: CGPoint(x: 184, y: 460))
@@ -282,76 +230,21 @@ private func drawRootsAndMoss(_ p: Params, style: BonsaiStyle, in ctx: inout Gra
             ctx.fill(path, with: .color(color.opacity(op * mul)))
         }
     }
-    if p.mossOnTrunk > 0 {
-        let a = min(1, p.mossOnTrunk)
-        let op = 0.55 + 0.45 * a
-        let patches: [(Double, Double, Double, Double)] = [
-            (292, baseY - 3,  5, 2),
-            (302, baseY - 5,  6, 2.4),
-            (296, baseY - 9,  4, 1.8),
-            (307, baseY - 14, 3.5, 1.7),
-            (294, baseY - 17, 3, 1.4),
-        ]
-        let n = Int((2 + 3 * a).rounded(.up))
-        for (x, y, rx, ry) in patches.prefix(n) {
-            ctx.fill(ellipse(x, y, rx, ry), with: .color(Pal.moss.opacity(op)))
-        }
-    }
+    paintSoilMoss(&ctx, cx: 300, y: baseY, spread: style == .cascade ? 58 : 70,
+                  amount: p.mossOnTrunk, seed: style == .windswept ? 31 : 17)
 }
 
 // MARK: - Trunks (style-specific)
 
+/// A limb as one quadratic curve, `w` thick where it leaves the trunk.
+private struct Bough { var from, ctrl, to: CGPoint; var w: Double }
+
 private struct TrunkResult {
     var path: Path
-    var branches: [(Path, Double)]      // (path, strokeWidth)
-    var bareBranches: [(Path, Double, Color, Double)] // (path, w, color, opacity) — windswept windward
-    var gnarl: [(Path, Double)]         // (ellipse path, opacity)
+    var base: CGPoint, baseW: Double    // where the trunk meets the soil
+    var branches: [Bough]
+    var bareBranches: [Bough]           // windswept windward dead wood (jin)
     var attach: [Attach: CGPoint]
-}
-
-/// x on a quadratic Bézier at a given y. The trunk edge curves are monotonic in
-/// y, so a bisection on t is exact enough to plant a branch on the silhouette.
-private func quadX(atY y: Double, _ p0: CGPoint, _ c: CGPoint, _ p2: CGPoint) -> Double {
-    var lo = 0.0, hi = 1.0
-    for _ in 0..<24 {
-        let t = (lo + hi) / 2
-        let yy = pow(1 - t, 2) * p0.y + 2 * t * (1 - t) * c.y + t * t * p2.y
-        if (p2.y > p0.y) == (yy < y) { lo = t } else { hi = t }
-    }
-    let t = (lo + hi) / 2
-    return pow(1 - t, 2) * p0.x + 2 * t * (1 - t) * c.x + t * t * p2.x
-}
-
-private func ribbonPath(through pts: [CGPoint], widths: [Double]) -> Path {
-    var leftPts: [CGPoint] = []
-    var rightPts: [CGPoint] = []
-    for i in 0..<pts.count {
-        let prev = i == 0 ? pts[1] : pts[i - 1]
-        let next = i == pts.count - 1 ? pts[i] : pts[i + 1]
-        let dirA = i == 0
-            ? CGPoint(x: pts[1].x - pts[0].x, y: pts[1].y - pts[0].y)
-            : CGPoint(x: pts[i].x - prev.x, y: pts[i].y - prev.y)
-        let dirB = i == pts.count - 1
-            ? dirA
-            : CGPoint(x: next.x - pts[i].x, y: next.y - pts[i].y)
-        let avgX = (dirA.x + dirB.x) / 2, avgY = (dirA.y + dirB.y) / 2
-        let len = max(1e-6, hypot(avgX, avgY))
-        let nx = -avgY / len, ny = avgX / len
-        let w = widths[i] / 2
-        leftPts.append(CGPoint(x: pts[i].x + nx * w, y: pts[i].y + ny * w))
-        rightPts.append(CGPoint(x: pts[i].x - nx * w, y: pts[i].y - ny * w))
-    }
-    var all = leftPts
-    all.append(contentsOf: rightPts.reversed())
-    var path = Path()
-    path.move(to: all[0])
-    for i in 1..<all.count {
-        let prev = all[i - 1], cur = all[i]
-        let m = CGPoint(x: (prev.x + cur.x) / 2, y: (prev.y + cur.y) / 2)
-        path.addQuadCurve(to: m, control: prev)
-    }
-    path.closeSubpath()
-    return path
 }
 
 private func trunkTraditional(_ p: Params) -> TrunkResult {
@@ -359,83 +252,63 @@ private func trunkTraditional(_ p: Params) -> TrunkResult {
     let heightPx = 70 + 230 * p.trunkHeight
     let tipY = baseY - heightPx
     let tipX = baseX + 12
-    let baseW = 8 + 36 * p.trunkThickness
+    let baseW = 8 + 44 * p.trunkThickness
     let midW = baseW * 0.6, tipW = max(2.4, baseW * 0.25)
     let midY = (baseY + tipY) / 2
-    let midX1 = baseX - 14, midX2 = baseX + 18
-    let bL = baseX - baseW / 2, bR = baseX + baseW / 2
-    let m1L = midX1 - midW / 2, m1R = midX1 + midW / 2
-    let m2L = midX2 - midW / 2, m2R = midX2 + midW / 2
-    let tL = tipX - tipW / 2, tR = tipX + tipW / 2
 
-    var path = Path()
-    path.move(to: CGPoint(x: bL, y: baseY))
-    path.addQuadCurve(to: CGPoint(x: m1L, y: midY), control: CGPoint(x: m1L - 4, y: (baseY + midY) / 2))
-    path.addQuadCurve(to: CGPoint(x: tL, y: tipY), control: CGPoint(x: m2L - 2, y: (midY + tipY) / 2))
-    path.addLine(to: CGPoint(x: tR, y: tipY))
-    path.addQuadCurve(to: CGPoint(x: m2R, y: midY), control: CGPoint(x: m2R + 2, y: (midY + tipY) / 2))
-    path.addQuadCurve(to: CGPoint(x: bR, y: baseY), control: CGPoint(x: m1R + 4, y: (baseY + midY) / 2))
-    path.closeSubpath()
+    // An S-curve: the lower trunk swings left, the upper trunk back right.
+    let pts = [CGPoint(x: baseX, y: baseY),
+               CGPoint(x: baseX - 12, y: baseY - heightPx * 0.38),
+               CGPoint(x: baseX + 16, y: baseY - heightPx * 0.74),
+               CGPoint(x: tipX, y: tipY)]
+    let widths = [baseW, baseW * 0.74, midW * 0.82, tipW]
+    let path = woodRibbon(through: pts, widths: widths)
+    let (spine, ws) = smoothSpine(through: pts, widths: widths)
+    /// The trunk's left or right edge at height `y`.
+    func edge(_ y: Double, _ side: Double) -> Double {
+        for i in 1..<spine.count where spine[i].y <= y {
+            let a = spine[i - 1], b = spine[i]
+            let t = (a.y - y) / max(1e-6, a.y - b.y)
+            return a.x + (b.x - a.x) * t + side * (ws[i - 1] + (ws[i] - ws[i - 1]) * t) / 2
+        }
+        return tipX + side * tipW / 2
+    }
 
     // Branch reach grows with the tree (k=1 at day 365 → original geometry).
     // Branches draw from the day their foliage clusters appear, so a blob is
-    // never left floating where its limb hasn't grown yet.
+    // never left floating where its limb hasn't grown yet. Each starts just
+    // inside the trunk edge at its height, under the trunk fill.
     let k = p.reach
     let ymid2 = (midY + tipY) / 2
-    let b1Start = CGPoint(x: m1L + 2, y: midY + 4)
+    let b1Start = CGPoint(x: edge(midY + 4, -1) + 3, y: midY + 4)
     let b1End = CGPoint(x: b1Start.x - 38 * k, y: b1Start.y - 26 * k)
-    let b2Start = CGPoint(x: m2R - 2, y: ymid2 + 4)
+    let b2Start = CGPoint(x: edge(ymid2 + 4, 1) - 3, y: ymid2 + 4)
     let b2End = CGPoint(x: b2Start.x + 38 * k, y: b2Start.y - 34 * k)
-    // `bR` is the trunk half-width at the *base*; by y = baseY - 36 the S-curve
-    // has already pulled the silhouette inward, so anchoring the branch at bR
-    // left it (and the foliage cluster on its tip) floating off the trunk from
-    // day ~100 on. Keep the tip where it was and plant the start on the actual
-    // right edge, tucked 3pt under the trunk fill that draws over it.
-    let b3Anchor = CGPoint(x: bR - 2, y: baseY - 36)
-    let b3End = CGPoint(x: b3Anchor.x + 44 * k, y: b3Anchor.y - 36 * k)
-    let b3Start = CGPoint(
-        x: quadX(atY: b3Anchor.y,
-                 CGPoint(x: m2R, y: midY),
-                 CGPoint(x: m1R + 4, y: (baseY + midY) / 2),
-                 CGPoint(x: bR, y: baseY)) - 3,
-        y: b3Anchor.y)
+    let b3Start = CGPoint(x: edge(baseY - 36, 1) - 3, y: baseY - 36)
+    let b3End = CGPoint(x: baseX + baseW / 2 - 2 + 44 * k, y: b3Start.y - 36 * k)
 
-    var branches: [(Path, Double)] = []
+    var branches: [Bough] = []
     if p.day >= 30 {
-        var b1 = Path()
-        b1.move(to: b1Start)
-        b1.addQuadCurve(to: b1End, control: CGPoint(x: b1Start.x - 18 * k, y: b1Start.y - 10 * k))
-        branches.append((b1, max(3, baseW * 0.18)))
-        var b2 = Path()
-        b2.move(to: b2Start)
-        b2.addQuadCurve(to: b2End, control: CGPoint(x: b2Start.x + 20 * k, y: b2Start.y - 18 * k))
-        branches.append((b2, max(2.6, baseW * 0.14)))
+        branches.append(Bough(from: b1Start, ctrl: CGPoint(x: b1Start.x - 18 * k, y: b1Start.y - 10 * k),
+                              to: b1End, w: max(3, baseW * 0.22)))
+        branches.append(Bough(from: b2Start, ctrl: CGPoint(x: b2Start.x + 20 * k, y: b2Start.y - 18 * k),
+                              to: b2End, w: max(2.6, baseW * 0.18)))
     }
     if p.day >= 60 {
-        var b3 = Path()
-        b3.move(to: b3Start)
-        b3.addQuadCurve(to: b3End, control: CGPoint(x: b3Start.x + 20 * k, y: b3Start.y - 18 * k))
-        branches.append((b3, max(2.4, baseW * 0.12)))
-    }
-
-    var gnarl: [(Path, Double)] = []
-    if p.trunkGnarl > 0 {
-        let a = min(1, p.trunkGnarl)
-        let op = 0.5 + 0.5 * a
-        gnarl.append((ellipse(midX1 + midW * 0.15, midY + 4, midW * 0.55, 3.6), 0.55 * op))
-        gnarl.append((ellipse(midX2 - midW * 0.15, (midY + tipY) / 2, midW * 0.45, 3), 0.5 * op))
-        gnarl.append((ellipse((bL + m1L) / 2, (baseY + midY) / 2 + 6, baseW * 0.35, 3.2), 0.45 * op))
+        branches.append(Bough(from: b3Start, ctrl: CGPoint(x: b3Start.x + 20 * k, y: b3Start.y - 18 * k),
+                              to: b3End, w: max(2.4, baseW * 0.16)))
     }
 
     let attach: [Attach: CGPoint] = [
         .crown:      CGPoint(x: tipX, y: tipY - 8 * k),
         .upperLeft:  b1End,
         .upperRight: b2End,
-        .midLeft:    CGPoint(x: m1L - 12 * k, y: midY - 4 * k),
-        .midRight:   CGPoint(x: m2R + 12 * k, y: ymid2 - 6 * k),
+        .midLeft:    CGPoint(x: edge(midY, -1) - 12 * k, y: midY - 4 * k),
+        .midRight:   CGPoint(x: edge(ymid2, 1) + 12 * k, y: ymid2 - 6 * k),
         .lowerRight: b3End,
     ]
-    return TrunkResult(path: path, branches: branches, bareBranches: [], gnarl: gnarl, attach: attach)
+    return TrunkResult(path: path, base: CGPoint(x: baseX, y: baseY), baseW: baseW,
+                       branches: branches, bareBranches: [], attach: attach)
 }
 
 private func trunkCascade(_ p: Params) -> TrunkResult {
@@ -454,15 +327,7 @@ private func trunkCascade(_ p: Params) -> TrunkResult {
     let p3 = CGPoint(x: sideX,     y: baseY + fallPx)
     let pts = [p0, p1, p2, p3]
     let widths = [baseW, midW * 1.1, midW, tipW]
-    let path = ribbonPath(through: pts, widths: widths)
-
-    var gnarl: [(Path, Double)] = []
-    if p.trunkGnarl > 0 {
-        let a = min(1, p.trunkGnarl)
-        let op = 0.5 + 0.5 * a
-        gnarl.append((ellipse(p1.x + 4, p1.y + 2, midW * 0.55, 3.2), 0.5 * op))
-        gnarl.append((ellipse(p2.x - 2, p2.y + 4, midW * 0.5, 3), 0.5 * op))
-    }
+    let path = woodRibbon(through: pts, widths: widths)
 
     let k = p.reach
     let midPt = CGPoint(x: (p2.x + p3.x) / 2, y: (p2.y + p3.y) / 2)
@@ -470,16 +335,12 @@ private func trunkCascade(_ p: Params) -> TrunkResult {
     let b1End = CGPoint(x: b1Start.x - 44 * k, y: b1Start.y + 46 * k)
     let b2End = CGPoint(x: midPt.x - 56 * k, y: midPt.y + 28 * k)
 
-    var branches: [(Path, Double)] = []
+    var branches: [Bough] = []
     if p.day >= 30 {
-        var b1 = Path()
-        b1.move(to: b1Start)
-        b1.addQuadCurve(to: b1End, control: CGPoint(x: b1Start.x - 22 * k, y: b1Start.y + 24 * k))
-        branches.append((b1, max(2.6, baseW * 0.14)))
-        var b2 = Path()
-        b2.move(to: midPt)
-        b2.addQuadCurve(to: b2End, control: CGPoint(x: midPt.x - 26 * k, y: midPt.y + 18 * k))
-        branches.append((b2, max(2.4, baseW * 0.12)))
+        branches.append(Bough(from: b1Start, ctrl: CGPoint(x: b1Start.x - 22 * k, y: b1Start.y + 24 * k),
+                              to: b1End, w: max(2.6, baseW * 0.18)))
+        branches.append(Bough(from: midPt, ctrl: CGPoint(x: midPt.x - 26 * k, y: midPt.y + 18 * k),
+                              to: b2End, w: max(2.4, baseW * 0.16)))
     }
 
     let attach: [Attach: CGPoint] = [
@@ -490,7 +351,8 @@ private func trunkCascade(_ p: Params) -> TrunkResult {
         .midRight:   CGPoint(x: p3.x + 14 * k, y: p3.y - 10 * k),
         .lowerRight: CGPoint(x: p3.x - 6 * k, y: p3.y + 10 * k),
     ]
-    return TrunkResult(path: path, branches: branches, bareBranches: [], gnarl: gnarl, attach: attach)
+    return TrunkResult(path: path, base: p0, baseW: baseW,
+                       branches: branches, bareBranches: [], attach: attach)
 }
 
 private func trunkWindswept(_ p: Params) -> TrunkResult {
@@ -499,65 +361,50 @@ private func trunkWindswept(_ p: Params) -> TrunkResult {
     let leanRad = 18.0 * .pi / 180
     let tipX = baseX + sin(leanRad) * heightPx + 8
     let tipY = baseY - cos(leanRad) * heightPx
-    let baseW = 8 + 34 * p.trunkThickness
+    let baseW = 8 + 40 * p.trunkThickness
     let midW = baseW * 0.55, tipW = max(2.4, baseW * 0.22)
     let midX = (baseX + tipX) / 2 + 14
     let midY = (baseY + tipY) / 2 + 4
 
+    // Starts below the soil line so the leaning base reads as planted.
     let pts = [
+        CGPoint(x: baseX - 3, y: baseY + 6),
         CGPoint(x: baseX, y: baseY),
         CGPoint(x: midX, y: midY),
         CGPoint(x: tipX, y: tipY),
     ]
-    let widths = [baseW, midW * 1.05, tipW]
-    let path = ribbonPath(through: pts, widths: widths)
-
-    var gnarl: [(Path, Double)] = []
-    if p.trunkGnarl > 0 {
-        let a = min(1, p.trunkGnarl)
-        let op = 0.5 + 0.5 * a
-        gnarl.append((ellipse(midX - 2, midY + 2, midW * 0.55, 3.6), 0.55 * op))
-    }
+    let widths = [baseW * 1.04, baseW, midW * 1.05, tipW]
+    let path = woodRibbon(through: pts, widths: widths)
 
     let k = p.reach
 
     // Bare windward (left) branches — decorative dead wood, scaled with growth.
-    var bare: [(Path, Double, Color, Double)] = []
+    var bare: [Bough] = []
     if p.trunkThickness > 0.35 {
-        let bareSize = max(2, baseW * 0.12)
+        let bareSize = max(3, baseW * 0.22)
         let s1 = CGPoint(x: (baseX + midX) / 2, y: (baseY + midY) / 2)
-        var b1 = Path()
-        b1.move(to: s1)
-        b1.addQuadCurve(
-            to: CGPoint(x: s1.x + (baseX - 44 - s1.x) * k, y: s1.y + (baseY - 92 - s1.y) * k),
-            control: CGPoint(x: s1.x + (baseX - 18 - s1.x) * k, y: s1.y + (baseY - 80 - s1.y) * k))
-        bare.append((b1, bareSize, Pal.barkMid, 1))
-        var b2 = Path()
-        b2.move(to: CGPoint(x: midX - 4, y: midY + 4))
-        b2.addQuadCurve(to: CGPoint(x: midX - 4 - 52 * k, y: midY + 4 - 32 * k),
-                        control: CGPoint(x: midX - 4 - 26 * k, y: midY + 4 - 22 * k))
-        bare.append((b2, bareSize * 0.85, Pal.barkDeep, 0.85))
-        var b3 = Path()
-        b3.move(to: CGPoint(x: midX - 18, y: midY - 4))
-        b3.addQuadCurve(to: CGPoint(x: midX - 18 - 42 * k, y: midY - 4 + 2 * k),
-                        control: CGPoint(x: midX - 18 - 22 * k, y: midY - 4 - 2 * k))
-        bare.append((b3, bareSize * 0.7, Pal.barkMid, 1))
+        bare.append(Bough(
+            from: s1,
+            ctrl: CGPoint(x: s1.x + (baseX - 18 - s1.x) * k, y: s1.y + (baseY - 80 - s1.y) * k),
+            to: CGPoint(x: s1.x + (baseX - 44 - s1.x) * k, y: s1.y + (baseY - 92 - s1.y) * k), w: bareSize))
+        let s2 = CGPoint(x: midX - 4, y: midY + 4)
+        bare.append(Bough(from: s2, ctrl: CGPoint(x: s2.x - 26 * k, y: s2.y - 22 * k),
+                          to: CGPoint(x: s2.x - 52 * k, y: s2.y - 32 * k), w: bareSize * 0.85))
+        let s3 = CGPoint(x: midX - 18, y: midY - 4)
+        bare.append(Bough(from: s3, ctrl: CGPoint(x: s3.x - 22 * k, y: s3.y - 2 * k),
+                          to: CGPoint(x: s3.x - 42 * k, y: s3.y + 2 * k), w: bareSize * 0.7))
     }
 
     // Leeward (right) heavy branches into the foliage. Drawn from the day the
     // leeward clusters exist so foliage always has wood to sit on.
-    var branches: [(Path, Double)] = []
+    var branches: [Bough] = []
     if p.day >= 30 {
-        var b1 = Path()
-        b1.move(to: CGPoint(x: midX + 2, y: midY - 2))
-        b1.addQuadCurve(to: CGPoint(x: midX + 2 + 46 * k, y: midY - 2 - 26 * k),
-                        control: CGPoint(x: midX + 2 + 24 * k, y: midY - 2 - 12 * k))
-        branches.append((b1, max(3, baseW * 0.18)))
-        var b2 = Path()
-        b2.move(to: CGPoint(x: tipX - 6, y: tipY + 6))
-        b2.addQuadCurve(to: CGPoint(x: tipX - 6 + 48 * k, y: tipY + 6 - 20 * k),
-                        control: CGPoint(x: tipX - 6 + 24 * k, y: tipY + 6 - 10 * k))
-        branches.append((b2, max(2.6, baseW * 0.14)))
+        let s1 = CGPoint(x: midX + 2, y: midY - 2)
+        branches.append(Bough(from: s1, ctrl: CGPoint(x: s1.x + 24 * k, y: s1.y - 12 * k),
+                              to: CGPoint(x: s1.x + 46 * k, y: s1.y - 26 * k), w: max(3, baseW * 0.22)))
+        let s2 = CGPoint(x: tipX - 6, y: tipY + 6)
+        branches.append(Bough(from: s2, ctrl: CGPoint(x: s2.x + 24 * k, y: s2.y - 10 * k),
+                              to: CGPoint(x: s2.x + 48 * k, y: s2.y - 20 * k), w: max(2.6, baseW * 0.18)))
     }
 
     let attach: [Attach: CGPoint] = [
@@ -568,7 +415,8 @@ private func trunkWindswept(_ p: Params) -> TrunkResult {
         .midRight:   CGPoint(x: midX + 56 * k, y: midY - 12 * k),
         .lowerRight: CGPoint(x: midX + 70 * k, y: midY + 14 * k),
     ]
-    return TrunkResult(path: path, branches: branches, bareBranches: bare, gnarl: gnarl, attach: attach)
+    return TrunkResult(path: path, base: CGPoint(x: baseX, y: baseY), baseW: baseW,
+                       branches: branches, bareBranches: bare, attach: attach)
 }
 
 private func buildTrunk(_ p: Params, style: BonsaiStyle) -> TrunkResult {
@@ -648,11 +496,11 @@ private func paramsForDay(_ day: Int, style: BonsaiStyle) -> Params {
     }
     if day >= 180 {
         clusters.append(ClusterSpec(attach: .midRight, offset: CGSize(width: 16, height: 12),
-            size: (sizeBase * 0.28).rounded(), tone: .autumn, sat: 0.8, seed: 8))
+            size: (sizeBase * 0.28).rounded(), tone: .fresh, seed: 8))
     }
     if day >= 270 {
         clusters.append(ClusterSpec(attach: .midLeft, offset: CGSize(width: -14, height: -8),
-            size: (sizeBase * 0.28).rounded(), tone: .autumn, sat: 0.75, seed: 9))
+            size: (sizeBase * 0.28).rounded(), tone: .fresh, seed: 9))
     }
 
     return Params(day: day,
@@ -804,13 +652,15 @@ private struct SakuraCanopy {
 private func sakuraCanopy(_ day: Int) -> SakuraCanopy {
     let baseY = 410.0
     let g = sakuraScale(day)
-    let forkLen = 10 + 162 * g
+    // The trunk forks low and the crown rides above the fork, so the main
+    // limbs show between them instead of a cloud sitting on a stick.
+    let forkLen = 10 + 130 * g
     let forkY = baseY - forkLen
     let forkX = 303.0
     let Rx = 8 + 138 * g
-    let Ry = 5 + 58 * g
-    let baseW = 2.5 + 44 * g
-    return SakuraCanopy(cX: forkX, cY: forkY - Ry * 0.40, Rx: Rx, Ry: Ry,
+    let Ry = 5 + 62 * g
+    let baseW = 2.5 + 46 * g
+    return SakuraCanopy(cX: forkX, cY: forkY - Ry * 0.9, Rx: Rx, Ry: Ry,
                         forkX: forkX, forkY: forkY, g: g, baseW: baseW)
 }
 
@@ -856,47 +706,16 @@ private let sakuraTufts: [SakuraTuft] = {
 }()
 
 // A soft painterly blossom cluster (shadow → mid → lit clumps → highlights).
-private func sakuraCluster(
-    _ ctx: inout GraphicsContext, cx: Double, cy: Double, size: Double,
-    seed: Double, squashY: Double = 0.84, noise: Double = 0.28,
-    clumps: Int = 4, lights: Int = 3, sat: Double = 1, opacity: Double = 1, tilt: Double = 0
-) {
-    let shadow = SakuraPal.bloomDeep, mid = SakuraPal.bloomMid
-    let light = SakuraPal.bloomLight, hi = SakuraPal.bloomHi
-    let r: (Double) -> Double = { rand01(seed, $0) }
+private let sakuraInk = FoliageInk(shadow: RGB(0xD98AAE), mid: RGB(0xEFA6C4), light: RGB(0xF9CFE0), hi: RGB(0xFFF4F8))
 
-    var g = ctx
-    g.translateBy(x: cx, y: cy)
-    g.opacity = opacity
-
-    let sh = blobPath(cx: size * 0.10, cy: size * 0.13, rBase: size * 1.02,
-                      seed: seed * 1.1, points: 10, squashY: squashY, noise: noise * 0.85, tiltDeg: tilt)
-    g.fill(sh, with: .color(shadow.opacity(0.8 * sat)))
-
-    let md = blobPath(cx: 0, cy: 0, rBase: size * 0.92,
-                      seed: seed * 1.3 + 7, points: 11, squashY: squashY + 0.03, noise: noise, tiltDeg: tilt * 0.6)
-    g.fill(md, with: .color(mid.opacity(0.96 * sat)))
-
-    for i in 0..<clumps {
-        let a = Double(i) / Double(max(1, clumps)) * .pi * 1.4 - .pi * 0.95
-        let off = size * (0.30 + r(Double(i * 5 + 2)) * 0.22)
-        let rad = size * (0.20 + r(Double(i * 5 + 3)) * 0.12)
-        let p = blobPath(cx: cos(a) * off, cy: sin(a) * off * 0.7 - size * 0.08, rBase: rad,
-                         seed: seed * 17 + Double(i) * 31, points: 8, squashY: 0.9, noise: 0.32)
-        g.fill(p, with: .color(light.opacity(0.72 * sat)))
-    }
-
-    for i in 0..<lights {
-        let a = -Double.pi * 0.78 + Double(i) / Double(max(1, lights)) * .pi * 0.72
-        let off = size * (0.44 + r(Double(i * 7 + 9)) * 0.18)
-        let rad = size * (0.10 + r(Double(i * 7 + 11)) * 0.07)
-        let p = blobPath(cx: cos(a) * off, cy: sin(a) * off * 0.55 - size * 0.18, rBase: rad,
-                         seed: seed * 23 + Double(i) * 41, points: 8, squashY: 0.95, noise: 0.28)
-        g.fill(p, with: .color(hi.opacity(0.85 * sat)))
-    }
+private func sakuraCluster(_ ctx: inout GraphicsContext, cx: Double, cy: Double, size: Double,
+                           seed: Double, squashY: Double, detail: Int) {
+    paintPad(&ctx, cx: cx, cy: cy, rx: size, ry: size * squashY, seed: seed,
+             ink: sakuraInk, detail: detail, flat: 0.3)
 }
 
 private func drawSakuraPot(_ ctx: inout GraphicsContext) {
+    paintPotFeet(&ctx, left: 184, right: 416, y: 460, color: SakuraPal.potRim)
     var body = Path()
     body.move(to: CGPoint(x: 170, y: 415))
     body.addLine(to: CGPoint(x: 184, y: 460))
@@ -940,43 +759,62 @@ private func drawSakuraPot(_ ctx: inout GraphicsContext) {
     ctx.fill(ellipse(285, 413, 1.2, 1.2),  with: .color(SakuraPal.barkLight.opacity(0.4)))
 }
 
+/// A trunk from the soil at (300, baseY) to the fork, bowing left by `bend`,
+/// tapering from `baseW` to `topW` fastest near the roots.
+private func forkTrunk(baseY: Double, forkX: Double, forkY: Double, bend: Double,
+                       baseW: Double, topW: Double) -> (path: Path, at: (Double) -> (CGPoint, Double)) {
+    let at: (Double) -> (CGPoint, Double) = { t in
+        (forkSpine(baseY: baseY, forkX: forkX, forkY: forkY, bend: bend, t: t),
+         topW + (baseW - topW) * pow(1 - t, 1.7))
+    }
+    let samples = (0...6).map { at(Double($0) / 6) }
+    let path = woodRibbon(through: samples.map(\.0), widths: samples.map(\.1), perSegment: 3)
+        .union(nebariPath(x: 300, y: baseY, w: baseW, spread: 1))
+    return (path, at)
+}
+
+/// A point on that trunk's centre line, `t` 0 at the soil to 1 at the fork.
+private func forkSpine(baseY: Double, forkX: Double, forkY: Double, bend: Double, t: Double) -> CGPoint {
+    let u = 1 - t, cx = 300 - 2 * bend, cy = (baseY + forkY) / 2
+    return CGPoint(x: u * u * 300 + 2 * u * t * cx + t * t * forkX,
+                   y: u * u * baseY + 2 * u * t * cy + t * t * forkY)
+}
+
+/// Where a crown limb leaves the trunk: upright limbs at the fork, side
+/// limbs a little lower, the way a real crown branches.
+private func limbStart(angleDeg: Double, baseY: Double, forkX: Double, forkY: Double, bend: Double) -> CGPoint {
+    let t = 1 - 0.3 * (1 - sin(angleDeg * .pi / 180))
+    return forkSpine(baseY: baseY, forkX: forkX, forkY: forkY, bend: bend, t: t)
+}
+
 private func drawSakuraTrunk(day: Int, c: SakuraCanopy, in ctx: inout GraphicsContext) {
-    let baseX = 300.0, baseY = 410.0
+    let baseY = 410.0
     let topW = max(2.2, c.baseW * 0.42)
-    let midY = (baseY + c.forkY) / 2
-    let bend = 2 + 7 * c.g
-    let bL = baseX - c.baseW / 2, bR = baseX + c.baseW / 2
-    let mL = baseX - bend - topW * 0.55, mR = baseX - bend + topW * 0.55
-    let tL = c.forkX - topW / 2, tR = c.forkX + topW / 2
-
-    var trunk = Path()
-    trunk.move(to: CGPoint(x: bL, y: baseY))
-    trunk.addQuadCurve(to: CGPoint(x: mL, y: midY), control: CGPoint(x: bL - 2, y: midY + 8))
-    trunk.addQuadCurve(to: CGPoint(x: tL, y: c.forkY), control: CGPoint(x: mL + 2, y: (midY + c.forkY) / 2))
-    trunk.addLine(to: CGPoint(x: tR, y: c.forkY))
-    trunk.addQuadCurve(to: CGPoint(x: mR, y: midY), control: CGPoint(x: mR + 2, y: (midY + c.forkY) / 2))
-    trunk.addQuadCurve(to: CGPoint(x: bR, y: baseY), control: CGPoint(x: bR + 2, y: midY + 8))
-    trunk.closeSubpath()
-
-    let tb = trunk.boundingRect
-    ctx.fill(trunk, with: .linearGradient(
+    let trunk = forkTrunk(baseY: baseY, forkX: c.forkX, forkY: c.forkY, bend: 2 + 7 * c.g,
+                          baseW: c.baseW, topW: topW)
+    var g = ctx
+    g.clip(to: Path(CGRect(x: 0, y: 0, width: 600, height: baseY + 2)))
+    let tb = trunk.path.boundingRect
+    g.fill(trunk.path, with: .linearGradient(
         Gradient(colors: [SakuraPal.barkLight, SakuraPal.barkMid, SakuraPal.barkDeep]),
         startPoint: CGPoint(x: tb.minX, y: tb.midY), endPoint: CGPoint(x: tb.maxX, y: tb.midY)))
+    shadeWood(&g, trunk.path, width: c.baseW * 0.7, dark: SakuraPal.barkDeep, light: SakuraPal.barkLight)
 
+    // Cherry bark: short horizontal lenticels.
     let lc = sakuraBark(day)
-    let forkLen = baseY - c.forkY
     if lc > 0.05 && c.baseW > 14 {
-        let rows = Int((2 + 5 * lc).rounded())
+        var lines = g
+        lines.clip(to: trunk.path)
+        let rows = Int((3 + 6 * lc).rounded())
         for i in 0..<rows {
-            let ty = lerp(baseY - 8, c.forkY + 6, Double(i) / Double(max(1, rows - 1)))
-            let tw = lerp(c.baseW, topW, (baseY - ty) / max(1, forkLen))
-            let lx = baseX - tw * 0.28 - bend * ((baseY - ty) / max(1, forkLen))
-            let ll = max(2.4, tw * 0.5)
+            let t = 0.08 + 0.8 * Double(i) / Double(max(1, rows - 1))
+            let (pt, w) = trunk.at(t)
+            let off = (bonsaiNoise(77, Double(i)) - 0.5) * w * 0.4
             var line = Path()
-            line.move(to: CGPoint(x: lx, y: ty))
-            line.addLine(to: CGPoint(x: lx + ll, y: ty))
-            ctx.stroke(line, with: .color(SakuraPal.lenticel.opacity(0.5 * lc)),
-                       style: StrokeStyle(lineWidth: 1.8, lineCap: .round))
+            line.move(to: CGPoint(x: pt.x + off - w * 0.22, y: pt.y))
+            line.addLine(to: CGPoint(x: pt.x + off + w * 0.22, y: pt.y))
+            lines.stroke(line, with: .color(SakuraPal.lenticel.opacity(0.45 * lc)),
+                         style: StrokeStyle(lineWidth: 1.6, lineCap: .round))
         }
     }
 }
@@ -1043,11 +881,14 @@ func drawSakura(day rawDay: Int, wind: BonsaiWind? = nil, in ctx: inout Graphics
         let ar = L.a * .pi / 180
         let tx = c.cX + cos(ar) * c.Rx * L.r * e
         let ty = c.cY - sin(ar) * c.Ry * L.r * e
+        // Every pad has wood under it, the leader included: the crown rides
+        // above the fork, so a pad without a limb would float.
         limbItems.append(Limb(L: L, e: e, tx: tx, ty: ty,
-                              size: padBase * L.s * (0.6 + 0.4 * e), branch: L.app != 0))
+                              size: padBase * L.s * (0.6 + 0.4 * e), branch: true))
     }
 
     drawSakuraPot(&ctx)
+    paintSoilMoss(&ctx, cx: 300, y: 410, spread: 70, amount: sakuraBark(day), seed: 23)
     var plant = ctx
     wind?.bend(&plant, pivot: pivot)
 
@@ -1055,13 +896,14 @@ func drawSakura(day rawDay: Int, wind: BonsaiWind? = nil, in ctx: inout Graphics
     for it in limbItems.sorted(by: { $0.ty > $1.ty }) where it.branch {
         let ar = it.L.a * .pi / 180
         let d = drift(it.tx, it.ty)
-        let mx = (c.forkX + it.tx) / 2 - sin(ar) * 5 * c.g + d.width / 2
-        let my = (c.forkY + it.ty) / 2 - 8 * c.g * it.e + d.height / 2
-        let w = max(1.8, c.baseW * 0.20 * (0.4 + 0.6 * it.e))
-        var b = Path()
-        b.move(to: CGPoint(x: c.forkX, y: c.forkY))
-        b.addQuadCurve(to: CGPoint(x: it.tx + d.width, y: it.ty + d.height), control: CGPoint(x: mx, y: my))
-        plant.stroke(b, with: .color(SakuraPal.barkMid), style: StrokeStyle(lineWidth: w, lineCap: .round))
+        let st = limbStart(angleDeg: it.L.a, baseY: 410, forkX: c.forkX, forkY: c.forkY, bend: 2 + 7 * c.g)
+        let mx = (st.x + it.tx) / 2 - sin(ar) * 5 * c.g + d.width / 2
+        let my = (st.y + it.ty) / 2 - 8 * c.g * it.e + d.height / 2
+        let w = max(1.8, c.baseW * 0.24 * (0.4 + 0.6 * it.e))
+        let b = boughPath(from: st, control: CGPoint(x: mx, y: my),
+                          to: CGPoint(x: it.tx + d.width, y: it.ty + d.height), w0: w, w1: max(1.2, w * 0.35))
+        plant.fill(b, with: .color(SakuraPal.barkMid))
+        shadeWood(&plant, b, width: w, dark: SakuraPal.barkDeep, light: SakuraPal.barkLight)
     }
 
     drawSakuraTrunk(day: day, c: c, in: &plant)
@@ -1081,13 +923,11 @@ func drawSakura(day rawDay: Int, wind: BonsaiWind? = nil, in ctx: inout Graphics
     }
 
     for it in blossoms.sorted(by: { $0.ty > $1.ty }) {
-        let clumps = it.light ? 0 : 2
-        let lights = it.light ? 1 : 2
         var g = plant
         let d = drift(it.tx, it.ty)
         g.translateBy(x: d.width, y: d.height)
         sakuraCluster(&g, cx: it.tx, cy: it.ty, size: it.size, seed: it.seed * 5 + 2,
-                      squashY: 0.86, noise: 0.30, clumps: clumps, lights: lights, sat: 1, opacity: 1)
+                      squashY: 0.8, detail: it.size > 10 ? 1 : 0)
         if c.g > 0.45 && it.accent {
             g.fill(ellipse(it.tx + it.size * 0.1, it.ty - it.size * 0.1, 1.2 + c.g, 1.2 + c.g),
                    with: .color(SakuraPal.center.opacity(0.4)))
@@ -1105,7 +945,7 @@ func sakuraContentRect(day: Int) -> CGRect {
     let padBase = 6 + 34 * c.g
     var minX = 170.0, maxX = 430.0
     var minY = 410.0
-    let maxY = 464.0    // pot footprint always anchors the bottom
+    let maxY = 466.0    // pot feet always anchor the bottom
     minX = min(minX, c.cX - c.Rx - padBase)
     maxX = max(maxX, c.cX + c.Rx + padBase)
     minY = min(minY, c.cY - c.Ry - padBase * 1.3)
@@ -1154,13 +994,13 @@ private struct MapleCanopy {
 private func mapleCanopy(_ day: Int) -> MapleCanopy {
     let baseY = 410.0
     let g = mapleScale(day)
-    let forkLen = 12 + 182 * g
+    let forkLen = 12 + 146 * g
     let forkY = baseY - forkLen
     let forkX = 304.0
     let Rx = 8 + 132 * g
     let Ry = 6 + 74 * g
-    let baseW = 2.4 + 38 * g
-    return MapleCanopy(cX: forkX, cY: forkY - Ry * 0.34, Rx: Rx, Ry: Ry,
+    let baseW = 2.4 + 42 * g
+    return MapleCanopy(cX: forkX, cY: forkY - Ry * 0.8, Rx: Rx, Ry: Ry,
                        forkX: forkX, forkY: forkY, g: g, baseW: baseW)
 }
 
@@ -1205,43 +1045,16 @@ private let mapleTufts: [MapleTuft] = {
     return out
 }()
 
-private func mapleCluster(
-    _ ctx: inout GraphicsContext, cx: Double, cy: Double, size: Double,
-    seed: Double, squashY: Double = 0.84, noise: Double = 0.34,
-    clumps: Int = 4, lights: Int = 3, sat: Double = 1, opacity: Double = 1, tilt: Double = 0
-) {
-    let shadow = MaplePal.folDeep, mid = MaplePal.folMid
-    let light = MaplePal.folLight, hi = MaplePal.folHi
-    let r: (Double) -> Double = { rand01(seed, $0) }
-    var g = ctx
-    g.translateBy(x: cx, y: cy)
-    g.opacity = opacity
+private let mapleInk = FoliageInk(shadow: RGB(0x9A3424), mid: RGB(0xC8472A), light: RGB(0xE87B33), hi: RGB(0xF4B24B))
 
-    let sh = blobPath(cx: size * 0.10, cy: size * 0.13, rBase: size * 1.02,
-                      seed: seed * 1.1, points: 11, squashY: squashY, noise: noise * 0.9, tiltDeg: tilt)
-    g.fill(sh, with: .color(shadow.opacity(0.82 * sat)))
-    let md = blobPath(cx: 0, cy: 0, rBase: size * 0.92,
-                      seed: seed * 1.3 + 7, points: 12, squashY: squashY + 0.02, noise: noise, tiltDeg: tilt * 0.6)
-    g.fill(md, with: .color(mid.opacity(0.96 * sat)))
-    for i in 0..<clumps {
-        let a = Double(i) / Double(max(1, clumps)) * .pi * 1.4 - .pi * 0.95
-        let off = size * (0.30 + r(Double(i * 5 + 2)) * 0.24)
-        let rad = size * (0.18 + r(Double(i * 5 + 3)) * 0.12)
-        let p = blobPath(cx: cos(a) * off, cy: sin(a) * off * 0.7 - size * 0.08, rBase: rad,
-                         seed: seed * 17 + Double(i) * 31, points: 8, squashY: 0.9, noise: 0.4)
-        g.fill(p, with: .color(light.opacity(0.74 * sat)))
-    }
-    for i in 0..<lights {
-        let a = -Double.pi * 0.78 + Double(i) / Double(max(1, lights)) * .pi * 0.72
-        let off = size * (0.44 + r(Double(i * 7 + 9)) * 0.18)
-        let rad = size * (0.09 + r(Double(i * 7 + 11)) * 0.07)
-        let p = blobPath(cx: cos(a) * off, cy: sin(a) * off * 0.55 - size * 0.18, rBase: rad,
-                         seed: seed * 23 + Double(i) * 41, points: 7, squashY: 0.95, noise: 0.34)
-        g.fill(p, with: .color(hi.opacity(0.85 * sat)))
-    }
+private func mapleCluster(_ ctx: inout GraphicsContext, cx: Double, cy: Double, size: Double,
+                          seed: Double, squashY: Double, detail: Int) {
+    paintPad(&ctx, cx: cx, cy: cy, rx: size, ry: size * squashY, seed: seed,
+             ink: mapleInk, detail: detail, flat: 0.35)
 }
 
 private func drawMaplePot(_ ctx: inout GraphicsContext) {
+    paintPotFeet(&ctx, left: 186, right: 414, y: 460, color: MaplePal.potRim)
     var body = Path()
     body.move(to: CGPoint(x: 176, y: 418))
     body.addLine(to: CGPoint(x: 186, y: 460))
@@ -1307,42 +1120,18 @@ private func drawMaplePot(_ ctx: inout GraphicsContext) {
 }
 
 private func drawMapleTrunk(day: Int, c: MapleCanopy, in ctx: inout GraphicsContext) {
-    let baseX = 300.0, baseY = 410.0
-    let topW = max(2.0, c.baseW * 0.40)
-    let midY = (baseY + c.forkY) / 2
-    let bend = 3 + 9 * c.g
-    let bL = baseX - c.baseW / 2, bR = baseX + c.baseW / 2
-    let mL = baseX - bend - topW * 0.55, mR = baseX - bend + topW * 0.55
-    let tL = c.forkX - topW / 2, tR = c.forkX + topW / 2
-
-    var trunk = Path()
-    trunk.move(to: CGPoint(x: bL, y: baseY))
-    trunk.addQuadCurve(to: CGPoint(x: mL, y: midY), control: CGPoint(x: bL - 2, y: midY + 8))
-    trunk.addQuadCurve(to: CGPoint(x: tL, y: c.forkY), control: CGPoint(x: mL + 2, y: (midY + c.forkY) / 2))
-    trunk.addLine(to: CGPoint(x: tR, y: c.forkY))
-    trunk.addQuadCurve(to: CGPoint(x: mR, y: midY), control: CGPoint(x: mR + 2, y: (midY + c.forkY) / 2))
-    trunk.addQuadCurve(to: CGPoint(x: bR, y: baseY), control: CGPoint(x: bR + 2, y: midY + 8))
-    trunk.closeSubpath()
-
-    let tb = trunk.boundingRect
-    ctx.fill(trunk, with: .linearGradient(
+    let baseY = 410.0
+    let trunk = forkTrunk(baseY: baseY, forkX: c.forkX, forkY: c.forkY, bend: 3 + 9 * c.g,
+                          baseW: c.baseW, topW: max(2.0, c.baseW * 0.40))
+    var g = ctx
+    g.clip(to: Path(CGRect(x: 0, y: 0, width: 600, height: baseY + 2)))
+    let tb = trunk.path.boundingRect
+    g.fill(trunk.path, with: .linearGradient(
         Gradient(colors: [MaplePal.barkLight, MaplePal.barkMid, MaplePal.barkDeep]),
         startPoint: CGPoint(x: tb.minX, y: tb.midY), endPoint: CGPoint(x: tb.maxX, y: tb.midY)))
-
-    let lc = mapleBark(day)
-    if lc > 0.05 && c.baseW > 12 {
-        let n = Int((2 + 3 * lc).rounded())
-        for i in 0..<n {
-            let fx = lerp(-0.3, 0.3, Double(i) / Double(max(1, n - 1)))
-            let x0 = baseX + fx * c.baseW * 0.7
-            let x1 = c.forkX + fx * topW * 0.7 - bend
-            var s = Path()
-            s.move(to: CGPoint(x: x0, y: baseY - 4))
-            s.addQuadCurve(to: CGPoint(x: x1, y: c.forkY + 4), control: CGPoint(x: (x0 + x1) / 2 - bend * 0.5, y: midY))
-            ctx.stroke(s, with: .color(MaplePal.barkStripe.opacity(0.4 * lc)),
-                       style: StrokeStyle(lineWidth: 1.8, lineCap: .round))
-        }
-    }
+    // Maple bark: long vertical striping that follows the trunk.
+    shadeWood(&g, trunk.path, width: c.baseW * 0.7, dark: MaplePal.barkDeep, light: MaplePal.barkLight,
+              grain: mapleBark(day), grainColor: MaplePal.barkStripe)
 }
 
 private func mapleLeaf(_ ctx: inout GraphicsContext, x: Double, y: Double, s: Double,
@@ -1408,24 +1197,28 @@ func drawMaple(day rawDay: Int, wind: BonsaiWind? = nil, in ctx: inout GraphicsC
         let ar = L.a * .pi / 180
         let tx = c.cX + cos(ar) * c.Rx * L.r * e
         let ty = c.cY - sin(ar) * c.Ry * L.r * e
+        // Every pad has wood under it, the leader included: the crown rides
+        // above the fork, so a pad without a limb would float.
         limbItems.append(Limb(L: L, e: e, tx: tx, ty: ty,
-                              size: padBase * L.s * (0.6 + 0.4 * e), branch: L.app != 0))
+                              size: padBase * L.s * (0.6 + 0.4 * e), branch: true))
     }
 
     drawMaplePot(&ctx)
+    paintSoilMoss(&ctx, cx: 300, y: 410, spread: 70, amount: mapleBark(day), seed: 29)
     var plant = ctx
     wind?.bend(&plant, pivot: pivot)
 
     for it in limbItems.sorted(by: { $0.ty > $1.ty }) where it.branch {
         let ar = it.L.a * .pi / 180
         let d = drift(it.tx, it.ty)
-        let mx = (c.forkX + it.tx) / 2 - sin(ar) * 5 * c.g + d.width / 2
-        let my = (c.forkY + it.ty) / 2 - 6 * c.g * it.e + d.height / 2
-        let w = max(1.6, c.baseW * 0.17 * (0.4 + 0.6 * it.e))
-        var b = Path()
-        b.move(to: CGPoint(x: c.forkX, y: c.forkY))
-        b.addQuadCurve(to: CGPoint(x: it.tx + d.width, y: it.ty + d.height), control: CGPoint(x: mx, y: my))
-        plant.stroke(b, with: .color(MaplePal.barkMid), style: StrokeStyle(lineWidth: w, lineCap: .round))
+        let st = limbStart(angleDeg: it.L.a, baseY: 410, forkX: c.forkX, forkY: c.forkY, bend: 3 + 9 * c.g)
+        let mx = (st.x + it.tx) / 2 - sin(ar) * 5 * c.g + d.width / 2
+        let my = (st.y + it.ty) / 2 - 6 * c.g * it.e + d.height / 2
+        let w = max(1.6, c.baseW * 0.21 * (0.4 + 0.6 * it.e))
+        let b = boughPath(from: st, control: CGPoint(x: mx, y: my),
+                          to: CGPoint(x: it.tx + d.width, y: it.ty + d.height), w0: w, w1: max(1.1, w * 0.35))
+        plant.fill(b, with: .color(MaplePal.barkMid))
+        shadeWood(&plant, b, width: w, dark: MaplePal.barkDeep, light: MaplePal.barkLight)
     }
 
     drawMapleTrunk(day: day, c: c, in: &plant)
@@ -1446,13 +1239,11 @@ func drawMaple(day rawDay: Int, wind: BonsaiWind? = nil, in ctx: inout GraphicsC
     }
 
     for it in fol.sorted(by: { $0.ty > $1.ty }) {
-        let clumps = it.light ? 0 : 2
-        let lights = it.light ? 1 : 2
         var g = plant
         let d = drift(it.tx, it.ty)
         g.translateBy(x: d.width, y: d.height)
         mapleCluster(&g, cx: it.tx, cy: it.ty, size: it.size, seed: it.seed * 5 + 2,
-                     squashY: 0.84, noise: 0.36, clumps: clumps, lights: lights, sat: 1, opacity: 1)
+                     squashY: 0.78, detail: it.size > 10 ? 1 : 0)
         if c.g > 0.45 && it.accent {
             g.fill(ellipse(it.tx + it.size * 0.1, it.ty - it.size * 0.1, 1.2 + c.g, 1.2 + c.g),
                    with: .color(MaplePal.folEmber.opacity(0.4)))
@@ -1468,7 +1259,7 @@ func mapleContentRect(day: Int) -> CGRect {
     let padBase = 5 + 30 * c.g
     var minX = 168.0, maxX = 432.0
     var minY = 410.0
-    let maxY = 462.0
+    let maxY = 466.0
     minX = min(minX, c.cX - c.Rx - padBase)
     maxX = max(maxX, c.cX + c.Rx + padBase)
     minY = min(minY, c.cY - c.Ry - padBase * 1.3)
@@ -1495,7 +1286,6 @@ private enum PinePal {
     static let barkMid   = Color(hex: 0x5A4636)
     static let barkLight = Color(hex: 0x897059)
     static let barkPlate = Color(hex: 0x3E2F24)
-    static let barkMoss  = Color(hex: 0x6E7A4E)
     static let potDark   = Color(hex: 0x5A3D2A)
     static let potMid    = Color(hex: 0x825939)
     static let potLight  = Color(hex: 0xA8794F)
@@ -1559,38 +1349,16 @@ private let pineTufts: [PineTuft] = {
     return out
 }()
 
-private func needleCluster(
-    _ ctx: inout GraphicsContext, cx: Double, cy: Double, w: Double, h: Double,
-    seed: Double, noise: Double = 0.30, clumps: Int = 4, lights: Int = 3, sat: Double = 1, opacity: Double = 1
-) {
-    let shadow = PinePal.needDeep, mid = PinePal.needMid
-    let light = PinePal.needLight, hi = PinePal.needHi
-    let r: (Double) -> Double = { rand01(seed, $0) }
-    let sq = h / w
-    var g = ctx
-    g.translateBy(x: cx, y: cy)
-    g.opacity = opacity
+private let pineInk = FoliageInk(shadow: RGB(0x1E3A30), mid: RGB(0x2F6149), light: RGB(0x4C8A63), hi: RGB(0x7FB583))
 
-    let sh = blobPath(cx: 0, cy: h * 0.22, rBase: w * 1.02, seed: seed * 1.1, points: 12, squashY: sq, noise: noise * 0.85, tiltDeg: 0)
-    g.fill(sh, with: .color(shadow.opacity(0.85 * sat)))
-    let md = blobPath(cx: 0, cy: 0, rBase: w * 0.94, seed: seed * 1.3 + 7, points: 13, squashY: sq + 0.03, noise: noise, tiltDeg: 0)
-    g.fill(md, with: .color(mid.opacity(0.96 * sat)))
-    for i in 0..<clumps {
-        let fx = (Double(i) / Double(max(1, clumps - 1)) - 0.5) * 1.7
-        let off = w * fx
-        let rad = w * (0.22 + r(Double(i * 5 + 3)) * 0.13)
-        let p = blobPath(cx: off, cy: -h * 0.18, rBase: rad, seed: seed * 17 + Double(i) * 31, points: 8, squashY: 0.62, noise: 0.36)
-        g.fill(p, with: .color(light.opacity(0.72 * sat)))
-    }
-    for i in 0..<lights {
-        let fx = (Double(i) / Double(max(1, lights - 1)) - 0.5) * 1.5
-        let rad = w * (0.10 + r(Double(i * 7 + 11)) * 0.06)
-        let p = blobPath(cx: w * fx, cy: -h * 0.34, rBase: rad, seed: seed * 23 + Double(i) * 41, points: 7, squashY: 0.7, noise: 0.3)
-        g.fill(p, with: .color(hi.opacity(0.8 * sat)))
-    }
+/// A flat-bottomed needle pad, the cloud shape pines are trained into.
+private func needleCluster(_ ctx: inout GraphicsContext, cx: Double, cy: Double, w: Double, h: Double,
+                           seed: Double, detail: Int) {
+    paintPad(&ctx, cx: cx, cy: cy, rx: w, ry: h, seed: seed, ink: pineInk, detail: detail, flat: 0.85)
 }
 
 private func drawPinePot(_ ctx: inout GraphicsContext) {
+    paintPotFeet(&ctx, left: 196, right: 404, y: 458, color: PinePal.potRim)
     var body = Path()
     body.move(to: CGPoint(x: 188, y: 414))
     body.addQuadCurve(to: CGPoint(x: 196, y: 458), control: CGPoint(x: 186, y: 440))
@@ -1646,29 +1414,16 @@ private func drawPineTrunk(day: Int, c: PineCanopy, in ctx: inout GraphicsContex
         return CGPoint(x: bc.x - ab.x, y: bc.y - ab.y)
     }
     let widthAt: (Double) -> Double = { lerp(baseW, topW, $0) }
-    func side(_ sign: Double) -> [CGPoint] {
-        let steps = 5
-        var pts: [CGPoint] = []
-        for i in 0...steps {
-            let t = Double(i) / Double(steps)
-            let pt = bez(t), tg = tangent(t)
-            let len = max(hypot(tg.x, tg.y), 1)
-            let nx = -tg.y / len, ny = tg.x / len
-            let w = widthAt(t) / 2
-            pts.append(CGPoint(x: pt.x + sign * nx * w, y: pt.y + sign * ny * w))
-        }
-        return pts
-    }
-    let lPts = side(1), rPts = Array(side(-1).reversed())
-    var trunk = Path()
-    trunk.move(to: lPts[0])
-    for i in 1..<lPts.count { trunk.addLine(to: lPts[i]) }
-    for pt in rPts { trunk.addLine(to: pt) }
-    trunk.closeSubpath()
+    let spine = (0...12).map { bez(Double($0) / 12) }
+    let trunk = woodRibbon(through: spine, widths: (0...12).map { widthAt(Double($0) / 12) }, perSegment: 2)
+        .union(nebariPath(x: baseX, y: baseY, w: baseW, spread: 1))
+    var wood = ctx
+    wood.clip(to: Path(CGRect(x: 0, y: 0, width: 600, height: baseY + 2)))
     let tb = trunk.boundingRect
-    ctx.fill(trunk, with: .linearGradient(
+    wood.fill(trunk, with: .linearGradient(
         Gradient(colors: [PinePal.barkLight, PinePal.barkMid, PinePal.barkDeep]),
         startPoint: CGPoint(x: tb.minX, y: tb.midY), endPoint: CGPoint(x: tb.maxX, y: tb.midY)))
+    shadeWood(&wood, trunk, width: baseW * 0.7, dark: PinePal.barkDeep, light: PinePal.barkLight)
 
     let lc = pineBark(day)
     if lc > 0.05 && baseW > 12 {
@@ -1682,8 +1437,6 @@ private func drawPineTrunk(day: Int, c: PineCanopy, in ctx: inout GraphicsContex
             ctx.stroke(s, with: .color(PinePal.barkPlate.opacity(0.45 * lc)),
                        style: StrokeStyle(lineWidth: 1.8, lineCap: .round))
         }
-        ctx.fill(ellipse(baseX - baseW * 0.25, baseY - 4, 2 + lc, 2 + lc), with: .color(PinePal.barkMoss.opacity(0.4 * lc)))
-        ctx.fill(ellipse(baseX + baseW * 0.18, baseY - 2, 1.6 + lc, 1.6 + lc), with: .color(PinePal.barkMoss.opacity(0.32 * lc)))
     }
 }
 
@@ -1747,6 +1500,7 @@ func drawPine(day rawDay: Int, wind: BonsaiWind? = nil, in ctx: inout GraphicsCo
     let drift = { (x: Double, y: Double) in wind?.drift(x, y, pivot: pivot) ?? .zero }
 
     drawPinePot(&ctx)
+    paintSoilMoss(&ctx, cx: c.baseX, y: c.baseY, spread: 62, amount: pineBark(day), seed: 41)
     var plant = ctx
     wind?.bend(&plant, pivot: pivot)
     drawPineTrunk(day: day, c: c, in: &plant)
@@ -1756,24 +1510,22 @@ func drawPine(day rawDay: Int, wind: BonsaiWind? = nil, in ctx: inout GraphicsCo
     for it in live.sorted(by: { $0.y > $1.y }) where it.p.app != 0 {
         let leanAtH = lerp(0, c.topX - c.baseX, it.p.hFrac)
         let sx = c.baseX + leanAtH
-        let w = max(1.8, c.baseW * 0.16 * (0.5 + 0.5 * it.e))
+        let w = max(1.8, c.baseW * 0.2 * (0.5 + 0.5 * it.e))
         let d = drift(it.x, it.y)
-        var b = Path()
-        b.move(to: CGPoint(x: sx, y: it.y + 2))
-        b.addQuadCurve(to: CGPoint(x: it.x + d.width, y: it.y + d.height),
-                       control: CGPoint(x: (sx + it.x + d.width) / 2, y: it.y + 4 + d.height / 2))
-        plant.stroke(b, with: .color(PinePal.barkDeep), style: StrokeStyle(lineWidth: w, lineCap: .round))
+        let b = boughPath(from: CGPoint(x: sx, y: it.y + 2),
+                          control: CGPoint(x: (sx + it.x + d.width) / 2, y: it.y + 4 + d.height / 2),
+                          to: CGPoint(x: it.x + d.width, y: it.y + d.height), w0: w, w1: max(1.2, w * 0.4))
+        plant.fill(b, with: .color(PinePal.barkMid))
+        shadeWood(&plant, b, width: w, dark: PinePal.barkDeep, light: PinePal.barkLight)
     }
 
     let items = pineNeedleItems(day, live)
     for it in items.sorted(by: { $0.y < $1.y }) {
-        let clumps = it.light ? 0 : 4
-        let lights = it.light ? 1 : 3
         var g = plant
         let d = drift(it.x, it.y)
         g.translateBy(x: d.width, y: d.height)
         needleCluster(&g, cx: it.x, cy: it.y, w: it.w, h: it.h, seed: it.seed * 5 + 2,
-                      noise: 0.32, clumps: clumps, lights: lights, sat: 1, opacity: 1)
+                      detail: it.w > 10 ? 1 : 0)
     }
 
     let cand = pineCandle(day)
@@ -1808,7 +1560,7 @@ func pineContentRect(day: Int) -> CGRect {
     let c = pineCanopy(d)
     var minX = 186.0, maxX = 414.0
     var minY = 410.0
-    let maxY = 460.0
+    let maxY = 464.0
     // Measure every blob `drawPine` paints, not just the pads. `blobPath`
     // jitters its radius by up to `noise` (0.32 for needles), so a blob of
     // half-width w actually reaches w * 1.02 * 1.32.
@@ -1845,9 +1597,9 @@ func bonsaiContentRect(day: Int, style: BonsaiStyle) -> CGRect {
 
     // Pot footprint is always part of the silhouette.
     if style == .cascade {
-        include(218, 360); include(382, 462)
+        include(218, 360); include(382, 465)
     } else {
-        include(170, 380); include(430, 464)
+        include(170, 380); include(430, 466)
     }
 
     if d <= 7 {
@@ -1936,22 +1688,32 @@ struct BonsaiView: View {
             let tr = buildTrunk(p, style: style)
             wind?.bend(&ctx, pivot: pivot)
 
-            for (b, w, c, op) in tr.bareBranches {
-                ctx.stroke(b, with: .color(c.opacity(op)),
-                           style: StrokeStyle(lineWidth: w, lineCap: .round))
+            // Jin: windward dead wood, bleached silver-grey.
+            for b in tr.bareBranches {
+                let jin = boughPath(from: b.from, control: b.ctrl, to: b.to, w0: b.w, w1: max(1, b.w * 0.3))
+                ctx.fill(jin, with: .color(Color(hex: 0xA99D8A)))
+                shadeWood(&ctx, jin, width: b.w, dark: Color(hex: 0x6B6052), light: Color(hex: 0xE2DACB))
             }
-            for (b, w) in tr.branches {
-                ctx.stroke(b, with: .color(Pal.barkMid),
-                           style: StrokeStyle(lineWidth: w, lineCap: .round))
+            for b in tr.branches {
+                let bough = boughPath(from: b.from, control: b.ctrl, to: b.to, w0: b.w, w1: max(1.2, b.w * 0.4))
+                ctx.fill(bough, with: .color(Pal.barkMid))
+                shadeWood(&ctx, bough, width: b.w, dark: Pal.barkDeep, light: Pal.barkLight)
             }
             let trunkRect = tr.path.boundingRect
-            ctx.fill(tr.path, with: .linearGradient(
+            let bark = GraphicsContext.Shading.linearGradient(
                 Gradient(colors: [Pal.barkLight, Pal.barkMid, Pal.barkDeep]),
                 startPoint: CGPoint(x: trunkRect.minX, y: 300),
-                endPoint: CGPoint(x: trunkRect.maxX, y: 300)))
-            for (gp, op) in tr.gnarl {
-                ctx.fill(gp, with: .color(Pal.barkDeep.opacity(op)))
+                endPoint: CGPoint(x: trunkRect.maxX, y: 300))
+            let wood = tr.path.union(nebariPath(x: tr.base.x, y: tr.base.y, w: tr.baseW,
+                                                spread: 0.4 + 0.6 * p.exposedRoots))
+            // Upright trunks stop at the soil; the cascade spills over the rim.
+            var tctx = ctx
+            if style != .cascade {
+                tctx.clip(to: Path(CGRect(x: 0, y: 0, width: 600, height: tr.base.y + 2)))
             }
+            tctx.fill(wood, with: bark)
+            shadeWood(&tctx, wood, width: tr.baseW * 0.7, dark: Pal.barkDeep, light: Pal.barkLight,
+                      grain: p.trunkGnarl, grainColor: Pal.barkDeep)
 
             let satFactor = 0.7 + 0.3 * max(0, min(1, vitality))
             for c in p.clusters {
