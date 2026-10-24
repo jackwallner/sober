@@ -17,22 +17,26 @@ extension Notification.Name {
 final class NotificationTapRouter: NSObject, UNUserNotificationCenterDelegate, @unchecked Sendable {
     static let shared = NotificationTapRouter()
 
+    // Completion handler form, answered on the main thread. The async form's
+    // compiler-made thunk calls UIKit's handler from a background thread, and
+    // UIKit asserts the main thread there, so a tap could abort the app (the
+    // crash Baby build 66 and Recharge build 39 shipped).
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
-        didReceive response: UNNotificationResponse
-    ) async {
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
         let info = response.notification.request.content.userInfo
+        let name: Notification.Name?
         switch info[NotificationService.deepLinkKey] as? String {
-        case NotificationService.deepLinkCheckIn:
-            await MainActor.run {
-                NotificationCenter.default.post(name: .soberOpenCheckIn, object: nil)
-            }
-        case NotificationService.deepLinkBloomPlus:
-            await MainActor.run {
-                NotificationCenter.default.post(name: .soberOpenBloomPlus, object: nil)
-            }
-        default:
-            return
+        case NotificationService.deepLinkCheckIn: name = .soberOpenCheckIn
+        case NotificationService.deepLinkBloomPlus: name = .soberOpenBloomPlus
+        default: name = nil
+        }
+        nonisolated(unsafe) let done = completionHandler
+        Task { @MainActor in
+            if let name { NotificationCenter.default.post(name: name, object: nil) }
+            done()
         }
     }
 }
