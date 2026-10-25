@@ -1,0 +1,17 @@
+{
+  "project": "Sober.xcodeproj",
+  "scheme": "SoberUITests",
+  "uitests_dir": "SoberUITests",
+  "journeys": [
+    "SoberUITests/ReleaseJourneysUITests"
+  ],
+  "personas": [
+    "newcomer",
+    "accessibility",
+    "reduce-motion",
+    "german"
+  ],
+  "persona_overrides": {},
+  "slot": null,
+  "bundle_id": "com.jackwallner.sober"
+}
