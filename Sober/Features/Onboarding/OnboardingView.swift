@@ -145,7 +145,7 @@ struct OnboardingView: View {
     }
 
     private var savingsStep: some View {
-        VStack(spacing: Theme.Space.l) {
+        VStack(spacing: Theme.Space.m) {
             Spacer(minLength: Theme.Space.s)
             Text("See what drinking used to cost")
                 .font(Theme.display())
@@ -663,6 +663,7 @@ struct OnboardingView: View {
                 }
             }
         }
+        .fixedSize(horizontal: false, vertical: true)
     }
 
     private var legalFooter: some View {

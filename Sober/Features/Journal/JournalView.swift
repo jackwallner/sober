@@ -32,7 +32,7 @@ struct JournalView: View {
                     if entries.isEmpty {
                         Text(subscriptions.isProSubscriber
                              ? "No entries yet. Use the pencil to write your first."
-                             : "No entries yet. Your first entry is free — use the pencil to write it.")
+                             : "No entries yet. Your first entry is free. Use the pencil to write it.")
                             .font(Theme.subhead())
                             .foregroundStyle(Theme.textSecondary)
                             .padding(.vertical, Theme.Space.s)
