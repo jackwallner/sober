@@ -1344,7 +1344,7 @@ private let pinePads: [PinePad] = [
     PinePad(side: 1,  hFrac: 0.30, reach: 1.05, wFrac: 0.70, app: 250, span: 30, seed: 6),
 ]
 
-private struct PineTuft { let padU, fx, fy, app, sz, span, seed: Double }
+private struct PineTuft { let padU, fx, fy, app, sz, span, seed: Double; var host = 0 }
 
 private let pineTufts: [PineTuft] = {
     var out: [PineTuft] = []
@@ -1359,6 +1359,18 @@ private let pineTufts: [PineTuft] = {
             span: 10 + (rand01(930, Double(i + 1)) * 6).rounded(),
             seed: 300 + Double(i)
         ))
+    }
+    // Pin each tuft to a pad that is already showing when the tuft first
+    // shows. Indexing into the live list instead moved every tuft whenever a
+    // new pad arrived.
+    for i in out.indices {
+        let t = out[i]
+        let first = (0...365).first { smoothstepS(t.app, t.app + t.span, Double($0)) >= 0.02 } ?? 365
+        let ready = pinePads.indices.filter {
+            let p = pinePads[$0]
+            return p.app == 0 || smoothstepS(p.app, p.app + p.span, Double(first)) >= 0.02
+        }
+        out[i].host = ready[min(ready.count - 1, Int(t.padU * Double(ready.count)))]
     }
     return out
 }()
@@ -1500,7 +1512,7 @@ private func pineNeedleItems(_ day: Int, _ live: [PadLive]) -> [NItem] {
     for T in pineTufts {
         let e = smoothstepS(T.app, T.app + T.span, Double(day))
         if e < 0.02 { continue }
-        let host = live[Int(floor(T.padU * Double(live.count))) % live.count]
+        guard let host = live.first(where: { $0.p.seed == pinePads[T.host].seed }) else { continue }
         let ex = 0.4 + 0.6 * e
         let x = host.x + T.fx * host.w * ex
         let y = host.y + T.fy * host.h
