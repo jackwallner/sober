@@ -14,6 +14,11 @@ struct GrowthCelebrationView: View {
 
     @State private var appear = false
     @State private var sparkle = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    /// The halo and sparkle loop on their own views, so the loop never leaks
+    /// into the card and tree appearing beside them.
+    private let sparkleLoop = Animation.linear(duration: 2).repeatForever(autoreverses: false)
 
     /// A completed tree is shown fully grown — the tree being celebrated is
     /// the one that just finished, not the fresh sapling that replaced it.
@@ -69,6 +74,7 @@ struct GrowthCelebrationView: View {
                         )
                         .frame(width: 320, height: 320)
                         .scaleEffect(sparkle ? 1.05 : 0.95)
+                        .animation(sparkleLoop, value: sparkle)
 
                     Image(systemName: "sparkle")
                         .font(.system(size: 40))
@@ -76,6 +82,7 @@ struct GrowthCelebrationView: View {
                         .offset(y: -120)
                         .rotationEffect(.degrees(sparkle ? 360 : 0))
                         .scaleEffect(sparkle ? 1.2 : 0.8)
+                        .animation(sparkleLoop, value: sparkle)
 
                     BonsaiView(day: renderDay, style: style, vitality: 1.0, fill: true)
                         .frame(width: 200, height: 200)
@@ -128,9 +135,8 @@ struct GrowthCelebrationView: View {
             withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
                 appear = true
             }
-            withAnimation(.linear(duration: 2).repeatForever(autoreverses: false)) {
-                sparkle = true
-            }
+            guard !reduceMotion else { return }
+            sparkle = true
         }
     }
 }

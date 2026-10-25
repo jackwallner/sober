@@ -1,0 +1,3 @@
+{"created": "2026-10-25T20:50:37+00:00", "id": "Q001", "match": "motion-jump|home(_:in:)|first-counter|", "reason": "onboarding finishing swaps the root to Home in one cut; designed, no half-drawn frame", "status": "accepted"}
+{"created": "2026-10-25T20:50:38+00:00", "id": "Q002", "match": "motion-jump|*|upgrade|", "reason": "tab bar tap from Upgrade to Home switches tabs instantly; designed", "status": "accepted"}
+{"created": "2026-10-25T20:50:38+00:00", "id": "Q003", "match": "motion-jump|home(_:in:)|home-after-upgrade|", "reason": "tab bar tap from Upgrade to Home switches tabs instantly; designed", "status": "accepted"}
