@@ -103,6 +103,17 @@ func woodRibbon(through pts: [CGPoint], widths: [Double], perSegment: Int = 8) -
     return ribbon(spine: spine, widths: ws)
 }
 
+/// `pts` with a point added `depth` below the first, straight on along the
+/// opening segment, so a trunk's square end and its shading run under the
+/// soil instead of stopping in a step above it.
+func rooted(_ pts: [CGPoint], _ widths: [Double], depth: Double) -> ([CGPoint], [Double]) {
+    guard pts.count >= 2 else { return (pts, widths) }
+    let dx = pts[0].x - pts[1].x, dy = pts[0].y - pts[1].y
+    guard dy > 1e-6 else { return (pts, widths) }
+    let s = depth / dy
+    return ([CGPoint(x: pts[0].x + dx * s, y: pts[0].y + depth)] + pts, [widths[0]] + widths)
+}
+
 /// The centre line `woodRibbon` draws, densely sampled, with its widths.
 func smoothSpine(through pts: [CGPoint], widths: [Double], perSegment: Int = 8) -> ([CGPoint], [Double]) {
     var spine: [CGPoint] = [], ws: [Double] = []
@@ -192,14 +203,18 @@ func shadeWood(_ ctx: inout GraphicsContext, _ path: Path, width: Double,
 }
 
 /// The root flare where a trunk of width `w` meets the soil at (x, y).
-func nebariPath(x: Double, y: Double, w: Double, spread: Double) -> Path {
+/// `lean` is the trunk's sideways run per unit of rise, so the flare's top
+/// follows a leaning trunk instead of leaving a corner where they meet.
+func nebariPath(x: Double, y: Double, w: Double, spread: Double, lean: Double = 0) -> Path {
     // The top sits inside the trunk, so only the concave flanks show.
-    let f = w * 0.34 * spread, h = w * 0.55
+    let f = w * 0.34 * spread, h = w * 0.55, top = x + lean * h
     var p = Path()
     p.move(to: CGPoint(x: x - w / 2 - f, y: y + 1.5))
-    p.addQuadCurve(to: CGPoint(x: x - w * 0.25, y: y - h), control: CGPoint(x: x - w * 0.42, y: y - h * 0.15))
-    p.addLine(to: CGPoint(x: x + w * 0.25, y: y - h))
-    p.addQuadCurve(to: CGPoint(x: x + w / 2 + f, y: y + 1.5), control: CGPoint(x: x + w * 0.42, y: y - h * 0.15))
+    p.addQuadCurve(to: CGPoint(x: top - w * 0.25, y: y - h),
+                   control: CGPoint(x: x - w * 0.42 + lean * h * 0.6, y: y - h * 0.15))
+    p.addLine(to: CGPoint(x: top + w * 0.25, y: y - h))
+    p.addQuadCurve(to: CGPoint(x: x + w / 2 + f, y: y + 1.5),
+                   control: CGPoint(x: x + w * 0.42 + lean * h * 0.6, y: y - h * 0.15))
     p.closeSubpath()
     return p
 }

@@ -94,7 +94,7 @@ private func fillRotatedEllipse(
 
 // MARK: - Cluster (foliage blob)
 
-private enum Tone: String { case sage, fresh, deep }
+private enum Tone: String { case sage, fresh, autumn, deep }
 
 private struct ClusterSpec {
     var attach: Attach?
@@ -131,6 +131,8 @@ private func draw(
     case .sage:  ink = FoliageInk(shadow: RGB(0x2F5E45), mid: RGB(0x519E73), light: RGB(0x7BC68C), hi: RGB(0xA9D4A8))
     case .fresh: ink = FoliageInk(shadow: RGB(0x3B6E4E), mid: RGB(0x6BB57F), light: RGB(0x9CD39C), hi: RGB(0xC7E5B8))
     case .deep:  ink = FoliageInk(shadow: RGB(0x1F4630), mid: RGB(0x2F5E45), light: RGB(0x519E73), hi: RGB(0x7BC68C))
+    // The first leaves to turn, from day 180: an older tree's late-year colour.
+    case .autumn: ink = FoliageInk(shadow: RGB(0x8A5A24), mid: RGB(0xC98A3A), light: RGB(0xE2AE58), hi: RGB(0xF5D990))
     }
     paintPad(&ctx, cx: cx, cy: cy, rx: size, ry: size * 0.78, seed: seed * 7.3,
              ink: ink, dry: min(0.7, max(0, 1 - saturation) * 1.4), detail: size > 10 ? 1 : 0, flat: 0.5)
@@ -242,9 +244,11 @@ private struct Bough { var from, ctrl, to: CGPoint; var w: Double }
 private struct TrunkResult {
     var path: Path
     var base: CGPoint, baseW: Double    // where the trunk meets the soil
+    var lean: Double = 0                // sideways run per unit rise at the base
     var branches: [Bough]
     var bareBranches: [Bough]           // windswept windward dead wood (jin)
     var attach: [Attach: CGPoint]
+    var parts: [Path] = []              // filled and shaded in order; empty means [path]
 }
 
 private func trunkTraditional(_ p: Params) -> TrunkResult {
@@ -257,11 +261,11 @@ private func trunkTraditional(_ p: Params) -> TrunkResult {
     let midY = (baseY + tipY) / 2
 
     // An S-curve: the lower trunk swings left, the upper trunk back right.
-    let pts = [CGPoint(x: baseX, y: baseY),
-               CGPoint(x: baseX - 12, y: baseY - heightPx * 0.38),
-               CGPoint(x: baseX + 16, y: baseY - heightPx * 0.74),
-               CGPoint(x: tipX, y: tipY)]
-    let widths = [baseW, baseW * 0.74, midW * 0.82, tipW]
+    let stem = [CGPoint(x: baseX, y: baseY),
+                CGPoint(x: baseX - 12, y: baseY - heightPx * 0.38),
+                CGPoint(x: baseX + 16, y: baseY - heightPx * 0.74),
+                CGPoint(x: tipX, y: tipY)]
+    let (pts, widths) = rooted(stem, [baseW, baseW * 0.74, midW * 0.82, tipW], depth: 4 + baseW * 0.6)
     let path = woodRibbon(through: pts, widths: widths)
     let (spine, ws) = smoothSpine(through: pts, widths: widths)
     /// The trunk's left or right edge at height `y`.
@@ -296,7 +300,7 @@ private func trunkTraditional(_ p: Params) -> TrunkResult {
     }
     if p.day >= 60 {
         branches.append(Bough(from: b3Start, ctrl: CGPoint(x: b3Start.x + 20 * k, y: b3Start.y - 18 * k),
-                              to: b3End, w: max(2.4, baseW * 0.16)))
+                              to: b3End, w: max(2.6, baseW * 0.2)))
     }
 
     let attach: [Attach: CGPoint] = [
@@ -325,9 +329,16 @@ private func trunkCascade(_ p: Params) -> TrunkResult {
     let p1 = CGPoint(x: baseX - 16, y: baseY - upPx)
     let p2 = CGPoint(x: baseX - 30, y: baseY + 6)
     let p3 = CGPoint(x: sideX,     y: baseY + fallPx)
-    let pts = [p0, p1, p2, p3]
-    let widths = [baseW, midW * 1.1, midW, tipW]
-    let path = woodRibbon(through: pts, widths: widths)
+    // Riser and fall are separate ribbons joined by a round elbow: one ribbon
+    // folding back on itself leaves holes and shading shards where it overlaps.
+    // The riser stops at the soil; only the fall spills over the rim.
+    let elbowW = midW * 1.1
+    let (riserPts, riserWs) = rooted([p0, p1], [baseW, elbowW], depth: 4 + baseW * 0.6)
+    let riser = woodRibbon(through: riserPts, widths: riserWs)
+        .intersection(Path(CGRect(x: 0, y: 0, width: 600, height: baseY + 2)))
+    let fall = woodRibbon(through: [p1, p2, p3], widths: [elbowW, midW, tipW])
+    let elbow = Path(ellipseIn: CGRect(x: p1.x - elbowW / 2, y: p1.y - elbowW / 2, width: elbowW, height: elbowW))
+    let fallPart = fall.union(elbow)
 
     let k = p.reach
     let midPt = CGPoint(x: (p2.x + p3.x) / 2, y: (p2.y + p3.y) / 2)
@@ -351,8 +362,8 @@ private func trunkCascade(_ p: Params) -> TrunkResult {
         .midRight:   CGPoint(x: p3.x + 14 * k, y: p3.y - 10 * k),
         .lowerRight: CGPoint(x: p3.x - 6 * k, y: p3.y + 10 * k),
     ]
-    return TrunkResult(path: path, base: p0, baseW: baseW,
-                       branches: branches, bareBranches: [], attach: attach)
+    return TrunkResult(path: riser.union(fallPart), base: p0, baseW: baseW,
+                       branches: branches, bareBranches: [], attach: attach, parts: [riser, fallPart])
 }
 
 private func trunkWindswept(_ p: Params) -> TrunkResult {
@@ -366,9 +377,12 @@ private func trunkWindswept(_ p: Params) -> TrunkResult {
     let midX = (baseX + tipX) / 2 + 14
     let midY = (baseY + tipY) / 2 + 4
 
-    // Starts below the soil line so the leaning base reads as planted.
+    // Starts below the soil line, straight on along the lean, so the base
+    // reads as planted without a kink at the soil.
+    let lean = (midX - baseX) / (baseY - midY)
+    let depth = 4 + baseW * 0.6
     let pts = [
-        CGPoint(x: baseX - 3, y: baseY + 6),
+        CGPoint(x: baseX - depth * lean, y: baseY + depth),
         CGPoint(x: baseX, y: baseY),
         CGPoint(x: midX, y: midY),
         CGPoint(x: tipX, y: tipY),
@@ -415,7 +429,7 @@ private func trunkWindswept(_ p: Params) -> TrunkResult {
         .midRight:   CGPoint(x: midX + 56 * k, y: midY - 12 * k),
         .lowerRight: CGPoint(x: midX + 70 * k, y: midY + 14 * k),
     ]
-    return TrunkResult(path: path, base: CGPoint(x: baseX, y: baseY), baseW: baseW,
+    return TrunkResult(path: path, base: CGPoint(x: baseX, y: baseY), baseW: baseW, lean: lean,
                        branches: branches, bareBranches: bare, attach: attach)
 }
 
@@ -496,11 +510,11 @@ private func paramsForDay(_ day: Int, style: BonsaiStyle) -> Params {
     }
     if day >= 180 {
         clusters.append(ClusterSpec(attach: .midRight, offset: CGSize(width: 16, height: 12),
-            size: (sizeBase * 0.28).rounded(), tone: .fresh, seed: 8))
+            size: (sizeBase * 0.28).rounded(), tone: .autumn, seed: 8))
     }
     if day >= 270 {
         clusters.append(ClusterSpec(attach: .midLeft, offset: CGSize(width: -14, height: -8),
-            size: (sizeBase * 0.28).rounded(), tone: .fresh, seed: 9))
+            size: (sizeBase * 0.28).rounded(), tone: .autumn, seed: 9))
     }
 
     return Params(day: day,
@@ -762,15 +776,15 @@ private func drawSakuraPot(_ ctx: inout GraphicsContext) {
 /// A trunk from the soil at (300, baseY) to the fork, bowing left by `bend`,
 /// tapering from `baseW` to `topW` fastest near the roots.
 private func forkTrunk(baseY: Double, forkX: Double, forkY: Double, bend: Double,
-                       baseW: Double, topW: Double) -> (path: Path, at: (Double) -> (CGPoint, Double)) {
+                       baseW: Double, topW: Double) -> (path: Path, wood: Path, at: (Double) -> (CGPoint, Double)) {
     let at: (Double) -> (CGPoint, Double) = { t in
         (forkSpine(baseY: baseY, forkX: forkX, forkY: forkY, bend: bend, t: t),
          topW + (baseW - topW) * pow(1 - t, 1.7))
     }
     let samples = (0...6).map { at(Double($0) / 6) }
-    let path = woodRibbon(through: samples.map(\.0), widths: samples.map(\.1), perSegment: 3)
-        .union(nebariPath(x: 300, y: baseY, w: baseW, spread: 1))
-    return (path, at)
+    let (pts, ws) = rooted(samples.map(\.0), samples.map(\.1), depth: 4 + baseW * 0.6)
+    let path = woodRibbon(through: pts, widths: ws, perSegment: 3)
+    return (path, path.union(nebariPath(x: 300, y: baseY, w: baseW, spread: 1)), at)
 }
 
 /// A point on that trunk's centre line, `t` 0 at the soil to 1 at the fork.
@@ -789,13 +803,13 @@ private func limbStart(angleDeg: Double, baseY: Double, forkX: Double, forkY: Do
 
 private func drawSakuraTrunk(day: Int, c: SakuraCanopy, in ctx: inout GraphicsContext) {
     let baseY = 410.0
-    let topW = max(2.2, c.baseW * 0.42)
+    let topW = max(2.2, c.baseW * 0.28)
     let trunk = forkTrunk(baseY: baseY, forkX: c.forkX, forkY: c.forkY, bend: 2 + 7 * c.g,
                           baseW: c.baseW, topW: topW)
     var g = ctx
     g.clip(to: Path(CGRect(x: 0, y: 0, width: 600, height: baseY + 2)))
-    let tb = trunk.path.boundingRect
-    g.fill(trunk.path, with: .linearGradient(
+    let tb = trunk.wood.boundingRect
+    g.fill(trunk.wood, with: .linearGradient(
         Gradient(colors: [SakuraPal.barkLight, SakuraPal.barkMid, SakuraPal.barkDeep]),
         startPoint: CGPoint(x: tb.minX, y: tb.midY), endPoint: CGPoint(x: tb.maxX, y: tb.midY)))
     shadeWood(&g, trunk.path, width: c.baseW * 0.7, dark: SakuraPal.barkDeep, light: SakuraPal.barkLight)
@@ -1122,11 +1136,11 @@ private func drawMaplePot(_ ctx: inout GraphicsContext) {
 private func drawMapleTrunk(day: Int, c: MapleCanopy, in ctx: inout GraphicsContext) {
     let baseY = 410.0
     let trunk = forkTrunk(baseY: baseY, forkX: c.forkX, forkY: c.forkY, bend: 3 + 9 * c.g,
-                          baseW: c.baseW, topW: max(2.0, c.baseW * 0.40))
+                          baseW: c.baseW, topW: max(2.0, c.baseW * 0.26))
     var g = ctx
     g.clip(to: Path(CGRect(x: 0, y: 0, width: 600, height: baseY + 2)))
-    let tb = trunk.path.boundingRect
-    g.fill(trunk.path, with: .linearGradient(
+    let tb = trunk.wood.boundingRect
+    g.fill(trunk.wood, with: .linearGradient(
         Gradient(colors: [MaplePal.barkLight, MaplePal.barkMid, MaplePal.barkDeep]),
         startPoint: CGPoint(x: tb.minX, y: tb.midY), endPoint: CGPoint(x: tb.maxX, y: tb.midY)))
     // Maple bark: long vertical striping that follows the trunk.
@@ -1415,12 +1429,15 @@ private func drawPineTrunk(day: Int, c: PineCanopy, in ctx: inout GraphicsContex
     }
     let widthAt: (Double) -> Double = { lerp(baseW, topW, $0) }
     let spine = (0...12).map { bez(Double($0) / 12) }
-    let trunk = woodRibbon(through: spine, widths: (0...12).map { widthAt(Double($0) / 12) }, perSegment: 2)
-        .union(nebariPath(x: baseX, y: baseY, w: baseW, spread: 1))
+    // Shading follows the trunk alone; the root flare only takes the fill, so
+    // its outline never draws seams across the base.
+    let (pts, ws) = rooted(spine, (0...12).map { widthAt(Double($0) / 12) }, depth: 4 + baseW * 0.6)
+    let trunk = woodRibbon(through: pts, widths: ws, perSegment: 2)
+    let flared = trunk.union(nebariPath(x: baseX, y: baseY, w: baseW, spread: 1))
     var wood = ctx
     wood.clip(to: Path(CGRect(x: 0, y: 0, width: 600, height: baseY + 2)))
-    let tb = trunk.boundingRect
-    wood.fill(trunk, with: .linearGradient(
+    let tb = flared.boundingRect
+    wood.fill(flared, with: .linearGradient(
         Gradient(colors: [PinePal.barkLight, PinePal.barkMid, PinePal.barkDeep]),
         startPoint: CGPoint(x: tb.minX, y: tb.midY), endPoint: CGPoint(x: tb.maxX, y: tb.midY)))
     shadeWood(&wood, trunk, width: baseW * 0.7, dark: PinePal.barkDeep, light: PinePal.barkLight)
@@ -1704,16 +1721,19 @@ struct BonsaiView: View {
                 Gradient(colors: [Pal.barkLight, Pal.barkMid, Pal.barkDeep]),
                 startPoint: CGPoint(x: trunkRect.minX, y: 300),
                 endPoint: CGPoint(x: trunkRect.maxX, y: 300))
-            let wood = tr.path.union(nebariPath(x: tr.base.x, y: tr.base.y, w: tr.baseW,
-                                                spread: 0.4 + 0.6 * p.exposedRoots))
+            let nebari = nebariPath(x: tr.base.x, y: tr.base.y, w: tr.baseW,
+                                    spread: 0.4 + 0.6 * p.exposedRoots, lean: tr.lean)
             // Upright trunks stop at the soil; the cascade spills over the rim.
             var tctx = ctx
             if style != .cascade {
                 tctx.clip(to: Path(CGRect(x: 0, y: 0, width: 600, height: tr.base.y + 2)))
             }
-            tctx.fill(wood, with: bark)
-            shadeWood(&tctx, wood, width: tr.baseW * 0.7, dark: Pal.barkDeep, light: Pal.barkLight,
-                      grain: p.trunkGnarl, grainColor: Pal.barkDeep)
+            for (i, part) in (tr.parts.isEmpty ? [tr.path] : tr.parts).enumerated() {
+                tctx.fill(i == 0 ? part.union(nebari) : part, with: bark)
+                // Shade the wood alone: the flare's outline would leave seams.
+                shadeWood(&tctx, part, width: tr.baseW * 0.7, dark: Pal.barkDeep, light: Pal.barkLight,
+                          grain: p.trunkGnarl, grainColor: Pal.barkDeep)
+            }
 
             let satFactor = 0.7 + 0.3 * max(0, min(1, vitality))
             for c in p.clusters {
