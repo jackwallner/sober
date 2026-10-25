@@ -81,7 +81,7 @@ private func ellipse(_ cx: Double, _ cy: Double, _ rx: Double, _ ry: Double) -> 
 }
 
 private func fillRotatedEllipse(
-    _ ctx: inout GraphicsContext,
+    _ ctx: inout BonsaiLayers,
     cx: Double, cy: Double, rx: Double, ry: Double,
     deg: Double, color: Color, opacity: Double = 1
 ) {
@@ -124,7 +124,7 @@ private enum Attach: String {
 private func draw(
     cluster cx: Double, _ cy: Double, size: Double,
     tone: Tone, saturation: Double, seed: Double,
-    in ctx: inout GraphicsContext
+    in ctx: inout BonsaiLayers
 ) {
     let ink: FoliageInk
     switch tone {
@@ -140,7 +140,7 @@ private func draw(
 
 // MARK: - Pot
 
-private func drawPot(style: BonsaiStyle, in ctx: inout GraphicsContext) {
+private func drawPot(style: BonsaiStyle, in ctx: inout BonsaiLayers) {
     if style == .cascade {
         paintPotFeet(&ctx, left: 228, right: 372, y: 460, color: Pal.potRim)
         // narrower drum pot — soil top at y=378
@@ -213,7 +213,7 @@ private func drawPot(style: BonsaiStyle, in ctx: inout GraphicsContext) {
 
 // MARK: - Roots & moss
 
-private func drawRootsAndMoss(_ p: Params, style: BonsaiStyle, in ctx: inout GraphicsContext) {
+private func drawRootsAndMoss(_ p: Params, style: BonsaiStyle, in ctx: inout BonsaiLayers) {
     let baseY: Double = style == .cascade ? 378 : 411
     if p.exposedRoots > 0 {
         let a = min(1, p.exposedRoots)
@@ -526,7 +526,7 @@ private func paramsForDay(_ day: Int, style: BonsaiStyle) -> Params {
 
 // MARK: - Early stages (days 0–7) — bespoke per JS renderEarly
 
-private func drawEarly(_ day: Int, style: BonsaiStyle, in ctx: inout GraphicsContext) {
+private func drawEarly(_ day: Int, style: BonsaiStyle, in ctx: inout BonsaiLayers) {
     let baseY: Double = style == .cascade ? 378 : 410
     let cx = 300.0
     var ctx = ctx
@@ -722,13 +722,13 @@ private let sakuraTufts: [SakuraTuft] = {
 // A soft painterly blossom cluster (shadow → mid → lit clumps → highlights).
 private let sakuraInk = FoliageInk(shadow: RGB(0xD98AAE), mid: RGB(0xEFA6C4), light: RGB(0xF9CFE0), hi: RGB(0xFFF4F8))
 
-private func sakuraCluster(_ ctx: inout GraphicsContext, cx: Double, cy: Double, size: Double,
+private func sakuraCluster(_ ctx: inout BonsaiLayers, cx: Double, cy: Double, size: Double,
                            seed: Double, squashY: Double, detail: Int) {
     paintPad(&ctx, cx: cx, cy: cy, rx: size, ry: size * squashY, seed: seed,
              ink: sakuraInk, detail: detail, flat: 0.3)
 }
 
-private func drawSakuraPot(_ ctx: inout GraphicsContext) {
+private func drawSakuraPot(_ ctx: inout BonsaiLayers) {
     paintPotFeet(&ctx, left: 184, right: 416, y: 460, color: SakuraPal.potRim)
     var body = Path()
     body.move(to: CGPoint(x: 170, y: 415))
@@ -801,7 +801,7 @@ private func limbStart(angleDeg: Double, baseY: Double, forkX: Double, forkY: Do
     return forkSpine(baseY: baseY, forkX: forkX, forkY: forkY, bend: bend, t: t)
 }
 
-private func drawSakuraTrunk(day: Int, c: SakuraCanopy, in ctx: inout GraphicsContext) {
+private func drawSakuraTrunk(day: Int, c: SakuraCanopy, in ctx: inout BonsaiLayers) {
     let baseY = 410.0
     let topW = max(2.2, c.baseW * 0.28)
     let trunk = forkTrunk(baseY: baseY, forkX: c.forkX, forkY: c.forkY, bend: 2 + 7 * c.g,
@@ -833,8 +833,8 @@ private func drawSakuraTrunk(day: Int, c: SakuraCanopy, in ctx: inout GraphicsCo
     }
 }
 
-private func sakuraPetal(_ ctx: inout GraphicsContext, x: Double, y: Double, s: Double,
-                         rotDeg: Double, color: Color, opacity: Double) {
+/// A petal of size `s` at (x, y), turned `rotDeg`.
+private func sakuraPetal(x: Double, y: Double, s: Double, rotDeg: Double) -> Path {
     var p = Path()
     p.move(to: CGPoint(x: 0, y: -s))
     p.addQuadCurve(to: CGPoint(x: s * 0.5, y: s * 0.62), control: CGPoint(x: s, y: -s * 0.35))
@@ -842,22 +842,26 @@ private func sakuraPetal(_ ctx: inout GraphicsContext, x: Double, y: Double, s: 
     p.addQuadCurve(to: CGPoint(x: -s * 0.5, y: s * 0.62), control: CGPoint(x: -s * 0.18, y: s * 0.18))
     p.addQuadCurve(to: CGPoint(x: 0, y: -s), control: CGPoint(x: -s, y: -s * 0.35))
     p.closeSubpath()
-    var g = ctx
-    g.translateBy(x: x, y: y)
-    g.rotate(by: .degrees(rotDeg))
-    g.fill(p, with: .color(color.opacity(opacity)))
+    return p.applying(CGAffineTransform(translationX: x, y: y).rotated(by: rotDeg * .pi / 180))
 }
 
-private func drawSakuraPetals(day: Int, c: SakuraCanopy, wind: BonsaiWind?, in ctx: inout GraphicsContext) {
+/// The petals lying on the soil, which never move.
+private func drawSakuraFallen(day: Int, in ctx: inout BonsaiLayers) {
     let amt = sakuraPetalAmt(day)
     if amt < 0.02 { return }
     let fallN = Int((amt * 30).rounded())
     for i in 0..<fallN {
         let h1 = rand01(71, Double(i + 1)), h2 = rand01(89, Double(i + 3))
-        sakuraPetal(&ctx, x: 300 + (h1 - 0.5) * 158, y: 408.5 + h2 * 5.5,
-                    s: 3 + rand01(53, Double(i)) * 2, rotDeg: (h1 - 0.5) * 120,
-                    color: h2 > 0.5 ? SakuraPal.bloomLight : SakuraPal.bloomMid, opacity: 0.92)
+        ctx.fill(sakuraPetal(x: 300 + (h1 - 0.5) * 158, y: 408.5 + h2 * 5.5,
+                             s: 3 + rand01(53, Double(i)) * 2, rotDeg: (h1 - 0.5) * 120),
+                 with: .color((h2 > 0.5 ? SakuraPal.bloomLight : SakuraPal.bloomMid).opacity(0.92)))
     }
+}
+
+/// The petals in mid-air, each on its own fall, worked out every frame.
+private func drawSakuraAir(day: Int, c: SakuraCanopy, wind: BonsaiWind?, in ctx: inout GraphicsContext) {
+    let amt = sakuraPetalAmt(day)
+    if amt < 0.02 { return }
     let airN = Int((amt * 12).rounded())
     for i in 0..<airN {
         let h1 = rand01(131, Double(i + 1)), h2 = rand01(167, Double(i + 5)), h3 = rand01(199, Double(i + 9))
@@ -866,26 +870,24 @@ private func drawSakuraPetals(day: Int, c: SakuraCanopy, wind: BonsaiWind?, in c
         let x0 = c.cX + (h1 - 0.5) * c.Rx * 2.0
         let color = h3 > 0.5 ? SakuraPal.bloomLight : SakuraPal.bloomMid
         guard let wind else {
-            sakuraPetal(&ctx, x: x0, y: min(y0, 432), s: 3 + h3 * 2.4, rotDeg: (h1 - 0.5) * 150,
-                        color: color, opacity: 0.85)
+            ctx.fill(sakuraPetal(x: x0, y: min(y0, 432), s: 3 + h3 * 2.4, rotDeg: (h1 - 0.5) * 150),
+                     with: .color(color.opacity(0.85)))
             continue
         }
         // Lands on the soil inside the pot, where the fallen petals lie.
         let f = wind.fall(seed: h2, pace: h3, x: c.cX + (h1 - 0.5) * c.Rx * 1.6, top: top,
                           bottom: 409 + 5 * h3, rotDeg: (h1 - 0.5) * 150)
-        sakuraPetal(&ctx, x: f.x, y: f.y, s: 3 + h3 * 2.4, rotDeg: f.rotDeg,
-                    color: color, opacity: 0.85 * f.opacity)
+        ctx.fill(sakuraPetal(x: f.x, y: f.y, s: 3 + h3 * 2.4, rotDeg: f.rotDeg),
+                 with: .color(color.opacity(0.85 * f.opacity)))
     }
 }
 
 private struct SakuraBlossom { var tx, ty, size, seed: Double; var accent: Bool; var light: Bool }
 
-func drawSakura(day rawDay: Int, wind: BonsaiWind? = nil, in ctx: inout GraphicsContext) {
-    let day = max(0, min(365, rawDay))
+private func sakuraScene(day: Int) -> BonsaiScene {
     let c = sakuraCanopy(day)
     let padBase = 6 + 34 * c.g
     let pivot = CGPoint(x: c.forkX, y: 410)
-    let drift = { (x: Double, y: Double) in wind?.drift(x, y, pivot: pivot) ?? .zero }
 
     struct Limb { let L: SakuraLimb; let e, tx, ty, size: Double; let branch: Bool }
     var limbItems: [Limb] = []
@@ -901,23 +903,25 @@ func drawSakura(day rawDay: Int, wind: BonsaiWind? = nil, in ctx: inout Graphics
                               size: padBase * L.s * (0.6 + 0.4 * e), branch: true))
     }
 
+    var ctx = BonsaiLayers()
     drawSakuraPot(&ctx)
     paintSoilMoss(&ctx, cx: 300, y: 410, spread: 70, amount: sakuraBark(day), seed: 23)
     var plant = ctx
-    wind?.bend(&plant, pivot: pivot)
+    plant.move(.bent)
 
     // Branches sit behind the trunk, painted back-to-front (lowest on screen first).
     for it in limbItems.sorted(by: { $0.ty > $1.ty }) where it.branch {
         let ar = it.L.a * .pi / 180
-        let d = drift(it.tx, it.ty)
         let st = limbStart(angleDeg: it.L.a, baseY: 410, forkX: c.forkX, forkY: c.forkY, bend: 2 + 7 * c.g)
-        let mx = (st.x + it.tx) / 2 - sin(ar) * 5 * c.g + d.width / 2
-        let my = (st.y + it.ty) / 2 - 8 * c.g * it.e + d.height / 2
+        let tip = CGPoint(x: it.tx, y: it.ty)
+        let mx = (st.x + it.tx) / 2 - sin(ar) * 5 * c.g
+        let my = (st.y + it.ty) / 2 - 8 * c.g * it.e
         let w = max(1.8, c.baseW * 0.24 * (0.4 + 0.6 * it.e))
-        let b = boughPath(from: st, control: CGPoint(x: mx, y: my),
-                          to: CGPoint(x: it.tx + d.width, y: it.ty + d.height), w0: w, w1: max(1.2, w * 0.35))
-        plant.fill(b, with: .color(SakuraPal.barkMid))
-        shadeWood(&plant, b, width: w, dark: SakuraPal.barkDeep, light: SakuraPal.barkLight)
+        let b = boughPath(from: st, control: CGPoint(x: mx, y: my), to: tip, w0: w, w1: max(1.2, w * 0.35))
+        var limb = plant
+        limb.move(.limb(from: st, to: tip))
+        limb.fill(b, with: .color(SakuraPal.barkMid))
+        shadeWood(&limb, b, width: w, dark: SakuraPal.barkDeep, light: SakuraPal.barkLight)
     }
 
     drawSakuraTrunk(day: day, c: c, in: &plant)
@@ -938,8 +942,7 @@ func drawSakura(day rawDay: Int, wind: BonsaiWind? = nil, in ctx: inout Graphics
 
     for it in blossoms.sorted(by: { $0.ty > $1.ty }) {
         var g = plant
-        let d = drift(it.tx, it.ty)
-        g.translateBy(x: d.width, y: d.height)
+        g.move(.drift(CGPoint(x: it.tx, y: it.ty)))
         sakuraCluster(&g, cx: it.tx, cy: it.ty, size: it.size, seed: it.seed * 5 + 2,
                       squashY: 0.8, detail: it.size > 10 ? 1 : 0)
         if c.g > 0.45 && it.accent {
@@ -948,7 +951,8 @@ func drawSakura(day rawDay: Int, wind: BonsaiWind? = nil, in ctx: inout Graphics
         }
     }
 
-    drawSakuraPetals(day: day, c: c, wind: wind, in: &ctx)
+    drawSakuraFallen(day: day, in: &ctx)
+    return BonsaiScene(ctx, pivot: pivot) { g, wind in drawSakuraAir(day: day, c: c, wind: wind, in: &g) }
 }
 
 /// Tight content box for the sakura, in the 600×600 design space, used by
@@ -1061,13 +1065,14 @@ private let mapleTufts: [MapleTuft] = {
 
 private let mapleInk = FoliageInk(shadow: RGB(0x9A3424), mid: RGB(0xC8472A), light: RGB(0xE87B33), hi: RGB(0xF4B24B))
 
-private func mapleCluster(_ ctx: inout GraphicsContext, cx: Double, cy: Double, size: Double,
+/// A heap of palmate leaves.
+private func mapleCluster(_ ctx: inout BonsaiLayers, cx: Double, cy: Double, size: Double,
                           seed: Double, squashY: Double, detail: Int) {
-    paintPad(&ctx, cx: cx, cy: cy, rx: size, ry: size * squashY, seed: seed,
-             ink: mapleInk, detail: detail, flat: 0.35)
+    paintPalmatePad(&ctx, cx: cx, cy: cy, rx: size, ry: size * squashY, seed: seed,
+                    ink: mapleInk, detail: detail)
 }
 
-private func drawMaplePot(_ ctx: inout GraphicsContext) {
+private func drawMaplePot(_ ctx: inout BonsaiLayers) {
     paintPotFeet(&ctx, left: 186, right: 414, y: 460, color: MaplePal.potRim)
     var body = Path()
     body.move(to: CGPoint(x: 176, y: 418))
@@ -1133,7 +1138,7 @@ private func drawMaplePot(_ ctx: inout GraphicsContext) {
     ctx.fill(ellipse(286, 413, 1.2, 1.2),  with: .color(MaplePal.barkLight.opacity(0.4)))
 }
 
-private func drawMapleTrunk(day: Int, c: MapleCanopy, in ctx: inout GraphicsContext) {
+private func drawMapleTrunk(day: Int, c: MapleCanopy, in ctx: inout BonsaiLayers) {
     let baseY = 410.0
     let trunk = forkTrunk(baseY: baseY, forkX: c.forkX, forkY: c.forkY, bend: 3 + 9 * c.g,
                           baseW: c.baseW, topW: max(2.0, c.baseW * 0.26))
@@ -1148,8 +1153,8 @@ private func drawMapleTrunk(day: Int, c: MapleCanopy, in ctx: inout GraphicsCont
               grain: mapleBark(day), grainColor: MaplePal.barkStripe)
 }
 
-private func mapleLeaf(_ ctx: inout GraphicsContext, x: Double, y: Double, s: Double,
-                       rotDeg: Double, color: Color, opacity: Double) {
+/// A five-point leaf of size `s` at (x, y), turned `rotDeg`.
+private func mapleLeaf(x: Double, y: Double, s: Double, rotDeg: Double) -> Path {
     var p = Path()
     for i in 0..<5 {
         let a = Double(i) / 5 * .pi * 2 - .pi / 2
@@ -1160,22 +1165,26 @@ private func mapleLeaf(_ ctx: inout GraphicsContext, x: Double, y: Double, s: Do
         p.addLine(to: inner)
     }
     p.closeSubpath()
-    var g = ctx
-    g.translateBy(x: x, y: y)
-    g.rotate(by: .degrees(rotDeg))
-    g.fill(p, with: .color(color.opacity(opacity)))
+    return p.applying(CGAffineTransform(translationX: x, y: y).rotated(by: rotDeg * .pi / 180))
 }
 
-private func drawMapleLeaves(day: Int, c: MapleCanopy, wind: BonsaiWind?, in ctx: inout GraphicsContext) {
+/// The leaves lying on the soil, which never move.
+private func drawMapleFallen(day: Int, in ctx: inout BonsaiLayers) {
     let amt = mapleFall(day)
     if amt < 0.02 { return }
     let fallN = Int((amt * 26).rounded())
     for i in 0..<fallN {
         let h1 = rand01(71, Double(i + 1)), h2 = rand01(89, Double(i + 3)), h3 = rand01(53, Double(i))
         let fill = h3 > 0.6 ? MaplePal.folHi : (h3 > 0.3 ? MaplePal.folLight : MaplePal.folMid)
-        mapleLeaf(&ctx, x: 300 + (h1 - 0.5) * 160, y: 408 + h2 * 6, s: 3.2 + h3 * 2,
-                  rotDeg: (h1 - 0.5) * 180, color: fill, opacity: 0.92)
+        ctx.fill(mapleLeaf(x: 300 + (h1 - 0.5) * 160, y: 408 + h2 * 6, s: 3.2 + h3 * 2,
+                           rotDeg: (h1 - 0.5) * 180), with: .color(fill.opacity(0.92)))
     }
+}
+
+/// The leaves in mid-air, each on its own fall, worked out every frame.
+private func drawMapleAir(day: Int, c: MapleCanopy, wind: BonsaiWind?, in ctx: inout GraphicsContext) {
+    let amt = mapleFall(day)
+    if amt < 0.02 { return }
     let airN = Int((amt * 10).rounded())
     for i in 0..<airN {
         let h1 = rand01(131, Double(i + 1)), h2 = rand01(167, Double(i + 5)), h3 = rand01(199, Double(i + 9))
@@ -1184,24 +1193,23 @@ private func drawMapleLeaves(day: Int, c: MapleCanopy, wind: BonsaiWind?, in ctx
         let x0 = c.cX + (h1 - 0.5) * c.Rx * 2.0
         let fill = h3 > 0.5 ? MaplePal.folLight : MaplePal.folMid
         guard let wind else {
-            mapleLeaf(&ctx, x: x0, y: min(y0, 432), s: 3 + h3 * 2.2,
-                      rotDeg: (h1 - 0.5) * 200, color: fill, opacity: 0.85)
+            ctx.fill(mapleLeaf(x: x0, y: min(y0, 432), s: 3 + h3 * 2.2, rotDeg: (h1 - 0.5) * 200),
+                     with: .color(fill.opacity(0.85)))
             continue
         }
         // Lands on the soil inside the pot, where the fallen leaves lie.
         let f = wind.fall(seed: h2, pace: h3, x: c.cX + (h1 - 0.5) * c.Rx * 1.6, top: top,
                           bottom: 408 + 6 * h3, rotDeg: (h1 - 0.5) * 200)
-        mapleLeaf(&ctx, x: f.x, y: f.y, s: 3 + h3 * 2.2,
-                  rotDeg: f.rotDeg, color: fill, opacity: 0.85 * f.opacity)
+        ctx.fill(mapleLeaf(x: f.x, y: f.y, s: 3 + h3 * 2.2, rotDeg: f.rotDeg),
+                 with: .color(fill.opacity(0.85 * f.opacity)))
     }
 }
 
-func drawMaple(day rawDay: Int, wind: BonsaiWind? = nil, in ctx: inout GraphicsContext) {
-    let day = max(0, min(365, rawDay))
+/// `detail` is the scene's level of detail (see `bonsaiScene`).
+private func mapleScene(day: Int, detail: Int) -> BonsaiScene {
     let c = mapleCanopy(day)
     let padBase = 5 + 30 * c.g
     let pivot = CGPoint(x: c.forkX, y: 410)
-    let drift = { (x: Double, y: Double) in wind?.drift(x, y, pivot: pivot) ?? .zero }
 
     struct Limb { let L: MapleLimb; let e, tx, ty, size: Double; let branch: Bool }
     var limbItems: [Limb] = []
@@ -1217,22 +1225,24 @@ func drawMaple(day rawDay: Int, wind: BonsaiWind? = nil, in ctx: inout GraphicsC
                               size: padBase * L.s * (0.6 + 0.4 * e), branch: true))
     }
 
+    var ctx = BonsaiLayers()
     drawMaplePot(&ctx)
     paintSoilMoss(&ctx, cx: 300, y: 410, spread: 70, amount: mapleBark(day), seed: 29)
     var plant = ctx
-    wind?.bend(&plant, pivot: pivot)
+    plant.move(.bent)
 
     for it in limbItems.sorted(by: { $0.ty > $1.ty }) where it.branch {
         let ar = it.L.a * .pi / 180
-        let d = drift(it.tx, it.ty)
         let st = limbStart(angleDeg: it.L.a, baseY: 410, forkX: c.forkX, forkY: c.forkY, bend: 3 + 9 * c.g)
-        let mx = (st.x + it.tx) / 2 - sin(ar) * 5 * c.g + d.width / 2
-        let my = (st.y + it.ty) / 2 - 6 * c.g * it.e + d.height / 2
+        let tip = CGPoint(x: it.tx, y: it.ty)
+        let mx = (st.x + it.tx) / 2 - sin(ar) * 5 * c.g
+        let my = (st.y + it.ty) / 2 - 6 * c.g * it.e
         let w = max(1.6, c.baseW * 0.21 * (0.4 + 0.6 * it.e))
-        let b = boughPath(from: st, control: CGPoint(x: mx, y: my),
-                          to: CGPoint(x: it.tx + d.width, y: it.ty + d.height), w0: w, w1: max(1.1, w * 0.35))
-        plant.fill(b, with: .color(MaplePal.barkMid))
-        shadeWood(&plant, b, width: w, dark: MaplePal.barkDeep, light: MaplePal.barkLight)
+        let b = boughPath(from: st, control: CGPoint(x: mx, y: my), to: tip, w0: w, w1: max(1.1, w * 0.35))
+        var limb = plant
+        limb.move(.limb(from: st, to: tip))
+        limb.fill(b, with: .color(MaplePal.barkMid))
+        shadeWood(&limb, b, width: w, dark: MaplePal.barkDeep, light: MaplePal.barkLight)
     }
 
     drawMapleTrunk(day: day, c: c, in: &plant)
@@ -1254,17 +1264,28 @@ func drawMaple(day rawDay: Int, wind: BonsaiWind? = nil, in ctx: inout GraphicsC
 
     for it in fol.sorted(by: { $0.ty > $1.ty }) {
         var g = plant
-        let d = drift(it.tx, it.ty)
-        g.translateBy(x: d.width, y: d.height)
+        g.move(.drift(CGPoint(x: it.tx, y: it.ty)))
         mapleCluster(&g, cx: it.tx, cy: it.ty, size: it.size, seed: it.seed * 5 + 2,
-                     squashY: 0.78, detail: it.size > 10 ? 1 : 0)
+                     squashY: 0.78, detail: padDetail(it.size, detail))
         if c.g > 0.45 && it.accent {
             g.fill(ellipse(it.tx + it.size * 0.1, it.ty - it.size * 0.1, 1.2 + c.g, 1.2 + c.g),
                    with: .color(MaplePal.folEmber.opacity(0.4)))
         }
     }
 
-    drawMapleLeaves(day: day, c: c, wind: wind, in: &ctx)
+    drawMapleFallen(day: day, in: &ctx)
+    return BonsaiScene(ctx, pivot: pivot) { g, wind in drawMapleAir(day: day, c: c, wind: wind, in: &g) }
+}
+
+/// How much texture a maple or pine pad of half-width `size` gets at the
+/// scene's level of detail: thumbnails keep the silhouette, the full-size
+/// tree gets every lobe and needle.
+private func padDetail(_ size: Double, _ detail: Int) -> Int {
+    switch detail {
+    case 0: return 0
+    case 1: return size > 10 ? 1 : 0
+    default: return size > 12 ? 2 : (size > 6 ? 1 : 0)
+    }
 }
 
 func mapleContentRect(day: Int) -> CGRect {
@@ -1378,12 +1399,12 @@ private let pineTufts: [PineTuft] = {
 private let pineInk = FoliageInk(shadow: RGB(0x1E3A30), mid: RGB(0x2F6149), light: RGB(0x4C8A63), hi: RGB(0x7FB583))
 
 /// A flat-bottomed needle pad, the cloud shape pines are trained into.
-private func needleCluster(_ ctx: inout GraphicsContext, cx: Double, cy: Double, w: Double, h: Double,
+private func needleCluster(_ ctx: inout BonsaiLayers, cx: Double, cy: Double, w: Double, h: Double,
                            seed: Double, detail: Int) {
-    paintPad(&ctx, cx: cx, cy: cy, rx: w, ry: h, seed: seed, ink: pineInk, detail: detail, flat: 0.85)
+    paintNeedlePad(&ctx, cx: cx, cy: cy, rx: w, ry: h, seed: seed, ink: pineInk, detail: detail)
 }
 
-private func drawPinePot(_ ctx: inout GraphicsContext) {
+private func drawPinePot(_ ctx: inout BonsaiLayers) {
     paintPotFeet(&ctx, left: 196, right: 404, y: 458, color: PinePal.potRim)
     var body = Path()
     body.move(to: CGPoint(x: 188, y: 414))
@@ -1422,7 +1443,7 @@ private func drawPinePot(_ ctx: inout GraphicsContext) {
     ctx.fill(ellipse(352, 412, 1.4, 1.4), with: .color(PinePal.barkMid.opacity(0.4)))
 }
 
-private func drawPineTrunk(day: Int, c: PineCanopy, in ctx: inout GraphicsContext) {
+private func drawPineTrunk(day: Int, c: PineCanopy, in ctx: inout BonsaiLayers) {
     let baseX = c.baseX, baseY = c.baseY, topX = c.topX, topY = c.topY
     let baseW = c.baseW, topW = max(2.2, baseW * 0.30), g = c.g
     let lean = topX - baseX
@@ -1469,7 +1490,7 @@ private func drawPineTrunk(day: Int, c: PineCanopy, in ctx: inout GraphicsContex
     }
 }
 
-private func pineNeedlePair(_ ctx: inout GraphicsContext, x: Double, y: Double, s: Double,
+private func pineNeedlePair(_ ctx: inout BonsaiLayers, x: Double, y: Double, s: Double,
                             rotDeg: Double, color: Color, opacity: Double) {
     var g = ctx
     g.translateBy(x: x, y: y)
@@ -1522,16 +1543,16 @@ private func pineNeedleItems(_ day: Int, _ live: [PadLive]) -> [NItem] {
     return items
 }
 
-func drawPine(day rawDay: Int, wind: BonsaiWind? = nil, in ctx: inout GraphicsContext) {
-    let day = max(0, min(365, rawDay))
+/// `detail` is the scene's level of detail (see `bonsaiScene`).
+private func pineScene(day: Int, detail: Int) -> BonsaiScene {
     let c = pineCanopy(day)
     let pivot = CGPoint(x: c.baseX, y: c.baseY)
-    let drift = { (x: Double, y: Double) in wind?.drift(x, y, pivot: pivot) ?? .zero }
 
+    var ctx = BonsaiLayers()
     drawPinePot(&ctx)
     paintSoilMoss(&ctx, cx: c.baseX, y: c.baseY, spread: 62, amount: pineBark(day), seed: 41)
     var plant = ctx
-    wind?.bend(&plant, pivot: pivot)
+    plant.move(.bent)
     drawPineTrunk(day: day, c: c, in: &plant)
 
     let live = pineLivePads(day, c)
@@ -1540,21 +1561,21 @@ func drawPine(day rawDay: Int, wind: BonsaiWind? = nil, in ctx: inout GraphicsCo
         let leanAtH = lerp(0, c.topX - c.baseX, it.p.hFrac)
         let sx = c.baseX + leanAtH
         let w = max(1.8, c.baseW * 0.2 * (0.5 + 0.5 * it.e))
-        let d = drift(it.x, it.y)
-        let b = boughPath(from: CGPoint(x: sx, y: it.y + 2),
-                          control: CGPoint(x: (sx + it.x + d.width) / 2, y: it.y + 4 + d.height / 2),
-                          to: CGPoint(x: it.x + d.width, y: it.y + d.height), w0: w, w1: max(1.2, w * 0.4))
-        plant.fill(b, with: .color(PinePal.barkMid))
-        shadeWood(&plant, b, width: w, dark: PinePal.barkDeep, light: PinePal.barkLight)
+        let from = CGPoint(x: sx, y: it.y + 2), tip = CGPoint(x: it.x, y: it.y)
+        let b = boughPath(from: from, control: CGPoint(x: (sx + it.x) / 2, y: it.y + 4),
+                          to: tip, w0: w, w1: max(1.2, w * 0.4))
+        var limb = plant
+        limb.move(.limb(from: from, to: tip))
+        limb.fill(b, with: .color(PinePal.barkMid))
+        shadeWood(&limb, b, width: w, dark: PinePal.barkDeep, light: PinePal.barkLight)
     }
 
     let items = pineNeedleItems(day, live)
     for it in items.sorted(by: { $0.y < $1.y }) {
         var g = plant
-        let d = drift(it.x, it.y)
-        g.translateBy(x: d.width, y: d.height)
+        g.move(.drift(CGPoint(x: it.x, y: it.y)))
         needleCluster(&g, cx: it.x, cy: it.y, w: it.w, h: it.h, seed: it.seed * 5 + 2,
-                      detail: it.w > 10 ? 1 : 0)
+                      detail: padDetail(it.w, detail))
     }
 
     let cand = pineCandle(day)
@@ -1563,11 +1584,12 @@ func drawPine(day rawDay: Int, wind: BonsaiWind? = nil, in ctx: inout GraphicsCo
             for k in 0..<2 {
                 let cx = it.x + (rand01(it.p.seed * 3, Double(k + 1)) - 0.5) * it.w * 1.2
                 let cy = it.y - it.h * 0.7 - 3 * cand
-                let d = drift(cx, cy)
                 var s = Path()
-                s.move(to: CGPoint(x: cx + d.width, y: cy + d.height))
-                s.addLine(to: CGPoint(x: cx + d.width, y: cy - 5 * cand + d.height))
-                plant.stroke(s, with: .color(PinePal.candle.opacity(0.6 * cand)), style: StrokeStyle(lineWidth: 2, lineCap: .round))
+                s.move(to: CGPoint(x: cx, y: cy))
+                s.addLine(to: CGPoint(x: cx, y: cy - 5 * cand))
+                var g = plant
+                g.move(.drift(CGPoint(x: cx, y: cy)))
+                g.stroke(s, with: .color(PinePal.candle.opacity(0.6 * cand)), style: StrokeStyle(lineWidth: 2, lineCap: .round))
             }
         }
     }
@@ -1582,6 +1604,7 @@ func drawPine(day rawDay: Int, wind: BonsaiWind? = nil, in ctx: inout GraphicsCo
                            rotDeg: (h1 - 0.5) * 160, color: fill, opacity: 0.7)
         }
     }
+    return BonsaiScene(ctx, pivot: pivot)
 }
 
 func pineContentRect(day: Int) -> CGRect {
@@ -1614,10 +1637,18 @@ func pineContentRect(day: Int) -> CGRect {
 /// plant so it fills its frame instead of swimming in the 600pt square — the
 /// silhouette otherwise only occupies the middle ~45% of the canvas.
 func bonsaiContentRect(day: Int, style: BonsaiStyle) -> CGRect {
-    if style == .sakura { return sakuraContentRect(day: day) }
-    if style == .maple { return mapleContentRect(day: day) }
-    if style == .pine { return pineContentRect(day: day) }
     let d = min(365, max(0, day))
+    return BonsaiSceneCache.shared.rect(.init(style: style, day: d)) {
+        switch style {
+        case .sakura: return sakuraContentRect(day: d)
+        case .maple: return mapleContentRect(day: d)
+        case .pine: return pineContentRect(day: d)
+        case .traditional, .cascade, .windswept: return classicContentRect(day: d, style: style)
+        }
+    }
+}
+
+private func classicContentRect(day d: Int, style: BonsaiStyle) -> CGRect {
     var minX = 1e9, minY = 1e9, maxX = -1e9, maxY = -1e9
     func include(_ x: Double, _ y: Double) {
         minX = min(minX, x); maxX = max(maxX, x)
@@ -1656,6 +1687,89 @@ func bonsaiContentRect(day: Int, style: BonsaiStyle) -> CGRect {
     return rect
 }
 
+// MARK: - Scenes
+
+/// The recorded tree for `day`, built on first use and then reused every
+/// frame. `scale` (screen points per design point) picks how much leaf and
+/// needle texture the maple and pine carry; vitality only tints the three
+/// classic styles' foliage.
+func bonsaiScene(day: Int, style: BonsaiStyle, vitality: Double, scale: Double) -> BonsaiScene {
+    let d = min(365, max(0, day))
+    let textured = style == .maple || style == .pine
+    let classic = style == .traditional || style == .cascade || style == .windswept
+    let detail = !textured ? 0 : (scale < 0.2 ? 0 : (scale < 0.5 ? 1 : 2))
+    let key = BonsaiSceneCache.Key(style: style, day: d, detail: detail,
+                                   vitality: classic && d > 7 ? vitality : 1)
+    return BonsaiSceneCache.shared.scene(key) {
+        switch style {
+        case .sakura: return sakuraScene(day: d)
+        case .maple: return mapleScene(day: d, detail: detail)
+        case .pine: return pineScene(day: d, detail: detail)
+        case .traditional, .cascade, .windswept: return classicScene(day: d, style: style, vitality: vitality)
+        }
+    }
+}
+
+/// Traditional, cascade and windswept: the shared trunk and cluster pipeline.
+private func classicScene(day: Int, style: BonsaiStyle, vitality: Double) -> BonsaiScene {
+    var ctx = BonsaiLayers()
+    drawPot(style: style, in: &ctx)
+    let pivot = CGPoint(x: 300, y: style == .cascade ? 378 : 410)
+
+    if day <= 7 {
+        drawRootsAndMoss(paramsForDay(day, style: style), style: style, in: &ctx)
+        if day > 0 { ctx.move(.bent) }
+        drawEarly(day, style: style, in: &ctx)
+        return BonsaiScene(ctx, pivot: pivot, sprout: true)
+    }
+
+    let p = paramsForDay(day, style: style)
+    drawRootsAndMoss(p, style: style, in: &ctx)
+    let tr = buildTrunk(p, style: style)
+    ctx.move(.bent)
+
+    // Jin: windward dead wood, bleached silver-grey.
+    for b in tr.bareBranches {
+        let jin = boughPath(from: b.from, control: b.ctrl, to: b.to, w0: b.w, w1: max(1, b.w * 0.3))
+        ctx.fill(jin, with: .color(Color(hex: 0xA99D8A)))
+        shadeWood(&ctx, jin, width: b.w, dark: Color(hex: 0x6B6052), light: Color(hex: 0xE2DACB))
+    }
+    for b in tr.branches {
+        let bough = boughPath(from: b.from, control: b.ctrl, to: b.to, w0: b.w, w1: max(1.2, b.w * 0.4))
+        ctx.fill(bough, with: .color(Pal.barkMid))
+        shadeWood(&ctx, bough, width: b.w, dark: Pal.barkDeep, light: Pal.barkLight)
+    }
+    let trunkRect = tr.path.boundingRect
+    let bark = BonsaiInk.linearGradient(
+        Gradient(colors: [Pal.barkLight, Pal.barkMid, Pal.barkDeep]),
+        startPoint: CGPoint(x: trunkRect.minX, y: 300),
+        endPoint: CGPoint(x: trunkRect.maxX, y: 300))
+    let nebari = nebariPath(x: tr.base.x, y: tr.base.y, w: tr.baseW,
+                            spread: 0.4 + 0.6 * p.exposedRoots, lean: tr.lean)
+    // Upright trunks stop at the soil; the cascade spills over the rim.
+    var tctx = ctx
+    if style != .cascade {
+        tctx.clip(to: Path(CGRect(x: 0, y: 0, width: 600, height: tr.base.y + 2)))
+    }
+    for (i, part) in (tr.parts.isEmpty ? [tr.path] : tr.parts).enumerated() {
+        tctx.fill(i == 0 ? part.union(nebari) : part, with: bark)
+        // Shade the wood alone: the flare's outline would leave seams.
+        shadeWood(&tctx, part, width: tr.baseW * 0.7, dark: Pal.barkDeep, light: Pal.barkLight,
+                  grain: p.trunkGnarl, grainColor: Pal.barkDeep)
+    }
+
+    let satFactor = 0.7 + 0.3 * max(0, min(1, vitality))
+    for c in p.clusters {
+        let base = clusterCenter(c, trunk: tr, reach: p.reach)
+        var g = ctx
+        g.move(.drift(base))
+        draw(cluster: base.x, base.y, size: c.size,
+             tone: c.tone, saturation: p.leafSaturation * c.sat * satFactor,
+             seed: c.seed, in: &g)
+    }
+    return BonsaiScene(ctx, pivot: pivot)
+}
+
 // MARK: - Public View
 
 struct BonsaiView: View {
@@ -1688,73 +1802,8 @@ struct BonsaiView: View {
                 : (size.height - drawnH) / 2 - rect.minY * scale
             ctx.translateBy(x: offX, y: offY)
             ctx.scaleBy(x: scale, y: scale)
-
-            if style == .sakura {
-                drawSakura(day: day, wind: wind, in: &ctx)
-                return
-            }
-            if style == .maple {
-                drawMaple(day: day, wind: wind, in: &ctx)
-                return
-            }
-            if style == .pine {
-                drawPine(day: day, wind: wind, in: &ctx)
-                return
-            }
-
-            drawPot(style: style, in: &ctx)
-            let pivot = CGPoint(x: 300, y: style == .cascade ? 378 : 410)
-
-            if day <= 7 {
-                drawRootsAndMoss(paramsForDay(day, style: style), style: style, in: &ctx)
-                if day > 0 { wind?.bend(&ctx, pivot: pivot, sprout: true) }
-                drawEarly(max(0, day), style: style, in: &ctx)
-                return
-            }
-
-            let p = paramsForDay(min(365, day), style: style)
-            drawRootsAndMoss(p, style: style, in: &ctx)
-            let tr = buildTrunk(p, style: style)
-            wind?.bend(&ctx, pivot: pivot)
-
-            // Jin: windward dead wood, bleached silver-grey.
-            for b in tr.bareBranches {
-                let jin = boughPath(from: b.from, control: b.ctrl, to: b.to, w0: b.w, w1: max(1, b.w * 0.3))
-                ctx.fill(jin, with: .color(Color(hex: 0xA99D8A)))
-                shadeWood(&ctx, jin, width: b.w, dark: Color(hex: 0x6B6052), light: Color(hex: 0xE2DACB))
-            }
-            for b in tr.branches {
-                let bough = boughPath(from: b.from, control: b.ctrl, to: b.to, w0: b.w, w1: max(1.2, b.w * 0.4))
-                ctx.fill(bough, with: .color(Pal.barkMid))
-                shadeWood(&ctx, bough, width: b.w, dark: Pal.barkDeep, light: Pal.barkLight)
-            }
-            let trunkRect = tr.path.boundingRect
-            let bark = GraphicsContext.Shading.linearGradient(
-                Gradient(colors: [Pal.barkLight, Pal.barkMid, Pal.barkDeep]),
-                startPoint: CGPoint(x: trunkRect.minX, y: 300),
-                endPoint: CGPoint(x: trunkRect.maxX, y: 300))
-            let nebari = nebariPath(x: tr.base.x, y: tr.base.y, w: tr.baseW,
-                                    spread: 0.4 + 0.6 * p.exposedRoots, lean: tr.lean)
-            // Upright trunks stop at the soil; the cascade spills over the rim.
-            var tctx = ctx
-            if style != .cascade {
-                tctx.clip(to: Path(CGRect(x: 0, y: 0, width: 600, height: tr.base.y + 2)))
-            }
-            for (i, part) in (tr.parts.isEmpty ? [tr.path] : tr.parts).enumerated() {
-                tctx.fill(i == 0 ? part.union(nebari) : part, with: bark)
-                // Shade the wood alone: the flare's outline would leave seams.
-                shadeWood(&tctx, part, width: tr.baseW * 0.7, dark: Pal.barkDeep, light: Pal.barkLight,
-                          grain: p.trunkGnarl, grainColor: Pal.barkDeep)
-            }
-
-            let satFactor = 0.7 + 0.3 * max(0, min(1, vitality))
-            for c in p.clusters {
-                let base = clusterCenter(c, trunk: tr, reach: p.reach)
-                let d = wind?.drift(base.x, base.y, pivot: pivot) ?? .zero
-                draw(cluster: base.x + d.width, base.y + d.height, size: c.size,
-                     tone: c.tone, saturation: p.leafSaturation * c.sat * satFactor,
-                     seed: c.seed, in: &ctx)
-            }
+            bonsaiScene(day: day, style: style, vitality: vitality, scale: scale)
+                .paint(wind: wind, in: &ctx)
         }
         .accessibilityLabel(Text("Bonsai, day \(day)"))
     }

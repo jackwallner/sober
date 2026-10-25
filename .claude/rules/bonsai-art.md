@@ -13,7 +13,16 @@ renderer only decides geometry and when each part appears.
 - Growth is a pure function of the day. Art changes must keep each limb, pad
   and tuft appearing on the same day at the same place; restyle how they are
   painted, not when.
-- Foliage is `paintPad`: opaque layers (dark lobed outline, mid body lifted off
+- Each tree is recorded once per (style, day, detail) into a `BonsaiScene`
+  (`BonsaiScene.swift`, LRU `BonsaiSceneCache`) and replayed every frame; the
+  wind only bends, drifts and stretches recorded pieces (`BonsaiMotion`).
+  Painters write into `BonsaiLayers`, never a GraphicsContext. Avoid clips and
+  path booleans in painters where a nested outline will do: both cost far more
+  than a fill.
+- Maple pads are `paintPalmatePad` (a heap of palmate leaves), pine pads
+  `paintNeedlePad` (needle-fringed tiers with raked needles); `padDetail`
+  scales their texture with on-screen size.
+- Classic foliage is `paintPad`: opaque layers (dark lobed outline, mid body lifted off
   its underside, lit crown, a few flecks). Never fake depth or a dry garden with
   alpha: overlapping pads go muddy and a low-vitality tree turns see-through.
   Vitality dulls colour through `RGB.dried`.
@@ -23,6 +32,7 @@ renderer only decides geometry and when each part appears.
   the rim).
 - Light comes from the upper left everywhere.
 - Proof: render with `Tools/BonsaiAudit` (`--mode=render` for contact sheets,
-  the default sweep for detached or clipped pieces, `--mode=bbox` for the
+  `--wind=<ms>` for a sway frame, `--mode=bench` for per-frame cost, the
+  default sweep for detached or clipped pieces, `--mode=bbox` for the
   fill-mode zoom box). Its `Sources/` symlinks every `Shared/Bonsai` file; add a
   link when you add a file there.
