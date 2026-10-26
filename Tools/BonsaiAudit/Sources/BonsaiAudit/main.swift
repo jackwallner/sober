@@ -43,8 +43,8 @@ let alphaHigh: UInt8 = 128
 // MARK: - Render
 
 @MainActor
-func renderRGBA(style: BonsaiStyle, day: Int, cfg: Config) -> [UInt8]? {
-    let view = BonsaiView(day: day, style: style, vitality: cfg.vitality, fill: cfg.fill)
+func renderRGBA(style: BonsaiStyle, day: Int, cfg: Config, wind: BonsaiWind? = nil) -> [UInt8]? {
+    let view = BonsaiView(day: day, style: style, vitality: cfg.vitality, fill: cfg.fill, wind: wind)
         .frame(width: cfg.frame, height: cfg.frame)
     let renderer = ImageRenderer(content: view)
     renderer.scale = cfg.scale
@@ -350,11 +350,11 @@ func bboxMode(_ styles: [BonsaiStyle], stride: Int, outDir: String) {
 // MARK: - render mode: plain PNGs for eyeballing a specific frame
 
 @MainActor
-func renderMode(_ styles: [BonsaiStyle], days: [Int], outDir: String) {
+func renderMode(_ styles: [BonsaiStyle], days: [Int], wind: BonsaiWind?, outDir: String) {
     for cfg in configs.filter({ onlyCfg == nil || $0.name == onlyCfg! }) {
         for style in styles {
             for day in days {
-                guard let rgba = renderRGBA(style: style, day: day, cfg: cfg) else { continue }
+                guard let rgba = renderRGBA(style: style, day: day, cfg: cfg, wind: wind) else { continue }
                 let n = cfg.px
                 var buf = rgba
                 for i in 0..<(n * n) {                       // flatten onto white
@@ -364,7 +364,8 @@ func renderMode(_ styles: [BonsaiStyle], days: [Int], outDir: String) {
                     }
                     buf[i * 4 + 3] = 255
                 }
-                let path = outDir + "/\(cfg.name)-\(style.rawValue)-d\(String(format: "%03d", day)).png"
+                let tag = wind.map { String(format: "-w%05.0f", $0.t) } ?? ""
+                let path = outDir + "/\(cfg.name)-\(style.rawValue)-d\(String(format: "%03d", day))\(tag).png"
                 buf.withUnsafeMutableBytes { raw in
                     let c = CGContext(data: raw.baseAddress, width: n, height: n, bitsPerComponent: 8,
                                       bytesPerRow: n * 4, space: CGColorSpaceCreateDeviceRGB(),
@@ -381,9 +382,70 @@ func renderMode(_ styles: [BonsaiStyle], days: [Int], outDir: String) {
 if args.contains("--mode=render") {
     let days = (args.first(where: { $0.hasPrefix("--days=") })?.dropFirst(7))
         .map { $0.split(separator: ",").compactMap { Int($0) } } ?? [365]
+    // --wind=<ms> renders that moment of the sway instead of the still tree.
+    let wind = (args.first(where: { $0.hasPrefix("--wind=") })?.dropFirst(7)).flatMap { Double($0) }
+        .map { BonsaiWind(t: $0) }
     MainActor.assumeIsolated {
         renderMode(BonsaiStyle.allCases.filter { onlyStyle == nil || $0.rawValue == onlyStyle! },
-                   days: days, outDir: outDir)
+                   days: days, wind: wind, outDir: outDir)
+    }
+    exit(0)
+}
+
+// MARK: - bench mode: per-frame cost of the animated tree
+//
+// Times what the garden pays every animation frame: a fresh render of the
+// view with the wind clock advanced one 60 fps tick. The first frame of each
+// (style, day) is reported apart as "cold", since it is the one that builds
+// any cached geometry. "canvas" is an empty Canvas of the same size, the
+// renderer's own overhead, so the tree's cost is roughly mean minus that.
+
+@MainActor
+func benchMode(_ styles: [BonsaiStyle], days: [Int], frames: Int) {
+    let cfgs = configs.filter { onlyCfg == nil ? ["home320", "grove44"].contains($0.name) : $0.name == onlyCfg! }
+    func time(_ body: () -> Void) -> Double {
+        let t0 = DispatchTime.now().uptimeNanoseconds
+        body()
+        return Double(DispatchTime.now().uptimeNanoseconds - t0) / 1e6
+    }
+    func frame(_ view: some View, _ cfg: Config) {
+        let r = ImageRenderer(content: view.frame(width: cfg.frame, height: cfg.frame))
+        r.scale = cfg.scale
+        _ = r.cgImage
+    }
+    print("config       style         day   cold_ms   mean_ms   p90_ms")
+    for cfg in cfgs {
+        var empty: [Double] = []
+        for _ in 0..<frames {
+            empty.append(time { frame(Canvas { ctx, _ in ctx.fill(Path(CGRect(x: 0, y: 0, width: 1, height: 1)),
+                                                                        with: .color(.clear)) }, cfg) })
+        }
+        print(String(format: "%-12@ %-12@  ---   %7.2f   %7.2f   %6.2f", cfg.name, "canvas",
+                     empty[0], empty.dropFirst().reduce(0, +) / Double(frames - 1),
+                     empty.dropFirst().sorted()[Int(Double(frames - 1) * 0.9)]))
+        for style in styles {
+            for day in days {
+                var ms: [Double] = []
+                for i in 0..<(frames + 1) {
+                    let wind = BonsaiWind(t: 1000 + Double(i) * 1000 / 60)
+                    ms.append(time { frame(BonsaiView(day: day, style: style, vitality: cfg.vitality,
+                                                      fill: cfg.fill, wind: wind), cfg) })
+                }
+                let warm = ms.dropFirst().sorted()
+                print(String(format: "%-12@ %-12@  %3d   %7.2f   %7.2f   %6.2f", cfg.name, style.rawValue, day,
+                             ms[0], warm.reduce(0, +) / Double(warm.count), warm[Int(Double(warm.count) * 0.9)]))
+            }
+        }
+    }
+}
+
+if args.contains("--mode=bench") {
+    let days = (args.first(where: { $0.hasPrefix("--days=") })?.dropFirst(7))
+        .map { $0.split(separator: ",").compactMap { Int($0) } } ?? [180, 365]
+    let frames = Int(args.first(where: { $0.hasPrefix("--frames=") })?.dropFirst(9) ?? "") ?? 120
+    MainActor.assumeIsolated {
+        benchMode(BonsaiStyle.allCases.filter { onlyStyle == nil || $0.rawValue == onlyStyle! },
+                  days: days, frames: frames)
     }
     exit(0)
 }
