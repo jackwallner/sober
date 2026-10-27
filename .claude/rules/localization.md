@@ -37,10 +37,12 @@ Store pages were already translated, so the copy inside the app is the lever.
   its own key (see `soberHabitComparisonSentence`: 4 plans x 5 spans = 20
   keys). Counts go in plural variations, or a `%#@n@` substitution when the
   sentence has other arguments; Slavic languages need one/few/many/other.
-- A count label shown under a big number ("Days Sober") is a plural key whose
-  variants omit the number (`"%lld Days Sober"`, `"%lld ridden out"`,
-  `"%lld days sober label"`). Keep the en variants in the catalog, or English
-  shows the raw key.
+- A count label drawn beside a separately rendered number ("127" over
+  "DAYS SOBER") cannot be a plural key: Xcode rejects plural variants that
+  omit the number. `PluralLabel` asks the catalog's `"%lld plural category"`
+  key for the CLDR category, then picks one whole key per category
+  (`"Days Sober"`, `"Days Sober (few)"`, `"Days Sober (many)"`, `"Day Sober"`).
+  The `(few)`/`(many)` keys carry an `en` value so English never shows the key.
 - Stored English values are translated at display time:
   `HabitVocabulary.triggerLabel(_:)` for trigger chips (tags key the playbook
   and saved episodes), `JournalEntry.feelingLabel(_:)` for feelings.

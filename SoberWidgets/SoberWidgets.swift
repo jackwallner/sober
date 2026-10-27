@@ -97,7 +97,7 @@ struct SoberDayCounterView: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.4)
                     .padding(.horizontal, 4)
-                Text("\(days) days label").font(.caption2)
+                Text(PluralLabel.days(days)).font(.caption2)
             }
             .accessibilityLabel(Text("\(days) days sober"))
         case .accessoryRectangular:
@@ -122,7 +122,7 @@ struct SoberDayCounterView: View {
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
                         .foregroundStyle(.white)
-                    Text("\(days) days sober label")
+                    Text(PluralLabel.daysSober(days))
                         .font(.caption)
                         .foregroundStyle(.white.opacity(0.85))
                     Text(stageTitle)
@@ -151,7 +151,7 @@ struct SoberDayCounterView: View {
                             .minimumScaleFactor(0.5)
                             .padding(.horizontal, 8)
                             .foregroundStyle(.white)
-                        Text("\(days) days sober label")
+                        Text(PluralLabel.daysSober(days))
                             .font(.caption2.weight(.medium))
                             .foregroundStyle(.white.opacity(0.95))
                     }

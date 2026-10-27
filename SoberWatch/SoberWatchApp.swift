@@ -46,7 +46,7 @@ struct WatchRootView: View {
                 .minimumScaleFactor(0.4)
                 .padding(.horizontal, 6)
                 .foregroundStyle(Theme.brandGradient)
-            Text("\(days) days sober label")
+            Text(PluralLabel.daysSober(days))
                 .font(.footnote)
                 .foregroundStyle(.secondary)
 

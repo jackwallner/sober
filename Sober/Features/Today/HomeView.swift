@@ -326,7 +326,7 @@ struct HomeView: View {
                 .minimumScaleFactor(0.5)
                 .foregroundStyle(Theme.brandPrimary)
                 .accessibilityLabel("\(days) days sober")
-            Text("\(days) Days Sober")
+            Text(PluralLabel.daysSoberTitle(days))
                 .font(.system(size: 13, weight: .semibold, design: .serif))
                 .tracking(2.0)
                 .textCase(.uppercase)

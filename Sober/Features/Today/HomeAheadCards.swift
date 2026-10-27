@@ -115,7 +115,7 @@ struct GoalCard: View {
             Text("\(p.daysToGo)")
                 .font(Theme.bigNumber(40))
                 .foregroundStyle(Theme.brandPrimary)
-            Text("\(p.daysToGo) days to go")
+            Text(PluralLabel.daysToGo(p.daysToGo))
                 .font(Theme.subhead(weight: .semibold))
                 .foregroundStyle(Theme.textSecondary)
             Spacer(minLength: 0)

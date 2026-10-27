@@ -89,7 +89,7 @@ struct PatternsView: View {
                 .font(Theme.bigNumber(56))
                 .foregroundStyle(Theme.brandPrimary)
                 .monospacedDigit()
-            Text("\(rodeOut) ridden out")
+            Text(PluralLabel.riddenOut(rodeOut))
                 .font(Theme.caption(weight: .semibold))
                 .tracking(1.2)
                 .textCase(.uppercase)

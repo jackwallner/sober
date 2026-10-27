@@ -34,6 +34,15 @@ struct LocalizationTests {
         #expect(String(localized: "\(5) days sober", bundle: ru, locale: locale) == "5 дней трезвости")
     }
 
+    @Test func pluralCategoryFollowsTheLanguage() throws {
+        let ru = try #require(bundle("ru"))
+        let locale = Locale(identifier: "ru")
+        #expect(String(localized: "\(3) plural category", bundle: ru, locale: locale) == "few 3")
+        #expect(String(localized: "\(5) plural category", bundle: ru, locale: locale) == "many 5")
+        #expect(PluralLabel.category(1) == .one)
+        #expect(PluralLabel.daysSoberTitle(12) == "Days Sober")
+    }
+
     @Test func germanCopyIsTranslated() throws {
         let de = try #require(bundle("de"))
         #expect(String(localized: "Start my counter", bundle: de) == "Zähler starten")
