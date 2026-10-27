@@ -60,8 +60,8 @@ enum TrialNote {
         defaults.string(forKey: Key.seen)
     }
 
-    /// True once: the note was seen, the customer is in a free trial, and its
-    /// renewal is off.
+    /// True once: the note was seen and the customer's free trial (running or
+    /// ended) will not renew.
     static func whatToFixDue(inTrial: Bool, willRenew: Bool, _ defaults: UserDefaults = .standard) -> Bool {
         seenArm(defaults) == "indie" && !defaults.bool(forKey: Key.asked) && inTrial && !willRenew
     }

@@ -807,7 +807,10 @@ struct HomeView: View {
         var clearFor = 0
         while subscriptions.whatToFixDue, !Task.isCancelled {
             try? await Task.sleep(for: .seconds(1))
-            clearFor = isHomeClear && !TrialOfferCoordinator.shared.isPresentingSheet ? clearFor + 1 : 0
+            // Renewal turned back on during the sleep cancels it early.
+            guard !Task.isCancelled, subscriptions.whatToFixDue else { return }
+            let offerUp = TrialOfferCoordinator.shared.isPresentingSheet || TrialOfferCoordinator.shared.pendingRequest != nil
+            clearFor = isHomeClear && !offerUp ? clearFor + 1 : 0
             guard clearFor >= 2 else { continue }
             subscriptions.whatToFixShown()
             showWhatToFix = true

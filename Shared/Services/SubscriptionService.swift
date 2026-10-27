@@ -477,7 +477,9 @@ final class SubscriptionService: NSObject {
             now: now
         )
         whatToFixDue = TrialNote.whatToFixDue(
-            inTrial: entitlement?.isActive == true && entitlement?.periodType == .trial,
+            // Running or already ended: someone who cancels and next opens the
+            // app after the week is still owed the ask.
+            inTrial: entitlement?.periodType == .trial,
             // A billing retry is Apple still trying, not a choice to leave.
             willRenew: entitlement.map { $0.willRenew || $0.billingIssueDetectedAt != nil } ?? true
         )
