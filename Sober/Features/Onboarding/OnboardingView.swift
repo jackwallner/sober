@@ -114,7 +114,7 @@ struct OnboardingView: View {
         }
     }
 
-    private func promiseRow(icon: String, text: String) -> some View {
+    private func promiseRow(icon: String, text: LocalizedStringKey) -> some View {
         HStack(spacing: Theme.Space.m) {
             Image(systemName: icon)
                 .font(Theme.body(weight: .semibold))
@@ -162,7 +162,7 @@ struct OnboardingView: View {
                 Text("Typical daily spend")
                     .font(Theme.subhead())
                     .foregroundStyle(.white.opacity(0.82))
-                Text("$\(Int(costPerDay)) / day")
+                Text("\(formatCurrency(Int(costPerDay))) / day")
                     .font(.system(size: 44, weight: .bold, design: .rounded))
                 Slider(value: $costPerDay, in: 0...200, step: 5)
                     .tint(.white)
@@ -949,6 +949,6 @@ struct OnboardingView: View {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.maximumFractionDigits = 0
-        return formatter.string(from: NSNumber(value: amount)) ?? "$\(amount)"
+        return formatter.string(from: NSNumber(value: amount)) ?? amount.formatted()
     }
 }
