@@ -130,6 +130,11 @@ final class SubscriptionService: NSObject {
     #endif
 
     private var paywallImpressionsThisSession: Set<String> = []
+
+    /// The `default` offering's `trial_note` switch. See `TrialNote`.
+    private(set) var trialNoteConfig: TrialNote.Config = .none
+    /// The trial note's promise: ask what to fix once its trial stops renewing.
+    private(set) var whatToFixDue = false
     private var productFetchTask: Task<Void, Never>?
 
     /// Single gate the whole app reads. True for a real entitlement, a dev
@@ -303,6 +308,7 @@ final class SubscriptionService: NSObject {
         do {
             let offering = try await client.paywallOffering(forceRefresh: false)
             packages = offering?.soberSortedPackages ?? []
+            trialNoteConfig = TrialNote.config(from: offering?.metadata)
             if packages.isEmpty {
                 // The network call succeeded but the paywall offering is missing
                 // or carries no packages — a RevenueCat dashboard gap (offering
@@ -377,6 +383,7 @@ final class SubscriptionService: NSObject {
         // rather than replacing them: the events say where someone dropped out
         // of onboarding, these say how often and how early they were pitched.
         attributes.merge(ConversionDiagnostics.subscriberAttributes) { _, fleet in fleet }
+        if let arm = TrialNote.seenArm() { attributes[TrialNote.attributeKey] = arm }
         guard !attributes.isEmpty else { return }
         client.setSubscriberAttributes(attributes)
     }
@@ -469,6 +476,16 @@ final class SubscriptionService: NSObject {
             endsAt: entitlement?.expirationDate,
             now: now
         )
+        whatToFixDue = TrialNote.whatToFixDue(
+            inTrial: entitlement?.isActive == true && entitlement?.periodType == .trial,
+            // A billing retry is Apple still trying, not a choice to leave.
+            willRenew: entitlement.map { $0.willRenew || $0.billingIssueDetectedAt != nil } ?? true
+        )
+    }
+
+    func whatToFixShown() {
+        TrialNote.markAsked()
+        whatToFixDue = false
     }
 
     /// Applies the same CustomerInfo returned by RevenueCat after a purchase.

@@ -89,6 +89,7 @@ user's own habit spend via `HabitPriceComparison` rather than quoting figures.
 
 ## App-specific notes
 - Ratings: fleet policy in the `ios-dev` skill ("App Store ratings and feedback"). No enjoyment gate (App Review 5.6.1). After a **check-in**, a **ridden-out craving** or a **growth celebration**, Home waits 3.5s and calls `requestReview()` directly once nothing else is on screen. `ReviewPromptTracker` gates: finished setup, second launch, 30-day cooldown between calls. Settings has **Send Feedback** (mail) and **Rate Sober** (write-review deep link); only the review row ends the passive asks.
+- Trial pitch indie note test (`trial_note` on the `default` offering, remote 50/50, what-to-fix alert after a trial cancel): `.claude/rules/trial-note.md`.
 - `Sober.storekit` tests the paywall in the simulator without RevenueCat dashboard config.
 - SwiftData migrations: any change to a `@Model`'s stored properties needs a schema migration (lightweight is fine for now; wipe-and-retry on corruption).
 - Widget snapshots are decoupled from SwiftData via `WidgetSnapshotStore` so the widget doesn't need a SwiftData schema.

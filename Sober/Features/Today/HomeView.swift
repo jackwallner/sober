@@ -14,6 +14,8 @@ struct HomeView: View {
     @Query private var settingsRows: [UserSettings]
 
     @State private var showResetAlert = false
+    @State private var showWhatToFix = false
+    @Environment(\.openURL) private var openURL
     @State private var showSlipSheet = false
     @State private var showCraving = false
     /// Follow-up sheets wait until the session and its completion screen close.
@@ -142,6 +144,18 @@ struct HomeView: View {
             } message: {
                 Text("Your day counter will restart at zero. Your history is kept.")
             }
+            // The trial note promised "tell us what to fix". See `TrialNote`.
+            .alert("Your trial won't renew", isPresented: $showWhatToFix) {
+                Button("Tell us what to fix") {
+                    if let url = URL(string: "mailto:jackwallner+st@gmail.com?subject=Sober%3A%20what%20to%20fix") {
+                        openURL(url)
+                    }
+                }
+                Button("Not now", role: .cancel) {}
+            } message: {
+                Text("What should we fix?")
+            }
+            .task(id: subscriptions.whatToFixDue) { await presentWhatToFixWhenClear() }
             .onAppear {
                 GardenService(context: context).applyVitalityDecay()
                 refreshDailyState()
@@ -786,7 +800,19 @@ struct HomeView: View {
     private var isHomeClear: Bool {
         !showGrowth && !showCheckInDetail && !showSlipSheet && !showCraving
             && !showSettings && !showCustomize && !showProgress && !showPlaybook
-            && !showGoalEditor && !showResetAlert
+            && !showGoalEditor && !showResetAlert && !showWhatToFix
+    }
+
+    private func presentWhatToFixWhenClear() async {
+        var clearFor = 0
+        while subscriptions.whatToFixDue, !Task.isCancelled {
+            try? await Task.sleep(for: .seconds(1))
+            clearFor = isHomeClear && !TrialOfferCoordinator.shared.isPresentingSheet ? clearFor + 1 : 0
+            guard clearFor >= 2 else { continue }
+            subscriptions.whatToFixShown()
+            showWhatToFix = true
+            return
+        }
     }
 
     private func scheduleReviewRequestAfterPositiveMoment() {

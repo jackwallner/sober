@@ -397,7 +397,25 @@ struct OnboardingView: View {
             }
             .padding(Theme.Space.m)
             .background(.white.opacity(0.13), in: RoundedRectangle(cornerRadius: 18))
+
+            if showsTrialNote {
+                Text("We're a small indie studio. Your trial helps us keep building. Not for you? Cancel anytime and tell us what to fix.")
+                    .font(Theme.subhead())
+                    .foregroundStyle(.white.opacity(0.78))
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
+        .task(id: subscriptions.trialNoteConfig) {
+            guard subscriptions.trialNoteConfig != .none, offerIncludesTrial else { return }
+            TrialNote.markSeen(showedNote: showsTrialNote)
+            subscriptions.syncConversionAttributes()
+        }
+    }
+
+    /// The `trial_note` test's line. Only on a pitch that offers a trial.
+    private var showsTrialNote: Bool {
+        offerIncludesTrial && TrialNote.shows(subscriptions.trialNoteConfig)
     }
 
     private static let scrollFadeHeight: CGFloat = 28

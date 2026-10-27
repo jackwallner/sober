@@ -103,4 +103,25 @@ final class BloomDayZeroCaptureUITests: XCTestCase {
         sleep(1)
         keep(home, "09-home-cards-bloomplus")
     }
+
+    /// The `trial_note` test: no note in the control, the note under the
+    /// benefit card in the indie arm, and the CTA in the same place in both.
+    func test5TrialNoteArms() {
+        let note = "We're a small indie studio. Your trial helps us keep building. Not for you? Cancel anytime and tell us what to fix."
+        var ctaFrames: [CGRect] = []
+        for arm in ["none", "indie"] {
+            let app = launch(["-onboardingStep", "4", "-previewStore", "-trialNote.arm", arm])
+            let cta = app.buttons.containing(NSPredicate(format: "label BEGINSWITH %@", "Start my")).firstMatch
+            XCTAssertTrue(cta.waitForExistence(timeout: 20))
+            ctaFrames.append(cta.frame)
+            let text = app.staticTexts[note]
+            XCTAssertEqual(text.exists, arm == "indie", "\(arm): note presence")
+            if arm == "indie" {
+                XCTAssertLessThan(text.frame.maxY, cta.frame.minY, "indie: note runs into the CTA")
+            }
+            keep(app, "trial_note_\(arm)")
+            app.terminate()
+        }
+        XCTAssertEqual(ctaFrames.first, ctaFrames.last, "CTA moved between arms")
+    }
 }
