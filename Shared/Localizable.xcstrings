@@ -43829,19 +43829,19 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zdarma do %@. Před koncem ti to připomeneme."
+            "value" : "Zdarma do %@, před koncem ti to připomeneme."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gratis bis %@. Wir erinnern dich vorher."
+            "value" : "Gratis bis %@, wir erinnern dich vorher."
           }
         },
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Δωρεάν έως %@. Θα σου το θυμίσουμε πριν λήξει."
+            "value" : "Δωρεάν έως %@, θα σου το θυμίσουμε πριν λήξει."
           }
         },
         "es" : {
@@ -43853,13 +43853,13 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ilmainen %@ asti. Muistutamme ennen loppua."
+            "value" : "Ilmainen %@ asti, muistutamme ennen loppua."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gratuit jusqu'au %@. Nous vous préviendrons avant la fin."
+            "value" : "Gratuit jusqu'au %@, nous vous préviendrons avant la fin."
           }
         },
         "hi" : {
@@ -43883,37 +43883,37 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nemokamai iki %@. Priminsime prieš pabaigą."
+            "value" : "Nemokamai iki %@, priminsime prieš pabaigą."
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gratis til %@. Vi minner deg på det før."
+            "value" : "Gratis til %@, vi minner deg på det før."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gratis tot %@. We herinneren je vooraf."
+            "value" : "Gratis tot %@, we herinneren je vooraf."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Za darmo do %@. Przypomnimy przed końcem."
+            "value" : "Za darmo do %@, przypomnimy przed końcem."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Бесплатно до %@. Мы напомним заранее."
+            "value" : "Бесплатно до %@, мы напомним заранее."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Безкоштовно до %@. Ми нагадаємо заздалегідь."
+            "value" : "Безкоштовно до %@, ми нагадаємо заздалегідь."
           }
         },
         "vi" : {

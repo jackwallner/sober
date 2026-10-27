@@ -1112,11 +1112,14 @@ private struct PlanCard: View {
                     }
 
                     if let subtitle {
+                        // Two lines only when a language needs them: Russian's
+                        // "7 дней бесплатно · $2.50 / мес." truncated at one.
                         Text(subtitle)
                             .font(metrics.rounded(metrics.planSubtitleSize, .semibold))
                             .foregroundStyle(Theme.textSecondary)
-                            .lineLimit(1)
+                            .lineLimit(2)
                             .minimumScaleFactor(0.8)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
                 }
 
