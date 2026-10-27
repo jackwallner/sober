@@ -131,8 +131,9 @@ private func draw(
     case .sage:  ink = FoliageInk(shadow: RGB(0x2F5E45), mid: RGB(0x519E73), light: RGB(0x7BC68C), hi: RGB(0xA9D4A8))
     case .fresh: ink = FoliageInk(shadow: RGB(0x3B6E4E), mid: RGB(0x6BB57F), light: RGB(0x9CD39C), hi: RGB(0xC7E5B8))
     case .deep:  ink = FoliageInk(shadow: RGB(0x1F4630), mid: RGB(0x2F5E45), light: RGB(0x519E73), hi: RGB(0x7BC68C))
-    // The first leaves to turn, from day 180: an older tree's late-year colour.
-    case .autumn: ink = FoliageInk(shadow: RGB(0x8A5A24), mid: RGB(0xC98A3A), light: RGB(0xE2AE58), hi: RGB(0xF5D990))
+    // Sunlit late growth from day 180: a yellower green under the same dark
+    // outline as the rest of the canopy, so it reads as foliage, not a patch.
+    case .autumn: ink = FoliageInk(shadow: RGB(0x3B6E4E), mid: RGB(0x78B472), light: RGB(0xA6D394), hi: RGB(0xCFE7B4))
     }
     paintPad(&ctx, cx: cx, cy: cy, rx: size, ry: size * 0.78, seed: seed * 7.3,
              ink: ink, dry: min(0.7, max(0, 1 - saturation) * 1.4), detail: size > 10 ? 1 : 0, flat: 0.5)
@@ -249,21 +250,35 @@ private struct TrunkResult {
     var bareBranches: [Bough]           // windswept windward dead wood (jin)
     var attach: [Attach: CGPoint]
     var parts: [Path] = []              // filled and shaded in order; empty means [path]
+    var spine: [CGPoint] = []           // base to tip of the upright stem, for the seed leaves
 }
+
+/// How far a part that first grows on day `from` has filled out: it buds at
+/// 30% of its size and reaches full size three weeks later, so new pads and
+/// limbs grow in instead of popping in whole.
+private func budding(_ day: Int, from: Int) -> Double {
+    0.3 + 0.7 * smoothstepS(Double(from), Double(from) + 21, Double(day))
+}
+
+/// 0 for the day-8 whip, 1 once the trunk has its adult girth and swing, so
+/// the woody trunk takes over from the day-7 sprout without a jump.
+private func girth(_ day: Int) -> Double { 0.4 + 0.6 * smoothstepS(8, 45, Double(day)) }
+private func swing(_ day: Int) -> Double { 0.3 + 0.7 * smoothstepS(8, 60, Double(day)) }
 
 private func trunkTraditional(_ p: Params) -> TrunkResult {
     let baseX = 300.0, baseY = 410.0
     let heightPx = 70 + 230 * p.trunkHeight
     let tipY = baseY - heightPx
-    let tipX = baseX + 12
-    let baseW = 8 + 44 * p.trunkThickness
+    let s = swing(p.day)
+    let tipX = baseX + 12 * s
+    let baseW = (8 + 44 * p.trunkThickness) * girth(p.day)
     let midW = baseW * 0.6, tipW = max(2.4, baseW * 0.25)
     let midY = (baseY + tipY) / 2
 
     // An S-curve: the lower trunk swings left, the upper trunk back right.
     let stem = [CGPoint(x: baseX, y: baseY),
-                CGPoint(x: baseX - 12, y: baseY - heightPx * 0.38),
-                CGPoint(x: baseX + 16, y: baseY - heightPx * 0.74),
+                CGPoint(x: baseX - 12 * s, y: baseY - heightPx * 0.38),
+                CGPoint(x: baseX + 16 * s, y: baseY - heightPx * 0.74),
                 CGPoint(x: tipX, y: tipY)]
     let (pts, widths) = rooted(stem, [baseW, baseW * 0.74, midW * 0.82, tipW], depth: 4 + baseW * 0.6)
     let path = woodRibbon(through: pts, widths: widths)
@@ -283,98 +298,138 @@ private func trunkTraditional(_ p: Params) -> TrunkResult {
     // never left floating where its limb hasn't grown yet. Each starts just
     // inside the trunk edge at its height, under the trunk fill.
     let k = p.reach
+    // Each limb lengthens from the day it buds, carrying its pad out with it.
+    let k14 = k * budding(p.day, from: 14), k30 = k * budding(p.day, from: 30)
+    let k60 = k * budding(p.day, from: 60)
     let ymid2 = (midY + tipY) / 2
     let b1Start = CGPoint(x: edge(midY + 4, -1) + 3, y: midY + 4)
-    let b1End = CGPoint(x: b1Start.x - 38 * k, y: b1Start.y - 26 * k)
+    let b1End = CGPoint(x: b1Start.x - 38 * k30, y: b1Start.y - 26 * k30)
     let b2Start = CGPoint(x: edge(ymid2 + 4, 1) - 3, y: ymid2 + 4)
-    let b2End = CGPoint(x: b2Start.x + 38 * k, y: b2Start.y - 34 * k)
+    let b2End = CGPoint(x: b2Start.x + 38 * k30, y: b2Start.y - 34 * k30)
     let b3Start = CGPoint(x: edge(baseY - 36, 1) - 3, y: baseY - 36)
-    let b3End = CGPoint(x: baseX + baseW / 2 - 2 + 44 * k, y: b3Start.y - 36 * k)
+    let b3End = CGPoint(x: b3Start.x + (baseX + baseW / 2 - 2 + 44 * k - b3Start.x) * budding(p.day, from: 60),
+                        y: b3Start.y - 36 * k60)
 
     var branches: [Bough] = []
     if p.day >= 30 {
-        branches.append(Bough(from: b1Start, ctrl: CGPoint(x: b1Start.x - 18 * k, y: b1Start.y - 10 * k),
-                              to: b1End, w: max(3, baseW * 0.22)))
-        branches.append(Bough(from: b2Start, ctrl: CGPoint(x: b2Start.x + 20 * k, y: b2Start.y - 18 * k),
-                              to: b2End, w: max(2.6, baseW * 0.18)))
+        let g = budding(p.day, from: 30)
+        branches.append(Bough(from: b1Start, ctrl: CGPoint(x: b1Start.x - 18 * k30, y: b1Start.y - 10 * k30),
+                              to: b1End, w: max(3, baseW * 0.22) * (0.6 + 0.4 * g)))
+        branches.append(Bough(from: b2Start, ctrl: CGPoint(x: b2Start.x + 20 * k30, y: b2Start.y - 18 * k30),
+                              to: b2End, w: max(2.6, baseW * 0.18) * (0.6 + 0.4 * g)))
     }
     if p.day >= 60 {
-        branches.append(Bough(from: b3Start, ctrl: CGPoint(x: b3Start.x + 20 * k, y: b3Start.y - 18 * k),
-                              to: b3End, w: max(2.6, baseW * 0.2)))
+        let g = budding(p.day, from: 60)
+        branches.append(Bough(from: b3Start, ctrl: CGPoint(x: b3Start.x + 20 * k60, y: b3Start.y - 18 * k60),
+                              to: b3End, w: max(2.6, baseW * 0.2) * (0.6 + 0.4 * g)))
     }
 
     let attach: [Attach: CGPoint] = [
         .crown:      CGPoint(x: tipX, y: tipY - 8 * k),
         .upperLeft:  b1End,
         .upperRight: b2End,
-        .midLeft:    CGPoint(x: edge(midY, -1) - 12 * k, y: midY - 4 * k),
-        .midRight:   CGPoint(x: edge(ymid2, 1) + 12 * k, y: ymid2 - 6 * k),
+        .midLeft:    CGPoint(x: edge(midY, -1) - 12 * k14, y: midY - 4 * k14),
+        .midRight:   CGPoint(x: edge(ymid2, 1) + 12 * k14, y: ymid2 - 6 * k14),
         .lowerRight: b3End,
     ]
     return TrunkResult(path: path, base: CGPoint(x: baseX, y: baseY), baseW: baseW,
-                       branches: branches, bareBranches: [], attach: attach)
+                       branches: branches, bareBranches: [], attach: attach, spine: spine)
 }
 
 private func trunkCascade(_ p: Params) -> TrunkResult {
     let baseX = 300.0, baseY = 378.0
-    let fallPx = 30 + 130 * p.trunkHeight
-    // Taller riser than the JS source: the crown must clear the pot rim from
-    // day 8 so the young cascade doesn't read as a lump on the pot corner.
-    let upPx = 24 + 42 * p.trunkHeight
-    let sideX = baseX - 80 - 60 * p.trunkHeight
-    let baseW = 8 + 32 * p.trunkThickness
-    let midW = baseW * 0.55, tipW = max(2.4, baseW * 0.22)
+    let th = p.trunkHeight
+    let s = swing(p.day)
+    let baseW = (8 + 32 * p.trunkThickness) * girth(p.day)
+    let elbowW = baseW * 0.8, tipW = max(2.4, baseW * 0.24)
 
+    // One trunk (kengai): a short riser leaning to the left rim, an arch over
+    // it, then the fall down the outside of the pot to below its foot. The
+    // fall never crosses the pot face (the wall runs x 218 to 228).
+    let upPx = 28 + 40 * th
     let p0 = CGPoint(x: baseX, y: baseY)
-    let p1 = CGPoint(x: baseX - 16, y: baseY - upPx)
-    let p2 = CGPoint(x: baseX - 30, y: baseY + 6)
-    let p3 = CGPoint(x: sideX,     y: baseY + fallPx)
-    // Riser and fall are separate ribbons joined by a round elbow: one ribbon
-    // folding back on itself leaves holes and shading shards where it overlaps.
-    // The riser stops at the soil; only the fall spills over the rim.
-    let elbowW = midW * 1.1
+    let p1 = CGPoint(x: baseX - 34 * s, y: baseY - upPx)
+    let over = CGPoint(x: 208 - 6 * th, y: baseY - 14)
+    let full = [
+        p1,
+        CGPoint(x: (p1.x + over.x) / 2 - 2, y: p1.y + 2),
+        over,
+        CGPoint(x: 196 - 18 * th, y: baseY + 20 + 50 * th),
+        CGPoint(x: 204 - 8 * th, y: baseY + 30 + 130 * th),
+    ]
+    let (dense, _) = smoothSpine(through: full, widths: Array(repeating: 1, count: full.count), perSegment: 12)
+    var cum: [Double] = [0]
+    for i in 1..<dense.count { cum.append(cum[i - 1] + hypot(dense[i].x - dense[i - 1].x, dense[i].y - dense[i - 1].y)) }
+    let total = max(1, cum.last ?? 1)
+    /// The point `f` of the way along the full fall.
+    func along(_ f: Double) -> CGPoint {
+        let d = max(0, min(1, f)) * total
+        guard let i = cum.firstIndex(where: { $0 >= d }), i > 0 else { return dense[0] }
+        let t = (d - cum[i - 1]) / max(1e-6, cum[i] - cum[i - 1])
+        return lerpP(dense[i - 1], dense[i], t)
+    }
+    // The fall grows out of the elbow: over the rim by day 20, down the pot
+    // by day 45, then lengthens with the tree.
+    let grown = 0.03 + 0.97 * smoothstepS(8, 45, Double(p.day))
+    var fallPts = dense.indices.filter { cum[$0] < grown * total }.map { dense[$0] }
+    fallPts.append(along(grown))
+    let fallWs = fallPts.indices.map { i -> Double in
+        let t = Double(i) / Double(max(1, fallPts.count - 1))
+        return elbowW + (tipW - elbowW) * pow(t, 1.2)
+    }
+    /// A point on the grown fall, riding its tip until the fall reaches it.
+    func on(_ f: Double) -> CGPoint { along(min(f, grown)) }
+
     let (riserPts, riserWs) = rooted([p0, p1], [baseW, elbowW], depth: 4 + baseW * 0.6)
     let riser = woodRibbon(through: riserPts, widths: riserWs)
         .intersection(Path(CGRect(x: 0, y: 0, width: 600, height: baseY + 2)))
-    let fall = woodRibbon(through: [p1, p2, p3], widths: [elbowW, midW, tipW])
+    let fall = woodRibbon(through: fallPts, widths: fallWs, perSegment: 1)
     let elbow = Path(ellipseIn: CGRect(x: p1.x - elbowW / 2, y: p1.y - elbowW / 2, width: elbowW, height: elbowW))
     let fallPart = fall.union(elbow)
 
     let k = p.reach
-    let midPt = CGPoint(x: (p2.x + p3.x) / 2, y: (p2.y + p3.y) / 2)
-    let b1Start = CGPoint(x: p2.x, y: p2.y + 6)
-    let b1End = CGPoint(x: b1Start.x - 44 * k, y: b1Start.y + 46 * k)
-    let b2End = CGPoint(x: midPt.x - 56 * k, y: midPt.y + 28 * k)
+    let k14 = k * budding(p.day, from: 14), k30 = k * budding(p.day, from: 30)
+    let k60 = k * budding(p.day, from: 60)
+    // Pads alternate down the fall: out from the arch, in toward the pot
+    // below the rim, then out, in and the tip.
+    let ulFrom = on(0.34), urFrom = on(0.56)
+    let ulEnd = CGPoint(x: ulFrom.x - 34 * k30, y: ulFrom.y + 4 * k30)
+    let urEnd = CGPoint(x: urFrom.x + 26 * k30, y: urFrom.y + 10 * k30)
 
     var branches: [Bough] = []
     if p.day >= 30 {
-        branches.append(Bough(from: b1Start, ctrl: CGPoint(x: b1Start.x - 22 * k, y: b1Start.y + 24 * k),
-                              to: b1End, w: max(2.6, baseW * 0.18)))
-        branches.append(Bough(from: midPt, ctrl: CGPoint(x: midPt.x - 26 * k, y: midPt.y + 18 * k),
-                              to: b2End, w: max(2.4, baseW * 0.16)))
+        let w = 0.6 + 0.4 * budding(p.day, from: 30)
+        branches.append(Bough(from: ulFrom, ctrl: CGPoint(x: ulFrom.x - 18 * k30, y: ulFrom.y - 6 * k30),
+                              to: ulEnd, w: max(2.6, baseW * 0.2) * w))
+        branches.append(Bough(from: urFrom, ctrl: CGPoint(x: urFrom.x + 12 * k30, y: urFrom.y - 2 * k30),
+                              to: urEnd, w: max(2.4, baseW * 0.17) * w))
     }
 
+    let mid = on(0.76), low = on(0.9), tip = on(1)
     let attach: [Attach: CGPoint] = [
-        .crown:      CGPoint(x: p1.x - 2 * k, y: p1.y - 12 * k),
-        .upperLeft:  CGPoint(x: b1End.x, y: b1End.y - 8 * k),
-        .upperRight: CGPoint(x: b2End.x, y: b2End.y - 8 * k),
-        .midLeft:    CGPoint(x: p3.x - 12 * k, y: p3.y - 22 * k),
-        .midRight:   CGPoint(x: p3.x + 14 * k, y: p3.y - 10 * k),
-        .lowerRight: CGPoint(x: p3.x - 6 * k, y: p3.y + 10 * k),
+        .crown:      CGPoint(x: p1.x + 6 * k, y: p1.y - 14 * k),
+        .upperLeft:  CGPoint(x: ulEnd.x, y: ulEnd.y - 8 * k30),
+        .upperRight: CGPoint(x: urEnd.x, y: urEnd.y - 6 * k30),
+        .midLeft:    CGPoint(x: mid.x - 20 * k14, y: mid.y - 6 * k14),
+        .midRight:   CGPoint(x: low.x + 18 * k14, y: low.y - 4 * k14),
+        .lowerRight: CGPoint(x: tip.x - 4 * k60, y: tip.y + 6 * k60),
     ]
     return TrunkResult(path: riser.union(fallPart), base: p0, baseW: baseW,
-                       branches: branches, bareBranches: [], attach: attach, parts: [riser, fallPart])
+                       branches: branches, bareBranches: [], attach: attach, parts: [riser, fallPart],
+                       spine: [p0, p1])
 }
 
 private func trunkWindswept(_ p: Params) -> TrunkResult {
     let baseX = 300.0, baseY = 410.0
     let heightPx = 70 + 220 * p.trunkHeight
-    let leanRad = 18.0 * .pi / 180
-    let tipX = baseX + sin(leanRad) * heightPx + 8
+    // The lean sets in as the whip hardens, from the day-7 sprout's upright.
+    let s = swing(p.day)
+    let leanRad = 18.0 * s * .pi / 180
+    let tipX = baseX + sin(leanRad) * heightPx + 8 * s
     let tipY = baseY - cos(leanRad) * heightPx
-    let baseW = 8 + 40 * p.trunkThickness
+    let baseW = (8 + 40 * p.trunkThickness) * girth(p.day)
     let midW = baseW * 0.55, tipW = max(2.4, baseW * 0.22)
-    let midX = (baseX + tipX) / 2 + 14
+    let midX = (baseX + tipX) / 2 + 14 * s
     let midY = (baseY + tipY) / 2 + 4
 
     // Starts below the soil line, straight on along the lean, so the base
@@ -391,46 +446,53 @@ private func trunkWindswept(_ p: Params) -> TrunkResult {
     let path = woodRibbon(through: pts, widths: widths)
 
     let k = p.reach
+    let k14 = k * budding(p.day, from: 14), k30 = k * budding(p.day, from: 30)
+    let k60 = k * budding(p.day, from: 60)
 
     // Bare windward (left) branches — decorative dead wood, scaled with growth.
     var bare: [Bough] = []
-    if p.trunkThickness > 0.35 {
-        let bareSize = max(3, baseW * 0.22)
+    if p.day >= 67 {
+        let g = budding(p.day, from: 67)
+        let kb = k * g
+        let bareSize = max(3, baseW * 0.22) * (0.6 + 0.4 * g)
         let s1 = CGPoint(x: (baseX + midX) / 2, y: (baseY + midY) / 2)
         bare.append(Bough(
             from: s1,
-            ctrl: CGPoint(x: s1.x + (baseX - 18 - s1.x) * k, y: s1.y + (baseY - 80 - s1.y) * k),
-            to: CGPoint(x: s1.x + (baseX - 44 - s1.x) * k, y: s1.y + (baseY - 92 - s1.y) * k), w: bareSize))
+            ctrl: CGPoint(x: s1.x + (baseX - 18 - s1.x) * kb, y: s1.y + (baseY - 80 - s1.y) * kb),
+            to: CGPoint(x: s1.x + (baseX - 44 - s1.x) * kb, y: s1.y + (baseY - 92 - s1.y) * kb), w: bareSize))
         let s2 = CGPoint(x: midX - 4, y: midY + 4)
-        bare.append(Bough(from: s2, ctrl: CGPoint(x: s2.x - 26 * k, y: s2.y - 22 * k),
-                          to: CGPoint(x: s2.x - 52 * k, y: s2.y - 32 * k), w: bareSize * 0.85))
+        bare.append(Bough(from: s2, ctrl: CGPoint(x: s2.x - 26 * kb, y: s2.y - 22 * kb),
+                          to: CGPoint(x: s2.x - 52 * kb, y: s2.y - 32 * kb), w: bareSize * 0.85))
+        // Starts on the trunk's centre line; the tip keeps its old target.
         let s3 = CGPoint(x: midX - 18, y: midY - 4)
-        bare.append(Bough(from: s3, ctrl: CGPoint(x: s3.x - 22 * k, y: s3.y - 2 * k),
-                          to: CGPoint(x: s3.x - 42 * k, y: s3.y + 2 * k), w: bareSize * 0.7))
+        bare.append(Bough(from: CGPoint(x: midX - 2, y: midY - 4), ctrl: CGPoint(x: s3.x - 22 * kb, y: s3.y - 2 * kb),
+                          to: CGPoint(x: s3.x - 42 * kb, y: s3.y + 2 * kb), w: bareSize * 0.7))
     }
 
     // Leeward (right) heavy branches into the foliage. Drawn from the day the
     // leeward clusters exist so foliage always has wood to sit on.
     var branches: [Bough] = []
     if p.day >= 30 {
+        let w = 0.6 + 0.4 * budding(p.day, from: 30)
         let s1 = CGPoint(x: midX + 2, y: midY - 2)
-        branches.append(Bough(from: s1, ctrl: CGPoint(x: s1.x + 24 * k, y: s1.y - 12 * k),
-                              to: CGPoint(x: s1.x + 46 * k, y: s1.y - 26 * k), w: max(3, baseW * 0.22)))
+        branches.append(Bough(from: s1, ctrl: CGPoint(x: s1.x + 24 * k30, y: s1.y - 12 * k30),
+                              to: CGPoint(x: s1.x + 46 * k30, y: s1.y - 26 * k30), w: max(3, baseW * 0.22) * w))
         let s2 = CGPoint(x: tipX - 6, y: tipY + 6)
-        branches.append(Bough(from: s2, ctrl: CGPoint(x: s2.x + 24 * k, y: s2.y - 10 * k),
-                              to: CGPoint(x: s2.x + 48 * k, y: s2.y - 20 * k), w: max(2.6, baseW * 0.18)))
+        branches.append(Bough(from: s2, ctrl: CGPoint(x: s2.x + 24 * k30, y: s2.y - 10 * k30),
+                              to: CGPoint(x: s2.x + 48 * k30, y: s2.y - 20 * k30), w: max(2.6, baseW * 0.18) * w))
     }
 
     let attach: [Attach: CGPoint] = [
         .crown:      CGPoint(x: tipX + 24 * k, y: tipY - 10 * k),
-        .upperLeft:  CGPoint(x: tipX + 14 * k, y: tipY + 4 * k),
-        .upperRight: CGPoint(x: tipX + 56 * k, y: tipY),
-        .midLeft:    CGPoint(x: midX + 24 * k, y: midY - 16 * k),
-        .midRight:   CGPoint(x: midX + 56 * k, y: midY - 12 * k),
-        .lowerRight: CGPoint(x: midX + 70 * k, y: midY + 14 * k),
+        .upperLeft:  CGPoint(x: tipX + 14 * k30, y: tipY + 4 * k30),
+        .upperRight: CGPoint(x: tipX + 56 * k30, y: tipY),
+        .midLeft:    CGPoint(x: midX + 24 * k14, y: midY - 16 * k14),
+        .midRight:   CGPoint(x: midX + 56 * k14, y: midY - 12 * k14),
+        .lowerRight: CGPoint(x: midX + 70 * k60, y: midY + 14 * k60),
     ]
     return TrunkResult(path: path, base: CGPoint(x: baseX, y: baseY), baseW: baseW, lean: lean,
-                       branches: branches, bareBranches: bare, attach: attach)
+                       branches: branches, bareBranches: bare, attach: attach,
+                       spine: Array(pts[1...]))
 }
 
 private func buildTrunk(_ p: Params, style: BonsaiStyle) -> TrunkResult {
@@ -471,9 +533,9 @@ private func eased(_ day: Int) -> Double {
 
 private func paramsForDay(_ day: Int, style: BonsaiStyle) -> Params {
     let e = eased(day)
-    // Height starts low so day 8 (first day of the trunk pipeline) reads as a
-    // grown-up version of the day-7 sprout, not a sudden adult tree.
-    let trunkHeight = lerp(0.10, 0.86, e)
+    // Height starts low so day 8 (first day of the trunk pipeline) stands about
+    // as tall as the day-7 sprout instead of a sudden young tree.
+    let trunkHeight = lerp(0.04, 0.86, e)
     let trunkThickness = lerp(0.14, style == .cascade ? 0.82 : 0.90, e)
     let trunkGnarl = max(0, Double(day - 21) / Double(365 - 21))
     let leafSaturation = day < 14
@@ -484,37 +546,40 @@ private func paramsForDay(_ day: Int, style: BonsaiStyle) -> Params {
 
     let sizeBase = lerp(14, 82, e)
     var clusters: [ClusterSpec] = []
+    // The cascade's sprout is drawn small, so its crown starts small too.
+    let crownK = style == .cascade ? 0.55 + 0.45 * smoothstepS(8, 45, Double(day)) : 1
+    // The cascade's foliage is smaller pads strung down its fall, so the
+    // trunk shows between them; its apex is a small pad above the arch.
+    let cas = style == .cascade
+    func pick(_ k: Double, _ cascade: Double) -> Double { cas ? cascade : k }
     clusters.append(ClusterSpec(attach: .crown,
-        size: (sizeBase * 1.0).rounded(), tone: day < 21 ? .fresh : .sage, seed: 1))
+        size: (sizeBase * crownK * pick(1, 0.6)).rounded(), tone: day < 21 ? .fresh : .sage, seed: 1))
+    // Each pad buds small on its day and fills out over the next three weeks.
+    func bud(_ k: Double, _ from: Int) -> Double { (sizeBase * k * budding(day, from: from)).rounded() }
     if day >= 14 {
-        clusters.append(ClusterSpec(attach: .midLeft,
-            size: (sizeBase * 0.55).rounded(), tone: .fresh, seed: 2))
-        clusters.append(ClusterSpec(attach: .midRight,
-            size: (sizeBase * 0.52).rounded(), tone: .sage, seed: 3))
+        clusters.append(ClusterSpec(attach: .midLeft, size: bud(pick(0.55, 0.42), 14), tone: .fresh, seed: 2))
+        clusters.append(ClusterSpec(attach: .midRight, size: bud(pick(0.52, 0.36), 14), tone: .sage, seed: 3))
     }
     if day >= 30 {
-        clusters.append(ClusterSpec(attach: .upperLeft,
-            size: (sizeBase * 0.75).rounded(), tone: .fresh, seed: 4))
-        clusters.append(ClusterSpec(attach: .upperRight,
-            size: (sizeBase * 0.72).rounded(), tone: .sage, seed: 5))
+        clusters.append(ClusterSpec(attach: .upperLeft, size: bud(pick(0.75, 0.5), 30), tone: .fresh, seed: 4))
+        clusters.append(ClusterSpec(attach: .upperRight, size: bud(pick(0.72, 0.42), 30), tone: .sage, seed: 5))
     }
     if day >= 60 {
-        clusters.append(ClusterSpec(attach: .lowerRight,
-            size: (sizeBase * 0.5).rounded(), tone: .sage, seed: 6))
+        clusters.append(ClusterSpec(attach: .lowerRight, size: bud(pick(0.5, 0.3), 60), tone: .sage, seed: 6))
     }
     // Ambient canopy fillers — anchored to trunk attach points (not fixed
     // canvas coordinates) so they stay inside the silhouette on every style.
     if day >= 90 {
-        clusters.append(ClusterSpec(attach: .crown, offset: CGSize(width: -12, height: 32),
-            size: (sizeBase * 0.42).rounded(), tone: .fresh, seed: 7))
+        clusters.append(ClusterSpec(attach: .crown, offset: cas ? CGSize(width: -30, height: 8) : CGSize(width: -12, height: 32),
+            size: bud(pick(0.42, 0.34), 90), tone: .fresh, seed: 7))
     }
     if day >= 180 {
         clusters.append(ClusterSpec(attach: .midRight, offset: CGSize(width: 16, height: 12),
-            size: (sizeBase * 0.28).rounded(), tone: .autumn, seed: 8))
+            size: bud(pick(0.28, 0.22), 180), tone: .autumn, seed: 8))
     }
     if day >= 270 {
         clusters.append(ClusterSpec(attach: .midLeft, offset: CGSize(width: -14, height: -8),
-            size: (sizeBase * 0.28).rounded(), tone: .autumn, seed: 9))
+            size: bud(pick(0.28, 0.22), 270), tone: .autumn, seed: 9))
     }
 
     return Params(day: day,
@@ -534,7 +599,7 @@ private func drawEarly(_ day: Int, style: BonsaiStyle, in ctx: inout BonsaiLayer
         // Shrink the sprout so day 7 hands off smoothly to the cascade's short
         // riser on day 8 instead of towering over it.
         ctx.translateBy(x: cx, y: baseY)
-        ctx.scaleBy(x: 0.62, y: 0.62)
+        ctx.scaleBy(x: 0.45, y: 0.45)
         ctx.translateBy(x: -cx, y: -baseY)
     }
     switch day {
@@ -971,7 +1036,7 @@ func sakuraContentRect(day: Int) -> CGRect {
     var rect = CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
     let minDim = 230.0
     if rect.width < minDim { rect = rect.insetBy(dx: -(minDim - rect.width) / 2, dy: 0) }
-    if rect.height < minDim { rect = rect.insetBy(dx: 0, dy: -(minDim - rect.height) / 2) }
+    if rect.height < minDim { rect = CGRect(x: rect.minX, y: rect.maxY - minDim, width: rect.width, height: minDim) }
     return rect
 }
 
@@ -1252,10 +1317,15 @@ private func mapleScene(day: Int, detail: Int) -> BonsaiScene {
         Fol(tx: $0.tx, ty: $0.ty, size: $0.size, seed: $0.L.seed,
             accent: Int($0.L.seed) % 3 == 0, light: false)
     }
+    // A tuft never sits further out than the limbs near its angle reach, so
+    // it can't float past the young canopy.
+    func reach(_ ang: Double) -> Double {
+        limbItems.map { $0.L.r * $0.e * max(0, cos(ang - $0.L.a * .pi / 180)) }.max() ?? 0
+    }
     for T in mapleTufts {
         let e = smoothstepS(T.app, T.app + T.span, Double(day))
         if e < 0.02 { continue }
-        let rr = T.rad * (0.35 + 0.65 * e)
+        let rr = min(T.rad * (0.35 + 0.65 * e), reach(T.ang) + 0.12)
         let tx = c.cX + cos(T.ang) * c.Rx * rr
         let ty = c.cY - sin(T.ang) * c.Ry * rr
         fol.append(Fol(tx: tx, ty: ty, size: padBase * T.sz * (0.6 + 0.4 * e),
@@ -1301,7 +1371,7 @@ func mapleContentRect(day: Int) -> CGRect {
     var rect = CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
     let minDim = 230.0
     if rect.width < minDim { rect = rect.insetBy(dx: -(minDim - rect.width) / 2, dy: 0) }
-    if rect.height < minDim { rect = rect.insetBy(dx: 0, dy: -(minDim - rect.height) / 2) }
+    if rect.height < minDim { rect = CGRect(x: rect.minX, y: rect.maxY - minDim, width: rect.width, height: minDim) }
     return rect
 }
 
@@ -1514,7 +1584,7 @@ private func pineLivePads(_ day: Int, _ c: PineCanopy) -> [PadLive] {
         let leanAtH = lerp(0, c.topX - c.baseX, p.hFrac)
         let padW = (10 + 78 * c.g) * p.wFrac
         let x = c.baseX + leanAtH + p.side * p.reach * padW * 0.65 * e
-        let w = padW * (0.5 + 0.5 * e)
+        let w = padW * (0.2 + 0.8 * e)
         live.append(PadLive(p: p, e: e, x: x, y: y, w: w, h: w * 0.42))
     }
     return live
@@ -1626,7 +1696,7 @@ func pineContentRect(day: Int) -> CGRect {
     var rect = CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
     let minDim = 230.0
     if rect.width < minDim { rect = rect.insetBy(dx: -(minDim - rect.width) / 2, dy: 0) }
-    if rect.height < minDim { rect = rect.insetBy(dx: 0, dy: -(minDim - rect.height) / 2) }
+    if rect.height < minDim { rect = CGRect(x: rect.minX, y: rect.maxY - minDim, width: rect.width, height: minDim) }
     return rect
 }
 
@@ -1680,10 +1750,11 @@ private func classicContentRect(day d: Int, style: BonsaiStyle) -> CGRect {
     }
 
     var rect = CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
-    // Floor on each dimension so young plants don't over-zoom.
+    // Floor on each dimension so young plants don't over-zoom. Height grows
+    // upward only, so the pot keeps its place from the seed to the young tree.
     let minDim = 230.0
     if rect.width < minDim { rect = rect.insetBy(dx: -(minDim - rect.width) / 2, dy: 0) }
-    if rect.height < minDim { rect = rect.insetBy(dx: 0, dy: -(minDim - rect.height) / 2) }
+    if rect.height < minDim { rect = CGRect(x: rect.minX, y: rect.maxY - minDim, width: rect.width, height: minDim) }
     return rect
 }
 
@@ -1758,6 +1829,8 @@ private func classicScene(day: Int, style: BonsaiStyle, vitality: Double) -> Bon
                   grain: p.trunkGnarl, grainColor: Pal.barkDeep)
     }
 
+    drawSeedLeaves(day: day, style: style, spine: tr.spine, in: &ctx)
+
     let satFactor = 0.7 + 0.3 * max(0, min(1, vitality))
     for c in p.clusters {
         let base = clusterCenter(c, trunk: tr, reach: p.reach)
@@ -1768,6 +1841,29 @@ private func classicScene(day: Int, style: BonsaiStyle, vitality: Double) -> Bon
              seed: c.seed, in: &g)
     }
     return BonsaiScene(ctx, pivot: pivot)
+}
+
+/// The day-7 sprout's three leaves, kept on the young trunk and shrinking
+/// away under the first pads as they fill out (days 14 to 36).
+private func drawSeedLeaves(day: Int, style: BonsaiStyle, spine: [CGPoint], in ctx: inout BonsaiLayers) {
+    let fade = 1 - smoothstepS(14, 36, Double(day))
+    guard fade > 0, let base = spine.first, let tip = spine.last, base.y > tip.y else { return }
+    let s = fade * (style == .cascade ? 0.45 : 1)
+    /// The spine's point at `f` of the way up from the soil to the tip.
+    func at(_ f: Double) -> CGPoint {
+        let y = base.y - (base.y - tip.y) * f
+        for i in 1..<spine.count where spine[i].y <= y {
+            let a = spine[i - 1], b = spine[i]
+            let t = (a.y - y) / max(1e-6, a.y - b.y)
+            return CGPoint(x: a.x + (b.x - a.x) * t, y: y)
+        }
+        return tip
+    }
+    for (f, side, deg, color) in [(0.49, -1.0, -22.0, Pal.leafSage), (0.69, 1.0, 22.0, Pal.leafSage),
+                                  (0.87, -1.0, -26.0, Pal.leafFresh)] {
+        let p = at(f)
+        fillRotatedEllipse(&ctx, cx: p.x + side * 10 * s, cy: p.y, rx: 10 * s, ry: 4 * s, deg: deg, color: color)
+    }
 }
 
 // MARK: - Public View
