@@ -3655,13 +3655,13 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg और"
+                      "value" : "%arg अन्य"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg और"
+                      "value" : "%arg अन्य"
                     }
                   }
                 }
@@ -3683,7 +3683,7 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "altro %arg"
+                      "value" : "%arg altro"
                     }
                   },
                   "other" : {
@@ -3829,25 +3829,25 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg inny"
+                      "value" : "jeszcze %arg"
                     }
                   },
                   "few" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg inne"
+                      "value" : "jeszcze %arg"
                     }
                   },
                   "many" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg innych"
+                      "value" : "jeszcze %arg"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg innego"
+                      "value" : "jeszcze %arg"
                     }
                   }
                 }
@@ -4616,7 +4616,7 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "altri %arg"
+                      "value" : "%arg altro"
                     }
                   },
                   "other" : {
@@ -5162,7 +5162,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@: %#@n@ და რა თქვა."
+            "value" : "%1$@: %#@n@ და რა უნდა თქვა."
           },
           "substitutions" : {
             "n" : {
@@ -6837,7 +6837,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%#@a@ jsou pořád %#@b@. Navaž tam, kde jsi, nic nemusíš dohánět."
+            "value" : "%#@a@ pořád %#@b@. Navaž tam, kde jsi, nic nemusíš dohánět."
           },
           "substitutions" : {
             "a" : {
@@ -6848,25 +6848,25 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg den"
+                      "value" : "%arg den je"
                     }
                   },
                   "few" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg dny"
+                      "value" : "%arg dny jsou"
                     }
                   },
                   "many" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg dne"
+                      "value" : "%arg dne je"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg dní"
+                      "value" : "%arg dní je"
                     }
                   }
                 }
@@ -6909,7 +6909,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%#@a@ sind immer noch %#@b@. Mach weiter, wo du bist, ohne etwas aufzuholen."
+            "value" : "%#@a@ immer noch %#@b@. Mach weiter, wo du bist, ohne etwas aufzuholen."
           },
           "substitutions" : {
             "a" : {
@@ -6920,13 +6920,13 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg Tag"
+                      "value" : "%arg Tag ist"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg Tage"
+                      "value" : "%arg Tage sind"
                     }
                   }
                 }
@@ -6957,7 +6957,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%#@a@ παραμένουν %#@b@. Συνέχισε από εκεί που είσαι, χωρίς να καλύψεις τίποτα."
+            "value" : "%#@a@ είναι ακόμα %#@b@. Συνέχισε από εκεί που είσαι, χωρίς να χρειάζεται να καλύψεις το χαμένο έδαφος."
           },
           "substitutions" : {
             "a" : {
@@ -7005,7 +7005,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%#@a@ siguen siendo %#@b@. Retoma donde estés, sin nada que recuperar."
+            "value" : "%#@a@ %#@b@. Retoma donde estés, sin nada que recuperar."
           },
           "substitutions" : {
             "a" : {
@@ -7016,13 +7016,13 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg día"
+                      "value" : "%arg día sigue siendo"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg días"
+                      "value" : "%arg días siguen siendo"
                     }
                   }
                 }
@@ -7149,7 +7149,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%#@a@ अब भी %#@b@ हैं। जहाँ हैं वहीं से शुरू करें, कुछ पूरा करने की ज़रूरत नहीं।"
+            "value" : "%#@a@ का मतलब अब भी %#@b@ ही है। जहाँ हैं वहीं से शुरू करें, कुछ पूरा करने की ज़रूरत नहीं।"
           },
           "substitutions" : {
             "a" : {
@@ -7197,7 +7197,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%#@a@ restano %#@b@. Riparti da dove sei, senza recuperare nulla."
+            "value" : "%#@a@ %#@b@. Riparti da dove sei, senza recuperare nulla."
           },
           "substitutions" : {
             "a" : {
@@ -7208,13 +7208,13 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg giorno"
+                      "value" : "%arg giorno resta"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg giorni"
+                      "value" : "%arg giorni restano"
                     }
                   }
                 }
@@ -7245,7 +7245,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%#@a@ ისევ %#@b@ რჩება. გააგრძელე იქიდან, სადაც ხარ, არაფრის დაწევა არ გჭირდება."
+            "value" : "%#@a@ ისევ %#@b@ რჩება. გააგრძელე იქიდან, სადაც ხარ. გამოტოვებულის შევსება არ გჭირდება."
           },
           "substitutions" : {
             "a" : {
@@ -7293,7 +7293,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%#@a@ vis tiek yra %#@b@. Tęsk nuo ten, kur esi, nieko vytis nereikia."
+            "value" : "%#@a@ vis tiek yra %#@b@. Tęsk nuo ten, kur esi, pasivyti nereikia."
           },
           "substitutions" : {
             "a" : {
@@ -7401,7 +7401,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%#@a@ blijven %#@b@. Pak het op waar je bent, je hoeft niets in te halen."
+            "value" : "%#@a@ nog steeds %#@b@. Ga verder waar je bent, je hoeft niets in te halen."
           },
           "substitutions" : {
             "a" : {
@@ -7412,13 +7412,13 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg dag"
+                      "value" : "%arg dag blijft"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg dagen"
+                      "value" : "%arg dagen blijven"
                     }
                   }
                 }
@@ -7593,7 +7593,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%#@a@ все одно %#@b@. Продовжуйте з того місця, де ви є, наздоганяти нічого не треба."
+            "value" : "%#@a@ все одно %#@b@. Продовжуйте з того місця, де ви є. Нічого надолужувати не треба."
           },
           "substitutions" : {
             "a" : {
@@ -9523,7 +9523,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$lld από %#@n@ φροντισμένες"
+            "value" : "Έχεις φροντίσει %1$lld από %#@n@."
           },
           "substitutions" : {
             "n" : {
@@ -9607,7 +9607,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$lld jours soignés sur %#@n@"
+            "value" : "Jours soignés : %1$lld / %#@n@"
           },
           "substitutions" : {
             "n" : {
@@ -9663,7 +9663,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$lld giorni curati su %#@n@"
+            "value" : "Giorni curati: %1$lld su %#@n@"
           },
           "substitutions" : {
             "n" : {
@@ -9691,7 +9691,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%#@n@-დან %1$lld მოვლილია"
+            "value" : "%#@n@-დან %1$lld დღე მოვლილია"
           },
           "substitutions" : {
             "n" : {
@@ -9702,13 +9702,13 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg დღე"
+                      "value" : "%arg"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg დღე"
+                      "value" : "%arg"
                     }
                   }
                 }
@@ -9878,7 +9878,7 @@
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg дней"
+                      "value" : "%arg дня"
                     }
                   }
                 }
@@ -9918,7 +9918,7 @@
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg днів"
+                      "value" : "%arg дня"
                     }
                   }
                 }
@@ -10096,7 +10096,7 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg zapsané chuti"
+                      "value" : "%arg zapsaných chutí"
                     }
                   },
                   "few" : {
@@ -10108,7 +10108,7 @@
                   "many" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg zapsané chuti"
+                      "value" : "%arg zapsaných chutí"
                     }
                   },
                   "other" : {
@@ -10125,7 +10125,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$lld von deinen %#@n@ fallen in diese Zeit."
+            "value" : "Der Zeitraum umfasst %1$lld von insgesamt %#@n@."
           },
           "substitutions" : {
             "n" : {
@@ -10136,7 +10136,7 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg eingetragenen Verlangen"
+                      "value" : "%arg eingetragenem Verlangen"
                     }
                   },
                   "other" : {
@@ -10237,7 +10237,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$lld de vos %#@n@ tombent dans ce créneau."
+            "value" : "Dans ce créneau, vous avez ressenti %1$lld de vos %#@n@."
           },
           "substitutions" : {
             "n" : {
@@ -10265,7 +10265,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "आपकी %#@n@ में से %1$lld इसी समय आती हैं।"
+            "value" : "आपकी %#@n@ में से इस दौरान आने वाली तलबों की संख्या %1$lld है।"
           },
           "substitutions" : {
             "n" : {
@@ -10276,13 +10276,13 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg दर्ज तलब"
+                      "value" : "दर्ज की गई %arg तलब"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg दर्ज तलब"
+                      "value" : "दर्ज की गई %arg तलबों"
                     }
                   }
                 }
@@ -10293,7 +10293,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$lld delle tue %#@n@ cadono in quella fascia."
+            "value" : "Voglie registrate in quella fascia: %1$lld su %#@n@."
           },
           "substitutions" : {
             "n" : {
@@ -10304,13 +10304,13 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg voglia registrata"
+                      "value" : "%arg"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg voglie registrate"
+                      "value" : "%arg"
                     }
                   }
                 }
@@ -10321,7 +10321,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "შენი %#@n@-დან %1$lld ამ მონაკვეთზე მოდის."
+            "value" : "შენი %#@n@-დან %1$lld ჩაწერილი ლტოლვა ამ მონაკვეთზე მოდის."
           },
           "substitutions" : {
             "n" : {
@@ -10332,13 +10332,13 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg ჩაწერილი ლტოლვა"
+                      "value" : "%arg"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg ჩაწერილი ლტოლვა"
+                      "value" : "%arg"
                     }
                   }
                 }
@@ -10422,13 +10422,13 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg vastgelegde keer drang"
+                      "value" : "%arg geregistreerd moment van trek"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg vastgelegde keren drang"
+                      "value" : "%arg geregistreerde momenten van trek"
                     }
                   }
                 }
@@ -10479,7 +10479,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$lld из %#@n@ приходятся на это время."
+            "value" : "За этот период: %1$lld из %#@n@."
           },
           "substitutions" : {
             "n" : {
@@ -10570,7 +10570,7 @@
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg cơn thèm đã ghi"
+                      "value" : "%arg cơn thèm được ghi lại"
                     }
                   }
                 }
@@ -11193,7 +11193,7 @@
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg días sobrio"
+                      "value" : "%arg días sobrios"
                     }
                   }
                 }
@@ -11271,13 +11271,13 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg संयमी दिन"
+                      "value" : "संयम का %arg दिन"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg संयमी दिन"
+                      "value" : "संयम के %arg दिन"
                     }
                   }
                 }
@@ -11367,7 +11367,7 @@
                   "many" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg blaivios dienos"
+                      "value" : "%arg blaivių dienų"
                     }
                   },
                   "other" : {
@@ -16223,7 +16223,7 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg महीने मुफ़्त"
+                      "value" : "%arg महीना मुफ़्त"
                     }
                   }
                 }
@@ -24602,7 +24602,7 @@
                   "many" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg dne"
+                      "value" : "%arg dni"
                     }
                   },
                   "other" : {
@@ -24877,7 +24877,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Etter %#@n@ %2$@, med mindre du avslutter."
+            "value" : "Etter %#@n@ koster det %2$@, med mindre du avslutter."
           },
           "substitutions" : {
             "n" : {
@@ -28368,13 +28368,13 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg ημέρα νηφάλιος"
+                      "value" : "%arg νηφάλια ημέρα"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg ημέρες νηφάλιος"
+                      "value" : "%arg νηφάλιες ημέρες"
                     }
                   }
                 }
@@ -28402,7 +28402,7 @@
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg días sobrio"
+                      "value" : "%arg días sobrios"
                     }
                   }
                 }
@@ -28458,7 +28458,7 @@
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg jours sobre"
+                      "value" : "%arg jours sobres"
                     }
                   }
                 }
@@ -28480,13 +28480,13 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg दिन संयम"
+                      "value" : "संयम का %arg दिन"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg दिन संयम"
+                      "value" : "संयम के %arg दिन"
                     }
                   }
                 }
@@ -28514,7 +28514,7 @@
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg giorni sobrio"
+                      "value" : "%arg giorni sobri"
                     }
                   }
                 }
@@ -28576,7 +28576,7 @@
                   "many" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg blaivios dienos"
+                      "value" : "%arg blaivių dienų"
                     }
                   },
                   "other" : {
@@ -32628,7 +32628,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Έως %1$@: %2$@ οικονομίες και %#@n@"
+            "value" : "Μέχρι %1$@: έχεις εξοικονομήσει %2$@ και έχεις πετύχει %#@n@."
           },
           "substitutions" : {
             "n" : {
@@ -32684,7 +32684,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ mennessä: %2$@ säästetty ja %#@n@ ohitettu"
+            "value" : "%1$@ mennessä: %2$@ säästetty ja %#@n@ saavutettu"
           },
           "substitutions" : {
             "n" : {
@@ -83181,25 +83181,25 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg день"
+                      "value" : "протягом %arg дня"
                     }
                   },
                   "few" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg дні"
+                      "value" : "протягом %arg днів"
                     }
                   },
                   "many" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg днів"
+                      "value" : "протягом %arg днів"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg дня"
+                      "value" : "протягом %arg дня"
                     }
                   }
                 }
@@ -86444,7 +86444,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Počítadlo začíná znovu, ale strom si z předchozí série (%2$lld dní) ponechal %#@n@ růstu."
+            "value" : "Počítadlo začíná znovu, ale strom si z předchozí %2$llddenní série ponechal %#@n@ růstu."
           },
           "substitutions" : {
             "n" : {
@@ -86652,7 +86652,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il contatore riparte, ma il tuo albero ha conservato %#@n@ di crescita dalla serie di %2$lld giorni."
+            "value" : "Il contatore riparte, ma il tuo albero ha conservato %#@n@ di crescita dalla serie di %2$lld gg."
           },
           "substitutions" : {
             "n" : {
@@ -86708,7 +86708,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skaitiklis prasideda iš naujo, bet medis iš %2$lld dienų serijos išsaugojo %#@n@ augimo."
+            "value" : "Skaitiklis prasideda iš naujo, bet medis iš %2$lld d. serijos išsaugojo %#@n@ augimo."
           },
           "substitutions" : {
             "n" : {
@@ -86742,7 +86742,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Telleren starter på nytt, men treet beholdt %#@n@ med vekst fra rekken på %2$lld dager."
+            "value" : "Telleren starter på nytt, men treet beholdt %#@n@ med vekst fra rekken på %2$lld døgn."
           },
           "substitutions" : {
             "n" : {
@@ -86918,7 +86918,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bộ đếm bắt đầu lại, nhưng cây đã giữ %#@n@ phát triển từ chuỗi %2$lld ngày trước đó."
+            "value" : "Bộ đếm bắt đầu lại, nhưng cây vẫn giữ lại thành quả của %#@n@ phát triển trong chuỗi %2$lld ngày trước đó."
           },
           "substitutions" : {
             "n" : {
