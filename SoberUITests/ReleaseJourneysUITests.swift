@@ -54,6 +54,38 @@ final class ReleaseJourneysUITests: XCTestCase {
         home("home-after-relaunch", in: app)
     }
 
+    func testCoreLoopCheckInIsLoggedAndSurvivesRelaunch() {
+        let app = XCUIApplication(bundleIdentifier: "com.jackwallner.sober")
+        QA.launch(app, arguments: ["-seedDemo", "-previewStore"])
+        home("home-before-check-in", in: app)
+        XCTAssertFalse(app.staticTexts["Today is logged"].exists)
+
+        let checkIn = app.buttons.containing(NSPredicate(format: "label BEGINSWITH %@", "Check in for today")).firstMatch
+        XCTAssertTrue(checkIn.waitForExistence(timeout: 15))
+        checkIn.tap()
+        XCTAssertTrue(app.navigationBars["Checked in"].waitForExistence(timeout: 10))
+        QA.checkpoint(app, "check-in-sheet")
+
+        app.buttons["Good"].tap()
+        let note = app.textFields["Anything you want to remember about today?"]
+        XCTAssertTrue(note.waitForExistence(timeout: 5))
+        note.tap()
+        note.typeText("Journey note")
+        QA.checkpoint(app, "check-in-filled")
+        app.buttons["Save"].tap()
+
+        XCTAssertTrue(app.staticTexts["Today is logged"].waitForExistence(timeout: 10))
+        XCTAssertFalse(checkIn.exists)
+        XCTAssertFalse(app.alerts["Not saved"].exists)
+        QA.checkpoint(app, "check-in-logged")
+
+        QA.relaunch(app)
+        home("home-after-relaunch", in: app)
+        XCTAssertTrue(app.staticTexts["Today is logged"].waitForExistence(timeout: 10))
+        XCTAssertFalse(checkIn.exists)
+        QA.checkpoint(app, "check-in-persisted")
+    }
+
     private func tap(_ label: String, in app: XCUIApplication) {
         let button = app.buttons[label].firstMatch
         XCTAssertTrue(button.waitForExistence(timeout: 15))
