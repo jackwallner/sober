@@ -15,6 +15,7 @@ import com.revenuecat.purchases.PeriodType
 import com.revenuecat.purchases.PurchaseParams
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesConfiguration
+import com.revenuecat.purchases.syncPurchasesWith
 import com.revenuecat.purchases.PurchasesErrorCode
 import com.revenuecat.purchases.PurchasesException
 import com.revenuecat.purchases.PurchasesTransactionException
@@ -331,6 +332,15 @@ class SubscriptionService(
         if (key.startsWith("test_")) builder.appUserID(QA_APP_USER_ID)
         Purchases.configure(builder.build())
         Purchases.sharedInstance.updatedCustomerInfoListener = UpdatedCustomerInfoListener { apply(it) }
+        // The Play app moved into the iOS app's RevenueCat project on 2026-10-27.
+        // Post this install's Play purchases there once, so a trial or purchase
+        // made under the old Android-only project keeps its access.
+        if (key.startsWith("goog_") && !defaults.getBoolean(SYNCED_TO_SHARED_PROJECT)) {
+            Purchases.sharedInstance.syncPurchasesWith(onError = {}) {
+                defaults.putBoolean(SYNCED_TO_SHARED_PROJECT, true)
+                apply(it)
+            }
+        }
         isConfigured = true
         return true
     }
@@ -361,7 +371,8 @@ class SubscriptionService(
 
     companion object {
         private const val QA_APP_USER_ID = "qa-android"
-        const val ENTITLEMENT = "pro"
+        private const val SYNCED_TO_SHARED_PROJECT = "subscription.syncedToSharedProject"
+        const val ENTITLEMENT = "Sober Tracker - Alcohol Free Pro"
         private const val ANDROID_OFFERING_ID = "android"
         private const val LOCAL_OVERRIDE = "subscription.localProOverride"
         private const val UNAVAILABLE = "Google Play isn't reachable right now. Check your connection and try again."

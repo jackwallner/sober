@@ -32,6 +32,7 @@ paths:
 
 ## Billing
 
+- Moving into the iOS project (2026-10-27): Play app `appa3060708af` in `proj10cf6202` has the Play products on entitlement `Sober Tracker - Alcohol Free Pro` and a non-current `android` offering. The next release swaps `REVENUECAT_PLAY_KEY` to that app's `goog_` key, and the code syncs existing Play purchases once (`SYNCED_TO_SHARED_PROJECT`) so old-project trials keep access. Upload the service-account JSON to that app first. Until then the release ships the old key below.
 - RevenueCat project `proj15d6bf77` "Sober Android" (separate from iOS
   `proj10cf6202`). Play app `app4a2732350e` (service-account credentials
   uploaded), Test Store app `app0e47955aca`. Entitlement `pro`, offering
