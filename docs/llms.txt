@@ -1,0 +1,20 @@
+# Sober: Sobriety Day Counter
+
+> Sober is a free sobriety day counter app for iPhone and Apple Watch. Count days sober, check in daily, grow a bonsai garden and add a widget. No account needed.
+
+## App
+
+- [Sober: Sobriety Day Counter App for iPhone & Apple Watch](https://jackwallner.com/ios/sober/index.html.md): Sober is a free sobriety day counter app for iPhone and Apple Watch. Count days sober, check in daily, grow a bonsai garden and add a widget. No account needed.
+
+## Guides
+
+- [I Am Sober Alternatives: 5 Sobriety Apps Compared](https://jackwallner.com/ios/sober/i-am-sober-alternative.html.md): Five iPhone sobriety counters compared as I Am Sober alternatives: I Am Sober, Sober Time, Days Since, Sober Day and Sober. Facts as of October 2026.
+- [Sobriety Milestones: What 30, 60, 90 Days and 1 Year Mean](https://jackwallner.com/ios/sober/sobriety-milestones.html.md): What sobriety milestones mean at 30, 60, 90 days and 1 year: chip traditions, what research shows after a month off alcohol, and how to mark each one.
+
+## Optional
+
+- [Sober for Android Privacy Policy](https://jackwallner.github.io/sober/android-privacy.html.md): Sober (listed on Google Play as Sober: Sobriety Day Counter, published by E3 Apps) is a personal sobriety tracker for Android. It does not require an account.
+- [Sober for Android Terms of Use](https://jackwallner.github.io/sober/android-terms.html.md): By using Sober on Android, you agree to these Terms of Use and to the Google Play Terms of Service.
+- [Sober Privacy Policy](https://jackwallner.com/ios/sober/privacy-policy.html.md): Sober is a personal sobriety tracking app for iPhone and Apple Watch. It does not require an account and does not read or write Apple Health.
+- [Sober - Support](https://jackwallner.com/ios/sober/support.html.md): Sober is a sobriety tracking app for iPhone and Apple Watch. It helps you track your journey with a day counter, virtual garden, health benefit timeline...
+- [Sober Terms of Use](https://jackwallner.com/ios/sober/terms.html.md): By using Sober, you agree to these Terms of Use and Apple's Standard Licensed Application End User License Agreement.
