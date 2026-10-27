@@ -27,11 +27,10 @@ Root flow: `SoberApp → RootView → (OnboardingView | MainTabView)`.
 
 ## Craving mode + slips (added 2026-09-03)
 The two features aimed at the moments the app used to have nothing to say to.
-Both cores are in `Shared/`, both are **free and ungated**, and every
-habit-specific word in them lives in `Shared/Utilities/HabitVocabulary.swift`.
-**That file is the fork point**: porting all of this to Quit Zyn is an edit to
-it, not a sweep through the feature code. Never write "alcohol" or "drink" in
-craving/slip/patterns code, add a term there instead.
+Both cores are in `Shared/`, both are **free and ungated**. Habit numbers and
+trigger tags live in `Shared/Utilities/HabitVocabulary.swift`; habit words
+("craving", "a drink") are whole sentences in the string catalog, so a fork
+renames them there (see `.claude/rules/localization.md`).
 - **Craving mode** (`Sober/Features/Craving/CravingModeView.swift`): full-screen
   box-breathing ride-it-out session, logged as `CravingEpisode`. No paywall
   anywhere in the flow. Intensity and trigger are captured on the way *out*, not
@@ -69,7 +68,7 @@ bigger version of a complete free app is what put trial starts at 3%.
     stores `SobrietyJourney.goalDate` (start of day; optional, so the migration
     is lightweight). Slips and restarts carry a goal that is still ahead.
     Free gets the countdown on Home; Bloom+ gets `GoalProjection` (money,
-    calories, `HabitVocabulary.habitInstancePlural` not had, milestones passed by
+    calories, drinks not had, milestones passed by
     then). Editable in Settings (`GoalEditorView`).
   - **Urge playbook**: `UrgePlaybookCatalog`, one plan per `UrgeTrigger` with 3
     to 4 steps and one line to say when offered. Every trigger chip maps to a
@@ -99,6 +98,7 @@ Native Kotlin/Compose port in `android/`, released on Google Play. Rules, billin
 release state and the remote-Pro emulator recipe: `.claude/rules/android.md`.
 
 ## Rules index
+- `.claude/rules/localization.md`: string catalog, 16 languages, how to add copy (paths `Sober/**`, `Shared/**`, `SoberWatch/**`, `SoberWidgets/**`).
 - `.claude/rules/android.md`: Android port (paths `android/**`, Play scripts).
 - `.claude/rules/garden-motion.md`: bonsai sway and falling petals (paths `Shared/Bonsai/**`, `Sober/Features/Garden/**`).
 - `.claude/rules/bonsai-art.md`: how the bonsai is painted and how to prove a change (paths `Shared/Bonsai/**`, `Tools/BonsaiAudit/**`).
