@@ -71392,6 +71392,107 @@
         }
       }
     },
+    "Tell us what to fix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Napiš nám, co zlepšit"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sag uns, was wir verbessern sollen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πες μας τι να διορθώσουμε"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dinos qué mejorar"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kerro, mitä korjata"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dites-nous quoi améliorer"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बताएं क्या सुधारें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dicci cosa migliorare"
+          }
+        },
+        "ka" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "გვითხარით, რა გავასწოროთ"
+          }
+        },
+        "lt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parašykite, ką pataisyti"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fortell oss hva vi bør fikse"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laat weten wat beter kan"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Napisz, co poprawić"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Напишите, что исправить"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Напишіть, що виправити"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cho chúng tôi biết cần sửa gì"
+          }
+        }
+      }
+    },
     "Tend a day to start your week" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -77804,6 +77905,107 @@
         }
       }
     },
+    "We're a small indie studio. Your trial helps us keep building. Not for you? Cancel anytime and tell us what to fix." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jsme malé nezávislé studio. Tvoje zkušební verze nám pomáhá pokračovat. Není to pro tebe? Kdykoli zruš a napiš nám, co zlepšit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wir sind ein kleines Indie-Studio. Deine Testphase hilft uns weiterzumachen. Nichts für dich? Jederzeit kündigen und sag uns, was wir verbessern sollen."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Είμαστε ένα μικρό ανεξάρτητο στούντιο. Η δοκιμή σου μας βοηθά να συνεχίσουμε. Δεν σου ταιριάζει; Ακύρωσε όποτε θέλεις και πες μας τι να διορθώσουμε."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Somos un pequeño estudio independiente. Tu prueba nos ayuda a seguir creando. ¿No es para ti? Cancela cuando quieras y dinos qué mejorar."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Olemme pieni indie-studio. Kokeilusi auttaa meitä jatkamaan. Eikö tämä ole sinua varten? Peru milloin tahansa ja kerro, mitä korjata."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nous sommes un petit studio indépendant. Votre essai nous aide à continuer. Pas pour vous ? Annulez à tout moment et dites-nous quoi améliorer."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "हम एक छोटा इंडी स्टूडियो हैं। आपका ट्रायल हमें आगे बढ़ने में मदद करता है। आपके लिए नहीं? कभी भी रद्द करें और बताएं कि क्या सुधारें।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siamo un piccolo studio indipendente. La tua prova ci aiuta ad andare avanti. Non fa per te? Annulla quando vuoi e dicci cosa migliorare."
+          }
+        },
+        "ka" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ჩვენ პატარა დამოუკიდებელი სტუდია ვართ. თქვენი საცდელი პერიოდი გვეხმარება განვითარებაში. არ გამოგადგათ? გააუქმეთ ნებისმიერ დროს და გვითხარით, რა გავასწოროთ."
+          }
+        },
+        "lt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esame maža nepriklausoma studija. Jūsų bandomasis laikotarpis padeda mums tęsti darbą. Netinka? Atšaukite bet kada ir parašykite, ką pataisyti."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vi er et lite indiestudio. Prøveperioden din hjelper oss å fortsette. Ikke noe for deg? Avslutt når som helst og fortell oss hva vi bør fikse."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We zijn een kleine indiestudio. Je proefperiode helpt ons verder te bouwen. Niets voor jou? Zeg altijd op en laat ons weten wat beter kan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jesteśmy małym niezależnym studiem. Twój okres próbny pomaga nam się rozwijać. Nie dla ciebie? Anuluj w każdej chwili i napisz, co poprawić."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мы небольшая независимая студия. Ваш пробный период помогает нам продолжать работу. Не подошло? Отмените в любой момент и напишите, что исправить."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ми невелика незалежна студія. Ваш пробний період допомагає нам працювати далі. Не підходить? Скасуйте будь-коли й напишіть, що виправити."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chúng tôi là một studio độc lập nhỏ. Bản dùng thử của bạn giúp chúng tôi tiếp tục phát triển. Không phù hợp? Hủy bất cứ lúc nào và cho chúng tôi biết cần sửa gì."
+          }
+        }
+      }
+    },
     "Weight Stabilization" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -78961,6 +79163,107 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Điều gì đã gây ra?"
+          }
+        }
+      }
+    },
+    "What should we fix?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Co máme zlepšit?"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was sollen wir verbessern?"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Τι να διορθώσουμε;"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Qué deberíamos mejorar?"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mitä meidän pitäisi korjata?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Que devrions-nous améliorer ?"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "हमें क्या सुधारना चाहिए?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cosa dovremmo migliorare?"
+          }
+        },
+        "ka" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "რა უნდა გავასწოროთ?"
+          }
+        },
+        "lt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ką turėtume pataisyti?"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hva bør vi fikse?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wat moeten we verbeteren?"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Co powinniśmy poprawić?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Что нам исправить?"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Що нам виправити?"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chúng tôi nên sửa gì?"
           }
         }
       }
@@ -89409,6 +89712,107 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cây của bạn vẫn giữ sự phát triển. Ngày đầu tiên bắt đầu ngay bây giờ."
+          }
+        }
+      }
+    },
+    "Your trial won't renew" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tvoje zkušební verze se neobnoví"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deine Testphase verlängert sich nicht"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Η δοκιμή σου δεν θα ανανεωθεί"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu prueba no se renovará"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kokeilusi ei uusiudu"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre essai ne sera pas renouvelé"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आपका ट्रायल रिन्यू नहीं होगा"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La tua prova non si rinnoverà"
+          }
+        },
+        "ka" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "თქვენი საცდელი პერიოდი არ განახლდება"
+          }
+        },
+        "lt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jūsų bandomasis laikotarpis nebus pratęstas"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prøveperioden din fornyes ikke"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je proefperiode wordt niet verlengd"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twój okres próbny nie zostanie odnowiony"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пробный период не продлится"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пробний період не продовжиться"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bản dùng thử của bạn sẽ không gia hạn"
           }
         }
       }
