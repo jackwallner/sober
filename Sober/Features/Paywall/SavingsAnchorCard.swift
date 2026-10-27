@@ -6,19 +6,17 @@ import SwiftUI
 struct SavingsAnchorCard: View {
     /// Projected yearly savings (== yearly habit spend avoided), whole dollars.
     let yearlySpend: Int
-    /// Habit noun for the context line, e.g. "alcohol" or "pouches".
-    var habitName: String = "the habit"
     /// When set, the right side shows the free trial instead of a dollar price.
     var trialDays: Int? = nil
     /// Used when `trialDays` is nil.
     var priceLabel: String? = nil
     /// Caption under the right-side figure.
-    var rightCaption: String = "full Bloom+ access"
+    var rightCaption: String = String(localized: "full Bloom+ access")
     /// True on the brand-gradient paywall (white-on-color); false on light sheets.
     var onBrand: Bool = false
 
     private var savingsLabel: String {
-        Self.currency.string(from: NSNumber(value: yearlySpend)) ?? "$\(yearlySpend)"
+        Self.currency.string(from: NSNumber(value: yearlySpend)) ?? String(yearlySpend)
     }
 
     private var primaryText: Color { onBrand ? .white : Theme.textPrimary }
@@ -26,7 +24,7 @@ struct SavingsAnchorCard: View {
     private var accent: Color { onBrand ? .white : Theme.brandPrimary }
 
     private var rightHeadline: String {
-        if let trialDays { return "\(trialDays) days free" }
+        if let trialDays { return String(localized: "\(trialDays) days free") }
         return priceLabel ?? ""
     }
 
@@ -54,7 +52,7 @@ struct SavingsAnchorCard: View {
                     Text("in your pocket each year")
                         .font(Theme.caption())
                         .foregroundStyle(secondaryText)
-                    Text("not spent on \(habitName)")
+                    Text("not spent on alcohol")
                         .font(.system(size: 11, weight: .medium))
                         .foregroundStyle(secondaryText.opacity(0.85))
                 }
@@ -97,9 +95,9 @@ struct SavingsAnchorCard: View {
 
     private var accessibilitySummary: String {
         if let trialDays {
-            return "You keep \(savingsLabel) in your pocket each year not spent on \(habitName). Try Bloom+ free for \(trialDays) days."
+            return String(localized: "You keep \(savingsLabel) in your pocket each year not spent on alcohol. Try Bloom+ free for \(trialDays) days.")
         }
-        return "You keep \(savingsLabel) in your pocket each year. Bloom+ is \(priceLabel ?? "") \(rightCaption)."
+        return String(localized: "You keep \(savingsLabel) in your pocket each year. Bloom+ is \(priceLabel ?? "") for \(rightCaption).")
     }
 
     private static let currency: NumberFormatter = {

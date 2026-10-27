@@ -47,11 +47,11 @@ struct GoalEditorView: View {
                 ForEach(GoalPreset.allCases.filter { $0.isAhead(start: start) }) { preset in
                     choiceRow(.preset(preset), title: preset.label, detail: GoalProjection.shortDate(preset.date(from: start)))
                 }
-                choiceRow(.custom, title: "Pick a date", detail: nil)
+                choiceRow(.custom, title: String(localized: "Pick a date"), detail: nil)
                 if choice == .custom {
                     DatePicker("Goal date", selection: $customDate, in: GoalChoice.earliestCustomDate..., displayedComponents: [.date])
                 }
-                choiceRow(.none, title: "No goal yet", detail: nil)
+                choiceRow(.none, title: String(localized: "No goal yet"), detail: nil)
             } footer: {
                 Text("Home counts down to it. Bloom+ shows what you'll have kept and which milestones you'll have passed by then.")
             }

@@ -64,7 +64,7 @@ struct PatternsView: View {
             Text("Nothing to read yet")
                 .font(Theme.title())
                 .foregroundStyle(Theme.textPrimary)
-            Text("Every time you ride out a \(HabitVocabulary.urgeNoun), this page learns something about yours: when they hit, what sets them off, and how long they actually last.")
+            Text("Every time you ride out a craving, this page learns something about yours: when they hit, what sets them off, and how long they actually last.")
                 .font(Theme.body())
                 .foregroundStyle(Theme.textSecondary)
                 .multilineTextAlignment(.center)
@@ -89,9 +89,7 @@ struct PatternsView: View {
                 .font(Theme.bigNumber(56))
                 .foregroundStyle(Theme.brandPrimary)
                 .monospacedDigit()
-            Text(rodeOut == 1
-                 ? "\(HabitVocabulary.urgeNoun) ridden out"
-                 : "\(HabitVocabulary.urgeNounPlural) ridden out")
+            Text("\(rodeOut) ridden out")
                 .font(Theme.caption(weight: .semibold))
                 .tracking(1.2)
                 .textCase(.uppercase)

@@ -45,11 +45,13 @@ enum MilestoneSchedule {
     ) -> String {
         if calendar.isDate(date, inSameDayAs: now) {
             let evening = calendar.component(.hour, from: date) >= 17
-            return "\(evening ? "Tonight" : "Today") \(format(date, "jmm", calendar, locale))"
+            let time = format(date, "jmm", calendar, locale)
+            return evening ? String(localized: "Tonight \(time)") : String(localized: "Today \(time)")
         }
         if let tomorrow = calendar.date(byAdding: .day, value: 1, to: now),
            calendar.isDate(date, inSameDayAs: tomorrow) {
-            return "Tomorrow \(format(date, "jmm", calendar, locale))"
+            let time = format(date, "jmm", calendar, locale)
+            return String(localized: "Tomorrow \(time)")
         }
         if calendar.component(.year, from: date) == calendar.component(.year, from: now) {
             return format(date, "EEEMMMd", calendar, locale)
@@ -61,12 +63,13 @@ enum MilestoneSchedule {
     static func pitchLine(start: Date, now: Date = .now) -> String {
         let remaining = all(start: start).filter { $0.date > now }
         guard let next = remaining.first else {
-            return "All \(HealthBenefitCatalog.all.count) recovery milestones, each with its source."
+            return String(localized: "All \(HealthBenefitCatalog.all.count) recovery milestones, each with its source.")
         }
-        let head = "\(label(for: next.date, now: now)): \(next.benefit.title)."
+        let when = label(for: next.date, now: now)
+        let title = next.benefit.title
         let more = remaining.count - 1
-        guard more > 0 else { return "\(head) The last one on the timeline." }
-        return "\(head) Then \(more) more, each dated."
+        guard more > 0 else { return String(localized: "\(when): \(title). The last one on the timeline.") }
+        return String(localized: "\(when): \(title). Then \(more) more, each dated.")
     }
 
     private static func format(_ date: Date, _ template: String, _ calendar: Calendar, _ locale: Locale) -> String {

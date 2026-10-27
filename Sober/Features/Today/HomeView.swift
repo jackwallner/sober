@@ -325,8 +325,8 @@ struct HomeView: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
                 .foregroundStyle(Theme.brandPrimary)
-                .accessibilityLabel("\(days) \(days == 1 ? "day" : "days") sober")
-            Text(days == 1 ? "Day Sober" : "Days Sober")
+                .accessibilityLabel("\(days) days sober")
+            Text("\(days) Days Sober")
                 .font(.system(size: 13, weight: .semibold, design: .serif))
                 .tracking(2.0)
                 .textCase(.uppercase)
@@ -348,10 +348,11 @@ struct HomeView: View {
     /// practice is the moment after a slip, when it matters most.
     private var historyLine: String? {
         guard bestStreak > days || lifetimeSoberDays > days else { return nil }
-        var parts: [String] = []
-        if bestStreak > days { parts.append("Best \(bestStreak)") }
-        if lifetimeSoberDays > days { parts.append("\(lifetimeSoberDays) days sober") }
-        return parts.joined(separator: " · ")
+        switch (bestStreak > days, lifetimeSoberDays > days) {
+        case (true, true): return String(localized: "Best \(bestStreak) · \(lifetimeSoberDays) days sober")
+        case (true, false): return String(localized: "Best \(bestStreak)")
+        default: return String(localized: "\(lifetimeSoberDays) days sober")
+        }
     }
 
     /// The garden, framed as a card that claims all the vertical space between
@@ -439,9 +440,9 @@ struct HomeView: View {
 
     private var trialRecapDetail: String {
         if let summary = TrialLifecycle.recapSummary {
-            return "\(summary) Cancel any time in Settings."
+            return String(localized: "\(summary) Cancel any time in Settings.")
         }
-        return "Keep your full garden, journal, and savings, or cancel any time in Settings."
+        return String(localized: "Keep your full garden, journal, and savings, or cancel any time in Settings.")
     }
 
     @ViewBuilder
@@ -598,7 +599,7 @@ struct HomeView: View {
                     .font(Theme.body(weight: .semibold))
                     .foregroundStyle(Theme.brandPrimary)
                 VStack(alignment: .leading, spacing: 1) {
-                    Text("I'm having a \(HabitVocabulary.urgeNoun)")
+                    Text("I'm having a craving")
                         .font(Theme.subhead(weight: .semibold))
                         .foregroundStyle(Theme.textPrimary)
                     Text(CravingCoach.buttonSubtitle)
@@ -768,13 +769,13 @@ struct HomeView: View {
     /// numbers, so a notification scheduled later can name what they've built.
     private func refreshTrialRecap() {
         let cents = settingsRows.first?.costPerDayCents ?? 0
-        var parts = ["\(days) sober \(days == 1 ? "day" : "days")"]
         if cents > 0 {
             let dollars = Double(days * cents) / 100
-            let money = Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? "$\(Int(dollars))"
-            parts.append("\(money) saved")
+            let money = Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? String(Int(dollars))
+            TrialLifecycle.recapSummary = String(localized: "\(days) sober days and \(money) saved so far.")
+        } else {
+            TrialLifecycle.recapSummary = String(localized: "\(days) sober days so far.")
         }
-        TrialLifecycle.recapSummary = parts.joined(separator: " and ") + " so far."
         showTrialRecap = TrialLifecycle.shouldShowRecap()
     }
 
@@ -880,7 +881,13 @@ private struct CheckInDetailSheet: View {
     @State private var note: String = ""
 
     private let symbols = ["cloud.rain.fill", "cloud.fill", "cloud.sun.fill", "sun.max.fill", "sparkles"]
-    private let moodLabels = ["Rough", "Low", "OK", "Good", "Great"]
+    private let moodLabels = [
+        String(localized: "Rough"),
+        String(localized: "Low"),
+        String(localized: "OK"),
+        String(localized: "Good"),
+        String(localized: "Great"),
+    ]
 
     var body: some View {
         NavigationStack {
@@ -965,7 +972,7 @@ struct ProgressSheet: View {
         guard TendedWeek.tendedCount(week) > 0, let mood = TendedWeek.moodSummary(week) else {
             return summary
         }
-        return "\(summary) · felt \(mood)"
+        return String(localized: "\(summary) · felt \(mood)")
     }
 
     /// Trial-led upsell only when a free trial is actually on the table for
@@ -1009,8 +1016,8 @@ struct ProgressSheet: View {
                         NavigationLink { PatternsView() } label: {
                             progressRow(
                                 icon: "chart.bar.xaxis",
-                                title: "Your patterns",
-                                detail: "When your \(HabitVocabulary.urgeNounPlural) hit and what sets them off"
+                                title: String(localized: "Your patterns"),
+                                detail: String(localized: "When your cravings hit and what sets them off")
                             )
                         }
                     } else {
@@ -1024,9 +1031,9 @@ struct ProgressSheet: View {
                 // moved by it. Bloom+ sells the projection below, not this.
                 if hasSpendData {
                     Section {
-                        savedRow(label: "Money", streak: moneySaved, lifetime: lifetimeMoneySaved, sub: "$\((settings?.costPerDayCents ?? 0) / 100) / day", icon: "dollarsign.circle.fill")
-                        savedRow(label: "Calories", streak: caloriesAvoided.formatted(), lifetime: lifetimeCaloriesAvoided.formatted(), sub: "\(settings?.caloriesPerDay ?? 0) / day", icon: "flame.fill")
-                        savedRow(label: "Body fat", streak: poundsOfFat(caloriesAvoided), lifetime: poundsOfFat(lifetimeCaloriesAvoided), sub: "~3,500 cal per lb", icon: "scalemass.fill")
+                        savedRow(label: String(localized: "Money"), streak: moneySaved, lifetime: lifetimeMoneySaved, sub: String(localized: "\(costPerDayText) / day"), icon: "dollarsign.circle.fill")
+                        savedRow(label: String(localized: "Calories"), streak: caloriesAvoided.formatted(), lifetime: lifetimeCaloriesAvoided.formatted(), sub: String(localized: "\(settings?.caloriesPerDay ?? 0) / day"), icon: "flame.fill")
+                        savedRow(label: String(localized: "Body fat"), streak: poundsOfFat(caloriesAvoided), lifetime: poundsOfFat(lifetimeCaloriesAvoided), sub: bodyFatRate, icon: "scalemass.fill")
                     } header: {
                         Text("Kept so far")
                     } footer: {
@@ -1038,21 +1045,21 @@ struct ProgressSheet: View {
                     Section {
                         if isPro {
                             yearAheadRow(
-                                label: "Money",
+                                label: String(localized: "Money"),
                                 value: projectedMoneyAYear,
-                                sub: "if you keep going for 12 months",
+                                sub: String(localized: "if you keep going for 12 months"),
                                 icon: "dollarsign.circle.fill"
                             )
                             yearAheadRow(
-                                label: "Calories",
+                                label: String(localized: "Calories"),
                                 value: projectedCaloriesAYear.formatted(),
-                                sub: "not drunk over 12 months",
+                                sub: String(localized: "not drunk over 12 months"),
                                 icon: "flame.fill"
                             )
                             yearAheadRow(
-                                label: "Body fat",
+                                label: String(localized: "Body fat"),
                                 value: poundsOfFat(projectedCaloriesAYear),
-                                sub: "~3,500 cal per lb",
+                                sub: bodyFatRate,
                                 icon: "scalemass.fill"
                             )
                         } else {
@@ -1122,8 +1129,8 @@ struct ProgressSheet: View {
         let next = AchievementCatalog.nextTimeMilestone(after: days)
         return progressRow(
             icon: "flag.fill",
-            title: next?.title ?? "Year One",
-            detail: next.map { "in \(max(1, $0.dayThreshold - days)) days" } ?? "Crushed it"
+            title: next?.title ?? String(localized: "Year One"),
+            detail: next.map { String(localized: "in \(max(1, $0.dayThreshold - days)) days") } ?? String(localized: "Crushed it")
         )
     }
 
@@ -1133,8 +1140,8 @@ struct ProgressSheet: View {
         let next = HealthBenefitCatalog.next(after: hours)
         return progressRow(
             icon: "heart.fill",
-            title: next?.title ?? "All unlocked",
-            detail: next.map { "at \($0.displayWait)" } ?? ""
+            title: next?.title ?? String(localized: "All unlocked"),
+            detail: next.map { String(localized: "at \($0.displayWait)") } ?? ""
         )
     }
 
@@ -1183,7 +1190,7 @@ struct ProgressSheet: View {
 
     private var projectedMoneyAYear: String {
         let dollars = Double((settings?.costPerDayCents ?? 0) * 365) / 100
-        return Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? "$\(Int(dollars))"
+        return Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? String(Int(dollars))
     }
 
     private var projectedCaloriesAYear: Int { (settings?.caloriesPerDay ?? 0) * 365 }
@@ -1215,7 +1222,7 @@ struct ProgressSheet: View {
                     Text("Learn your own pattern")
                         .font(Theme.body())
                         .foregroundStyle(Theme.textPrimary)
-                    Text("Bloom+ reads your logged \(HabitVocabulary.urgeNounPlural) back to you: when they hit, what sets them off, how long yours last")
+                    Text("Bloom+ reads your logged cravings back to you: when they hit, what sets them off, how long yours last")
                         .font(Theme.caption())
                         .foregroundStyle(Theme.textSecondary)
                         .fixedSize(horizontal: false, vertical: true)
@@ -1260,7 +1267,7 @@ struct ProgressSheet: View {
     private var lifetimeMoneySaved: String {
         let cents = lifetimeSoberDays * (settings?.costPerDayCents ?? 0)
         let dollars = Double(cents) / 100
-        return Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? "$\(Int(dollars))"
+        return Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? String(Int(dollars))
     }
 
     private var lifetimeCaloriesAvoided: Int { lifetimeSoberDays * (settings?.caloriesPerDay ?? 0) }
@@ -1268,16 +1275,35 @@ struct ProgressSheet: View {
     private var savedSoFar: String {
         let cents = days * (settings?.costPerDayCents ?? 0)
         let dollars = Double(cents) / 100
-        return Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? "$\(Int(dollars))"
+        return Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? String(Int(dollars))
     }
 
     private var moneySaved: String { savedSoFar }
     private var caloriesAvoided: Int { days * (settings?.caloriesPerDay ?? 0) }
 
-    /// Calories expressed as pounds of body fat (~3,500 kcal per lb).
+    private var usesMetricWeight: Bool { Locale.current.measurementSystem != .us }
+
+    /// Calories expressed as body fat (~3,500 kcal per lb, ~7,700 per kg), in
+    /// the unit the user's region weighs in.
     private func poundsOfFat(_ calories: Int) -> String {
-        let lbs = Double(calories) / 3500.0
-        return "\(lbs.formatted(.number.precision(.fractionLength(lbs < 10 ? 1 : 0)))) lb"
+        let mass = usesMetricWeight
+            ? Measurement(value: Double(calories) / 7700.0, unit: UnitMass.kilograms)
+            : Measurement(value: Double(calories) / 3500.0, unit: UnitMass.pounds)
+        let digits = mass.value < 10 ? 1 : 0
+        return mass.formatted(.measurement(
+            width: .abbreviated,
+            usage: .asProvided,
+            numberFormatStyle: .number.precision(.fractionLength(digits))
+        ))
+    }
+
+    private var bodyFatRate: String {
+        usesMetricWeight ? String(localized: "~7,700 kcal per kg") : String(localized: "~3,500 cal per lb")
+    }
+
+    private var costPerDayText: String {
+        let dollars = Double(settings?.costPerDayCents ?? 0) / 100
+        return Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? String(Int(dollars))
     }
 
     private func achievementRow(_ a: Achievement) -> some View {

@@ -81,9 +81,9 @@ struct CravingModeView: View {
 
         var label: String {
             switch self {
-            case .inhale: return "Breathe in"
-            case .holdFull, .holdEmpty: return "Hold"
-            case .exhale: return "Breathe out"
+            case .inhale: return String(localized: "Breathe in")
+            case .holdFull, .holdEmpty: return String(localized: "Hold")
+            case .exhale: return String(localized: "Breathe out")
             }
         }
     }
@@ -215,7 +215,7 @@ struct CravingModeView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: Theme.Space.xl) {
                 VStack(alignment: .leading, spacing: Theme.Space.s) {
-                    Text("You stayed with it for \(spokenElapsed).")
+                    Text(stayedLine)
                         .font(Theme.title())
                         .foregroundStyle(Theme.textPrimary)
                     Text("Two quick questions while it's fresh. Both optional.")
@@ -290,12 +290,16 @@ struct CravingModeView: View {
         }
     }
 
-    private var spokenElapsed: String {
-        if elapsed < 60 { return "\(max(1, elapsed)) seconds" }
+    private var stayedLine: String {
+        if elapsed < 60 { return String(localized: "You stayed with it for \(max(1, elapsed)) seconds.") }
         let minutes = elapsed / 60
         let seconds = elapsed % 60
-        if seconds == 0 { return minutes == 1 ? "a minute" : "\(minutes) minutes" }
-        return "\(minutes)m \(seconds)s"
+        if seconds == 0 {
+            return minutes == 1
+                ? String(localized: "You stayed with it for a minute.")
+                : String(localized: "You stayed with it for \(minutes) minutes.")
+        }
+        return String(localized: "You stayed with it for \(minutes)m \(seconds)s.")
     }
 
     // MARK: - Done
@@ -311,8 +315,8 @@ struct CravingModeView: View {
                 .foregroundStyle(Theme.textPrimary)
             if rodeOutTotal > 0 {
                 Text(rodeOutTotal == 1
-                     ? "That's one \(HabitVocabulary.urgeNoun) you've ridden out."
-                     : "That's \(rodeOutTotal) \(HabitVocabulary.urgeNounPlural) you've ridden out.")
+                     ? "That's one craving you've ridden out."
+                     : "That's \(rodeOutTotal) cravings you've ridden out.")
                     .font(Theme.body())
                     .foregroundStyle(Theme.textSecondary)
                     .multilineTextAlignment(.center)
@@ -360,8 +364,8 @@ struct CravingModeView: View {
                     Text("Your plan for next time")
                         .font(Theme.subhead(weight: .semibold))
                         .foregroundStyle(Theme.textPrimary)
-                    Text(plan.map { "\($0.title): \($0.steps.count) steps and what to say." }
-                         ?? "Six trigger plans: what to do and what to say.")
+                    Text(plan.map { String(localized: "\($0.title): \($0.steps.count) steps and what to say.") }
+                         ?? String(localized: "Six trigger plans: what to do and what to say."))
                         .font(Theme.caption())
                         .foregroundStyle(Theme.textSecondary)
                         .fixedSize(horizontal: false, vertical: true)
@@ -385,7 +389,7 @@ struct CravingModeView: View {
         guard subscriptions.isProSubscriber,
               let rate = CravingInsights.rideOutRate(CravingService(context: context).facts())
         else { return nil }
-        return "\(rate.rode) of your last \(rate.resolved) ended this way."
+        return String(localized: "\(rate.rode) of your last \(rate.resolved) ended this way.")
     }
 
     // MARK: - Persistence
@@ -423,7 +427,7 @@ private struct TriggerChips: View {
                 Button {
                     selected = (selected == tag) ? nil : tag
                 } label: {
-                    Text(tag)
+                    Text(HabitVocabulary.triggerLabel(tag))
                         .font(Theme.subhead(weight: .semibold))
                         .foregroundStyle(selected == tag ? .white : Theme.textSecondary)
                         .padding(.horizontal, 14)

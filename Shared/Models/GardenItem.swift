@@ -15,11 +15,11 @@ enum GardenItemType: String, Codable, CaseIterable, Sendable {
 
     var displayCategory: String {
         switch self {
-        case .bonsai: return "Bonsai Styles"
-        case .plant: return "Companion Plants"
-        case .decoration: return "Decorations"
-        case .feature: return "Garden Features"
-        case .ground: return "Ground Covers"
+        case .bonsai: return String(localized: "Bonsai Styles")
+        case .plant: return String(localized: "Companion Plants")
+        case .decoration: return String(localized: "Decorations")
+        case .feature: return String(localized: "Garden Features")
+        case .ground: return String(localized: "Ground Covers")
         }
     }
 }
@@ -57,8 +57,8 @@ enum GardenItemCatalog: Sendable {
             id: "traditional-bonsai",
             type: .bonsai,
             size: .large,
-            displayName: "Traditional Bonsai",
-            description: "A timeless upright bonsai. Symmetrical, balanced, serene.",
+            displayName: String(localized: "Traditional Bonsai"),
+            description: String(localized: "A timeless upright bonsai. Symmetrical, balanced, serene."),
             milestoneDays: 0,
             sfSymbol: "leaf.fill",
             colors: [Color(red: 0.32, green: 0.52, blue: 0.28), Color(red: 0.45, green: 0.28, blue: 0.12)]
@@ -67,8 +67,8 @@ enum GardenItemCatalog: Sendable {
             id: "cascade-bonsai",
             type: .bonsai,
             size: .large,
-            displayName: "Cascading Bonsai",
-            description: "The cascade style mimics a tree growing on a cliff, plunging downward.",
+            displayName: String(localized: "Cascading Bonsai"),
+            description: String(localized: "The cascade style mimics a tree growing on a cliff, plunging downward."),
             milestoneDays: 1,
             sfSymbol: "arrow.down.to.line.compact",
             colors: [Color(red: 0.28, green: 0.48, blue: 0.22), Color(red: 0.40, green: 0.24, blue: 0.10)]
@@ -77,8 +77,8 @@ enum GardenItemCatalog: Sendable {
             id: "sakura-bonsai",
             type: .bonsai,
             size: .large,
-            displayName: "Cherry Blossom",
-            description: "A flowering sakura wrapped in soft pink bloom. Petals drift down as your streak grows.",
+            displayName: String(localized: "Cherry Blossom"),
+            description: String(localized: "A flowering sakura wrapped in soft pink bloom. Petals drift down as your streak grows."),
             milestoneDays: 2,
             sfSymbol: "camera.macro",
             colors: [Color(red: 0.95, green: 0.70, blue: 0.80), Color(red: 0.49, green: 0.36, blue: 0.27)]
@@ -87,8 +87,8 @@ enum GardenItemCatalog: Sendable {
             id: "maple-bonsai",
             type: .bonsai,
             size: .large,
-            displayName: "Japanese Maple",
-            description: "A lacy maple in warm autumn red and gold. Star-shaped leaves drift down as the days add up.",
+            displayName: String(localized: "Japanese Maple"),
+            description: String(localized: "A lacy maple in warm autumn red and gold. Star-shaped leaves drift down as the days add up."),
             milestoneDays: 3,
             sfSymbol: "leaf.fill",
             colors: [Color(red: 0.78, green: 0.28, blue: 0.16), Color(red: 0.43, green: 0.35, blue: 0.29)]
@@ -97,8 +97,8 @@ enum GardenItemCatalog: Sendable {
             id: "pine-bonsai",
             type: .bonsai,
             size: .large,
-            displayName: "Black Pine",
-            description: "An evergreen pine with cloud-like needle tiers and a gnarled, weathered trunk.",
+            displayName: String(localized: "Black Pine"),
+            description: String(localized: "An evergreen pine with cloud-like needle tiers and a gnarled, weathered trunk."),
             milestoneDays: 4,
             sfSymbol: "tree.fill",
             colors: [Color(red: 0.18, green: 0.38, blue: 0.29), Color(red: 0.35, green: 0.27, blue: 0.21)]
@@ -107,8 +107,8 @@ enum GardenItemCatalog: Sendable {
             id: "windswept-bonsai",
             type: .bonsai,
             size: .large,
-            displayName: "Windswept Bonsai",
-            description: "Shaped by a lifetime of wind. Every branch tells a story of endurance.",
+            displayName: String(localized: "Windswept Bonsai"),
+            description: String(localized: "Shaped by a lifetime of wind. Every branch tells a story of endurance."),
             milestoneDays: 5,
             sfSymbol: "wind",
             colors: [Color(red: 0.22, green: 0.38, blue: 0.16), Color(red: 0.50, green: 0.30, blue: 0.12)]

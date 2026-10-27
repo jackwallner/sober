@@ -13,12 +13,12 @@ enum BonsaiStyle: String, CaseIterable, Sendable {
 
     var displayName: String {
         switch self {
-        case .traditional: return "Traditional"
-        case .cascade: return "Cascading"
-        case .windswept: return "Windswept"
-        case .sakura: return "Cherry Blossom"
-        case .maple: return "Japanese Maple"
-        case .pine: return "Black Pine"
+        case .traditional: return String(localized: "Traditional")
+        case .cascade: return String(localized: "Cascading")
+        case .windswept: return String(localized: "Windswept")
+        case .sakura: return String(localized: "Cherry Blossom")
+        case .maple: return String(localized: "Japanese Maple")
+        case .pine: return String(localized: "Black Pine")
         }
     }
 }

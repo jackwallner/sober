@@ -1,50 +1,21 @@
 import Foundation
 
-/// Every word in the craving, slip, and patterns features that changes when
-/// this app is forked to a different habit.
+/// The habit-specific numbers and tags behind the craving, slip, and patterns
+/// features.
 ///
-/// **This is the fork point.** Nothing in those features names a substance
-/// directly, so porting them to Quit Zyn (or any later fork) is an edit to this
-/// one file rather than a sweep through the feature code. If you find yourself
-/// writing "alcohol" or "drink" anywhere else in a feature, add a term here
-/// instead.
+/// **This is the fork point** for everything that is not copy. User-facing
+/// sentences are whole keys in `Shared/Localizable.xcstrings` (word order and
+/// grammar differ per language, so a noun cannot be spliced in), which means a
+/// fork renames "alcohol", "a drink" and "craving" there, in every language.
 ///
 /// Rules for anything added:
-///   * Values are nouns and short phrases, never whole sentences with English
-///     grammar baked around them, so a fork can reshape the sentence.
 ///   * No prices (they go stale), and no treat/cure/diagnose language
 ///     (App Review 1.4.1).
 enum HabitVocabulary {
-    /// What the user is abstaining from, lowercase, used mid-sentence.
-    /// Sober: "alcohol". Quit Zyn: "nicotine".
-    static let substance = "alcohol"
-
-    /// The activity as a gerund, for phrases like "a day and a half of ___".
-    /// Sober: "drinking". Quit Zyn: "pouches".
-    static let habitGerund = "drinking"
-
-    /// A single instance of the habit, with its article.
-    /// Sober: "a drink". Quit Zyn: "a pouch".
-    static let habitInstance = "a drink"
-
-    /// Plural of a single instance, used after a count ("58 ___ not had").
-    /// Sober: "drinks". Quit Zyn: "pouches".
-    static let habitInstancePlural = "drinks"
-
     /// Rough calories in one instance, used to turn the user's daily calorie
     /// figure into a count of instances. A standard beer or glass of wine is
     /// about 150. A fork with no calories sets this to 0, which hides the count.
     static let caloriesPerInstance = 150
-
-    /// What to hold instead, with its article, for the urge playbook.
-    /// Sober: "a soda water with lime". Quit Zyn: "a piece of gum".
-    static let replacementInstance = "a soda water with lime"
-
-    /// What the app calls an urge, lowercase. Both current apps say "craving";
-    /// it stays configurable because it is the most-repeated noun in the
-    /// feature and a fork may prefer "urge".
-    static let urgeNoun = "craving"
-    static let urgeNounPlural = "cravings"
 
     /// How long a typical urge takes to crest and fade. Drives the default
     /// ride-it-out session length and the coaching copy. Nicotine urges run
@@ -70,6 +41,23 @@ enum HabitVocabulary {
         "Tired",
     ]
 
+    /// The chip's label in the user's language. Tags are stored in English
+    /// (they key `UrgePlaybookCatalog.tagMap` and the saved episodes), so this
+    /// translates at display time and passes unknown tags through.
+    static func triggerLabel(_ tag: String) -> String {
+        switch tag {
+        case "Social event": String(localized: "Social event")
+        case "Stress": String(localized: "Stress")
+        case "Boredom": String(localized: "Boredom")
+        case "After work": String(localized: "After work")
+        case "With a meal": String(localized: "With a meal")
+        case "Argument": String(localized: "Argument")
+        case "Celebration": String(localized: "Celebration")
+        case "Tired": String(localized: "Tired")
+        default: tag
+        }
+    }
+
     /// Example shown in the "why you started" reasons editor.
-    static let reasonPlaceholder = "So I can be present with my kids"
+    static var reasonPlaceholder: String { String(localized: "So I can be present with my kids") }
 }

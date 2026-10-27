@@ -16,15 +16,15 @@ enum BonsaiStage: Int, CaseIterable, Comparable, Sendable {
 
     var title: String {
         switch self {
-        case .seed: return "Seed"
-        case .sprout: return "Sprout"
-        case .seedling: return "Seedling"
-        case .young: return "Young Bonsai"
-        case .adolescent: return "Adolescent"
-        case .mature: return "Mature"
-        case .refined: return "Refined"
-        case .ancient: return "Ancient"
-        case .legendary: return "Legendary"
+        case .seed: return String(localized: "Seed")
+        case .sprout: return String(localized: "Sprout")
+        case .seedling: return String(localized: "Seedling")
+        case .young: return String(localized: "Young Bonsai")
+        case .adolescent: return String(localized: "Adolescent")
+        case .mature: return String(localized: "Mature")
+        case .refined: return String(localized: "Refined")
+        case .ancient: return String(localized: "Ancient")
+        case .legendary: return String(localized: "Legendary")
         }
     }
 
@@ -46,15 +46,15 @@ enum BonsaiStage: Int, CaseIterable, Comparable, Sendable {
     /// "New Growth" celebration when the bonsai advances to this stage.
     var growthMessage: String {
         switch self {
-        case .seed:       return "A seed is planted. Every great tree starts here."
-        case .sprout:     return "Your first sprout has broken the soil."
-        case .seedling:   return "A seedling stands tall. Roots are taking hold."
-        case .young:      return "Your bonsai is filling out into a young tree."
-        case .adolescent: return "Branches are reaching wider. The shape is emerging."
-        case .mature:     return "Your bonsai has matured into a full, leafy canopy."
-        case .refined:    return "Refined and dense. The work of real patience."
-        case .ancient:    return "Ancient and weathered. This tree has seen a lot."
-        case .legendary:  return "A legendary bonsai. A full year of growth made visible."
+        case .seed:       return String(localized: "A seed is planted. Every great tree starts here.")
+        case .sprout:     return String(localized: "Your first sprout has broken the soil.")
+        case .seedling:   return String(localized: "A seedling stands tall. Roots are taking hold.")
+        case .young:      return String(localized: "Your bonsai is filling out into a young tree.")
+        case .adolescent: return String(localized: "Branches are reaching wider. The shape is emerging.")
+        case .mature:     return String(localized: "Your bonsai has matured into a full, leafy canopy.")
+        case .refined:    return String(localized: "Refined and dense. The work of real patience.")
+        case .ancient:    return String(localized: "Ancient and weathered. This tree has seen a lot.")
+        case .legendary:  return String(localized: "A legendary bonsai. A full year of growth made visible.")
         }
     }
 

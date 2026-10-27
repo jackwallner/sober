@@ -60,19 +60,25 @@ struct TrialTimeline: View {
 
     private var reminderDay: Int { Self.reminderDay(forTrialOf: trialDays) }
 
+    /// "$0" in the user's own currency, never a literal.
+    private var zeroDue: String {
+        Decimal(0).formatted(.currency(code: Locale.current.currency?.identifier ?? "USD").precision(.fractionLength(0)))
+    }
+
     private var steps: [(icon: String, title: String, detail: String, short: String, highlight: Bool)] {
-        [
-            ("lock.open.fill", "Today", "Everything unlocks. Full access, $0 due now.",
-             "Everything unlocks, $0 due now.", true),
-            ("bell.fill", "Day \(reminderDay)",
+        let zero = zeroDue
+        return [
+            ("lock.open.fill", String(localized: "Today"), String(localized: "Everything unlocks. Full access, \(zero) due now."),
+             String(localized: "Everything unlocks, \(zero) due now."), true),
+            ("bell.fill", String(localized: "Day \(reminderDay)"),
              remindersEnabled
-                ? "We'll remind you before your trial ends."
-                : "Sober shows you a heads-up in the app before it ends.",
-             remindersEnabled ? "We remind you before it ends." : "A heads-up in the app first.",
+                ? String(localized: "We'll remind you before your trial ends.")
+                : String(localized: "Sober shows you a heads-up in the app before it ends."),
+             remindersEnabled ? String(localized: "We remind you before it ends.") : String(localized: "A heads-up in the app first."),
              false),
-            ("flag.checkered", "Day \(trialDays)",
-             billingNote ?? "Your subscription starts. Cancel any time before then.",
-             billingNote ?? "Billing starts. Cancel by then.", false),
+            ("flag.checkered", String(localized: "Day \(trialDays)"),
+             billingNote ?? String(localized: "Your subscription starts. Cancel any time before then."),
+             billingNote ?? String(localized: "Billing starts. Cancel by then."), false),
         ]
     }
 
@@ -82,7 +88,7 @@ struct TrialTimeline: View {
     /// and there's no going back to correct it, so the condition is stated here
     /// rather than discovered later.
     private var reminderFootnote: String? {
-        remindersEnabled ? "Reminder needs notifications turned on." : nil
+        remindersEnabled ? String(localized: "Reminder needs notifications turned on.") : nil
     }
 
     var body: some View {

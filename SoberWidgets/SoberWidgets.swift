@@ -72,7 +72,7 @@ struct SoberDayCounterView: View {
     /// matching the garden's stage badge.
     private var stageTitle: String {
         let completed = GardenService.cycleProgress(forDays: treeDays).completed
-        return completed > 0 ? "Year \(completed + 1) · \(stage.title)" : stage.title
+        return completed > 0 ? String(localized: "Year \(completed + 1) · \(stage.title)") : stage.title
     }
     private var dayInCycle: Int { GardenService.cycleProgress(forDays: treeDays).dayInCycle }
     private var bonsaiStyle: BonsaiStyle {
@@ -97,18 +97,18 @@ struct SoberDayCounterView: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.4)
                     .padding(.horizontal, 4)
-                Text(days == 1 ? "day" : "days").font(.caption2)
+                Text("\(days) days label").font(.caption2)
             }
-            .accessibilityLabel(Text(days == 1 ? "1 day sober" : "\(days) days sober"))
+            .accessibilityLabel(Text("\(days) days sober"))
         case .accessoryRectangular:
             HStack {
                 Image(systemName: "leaf.fill")
-                Text(days == 1 ? "1 day sober" : "\(days) days sober")
+                Text("\(days) days sober")
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
             }
             .accessibilityElement(children: .ignore)
-            .accessibilityLabel(Text(days == 1 ? "1 day sober" : "\(days) days sober"))
+            .accessibilityLabel(Text("\(days) days sober"))
         case .accessoryInline:
             Text("\(days) days sober")
         case .systemMedium:
@@ -122,7 +122,7 @@ struct SoberDayCounterView: View {
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
                         .foregroundStyle(.white)
-                    Text(days == 1 ? "day sober" : "days sober")
+                    Text("\(days) days sober label")
                         .font(.caption)
                         .foregroundStyle(.white.opacity(0.85))
                     Text(stageTitle)
@@ -151,7 +151,7 @@ struct SoberDayCounterView: View {
                             .minimumScaleFactor(0.5)
                             .padding(.horizontal, 8)
                             .foregroundStyle(.white)
-                        Text(days == 1 ? "day sober" : "days sober")
+                        Text("\(days) days sober label")
                             .font(.caption2.weight(.medium))
                             .foregroundStyle(.white.opacity(0.95))
                     }
@@ -167,7 +167,7 @@ struct SoberDayCounterView: View {
                     )
                 }
                 .accessibilityElement(children: .ignore)
-                .accessibilityLabel(Text(days == 1 ? "1 day sober" : "\(days) days sober"))
+                .accessibilityLabel(Text("\(days) days sober"))
         }
     }
 }

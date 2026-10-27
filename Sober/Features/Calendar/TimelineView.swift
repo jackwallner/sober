@@ -207,11 +207,11 @@ struct TimelineView: View {
         let totalSober = checkIns.filter { $0.wasSober }.count
         return Grid(horizontalSpacing: 0) {
             GridRow {
-                statCell(value: "\(days)", label: "Current")
+                statCell(value: days.formatted(), label: String(localized: "Current"))
                 statDivider
-                statCell(value: "\(longestStreak)", label: "Longest")
+                statCell(value: longestStreak.formatted(), label: String(localized: "Longest"))
                 statDivider
-                statCell(value: "\(totalSober)", label: "Total")
+                statCell(value: totalSober.formatted(), label: String(localized: "Total"))
             }
         }
     }
@@ -391,7 +391,7 @@ struct TimelineView: View {
 
             VStack(alignment: .leading, spacing: Theme.Space.s) {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(isToday ? "Today" : DateHelpers.mediumDate(selectedDate))
+                    Text(isToday ? String(localized: "Today") : DateHelpers.mediumDate(selectedDate))
                         .font(Theme.body())
                         .foregroundStyle(Theme.textPrimary)
                     Text("Day \(dayCount) · \(stage.title)")
@@ -415,7 +415,7 @@ struct TimelineView: View {
         return VStack(alignment: .leading, spacing: Theme.Space.m) {
             HStack(alignment: .firstTextBaseline) {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(isToday ? "Today" : DateHelpers.mediumDate(selectedDate))
+                    Text(isToday ? String(localized: "Today") : DateHelpers.mediumDate(selectedDate))
                         .font(Theme.body())
                         .foregroundStyle(Theme.textPrimary)
                     Text("Day \(dayCount) · \(stage.title)")
@@ -447,13 +447,13 @@ struct TimelineView: View {
 
         VStack(alignment: .leading, spacing: 6) {
             if dayCount <= 1 {
-                growthLine(icon: "sparkle", text: "The seed is settling in. Your journey starts here.")
+                growthLine(icon: "sparkle", text: String(localized: "The seed is settling in. Your journey starts here."))
             } else {
                 growthLine(icon: "arrow.up.forward",
-                           text: "vs. yesterday: \(DailyGrowth.note(forDayInCycle: todayCycle))")
+                           text: String(localized: "vs. yesterday: \(DailyGrowth.note(forDayInCycle: todayCycle))"))
                 if curStage != prevStage {
                     growthLine(icon: "leaf.fill",
-                               text: "Stage advanced: \(prevStage.title) → \(curStage.title)")
+                               text: String(localized: "Stage advanced: \(prevStage.title) → \(curStage.title)"))
                 }
             }
         }
@@ -562,7 +562,13 @@ struct TimelineView: View {
     /// the existing check-in immediately).
     private func moodPicker(existing: DailyCheckIn?) -> some View {
         let symbols = ["cloud.rain.fill", "cloud.fill", "cloud.sun.fill", "sun.max.fill", "sparkles"]
-        let labels = ["Rough", "Low", "OK", "Good", "Great"]
+        let labels = [
+            String(localized: "Rough"),
+            String(localized: "Low"),
+            String(localized: "OK"),
+            String(localized: "Good"),
+            String(localized: "Great"),
+        ]
         return VStack(alignment: .leading, spacing: 4) {
             Text("Mood").font(Theme.caption(weight: .semibold)).foregroundStyle(Theme.textSecondary)
             HStack(spacing: Theme.Space.m) {

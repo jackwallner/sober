@@ -492,8 +492,8 @@ struct HabitPriceComparisonTests {
         #expect(HabitPriceComparison.phrase(price: 9.99, costPerDay: 20) == "less than a day of drinking")
     }
 
-    @Test func habitNounIsCallerSupplied() {
-        #expect(HabitPriceComparison.phrase(price: 34.99, costPerDay: 9, habitNoun: "pouches") == "about 4 days of pouches")
+    @Test func wholeDaysReadAsACount() {
+        #expect(HabitPriceComparison.phrase(price: 34.99, costPerDay: 9) == "about 4 days of drinking")
     }
 
     @Test func lightSpendersGetNoComparison() {

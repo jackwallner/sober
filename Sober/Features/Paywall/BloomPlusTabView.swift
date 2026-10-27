@@ -51,7 +51,18 @@ private struct BloomPlusHubView: View {
 
     private var lifetimeMoneySaved: Double { Double(heroDays * costPerDayCents) / 100 }
     private var lifetimeCalories: Int { heroDays * caloriesPerDay }
-    private var lifetimePoundsOfFat: Double { Double(lifetimeCalories) / 3500 }
+    /// Body fat in the unit the user's region weighs in (~3,500 kcal per lb,
+    /// ~7,700 per kg).
+    private var bodyFatText: String {
+        let mass = Locale.current.measurementSystem == .us
+            ? Measurement(value: Double(lifetimeCalories) / 3500, unit: UnitMass.pounds)
+            : Measurement(value: Double(lifetimeCalories) / 7700, unit: UnitMass.kilograms)
+        return mass.formatted(.measurement(
+            width: .abbreviated,
+            usage: .asProvided,
+            numberFormatStyle: .number.precision(.fractionLength(1))
+        ))
+    }
     private var yearlyProjection: Double { Double(costPerDayCents) * 365 / 100 }
 
     var body: some View {
@@ -103,12 +114,12 @@ private struct BloomPlusHubView: View {
             }
             .foregroundStyle(Theme.brandPrimary)
 
-            Text(Self.currency.string(from: NSNumber(value: lifetimeMoneySaved)) ?? "$0")
+            Text(Self.currency.string(from: NSNumber(value: lifetimeMoneySaved)) ?? "0")
                 .font(.system(size: 54, weight: .bold, design: .rounded))
                 .foregroundStyle(Theme.textPrimary)
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
-            Text("kept in your pocket across \(heroDays) sober day\(heroDays == 1 ? "" : "s")")
+            Text("kept in your pocket across \(heroDays) sober days")
                 .font(Theme.caption())
                 .foregroundStyle(Theme.textSecondary)
                 .multilineTextAlignment(.center)
@@ -120,8 +131,8 @@ private struct BloomPlusHubView: View {
 
     private var statRow: some View {
         HStack(spacing: Theme.Space.m) {
-            statTile("flame.fill", lifetimeCalories.formatted(), "calories avoided")
-            statTile("scalemass.fill", "\(lifetimePoundsOfFat.formatted(.number.precision(.fractionLength(1)))) lb", "of body fat")
+            statTile("flame.fill", lifetimeCalories.formatted(), String(localized: "calories avoided"))
+            statTile("scalemass.fill", bodyFatText, String(localized: "of body fat"))
         }
     }
 
@@ -156,7 +167,7 @@ private struct BloomPlusHubView: View {
                 Text("On track to save")
                     .font(Theme.caption())
                     .foregroundStyle(Theme.textSecondary)
-                Text("\(Self.currency.string(from: NSNumber(value: yearlyProjection)) ?? "$0") a year")
+                Text("\(Self.currency.string(from: NSNumber(value: yearlyProjection)) ?? "0") a year")
                     .font(Theme.body(weight: .semibold))
                     .foregroundStyle(Theme.textPrimary)
             }
@@ -202,11 +213,9 @@ private struct BloomPlusHubView: View {
     private var patternsSubtitle: String {
         let rodeOut = episodes.filter { $0.outcome == .rodeItOut }.count
         guard rodeOut > 0 else {
-            return "When your \(HabitVocabulary.urgeNounPlural) hit and what sets them off"
+            return String(localized: "When your cravings hit and what sets them off")
         }
-        return rodeOut == 1
-            ? "1 \(HabitVocabulary.urgeNoun) ridden out so far"
-            : "\(rodeOut) \(HabitVocabulary.urgeNounPlural) ridden out so far"
+        return String(localized: "\(rodeOut) cravings ridden out so far")
     }
 
     private var milestonesCard: some View {
@@ -219,20 +228,20 @@ private struct BloomPlusHubView: View {
         return VStack(spacing: 0) {
             milestoneRow(
                 icon: "flag.fill",
-                title: nextMilestone?.title ?? "Year One",
-                trailing: nextMilestone.map { "in \(max(1, $0.dayThreshold - days)) days" } ?? "Crushed it"
+                title: nextMilestone?.title ?? String(localized: "Year One"),
+                trailing: nextMilestone.map { String(localized: "in \(max(1, $0.dayThreshold - days)) days") } ?? String(localized: "Crushed it")
             )
             Divider().padding(.leading, 48)
             milestoneRow(
                 icon: "heart.fill",
-                title: nextBenefit?.title ?? "All benefits unlocked",
-                trailing: nextBenefit.map { "at \($0.displayWait)" } ?? ""
+                title: nextBenefit?.title ?? String(localized: "All benefits unlocked"),
+                trailing: nextBenefit.map { String(localized: "at \($0.displayWait)") } ?? ""
             )
             Divider().padding(.leading, 48)
             milestoneRow(
                 icon: "checkmark.seal.fill",
-                title: "Achievements earned",
-                trailing: "\(earned)"
+                title: String(localized: "Achievements earned"),
+                trailing: earned.formatted()
             )
         }
         .background(Theme.cardSurface, in: RoundedRectangle(cornerRadius: 16))

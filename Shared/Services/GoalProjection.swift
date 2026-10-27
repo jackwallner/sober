@@ -13,9 +13,9 @@ enum GoalPreset: Int, CaseIterable, Identifiable {
 
     var label: String {
         switch self {
-        case .thirtyDays: "30 days"
-        case .ninetyDays: "90 days"
-        case .oneYear: "1 year"
+        case .thirtyDays: String(localized: "30 days")
+        case .ninetyDays: String(localized: "90 days")
+        case .oneYear: String(localized: "1 year")
         }
     }
 
@@ -123,6 +123,7 @@ struct GoalProjection: Equatable {
     var pitchLine: String? {
         guard hasSpend else { return nil }
         let count = milestonesPassed.count
-        return "By \(Self.shortDate(goalDate)): \(moneyText) kept and \(count) \(count == 1 ? "milestone" : "milestones") passed"
+        let date = Self.shortDate(goalDate)
+        return String(localized: "By \(date): \(moneyText) kept and \(count) milestones passed")
     }
 }

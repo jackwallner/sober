@@ -44,11 +44,11 @@ extension Package {
     var soberDisplayName: String {
         switch soberPackageKind {
         case .lifetime:
-            return "Lifetime"
+            return String(localized: "Lifetime")
         case .yearly:
-            return "Yearly"
+            return String(localized: "Yearly")
         case .monthly:
-            return "Monthly"
+            return String(localized: "Monthly")
         case .other:
             return storeProduct.localizedTitle
         }
@@ -56,18 +56,24 @@ extension Package {
 
     var soberPriceLabel: String {
         guard let period = storeProduct.subscriptionPeriod else { return storeProduct.localizedPriceString }
-        let unit: String
+        let price = storeProduct.localizedPriceString
+        let n = period.value
+        if n == 1 {
+            switch period.unit {
+            case .day: return String(localized: "\(price) / day")
+            case .week: return String(localized: "\(price) / week")
+            case .month: return String(localized: "\(price) / month")
+            case .year: return String(localized: "\(price) / year")
+            @unknown default: return price
+            }
+        }
         switch period.unit {
-        case .day: unit = period.value == 1 ? "day" : "days"
-        case .week: unit = period.value == 1 ? "week" : "weeks"
-        case .month: unit = period.value == 1 ? "month" : "months"
-        case .year: unit = period.value == 1 ? "year" : "years"
-        @unknown default: unit = ""
+        case .day: return String(localized: "\(price) / \(n) days")
+        case .week: return String(localized: "\(price) / \(n) weeks")
+        case .month: return String(localized: "\(price) / \(n) months")
+        case .year: return String(localized: "\(price) / \(n) years")
+        @unknown default: return price
         }
-        if period.value == 1 {
-            return "\(storeProduct.localizedPriceString) / \(unit)"
-        }
-        return "\(storeProduct.localizedPriceString) / \(period.value) \(unit)"
     }
 
     /// Number of months covered by a single billing period. Used to derive the
@@ -97,7 +103,7 @@ extension Package {
         f.maximumFractionDigits = 2
         f.minimumFractionDigits = 2
         guard let s = f.string(from: perMonth) else { return nil }
-        return "\(s) / mo"
+        return String(localized: "\(s) / mo")
     }
 
     /// Discount % vs a monthly plan, e.g. annual at $29.99 vs monthly at $4.99/mo
@@ -140,47 +146,128 @@ extension Package {
             return nil
         }
         let period = intro.subscriptionPeriod
-        let unit: String
         switch period.unit {
-        case .day: unit = period.value == 1 ? "day" : "days"
-        case .week: unit = period.value == 1 ? "week" : "weeks"
-        case .month: unit = period.value == 1 ? "month" : "months"
-        case .year: unit = period.value == 1 ? "year" : "years"
-        @unknown default: unit = ""
+        case .day: return String(localized: "\(period.value)-day free trial")
+        case .week: return String(localized: "\(period.value * 7)-day free trial")
+        case .month: return String(localized: "\(period.value)-month free trial")
+        case .year: return String(localized: "\(period.value)-year free trial")
+        @unknown default: return String(localized: "Free trial")
         }
-        if period.unit == .week {
-            return "\(period.value * 7)-day free trial"
+    }
+
+    /// Free-trial length in days, for copy that counts it down.
+    var soberIntroOfferDays: Int? {
+        guard let intro = storeProduct.introductoryDiscount, intro.paymentMode == .freeTrial else {
+            return nil
         }
-        return "\(period.value)-\(unit.dropLast(period.value == 1 ? 0 : 1)) free trial"
+        let period = intro.subscriptionPeriod
+        switch period.unit {
+        case .day: return period.value
+        case .week: return period.value * 7
+        case .month: return period.value * 30
+        case .year: return period.value * 365
+        @unknown default: return nil
+        }
+    }
+
+    /// "7-day free trial, then $4.99 / month." as one sentence, so the trial
+    /// length and the price can trade places in translation.
+    var soberTrialThenPriceSentence: String? {
+        guard let intro = storeProduct.introductoryDiscount, intro.paymentMode == .freeTrial else {
+            return nil
+        }
+        let period = intro.subscriptionPeriod
+        let price = soberPriceLabel
+        switch period.unit {
+        case .day: return String(localized: "\(period.value)-day free trial, then \(price).")
+        case .week: return String(localized: "\(period.value * 7)-day free trial, then \(price).")
+        case .month: return String(localized: "\(period.value)-month free trial, then \(price).")
+        case .year: return String(localized: "\(period.value)-year free trial, then \(price).")
+        @unknown default: return nil
+        }
+    }
+
+    /// "Start 7-Day Free Trial" for the CTA.
+    var soberStartTrialTitle: String? {
+        guard let intro = storeProduct.introductoryDiscount, intro.paymentMode == .freeTrial else {
+            return nil
+        }
+        let period = intro.subscriptionPeriod
+        switch period.unit {
+        case .day: return String(localized: "Start \(period.value)-Day Free Trial")
+        case .week: return String(localized: "Start \(period.value * 7)-Day Free Trial")
+        case .month: return String(localized: "Start \(period.value)-Month Free Trial")
+        case .year: return String(localized: "Start \(period.value)-Year Free Trial")
+        @unknown default: return String(localized: "Start Free Trial")
+        }
+    }
+
+    /// "7-day free · $2.50 / mo" for a plan card's subtitle.
+    func soberTrialFreeSubtitle(perMonth: String) -> String? {
+        guard let intro = storeProduct.introductoryDiscount, intro.paymentMode == .freeTrial else {
+            return nil
+        }
+        let period = intro.subscriptionPeriod
+        switch period.unit {
+        case .day: return String(localized: "\(period.value)-day free · \(perMonth)")
+        case .week: return String(localized: "\(period.value * 7)-day free · \(perMonth)")
+        case .month: return String(localized: "\(period.value)-month free · \(perMonth)")
+        case .year: return String(localized: "\(period.value)-year free · \(perMonth)")
+        @unknown default: return perMonth
+        }
     }
 
     func packageHasFreeTrialIntro() -> Bool {
         soberIntroOfferLabel != nil
     }
 
-    /// "A year of Bloom+" / "A month of Bloom+" / "Bloom+ for life", the
-    /// subject of the habit-comparison sentence.
-    var soberDurationSubject: String {
-        switch soberPackageKind {
-        case .yearly: "A year of Bloom+"
-        case .monthly: "A month of Bloom+"
-        case .lifetime: "Bloom+ for life"
-        case .other: "Bloom+"
-        }
-    }
-
     /// Full habit-relative sentence for this package, e.g. "A year of Bloom+
     /// costs about a day and a half of drinking." Nil when the user hasn't
-    /// entered a daily spend or the comparison stops being flattering.
-    func soberHabitComparisonSentence(costPerDayCents: Int, habitNoun: String = "drinking") -> String? {
+    /// entered a daily spend or the comparison stops being flattering. Every
+    /// plan and span pairing is its own whole sentence so translations can
+    /// inflect both halves.
+    func soberHabitComparisonSentence(costPerDayCents: Int) -> String? {
         guard costPerDayCents > 0 else { return nil }
         let price = (storeProduct.price as NSDecimalNumber).doubleValue
-        guard let phrase = HabitPriceComparison.phrase(
+        guard let days = HabitPriceComparison.daysOfHabit(
             price: price,
-            costPerDay: Double(costPerDayCents) / 100,
-            habitNoun: habitNoun
+            costPerDay: Double(costPerDayCents) / 100
         ) else { return nil }
-        return "\(soberDurationSubject) costs \(phrase)."
+        let span = HabitPriceComparison.span(days)
+        switch soberPackageKind {
+        case .yearly:
+            switch span {
+            case .underADay: return String(localized: "A year of Bloom+ costs less than a day of drinking.")
+            case .aboutADay: return String(localized: "A year of Bloom+ costs about a day of drinking.")
+            case .aboutADayAndAHalf: return String(localized: "A year of Bloom+ costs about a day and a half of drinking.")
+            case .aboutDays(let n): return String(localized: "A year of Bloom+ costs about \(n) days of drinking.")
+            case .aboutDaysAndAHalf(let n): return String(localized: "A year of Bloom+ costs about \(n) and a half days of drinking.")
+            }
+        case .monthly:
+            switch span {
+            case .underADay: return String(localized: "A month of Bloom+ costs less than a day of drinking.")
+            case .aboutADay: return String(localized: "A month of Bloom+ costs about a day of drinking.")
+            case .aboutADayAndAHalf: return String(localized: "A month of Bloom+ costs about a day and a half of drinking.")
+            case .aboutDays(let n): return String(localized: "A month of Bloom+ costs about \(n) days of drinking.")
+            case .aboutDaysAndAHalf(let n): return String(localized: "A month of Bloom+ costs about \(n) and a half days of drinking.")
+            }
+        case .lifetime:
+            switch span {
+            case .underADay: return String(localized: "Bloom+ for life costs less than a day of drinking.")
+            case .aboutADay: return String(localized: "Bloom+ for life costs about a day of drinking.")
+            case .aboutADayAndAHalf: return String(localized: "Bloom+ for life costs about a day and a half of drinking.")
+            case .aboutDays(let n): return String(localized: "Bloom+ for life costs about \(n) days of drinking.")
+            case .aboutDaysAndAHalf(let n): return String(localized: "Bloom+ for life costs about \(n) and a half days of drinking.")
+            }
+        case .other:
+            switch span {
+            case .underADay: return String(localized: "Bloom+ costs less than a day of drinking.")
+            case .aboutADay: return String(localized: "Bloom+ costs about a day of drinking.")
+            case .aboutADayAndAHalf: return String(localized: "Bloom+ costs about a day and a half of drinking.")
+            case .aboutDays(let n): return String(localized: "Bloom+ costs about \(n) days of drinking.")
+            case .aboutDaysAndAHalf(let n): return String(localized: "Bloom+ costs about \(n) and a half days of drinking.")
+            }
+        }
     }
 }
 

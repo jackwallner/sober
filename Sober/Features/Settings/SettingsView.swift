@@ -36,7 +36,7 @@ struct SettingsView: View {
                             await subscriptions.restorePurchases()
                             if !subscriptions.isProSubscriber {
                                 restoreMessage = subscriptions.lastError
-                                    ?? "No active Bloom+ purchase found for this Apple ID."
+                                    ?? String(localized: "No active Bloom+ purchase found for this Apple ID.")
                             }
                         }
                     }
@@ -67,7 +67,7 @@ struct SettingsView: View {
                             HStack {
                                 Text("Working toward")
                                 Spacer()
-                                Text(journey.goalDate.map { GoalProjection.shortDate($0) } ?? "No goal")
+                                Text(journey.goalDate.map { GoalProjection.shortDate($0) } ?? String(localized: "No goal"))
                                     .foregroundStyle(Theme.textSecondary)
                             }
                         }
@@ -85,7 +85,7 @@ struct SettingsView: View {
                     }
                     Section {
                         Toggle("Enabled", isOn: bind(\.dailyReminderEnabled, on: s))
-                        Stepper("Hour: \(s.dailyReminderHour):00", value: bind(\.dailyReminderHour, on: s), in: 0...23)
+                        Stepper("Hour: \(CravingInsights.hourLabel(s.dailyReminderHour))", value: bind(\.dailyReminderHour, on: s), in: 0...23)
                         if s.dailyReminderEnabled && notificationsDenied {
                             Button {
                                 openNotificationSettings()
@@ -105,7 +105,7 @@ struct SettingsView: View {
                             HStack {
                                 Text("Cost per day")
                                 Spacer()
-                                Text("$\(s.costPerDayCents / 100)")
+                                Text(Double(s.costPerDayCents / 100).formatted(.currency(code: Locale.current.currency?.identifier ?? "USD").precision(.fractionLength(0))))
                                     .foregroundStyle(Theme.textSecondary)
                                     .monospacedDigit()
                             }
@@ -128,15 +128,15 @@ struct SettingsView: View {
                 Section {
                     resourceLink(url: "tel:988",
                                  icon: "phone.fill",
-                                 title: "988 Suicide & Crisis Lifeline",
-                                 subtitle: "Call or text 988 · 24/7 · US")
+                                 title: String(localized: "988 Suicide & Crisis Lifeline"),
+                                 subtitle: String(localized: "Call or text 988 · 24/7 · US"))
                     resourceLink(url: "tel:18006624357",
                                  icon: "cross.case.fill",
-                                 title: "SAMHSA National Helpline",
-                                 subtitle: "1-800-662-HELP · Free, confidential, 24/7")
+                                 title: String(localized: "SAMHSA National Helpline"),
+                                 subtitle: String(localized: "1-800-662-HELP · Free, confidential, 24/7"))
                     resourceLink(url: "https://findtreatment.gov",
                                  icon: "magnifyingglass",
-                                 title: "Find Treatment",
+                                 title: String(localized: "Find Treatment"),
                                  subtitle: "findtreatment.gov")
                 } header: {
                     Text("If you need support")
@@ -149,13 +149,13 @@ struct SettingsView: View {
                     // either (App Review 5.6.1).
                     resourceLink(url: "mailto:jackwallner+st@gmail.com?subject=Sober%20feedback",
                                  icon: "envelope.fill",
-                                 title: "Send Feedback",
-                                 subtitle: "Questions, ideas, or trouble? Reach out.")
+                                 title: String(localized: "Send Feedback"),
+                                 subtitle: String(localized: "Questions, ideas, or trouble? Reach out."))
                     Button {
                         ReviewPromptTracker.markOpenedWriteReview()
                         UIApplication.shared.open(AppStoreReviewLinks.writeReviewURL)
                     } label: {
-                        helpRow(icon: "star.fill", title: "Rate Sober", subtitle: "On the App Store")
+                        helpRow(icon: "star.fill", title: String(localized: "Rate Sober"), subtitle: String(localized: "On the App Store"))
                     }
                 }
                 Section("Legal") {

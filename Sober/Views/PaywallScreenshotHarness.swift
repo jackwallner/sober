@@ -17,7 +17,7 @@ struct PaywallScreenshotHarness: View {
                 trialBackdrop {
                     TrialOfferSheet(
                         focus: nil,
-                        offerLabel: trialPackage?.soberIntroOfferLabel ?? "7-day free trial",
+                        offerLabel: trialPackage?.soberIntroOfferLabel ?? String(localized: "7-day free trial"),
                         // No literal fallback. Products don't load in a headless
                         // sim, and the placeholder that used to sit here ($19.99
                         // / year, two ladders out of date) would have been baked

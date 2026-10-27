@@ -76,9 +76,9 @@ struct SlipSheet: View {
             }
 
             Section {
-                keepRow("leaf.fill", "Your tree keeps \(previewCarryover) day\(previewCarryover == 1 ? "" : "s") of growth")
-                keepRow("flag.fill", "Your past streaks stay on your record")
-                keepRow("calendar", "Every sober day you've counted still counts")
+                keepRow("leaf.fill", String(localized: "Your tree keeps \(previewCarryover) days of growth"))
+                keepRow("flag.fill", String(localized: "Your past streaks stay on your record"))
+                keepRow("calendar", String(localized: "Every sober day you've counted still counts"))
             } header: {
                 Text("What you keep")
             } footer: {
@@ -136,7 +136,7 @@ struct SlipSheet: View {
                 .foregroundStyle(Theme.textPrimary)
                 .multilineTextAlignment(.center)
             Text(outcome.carryoverDays > 0
-                 ? "Your counter starts again, but your tree kept \(outcome.carryoverDays) day\(outcome.carryoverDays == 1 ? "" : "s") of growth from the \(outcome.previousStreakDays)-day run behind it."
+                 ? "Your counter starts again, but your tree kept \(outcome.carryoverDays) days of growth from the \(outcome.previousStreakDays)-day run behind it."
                  : "Your counter starts again. Everything you've logged is still counted.")
                 .font(Theme.body())
                 .foregroundStyle(Theme.textSecondary)

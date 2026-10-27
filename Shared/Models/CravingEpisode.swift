@@ -15,9 +15,9 @@ enum CravingOutcome: String, Codable, CaseIterable, Sendable {
 
     var label: String {
         switch self {
-        case .rodeItOut: return "It passed"
-        case .unresolved: return "Not sure"
-        case .gaveIn: return "I gave in"
+        case .rodeItOut: return String(localized: "It passed")
+        case .unresolved: return String(localized: "Not sure")
+        case .gaveIn: return String(localized: "I gave in")
         }
     }
 }

@@ -17,17 +17,17 @@ struct Achievement: Identifiable, Hashable {
 enum AchievementCatalog {
     static let all: [Achievement] = [
         // Time milestones
-        Achievement(id: "first-step", title: "First Step", description: "Begin your journey to sobriety.", kind: .timeMilestone, dayThreshold: 0, icon: "leaf.fill"),
-        Achievement(id: "strong-foundation", title: "Strong Foundation", description: "Complete your first week.", kind: .timeMilestone, dayThreshold: 7, icon: "shield.lefthalf.filled"),
-        Achievement(id: "rising-star", title: "Rising Star", description: "One month milestone reached.", kind: .timeMilestone, dayThreshold: 30, icon: "star.fill"),
-        Achievement(id: "quarter-master", title: "Quarter Master", description: "Three months strong.", kind: .timeMilestone, dayThreshold: 90, icon: "medal.fill"),
-        Achievement(id: "half-year-hero", title: "Half-Year Hero", description: "Six months of sobriety.", kind: .timeMilestone, dayThreshold: 180, icon: "trophy.fill"),
-        Achievement(id: "year-one", title: "Year One", description: "A full year. Incredible.", kind: .timeMilestone, dayThreshold: 365, icon: "crown.fill"),
+        Achievement(id: "first-step", title: String(localized: "First Step"), description: String(localized: "Begin your journey to sobriety."), kind: .timeMilestone, dayThreshold: 0, icon: "leaf.fill"),
+        Achievement(id: "strong-foundation", title: String(localized: "Strong Foundation"), description: String(localized: "Complete your first week."), kind: .timeMilestone, dayThreshold: 7, icon: "shield.lefthalf.filled"),
+        Achievement(id: "rising-star", title: String(localized: "Rising Star"), description: String(localized: "One month milestone reached."), kind: .timeMilestone, dayThreshold: 30, icon: "star.fill"),
+        Achievement(id: "quarter-master", title: String(localized: "Quarter Master"), description: String(localized: "Three months strong."), kind: .timeMilestone, dayThreshold: 90, icon: "medal.fill"),
+        Achievement(id: "half-year-hero", title: String(localized: "Half-Year Hero"), description: String(localized: "Six months of sobriety."), kind: .timeMilestone, dayThreshold: 180, icon: "trophy.fill"),
+        Achievement(id: "year-one", title: String(localized: "Year One"), description: String(localized: "A full year. Incredible."), kind: .timeMilestone, dayThreshold: 365, icon: "crown.fill"),
 
         // Streak / check-in achievements
-        Achievement(id: "perfect-week", title: "Perfect Week", description: "Daily check-ins for 7 days straight.", kind: .streak, dayThreshold: 7, icon: "flame.fill"),
-        Achievement(id: "consistency-champion", title: "Consistency Champion", description: "30 consecutive check-ins.", kind: .streak, dayThreshold: 30, icon: "flame.fill"),
-        Achievement(id: "diamond-discipline", title: "Diamond Discipline", description: "100 consecutive check-ins.", kind: .streak, dayThreshold: 100, icon: "diamond.fill"),
+        Achievement(id: "perfect-week", title: String(localized: "Perfect Week"), description: String(localized: "Daily check-ins for 7 days straight."), kind: .streak, dayThreshold: 7, icon: "flame.fill"),
+        Achievement(id: "consistency-champion", title: String(localized: "Consistency Champion"), description: String(localized: "30 consecutive check-ins."), kind: .streak, dayThreshold: 30, icon: "flame.fill"),
+        Achievement(id: "diamond-discipline", title: String(localized: "Diamond Discipline"), description: String(localized: "100 consecutive check-ins."), kind: .streak, dayThreshold: 100, icon: "diamond.fill"),
     ]
 
     static func achievement(id: String) -> Achievement? {

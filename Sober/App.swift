@@ -233,9 +233,9 @@ struct RootView: View {
     /// dead App Store frame. Seed a few so the tab shows the feature working.
     private func seedJournal(start: Date) {
         let entries: [(daysAgo: Int, text: String, feeling: String)] = [
-            (1, "Went to Dan's birthday and stayed with soda water the whole night. Nobody cared. I drove myself home and woke up clear.", "good"),
-            (6, "Rough day at work and the old reflex showed up around 6pm. Went for a walk instead. It passed in about twenty minutes.", "neutral"),
-            (13, "Slept a full eight hours for the first time in years. That alone is worth it.", "excellent"),
+            (1, String(localized: "Went to Dan's birthday and stayed with soda water the whole night. Nobody cared. I drove myself home and woke up clear."), "good"),
+            (6, String(localized: "Rough day at work and the old reflex showed up around 6pm. Went for a walk instead. It passed in about twenty minutes."), "neutral"),
+            (13, String(localized: "Slept a full eight hours for the first time in years. That alone is worth it."), "excellent"),
         ]
         for entry in entries {
             let date = Calendar.current.date(byAdding: .day, value: -entry.daysAgo, to: .now) ?? .now

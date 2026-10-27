@@ -29,15 +29,15 @@ struct GrowthCelebrationView: View {
 
     private var headline: String {
         switch event {
-        case .newStage: return "New Growth"
-        case .treeCompleted: return "A Full Year"
+        case .newStage: return String(localized: "New Growth")
+        case .treeCompleted: return String(localized: "A Full Year")
         }
     }
 
     private var brandLine: String {
         switch event {
         case .newStage(let stage): return stage.title
-        case .treeCompleted: return "Your tree joins the grove"
+        case .treeCompleted: return String(localized: "Your tree joins the grove")
         }
     }
 
@@ -47,8 +47,8 @@ struct GrowthCelebrationView: View {
             return stage.growthMessage
         case .treeCompleted(let total):
             return total <= 1
-                ? "365 days of growth, complete. Your tree now stands in your grove, and a fresh sapling begins beside it."
-                : "365 days of growth, complete. That's \(total) trees in your grove, and a fresh sapling begins."
+                ? String(localized: "365 days of growth, complete. Your tree now stands in your grove, and a fresh sapling begins beside it.")
+                : String(localized: "365 days of growth, complete. That's \(total) trees in your grove, and a fresh sapling begins.")
         }
     }
 

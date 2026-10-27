@@ -43,49 +43,49 @@ enum BloomFeature: CaseIterable {
 
     var title: String {
         switch self {
-        case .patterns: "Your \(HabitVocabulary.urgeNoun) patterns"
-        case .goalProjection: "Your goal, projected"
-        case .urgePlaybook: "\(HabitVocabulary.urgeNoun.capitalized) playbook"
-        case .gardenSpecies: "All 6 bonsai species"
-        case .healthTimeline: "Full health timeline"
-        case .journal: "Daily journal"
-        case .savingsTracking: "Your year ahead"
+        case .patterns: String(localized: "Your craving patterns")
+        case .goalProjection: String(localized: "Your goal, projected")
+        case .urgePlaybook: String(localized: "Craving playbook")
+        case .gardenSpecies: String(localized: "All 6 bonsai species")
+        case .healthTimeline: String(localized: "Full health timeline")
+        case .journal: String(localized: "Daily journal")
+        case .savingsTracking: String(localized: "Your year ahead")
         }
     }
 
     var detail: String {
         switch self {
-        case .patterns: "When they hit, what sets them off, how long yours last."
-        case .goalProjection: "Money, calories, and milestones by the date you picked."
-        case .urgePlaybook: "A plan for each trigger: what to do and what to say."
-        case .gardenSpecies: "Switch your tree as your streak grows."
-        case .healthTimeline: "13 recovery milestones with sources."
-        case .journal: "Prompts and reflections on hard days."
-        case .savingsTracking: "What you'll have kept by this time next year."
+        case .patterns: String(localized: "When they hit, what sets them off, how long yours last.")
+        case .goalProjection: String(localized: "Money, calories, and milestones by the date you picked.")
+        case .urgePlaybook: String(localized: "A plan for each trigger: what to do and what to say.")
+        case .gardenSpecies: String(localized: "Switch your tree as your streak grows.")
+        case .healthTimeline: String(localized: "13 recovery milestones with sources.")
+        case .journal: String(localized: "Prompts and reflections on hard days.")
+        case .savingsTracking: String(localized: "What you'll have kept by this time next year.")
         }
     }
 
     var pitchHeadline: String {
         switch self {
-        case .patterns: "Learn your own pattern."
-        case .goalProjection: "See your goal day."
-        case .urgePlaybook: "Have a plan ready."
-        case .gardenSpecies: "Grow every species."
-        case .healthTimeline: "See what's coming back."
-        case .journal: "Write through the urges."
-        case .savingsTracking: "See where this goes."
+        case .patterns: String(localized: "Learn your own pattern.")
+        case .goalProjection: String(localized: "See your goal day.")
+        case .urgePlaybook: String(localized: "Have a plan ready.")
+        case .gardenSpecies: String(localized: "Grow every species.")
+        case .healthTimeline: String(localized: "See what's coming back.")
+        case .journal: String(localized: "Write through the urges.")
+        case .savingsTracking: String(localized: "See where this goes.")
         }
     }
 
     var pitchSubheadline: String {
         switch self {
-        case .patterns: "See when your \(HabitVocabulary.urgeNounPlural) hit, what sets them off, and how long yours actually last, plus the rest of Bloom+."
-        case .goalProjection: "See what you'll have kept and which milestones you'll have passed by your goal date, plus the rest of Bloom+."
-        case .urgePlaybook: "Six plans for the first hard moments: what to do, and what to say when you're offered \(HabitVocabulary.habitInstance). Plus the rest of Bloom+."
-        case .gardenSpecies: "Unlock every bonsai species and switch whenever you like, plus the rest of Bloom+."
-        case .healthTimeline: "Unlock the full 13-milestone recovery timeline, plus the rest of Bloom+."
-        case .journal: "Daily journal prompts when you need them most, plus the rest of Bloom+."
-        case .savingsTracking: "Project your money, calories, and tree a year out, plus the rest of Bloom+."
+        case .patterns: String(localized: "See when your cravings hit, what sets them off, and how long yours actually last, plus the rest of Bloom+.")
+        case .goalProjection: String(localized: "See what you'll have kept and which milestones you'll have passed by your goal date, plus the rest of Bloom+.")
+        case .urgePlaybook: String(localized: "Six plans for the first hard moments: what to do, and what to say when you're offered a drink. Plus the rest of Bloom+.")
+        case .gardenSpecies: String(localized: "Unlock every bonsai species and switch whenever you like, plus the rest of Bloom+.")
+        case .healthTimeline: String(localized: "Unlock the full 13-milestone recovery timeline, plus the rest of Bloom+.")
+        case .journal: String(localized: "Daily journal prompts when you need them most, plus the rest of Bloom+.")
+        case .savingsTracking: String(localized: "Project your money, calories, and tree a year out, plus the rest of Bloom+.")
         }
     }
 }

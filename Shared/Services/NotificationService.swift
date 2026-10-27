@@ -84,15 +84,15 @@ enum NotificationService {
         // schedule is refreshed on every check-in/app-open so it stays current.
         let content = UNMutableNotificationContent()
         if streakDays > 1 {
-            content.title = "Day \(streakDays + 1) is waiting"
+            content.title = String(localized: "Day \(streakDays + 1) is waiting")
             content.body = committed
-                ? "You're \(streakDays) days in. Log today and water your bonsai."
-                : "\(streakDays) days and growing. If today's a sober one, log it."
+                ? String(localized: "You're \(streakDays) days in. Log today and water your bonsai.")
+                : String(localized: "\(streakDays) days and growing. If today's a sober one, log it.")
         } else {
-            content.title = committed ? "Showing up today" : "Daily check-in"
+            content.title = committed ? String(localized: "Showing up today") : String(localized: "Daily check-in")
             content.body = committed
-                ? "Log today and water your garden. You've got this."
-                : "If today's a sober one, log it and water your garden."
+                ? String(localized: "Log today and water your garden. You've got this.")
+                : String(localized: "If today's a sober one, log it and water your garden.")
         }
         content.sound = .default
         content.userInfo = [deepLinkKey: deepLinkCheckIn]
@@ -145,8 +145,8 @@ enum NotificationService {
         ) else { return }
 
         let content = UNMutableNotificationContent()
-        content.title = "Tomorrow is day \(milestoneDays)"
-        content.body = "One more sober day and \(milestoneTitle) is yours. Your bonsai is ready for it."
+        content.title = String(localized: "Tomorrow is day \(milestoneDays)")
+        content.body = String(localized: "One more sober day and \(milestoneTitle) is yours. Your bonsai is ready for it.")
         content.sound = .default
         content.userInfo = [deepLinkKey: deepLinkCheckIn]
 
@@ -191,11 +191,11 @@ enum NotificationService {
 
         let content = UNMutableNotificationContent()
         if streakDays > 0 {
-            content.title = "Your garden is still here"
-            content.body = "\(streakDays) days is still \(streakDays) days. Pick up wherever you are, no catching up required."
+            content.title = String(localized: "Your garden is still here")
+            content.body = String(localized: "\(streakDays) days is still \(streakDays) days. Pick up wherever you are, no catching up required.")
         } else {
-            content.title = "Your garden is still here"
-            content.body = "Whenever you're ready, day one is waiting. No streak to rebuild first."
+            content.title = String(localized: "Your garden is still here")
+            content.body = String(localized: "Whenever you're ready, day one is waiting. No streak to rebuild first.")
         }
         content.sound = .default
         content.userInfo = [deepLinkKey: deepLinkCheckIn]
@@ -238,11 +238,11 @@ enum NotificationService {
         guard let fireDate = trialReminderFireDate(endsAt: endsAt, now: now) else { return }
 
         let content = UNMutableNotificationContent()
-        content.title = "Your Bloom+ trial ends soon"
+        content.title = String(localized: "Your Bloom+ trial ends soon")
         if let summary, !summary.isEmpty {
-            content.body = "\(summary) Keep the full garden, or cancel any time before it renews."
+            content.body = String(localized: "\(summary) Keep the full garden, or cancel any time before it renews.")
         } else {
-            content.body = "Keep your full garden, journal, and savings, or cancel any time before it renews."
+            content.body = String(localized: "Keep your full garden, journal, and savings, or cancel any time before it renews.")
         }
         content.sound = .default
         content.userInfo = [deepLinkKey: deepLinkBloomPlus]

@@ -136,7 +136,7 @@ private struct JournalEntryDetailSheet: View {
                             .foregroundStyle(Theme.textSecondary)
                         Spacer()
                         if let feeling = entry.feeling {
-                            Text(feeling.capitalized)
+                            Text(JournalEntry.feelingLabel(feeling))
                                 .font(Theme.caption(weight: .semibold))
                                 .foregroundStyle(Theme.brandPrimary)
                         }
@@ -220,7 +220,7 @@ private struct EntryRow: View {
                     .foregroundStyle(Theme.textSecondary)
                 Spacer()
                 if let feeling = entry.feeling {
-                    Text(feeling.capitalized)
+                    Text(JournalEntry.feelingLabel(feeling))
                         .font(Theme.caption(weight: .semibold))
                         .foregroundStyle(Theme.brandPrimary)
                 }
@@ -255,14 +255,14 @@ private struct ComposeEntrySheet: View {
                         }
                     }
                 }
-                Section(freeWrite ? "Your entry" : prompt.text) {
+                Section(freeWrite ? String(localized: "Your entry") : prompt.text) {
                     TextEditor(text: $text)
                         .frame(minHeight: 180)
                 }
                 Section("Feeling") {
                     Picker("Feeling", selection: $feeling) {
                         ForEach(["excellent", "good", "neutral", "tough", "rough"], id: \.self) {
-                            Text($0.capitalized).tag($0)
+                            Text(JournalEntry.feelingLabel($0)).tag($0)
                         }
                     }
                     .pickerStyle(.segmented)

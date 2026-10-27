@@ -15,7 +15,7 @@ struct UpcomingMilestonesCard: View {
     var body: some View {
         let upcoming = MilestoneSchedule.upcoming(start: start, now: now)
         if !upcoming.isEmpty {
-            AheadCard(icon: "heart.text.square.fill", title: "Coming up") {
+            AheadCard(icon: "heart.text.square.fill", title: String(localized: "Coming up")) {
                 VStack(alignment: .leading, spacing: Theme.Space.s) {
                     ForEach(upcoming) { milestone in row(milestone) }
                 }
@@ -34,7 +34,7 @@ struct UpcomingMilestonesCard: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
                 .frame(width: 128, alignment: .leading)
-            Text(revealed ? milestone.benefit.title : "A Bloom+ milestone")
+            Text(revealed ? milestone.benefit.title : String(localized: "A Bloom+ milestone"))
                 .font(Theme.subhead())
                 .foregroundStyle(revealed ? Theme.textPrimary : Theme.textSecondary)
                 .lineLimit(1)
@@ -73,7 +73,7 @@ struct GoalCard: View {
                 start: start, goal: goal, now: now,
                 costPerDayCents: costPerDayCents, caloriesPerDay: caloriesPerDay
             )
-            AheadCard(icon: "flag.checkered", title: "Goal · \(GoalProjection.shortDate(projection.goalDate))", trailing: editButton) {
+            AheadCard(icon: "flag.checkered", title: String(localized: "Goal · \(GoalProjection.shortDate(projection.goalDate))"), trailing: editButton) {
                 if projection.isReached {
                     reached(projection)
                 } else {
@@ -85,7 +85,7 @@ struct GoalCard: View {
             }
         } else {
             Button(action: onEdit) {
-                AheadCard(icon: "flag.checkered", title: "Goal") {
+                AheadCard(icon: "flag.checkered", title: String(localized: "Goal")) {
                     HStack(spacing: Theme.Space.m) {
                         VStack(alignment: .leading, spacing: 2) {
                             Text("Pick a date to work toward")
@@ -115,7 +115,7 @@ struct GoalCard: View {
             Text("\(p.daysToGo)")
                 .font(Theme.bigNumber(40))
                 .foregroundStyle(Theme.brandPrimary)
-            Text(p.daysToGo == 1 ? "day to go" : "days to go")
+            Text("\(p.daysToGo) days to go")
                 .font(Theme.subhead(weight: .semibold))
                 .foregroundStyle(Theme.textSecondary)
             Spacer(minLength: 0)
@@ -153,12 +153,12 @@ struct GoalCard: View {
 
     private func projectionRows(_ p: GoalProjection) -> some View {
         VStack(alignment: .leading, spacing: Theme.Space.s) {
-            if p.hasSpend { stat(p.moneyText, "kept") }
-            if p.calories > 0 { stat(p.calories.formatted(), "calories") }
+            if p.hasSpend { stat(p.moneyText, String(localized: "kept")) }
+            if p.calories > 0 { stat(p.calories.formatted(), String(localized: "calories")) }
             if let count = p.habitInstances, count > 0 {
-                stat(count.formatted(), "\(HabitVocabulary.habitInstancePlural) not had")
+                stat(count.formatted(), String(localized: "drinks not had"))
             }
-            stat("\(p.milestonesPassed.count) of \(HealthBenefitCatalog.all.count)", "milestones passed")
+            stat(String(localized: "\(p.milestonesPassed.count) of \(HealthBenefitCatalog.all.count)"), String(localized: "milestones passed"))
             if !p.milestonesStillAhead.isEmpty {
                 Text("Still ahead before then: \(Self.list(p.milestonesStillAhead.map(\.title)))")
                     .font(Theme.caption())
@@ -206,8 +206,8 @@ struct GoalCard: View {
 
     /// "A, B and 2 more".
     static func list(_ titles: [String]) -> String {
-        guard titles.count > 2 else { return titles.joined(separator: " and ") }
-        return "\(titles[0]), \(titles[1]) and \(titles.count - 2) more"
+        guard titles.count > 2 else { return ListFormatter.localizedString(byJoining: titles) }
+        return String(localized: "\(titles[0]), \(titles[1]) and \(titles.count - 2) more")
     }
 }
 
@@ -218,13 +218,13 @@ struct PlaybookCard: View {
 
     var body: some View {
         Button(action: onTap) {
-            AheadCard(icon: "list.bullet.clipboard", title: "\(HabitVocabulary.urgeNoun.capitalized) playbook") {
+            AheadCard(icon: "list.bullet.clipboard", title: String(localized: "Craving playbook")) {
                 HStack(spacing: Theme.Space.m) {
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("A plan for the first \(HabitVocabulary.urgeNoun)")
+                        Text("A plan for the first craving")
                             .font(Theme.subhead(weight: .semibold))
                             .foregroundStyle(Theme.textPrimary)
-                        Text("Six triggers, each with steps and what to say when you're offered \(HabitVocabulary.habitInstance).")
+                        Text("Six triggers, each with steps and what to say when you're offered a drink.")
                             .font(Theme.caption())
                             .foregroundStyle(Theme.textSecondary)
                             .fixedSize(horizontal: false, vertical: true)

@@ -224,14 +224,14 @@ struct GardenSceneView: View {
         HStack(spacing: 4) {
             Image(systemName: "tree.fill")
                 .font(Theme.caption())
-            Text(groveTotal == 1 ? "1 tree grown" : "\(groveTotal) trees grown")
+            Text("\(groveTotal) trees grown")
                 .font(Theme.caption(weight: .bold))
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 5)
         .background(.ultraThinMaterial, in: Capsule())
         .foregroundStyle(.primary)
-        .accessibilityLabel("\(groveTotal) \(groveTotal == 1 ? "tree" : "trees") grown in your grove")
+        .accessibilityLabel("\(groveTotal) trees grown in your grove")
     }
 
     static func styleEnum(for id: String) -> BonsaiStyle {

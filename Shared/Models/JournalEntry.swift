@@ -34,3 +34,18 @@ final class JournalEntry {
 
     var kind: JournalKind { JournalKind(rawValue: kindRaw) ?? .daily }
 }
+
+extension JournalEntry {
+    /// The stored feeling ("good", "tough") as a label in the user's language.
+    /// Unknown values pass through so old entries still show something.
+    static func feelingLabel(_ feeling: String) -> String {
+        switch feeling {
+        case "excellent": String(localized: "Excellent")
+        case "good": String(localized: "Good")
+        case "neutral": String(localized: "Neutral")
+        case "tough": String(localized: "Tough")
+        case "rough": String(localized: "Rough")
+        default: feeling
+        }
+    }
+}

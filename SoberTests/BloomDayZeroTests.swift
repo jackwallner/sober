@@ -189,12 +189,18 @@ struct UrgePlaybookTests {
         #expect(UrgePlaybookCatalog.plan(forTag: nil) == nil)
     }
 
-    @Test func habitWordsComeFromTheVocabulary() {
+    @Test func playbookOffersAReplacementDrink() {
         let text = UrgePlaybookCatalog.all
             .flatMap { [$0.title, $0.situation, $0.script] + $0.steps }
             .joined(separator: " ")
-        #expect(text.contains(HabitVocabulary.replacementInstance))
-        #expect(UrgePlaybookCatalog.scriptHeading.hasSuffix(HabitVocabulary.habitInstance))
+        #expect(text.contains("a soda water with lime"))
+        #expect(UrgePlaybookCatalog.scriptHeading.hasSuffix("a drink"))
+    }
+
+    @Test func everyTriggerChipHasALabel() {
+        for tag in HabitVocabulary.triggers {
+            #expect(!HabitVocabulary.triggerLabel(tag).isEmpty)
+        }
     }
 }
 

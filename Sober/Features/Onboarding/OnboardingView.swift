@@ -104,13 +104,13 @@ struct OnboardingView: View {
                     .padding(.horizontal, Theme.Space.s)
             }
             VStack(alignment: .leading, spacing: Theme.Space.m) {
-                promiseRow(icon: "calendar", text: "A clear sobriety counter and calendar")
-                promiseRow(icon: "tree.fill", text: "A garden that changes with your streak")
-                promiseRow(icon: "lock.fill", text: "Private on your device, no account")
+                promiseRow(icon: "calendar", text: String(localized: "A clear sobriety counter and calendar"))
+                promiseRow(icon: "tree.fill", text: String(localized: "A garden that changes with your streak"))
+                promiseRow(icon: "lock.fill", text: String(localized: "Private on your device, no account"))
             }
             .padding(.horizontal, Theme.Space.m)
             Spacer()
-            bottomBar(primaryTitle: "Start my counter") { withAnimation { step = 1 } }
+            bottomBar(primaryTitle: String(localized: "Start my counter")) { withAnimation { step = 1 } }
         }
     }
 
@@ -143,7 +143,7 @@ struct OnboardingView: View {
                 .colorScheme(.dark)
                 .tint(.white)
             Spacer(minLength: Theme.Space.s)
-            bottomBar(primaryTitle: "Continue") { withAnimation { step = 2 } }
+            bottomBar(primaryTitle: String(localized: "Continue")) { withAnimation { step = 2 } }
         }
     }
 
@@ -162,7 +162,7 @@ struct OnboardingView: View {
                 Text("Typical daily spend")
                     .font(Theme.subhead())
                     .foregroundStyle(.white.opacity(0.82))
-                Text("$\(Int(costPerDay)) / day")
+                Text("\(formatCurrency(Int(costPerDay))) / day")
                     .font(.system(size: 44, weight: .bold, design: .rounded))
                 Slider(value: $costPerDay, in: 0...200, step: 5)
                     .tint(.white)
@@ -180,7 +180,7 @@ struct OnboardingView: View {
 
             savingsProjection
             Spacer(minLength: Theme.Space.s)
-            bottomBar(primaryTitle: "Continue") { withAnimation { step = 3 } }
+            bottomBar(primaryTitle: String(localized: "Continue")) { withAnimation { step = 3 } }
         }
     }
 
@@ -202,7 +202,7 @@ struct OnboardingView: View {
                 ForEach(availableGoalPresets) { preset in
                     goalOption(.preset(preset), title: preset.label, detail: GoalProjection.shortDate(preset.date(from: effectiveStart)))
                 }
-                goalOption(.custom, title: "Pick a date", detail: nil)
+                goalOption(.custom, title: String(localized: "Pick a date"), detail: nil)
                     .overlay(alignment: .trailing) {
                         if goalChoice == .custom {
                             DatePicker("Goal date", selection: $customGoalDate, in: GoalChoice.earliestCustomDate..., displayedComponents: [.date])
@@ -212,12 +212,12 @@ struct OnboardingView: View {
                                 .padding(.trailing, Theme.Space.s)
                         }
                     }
-                goalOption(.none, title: "No goal yet", detail: nil)
+                goalOption(.none, title: String(localized: "No goal yet"), detail: nil)
             }
 
             Spacer(minLength: Theme.Space.s)
             bottomBar(
-                primaryTitle: trialResolutionInFlight ? "Checking trial availability…" : "Continue",
+                primaryTitle: trialResolutionInFlight ? String(localized: "Checking trial availability…") : String(localized: "Continue"),
                 busy: trialResolutionInFlight,
                 above: { resolutionError }
             ) { resolveTrialAndContinue() }
@@ -390,10 +390,10 @@ struct OnboardingView: View {
             // what stays free and converts 43% of viewers. Then the dated,
             // computed Bloom+ rows from the answers this user just gave.
             VStack(alignment: .leading, spacing: Theme.Space.m) {
-                trialBenefit(icon: "checkmark.seal.fill", text: "Your day counter, widget and Watch stay free, forever.")
+                trialBenefit(icon: "checkmark.seal.fill", text: String(localized: "Your day counter, widget and Watch stay free, forever."))
                 trialBenefit(icon: "flag.checkered", text: trialGoalText)
                 trialBenefit(icon: "heart.text.square.fill", text: MilestoneSchedule.pitchLine(start: effectiveStart))
-                trialBenefit(icon: "list.bullet.clipboard", text: "A plan for the first \(HabitVocabulary.urgeNoun): what to do and what to say.")
+                trialBenefit(icon: "list.bullet.clipboard", text: String(localized: "A plan for the first craving: what to do and what to say."))
             }
             .padding(Theme.Space.m)
             .background(.white.opacity(0.13), in: RoundedRectangle(cornerRadius: 18))
@@ -436,12 +436,12 @@ struct OnboardingView: View {
     /// derives it, and says nothing about a date when the length is unknown.
     private var trialSubhead: String {
         guard offerIncludesTrial else {
-            return "Every tool that keeps the streak visible, unlocked today."
+            return String(localized: "Every tool that keeps the streak visible, unlocked today.")
         }
         guard let trialDays else {
-            return "Every tool that keeps the streak visible. Nothing is charged today."
+            return String(localized: "Every tool that keeps the streak visible. Nothing is charged today.")
         }
-        return "Every tool that keeps the streak visible. Nothing is charged for \(trialDays) days."
+        return String(localized: "Every tool that keeps the streak visible. Nothing is charged for \(trialDays) days.")
     }
 
     /// One line, not the paywall's three-step timeline: onboarding is a
@@ -459,17 +459,16 @@ struct OnboardingView: View {
             return nil
         }
         let formatter = DateFormatter()
-        formatter.dateFormat = DateFormatter.dateFormat(
-            fromTemplate: "MMMd", options: 0, locale: .current
-        )
-        return "Free until \(formatter.string(from: end)). We'll remind you before it ends."
+        formatter.setLocalizedDateFormatFromTemplate("MMMd")
+        let date = formatter.string(from: end)
+        return String(localized: "Free until \(date). We'll remind you before it ends.")
     }
 
     /// Same condition the paywall's timeline states. We ask for notification
     /// permission when the trial starts, not here, so the promise above is made
     /// before the user has had the chance to decline it.
     private var trialReminderCaveat: String? {
-        trialChargeDateLine == nil ? nil : "Reminder needs notifications turned on."
+        trialChargeDateLine == nil ? nil : String(localized: "Reminder needs notifications turned on.")
     }
 
     private func trialBenefit(icon: String, text: String) -> some View {
@@ -501,8 +500,9 @@ struct OnboardingView: View {
 
     private var trialSavingsText: String {
         let yearlyDollars = Int(costPerDay) * 365
-        guard yearlyDollars > 0 else { return "Project the year ahead, not just the days behind" }
-        return "Project the \(formatCurrency(yearlyDollars)) you'd keep over the next year"
+        guard yearlyDollars > 0 else { return String(localized: "Project the year ahead, not just the days behind") }
+        let money = formatCurrency(yearlyDollars)
+        return String(localized: "Project the \(money) you'd keep over the next year")
     }
 
     /// Quiet opt-out, parked in the slot the price used to occupy: directly
@@ -576,7 +576,7 @@ struct OnboardingView: View {
         }
     }
 
-    private static let trialFailureCopy = "Couldn't load the Bloom+ plan. Please try again."
+    private static var trialFailureCopy: String { String(localized: "Couldn't load the Bloom+ plan. Please try again.") }
 
     private var trialReassuranceText: String? {
         guard let reassurance = trialChargeDateLine else { return nil }
@@ -736,7 +736,7 @@ struct OnboardingView: View {
             }
             Spacer()
             bottomBar(
-                primaryTitle: "Turn on reminders",
+                primaryTitle: String(localized: "Turn on reminders"),
                 busy: reminderRequestInFlight,
                 above: { skipRemindersLink }
             ) { enableRemindersAndFinish() }
@@ -790,7 +790,7 @@ struct OnboardingView: View {
             defer { trialResolutionInFlight = false }
             #if canImport(RevenueCat)
             guard subscriptions.isConfigured else {
-                trialResolutionError = "Bloom+ plans are temporarily unavailable. You can retry or start free."
+                trialResolutionError = String(localized: "Bloom+ plans are temporarily unavailable. You can retry or start free.")
                 return
             }
             var resolution = await subscriptions.resolveOnboardingTrial()
@@ -821,7 +821,7 @@ struct OnboardingView: View {
                     withAnimation { step = 4 }
                 }
             case .unavailable, .failed:
-                trialResolutionError = "Bloom+ plans are temporarily unavailable. You can retry or start free."
+                trialResolutionError = String(localized: "Bloom+ plans are temporarily unavailable. You can retry or start free.")
             }
             #else
             finishOnboarding()
@@ -833,8 +833,8 @@ struct OnboardingView: View {
         #if canImport(RevenueCat)
         guard let package = subscriptions.directOfferPackage else {
             trialError = offerIncludesTrial
-                ? "Couldn't load the trial plan. Please try again."
-                : "Couldn't load the Bloom+ plan. Please try again."
+                ? String(localized: "Couldn't load the trial plan. Please try again.")
+                : String(localized: "Couldn't load the Bloom+ plan. Please try again.")
             return
         }
         ConversionDiagnostics.record(.trialCTATapped)
@@ -855,7 +855,7 @@ struct OnboardingView: View {
                 }
             } catch {
                 ConversionDiagnostics.record(.purchaseFailed)
-                trialError = "Couldn't start your trial. Please try again."
+                trialError = String(localized: "Couldn't start your trial. Please try again.")
             }
         }
         #else
@@ -937,9 +937,9 @@ struct OnboardingView: View {
     }
 
     private var trialCTATitle: String {
-        guard offerIncludesTrial else { return "Unlock Bloom+" }
-        guard let trialDays else { return "Start my free trial" }
-        return "Start my \(trialDays)-day free trial"
+        guard offerIncludesTrial else { return String(localized: "Unlock Bloom+") }
+        guard let trialDays else { return String(localized: "Start my free trial") }
+        return String(localized: "Start my \(trialDays)-day free trial")
     }
 
     /// Nil until the store tells us how long the trial actually is.
@@ -958,15 +958,15 @@ struct OnboardingView: View {
     }
 
     private var trialHeadline: String {
-        guard offerIncludesTrial else { return "Unlock Bloom+" }
-        guard let trialDays else { return "Bloom+, free to try" }
-        return "\(trialDays) days of Bloom+ free"
+        guard offerIncludesTrial else { return String(localized: "Unlock Bloom+") }
+        guard let trialDays else { return String(localized: "Bloom+, free to try") }
+        return String(localized: "\(trialDays) days of Bloom+ free")
     }
 
     private func formatCurrency(_ amount: Int) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.maximumFractionDigits = 0
-        return formatter.string(from: NSNumber(value: amount)) ?? "$\(amount)"
+        return formatter.string(from: NSNumber(value: amount)) ?? String(amount)
     }
 }

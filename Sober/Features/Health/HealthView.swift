@@ -17,7 +17,7 @@ struct HealthView: View {
     /// When a milestone lands for this user, as "Fri, Oct 24" rather than "in 2w".
     private func dateLabel(_ benefit: HealthBenefit) -> String {
         guard let start = journeys.first(where: { $0.isActive })?.startDate else {
-            return "in \(benefit.displayWait)"
+            return String(localized: "in \(benefit.displayWait)")
         }
         return MilestoneSchedule.label(for: start.addingTimeInterval(benefit.hoursRequired * 3600))
     }
@@ -203,7 +203,7 @@ private struct BenefitRow: View {
                 .padding(.top, collapsed ? 0 : 2)
             VStack(alignment: .leading, spacing: 4) {
                 HStack(alignment: .top, spacing: Theme.Space.s) {
-                    Text(proGated ? "A future milestone" : benefit.title)
+                    Text(proGated ? String(localized: "A future milestone") : benefit.title)
                         .font(Theme.body(weight: .semibold))
                         .foregroundStyle(Theme.textPrimary)
                         .fixedSize(horizontal: false, vertical: true)

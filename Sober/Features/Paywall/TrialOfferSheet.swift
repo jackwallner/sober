@@ -39,7 +39,7 @@ struct TrialOfferSheet: View {
     /// Small billing disclosure (Apple 3.1.2) kept out of the hero.
     private var trialBillingNote: String? {
         guard hasTrial, let priceLabel else { return nil }
-        return "After \(trialDays) days, \(priceLabel) unless you cancel."
+        return String(localized: "After \(trialDays) days, \(priceLabel) unless you cancel.")
     }
 
     /// Strip the period suffix ("$29.99 / year" -> "$29.99").
@@ -49,14 +49,14 @@ struct TrialOfferSheet: View {
     }
 
     private var headline: String {
-        hasTrial ? "\(trialDays) days free" : (focus?.pitchHeadline ?? "Try Bloom+ free")
+        hasTrial ? String(localized: "\(trialDays) days free") : (focus?.pitchHeadline ?? String(localized: "Try Bloom+ free"))
     }
 
     private var subheadline: String {
         if let focus {
             return focus.pitchSubheadline
         }
-        return "Full access to your garden, journal, health timeline, and savings. Free until your trial ends."
+        return String(localized: "Full access to your garden, journal, health timeline, and savings. Free until your trial ends.")
     }
 
     var body: some View {
@@ -92,10 +92,9 @@ struct TrialOfferSheet: View {
                 if showsAnchor {
                     SavingsAnchorCard(
                         yearlySpend: yearlySpend,
-                        habitName: "alcohol",
                         trialDays: hasTrial ? trialDays : nil,
                         priceLabel: hasTrial ? nil : cleanPrice,
-                        rightCaption: hasTrial ? "full Bloom+ access" : "a year of Bloom+"
+                        rightCaption: hasTrial ? String(localized: "full Bloom+ access") : String(localized: "a year of Bloom+")
                     )
                 }
 
@@ -181,8 +180,8 @@ struct TrialOfferSheet: View {
             .disabled(isPurchasing)
 
             HStack(spacing: 16) {
-                reassurancePill("checkmark.shield.fill", "No payment now")
-                reassurancePill("bell.fill", "Reminder before billing")
+                reassurancePill("checkmark.shield.fill", String(localized: "No payment now"))
+                reassurancePill("bell.fill", String(localized: "Reminder before billing"))
             }
 
             Button("See all plans", action: onSeeAllPlans)

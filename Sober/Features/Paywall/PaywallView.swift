@@ -77,7 +77,7 @@ struct PaywallView: View {
 
     private var moneySaved: String {
         let dollars = Double(savedCents) / 100
-        return Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? "$\(Int(dollars))"
+        return Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? String(Int(dollars))
     }
 
     private var yearlySpend: Int { Int((Double(costPerDayCents) * 365 / 100).rounded()) }
@@ -260,7 +260,7 @@ struct PaywallView: View {
     private func metricsReadout(_ m: PaywallMetrics, fitting pageHeight: CGFloat) -> some View {
         #if DEBUG
         if PaywallLayoutProbe.isEnabled {
-            Text("h \(Int(m.pageHeight)) fit \(Int(pageHeight)) c \(Int(layoutProbe.content)) t \(String(format: "%.2f", m.size))")
+            Text(verbatim: "h \(Int(m.pageHeight)) fit \(Int(pageHeight)) c \(Int(layoutProbe.content)) t \(String(format: "%.2f", m.size))")
                 .font(.system(size: 9, weight: .bold, design: .monospaced))
                 .foregroundStyle(.white)
                 .padding(.horizontal, 5)
@@ -424,7 +424,7 @@ struct PaywallView: View {
             Text("Couldn't Load Plans")
                 .font(Theme.body(weight: .semibold))
                 .foregroundStyle(Theme.textPrimary)
-            Text(subscriptions.lastError ?? "Check your connection and try again.")
+            Text(subscriptions.lastError ?? String(localized: "Check your connection and try again."))
                 .font(Theme.subhead())
                 .foregroundStyle(Theme.textSecondary)
                 .multilineTextAlignment(.center)
@@ -448,7 +448,7 @@ struct PaywallView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
-    private func eyebrow(_ text: String, size: CGFloat = 11) -> some View {
+    private func eyebrow(_ text: LocalizedStringKey, size: CGFloat = 11) -> some View {
         Text(text)
             .font(.system(size: size, weight: .heavy))
             .tracking(1.2)
@@ -468,7 +468,7 @@ struct PaywallView: View {
                     .foregroundStyle(Theme.textPrimary)
                     .fixedSize(horizontal: false, vertical: true)
                 Text(hasSavings
-                     ? "You've already saved \(moneySaved) staying sober. Treat yourself to the tools that keep it growing."
+                     ? String(localized: "You've already saved \(moneySaved) staying sober. Treat yourself to the tools that keep it growing.")
                      : focus.pitchSubheadline)
                     .font(m.rounded(m.heroSubheadSize))
                     .foregroundStyle(Theme.textSecondary)
@@ -481,14 +481,14 @@ struct PaywallView: View {
                     .foregroundStyle(Theme.brandPrimary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
-                Text("Across \(heroDays) sober day\(heroDays == 1 ? "" : "s"). Put a fraction toward keeping it.")
+                Text("Across \(heroDays) sober days. Put a fraction toward keeping it.")
                     .font(m.rounded(m.heroSubheadSize))
                     .foregroundStyle(Theme.textSecondary)
                     .lineLimit(2)
                     .fixedSize(horizontal: false, vertical: true)
             } else if costPerDayCents > 0 {
                 eyebrow("YOUR MONEY, KEPT", size: m.heroEyebrowSize)
-                let yearlyLabel = Self.currencyFormatter.string(from: NSNumber(value: yearlySpend)) ?? "$\(yearlySpend)"
+                let yearlyLabel = Self.currencyFormatter.string(from: NSNumber(value: yearlySpend)) ?? String(yearlySpend)
                 Text("Up to \(yearlyLabel)/yr")
                     .font(.system(size: m.heroAmountSize, weight: .heavy, design: .rounded))
                     .foregroundStyle(Theme.brandPrimary)
@@ -552,10 +552,8 @@ struct PaywallView: View {
     }
 
     private func trialDays(for package: Package) -> Int? {
-        guard subscriptions.isEligibleForIntroOffer(package),
-              let label = package.soberIntroOfferLabel else { return nil }
-        let digits = String(label.drop { !$0.isNumber }.prefix { $0.isNumber })
-        return Int(digits)
+        guard subscriptions.isEligibleForIntroOffer(package) else { return nil }
+        return package.soberIntroOfferDays
     }
 
     /// Always the same number of rows, whatever plan is selected.
@@ -743,13 +741,13 @@ struct PaywallView: View {
         return ZStack {
             trustLine(
                 icon: "bell.fill",
-                text: "No payment now · Cancel any time · Data stays on-device",
+                text: String(localized: "No payment now · Cancel any time · Data stays on-device"),
                 m
             )
             .opacity(showsTrialTrust ? 1 : 0)
             .accessibilityHidden(!showsTrialTrust)
 
-            trustLine(icon: "lock.fill", text: "Your data stays on this device", m)
+            trustLine(icon: "lock.fill", text: String(localized: "Your data stays on this device"), m)
                 .opacity(showsTrialTrust ? 0 : 1)
                 .accessibilityHidden(showsTrialTrust)
         }
@@ -788,13 +786,12 @@ struct PaywallView: View {
     }
 
     private var ctaTitle: String {
-        guard let package = selectedPackage else { return "Continue" }
-        if package.soberPackageKind == .lifetime { return "Unlock Lifetime" }
-        if subscriptions.isEligibleForIntroOffer(package), let trial = package.soberIntroOfferLabel {
-            let period = trial.replacingOccurrences(of: " free trial", with: "", options: .caseInsensitive)
-            return "Start \(period.capitalized) Free Trial"
+        guard let package = selectedPackage else { return String(localized: "Continue") }
+        if package.soberPackageKind == .lifetime { return String(localized: "Unlock Lifetime") }
+        if subscriptions.isEligibleForIntroOffer(package), let title = package.soberStartTrialTitle {
+            return title
         }
-        return "Continue with Bloom+"
+        return String(localized: "Continue with Bloom+")
     }
 
     /// Apple 3.1.2: full billed price, trial terms, auto-renew, and how to manage.
@@ -830,13 +827,13 @@ struct PaywallView: View {
     private func disclosure(for package: Package) -> String {
         let price = package.soberPriceLabel
         if package.soberPackageKind == .lifetime {
-            return "\(price). One-time purchase. Lifetime access, no subscription."
+            return String(localized: "\(price). One-time purchase. Lifetime access, no subscription.")
         }
-        let renew = "Auto-renews until cancelled in Settings, at least 24 hours before renewal."
-        if subscriptions.isEligibleForIntroOffer(package), let trial = package.soberIntroOfferLabel {
-            return "\(trial.capitalized), then \(price). \(renew)"
+        let renew = String(localized: "Auto-renews until cancelled in Settings, at least 24 hours before renewal.")
+        if subscriptions.isEligibleForIntroOffer(package), let trial = package.soberTrialThenPriceSentence {
+            return trial + " " + renew
         }
-        return "\(price). \(renew)"
+        return String(localized: "\(price).") + " " + renew
     }
 
     /// Yearly-first default keeps the one-tap trial aligned with the best value;
@@ -884,14 +881,14 @@ struct PaywallView: View {
                     // confirmation so it doesn't look like nothing happened; the
                     // PurchasesDelegate flips isProSubscriber and dismisses once
                     // it's approved.
-                    restoreMessage = "Your purchase is awaiting approval. Bloom+ unlocks as soon as it's confirmed."
+                    restoreMessage = String(localized: "Your purchase is awaiting approval. Bloom+ unlocks as soon as it's confirmed.")
                 case .cancelled:
                     ConversionDiagnostics.record(.purchaseCancelled)
-                    errorMessage = "Purchase cancelled. Tap again to continue."
+                    errorMessage = String(localized: "Purchase cancelled. Tap again to continue.")
                 }
             } catch {
                 ConversionDiagnostics.record(.purchaseFailed)
-                errorMessage = "Couldn't complete the purchase. Please try again."
+                errorMessage = String(localized: "Couldn't complete the purchase. Please try again.")
             }
         }
     }
@@ -905,7 +902,7 @@ struct PaywallView: View {
             await subscriptions.restorePurchases()
             if !subscriptions.isProSubscriber {
                 restoreMessage = subscriptions.lastError
-                    ?? "No active Bloom+ purchase found for this Apple ID."
+                    ?? String(localized: "No active Bloom+ purchase found for this Apple ID.")
             }
         }
     }
@@ -1003,11 +1000,8 @@ private struct PlanCard: View {
         if kind == .yearly, let perMonth = package.soberPerMonthLabel {
             // Derived, never literal: a hardcoded "7 days free" here silently
             // misstates the offer the second the intro period changes in ASC.
-            if showsTrialBadge, let trial = package.soberIntroOfferLabel {
-                let period = trial.replacingOccurrences(
-                    of: " free trial", with: "", options: .caseInsensitive
-                )
-                return "\(period) free · \(perMonth)"
+            if showsTrialBadge, let line = package.soberTrialFreeSubtitle(perMonth: perMonth) {
+                return line
             }
             return perMonth
         }
@@ -1015,7 +1009,7 @@ private struct PlanCard: View {
         // "7-Day Free Trial" subtitle under a "7-DAY FREE TRIAL" badge said the
         // same thing twice and cost the card a third row.
         if kind == .monthly { return nil }
-        if kind == .lifetime { return "One-time · no subscription" }
+        if kind == .lifetime { return String(localized: "One-time · no subscription") }
         return nil
     }
 
@@ -1025,9 +1019,9 @@ private struct PlanCard: View {
     /// already says "One-time · no subscription", so the badge said nothing the
     /// card didn't.
     private var badgeLabel: String? {
-        if kind == .yearly, let pct = savingsPercent { return "RECOMMENDED · SAVE \(pct)%" }
+        if kind == .yearly, let pct = savingsPercent { return String(localized: "RECOMMENDED · SAVE \(pct)%") }
         if showsTrialBadge, kind == .monthly {
-            return package.soberIntroOfferLabel?.uppercased() ?? "FREE TRIAL"
+            return package.soberIntroOfferLabel?.uppercased() ?? String(localized: "FREE TRIAL")
         }
         return nil
     }
@@ -1037,8 +1031,8 @@ private struct PlanCard: View {
     /// the label truncated to "RECOMMENDED · SAVE 7…", which turns the one badge
     /// carrying the offer into a riddle; the discount is the part worth keeping.
     private var shortBadgeLabel: String? {
-        if kind == .yearly, let pct = savingsPercent { return "SAVE \(pct)%" }
-        if showsTrialBadge, kind == .monthly { return "FREE TRIAL" }
+        if kind == .yearly, let pct = savingsPercent { return String(localized: "SAVE \(pct)%") }
+        if showsTrialBadge, kind == .monthly { return String(localized: "FREE TRIAL") }
         return nil
     }
 

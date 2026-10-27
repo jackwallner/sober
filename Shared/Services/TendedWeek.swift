@@ -64,6 +64,15 @@ enum TendedWeek {
     /// Mood labels, ordered 1...5 to match the check-in sheet's scale.
     static let moodLabels = ["rough", "low", "okay", "good", "great"]
 
+    /// The week's mood as a whole phrase per level, ordered like `moodLabels`.
+    private static let moodPhrases = [
+        String(localized: "mostly rough"),
+        String(localized: "mostly low"),
+        String(localized: "mostly okay"),
+        String(localized: "mostly good"),
+        String(localized: "mostly great"),
+    ]
+
     /// "mostly good" from whatever moods the week actually has, or nil when it
     /// has none. Averaging two entries is not a trend, so it says "mostly"
     /// rather than pretending to more precision than three taps can carry.
@@ -72,14 +81,14 @@ enum TendedWeek {
         guard !moods.isEmpty else { return nil }
         let mean = Double(moods.reduce(0, +)) / Double(moods.count)
         let index = min(4, max(0, Int(mean.rounded()) - 1))
-        return "mostly \(moodLabels[index])"
+        return moodPhrases[index]
     }
 
     /// The Home card sits between a checkmark and a button, and the full
     /// sentence does not fit there: it clipped to "Tend a day to start...".
     /// The sentence stays on the Progress sheet, which has the width for it.
     static func compactSummary(_ days: [TendedDay]) -> String {
-        "\(tendedCount(days))/\(length) tended"
+        String(localized: "\(tendedCount(days))/\(length) tended")
     }
 
     /// The line under the strip. Deliberately never scolds: a low count is
@@ -88,9 +97,9 @@ enum TendedWeek {
     static func summary(_ days: [TendedDay]) -> String {
         let tended = tendedCount(days)
         switch tended {
-        case 0: return "Tend a day to start your week"
-        case length: return "All \(length) days tended"
-        default: return "\(tended) of \(length) days tended"
+        case 0: return String(localized: "Tend a day to start your week")
+        case length: return String(localized: "All \(length) days tended")
+        default: return String(localized: "\(tended) of \(length) days tended")
         }
     }
 }

@@ -35,7 +35,7 @@ struct WatchRootView: View {
     private var stageTitle: String {
         let title = GardenService.stage(forDays: treeDays).title
         let completed = GardenService.cycleProgress(forDays: treeDays).completed
-        return completed > 0 ? "Year \(completed + 1) · \(title)" : title
+        return completed > 0 ? String(localized: "Year \(completed + 1) · \(title)") : title
     }
 
     var body: some View {
@@ -46,7 +46,7 @@ struct WatchRootView: View {
                 .minimumScaleFactor(0.4)
                 .padding(.horizontal, 6)
                 .foregroundStyle(Theme.brandGradient)
-            Text(days == 1 ? "day sober" : "days sober")
+            Text("\(days) days sober label")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
 
