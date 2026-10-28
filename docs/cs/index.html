@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2352A073'/%3E%3Cpath d='M16 6C16 6 10 12 10 18C10 23 13 26 16 26C19 26 22 23 22 18C22 12 16 6 16 6Z' fill='%237AC78C' opacity='0.8'/%3E%3Cpath d='M16 10C16 10 12.5 14 12.5 18C12.5 21 14 24 16 24C18 24 19.5 21 19.5 18C19.5 14 16 10 16 10Z' fill='%23F2C773'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2352A073'/%3E%3Cpath d='M16 6C16 6 10 12 10 18C10 23 13 26 16 26C19 26 22 23 22 18C22 12 16 6 16 6Z' fill='%237AC78C' opacity='0.8'/%3E%3Cpath d='M16 10C16 10 12.5 14 12.5 18C12.5 21 14 24 16 24C18 24 19.5 21 19.5 18C19.5 14 16 10 16 10Z' fill='%23F2C773'/%3E%3C/svg%3E">
+<title>Sober: počítadlo střízlivosti pro iPhone &amp; Apple Watch</title>
+<meta name="description" content="Sober je bezplatné počítadlo dnů střízlivosti pro iPhone a Apple Watch. Počítejte dny, denně se hlaste, pěstujte bonsaj a přidejte widget. Bez účtu.">
+<link rel="canonical" href="https://jackwallner.com/ios/sober/cs/">
+    <link rel="alternate" hreflang="en" href="https://jackwallner.com/ios/sober/">
+    <link rel="alternate" hreflang="uk" href="https://jackwallner.com/ios/sober/uk/">
+    <link rel="alternate" hreflang="pl" href="https://jackwallner.com/ios/sober/pl/">
+    <link rel="alternate" hreflang="de" href="https://jackwallner.com/ios/sober/de/">
+    <link rel="alternate" hreflang="ru" href="https://jackwallner.com/ios/sober/ru/">
+    <link rel="alternate" hreflang="nl" href="https://jackwallner.com/ios/sober/nl/">
+    <link rel="alternate" hreflang="es" href="https://jackwallner.com/ios/sober/es/">
+    <link rel="alternate" hreflang="fr" href="https://jackwallner.com/ios/sober/fr/">
+    <link rel="alternate" hreflang="cs" href="https://jackwallner.com/ios/sober/cs/">
+    <link rel="alternate" hreflang="vi" href="https://jackwallner.com/ios/sober/vi/">
+    <link rel="alternate" hreflang="fi" href="https://jackwallner.com/ios/sober/fi/">
+    <link rel="alternate" hreflang="x-default" href="https://jackwallner.com/ios/sober/">
+<script>if(location.hostname==="jackwallner.github.io"){var c=document.querySelector('link[rel="canonical"]');if(c&&c.href.indexOf("https://jackwallner.com/")===0)location.replace(c.href)}</script>
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="apple-itunes-app" content="app-id=6768869215">
+
+<meta property="og:title" content="Sober: počítadlo střízlivosti pro iPhone &amp; Apple Watch">
+<meta property="og:description" content="Bezplatné počítadlo střízlivosti pro iPhone a Apple Watch. Počítejte dny bez alkoholu, s každým hlášením pěstujte bonsaj a mějte vše soukromé. Bez účtu.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jackwallner.com/ios/sober/cs/">
+<meta property="og:image" content="https://jackwallner.github.io/sober/og-preview.png">
+<meta property="og:video" content="https://jackwallner.github.io/sober/preview.mp4">
+<meta property="og:video:secure_url" content="https://jackwallner.github.io/sober/preview.mp4">
+<meta property="og:video:type" content="video/mp4">
+<meta property="og:video:width" content="1080">
+<meta property="og:video:height" content="1080">
+<meta property="og:site_name" content="Jack Wallner">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sober: počítadlo střízlivosti pro iPhone &amp; Apple Watch">
+<meta name="twitter:description" content="Bezplatné počítadlo střízlivosti pro iPhone a Apple Watch. Počítejte dny bez alkoholu, s každým hlášením pěstujte bonsaj a mějte vše soukromé. Bez účtu.">
+<meta name="twitter:image" content="https://jackwallner.github.io/sober/screenshot-1-counter.png">
+<script type="application/ld+json">{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "MobileApplication",
+            "dateModified": "2026-10-28",
+            "@id": "https://jackwallner.com/ios/sober/cs/#app",
+            "name": "Sober: Sobriety Day Counter",
+            "description": "Sober: počítadlo střízlivosti je bezplatná aplikace pro iPhone a Apple Watch. Počítá vaše dny bez alkoholu, přidává denní hlášení se zahradou bonsají, která roste s vaší sérií, a zobrazuje widgety a komplikace na hodinkách. Účet není potřeba a vaše data zůstávají ve vašem zařízení.",
+            "applicationCategory": "HealthApplication",
+            "operatingSystem": "iOS 17+, watchOS 10+, Android 8.0+",
+            "url": "https://jackwallner.com/ios/sober/cs/",
+            "alternateName": "Sober",
+            "downloadUrl": "https://apps.apple.com/cz/app/id6768869215",
+            "installUrl": [
+                "https://apps.apple.com/cz/app/id6768869215",
+                "https://play.google.com/store/apps/details?id=com.jackwallner.sober"
+            ],
+            "sameAs": [
+                "https://apps.apple.com/cz/app/id6768869215",
+                "https://play.google.com/store/apps/details?id=com.jackwallner.sober"
+            ],
+            "screenshot": [
+                "https://jackwallner.github.io/sober/screenshot-1-counter.png",
+                "https://jackwallner.github.io/sober/screenshot-2-calendar.png",
+                "https://jackwallner.github.io/sober/screenshot-3-checkin.png",
+                "https://jackwallner.github.io/sober/screenshot-4-milestone.png",
+                "https://jackwallner.github.io/sober/screenshot-5-saved.png",
+                "https://jackwallner.github.io/sober/screenshot-6-species.png"
+            ],
+            "featureList": [
+                "Počítadlo dnů střízlivosti s dalším milníkem",
+                "Denní hlášení, které pěstuje virtuální zahradu bonsají",
+                "Barevný kalendář střízlivosti se sériemi",
+                "Časová osa zdravotních milníků s odkazy na zdroje",
+                "Widgety pro domovskou obrazovku, zamykací obrazovku a Apple Watch",
+                "Soukromý deník s nápovědami (Bloom+)",
+                "Bez účtu, bez reklam, data zůstávají v zařízení"
+            ],
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            },
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "5.0",
+                "ratingCount": "5",
+                "bestRating": "5"
+            },
+            "author": {
+                "@type": "Person",
+                "name": "Jack Wallner",
+                "url": "https://jackwallner.com/"
+            },
+            "publisher": {
+                "@type": "Person",
+                "name": "Jack Wallner",
+                "url": "https://jackwallner.com/"
+            }
+        },
+        {
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "Existuje bezplatná aplikace počítadlo dnů střízlivosti pro iPhone?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Ano. Sober: počítadlo střízlivosti se stahuje a používá zdarma. Počítadlo dnů, denní hlášení, kalendář, základní zahrada a prvních pět zdravotních milníků jsou zdarma a volitelné rozšíření Bloom+ přidává úplnou časovou osu, deník, úspěchy a ušetřené peníze a kalorie."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Jak sleduji, kolik dnů jsem střízlivý?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Nastavte datum začátku střízlivosti a Sober dny počítá za vás a ukazuje další milník. Hlaste se jednou denně, abyste zapsali náladu, přidali poznámku a zalili bonsaj."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Má aplikace Sober widget a aplikaci pro Apple Watch?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Ano. Počet dnů se zobrazuje ve widgetech domovské a zamykací obrazovky a jako komplikace Apple Watch. Aplikace pro Apple Watch umožňuje denní hlášení ze zápěstí."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Co se stane s mým počítadlem, když selžu?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Selhání si zapíšete sami a počítadlo dnů se restartuje od tohoto data. Zahrada si ponechá část růstu, takže aplikace váš pokrok nesmaže ani vás nezahanbí."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Potřebuji účet a jsou moje data o střízlivosti soukromá?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Účet není potřeba. Sober nemá reklamy ani analytiku a vaše data zůstávají ve vašem zařízení."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Je Sober alternativou k I Am Sober?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Pokud chcete jednoduché soukromé počítadlo dnů, ano. Sober nemá účet, komunitní feed ani reklamy a propojuje počítadlo se zahradou, která roste s každým denním hlášením."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Je časová osa zdravotních přínosů lékařská rada?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Ne. Sober je nástroj ke sledování a nic nediagnostikuje ani neléčí. Časová osa shrnuje obecné zdravotní milníky ze zdrojů NIAAA, CDC a AHA, takže o své situaci mluvte s lékařem."
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Jack Wallner",
+                    "item": "https://jackwallner.com/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Aplikace pro iOS",
+                    "item": "https://jackwallner.com/ios/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "Sober: počítadlo střízlivosti",
+                    "item": "https://jackwallner.com/ios/sober/cs/"
+                }
+            ]
+        }
+    ]
+}</script>
+<style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+            color: #1d1d1f;
+            background: #fafafa;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Nav */
+        nav {
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            background: rgba(250,250,250,0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #1d1d1f;
+        }
+
+        .nav-brand svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .nav-brand span {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .nav-link {
+            font-size: 14px;
+            text-decoration: none;
+            background: #1d1d1f;
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 980px;
+            font-weight: 500;
+            transition: opacity 0.15s;
+        }
+
+        .nav-link:hover { opacity: 0.85; }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 100px 24px 64px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            line-height: 1.08;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 span {
+            color: #42825d;
+        }
+
+        .hero .tagline {
+            font-size: 19px;
+            color: #6e6e73;
+            line-height: 1.5;
+            max-width: 440px;
+            margin: 0 auto 12px;
+        }
+
+        .hero .platforms {
+            font-size: 13px;
+            color: #6e6e73;
+            letter-spacing: 0.3px;
+            margin-bottom: 36px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: #1d1d1f;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 14px 36px;
+            border-radius: 980px;
+            text-decoration: none;
+            transition: opacity 0.15s;
+        }
+
+        .download-btn:hover { opacity: 0.85; }
+
+        .store-badges { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; }
+        .play-badge { display: inline-flex; transition: opacity 0.15s; }
+        .play-badge:hover { opacity: 0.85; }
+        .play-badge img { display: block; height: 46px; width: auto; }
+        .nav-actions { display: flex; align-items: center; gap: 10px; }
+        .nav-actions .play-badge img { height: 36px; }
+
+        /* Screenshot showcase */
+        .showcase {
+            padding: 0 0 80px;
+        }
+
+        .showcase-scroll {
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 0 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            scrollbar-width: none;
+        }
+
+        .showcase-scroll::-webkit-scrollbar { display: none; }
+
+        .showcase-card {
+            flex-shrink: 0;
+            scroll-snap-align: center;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 16px 48px rgba(0,0,0,0.08);
+        }
+
+        .showcase-card img {
+            width: auto;
+            height: 540px;
+            display: block;
+        }
+
+        /* Features */
+        .features {
+            padding: 80px 0;
+            background: #fff;
+            border-top: 1px solid rgba(0,0,0,0.06);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .features-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .features-header h2 {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .features-header p {
+            font-size: 17px;
+            color: #6e6e73;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: rgba(0,0,0,0.06);
+            border-top: 1px solid rgba(0,0,0,0.06);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .feature-card {
+            background: #fff;
+            padding: 36px 32px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: #6e6e73;
+            line-height: 1.55;
+        }
+
+        /* Privacy */
+        .privacy {
+            padding: 80px 0;
+            background: #fafafa;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .privacy .container {
+            max-width: 640px;
+            text-align: center;
+        }
+
+        .privacy .lockup {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #f5f5f7;
+            margin-bottom: 20px;
+        }
+
+        .privacy .lockup svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: #1d1d1f;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .privacy h2 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+
+        .privacy p {
+            font-size: 17px;
+            color: #6e6e73;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .privacy a {
+            font-size: 15px;
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .privacy a:hover { text-decoration: underline; }
+
+        /* More Info */
+        .more-info {
+            padding: 64px 24px;
+            background: #fff;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .more-info-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .more-info-header h2 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .more-info-header p {
+            font-size: 17px;
+            color: #6e6e73;
+        }
+
+        .more-info-content {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .more-info-section {
+            margin-bottom: 40px;
+        }
+
+        .more-info-section h3 {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #6e6e73;
+            margin-bottom: 12px;
+        }
+
+        .more-info-section p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #1d1d1f;
+            margin-bottom: 12px;
+        }
+
+        .more-info-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .more-info-section strong {
+            font-weight: 600;
+        }
+
+        .specs-table {
+            width: 100%;
+            font-size: 14px;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .specs-table td {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .specs-table td:first-child {
+            color: #6e6e73;
+            width: 140px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* CTA */
+        .cta {
+            text-align: center;
+            padding: 64px 24px 80px;
+            background: #fff;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .cta h2 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+
+        .cta p {
+            font-size: 15px;
+            color: #6e6e73;
+            margin-bottom: 28px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px 24px;
+            font-size: 12px;
+            color: #6e6e73;
+        }
+
+        footer a { display: inline-block; padding: 6px 0;
+            color: #6e6e73;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        footer a:hover { color: #1d1d1f; }
+
+        footer .divider { margin: 4px 0; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero { padding: 72px 20px 48px; }
+            .hero h1 { font-size: 36px; letter-spacing: -1px; }
+            .hero .tagline { font-size: 17px; }
+
+            .showcase-card img { height: 400px; }
+
+            .features-grid { grid-template-columns: 1fr; }
+
+            .features-header h2 { font-size: 28px; }
+            .privacy h2, .cta h2 { font-size: 26px; }
+        }
+
+        @media (max-width: 480px) {
+            .showcase-card img { height: 360px; }
+        }
+
+        /* FAQ */
+        .faq {
+            padding: 64px 24px;
+            background: #fafafa;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .faq-content {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border-top: 1px solid rgba(0,0,0,0.08);
+            padding: 18px 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .faq-item summary {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+            cursor: pointer;
+            color: #1d1d1f;
+        }
+
+        .faq-item p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #6e6e73;
+            margin-top: 10px;
+        }
+        .feature-card .tier {
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #42825d;
+        }
+            summary > h2.faq-q { display: inline; margin: 0; font: inherit; letter-spacing: inherit; color: inherit; }
+</style>
+</head>
+<body>
+<nav>
+<div class="container">
+<a class="nav-brand" href="./">
+<svg viewbox="0 0 32 32" fill="none">
+<rect width="32" height="32" rx="7" fill="#52A073"></rect>
+<path d="M16 6C16 6 10 12 10 18C10 23 13 26 16 26C19 26 22 23 22 18C22 12 16 6 16 6Z" fill="#7AC78C" opacity="0.8"></path>
+<path d="M16 10C16 10 12.5 14 12.5 18C12.5 21 14 24 16 24C18 24 19.5 21 19.5 18C19.5 14 16 10 16 10Z" fill="#F2C773"></path>
+</svg>
+<span>Sober</span>
+</a>
+<div class="nav-actions">
+<a class="nav-link" href="https://apps.apple.com/cz/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-home-cs&amp;mt=8">Stáhnout</a>
+<a class="play-badge" href="https://play.google.com/store/apps/details?id=com.jackwallner.sober" rel="noopener"><img src="../google-play-badge.webp" alt="Stáhnout z Google Play" width="121" height="36"></a>
+</div>
+</div>
+</nav>
+<section class="hero">
+<h1>Počítadlo střízlivosti, <span>se zahradou, která roste</span></h1>
+<p class="tagline">Sober je bezplatné počítadlo střízlivosti pro iPhone a Apple Watch s virtuální zahradou, zdravotními milníky, deníkem a dalšími funkcemi, vše soukromě a ve vašem zařízení.</p>
+<p class="platforms">iPhone · Apple Watch · Widgety</p>
+<div class="store-badges">
+<a class="download-btn" href="https://apps.apple.com/cz/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-home-cs&amp;mt=8">Stáhnout zdarma</a>
+<a class="play-badge" href="https://play.google.com/store/apps/details?id=com.jackwallner.sober" rel="noopener"><img src="../google-play-badge.webp" alt="Stáhnout z Google Play" width="155" height="46"></a>
+</div>
+</section>
+<section class="showcase">
+<div class="showcase-scroll">
+<div class="showcase-card">
+<img src="../screenshot-1-counter.webp" srcset="../screenshot-1-counter-360.webp 360w, ../screenshot-1-counter-540.webp 540w, ../screenshot-1-counter.webp 660w" sizes="(max-width: 480px) 176px, (max-width: 768px) 196px, 264px" alt="Počítadlo dnů: 1 836 dnů střízlivosti a váš rostoucí háj bonsají" loading="lazy" decoding="async" width="660" height="1350">
+</div>
+<div class="showcase-card">
+<img src="../screenshot-2-calendar.webp" srcset="../screenshot-2-calendar-360.webp 360w, ../screenshot-2-calendar-540.webp 540w, ../screenshot-2-calendar.webp 660w" sizes="(max-width: 480px) 176px, (max-width: 768px) 196px, 264px" alt="Kalendář střízlivosti: dny podle barev s aktuální a nejdelší sérií" loading="lazy" decoding="async" width="660" height="1350">
+</div>
+<div class="showcase-card">
+<img src="../screenshot-3-checkin.webp" srcset="../screenshot-3-checkin-360.webp 360w, ../screenshot-3-checkin-540.webp 540w, ../screenshot-3-checkin.webp 660w" sizes="(max-width: 480px) 176px, (max-width: 768px) 196px, 264px" alt="Denní hlášení: zapište náladu, přidejte poznámku a zalijte bonsaj" loading="lazy" decoding="async" width="660" height="1350">
+</div>
+<div class="showcase-card">
+<img src="../screenshot-4-milestone.webp" srcset="../screenshot-4-milestone-360.webp 360w, ../screenshot-4-milestone-540.webp 540w, ../screenshot-4-milestone.webp 660w" sizes="(max-width: 480px) 176px, (max-width: 768px) 196px, 264px" alt="Oslava milníku: Celý rok, váš strom se přidává do háje" loading="lazy" decoding="async" width="660" height="1350">
+</div>
+<div class="showcase-card">
+<img src="../screenshot-5-saved.webp" srcset="../screenshot-5-saved-360.webp 360w, ../screenshot-5-saved-540.webp 540w, ../screenshot-5-saved.webp 660w" sizes="(max-width: 480px) 176px, (max-width: 768px) 196px, 264px" alt="Pokrok uložen: ušetřené peníze, kalorie a tělesný tuk na vaší cestě" loading="lazy" decoding="async" width="660" height="1350">
+</div>
+<div class="showcase-card">
+<img src="../screenshot-6-species.webp" srcset="../screenshot-6-species-360.webp 360w, ../screenshot-6-species-540.webp 540w, ../screenshot-6-species.webp 660w" sizes="(max-width: 480px) 176px, (max-width: 768px) 196px, 264px" alt="Druhy bonsají: vyberte si z šesti stylů stromů, jak vaše série roste" loading="lazy" decoding="async" width="660" height="1350">
+</div>
+</div>
+</section>
+<section class="features">
+<div class="container">
+<div class="features-header">
+<h2>Co Sober obsahuje?</h2>
+<p>Počítadlo a zahrada jsou zdarma. Bloom+ přidává úplnou časovou osu, deník, úspěchy a úspory.</p>
+</div>
+</div>
+<div class="features-grid">
+<div class="feature-card">
+<h3>Počítadlo dnů</h3>
+<p>Podívejte se, kolik dnů uplynulo od začátku, jaký je váš další milník a další zdravotní přínos, vše na jedné obrazovce.</p>
+</div>
+<div class="feature-card">
+<h3>Sledujte, jak roste</h3>
+<p>Virtuální zahrada, která s vaší sérií roste ze semínka až ve starobylý strom. Zalévejte ji denním hlášením.</p>
+</div>
+<div class="feature-card">
+<h3>Časová osa zotavení těla</h3>
+<p>13 zdravotních přínosů podložených NIAAA, CDC a AHA. Sledujte, jak se cukr v krvi stabilizuje po 24 hodinách, játra se zlepšují po 30 dnech a dlouhodobé riziko klesá po roce.</p>
+</div>
+<div class="feature-card">
+<h3>Úplná zdravotní časová osa</h3>
+<p>Zobrazte všech 13 přínosů s podrobným vysvětlením a odkazy na zdroje. Celý obraz zotavení vašeho těla.</p>
+<p class="tier">Součástí Pro</p>
+</div>
+<div class="feature-card">
+<h3>Sledujte svůj pokrok</h3>
+<p>Barevný kalendář ukazuje dny střízlivé (zelené), nestřízlivé (červené) a dosud nehlášené (šedé). Sledujte svou úspěšnost v čase.</p>
+</div>
+<div class="feature-card">
+<h3>Deník s nápovědami</h3>
+<p>Denní otázky k zamyšlení, volné psaní a výběr pocitu. Všechny zápisy jsou soukromé a uložené lokálně ve vašem zařízení.</p>
+<p class="tier">Součástí Pro</p>
+</div>
+<div class="feature-card">
+<h3>Úspěchy</h3>
+<p>9 milníků za čas (První krok, Čtvrtletí, První rok) a série hlášení (Perfektní týden, Diamantová disciplína).</p>
+<p class="tier">Součástí Pro</p>
+</div>
+<div class="feature-card">
+<h3>Ušetřené peníze &amp; kalorie</h3>
+<p>Podívejte se, kolik peněz a kalorií jste od začátku ušetřili. Nastavte si vlastní denní náklady a odhady kalorií.</p>
+<p class="tier">Součástí Pro</p>
+</div>
+<div class="feature-card">
+<h3>Na první pohled</h3>
+<p>Počet dnů na domovské obrazovce, zamykací obrazovce a Apple Watch. Systémové i doplňkové komplikace v ceně.</p>
+</div>
+</div>
+</section>
+<section class="privacy">
+<div class="container">
+<div class="lockup">
+<svg viewbox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+</div>
+<h2>Je Sober soukromý?</h2>
+<p>Ano. Sober je postaven s důrazem na soukromí. Žádné účty, žádná analytika, žádné reklamy, žádné cizí SDK kromě StoreKit od Applu. Vaše data nikdy neopustí zařízení. Veškeré zdravotní informace zůstávají lokálně v SwiftData.</p>
+<a href="../privacy-policy.html">Zásady ochrany osobních údajů →</a>
+</div>
+</section>
+<section class="more-info">
+<div class="container">
+<div class="more-info-header">
+<h2>Více informací</h2>
+<p>Jak je to postaveno.</p>
+</div>
+<div class="more-info-content">
+<div class="more-info-section">
+<h3>Nápad</h3>
+<p>Většina aplikací o střízlivosti vás nutí vyplňovat formuláře a zírat na holé číslo. Chtěl jsem zahradu, která roste s každým hlášením, aby byl pokrok něco, co je vidět.</p>
+<p>Sober je počítadlo dnů a virtuální zahrada v jednom. Hlaste se jednou denně, sledujte, jak bonsaj roste od semínka k celému háji, a po cestě vidíte zdravotní přínosy i peníze, které získáváte zpět. Bez registrace, bez cloudu, bez studu po recidivě. Základní aplikace je zdarma.</p>
+</div>
+<div class="more-info-section">
+<h3>Bloom+</h3>
+<p>Volitelné rozšíření pro ty, kdo chtějí celý obraz. K dispozici měsíčně, ročně nebo jako jednorázový doživotní nákup, u předplatného se 7denní zkušební dobou zdarma. Ceny se zobrazí v aplikaci před nákupem a liší se podle regionu.</p>
+<p><strong>Úplná zdravotní časová osa.</strong> Všech 13 přínosů zotavení (podložených zdroji NIAAA, CDC a AHA) s podrobným vysvětlením. Bezplatná verze ukazuje prvních 5.</p>
+<p><strong>Deník s nápovědami.</strong> Denní otázky k zamyšlení, volné psaní a výběr pocitu. Zápisy zůstávají soukromé a lokální, stejně jako všechno ostatní.</p>
+<p><strong>Úspěchy.</strong> Všech 9 milníků za čas (První krok, Čtvrtletí, První rok) a série hlášení (Perfektní týden, Diamantová disciplína).</p>
+<p><strong>Ušetřené peníze &amp; kalorie, všechny druhy zahrady.</strong> Sledujte průběžné úspory oproti denním nákladům, které si nastavíte, a pěstujte kterýkoli ze 6 stylů bonsaje, jak vaše série roste.</p>
+</div>
+<div class="more-info-section">
+<h3>Specifikace</h3>
+<table class="specs-table">
+<tr><td>Platforma</td><td>iOS 17+, watchOS 10+</td></tr>
+<tr><td>Jazyk</td><td>Swift 6 se striktní souběžností</td></tr>
+<tr><td>Framework</td><td>SwiftUI · SwiftData · StoreKit</td></tr>
+<tr><td>Data</td><td>Bez účtů, bez HealthKit, celé v zařízení</td></tr>
+<tr><td>Úložiště</td><td>SwiftData, pouze lokálně</td></tr>
+<tr><td>Widgety</td><td>Domovská obrazovka, zamykací obrazovka, komplikace watchOS</td></tr>
+</table>
+</div>
+<div class="more-info-section">
+<h3>Na čem záleželo</h3>
+<p><strong>Zahrada.</strong> Každé hlášení přidá stromu viditelný, kumulativní růst.</p>
+<p><strong>Žádný stud po recidivě.</strong> Vynechané hlášení nebo zapsané selhání vás netrestá a nevrací zahradu na nulu.</p>
+<p><strong>Hlášení nejdřív na hodinkách.</strong> Aplikace pro Apple Watch dělá z denního hlášení jedno klepnutí na zápěstí, takže návyk přežije i ve dnech, kdy se vám nechce otevírat telefon.</p>
+<p><strong>Soukromí.</strong> Žádné účty, žádná analytika, žádné reklamy, žádné cizí SDK kromě StoreKit. Data o střízlivosti jsou citlivá, proto se aplikace nikdy neptá, kdo jste, a nic neodesílá ze zařízení.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="faq">
+<div class="container">
+<div class="more-info-header">
+<h2>Otázky</h2>
+<p>Krátké odpovědi o počítadle dnů střízlivosti.</p>
+</div>
+<div class="faq-content">
+<details class="faq-item">
+<summary><h2 class="faq-q">Existuje bezplatná aplikace počítadlo dnů střízlivosti pro iPhone?</h2></summary>
+<p>Ano. Sober: počítadlo střízlivosti se stahuje a používá zdarma. Počítadlo dnů, denní hlášení, kalendář, základní zahrada a prvních pět zdravotních milníků jsou zdarma a volitelné rozšíření Bloom+ přidává úplnou časovou osu, deník, úspěchy a ušetřené peníze a kalorie.</p>
+</details>
+<details class="faq-item">
+<summary><h2 class="faq-q">Jak sleduji, kolik dnů jsem střízlivý?</h2></summary>
+<p>Nastavte datum začátku střízlivosti a Sober dny počítá za vás a ukazuje další milník. Hlaste se jednou denně, abyste zapsali náladu, přidali poznámku a zalili bonsaj.</p>
+</details>
+<details class="faq-item">
+<summary><h2 class="faq-q">Má aplikace Sober widget a aplikaci pro Apple Watch?</h2></summary>
+<p>Ano. Počet dnů se zobrazuje ve widgetech domovské a zamykací obrazovky a jako komplikace Apple Watch. Aplikace pro Apple Watch umožňuje denní hlášení ze zápěstí.</p>
+</details>
+<details class="faq-item">
+<summary><h2 class="faq-q">Co se stane s mým počítadlem, když selžu?</h2></summary>
+<p>Selhání si zapíšete sami a počítadlo dnů se restartuje od tohoto data. Zahrada si ponechá část růstu, takže aplikace váš pokrok nesmaže ani vás nezahanbí.</p>
+</details>
+<details class="faq-item">
+<summary><h2 class="faq-q">Potřebuji účet a jsou moje data o střízlivosti soukromá?</h2></summary>
+<p>Účet není potřeba. Sober nemá reklamy ani analytiku a vaše data zůstávají ve vašem zařízení.</p>
+</details>
+<details class="faq-item">
+<summary><h2 class="faq-q">Je Sober alternativou k I Am Sober?</h2></summary>
+<p>Pokud chcete jednoduché soukromé počítadlo dnů, ano. Sober nemá účet, komunitní feed ani reklamy a propojuje počítadlo se zahradou, která roste s každým denním hlášením.</p>
+</details>
+<details class="faq-item">
+<summary><h2 class="faq-q">Je časová osa zdravotních přínosů lékařská rada?</h2></summary>
+<p>Ne. Sober je nástroj ke sledování a nic nediagnostikuje ani neléčí. Časová osa shrnuje obecné zdravotní milníky ze zdrojů NIAAA, CDC a AHA, takže o své situaci mluvte s lékařem.</p>
+</details>
+</div>
+</div>
+</section>
+<section class="cta">
+<h2>Začněte počítat</h2>
+<p>Zdarma v App Store a na Google Play. Účet není potřeba. Na Bloom+ můžete přejít kdykoli.</p>
+<div class="store-badges">
+<a class="download-btn" href="https://apps.apple.com/cz/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-home-cs&amp;mt=8">Stáhnout zdarma</a>
+<a class="play-badge" href="https://play.google.com/store/apps/details?id=com.jackwallner.sober" rel="noopener"><img src="../google-play-badge.webp" alt="Stáhnout z Google Play" width="155" height="46"></a>
+</div>
+</section>
+<footer>
+<div class="divider">© 2026 Jack Wallner · Naposledy aktualizováno <time datetime="2026-10-28" data-updated="">October 28, 2026</time></div>
+<div>
+<a href="sobriety-milestones.html">Průvodce milníky</a>
+<a href="../i-am-sober-alternative.html">Alternativy k I Am Sober</a>
+<a href="../support.html">Podpora</a>
+<a href="../privacy-policy.html">Soukromí</a>
+<a href="https://jackwallner.com/ios/">Další aplikace od Jacka Wallnera</a>
+</div>
+<div class="related-apps">Také od Jacka: <a href="https://jackwallner.com/ios/quitzyn/">Quit Zyn</a> <a href="https://jackwallner.com/ios/fitness-streaks/">Fitness Habit Tracker</a> <a href="https://jackwallner.com/ios/headaches/">Migraine Headache Tracker Log</a></div>
+        <div class="lang-switch"><a href="../" hreflang="en" lang="en">English</a> <a href="../uk/" hreflang="uk" lang="uk">Українська</a> <a href="../pl/" hreflang="pl" lang="pl">Polski</a> <a href="../de/" hreflang="de" lang="de">Deutsch</a> <a href="../ru/" hreflang="ru" lang="ru">Русский</a> <a href="../nl/" hreflang="nl" lang="nl">Nederlands</a> <a href="../es/" hreflang="es" lang="es">Español</a> <a href="../fr/" hreflang="fr" lang="fr">Français</a> <span lang="cs">Čeština</span> <a href="../vi/" hreflang="vi" lang="vi">Tiếng Việt</a> <a href="../fi/" hreflang="fi" lang="fi">Suomi</a></div>
+</footer>
+</body>
+</html>
