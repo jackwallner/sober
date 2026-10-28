@@ -3038,13 +3038,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Am %@ hast du am meisten getrunken"
+            "value" : "%@ ist dein schwerster Tag"
           }
         },
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Πίνεις περισσότερο: %@"
+            "value" : "Η πιο δύσκολη μέρα σου: %@"
           }
         },
         "es" : {
@@ -3092,7 +3092,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dagen du drakk mest: %@"
+            "value" : "%@ er den tyngste dagen din"
           }
         },
         "nl" : {
@@ -3122,7 +3122,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bạn uống nhiều nhất vào ngày %@"
+            "value" : "%@ là ngày nặng nề nhất của bạn"
           }
         }
       }
@@ -3181,7 +3181,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ სულ"
+            "value" : "%@ სამუდამოდ"
           }
         },
         "lt" : {
@@ -3223,7 +3223,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ tổng cộng"
+            "value" : "%@ trọn đời"
           }
         }
       }
@@ -3264,7 +3264,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Étape : %@"
+            "value" : "Stade : %@"
           }
         },
         "hi" : {
@@ -4549,7 +4549,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ : %2$@. Puis %#@n@, toutes datées."
+            "value" : "%1$@ : %2$@. Puis %#@n@, chacune datée."
           },
           "substitutions" : {
             "n" : {
@@ -4661,7 +4661,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@: %2$@. Toliau dar: %#@n@."
+            "value" : "%1$@: %2$@. Toliau dar %#@n@, kiekvienas su data."
           },
           "substitutions" : {
             "n" : {
@@ -5078,7 +5078,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ : %#@n@ et quoi dire."
+            "value" : "%1$@ : %#@n@ et ce qu'il faut dire."
           },
           "substitutions" : {
             "n" : {
@@ -6045,25 +6045,25 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Поки пережито %lld потяг"
+                  "value" : "Уже пережито %lld потяг"
                 }
               },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Поки пережито %lld потяги"
+                  "value" : "Уже пережито %lld потяги"
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Поки пережито %lld потягів"
+                  "value" : "Уже пережито %lld потягів"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Поки пережито %lld потягу"
+                  "value" : "Уже пережито %lld потягу"
                 }
               }
             }
@@ -6278,19 +6278,19 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld diena ir daugėja. Jei šiandien blaivus, pažymėk."
+                  "value" : "%lld diena ir daugėja. Jei ši diena blaivi, pažymėk."
                 }
               },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld dienos ir daugėja. Jei šiandien blaivus, pažymėk."
+                  "value" : "%lld dienos ir daugėja. Jei ši diena blaivi, pažymėk."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld dienų ir daugėja. Jei šiandien blaivus, pažymėk."
+                  "value" : "%lld dienų ir daugėja. Jei ši diena blaivi, pažymėk."
                 }
               }
             }
@@ -6368,25 +6368,25 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld день и дальше больше. Если сегодня трезвый день, отметьте его."
+                  "value" : "%lld день, и счёт растёт. Если сегодня трезвый день, отметьте его."
                 }
               },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld дня и дальше больше. Если сегодня трезвый день, отметьте его."
+                  "value" : "%lld дня, и счёт растёт. Если сегодня трезвый день, отметьте его."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld дней и дальше больше. Если сегодня трезвый день, отметьте его."
+                  "value" : "%lld дней, и счёт растёт. Если сегодня трезвый день, отметьте его."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld дня и дальше больше. Если сегодня трезвый день, отметьте его."
+                  "value" : "%lld дня, и счёт растёт. Если сегодня трезвый день, отметьте его."
                 }
               }
             }
@@ -7149,7 +7149,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%#@a@ का मतलब अब भी %#@b@ ही है। जहाँ हैं वहीं से शुरू करें, कुछ पूरा करने की ज़रूरत नहीं।"
+            "value" : "%#@a@ का मतलब अब भी %#@b@ ही है। जहाँ हैं वहीं से शुरू करें, छूटा हुआ कुछ पूरा करने की ज़रूरत नहीं।"
           },
           "substitutions" : {
             "a" : {
@@ -7593,7 +7593,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%#@a@ все одно %#@b@. Продовжуйте з того місця, де ви є. Нічого надолужувати не треба."
+            "value" : "%#@a@ все одно %#@b@. Продовжуйте з того місця, де ви зараз. Нічого надолужувати не треба."
           },
           "substitutions" : {
             "a" : {
@@ -7943,13 +7943,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld dag gratis met Bloom+"
+                  "value" : "%lld dag Bloom+ gratis"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld dagen gratis met Bloom+"
+                  "value" : "%lld dagen Bloom+ gratis"
                 }
               }
             }
@@ -8430,7 +8430,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Τελευταίες επτά μέρες: %1$lld, την προηγούμενη εβδομάδα: %2$lld."
+            "value" : "Τελευταίες επτά μέρες: %1$lld, προηγούμενη εβδομάδα: %2$lld."
           }
         },
         "es" : {
@@ -8597,7 +8597,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Отмечено пока: %lld."
+            "value" : "Пока отмечено: %lld."
           }
         },
         "uk" : {
@@ -8857,13 +8857,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Nog %lld keer drang vastleggen en je patronen vullen zich verder."
+                  "value" : "Nog %lld keer drang vastleggen en je patronen worden steeds duidelijker."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Nog %lld keer drang vastleggen en je patronen vullen zich verder."
+                  "value" : "Nog %lld keer drang vastleggen en je patronen worden steeds duidelijker."
                 }
               }
             }
@@ -9635,7 +9635,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "कुल %#@n@ में से %1$lld दिन पौधे की देखभाल की गई।"
+            "value" : "%#@n@ में से %1$lld दिन देखभाल हुई"
           },
           "substitutions" : {
             "n" : {
@@ -9753,7 +9753,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stell: %1$lld av %#@n@"
+            "value" : "Stelt: %1$lld av %#@n@"
           },
           "substitutions" : {
             "n" : {
@@ -10519,7 +10519,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$lld з %#@n@ припадають на цей час."
+            "value" : "На цей час припадає %1$lld з %#@n@."
           },
           "substitutions" : {
             "n" : {
@@ -10592,7 +10592,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$lld deiner letzten %2$lld endeten so."
+            "value" : "So endete es bei %1$lld deiner letzten %2$lld."
           }
         },
         "el" : {
@@ -10610,7 +10610,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$lld viimeisestä %2$lld:sta päättyi näin."
+            "value" : "Viimeisistä %2$lld kerrasta %1$lld päättyi näin."
           }
         },
         "fr" : {
@@ -10628,7 +10628,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$lld delle ultime %2$lld sono finite così."
+            "value" : "Finite così: %1$lld delle ultime %2$lld."
           }
         },
         "ka" : {
@@ -10738,13 +10738,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Einzahl %lld"
+                  "value" : "one %lld"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Mehrzahl %lld"
+                  "value" : "other %lld"
                 }
               }
             }
@@ -10756,13 +10756,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "ένα %lld"
+                  "value" : "one %lld"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "άλλα %lld"
+                  "value" : "other %lld"
                 }
               }
             }
@@ -10774,13 +10774,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "singular %lld"
+                  "value" : "one %lld"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "plural %lld"
+                  "value" : "other %lld"
                 }
               }
             }
@@ -10792,13 +10792,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "yksi %lld"
+                  "value" : "one %lld"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "muut %lld"
+                  "value" : "other %lld"
                 }
               }
             }
@@ -10810,13 +10810,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "un %lld"
+                  "value" : "one %lld"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "autre %lld"
+                  "value" : "other %lld"
                 }
               }
             }
@@ -10828,13 +10828,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "एक %lld"
+                  "value" : "one %lld"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "अन्य %lld"
+                  "value" : "other %lld"
                 }
               }
             }
@@ -10846,13 +10846,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "singolare %lld"
+                  "value" : "one %lld"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "plurale %lld"
+                  "value" : "other %lld"
                 }
               }
             }
@@ -10864,13 +10864,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "ერთი: %lld"
+                  "value" : "one %lld"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "სხვა: %lld"
+                  "value" : "other %lld"
                 }
               }
             }
@@ -10882,25 +10882,25 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "vienas %lld"
+                  "value" : "one %lld"
                 }
               },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "keli %lld"
+                  "value" : "few %lld"
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "daug %lld"
+                  "value" : "many %lld"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "kiti %lld"
+                  "value" : "other %lld"
                 }
               }
             }
@@ -10912,13 +10912,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "entall %lld"
+                  "value" : "one %lld"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "flertall %lld"
+                  "value" : "other %lld"
                 }
               }
             }
@@ -10930,13 +10930,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "enkelvoud %lld"
+                  "value" : "one %lld"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "overig %lld"
+                  "value" : "other %lld"
                 }
               }
             }
@@ -10978,25 +10978,25 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "один: %lld"
+                  "value" : "one %lld"
                 }
               },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "несколько: %lld"
+                  "value" : "few %lld"
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "много: %lld"
+                  "value" : "many %lld"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "прочее: %lld"
+                  "value" : "other %lld"
                 }
               }
             }
@@ -11008,25 +11008,25 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "один %lld"
+                  "value" : "one %lld"
                 }
               },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "кілька %lld"
+                  "value" : "few %lld"
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "багато %lld"
+                  "value" : "many %lld"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "інші %lld"
+                  "value" : "other %lld"
                 }
               }
             }
@@ -11038,7 +11038,7 @@
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld"
+                  "value" : "other %lld"
                 }
               }
             }
@@ -11316,7 +11316,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "აქამდე: %#@n@ ფხიზელი დღე და %2$@ დანაზოგი."
+            "value" : "აქამდე: %#@n@ და %2$@ დანაზოგი."
           },
           "substitutions" : {
             "n" : {
@@ -13086,13 +13086,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Prueba gratis de %lld día para los planes mensuales y anuales."
+                  "value" : "Prueba gratis de %lld día para los planes mensual y anual."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Prueba gratis de %lld días para los planes mensuales y anuales."
+                  "value" : "Prueba gratis de %lld días para los planes mensual y anual."
                 }
               }
             }
@@ -13200,13 +13200,13 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld dienų nemokamas bandomasis laikotarpis mėnesio ir metų planams."
+                  "value" : "%lld dienos nemokamai: mėnesinis ir metinis."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld dienų nemokamas bandomasis laikotarpis mėnesio ir metų planams."
+                  "value" : "%lld dienų nemokamai: mėnesinis ir metinis."
                 }
               }
             }
@@ -13314,25 +13314,25 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld день безкоштовно: щомісячний і річний."
+                  "value" : "%lld день безкоштовно для щомісячного й річного планів."
                 }
               },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld дні безкоштовно: щомісячний і річний."
+                  "value" : "%lld дні безкоштовно для щомісячного й річного планів."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld днів безкоштовно: щомісячний і річний."
+                  "value" : "%lld днів безкоштовно для щомісячного й річного планів."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld дня безкоштовно: щомісячний і річний."
+                  "value" : "%lld дня безкоштовно для щомісячного й річного планів."
                 }
               }
             }
@@ -13667,25 +13667,25 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld день безкоштовно: щомісячний."
+                  "value" : "%lld день безкоштовно для щомісячного плану."
                 }
               },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld дні безкоштовно: щомісячний."
+                  "value" : "%lld дні безкоштовно для щомісячного плану."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld днів безкоштовно: щомісячний."
+                  "value" : "%lld днів безкоштовно для щомісячного плану."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld дня безкоштовно: щомісячний."
+                  "value" : "%lld дня безкоштовно для щомісячного плану."
                 }
               }
             }
@@ -14020,25 +14020,25 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld день безкоштовно: річний."
+                  "value" : "%lld день безкоштовно для річного плану."
                 }
               },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld дні безкоштовно: річний."
+                  "value" : "%lld дні безкоштовно для річного плану."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld днів безкоштовно: річний."
+                  "value" : "%lld днів безкоштовно для річного плану."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld дня безкоштовно: річний."
+                  "value" : "%lld дня безкоштовно для річного плану."
                 }
               }
             }
@@ -14531,25 +14531,25 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg день"
+                      "value" : "%arg день безкоштовно"
                     }
                   },
                   "few" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg дні"
+                      "value" : "%arg дні безкоштовно"
                     }
                   },
                   "many" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg днів"
+                      "value" : "%arg днів безкоштовно"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg дня"
+                      "value" : "%arg дня безкоштовно"
                     }
                   }
                 }
@@ -15942,25 +15942,25 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg місяць"
+                      "value" : "%arg місяць безкоштовно"
                     }
                   },
                   "few" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg місяці"
+                      "value" : "%arg місяці безкоштовно"
                     }
                   },
                   "many" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg місяців"
+                      "value" : "%arg місяців безкоштовно"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg місяця"
+                      "value" : "%arg місяця безкоштовно"
                     }
                   }
                 }
@@ -17353,25 +17353,25 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg рік"
+                      "value" : "%arg рік безкоштовно"
                     }
                   },
                   "few" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg роки"
+                      "value" : "%arg роки безкоштовно"
                     }
                   },
                   "many" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg років"
+                      "value" : "%arg років безкоштовно"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg року"
+                      "value" : "%arg року безкоштовно"
                     }
                   }
                 }
@@ -18234,19 +18234,19 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "/ %lld nauda"
+                  "value" : "/ %lld privalumas"
                 }
               },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "/ %lld naudos"
+                  "value" : "/ %lld privalumai"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "/ %lld naudų"
+                  "value" : "/ %lld privalumų"
                 }
               }
             }
@@ -18695,7 +18695,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "13 milníků zotavení se zdroji."
+            "value" : "13 milníků zotavení s uvedením zdrojů."
           }
         },
         "de" : {
@@ -19168,13 +19168,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "365 ημέρες ανάπτυξης, ολοκληρώθηκαν. Έχεις %lld δέντρο στο άλσος και ξεκινά ένα νέο δενδρύλλιο."
+                  "value" : "Ολοκληρώθηκαν 365 ημέρες ανάπτυξης. Έχεις %lld δέντρο στο άλσος και ξεκινά ένα νέο δενδρύλλιο."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "365 ημέρες ανάπτυξης, ολοκληρώθηκαν. Έχεις %lld δέντρα στο άλσος και ξεκινά ένα νέο δενδρύλλιο."
+                  "value" : "Ολοκληρώθηκαν 365 ημέρες ανάπτυξης. Έχεις %lld δέντρα στο άλσος και ξεκινά ένα νέο δενδρύλλιο."
                 }
               }
             }
@@ -19464,7 +19464,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "365 ημέρες ανάπτυξης, ολοκληρώθηκαν. Το δέντρο σου στέκει πια στο άλσος και δίπλα του ξεκινά ένα νέο δενδρύλλιο."
+            "value" : "Ολοκληρώθηκαν 365 ημέρες ανάπτυξης. Το δέντρο σου στέκει πια στο άλσος και δίπλα του ξεκινά ένα νέο δενδρύλλιο."
           }
         },
         "es" : {
@@ -19607,7 +19607,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "7 dienų nemokamas bandomasis laikotarpis"
+            "value" : "7 dienos nemokamai"
           }
         },
         "nb" : {
@@ -19862,7 +19862,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ein Meilenstein für Bloom+"
+            "value" : "Ein Bloom+-Meilenstein"
           }
         },
         "el" : {
@@ -20148,7 +20148,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sinh nhật, một chiến thắng, ngày lễ, một lời chúc."
+            "value" : "Sinh nhật, một chiến thắng, ngày lễ, một lần nâng ly."
           }
         }
       }
@@ -20207,7 +20207,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "მკაფიო სიფხიზლის მთვლელი და კალენდარი"
+            "value" : "სიფხიზლის მკაფიო მთვლელი და კალენდარი"
           }
         },
         "lt" : {
@@ -20260,7 +20260,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plná tečka je den, který jsi zapsal. Prázdná je střízlivý den, který aplikace doplnila za tebe."
+            "value" : "Plná tečka je den se zápisem. Prázdná je střízlivý den, který aplikace doplnila za tebe."
           }
         },
         "de" : {
@@ -20379,7 +20379,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un cerezo japonés en flor, cubierto de flores de un rosa suave. Los pétalos caen mientras crece tu racha."
+            "value" : "Un cerezo japonés envuelto en flores de un rosa suave. Los pétalos caen mientras crece tu racha."
           }
         },
         "fi" : {
@@ -20718,7 +20718,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sodas keičiasi ilgėjant blaivybės dienų sekai."
+            "value" : "Sodas, kuris keičiasi ilgėjant blaivybės dienų sekai"
           }
         },
         "nb" : {
@@ -20973,7 +20973,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ein filigraner Ahorn in warmem Herbstrot und Gold. Sternförmige Blätter fallen, während die Tage zunehmen."
+            "value" : "Ein filigraner Ahorn in warmem Herbstrot und Gold. Sternförmige Blätter fallen, während sich die Tage summieren."
           }
         },
         "el" : {
@@ -21080,7 +21080,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ένα θρυλικό μπονσάι. Ένας ολόκληρος χρόνος ανάπτυξης, ορατός."
+            "value" : "Ένα θρυλικό μπονσάι. Ένας ολόκληρος χρόνος ανάπτυξης, μπροστά στα μάτια σου."
           }
         },
         "es" : {
@@ -21288,7 +21288,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un mes de Bloom+ cuesta más o menos lo que gastarías en alcohol durante %lld,5 días."
+            "value" : "Un mes de Bloom+ cuesta más o menos lo que gastarías en alcohol durante %lld días y medio."
           }
         },
         "fi" : {
@@ -21306,7 +21306,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloom+ के एक महीने की क़ीमत लगभग %lld दिन और आधे दिन तक शराब पीने के ख़र्च के बराबर है।"
+            "value" : "Bloom+ के एक महीने की क़ीमत लगभग %lld.5 दिन तक शराब पीने के ख़र्च के बराबर है।"
           }
         },
         "it" : {
@@ -22402,7 +22402,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prognoza z twoich obecnych dziennych danych, nie obietnica. Zmień je w dowolnej chwili w Ustawieniach."
+            "value" : "Prognoza na podstawie twoich obecnych dziennych danych, nie obietnica. Zmień je w dowolnej chwili w Ustawieniach."
           }
         },
         "ru" : {
@@ -22509,7 +22509,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Напоминание отметить день и полить бонсай, сообщение за день до вехи и предупреждение перед переходом с пробного периода на платную подписку. Больше ничего, а всё можно выключить в Настройках."
+            "value" : "Напоминание отметить день и полить бонсай, сообщение за день до вехи и предупреждение перед переходом с пробного периода на платную подписку. Больше ничего, и всё это можно выключить в Настройках."
           }
         },
         "uk" : {
@@ -22592,7 +22592,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Et frø er sådd. Hvert store tre starter her."
+            "value" : "Et frø er sådd. Alle store trær starter her."
           }
         },
         "nl" : {
@@ -22610,7 +22610,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Семя посажено. Каждое большое дерево начинается здесь."
+            "value" : "Семя посажено. С этого начинается любое большое дерево."
           }
         },
         "uk" : {
@@ -22675,7 +22675,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Una piantina sta dritta. Le radici attecchiscono."
+            "value" : "La piantina cresce dritta. Le radici attecchiscono."
           }
         },
         "ka" : {
@@ -22954,7 +22954,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un año de Bloom+ cuesta más o menos lo que gastarías en alcohol durante %lld,5 días."
+            "value" : "Un año de Bloom+ cuesta más o menos lo que gastarías en alcohol durante %lld días y medio."
           }
         },
         "fi" : {
@@ -22972,7 +22972,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloom+ के एक साल की क़ीमत लगभग %lld दिन और आधे दिन तक शराब पीने के ख़र्च के बराबर है।"
+            "value" : "Bloom+ के एक साल की क़ीमत लगभग %lld.5 दिन तक शराब पीने के ख़र्च के बराबर है।"
           }
         },
         "it" : {
@@ -23982,13 +23982,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "A lo largo de %lld día de sobriedad, destina una parte a mantenerla."
+                  "value" : "En %lld día de sobriedad. Destina una parte a mantenerla."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "A lo largo de %lld días de sobriedad, destina una parte a mantenerla."
+                  "value" : "En %lld días de sobriedad. Destina una parte a mantenerla."
                 }
               }
             }
@@ -24018,13 +24018,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Pendant %lld jour de sobriété. Consacrez une petite part à préserver cette avancée."
+                  "value" : "Pendant %lld jour de sobriété. Consacrez-en une petite part à préserver cette avancée."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Pendant %lld jours de sobriété. Consacrez une petite part à préserver cette avancée."
+                  "value" : "Pendant %lld jours de sobriété. Consacrez-en une petite part à préserver cette avancée."
                 }
               }
             }
@@ -24132,13 +24132,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Over %lld nuchtere dag. Investeer een klein deel in je nuchterheid."
+                  "value" : "In %lld nuchtere dag. Investeer een klein deel in je nuchterheid."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Over %lld nuchtere dagen. Investeer een klein deel in je nuchterheid."
+                  "value" : "In %lld nuchtere dagen. Investeer een klein deel in je nuchterheid."
                 }
               }
             }
@@ -24456,13 +24456,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jugendliche"
+            "value" : "Jugendlich"
           }
         },
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Εφηβεία"
+            "value" : "Νεαρό"
           }
         },
         "es" : {
@@ -25205,7 +25205,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vuoden jälkeen tutkimus yhdistää jatkuvan raittiuden pienempään pitkän aikavälin riskiin useissa alkoholiin liittyvissä sairauksissa. Keskustele terveydestäsi lääkärin kanssa."
+            "value" : "Tutkimuksissa vuoden jatkunut raittius on yhdistetty pienempään pitkän aikavälin riskiin useissa alkoholiin liittyvissä sairauksissa. Keskustele terveydestäsi lääkärin kanssa."
           }
         },
         "fr" : {
@@ -25235,7 +25235,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Po metų tyrimai sieja ilgalaikę blaivybę su mažesne ilgalaike kelių su alkoholiu susijusių ligų rizika. Dėl savo sveikatos pasitark su gydytoju."
+            "value" : "Po metų tyrimai sieja nuolatinę blaivybę su mažesne ilgalaike kelių su alkoholiu susijusių ligų rizika. Dėl savo sveikatos pasitark su gydytoju."
           }
         },
         "nb" : {
@@ -25259,7 +25259,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Через год исследования связывают устойчивую трезвость с меньшим долгосрочным риском ряда заболеваний, связанных с алкоголем. О своём здоровье поговорите с врачом."
+            "value" : "Через год, по данным исследований, у тех, кто сохраняет трезвость, ниже долгосрочный риск ряда заболеваний, связанных с алкоголем. О своём здоровье поговорите с врачом."
           }
         },
         "uk" : {
@@ -25294,19 +25294,19 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Μετά από περίπου έξι μήνες χωρίς την αφυδάτωση και τη φλεγμονή του αλκοόλ, πολλοί βλέπουν βελτίωση σε τόνο, ελαστικότητα και κοκκινίλες."
+            "value" : "Μετά από περίπου έξι μήνες χωρίς την αφυδάτωση και τη φλεγμονή του αλκοόλ, πολλοί βλέπουν βελτίωση στον τόνο και την ελαστικότητα του δέρματος και λιγότερες κοκκινίλες."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tras unos seis meses sin la deshidratación ni la inflamación del alcohol, muchas personas notan mejor tono, elasticidad y menos rojeces."
+            "value" : "Tras unos seis meses sin la deshidratación ni la inflamación del alcohol, muchas personas notan que la piel mejora en tono y elasticidad, con menos rojeces."
           }
         },
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Noin kuuden kuukauden jälkeen ilman alkoholin aiheuttamaa kuivumista ja tulehdusta moni huomaa ihon sävyn, kimmoisuuden ja punoituksen paranevan."
+            "value" : "Noin kuuden kuukauden jälkeen ilman alkoholin aiheuttamaa kuivumista ja tulehdusta moni huomaa ihon sävyn ja kimmoisuuden paranevan ja punoituksen vähenevän."
           }
         },
         "fr" : {
@@ -25318,7 +25318,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "शराब से होने वाली पानी की कमी और सूजन के बिना लगभग छह महीने बाद कई लोगों की त्वचा का रंग, लचीलापन और लालिमा सुधरती है।"
+            "value" : "शराब से होने वाली पानी की कमी और सूजन के बिना लगभग छह महीने बाद कई लोगों की त्वचा का रंग और लचीलापन बेहतर होता है और लालिमा कम होती है।"
           }
         },
         "it" : {
@@ -25330,7 +25330,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ალკოჰოლით გამოწვეული გაუწყლოებისა და ანთების გარეშე დაახლოებით ექვსი თვის შემდეგ ბევრს კანის ფერი, ელასტიკურობა და სიწითლე უუმჯობესდება."
+            "value" : "ალკოჰოლით გამოწვეული გაუწყლოებისა და ანთების გარეშე დაახლოებით ექვსი თვის შემდეგ ბევრს კანის ფერი და ელასტიკურობა უუმჯობესდება, სიწითლე კი უმცირდება."
           }
         },
         "lt" : {
@@ -25348,13 +25348,13 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Na ongeveer zes maanden zonder uitdroging en ontsteking door alcohol zien veel mensen hun teint, elasticiteit en roodheid verbeteren."
+            "value" : "Na ongeveer zes maanden zonder uitdroging en ontsteking door alcohol zien veel mensen hun teint en elasticiteit verbeteren en roodheid afnemen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Po około sześciu miesiącach bez odwodnienia i stanów zapalnych od alkoholu wiele osób widzi lepszy koloryt i elastyczność skóry oraz mniej zaczerwienień."
+            "value" : "Po około sześciu miesiącach bez odwodnienia i stanów zapalnych od alkoholu wiele osób zauważa lepszy koloryt i elastyczność skóry oraz mniej zaczerwienień."
           }
         },
         "ru" : {
@@ -25383,7 +25383,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Po třech nocích se fáze REM vrací do zdravého rytmu. Většina lidí hlásí živější sny a snazší rána."
+            "value" : "Po třech nocích se fáze REM vrací do zdravého rytmu. Většina lidí uvádí živější sny a snazší rána."
           }
         },
         "de" : {
@@ -25419,7 +25419,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "तीन रातों के बाद REM नींद का चक्र स्वस्थ लय में लौटता है। ज़्यादातर लोग ज़्यादा जीवंत सपने और आसान सुबहें बताते हैं।"
+            "value" : "तीन रातों के बाद REM नींद का चक्र स्वस्थ लय में लौटता है। ज़्यादातर लोग बताते हैं कि उन्हें ज़्यादा जीवंत सपने आते हैं और सुबह उठना आसान लगता है।"
           }
         },
         "it" : {
@@ -25585,7 +25585,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Po práci, u večeře, ve chvíli, kdy se to vždycky dělo."
+            "value" : "Po práci, u večeře, ve chvíli, kdy se dřív vždycky pilo."
           }
         },
         "de" : {
@@ -25663,13 +25663,13 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "После работы, за ужином, момент, когда это всегда случалось."
+            "value" : "После работы, за ужином, в тот момент, когда это всегда случалось."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Після роботи, за вечерею, момент, коли це завжди траплялося."
+            "value" : "Після роботи, за вечерею, у той момент, коли це завжди траплялося."
           }
         },
         "vi" : {
@@ -25719,13 +25719,13 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Celého %lld dne zalitého"
+                  "value" : "Celých %lld dne zalito"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Celých %lld dní zalitých"
+                  "value" : "Celých %lld dní zalito"
                 }
               }
             }
@@ -25743,7 +25743,7 @@
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Insgesamt %lld Tage gepflegt"
+                  "value" : "Alle %lld Tage gepflegt"
                 }
               }
             }
@@ -25755,7 +25755,7 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Όλη η μέρα φροντισμένη: %lld"
+                  "value" : "Όλες οι μέρες φροντισμένες: %lld"
                 }
               },
               "other" : {
@@ -25791,13 +25791,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Hoitopäiviä kaikkiaan: %lld"
+                  "value" : "Kaikki päivät hoidettu: %lld"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Hoitopäiviä kaikkiaan: %lld"
+                  "value" : "Kaikki päivät hoidettu: %lld"
                 }
               }
             }
@@ -25827,13 +25827,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "पूरे %lld दिन तक पौधे की देखभाल की गई।"
+                  "value" : "पूरे %lld दिन देखभाल हुई"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "पूरे %lld दिन तक पौधे की देखभाल की गई।"
+                  "value" : "पूरे %lld दिन देखभाल हुई"
                 }
               }
             }
@@ -25929,7 +25929,7 @@
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Je hebt %lld dagen verzorgd"
+                  "value" : "Alle %lld dagen verzorgd"
                 }
               }
             }
@@ -25959,7 +25959,7 @@
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Wszystkie %lld dni zadbane"
+                  "value" : "Wszystkie %lld dnia zadbane"
                 }
               }
             }
@@ -26093,7 +26093,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Visi %lld atsigavimo etapai, kiekvienas su šaltiniu."
+            "value" : "Visi atsigavimo etapai (%lld), kiekvienas su šaltiniu."
           }
         },
         "nb" : {
@@ -26111,7 +26111,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wszystkie %lld etapów regeneracji, każdy ze źródłem."
+            "value" : "Wszystkie etapy regeneracji (%lld), każdy ze źródłem."
           }
         },
         "ru" : {
@@ -26568,7 +26568,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Melkein ohi. Se mitä on jäljellä, on jo lähdössä."
+            "value" : "Melkein ohi. Se, mitä on jäljellä, on jo lähdössä."
           }
         },
         "fr" : {
@@ -26604,19 +26604,19 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nesten gjennom. Det som er igjen, er på vei ut."
+            "value" : "Snart over. Det som er igjen, er på vei ut."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bijna voorbij. Wat er nog over is, verdwijnt ook."
+            "value" : "Bijna voorbij. Wat er nog over is, ebt al weg."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prawie po wszystkim. To, co zostało, już odchodzi."
+            "value" : "Prawie po wszystkim. To, co zostało, już mija."
           }
         },
         "ru" : {
@@ -26758,7 +26758,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Αρχαίο"
+            "value" : "Αιωνόβιο"
           }
         },
         "es" : {
@@ -26859,7 +26859,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Αρχαίο και σμιλεμένο από τον καιρό. Αυτό το δέντρο έχει περάσει πολλά."
+            "value" : "Αιωνόβιο και σμιλεμένο από τον καιρό. Αυτό το δέντρο έχει περάσει πολλά."
           }
         },
         "es" : {
@@ -27251,13 +27251,13 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kolem šesti měsíců se ohlédni za návyky a osobním pokrokem, které tě sem dovedly."
+            "value" : "Zhruba po šesti měsících se ohlédni za návyky a osobním pokrokem, které tě sem dovedly."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nach etwa sechs Monaten lohnt ein Blick auf die Routinen und Fortschritte, die dich hierher gebracht haben."
+            "value" : "Nach etwa sechs Monaten lohnt ein Blick auf die Routinen und Fortschritte, die dich hierhergebracht haben."
           }
         },
         "el" : {
@@ -27317,7 +27317,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Na ongeveer zes maanden kun je stilstaan bij de routines en vooruitgang die je hier brachten."
+            "value" : "Na ongeveer zes maanden kun je stilstaan bij de routines en vooruitgang die je zover hebben gebracht."
           }
         },
         "pl" : {
@@ -27352,7 +27352,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kolem dvou týdnů mnoho lidí zjistí, že úzkost polevuje, jak se nervový systém vrací do rovnováhy. Zkušenosti se liší."
+            "value" : "Zhruba po dvou týdnech mnoho lidí zjistí, že úzkost polevuje, jak se nervový systém vrací do rovnováhy. Zkušenosti se liší."
           }
         },
         "de" : {
@@ -28796,7 +28796,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Začne se účtovat. Do té doby předplatné zruš."
+            "value" : "Začne se účtovat. Do té doby můžeš zrušit."
           }
         },
         "de" : {
@@ -28886,7 +28886,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bắt đầu tính phí. Hủy trước đó."
+            "value" : "Bắt đầu tính phí. Hãy hủy trước ngày này."
           }
         }
       }
@@ -29022,7 +29022,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Veren alkoholipitoisuus laskee nollaan"
+            "value" : "Alkoholi poistuu verestä"
           }
         },
         "fr" : {
@@ -29622,7 +29622,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloom+ cuesta más o menos lo que gastarías en alcohol durante %lld,5 días."
+            "value" : "Bloom+ cuesta más o menos lo que gastarías en alcohol durante %lld días y medio."
           }
         },
         "fi" : {
@@ -29640,7 +29640,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloom+ की क़ीमत लगभग %lld दिन और आधे दिन तक शराब पीने के ख़र्च के बराबर है।"
+            "value" : "Bloom+ की क़ीमत लगभग %lld.5 दिन तक शराब पीने के ख़र्च के बराबर है।"
           }
         },
         "it" : {
@@ -30379,7 +30379,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloom+ de por vida cuesta más o menos lo que gastarías en alcohol durante %lld,5 días."
+            "value" : "Bloom+ de por vida cuesta más o menos lo que gastarías en alcohol durante %lld días y medio."
           }
         },
         "fi" : {
@@ -30397,7 +30397,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloom+ की आजीवन सदस्यता की क़ीमत लगभग %lld दिन और आधे दिन तक शराब पीने के ख़र्च के बराबर है।"
+            "value" : "Bloom+ की आजीवन सदस्यता की क़ीमत लगभग %lld.5 दिन तक शराब पीने के ख़र्च के बराबर है।"
           }
         },
         "it" : {
@@ -30439,7 +30439,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloom+ навсегда стоит примерно как %lld с половиной дня выпивки."
+            "value" : "Bloom+ навсегда стоит примерно как выпивка за %lld,5 дня."
           }
         },
         "uk" : {
@@ -31142,7 +31142,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloom+-tilaukset eivät ole hetkeen saatavilla. Yritä uudelleen tai aloita ilmaiseksi."
+            "value" : "Bloom+-tilaukset eivät ole tilapäisesti saatavilla. Yritä uudelleen tai aloita ilmaiseksi."
           }
         },
         "fr" : {
@@ -31237,7 +31237,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloom+ proyecta cuánto ahorrarás, cuántas calorías evitarás y cómo crecerá tu árbol en un año."
+            "value" : "Bloom+ proyecta cuánto ahorrarás, cuántas calorías evitarás y cómo crecerá tu árbol en un año"
           }
         },
         "fi" : {
@@ -31267,7 +31267,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloom+ ერთი წლის შემდეგ შენს დანაზოგს, კალორიებსა და ხის ზრდას პროგნოზირებს"
+            "value" : "Bloom+ შენი დანაზოგის, კალორიებისა და ხის ზრდის ერთწლიან პროგნოზს გიჩვენებს"
           }
         },
         "lt" : {
@@ -31356,7 +31356,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloom+ दर्ज की गई तलबों का ब्यौरा देता है: वे कब उठती हैं, किससे शुरू होती हैं और कितनी देर रहती हैं।"
+            "value" : "Bloom+ दर्ज की गई तलबों का ब्यौरा देता है: वे कब उठती हैं, किससे शुरू होती हैं और कितनी देर रहती हैं"
           }
         },
         "it" : {
@@ -31392,7 +31392,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sposoby na głód alkoholowy"
+            "value" : "Bloom+ pokazuje ci zapisane napady głodu: kiedy się pojawiają, co je wywołuje i jak długo u ciebie trwają"
           }
         },
         "ru" : {
@@ -31445,7 +31445,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloom+ avaa kaikki puulajit, joten voit vaihtaa puuta milloin haluat. Raittiusjaksosi pitenee puuvalinnastasi riippumatta."
+            "value" : "Bloom+ avaa kaikki puulajit, joten voit vaihtaa puuta milloin haluat. Raittiusjaksosi kasvattaa minkä tahansa valitsemasi puun."
           }
         },
         "fr" : {
@@ -31469,13 +31469,13 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloom+ ყველა სახეობაზე წვდომას გაძლევს, რომ ხე როცა გინდა შეცვალო. შენი სიფხიზლის სერია შენ მიერ არჩეულ ხეზეც იზრდება."
+            "value" : "Bloom+ ყველა სახეობაზე წვდომას გაძლევს, რომ ხე როცა გინდა შეცვალო. რომელიც არ უნდა აირჩიო, შენი სიფხიზლის სერია მაინც იზრდება."
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloom+ atrakina visas rūšis, todėl medį gali keisti kada nori. Tavo blaivybės dienų seka ilgės, kad ir kurį pasirinktum."
+            "value" : "Bloom+ atrakina visas rūšis, todėl medį gali keisti kada nori. Kad ir kurį pasirinktum, jis augs kartu su tavo blaivybės dienų seka."
           }
         },
         "nb" : {
@@ -31493,19 +31493,19 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Głód alkoholowy według pory dnia"
+            "value" : "Bloom+ odblokowuje wszystkie gatunki, więc możesz zmienić drzewo, kiedy chcesz. Niezależnie od wyboru, drzewo rośnie razem z twoją serią."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloom+ открывает все виды, чтобы менять дерево когда угодно. Серия растёт на любом из них."
+            "value" : "Bloom+ открывает все виды, и дерево можно сменить в любой момент. Серия растёт, какой бы вид вы ни выбрали."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloom+ відкриває всі види, щоб ви могли будь-коли змінити дерево. Серія зростатиме, яке б дерево ви не обрали."
+            "value" : "Bloom+ відкриває всі види, щоб ви могли будь-коли змінити дерево. Будь-яке обране дерево зростатиме разом із вашою серією."
           }
         },
         "vi" : {
@@ -31564,7 +31564,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloom+, gratis da provare"
+            "value" : "Prova Bloom+ gratis"
           }
         },
         "ka" : {
@@ -31600,7 +31600,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloom+, попробуйте бесплатно"
+            "value" : "Попробуйте Bloom+ бесплатно"
           }
         },
         "uk" : {
@@ -32628,7 +32628,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Μέχρι %1$@: έχεις εξοικονομήσει %2$@ και έχεις πετύχει %#@n@."
+            "value" : "Μέχρι %1$@: θα έχεις εξοικονομήσει %2$@ και θα έχεις πετύχει %#@n@."
           },
           "substitutions" : {
             "n" : {
@@ -32712,7 +32712,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "D'ici le %1$@ : %2$@ gardés et %#@n@"
+            "value" : "D'ici le %1$@ : %2$@ économisés et %#@n@"
           },
           "substitutions" : {
             "n" : {
@@ -32740,7 +32740,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ तक %2$@ की बचत होगी और %#@n@ पड़ाव पूरे होंगे"
+            "value" : "%1$@ तक %2$@ की बचत होगी और %#@n@"
           },
           "substitutions" : {
             "n" : {
@@ -32751,13 +32751,13 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg पड़ाव"
+                      "value" : "%arg पड़ाव पूरा होगा"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg पड़ाव"
+                      "value" : "%arg पड़ाव पूरे होंगे"
                     }
                   }
                 }
@@ -33034,7 +33034,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Đến %1$@: giữ được %2$@ và qua %#@n@"
+            "value" : "Đến %1$@: giữ được %2$@ và vượt qua %#@n@"
           },
           "substitutions" : {
             "n" : {
@@ -33109,7 +33109,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "დაახლოებით ერთ თვეში კვლევების თანახმად, ღვიძლში ცხიმი შეიძლება შემცირდეს, ღვიძლის მაჩვენებლები, მაგალითად ALT-ის დონე, კი ხშირად უმჯობესდება. შედეგები ინდივიდუალურია."
+            "value" : "კვლევების თანახმად, დაახლოებით ერთ თვეში ღვიძლში ცხიმი შეიძლება შემცირდეს, ღვიძლის მაჩვენებლები კი, მაგალითად ALT-ის დონე, ხშირად უმჯობესდება. შედეგები ინდივიდუალურია."
           }
         },
         "lt" : {
@@ -33151,7 +33151,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Khoảng một tháng, các nghiên cứu cho thấy mỡ gan có thể giảm và các chỉ số gan như ALT thường cải thiện. Kết quả khác nhau ở mỗi người."
+            "value" : "Sau khoảng một tháng, các nghiên cứu cho thấy mỡ gan có thể giảm và các chỉ số gan như ALT thường cải thiện. Kết quả khác nhau ở mỗi người."
           }
         }
       }
@@ -33162,7 +33162,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kolem dvou měsíců se mnoha lidem zlepší krevní tlak, jak se srdce a cévy zotavují. Účinky se liší."
+            "value" : "Zhruba po dvou měsících se mnoha lidem zlepší krevní tlak, jak se srdce a cévy zotavují. Účinky se liší."
           }
         },
         "de" : {
@@ -33252,7 +33252,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Khoảng hai tháng, nhiều người thấy huyết áp cải thiện khi hệ tim mạch hồi phục. Tác động khác nhau ở mỗi người."
+            "value" : "Sau khoảng hai tháng, nhiều người thấy huyết áp cải thiện khi hệ tim mạch hồi phục. Tác động khác nhau ở mỗi người."
           }
         }
       }
@@ -33293,7 +33293,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Après une semaine, beaucoup constatent une meilleure concentration, mémoire et réactivité, l'inflammation cérébrale diminuant. Chaque personne vit les choses différemment."
+            "value" : "Après une semaine, beaucoup constatent une amélioration de la concentration, de la mémoire et des réflexes, à mesure que l'inflammation cérébrale diminue. Chaque personne vit les choses différemment."
           }
         },
         "hi" : {
@@ -34737,7 +34737,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bytt rom eller gå ut i fem minutter. Sug henger sammen med stedet de pleier å komme."
+            "value" : "Bytt rom eller gå ut i fem minutter. Sug henger sammen med stedet der de pleier å komme."
           }
         },
         "nl" : {
@@ -34957,7 +34957,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Изменить на срыв"
+            "value" : "Изменить на «Срыв»"
           }
         },
         "uk" : {
@@ -35058,7 +35058,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Изменить статус на «Трезвый»"
+            "value" : "Изменить на «Трезвый»"
           }
         },
         "uk" : {
@@ -35337,7 +35337,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pažymėjimas"
+            "value" : "Žymėjimas"
           }
         },
         "nb" : {
@@ -35527,7 +35527,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verifica della prova…"
+            "value" : "Verifica disponibilità della prova…"
           }
         },
         "ka" : {
@@ -35563,7 +35563,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Проверяем пробный период…"
+            "value" : "Проверяем доступность пробного периода…"
           }
         },
         "uk" : {
@@ -35622,7 +35622,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "चीयर्स! मैं इसके साथ जश्न मना रहा हूँ।"
+            "value" : "चीयर्स! मेरा जश्न इसी के साथ है।"
           }
         },
         "it" : {
@@ -35640,7 +35640,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Į sveikatą! Aš švenčiu su šituo."
+            "value" : "Į sveikatą! Aš švenčiu su šiuo gėrimu."
           }
         },
         "nb" : {
@@ -35664,7 +35664,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "За вас! Сегодня отмечаю этим напитком."
+            "value" : "Ваше здоровье! А я праздную вот с этим."
           }
         },
         "uk" : {
@@ -37494,7 +37494,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Không thể khôi phục mục mua. Hãy thử lại."
+            "value" : "Không thể khôi phục giao dịch mua. Hãy thử lại."
           }
         }
       }
@@ -37678,7 +37678,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Licz każdy dzień, rozwijaj swoje bonsai i zobacz, co zyskują twoje ciało i portfel."
+            "value" : "Licz każdy dzień, hoduj swoje bonsai i zobacz, co zyskują twoje ciało i portfel."
           }
         },
         "ru" : {
@@ -37779,7 +37779,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Liczy się do twojej drogi. Jeszcze bez meldunku."
+            "value" : "Wliczony do twoich postępów. Jeszcze niezapisany."
           }
         },
         "ru" : {
@@ -37874,7 +37874,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plan bij drang"
+            "value" : "Strategieën bij trek"
           }
         },
         "pl" : {
@@ -37915,7 +37915,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verlangen nach Tageszeit"
+            "value" : "Verlangen je nach Tageszeit"
           }
         },
         "el" : {
@@ -38040,7 +38040,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bravo"
+            "value" : "Au top"
           }
         },
         "hi" : {
@@ -38088,7 +38088,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Отлично!"
+            "value" : "На все сто"
           }
         },
         "uk" : {
@@ -38569,7 +38569,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kasdienis pažymėjimas"
+            "value" : "Kasdienis žymėjimas"
           }
         },
         "nb" : {
@@ -38717,7 +38717,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Denní deník"
+            "value" : "Deník"
           }
         },
         "de" : {
@@ -38765,7 +38765,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ყოველდღიური დღიური"
+            "value" : "დღიური ყოველდღე"
           }
         },
         "lt" : {
@@ -38902,7 +38902,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Щоденні питання для щоденника, коли вони найпотрібніші, плюс усе інше в Bloom+."
+            "value" : "Щоденні підказки для записів, коли вони найпотрібніші, плюс усе інше в Bloom+."
           }
         },
         "vi" : {
@@ -38931,7 +38931,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Σκοτεινό"
+            "value" : "Σκούρο"
           }
         },
         "es" : {
@@ -39864,7 +39864,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Päätä lähtöaikasi ennen kuin saavut ja kerro siitä yhdelle ihmiselle."
+            "value" : "Päätä lähtöaikasi ennen kuin saavut, ja kerro siitä yhdelle ihmiselle."
           }
         },
         "fr" : {
@@ -39900,7 +39900,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bestem når du går før du kommer, og si det til én person."
+            "value" : "Bestem når du skal gå før du kommer, og si det til én person."
           }
         },
         "nl" : {
@@ -40072,7 +40072,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les cycles de sommeil paradoxal profond réapparaissent."
+            "value" : "Le sommeil paradoxal redevient plus profond."
           }
         },
         "hi" : {
@@ -40345,7 +40345,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Popiš chvíli klidu, kterou jsem nedávno zažil."
+            "value" : "Popiš chvíli klidu, kterou jsi nedávno zažil."
           }
         },
         "de" : {
@@ -40417,7 +40417,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opisz chwilę spokoju, której niedawno doświadczyłem."
+            "value" : "Opisz niedawną chwilę spokoju."
           }
         },
         "ru" : {
@@ -40458,7 +40458,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Περίγραψε μια μικρή νίκη σήμερα."
+            "value" : "Περίγραψε μια μικρή νίκη της σημερινής μέρας."
           }
         },
         "es" : {
@@ -40619,7 +40619,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deweloper"
+            "value" : "Programista"
           }
         },
         "ru" : {
@@ -40886,7 +40886,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "कुछ भी तय करने से पहले तीन मिनट साँस लें।"
+            "value" : "कुछ भी तय करने से पहले तीन मिनट गहरी साँसें लें।"
           }
         },
         "it" : {
@@ -40904,7 +40904,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prieš ką nors nuspręsdamas tris minutes kvėpuok."
+            "value" : "Prieš priimdamas sprendimą, tris minutes pakvėpuok."
           }
         },
         "nb" : {
@@ -40916,7 +40916,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adem drie minuten voordat je iets beslist."
+            "value" : "Adem eerst drie minuten rustig voordat je iets beslist."
           }
         },
         "pl" : {
@@ -41082,7 +41082,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "On confond parfois la faim et l'ennui avec des envies."
+            "value" : "Mangez quelque chose. On confond souvent la faim et l'ennui avec des envies."
           }
         },
         "hi" : {
@@ -41118,7 +41118,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Honger en verveling worden allebei aangezien voor trek in alcohol."
+            "value" : "Eet iets. Honger en verveling worden allebei aangezien voor trek in alcohol."
           }
         },
         "pl" : {
@@ -41367,7 +41367,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Τέλος οι άδειες θερμίδες."
+            "value" : "Τέλος οι κενές θερμίδες."
           }
         },
         "es" : {
@@ -41926,7 +41926,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avond alleen"
+            "value" : "'s Avonds alleen"
           }
         },
         "pl" : {
@@ -41967,7 +41967,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jedes dieser Verlangen ging vorbei, ohne dass du etwas getrunken hast."
+            "value" : "Jedes Mal ging das Verlangen vorbei, ohne dass du etwas getrunken hast."
           }
         },
         "el" : {
@@ -42003,7 +42003,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ognuna di quelle voglie è passata senza che bevessi."
+            "value" : "Ognuna di quelle voglie è passata senza che tu bevessi."
           }
         },
         "ka" : {
@@ -42015,7 +42015,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kiekvienas iš jų buvo potraukis, pasibaigęs be gėrimo."
+            "value" : "Kiekvienas iš jų buvo potraukis, praėjęs neišgėrus."
           }
         },
         "nb" : {
@@ -42033,7 +42033,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Każdy z tych napadów głodu alkoholowego minął bez sięgnięcia po alkohol."
+            "value" : "Każdy z tych napadów głodu minął bez sięgnięcia po alkohol."
           }
         },
         "ru" : {
@@ -42086,7 +42086,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jokainen laskemasi raitis päivä merkitsee yhä."
+            "value" : "Jokainen laskemasi raitis päivä on yhä arvokas"
           }
         },
         "fr" : {
@@ -42163,7 +42163,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pokaždé, když ustojíš chuť, se aplikace o té tvé dozví něco nového: kdy přichází, co ji spouští a jak dlouho doopravdy trvá."
+            "value" : "Pokaždé, když chuť ustojíš, se aplikace dozví víc o tvých chutích: kdy přicházejí, co je spouští a jak dlouho doopravdy trvají."
           }
         },
         "de" : {
@@ -42707,7 +42707,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mở khóa hôm nay mọi công cụ giúp bạn theo dõi chuỗi ngày. Không tính phí trong %lld ngày."
+            "value" : "Mọi công cụ giúp bạn theo dõi chuỗi ngày. Không tính phí trong %lld ngày."
           }
         }
       }
@@ -42760,7 +42760,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tutti gli strumenti che tengono in vista la tua serie. Oggi non paghi nulla."
+            "value" : "Tutti gli strumenti per tenere visibili i tuoi giorni sobri. Oggi non paghi nulla."
           }
         },
         "ka" : {
@@ -42796,7 +42796,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Все инструменты, которые держат серию на виду. Сегодня ничего не списывается."
+            "value" : "Все инструменты для отслеживания серии. Сегодня ничего не списывается."
           }
         },
         "uk" : {
@@ -42808,7 +42808,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mở khóa hôm nay mọi công cụ giúp bạn theo dõi chuỗi ngày. Hôm nay không tính phí."
+            "value" : "Mọi công cụ giúp bạn theo dõi chuỗi ngày. Hôm nay không tính phí."
           }
         }
       }
@@ -43093,13 +43093,13 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Świetnie"
+            "value" : "Doskonale"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Отлично"
+            "value" : "Превосходно"
           }
         },
         "uk" : {
@@ -43336,7 +43336,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Λιγότερες αυτή την εβδομάδα απ’ ό,τι την προηγούμενη."
+            "value" : "Λιγότερες αυτή την εβδομάδα απ’ ό,τι την προηγούμενη"
           }
         },
         "es" : {
@@ -43467,7 +43467,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trova un trattamento"
+            "value" : "Trova un centro di cura"
           }
         },
         "ka" : {
@@ -43853,13 +43853,13 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ilmainen %@ asti, muistutamme ennen loppua."
+            "value" : "Ilmainen %@ asti. Muistutamme ennen kuin kokeilu päättyy."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gratuit jusqu'au %@, nous vous préviendrons avant la fin."
+            "value" : "Gratuit jusqu'au %@. Nous vous préviendrons avant la fin."
           }
         },
         "hi" : {
@@ -43877,7 +43877,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "უფასოა %@-მდე. დასრულებამდე შეგახსენებ."
+            "value" : "უფასოა %@-მდე. დასრულებამდე შეგახსენებთ."
           }
         },
         "lt" : {
@@ -44055,7 +44055,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Maksutonta ja luottamuksellista apua on saatavilla milloin vain. Avun pyytäminen on vahvuutta, ei takaisku."
+            "value" : "Maksutonta ja luottamuksellista apua on saatavilla milloin vain. Avun pyytäminen on vahvuus, ei takaisku."
           }
         },
         "fr" : {
@@ -44073,7 +44073,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un aiuto gratuito e riservato è sempre disponibile. Chiedere aiuto è un punto di forza, non un passo indietro."
+            "value" : "Un aiuto gratuito e riservato è sempre disponibile. Chiedere aiuto è segno di forza, non un passo indietro."
           }
         },
         "ka" : {
@@ -44097,7 +44097,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gratis, vertrouwelijke hulp is altijd beschikbaar. Hulp zoeken getuigt van kracht, geen stap terug."
+            "value" : "Gratis, vertrouwelijke hulp is altijd beschikbaar. Hulp zoeken is een teken van kracht, geen stap terug."
           }
         },
         "pl" : {
@@ -44263,7 +44263,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Récupération de tout le corps"
+            "value" : "Récupération globale"
           }
         },
         "hi" : {
@@ -45380,7 +45380,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "समझ गया"
+            "value" : "समझ लिया"
           }
         },
         "it" : {
@@ -45558,7 +45558,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Εδαφοκάλυψη"
+            "value" : "Εδαφοκαλυπτικά"
           }
         },
         "es" : {
@@ -45647,7 +45647,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pěstuj všechny druhy."
+            "value" : "Vypěstuj všechny druhy."
           }
         },
         "de" : {
@@ -45671,7 +45671,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kasvata kaikkia lajeja."
+            "value" : "Kasvata kaikki lajit."
           }
         },
         "fr" : {
@@ -45719,7 +45719,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uprawiaj każdy gatunek."
+            "value" : "Wyhoduj wszystkie gatunki."
           }
         },
         "ru" : {
@@ -46081,7 +46081,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ayez un plan prêt."
+            "value" : "Prévoyez un plan."
           }
         },
         "hi" : {
@@ -46117,7 +46117,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Heb een plan klaar."
+            "value" : "Houd een plan klaar."
           }
         },
         "pl" : {
@@ -46182,7 +46182,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gardez un verre d'eau pétillante au citron vert à la main avant qu'on vous demande quoi boire."
+            "value" : "Ayez déjà en main une eau pétillante au citron vert avant qu'on vous propose à boire."
           }
         },
         "hi" : {
@@ -46206,7 +46206,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dar prieš kam nors paklausus, turėk rankoje gazuoto vandens su laimu."
+            "value" : "Dar prieš kam nors paklausiant, laikyk rankoje stiklinę gazuoto vandens su laimu."
           }
         },
         "nb" : {
@@ -46224,7 +46224,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Miej pod ręką wodę gazowaną z limonką, zanim ktoś zapyta."
+            "value" : "Zanim ktoś zapyta, miej już w ręce wodę gazowaną z limonką."
           }
         },
         "ru" : {
@@ -46236,7 +46236,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Заздалегідь візьміть газовану воду з лаймом, перш ніж хтось запропонує вам випити."
+            "value" : "Візьміть газовану воду з лаймом, перш ніж хтось запропонує вам випити."
           }
         },
         "vi" : {
@@ -46622,7 +46622,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Leververvetting verbetert."
+            "value" : "Leververvetting neemt af."
           }
         },
         "pl" : {
@@ -46657,7 +46657,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zadrž"
+            "value" : "Zadrž dech"
           }
         },
         "de" : {
@@ -47008,7 +47008,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "მთავარ ეკრანზე უკუთვლა იქნება. მოგვიანებით შეცვლი."
+            "value" : "მთავარ ეკრანზე უკუთვლა იქნება. შეგიძლია მოგვიანებით შეცვალო."
           }
         },
         "lt" : {
@@ -47555,7 +47555,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bạn đã tỉnh táo bao lâu."
+            "value" : "Thời gian bạn đã tỉnh táo."
           }
         }
       }
@@ -47584,7 +47584,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "¿Qué tan fuerte fue?"
+            "value" : "¿Qué intensidad tuvo?"
           }
         },
         "fi" : {
@@ -47620,7 +47620,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Koks jis buvo stiprus?"
+            "value" : "Koks stiprus jis buvo?"
           }
         },
         "nb" : {
@@ -47638,7 +47638,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jak silny był?"
+            "value" : "Jak silny był głód?"
           }
         },
         "ru" : {
@@ -47656,7 +47656,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nó mạnh đến mức nào?"
+            "value" : "Cơn thèm mạnh đến mức nào?"
           }
         }
       }
@@ -47947,7 +47947,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Я беру на себя это обязательство"
+            "value" : "Даю себе слово"
           }
         },
         "uk" : {
@@ -48000,7 +48000,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ça va, merci. J'ai déjà la mienne."
+            "value" : "Ça va, merci. J'ai déjà un verre."
           }
         },
         "hi" : {
@@ -48060,7 +48060,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mình ổn, cảm ơn. Đã có ly này rồi."
+            "value" : "Mình ổn, cảm ơn. Mình có ly rồi."
           }
         }
       }
@@ -48071,13 +48071,13 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mám chuť"
+            "value" : "Mám chuť se napít"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ich habe Verlangen"
+            "value" : "Ich spüre Verlangen"
           }
         },
         "el" : {
@@ -48285,7 +48285,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Κάνω ένα διάλειμμα από αυτό. Και νιώθω καλύτερα."
+            "value" : "Κάνω ένα διάλειμμα από το ποτό. Και νιώθω καλύτερα."
           }
         },
         "es" : {
@@ -48297,7 +48297,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pidän siitä taukoa. Ja olo on parempi."
+            "value" : "Pidän taukoa alkoholista, ja olo on parempi."
           }
         },
         "fr" : {
@@ -48309,7 +48309,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "मैं इससे कुछ समय के लिए ब्रेक पर हूँ। अब बेहतर भी लग रहा है।"
+            "value" : "मैंने कुछ समय के लिए इससे ब्रेक लिया है। अब बेहतर भी लग रहा है।"
           }
         },
         "it" : {
@@ -48333,7 +48333,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jeg tar en pause fra det. Jeg føler meg også bedre av det."
+            "value" : "Jeg tar en pause fra det. Og jeg føler meg bedre av det."
           }
         },
         "nl" : {
@@ -48351,13 +48351,13 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Я пока не пью. Мне от этого тоже лучше."
+            "value" : "Я пока не пью. И мне от этого только лучше."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Я поки що не п’ю. І мені від цього теж краще."
+            "value" : "Я поки що не п’ю. І почуваюся від цього краще."
           }
         },
         "vi" : {
@@ -48410,7 +48410,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "अब यह दौर पीछे छूट गया है"
+            "value" : "मैंने इसे पार कर लिया"
           }
         },
         "it" : {
@@ -48434,7 +48434,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jeg kom meg gjennom"
+            "value" : "Jeg kom meg gjennom det"
           }
         },
         "nl" : {
@@ -48743,7 +48743,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Is het nog sterk, start dan een ademsessie en laat het pieken."
+            "value" : "Is het nog sterk, start dan een ademsessie en laat de piek voorbijgaan."
           }
         },
         "pl" : {
@@ -48790,7 +48790,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Αν η σημερινή μέρα είναι νηφάλια, κατέγραψέ την και πότισε τον κήπο σου."
+            "value" : "Αν η σημερινή μέρα είναι νηφάλια, κατάγραψέ την και πότισε τον κήπο σου."
           }
         },
         "es" : {
@@ -48844,7 +48844,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Is vandaag een nuchtere dag, leg hem vast en geef je tuin water."
+            "value" : "Is vandaag een nuchtere dag, leg hem dan vast en geef je tuin water."
           }
         },
         "pl" : {
@@ -48986,7 +48986,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Insulinempfindlichkeit normalisiert sich."
+            "value" : "Die Insulinempfindlichkeit beginnt sich zu normalisieren."
           }
         },
         "el" : {
@@ -49295,7 +49295,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Είναι ήδη μικρότερη από πριν από ένα λεπτό, ακόμα κι αν δεν νιώθεις ότι τελείωσε."
+            "value" : "Είναι ήδη μικρότερη απ’ ό,τι πριν από ένα λεπτό, ακόμα κι αν δεν νιώθεις ότι τελείωσε."
           }
         },
         "es" : {
@@ -49331,7 +49331,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "უკვე ნაკლებია, ვიდრე ერთი წუთის წინ, თუნდაც დასრულებულად არ გეჩვენებოდეს."
+            "value" : "უკვე უფრო სუსტია, ვიდრე ერთი წუთის წინ, თუნდაც დასრულებულად არ გეჩვენებოდეს."
           }
         },
         "lt" : {
@@ -49367,7 +49367,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Він уже слабший, ніж хвилину тому, навіть якщо здається, що не минув."
+            "value" : "Він уже слабший, ніж хвилину тому, навіть якщо здається, що ще не минув."
           }
         },
         "vi" : {
@@ -49384,7 +49384,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To je v pořádku. Na cestě za střízlivostí uklouzne mnoho lidí. Když si ho zapíšeš, tvůj záznam zůstane úplný a pravdivý."
+            "value" : "To je v pořádku. Na cestě za střízlivostí uklouzne mnoho lidí. Když si to zapíšeš, tvůj záznam zůstane úplný a pravdivý."
           }
         },
         "de" : {
@@ -49444,19 +49444,19 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det er greit. En sprekk er en del av mange reiser, og når du registrerer den, stemmer resten av oversikten din."
+            "value" : "Det er greit. For mange er en sprekk en del av veien, og når du registrerer den, stemmer resten av oversikten din."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Een uitglijder hoort bij het traject van veel mensen. Door hem vast te leggen, klopt de rest van je overzicht ook."
+            "value" : "Geeft niet. Een uitglijder hoort bij het traject van veel mensen. Door hem vast te leggen, klopt de rest van je overzicht ook."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "W porządku. Potknięcia zdarzają się w drodze do trzeźwości. Zapisanie go pomaga zachować pełny obraz twoich postępów."
+            "value" : "W porządku. Potknięcie to część drogi wielu osób, a zapisanie go pomaga zachować pełny obraz twoich postępów."
           }
         },
         "ru" : {
@@ -49729,7 +49729,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tieni la prova gratuita"
+            "value" : "Continua la prova gratuita"
           }
         },
         "ka" : {
@@ -49800,7 +49800,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Αν μπορείς, μην κρατάς καθόλου στο σπίτι τις πρώτες εβδομάδες."
+            "value" : "Αν μπορείς, μην έχεις καθόλου αλκοόλ στο σπίτι τις πρώτες εβδομάδες."
           }
         },
         "es" : {
@@ -49836,7 +49836,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "თუ შეგიძლია, პირველ კვირებში სახლში საერთოდ არ იქონიო."
+            "value" : "თუ შეგიძლია, პირველ კვირებში სახლში ალკოჰოლი საერთოდ არ იქონიო."
           }
         },
         "lt" : {
@@ -49937,13 +49937,13 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "დარჩე უფასო ვერსიაზე?"
+            "value" : "დარჩები უფასო ვერსიაზე?"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Palikti nemokamą versiją?"
+            "value" : "Likti su nemokama versija?"
           }
         },
         "nb" : {
@@ -50495,7 +50495,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Odejdi, dokud je to ještě dobré."
+            "value" : "Odejdi v nejlepším."
           }
         },
         "de" : {
@@ -50531,7 +50531,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "जब तक अच्छा लग रहा हो, निकल जाएँ।"
+            "value" : "मज़ा रहते-रहते ही निकल जाएँ।"
           }
         },
         "it" : {
@@ -50543,7 +50543,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "წადი, სანამ ჯერ კიდევ კარგია."
+            "value" : "წადი, სანამ ჯერ კიდევ სასიამოვნოა."
           }
         },
         "lt" : {
@@ -50733,7 +50733,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "पौराणिक"
+            "value" : "महान"
           }
         },
         "it" : {
@@ -51060,7 +51060,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lett"
+            "value" : "Lys"
           }
         },
         "nl" : {
@@ -51149,7 +51149,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ღვიძლის ცხიმი მცირდება"
+            "value" : "ღვიძლის ცხიმის შემცირება"
           }
         },
         "lt" : {
@@ -51387,7 +51387,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Закрито. Торкніться, щоб дізнатися про Bloom+"
+            "value" : "Заблоковано. Торкніться, щоб дізнатися про Bloom+"
           }
         },
         "vi" : {
@@ -51648,7 +51648,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registra la giornata come sobria"
+            "value" : "Registra giorno sobrio"
           }
         },
         "ka" : {
@@ -51666,7 +51666,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registrer deg som edru"
+            "value" : "Registrer som edru"
           }
         },
         "nl" : {
@@ -51719,7 +51719,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Κατέγραψέ το και συνέχισε"
+            "value" : "Κατάγραψέ το και συνέχισε"
           }
         },
         "es" : {
@@ -51915,13 +51915,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trag heute ein und gieß deinen Garten. Du schaffst das."
+            "value" : "Trag den heutigen Tag ein und gieß deinen Garten. Du schaffst das."
           }
         },
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Κατέγραψε τη σημερινή μέρα και πότισε τον κήπο σου. Τα καταφέρνεις."
+            "value" : "Κατάγραψε τη σημερινή μέρα και πότισε τον κήπο σου. Τα καταφέρνεις."
           }
         },
         "es" : {
@@ -51981,7 +51981,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zamelduj się dziś i podlej ogród. Dasz radę."
+            "value" : "Zapisz dzisiejszy dzień i podlej ogród. Dasz radę."
           }
         },
         "ru" : {
@@ -51993,7 +51993,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Відмітьте сьогоднішній день і полийте сад. У вас вийде."
+            "value" : "Позначте сьогоднішній день і полийте сад. У вас вийде."
           }
         },
         "vi" : {
@@ -52016,13 +52016,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trag ein, dass du heute nüchtern warst, und gieß deinen Bonsai."
+            "value" : "Trag den heutigen Tag als nüchtern ein und gieß deinen Bonsai"
           }
         },
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Κατέγραψε τη μέρα νηφάλια και πότισε το μπονσάι σου"
+            "value" : "Κατάγραψε τη μέρα ως νηφάλια και πότισε το μπονσάι σου"
           }
         },
         "es" : {
@@ -52058,7 +52058,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ჩაიწერე დღეს ფხიზლად და მორწყე ბონსაი"
+            "value" : "ჩაიწერე, რომ დღეს ფხიზელი ხარ, და ბონსაი მორწყე"
           }
         },
         "lt" : {
@@ -52088,7 +52088,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Отметьте день трезвым и полейте бонсай"
+            "value" : "Отметьте день как трезвый и полейте бонсай"
           }
         },
         "uk" : {
@@ -52224,7 +52224,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Η μέρα καταγράφηκε ως νηφάλια."
+            "value" : "Καταγράφηκε νηφάλια μέρα"
           }
         },
         "es" : {
@@ -52741,7 +52741,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alakulo"
+            "value" : "Alakuloinen"
           }
         },
         "fr" : {
@@ -52818,7 +52818,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dej si sodu s limetkou nebo něco teplého a měj sklenici v ruce."
+            "value" : "Dej si sodovku s limetkou nebo něco teplého a měj sklenici v ruce."
           }
         },
         "de" : {
@@ -52878,7 +52878,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ta et glass kullsyrevann med lime eller noe varmt å drikke, og hold det i hånden."
+            "value" : "Ta et glass farris med lime eller noe varmt å drikke, og hold det i hånden."
           }
         },
         "nl" : {
@@ -52979,7 +52979,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voksen"
+            "value" : "Fullvokst"
           }
         },
         "nl" : {
@@ -53068,7 +53068,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "შენი ბოლომდე გავლილი სესიების მიხედვითაა გაზომილი და არა ყველას საშუალო მაჩვენებლით."
+            "value" : "გამოთვლილია შენი ბოლომდე გავლილი სესიებით და არა ყველას საშუალოთი."
           }
         },
         "lt" : {
@@ -53086,7 +53086,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gemeten op basis van de sessies die je zelf hebt volgehouden, niet op basis van ieders gemiddelde."
+            "value" : "Gemeten op basis van de sessies die je zelf hebt volgehouden, niet op een gemiddelde van iedereen."
           }
         },
         "pl" : {
@@ -53496,7 +53496,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zaoszczędzone pieniądze, kalorie i etapy z Bloom+"
+            "value" : "Zaoszczędzone pieniądze, kalorie i kamienie milowe z Bloom+"
           }
         },
         "ru" : {
@@ -53597,7 +53597,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pieniądze, kalorie i etapy do wybranej daty."
+            "value" : "Pieniądze, kalorie i kamienie milowe do wybranej daty."
           }
         },
         "ru" : {
@@ -53941,7 +53941,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Περισσότερες αυτή την εβδομάδα απ’ ό,τι την προηγούμενη."
+            "value" : "Περισσότερες αυτή την εβδομάδα απ’ ό,τι την προηγούμενη"
           }
         },
         "es" : {
@@ -54642,7 +54642,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nenne eine Situation, in der ich früher getrunken habe. Wie bin ich damit umgegangen?"
+            "value" : "Nenne eine Situation, in der du früher getrunken hast. Wie bist du damit umgegangen?"
           }
         },
         "el" : {
@@ -54690,13 +54690,13 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Įvardyk situaciją, kurioje anksčiau gerdavai. Kaip su ja susitvarkiau?"
+            "value" : "Įvardyk situaciją, kurioje anksčiau gerdavau. Kaip su ja susitvarkiau?"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nevn en situasjon som pleide å handle om drikking. Hvordan taklet jeg den?"
+            "value" : "Nevn en situasjon der jeg pleide å drikke. Hvordan taklet jeg den?"
           }
         },
         "nl" : {
@@ -54720,7 +54720,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Згадайте ситуацію, у якій ви раніше випивали. Як мені вдалося з нею впоратися?"
+            "value" : "Згадайте ситуацію, яка раніше була пов’язана з алкоголем. Як мені вдалося з нею впоратися?"
           }
         },
         "vi" : {
@@ -54975,7 +54975,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "तटस्थ"
+            "value" : "सामान्य"
           }
         },
         "it" : {
@@ -55177,7 +55177,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "नई बढ़त"
+            "value" : "नई कोंपलें"
           }
         },
         "it" : {
@@ -55195,7 +55195,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Naujas augimas"
+            "value" : "Nauji ūgliai"
           }
         },
         "nb" : {
@@ -55219,13 +55219,13 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Новый рост"
+            "value" : "Новые побеги"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Новий приріст"
+            "value" : "Нові пагони"
           }
         },
         "vi" : {
@@ -55961,7 +55961,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Κανένας στόχος"
+            "value" : "Χωρίς στόχο"
           }
         },
         "es" : {
@@ -56009,7 +56009,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ingen mål"
+            "value" : "Ikke noe mål"
           }
         },
         "nl" : {
@@ -56252,7 +56252,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Teď nic neplatíš · Předplatné můžeš kdykoli zrušit · Data zůstanou v zařízení"
+            "value" : "Teď nic neplatíš · Zrušíš kdykoli · Data zůstanou v zařízení"
           }
         },
         "de" : {
@@ -56395,7 +56395,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non devi spiegazioni. Dillo una volta e cambia argomento."
+            "value" : "Non devi dare spiegazioni. Dillo una volta e cambia argomento."
           }
         },
         "ka" : {
@@ -56508,7 +56508,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ne, ačiū, šiam vakarui man užtenka."
+            "value" : "Ne, ačiū, šįvakar man nieko nereikia."
           }
         },
         "nb" : {
@@ -56526,7 +56526,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nie, dzięki, na dziś wystarczy."
+            "value" : "Nie, dzięki, mam już coś do picia."
           }
         },
         "ru" : {
@@ -56538,7 +56538,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ні, дякую, мені на сьогодні вистачить."
+            "value" : "Ні, дякую, у мене вже все є."
           }
         },
         "vi" : {
@@ -56621,7 +56621,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geen proef, geen verlenging. Bloom+ blijft ontgrendeld."
+            "value" : "Geen proefperiode, geen verlenging. Bloom+ blijft ontgrendeld."
           }
         },
         "pl" : {
@@ -56977,7 +56977,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aún no sé. Cerrar sesión"
+            "value" : "Aún no lo sé. Terminar la sesión"
           }
         },
         "fi" : {
@@ -57019,7 +57019,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Usikker ennå. Avslutt"
+            "value" : "Vet ikke ennå. Avslutt"
           }
         },
         "nl" : {
@@ -57304,7 +57304,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non hai niente da fare e la vecchia abitudine ti tenta per riempire il tempo."
+            "value" : "Non hai niente da fare e la vecchia abitudine si offre di riempire il tempo."
           }
         },
         "ka" : {
@@ -57447,7 +57447,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Поки немає що читати"
+            "value" : "Поки нічого читати"
           }
         },
         "vi" : {
@@ -57488,7 +57488,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Huomaa se väittelemättä vastaan. Et yritä voittaa sitä, vaan odotat, että se menee ohi."
+            "value" : "Huomaa se väittämättä vastaan. Et yritä voittaa sitä, vaan odotat, että se menee ohi."
           }
         },
         "fr" : {
@@ -57589,7 +57589,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Soberin ilmoitukset ovat pois päältä, joten muistutus ei voi tulla perille. Napauta yllä ottaaksesi ne käyttöön Asetuksissa."
+            "value" : "Soberin ilmoitukset ovat pois päältä, joten muistutus ei voi tulla perille. Ota ne käyttöön Asetuksissa napauttamalla yllä olevaa kohtaa."
           }
         },
         "fr" : {
@@ -57625,7 +57625,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Varslinger er slått av for Sober, så påminnelsen kan ikke leveres. Trykk over for å slå dem på i Innstillinger."
+            "value" : "Varslinger er slått av for Sober, så påminnelsen kan ikke leveres. Trykk ovenfor for å slå dem på i Innstillinger."
           }
         },
         "nl" : {
@@ -57892,7 +57892,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Säästöjä kertyy suunnitellusti"
+            "value" : "Tällä tahdilla säästät"
           }
         },
         "fr" : {
@@ -57916,7 +57916,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "დაზოგვის გზაზე ხარ"
+            "value" : "სავარაუდოდ დაზოგავ"
           }
         },
         "lt" : {
@@ -57999,7 +57999,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Une année sans alcool vous permet de garder"
+            "value" : "Une année sans alcool vous fait économiser"
           }
         },
         "hi" : {
@@ -58142,7 +58142,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Osiągnięto kamień milowy po miesiącu."
+            "value" : "Kamień milowy: miesiąc trzeźwości."
           }
         },
         "ru" : {
@@ -58243,7 +58243,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "U osób pijących umiarkowanie lub dużo miesiąc bez kalorii pochodzących z alkoholu zwykle oznacza utratę kilku funtów tkanki tłuszczowej."
+            "value" : "U osób pijących umiarkowanie lub dużo miesiąc bez kalorii pochodzących z alkoholu zwykle oznacza utratę 1 do 2 kilogramów tkanki tłuszczowej."
           }
         },
         "ru" : {
@@ -58474,7 +58474,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ještě jeden střízlivý den a %@ je tvoje. Tvoje bonsaj je připravená."
+            "value" : "Ještě jeden střízlivý den a čeká tě %@. Tvoje bonsaj je připravená."
           }
         },
         "de" : {
@@ -58516,7 +58516,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ancora un giorno sobrio e «%@» è tuo. Il tuo bonsai è pronto."
+            "value" : "Ancora un giorno sobrio e conquisti «%@». Il tuo bonsai è pronto."
           }
         },
         "ka" : {
@@ -58534,7 +58534,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Én edru dag til, så er %@ din. Bonsaien din er klar."
+            "value" : "Én edru dag til, så får du %@. Bonsaien din er klar."
           }
         },
         "nl" : {
@@ -58546,19 +58546,19 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jeszcze jeden trzeźwy dzień i „%@” jest twoje. Twoje bonsai jest gotowe."
+            "value" : "Jeszcze jeden trzeźwy dzień i osiągniesz „%@”. Twoje bonsai jest na to gotowe."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ещё один трезвый день, и «%@» ваше. Ваш бонсай готов."
+            "value" : "Ещё один трезвый день, и вы получите «%@». Ваш бонсай готов."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ще один тверезий день, і «%@» ваше. Ваш бонсай готовий."
+            "value" : "Ще один тверезий день, і ви отримаєте «%@». Ваш бонсай готовий."
           }
         },
         "vi" : {
@@ -58837,7 +58837,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Engangskjøp · ikke et abonnement"
+            "value" : "Engangskjøp · uten abonnement"
           }
         },
         "nl" : {
@@ -59063,7 +59063,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Перевантаженість"
+            "value" : "Нестерпний"
           }
         },
         "vi" : {
@@ -59330,7 +59330,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "აირჩიე მიზნად დასახული თარიღი"
+            "value" : "აირჩიე მიზნის თარიღი"
           }
         },
         "lt" : {
@@ -59461,7 +59461,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Заранее решите, чем поднимете бокал: газированной водой с лаймом."
+            "value" : "Заранее решите, что будет в вашем бокале: газированная вода с лаймом."
           }
         },
         "uk" : {
@@ -59473,7 +59473,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Chọn trước thứ bạn sẽ nâng ly: soda chanh."
+            "value" : "Chọn trước thức uống để nâng ly: soda chanh."
           }
         }
       }
@@ -59609,7 +59609,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tilaukset eivät ole hetkeen saatavilla. Yritä hetken päästä uudelleen."
+            "value" : "Tilaukset eivät ole tilapäisesti saatavilla. Yritä hetken päästä uudelleen."
           }
         },
         "fr" : {
@@ -60221,7 +60221,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vos données restent privées sur votre appareil, sans compte"
+            "value" : "Données privées sur l'appareil, sans compte"
           }
         },
         "hi" : {
@@ -60239,7 +60239,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "პირადი მონაცემები შენს მოწყობილობაზე ინახება. ანგარიში არ გჭირდება."
+            "value" : "მონაცემები მხოლოდ შენს მოწყობილობაზე, ანგარიშის გარეშე"
           }
         },
         "lt" : {
@@ -60263,7 +60263,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prywatność na urządzeniu, bez konta"
+            "value" : "Prywatnie na urządzeniu, bez konta"
           }
         },
         "ru" : {
@@ -60399,7 +60399,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sieh die %@, die du im nächsten Jahr behältst"
+            "value" : "Sieh die %@, die du im nächsten Jahr sparst"
           }
         },
         "el" : {
@@ -60435,7 +60435,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Proietta i %@ che risparmieresti nel prossimo anno"
+            "value" : "Scopri i %@ che risparmieresti nel prossimo anno"
           }
         },
         "ka" : {
@@ -60500,7 +60500,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sieh auf das kommende Jahr, nicht nur auf die vergangenen Tage."
+            "value" : "Schau aufs kommende Jahr, nicht nur auf die vergangenen Tage"
           }
         },
         "el" : {
@@ -60524,7 +60524,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Projetez l'année à venir, pas seulement les jours passés"
+            "value" : "Projetez-vous sur l'année à venir, pas seulement sur les jours passés"
           }
         },
         "hi" : {
@@ -60595,7 +60595,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Odhadni úspory, kalorie i růst stromu za rok. Plus zbytek Bloom+."
+            "value" : "Odhadni úspory, kalorie i růst stromu za rok. K tomu zbytek Bloom+."
           }
         },
         "de" : {
@@ -60619,13 +60619,13 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Katso ennuste vuodeksi eteenpäin säästöistäsi, vältetyistä kaloreista ja puusi kasvusta sekä tutustu muihin Bloom+:n ominaisuuksiin."
+            "value" : "Vuoden ennuste säästöistäsi, vältetyistä kaloreista ja puusi kasvusta sekä kaikki muut Bloom+:n ominaisuudet."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Projetez vos économies, les calories économisées et la croissance de votre arbre sur un an, avec le reste de Bloom+."
+            "value" : "Projetez vos économies, les calories évitées et la croissance de votre arbre sur un an, avec le reste de Bloom+."
           }
         },
         "hi" : {
@@ -60649,7 +60649,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prognozuok pinigus, kalorijas ir medį metams į priekį, ir visa kita iš Bloom+."
+            "value" : "Pinigų, kalorijų ir medžio prognozė metams į priekį ir visa kita, ką siūlo Bloom+."
           }
         },
         "nb" : {
@@ -61302,7 +61302,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otázky, nápady nebo potíže? Napiš."
+            "value" : "Otázky, nápady nebo potíže? Napiš nám."
           }
         },
         "de" : {
@@ -61374,7 +61374,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pytania, pomysły lub problem? Napisz."
+            "value" : "Pytania, pomysły lub problemy? Napisz."
           }
         },
         "ru" : {
@@ -61415,7 +61415,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ΠΡΟΤΕΙΝΕΤΑΙ · ΕΞΟΙΚΟΝΟΜΗΣΗ %lld%%"
+            "value" : "ΠΡΟΤΕΙΝΟΜΕΝΟ · −%lld%%"
           }
         },
         "es" : {
@@ -61867,7 +61867,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Raffinert og tett. Et verk av ekte tålmodighet."
+            "value" : "Raffinert og tett. Frukten av ekte tålmodighet."
           }
         },
         "nl" : {
@@ -61998,7 +61998,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cơ thể đã được bù nước đầy đủ"
+            "value" : "Bù nước hoàn tất"
           }
         }
       }
@@ -62467,7 +62467,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atstatyti"
+            "value" : "Pradėti iš naujo"
           }
         },
         "nb" : {
@@ -62568,7 +62568,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atstatyti skaitiklį"
+            "value" : "Skaičiuoti iš naujo"
           }
         },
         "nb" : {
@@ -62669,7 +62669,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atstatyti blaivybės skaitiklį?"
+            "value" : "Pradėti skaičiuoti iš naujo?"
           }
         },
         "nb" : {
@@ -62764,7 +62764,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "მოსვენების პულსი იკლებს."
+            "value" : "მოსვენებულ მდგომარეობაში პულსი იკლებს."
           }
         },
         "lt" : {
@@ -63120,7 +63120,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Přečkej to a pár minut se soustřeď na dech."
+            "value" : "Přečkej to a pár minut se soustřeď na dech"
           }
         },
         "de" : {
@@ -63132,7 +63132,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Κάνε ασκήσεις αναπνοής για λίγα λεπτά και άφησέ τη να περάσει."
+            "value" : "Άφησέ τη να περάσει με λίγα λεπτά αναπνοής"
           }
         },
         "es" : {
@@ -63156,7 +63156,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "कुछ मिनट साँस लेकर इससे पार पाएँ"
+            "value" : "कुछ मिनट गहरी साँसें लेकर इससे पार पाएँ"
           }
         },
         "it" : {
@@ -63168,13 +63168,13 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "რამდენიმე წუთი ისუნთქე და დაელოდე, სანამ გადაივლის."
+            "value" : "რამდენიმე წუთი ისუნთქე და დაელოდე, სანამ გადაივლის"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Išbūk kelias minutes ramiai kvėpuodamas."
+            "value" : "Išbūk kelias minutes ramiai kvėpuodamas"
           }
         },
         "nb" : {
@@ -63198,13 +63198,13 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Переждите пару минут, спокойно дыша."
+            "value" : "Переждите пару минут, спокойно дыша"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Перечекайте, зосередившись на диханні кілька хвилин"
+            "value" : "Перечекайте кілька хвилин, зосередившись на диханні"
           }
         },
         "vi" : {
@@ -63227,7 +63227,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aufsteigender Stern"
+            "value" : "Aufgehender Stern"
           }
         },
         "el" : {
@@ -63608,7 +63608,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "SAMHSA National Helpline"
+            "value" : "Національна гаряча лінія SAMHSA"
           }
         },
         "vi" : {
@@ -63934,7 +63934,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ganzen Fortschritt ansehen"
+            "value" : "Gesamten Fortschritt ansehen"
           }
         },
         "el" : {
@@ -64035,7 +64035,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sieh dir an, wie ein Jahr damit aussehen könnte."
+            "value" : "Sieh dir an, wie ein Jahr damit aussehen könnte"
           }
         },
         "el" : {
@@ -64077,7 +64077,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ნახე, რას მოგიტანს სიფხიზლის ერთი წელი."
+            "value" : "ნახე, რას მოგიტანს სიფხიზლის ერთი წელი"
           }
         },
         "lt" : {
@@ -64196,7 +64196,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zie wat drinken je kostte"
+            "value" : "Bekijk wat drinken je kostte"
           }
         },
         "pl" : {
@@ -64273,13 +64273,13 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scopri cosa avrai entro quella data."
+            "value" : "Scopri cosa avrai entro quella data"
           }
         },
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ნახე, რა გექნება იმ დროისთვის."
+            "value" : "ნახე, რა გექნება იმ დროისთვის"
           }
         },
         "lt" : {
@@ -64297,7 +64297,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zie wat je dan hebt"
+            "value" : "Bekijk wat je dan hebt"
           }
         },
         "pl" : {
@@ -64356,7 +64356,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Näe, mitä ehdit säästää ja mitkä virstanpylväät saavutat tavoitepäivään mennessä sekä muut Bloom+:n ominaisuudet."
+            "value" : "Näe, mitä ehdit säästää ja mitkä virstanpylväät saavutat tavoitepäivään mennessä. Saat myös kaikki muut Bloom+:n ominaisuudet."
           }
         },
         "fr" : {
@@ -64398,7 +64398,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zie wat je tegen je doeldatum hebt bespaard en welke mijlpalen je dan hebt bereikt, plus de rest van Bloom+."
+            "value" : "Bekijk wat je tegen je doeldatum hebt bespaard en welke mijlpalen je dan hebt bereikt, plus de rest van Bloom+."
           }
         },
         "pl" : {
@@ -64416,7 +64416,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Дізнайтеся, скільки заощадите й яких етапів досягнете до цільової дати, а також про інші можливості Bloom+."
+            "value" : "Дізнайтеся, скільки заощадите й які віхи пройдете до цільової дати, а також про інші можливості Bloom+."
           }
         },
         "vi" : {
@@ -64457,7 +64457,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Näe, mikä palaa."
+            "value" : "Näe, mitä saat takaisin."
           }
         },
         "fr" : {
@@ -64499,7 +64499,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zie wat er terugkomt."
+            "value" : "Bekijk wat er terugkomt."
           }
         },
         "pl" : {
@@ -64600,7 +64600,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zie wanneer je trek in alcohol krijgt, wat die uitlokt en hoe lang die echt duurt, plus de rest van Bloom+."
+            "value" : "Bekijk wanneer je trek in alcohol krijgt, wat die uitlokt en hoe lang die echt duurt, plus de rest van Bloom+."
           }
         },
         "pl" : {
@@ -64701,7 +64701,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zie waar dit naartoe gaat"
+            "value" : "Kijk waar dit naartoe gaat"
           }
         },
         "pl" : {
@@ -64802,7 +64802,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zie waar dit naartoe gaat."
+            "value" : "Kijk waar dit naartoe gaat."
           }
         },
         "pl" : {
@@ -64891,7 +64891,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peržiūrėk savo tikslo datą"
+            "value" : "Peržiūrėk savo tikslo datą."
           }
         },
         "nb" : {
@@ -64915,7 +64915,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Посмотрите, когда наступит день цели"
+            "value" : "Посмотрите, когда наступит день цели."
           }
         },
         "uk" : {
@@ -65075,7 +65075,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "पौधा"
+            "value" : "नन्हा पौधा"
           }
         },
         "it" : {
@@ -65669,7 +65669,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tuulten vuosien saatossa muovaama. Jokainen oksa kertoo sitkeydestä."
+            "value" : "Vuosien saatossa tuulten muovaama. Jokainen oksa kertoo sitkeydestä."
           }
         },
         "fr" : {
@@ -66210,7 +66210,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seks planer for de første tøffe øyeblikkene: hva du gjør og sier når noen byr deg en drink. Pluss resten av Bloom+."
+            "value" : "Seks planer for de første tøffe øyeblikkene: hva du gjør og sier når noen byr deg på en drink. Pluss resten av Bloom+."
           }
         },
         "nl" : {
@@ -66222,7 +66222,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sześć planów na pierwsze trudne chwile: co robić i co powiedzieć, gdy ktoś proponuje drinka. Do tego reszta Bloom+."
+            "value" : "Sześć planów na pierwsze trudne chwile: co robić i co powiedzieć, gdy ktoś proponuje drinka. Do tego pozostałe funkcje Bloom+."
           }
         },
         "ru" : {
@@ -66281,7 +66281,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Six plans par déclencheur : quoi faire et quoi dire."
+            "value" : "Six plans face aux déclencheurs : quoi faire et quoi dire."
           }
         },
         "hi" : {
@@ -66317,7 +66317,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zes plannen per trigger: wat je doet en zegt."
+            "value" : "Zes plannen voor triggers: wat je doet en zegt."
           }
         },
         "pl" : {
@@ -66994,7 +66994,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "सालों में पहली बार पूरे आठ घंटे की नींद ली। बस यही इसके लायक है।"
+            "value" : "सालों में पहली बार पूरे आठ घंटे की नींद ली। सिर्फ़ इसी से सब सार्थक हो गया।"
           }
         },
         "it" : {
@@ -67006,7 +67006,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "წლების შემდეგ პირველად ვიძინე სრული რვა საათი. მარტო ესეც ღირს."
+            "value" : "წლების შემდეგ პირველად მეძინა სრული რვა საათი. მარტო ამადაც ღირდა."
           }
         },
         "lt" : {
@@ -67036,7 +67036,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Впервые за годы проспал целых восемь часов. Одно это уже того стоит."
+            "value" : "Впервые за много лет проспал целых восемь часов. Одно это уже того стоит."
           }
         },
         "uk" : {
@@ -67089,7 +67089,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pour être présent avec mes enfants"
+            "value" : "Pour être présent auprès de mes enfants"
           }
         },
         "hi" : {
@@ -67529,7 +67529,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Begin van nuchterheid"
+            "value" : "Nuchter sinds"
           }
         },
         "pl" : {
@@ -67618,7 +67618,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Socialinis renginys"
+            "value" : "Vakarėlis"
           }
         },
         "nb" : {
@@ -67671,7 +67671,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unter Leuten oder angeboten"
+            "value" : "Unter Leuten oder Drink angeboten"
           }
         },
         "el" : {
@@ -67731,7 +67731,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sociaal, of aangeboden"
+            "value" : "Sociaal, of een drankje aangeboden"
           }
         },
         "pl" : {
@@ -68586,25 +68586,25 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Почати безкоштовний пробний період на %lld день"
+                  "value" : "Спробувати %lld день безкоштовно"
                 }
               },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Почати безкоштовний пробний період на %lld дні"
+                  "value" : "Спробувати %lld дні безкоштовно"
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Почати безкоштовний пробний період на %lld днів"
+                  "value" : "Спробувати %lld днів безкоштовно"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Почати безкоштовний пробний період на %lld дня"
+                  "value" : "Спробувати %lld дня безкоштовно"
                 }
               }
             }
@@ -68939,25 +68939,25 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Почати безкоштовний пробний період на %lld місяць"
+                  "value" : "Спробувати %lld місяць безкоштовно"
                 }
               },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Почати безкоштовний пробний період на %lld місяці"
+                  "value" : "Спробувати %lld місяці безкоштовно"
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Почати безкоштовний пробний період на %lld місяців"
+                  "value" : "Спробувати %lld місяців безкоштовно"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Почати безкоштовний пробний період на %lld місяця"
+                  "value" : "Спробувати %lld місяця безкоштовно"
                 }
               }
             }
@@ -69292,25 +69292,25 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Почати безкоштовний пробний період на %lld рік"
+                  "value" : "Спробувати %lld рік безкоштовно"
                 }
               },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Почати безкоштовний пробний період на %lld роки"
+                  "value" : "Спробувати %lld роки безкоштовно"
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Почати безкоштовний пробний період на %lld років"
+                  "value" : "Спробувати %lld років безкоштовно"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Почати безкоштовний пробний період на %lld року"
+                  "value" : "Спробувати %lld року безкоштовно"
                 }
               }
             }
@@ -69729,7 +69729,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "მთვლელის დაწყება"
+            "value" : "ათვლის დაწყება"
           }
         },
         "lt" : {
@@ -69782,7 +69782,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Začít zkušební verzi zdarma"
+            "value" : "Vyzkoušet zdarma"
           }
         },
         "de" : {
@@ -69883,13 +69883,13 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zůstane ti v kapse, ne v alkoholu. Bloom+ drží sérii, která tě tam dovede."
+            "value" : "Zůstane ti v kapse, nepadne na alkohol. Bloom+ ti pomůže udržet sérii, která tě k tomu dovede."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bleibt in deiner Tasche, statt für Alkohol draufzugehen. Bloom+ hält die Serie, die dich dorthin bringt."
+            "value" : "Bleibt in deiner Tasche, statt für Alkohol draufzugehen. Bloom+ hilft dir, die Serie zu halten, die dich dorthin bringt."
           }
         },
         "el" : {
@@ -69925,7 +69925,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "I soldi ti restano in tasca, invece di spenderli in alcol. Bloom+ sostiene la serie fino al traguardo."
+            "value" : "I soldi ti restano in tasca invece di finire in alcol. Bloom+ sostiene la serie fino al traguardo."
           }
         },
         "ka" : {
@@ -69967,7 +69967,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Залишається в кишені, а не йде на алкоголь. Bloom+ підтримує серію, що до цього веде."
+            "value" : "Залишається в кишені, а не йде на алкоголь. Bloom+ допомагає втримати серію, яка вас до цього приведе."
           }
         },
         "vi" : {
@@ -69996,7 +69996,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Βγες έξω για δύο λεπτά όταν έρχεται ο επόμενος γύρος."
+            "value" : "Βγες έξω για δύο λεπτά όταν έρθει ο επόμενος γύρος."
           }
         },
         "es" : {
@@ -70032,7 +70032,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "როცა შემდეგი რაუნდი მოდის, ორი წუთით გარეთ გადი."
+            "value" : "როცა ჭიქებს ისევ ავსებენ, ორი წუთით გარეთ გადი."
           }
         },
         "lt" : {
@@ -70056,7 +70056,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wyjdź na dwie minuty, gdy nadchodzi kolejna kolejka."
+            "value" : "Wyjdź na dwie minuty, gdy ktoś zamawia następną kolejkę."
           }
         },
         "ru" : {
@@ -70270,7 +70270,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Досі тверезий"
+            "value" : "Досі без алкоголю"
           }
         },
         "vi" : {
@@ -70757,7 +70757,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wissel altijd van soort · je reeks blijft groeien"
+            "value" : "Wissel van soort wanneer je wilt · je reeks blijft groeien"
           }
         },
         "pl" : {
@@ -70947,7 +70947,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kad ir kurį medį pasirinktum, dienų skaičius ir augimas išliks."
+            "value" : "Keisk bet kada. Kad ir kurį medį pasirinktum, dienų skaičius ir augimas išliks."
           }
         },
         "nb" : {
@@ -71048,7 +71048,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Keisti bonsų rūšį (dabartinė: %@)"
+            "value" : "Keisti bonso rūšį (dabartinė: %@)"
           }
         },
         "nb" : {
@@ -71072,13 +71072,13 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сменить вид бонсай, сейчас %@"
+            "value" : "Сменить вид бонсая, сейчас %@"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Змінити вид бонсай, зараз %@"
+            "value" : "Змінити вид бонсая, зараз %@"
           }
         },
         "vi" : {
@@ -71523,7 +71523,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aloita viikko kirjaamalla yksi päivä."
+            "value" : "Aloita viikko kirjaamalla yksi päivä"
           }
         },
         "fr" : {
@@ -71589,7 +71589,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Chăm một ngày để bắt đầu tuần"
+            "value" : "Chăm cây một ngày để bắt đầu tuần"
           }
         }
       }
@@ -71972,13 +71972,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Αυτή είναι %lld λαχτάρα που ξεπέρασες."
+                  "value" : "Έχεις ξεπεράσει ήδη %lld λαχτάρα."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Αυτές είναι %lld λαχτάρες που ξεπέρασες."
+                  "value" : "Έχεις ξεπεράσει ήδη %lld λαχτάρες."
                 }
               }
             }
@@ -72268,13 +72268,13 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Αυτή είναι μία λαχτάρα που ξεπέρασες."
+            "value" : "Έχεις ξεπεράσει ήδη μία λαχτάρα."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Es un antojo que has superado."
+            "value" : "Ya has superado un antojo."
           }
         },
         "fi" : {
@@ -72298,7 +72298,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "È una voglia che hai superato."
+            "value" : "Hai superato una voglia."
           }
         },
         "ka" : {
@@ -72435,7 +72435,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Каскадный стиль напоминает дерево на скале, ниспадающее вниз."
+            "value" : "Каскадный стиль напоминает дерево, которое растёт на скале и клонится вниз."
           }
         },
         "uk" : {
@@ -72500,7 +72500,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "I giorni prima risultano più bassi del solito. Vale la pena accorgersene presto."
+            "value" : "Nei giorni precedenti il tuo umore è più basso del solito. Vale la pena accorgersene presto."
           }
         },
         "ka" : {
@@ -72797,7 +72797,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "वही पुराना समय"
+            "value" : "रोज़ का वही समय"
           }
         },
         "it" : {
@@ -72880,7 +72880,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esto es casi el punto más alto. Los antojos suben rápido y luego dejan de subir."
+            "value" : "Estás cerca del punto máximo. Los antojos suben rápido y luego dejan de subir."
           }
         },
         "fi" : {
@@ -73082,7 +73082,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tras tres meses de sobriedad, baja el pulso en reposo y mejora la rigidez arterial."
+            "value" : "Tras tres meses de sobriedad, baja el pulso en reposo y disminuye la rigidez arterial."
           }
         },
         "fi" : {
@@ -73112,7 +73112,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "სამი ფხიზელი თვის შემდეგ მოსვენებული პულსი იკლებს და არტერიები უფრო ელასტიკური ხდება."
+            "value" : "სამი ფხიზელი თვის შემდეგ მოსვენებულ მდგომარეობაში პულსი მცირდება და არტერიები უფრო ელასტიკური ხდება."
           }
         },
         "lt" : {
@@ -73177,7 +73177,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Τρεις μήνες δυνατός."
+            "value" : "Τρεις μήνες και κρατάς γερά."
           }
         },
         "es" : {
@@ -73884,7 +73884,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Η σημερινή μέρα είναι εντάξει. Μπορείς να την αλλάξεις αργότερα."
+            "value" : "Η σημερινή κάνει μια χαρά. Μπορείς να την αλλάξεις αργότερα."
           }
         },
         "es" : {
@@ -73902,7 +73902,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La date d'aujourd'hui vous convient. Vous pourrez la modifier plus tard."
+            "value" : "Aujourd'hui, c'est très bien. Vous pourrez modifier la date plus tard."
           }
         },
         "hi" : {
@@ -73920,7 +73920,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "დღეს კარგია. მოგვიანებით შეცვლი."
+            "value" : "დღევანდელიც გამოდგება. მოგვიანებით შეგიძლია შეცვალო."
           }
         },
         "lt" : {
@@ -73956,7 +73956,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Можна й сьогодні. Потім це можна змінити."
+            "value" : "Підійде й сьогодні. Потім це можна змінити."
           }
         },
         "vi" : {
@@ -74033,7 +74033,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "I dag er registrert"
+            "value" : "Dagen er registrert"
           }
         },
         "nl" : {
@@ -74116,7 +74116,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La giornata di oggi è registrata come scivolone."
+            "value" : "La giornata di oggi è registrata come scivolone"
           }
         },
         "ka" : {
@@ -74134,7 +74134,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "I dag er registrert som en sprekk"
+            "value" : "Dagen er registrert som en sprekk"
           }
         },
         "nl" : {
@@ -74324,13 +74324,13 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ხვალ %lld-ე დღეა"
+            "value" : "ხვალ მე-%lld დღეა"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rytoj bus diena Nr. %lld"
+            "value" : "Rytoj bus %lld-oji diena"
           }
         },
         "nb" : {
@@ -74989,7 +74989,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Teste Bloom+"
+            "value" : "Bloom+ testen"
           }
         },
         "el" : {
@@ -75387,7 +75387,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dvě rychlé otázky, dokud je to čerstvé. Obě nepovinné."
+            "value" : "Dvě rychlé otázky, dokud to máš v čerstvé paměti. Obě nepovinné."
           }
         },
         "de" : {
@@ -75429,7 +75429,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Due domande veloci finché è tutto fresco. Entrambe facoltative."
+            "value" : "Due domande veloci finché il ricordo è fresco. Entrambe facoltative."
           }
         },
         "ka" : {
@@ -75536,7 +75536,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ჩვეულებრივი კალორიები"
+            "value" : "ჩვეული კალორიები"
           }
         },
         "lt" : {
@@ -75548,7 +75548,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vanlige kalorier"
+            "value" : "Vanlig kaloriinntak"
           }
         },
         "nl" : {
@@ -76266,7 +76266,7 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Odemknout celý strom (%lld)"
+                  "value" : "Odemknout %lld strom"
                 }
               },
               "few" : {
@@ -76440,7 +76440,7 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Atrakinti visą %lld medį"
+                  "value" : "Atrakinti visus %lld medį"
                 }
               },
               "few" : {
@@ -76560,7 +76560,7 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Відкрити дерево (%lld)"
+                  "value" : "Відкрити всі %lld дерево"
                 }
               },
               "few" : {
@@ -77068,7 +77068,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ontgrendel wat Bloom+ nog meer te bieden heeft"
+            "value" : "Ontgrendel wat er nog komt met Bloom+"
           }
         },
         "pl" : {
@@ -77175,7 +77175,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Odblokuj dzięki Bloom+"
+            "value" : "Odblokuj z Bloom+"
           }
         },
         "ru" : {
@@ -77294,7 +77294,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tới %@/năm"
+            "value" : "Lên tới %@/năm"
           }
         }
       }
@@ -77359,7 +77359,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atnaujinti"
+            "value" : "Gauti Bloom+"
           }
         },
         "nb" : {
@@ -77531,7 +77531,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BLOOM+ AVAA"
+            "value" : "BLOOM+:N EDUT"
           }
         },
         "fr" : {
@@ -77597,7 +77597,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BLOOM+ MỞ KHÓA GÌ"
+            "value" : "NHỮNG GÌ BLOOM+ MỞ KHÓA"
           }
         }
       }
@@ -77626,7 +77626,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Camina diez minutos. Muévete para quitarle intensidad al impulso."
+            "value" : "Camina diez minutos. Moverte le quita intensidad al impulso."
           }
         },
         "fi" : {
@@ -77668,7 +77668,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Typisk kaloriinntak"
+            "value" : "Gå en tur i ti minutter. Bevegelse tar brodden av suget."
           }
         },
         "nl" : {
@@ -77775,7 +77775,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "We herinneren je vooraf."
+            "value" : "We sturen je vooraf een herinnering."
           }
         },
         "pl" : {
@@ -77858,7 +77858,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "საცდელის დასრულებამდე შეგახსენებთ."
+            "value" : "საცდელი პერიოდის დასრულებამდე შეგახსენებთ."
           }
         },
         "lt" : {
@@ -77876,7 +77876,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "We herinneren je voordat je proefperiode eindigt."
+            "value" : "We sturen je een herinnering voordat je proefperiode eindigt."
           }
         },
         "pl" : {
@@ -77911,7 +77911,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jsme malé nezávislé studio. Tvoje zkušební verze nám pomáhá pokračovat. Není to pro tebe? Kdykoli zruš a napiš nám, co zlepšit."
+            "value" : "Jsme malé nezávislé studio. Tvoje zkušební verze nám pomáhá pokračovat. Není to pro tebe? Kdykoli ji zruš a napiš nám, co zlepšit."
           }
         },
         "de" : {
@@ -78182,13 +78182,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Καλώς ήρθες πίσω. Δεν έχεις καταγράψει τίποτα για %lld ημέρα. Συνεχίζεις δυνατά;"
+                  "value" : "Καλώς ήρθες ξανά. Δεν έχεις κάνει καταγραφή εδώ και %lld ημέρα. Κρατάς ακόμα γερά;"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Καλώς ήρθες πίσω. Δεν έχεις καταγράψει τίποτα για %lld ημέρες. Συνεχίζεις δυνατά;"
+                  "value" : "Καλώς ήρθες ξανά. Δεν έχεις κάνει καταγραφή εδώ και %lld ημέρες. Κρατάς ακόμα γερά;"
                 }
               }
             }
@@ -78236,13 +78236,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Bon retour. Aucun bilan depuis %lld jour. Toujours sur la bonne voie ?"
+                  "value" : "Content de vous revoir. Aucun bilan depuis %lld jour. Toujours sur la bonne voie ?"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Bon retour. Aucun bilan depuis %lld jours. Toujours sur la bonne voie ?"
+                  "value" : "Content de vous revoir. Aucun bilan depuis %lld jours. Toujours sur la bonne voie ?"
                 }
               }
             }
@@ -78478,7 +78478,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Πήγα στα γενέθλια του Νίκου και έμεινα με σόδα όλο το βράδυ. Δεν νοιάστηκε κανείς. Οδήγησα μόνος μου σπίτι και ξύπνησα καθαρός."
+            "value" : "Πήγα στα γενέθλια του Νίκου και έμεινα με σόδα όλο το βράδυ. Κανείς δεν έδωσε σημασία. Γύρισα σπίτι οδηγώντας μόνος μου και ξύπνησα καθαρός."
           }
         },
         "es" : {
@@ -78490,7 +78490,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kävin Danin synttäreillä ja join koko illan kivennäisvettä. Kukaan ei välittänyt. Ajoin itse kotiin ja heräsin selvänä."
+            "value" : "Kävin Danin synttäreillä ja join koko illan kivennäisvettä. Ketään ei haitannut. Ajoin itse kotiin ja heräsin selvänä."
           }
         },
         "fr" : {
@@ -78526,7 +78526,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Var i bursdagen til Dan og drakk farris hele kvelden. Ingen brydde seg. Kjørte meg selv hjem og våknet klar i hodet."
+            "value" : "Var i bursdagen til Dan og drakk farris hele kvelden. Ingen brydde seg. Kjørte selv hjem og våknet klar i hodet."
           }
         },
         "nl" : {
@@ -78692,7 +78692,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mitä kohti olet menossa?"
+            "value" : "Mitä tavoittelet?"
           }
         },
         "fr" : {
@@ -78781,7 +78781,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Τι έκανα σήμερα που ο μελλοντικός εαυτός μου θα με ευχαριστήσει;"
+            "value" : "Τι έκανα σήμερα για το οποίο θα με ευχαριστήσει ο μελλοντικός εαυτός μου;"
           }
         },
         "es" : {
@@ -78793,7 +78793,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mitä tein tänään, mistä tuleva minäni kiittää?"
+            "value" : "Mitä tein tänään sellaista, mistä tuleva minäni kiittää minua?"
           }
         },
         "fr" : {
@@ -79162,7 +79162,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Điều gì đã gây ra?"
+            "value" : "Nguyên nhân là gì?"
           }
         }
       }
@@ -79702,7 +79702,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mitä olet säästänyt ensi vuonna tähän aikaan."
+            "value" : "Tämän verran olet säästänyt ensi vuonna tähän aikaan."
           }
         },
         "fr" : {
@@ -79738,7 +79738,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hvor mye du vil ha spart på samme tid neste år."
+            "value" : "Hvor mye du har spart til samme tid neste år."
           }
         },
         "nl" : {
@@ -79750,7 +79750,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tyle zaoszczędzisz o tej porze za rok."
+            "value" : "Tyle zaoszczędzisz w ciągu najbliższego roku."
           }
         },
         "ru" : {
@@ -79839,7 +79839,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hvilket forhold blir bedre etter at jeg sluttet?"
+            "value" : "Hvilket forhold har blitt bedre siden jeg sluttet?"
           }
         },
         "nl" : {
@@ -79851,7 +79851,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Która relacja poprawia się, odkąd przestałem?"
+            "value" : "Która relacja poprawia się, odkąd przestałem pić?"
           }
         },
         "ru" : {
@@ -80041,7 +80041,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hvilken sunn vane vil jeg bygge opp som den neste?"
+            "value" : "Hva er den neste sunne vanen jeg vil bygge opp?"
           }
         },
         "nl" : {
@@ -80154,7 +80154,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jaki zdrowy nawyk chcę teraz wyrobić?"
+            "value" : "Za co jestem dziś wdzięczny?"
           }
         },
         "ru" : {
@@ -80332,7 +80332,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "როდის დაიწყო შენი ფხიზელი გზა?"
+            "value" : "როდის დაიწყო შენი სიფხიზლის გზა?"
           }
         },
         "lt" : {
@@ -80475,7 +80475,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Các cơn thèm thường ập đến khi nào, điều gì khơi lên chúng và mỗi cơn kéo dài bao lâu?"
+            "value" : "Thời điểm cơn thèm ập đến, điều gì khơi lên chúng và mỗi cơn kéo dài bao lâu."
           }
         }
       }
@@ -80546,7 +80546,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Når noen byr deg en drink"
+            "value" : "Når noen byr deg på en drink"
           }
         },
         "nl" : {
@@ -80766,7 +80766,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Когда будете готовы, можно начать с первого дня. Серию не нужно сначала набирать заново."
+            "value" : "Когда будете готовы, первый день ждёт вас. Ничего наверстывать не нужно."
           }
         },
         "uk" : {
@@ -80968,7 +80968,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Где, как я замечаю, прячется тяга?"
+            "value" : "Где, по моим наблюдениям, прячется тяга?"
           }
         },
         "uk" : {
@@ -81110,7 +81110,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Azotado por el viento"
+            "value" : "Barrido por el viento"
           }
         },
         "fi" : {
@@ -81211,7 +81211,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bonsái azotado por el viento"
+            "value" : "Bonsái barrido por el viento"
           }
         },
         "fi" : {
@@ -81496,7 +81496,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Směřuji k"
+            "value" : "Můj cíl"
           }
         },
         "de" : {
@@ -81597,7 +81597,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zapiš si tu jednu věc, která tě tíží, a další malý krok k ní."
+            "value" : "Zapiš si tu jednu věc, která tě tíží, a další malý krok, jak ji řešit."
           }
         },
         "de" : {
@@ -81675,13 +81675,13 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Запишите, что вас тяготит, и какой небольшой шаг можно сделать дальше."
+            "value" : "Запишите, что вас тяготит и какой небольшой шаг можно сделать дальше."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Запишіть, що вас найбільше турбує, і який невеликий крок можете зробити далі."
+            "value" : "Запишіть, що вас найбільше турбує і який невеликий крок ви можете зробити далі."
           }
         },
         "vi" : {
@@ -81817,7 +81817,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Escribe para atravesar los antojos."
+            "value" : "Escribe para superar los antojos."
           }
         },
         "fi" : {
@@ -81859,7 +81859,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skriv om suget"
+            "value" : "Skriv deg gjennom suget"
           }
         },
         "nl" : {
@@ -81972,7 +81972,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "JUŻ ZAOSZCZĘDZONO"
+            "value" : "ZAOSZCZĘDZIŁEŚ JUŻ"
           }
         },
         "ru" : {
@@ -82251,13 +82251,13 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "წელი %1$lld · %2$@"
+            "value" : "მე-%1$lld წელი · %2$@"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$lld metai · %2$@"
+            "value" : "%1$lld-ieji metai · %2$@"
           }
         },
         "nb" : {
@@ -82832,7 +82832,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ahorras %1$@ cada año que no gastas en alcohol. Prueba Bloom+ gratis durante %#@n@."
+            "value" : "Cada año ahorras %1$@ que no gastas en alcohol. Prueba Bloom+ gratis durante %#@n@."
           },
           "substitutions" : {
             "n" : {
@@ -82888,7 +82888,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vous économisez %1$@ par an en ne le dépensant pas en alcool. Essayez Bloom+ gratuitement pendant %#@n@."
+            "value" : "Sans alcool, vous économisez %1$@ par an. Essayez Bloom+ gratuitement pendant %#@n@."
           },
           "substitutions" : {
             "n" : {
@@ -83261,7 +83261,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Säästät joka vuosi %1$@. Bloom+ maksaa %2$@ %3$@."
+            "value" : "Säästät joka vuosi %1$@. Bloom+ maksaa %2$@ (%3$@)."
           }
         },
         "fr" : {
@@ -83285,13 +83285,13 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ყოველ წელს ჯიბეში გრჩება %1$@. Bloom+ ღირს %2$@ %3$@."
+            "value" : "ყოველ წელს ჯიბეში გრჩება %1$@. %3$@ ღირს %2$@."
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kasmet kišenėje lieka %1$@. Bloom+ kainuoja %2$@ už %3$@."
+            "value" : "Kasmet kišenėje lieka %1$@. Bloom+ kainuoja %2$@ (%3$@)."
           }
         },
         "nb" : {
@@ -84431,7 +84431,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "У вас залишаться лічильник днів, календар, дерево й відлік до мети. Прогноз мети, план на випадок потягу, повна хроніка здоров’я, щоденник та інші види залишаться закриті."
+            "value" : "У вас залишаться лічильник днів, календар, дерево й відлік до мети. Прогноз мети, план на випадок потягу, повна хроніка здоров’я, щоденник та інші види будуть закриті."
           }
         },
         "vi" : {
@@ -84849,7 +84849,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "სიფხიზლით უკვე დაზოგე %@. აჩუქე თავს ის ხელსაწყოები, რომლებიც ზრდას განაგრძობინებს."
+            "value" : "სიფხიზლით უკვე დაზოგე %@. აჩუქე თავს ხელსაწყოები, რომ ეს ზრდა გაგრძელდეს."
           }
         },
         "lt" : {
@@ -84902,7 +84902,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zatím sis nechal %@"
+            "value" : "Zatím jsi ušetřil %@"
           }
         },
         "de" : {
@@ -85108,13 +85108,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Merkitsit sen %lld kerran."
+                  "value" : "Olet merkinnyt sen %lld kerran."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Merkitsit sen %lld kertaa."
+                  "value" : "Olet merkinnyt sen %lld kertaa."
                 }
               }
             }
@@ -85345,7 +85345,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bạn đã gắn thẻ nó %lld lần."
+            "value" : "Bạn đã gắn thẻ này %lld lần."
           }
         }
       }
@@ -85508,13 +85508,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Deine Bloom+ Testphase endet in %lld Tag"
+                  "value" : "Deine Bloom+-Testphase endet in %lld Tag"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Deine Bloom+ Testphase endet in %lld Tagen"
+                  "value" : "Deine Bloom+-Testphase endet in %lld Tagen"
                 }
               }
             }
@@ -85694,13 +85694,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Je Bloom+ proefperiode eindigt over %lld dag"
+                  "value" : "Je proefperiode van Bloom+ eindigt over %lld dag"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Je Bloom+ proefperiode eindigt over %lld dagen"
+                  "value" : "Je proefperiode van Bloom+ eindigt over %lld dagen"
                 }
               }
             }
@@ -85816,7 +85816,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deine Bloom+ Testphase endet bald"
+            "value" : "Deine Bloom+-Testphase endet bald"
           }
         },
         "el" : {
@@ -85876,7 +85876,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je Bloom+ proefperiode eindigt binnenkort"
+            "value" : "Je proefperiode van Bloom+ eindigt binnenkort"
           }
         },
         "pl" : {
@@ -85917,7 +85917,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deine Bloom+ Testphase endet morgen"
+            "value" : "Deine Bloom+-Testphase endet morgen"
           }
         },
         "el" : {
@@ -85977,7 +85977,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je Bloom+ proefperiode eindigt morgen"
+            "value" : "Je proefperiode van Bloom+ eindigt morgen"
           }
         },
         "pl" : {
@@ -86167,7 +86167,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tavo bonsas subrendo į vešlią lają."
+            "value" : "Tavo bonsas subrendo ir išaugino vešlią lają."
           }
         },
         "nb" : {
@@ -86327,7 +86327,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ο μετρητής ξεκινά ξανά μετά το παραπάτημα. Αν το παραπάτημα γίνει σήμερα, η μέτρηση ξεκινά από την ημέρα 1· αν έγινε παλιότερα, μετρούν οι μέρες από τότε. Το μεγαλύτερο σερί σου υπολογίζεται με βάση τις διορθωμένες ημερομηνίες."
+            "value" : "Ο μετρητής ξεκινά ξανά μετά το παραπάτημα. Αν το παραπάτημα έγινε σήμερα, η μέτρηση ξεκινά από την ημέρα 1· αν έγινε παλιότερα, μετρούν οι μέρες από τότε. Το μεγαλύτερο σερί σου υπολογίζεται με βάση τις διορθωμένες ημερομηνίες."
           }
         },
         "es" : {
@@ -86363,7 +86363,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "წაბორძიკების შემდეგ მთვლელი თავიდან იწყება. დღევანდელი წაბორძიკება პირველ დღეს იწყებს; წინაზე კი მას შემდეგ გასული დღეები ითვლება. ყველაზე გრძელი სერია შესწორებული თარიღების მიხედვით ითვლება."
+            "value" : "წაბორძიკების შემდეგ მთვლელი თავიდან იწყება. თუ წაბორძიკება დღეს მოხდა, ათვლა პირველი დღიდან იწყება; თუ ადრე, მას შემდეგ გასული დღეები ითვლება. ყველაზე გრძელი სერია შესწორებული თარიღების მიხედვით ითვლება."
           }
         },
         "lt" : {
@@ -86624,7 +86624,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "गिनती फिर शुरू होती है, लेकिन पिछले %2$lld-दिन के सिलसिले से मिली %#@n@ की बढ़त पेड़ में बनी रही।"
+            "value" : "गिनती फिर शुरू होती है, लेकिन पिछले %2$lld दिन के सिलसिले से मिली %#@n@ की बढ़त पेड़ में बनी रही।"
           },
           "substitutions" : {
             "n" : {
@@ -86652,7 +86652,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il contatore riparte, ma il tuo albero ha conservato %#@n@ di crescita dalla serie di %2$lld gg."
+            "value" : "Il contatore riparte, ma il tuo albero ha conservato %#@n@ di crescita dalla serie di %2$lld giorni."
           },
           "substitutions" : {
             "n" : {
@@ -86708,7 +86708,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skaitiklis prasideda iš naujo, bet medis iš %2$lld d. serijos išsaugojo %#@n@ augimo."
+            "value" : "Skaitiklis prasideda iš naujo, bet medis iš %2$lld d. serijos išsaugojo %#@n@."
           },
           "substitutions" : {
             "n" : {
@@ -86719,19 +86719,19 @@
                   "one" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg dieną"
+                      "value" : "%arg augimo dieną"
                     }
                   },
                   "few" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg dienas"
+                      "value" : "%arg augimo dienas"
                     }
                   },
                   "other" : {
                     "stringUnit" : {
                       "state" : "translated",
-                      "value" : "%arg dienų"
+                      "value" : "%arg augimo dienų"
                     }
                   }
                 }
@@ -86742,7 +86742,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Telleren starter på nytt, men treet beholdt %#@n@ med vekst fra rekken på %2$lld døgn."
+            "value" : "Telleren starter på nytt, men treet beholdt %#@n@ med vekst fra rekken på %2$lld dager."
           },
           "substitutions" : {
             "n" : {
@@ -86993,7 +86993,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "მთვლელი თავიდან იწყება. ყველაფერი ჩაწერილი ისევ ითვლება."
+            "value" : "მთვლელი თავიდან იწყება. ყველაფერი, რაც ჩაწერე, ისევ ითვლება."
           }
         },
         "lt" : {
@@ -87314,7 +87314,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je dagenteller begint na de uitglijder opnieuw. Je boom houdt een deel van zijn groei, en je kalendergeschiedenis en voltooide bomen blijven. Je langste reeks volgt de gecorrigeerde data."
+            "value" : "Je dagenteller begint na de uitglijder opnieuw. Je boom houdt een deel van zijn groei, en je kalendergeschiedenis en voltooide bomen blijven. Je langste reeks is gebaseerd op de gecorrigeerde datums."
           }
         },
         "pl" : {
@@ -87718,7 +87718,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je eerste kiem is door de grond gebroken."
+            "value" : "Je eerste kiem is boven de grond gekomen."
           }
         },
         "pl" : {
@@ -87736,7 +87736,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ваш перший паросток пробився з землі."
+            "value" : "Ваш перший паросток пробився з-під землі."
           }
         },
         "vi" : {
@@ -87944,7 +87944,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Khu vườn, nhật ký, dòng thời gian sức khỏe và số tiền tiết kiệm. Mọi thứ giúp bạn tỉnh táo."
+            "value" : "Khu vườn, nhật ký, dòng thời gian sức khỏe và số tiền tiết kiệm. Mọi thứ giúp bạn duy trì tỉnh táo."
           }
         }
       }
@@ -88056,7 +88056,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tvůj odhadovaný cíl"
+            "value" : "Odhad tvého cíle"
           }
         },
         "de" : {
@@ -88074,7 +88074,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tu meta proyectada"
+            "value" : "Proyección de tu meta"
           }
         },
         "fi" : {
@@ -88235,7 +88235,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Последнее изменение не удалось сохранить на этом устройстве, поэтому после закрытия приложения его может не быть. Обычно дело в заполненной памяти. Освободите место, убедитесь, что его достаточно, и попробуйте снова."
+            "value" : "Последнее изменение не удалось сохранить на этом устройстве, поэтому после закрытия приложения его может не быть. Обычно дело в заполненной памяти. Освободите место, затем проверьте изменение и попробуйте снова."
           }
         },
         "uk" : {
@@ -88413,7 +88413,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ankstesnės serijos lieka įraše"
+            "value" : "Ankstesnės serijos lieka istorijoje"
           }
         },
         "nb" : {
@@ -89108,13 +89108,13 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L'abbonamento inizierà. Puoi annullarlo in qualsiasi momento prima che inizi."
+            "value" : "L'abbonamento inizia. Puoi annullarlo in qualsiasi momento prima."
           }
         },
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "გამოწერა იწყება. მანამდე ნებისმიერ დროს გააუქმე."
+            "value" : "გამოწერა იწყება. მანამდე ნებისმიერ დროს შეგიძლია გააუქმო."
           }
         },
         "lt" : {
@@ -89138,13 +89138,13 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Subskrypcja rozpocznie się później. Możesz ją anulować w dowolnym momencie przed jej rozpoczęciem."
+            "value" : "Subskrypcja się rozpoczyna. Do tego czasu możesz ją anulować w każdej chwili."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Подписка начнётся позже. Отменить её можно в любой момент до начала."
+            "value" : "Начинается подписка. Отменить её можно в любой момент до этого."
           }
         },
         "uk" : {
@@ -89221,7 +89221,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tavo medis prisijungia prie giraitės"
+            "value" : "Tavo medis papildo giraitę"
           }
         },
         "nb" : {
@@ -89823,7 +89823,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tvůj příští rok"
+            "value" : "Rok před tebou"
           }
         },
         "de" : {
@@ -89865,7 +89865,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il tuo anno a venire"
+            "value" : "L'anno che ti aspetta"
           }
         },
         "ka" : {
@@ -90880,7 +90880,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ტოტის წვერი გაგრძელდა"
+            "value" : "ტოტის წვერი დაგრძელდა"
           }
         },
         "lt" : {
@@ -90898,7 +90898,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "een takpunt werd langer"
+            "value" : "het topje van een tak werd langer"
           }
         },
         "pl" : {
@@ -90999,7 +90999,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "er kwam een verse scheut"
+            "value" : "er liep een nieuwe scheut uit"
           }
         },
         "pl" : {
@@ -91373,7 +91373,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "लगभग साढ़े %lld दिन"
+            "value" : "लगभग %lld.5 दिन"
           }
         },
         "it" : {
@@ -91385,7 +91385,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "დაახლოებით %lld დღე-ნახევარი"
+            "value" : "დაახლოებით %lld დღე და ნახევარი"
           }
         },
         "lt" : {
@@ -91474,7 +91474,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "लगभग साढ़े %lld दिन तक शराब पीना"
+            "value" : "लगभग %lld.5 दिन तक शराब पीना"
           }
         },
         "it" : {
@@ -91486,7 +91486,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "სმის დაახლოებით %lld დღე-ნახევარი"
+            "value" : "სმის დაახლოებით %lld დღე და ნახევარი"
           }
         },
         "lt" : {
@@ -92907,7 +92907,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "etwa einen Tag mit Alkoholkonsum"
+            "value" : "etwa ein Tag mit Alkoholkonsum"
           }
         },
         "el" : {
@@ -93002,7 +93002,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "zhruba minuta"
+            "value" : "zhruba minutu"
           }
         },
         "de" : {
@@ -93133,7 +93133,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "et %@ calories en moins au quotidien"
+            "value" : "et %@ calories en moins dans votre routine"
           }
         },
         "hi" : {
@@ -93246,7 +93246,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "a %@"
+            "value" : "alle %@"
           }
         },
         "ka" : {
@@ -93555,7 +93555,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "აცილებული კალორიები"
+            "value" : "აცილებული კალორია"
           }
         },
         "lt" : {
@@ -93585,7 +93585,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ккал, которых удалось избежать"
+            "value" : "ккал сэкономлено"
           }
         },
         "uk" : {
@@ -93608,7 +93608,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ustátá chuť"
+            "value" : "zvládnutá chuť"
           }
         },
         "de" : {
@@ -93709,7 +93709,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ustátých chutí"
+            "value" : "zvládnutých chutí"
           }
         },
         "de" : {
@@ -93816,7 +93816,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ustáté chutě"
+            "value" : "zvládnuté chutě"
           }
         },
         "de" : {
@@ -93923,7 +93923,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ustáté chuti"
+            "value" : "zvládnuté chuti"
           }
         },
         "de" : {
@@ -94060,7 +94060,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld दिन"
+            "value" : "दिन %lld"
           }
         },
         "it" : {
@@ -95379,7 +95379,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "nicht getrunkene Getränke"
+            "value" : "ausgelassene Drinks"
           }
         },
         "el" : {
@@ -95480,13 +95480,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "voller Zugriff auf Bloom+"
+            "value" : "vollen Zugriff auf Bloom+"
           }
         },
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "πλήρης πρόσβαση στο Bloom+"
+            "value" : "πλήρη πρόσβαση στο Bloom+"
           }
         },
         "es" : {
@@ -95498,7 +95498,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Täysi käyttöoikeus Bloom+:aan"
+            "value" : "täysi käyttöoikeus Bloom+:aan"
           }
         },
         "fr" : {
@@ -95528,7 +95528,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Visa prieiga prie Bloom+"
+            "value" : "visa prieiga prie Bloom+"
           }
         },
         "nb" : {
@@ -96617,25 +96617,25 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Сэкономлено за %lld день трезвости"
+                  "value" : "сэкономлено за %lld день трезвости"
                 }
               },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Сэкономлено за %lld дня трезвости"
+                  "value" : "сэкономлено за %lld дня трезвости"
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Сэкономлено за %lld дней трезвости"
+                  "value" : "сэкономлено за %lld дней трезвости"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Сэкономлено за %lld дня трезвости"
+                  "value" : "сэкономлено за %lld дня трезвости"
                 }
               }
             }
@@ -96798,7 +96798,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "λιγότερο από μία μέρα ποτού"
+            "value" : "λιγότερο από μία μέρα που έπινες"
           }
         },
         "es" : {
@@ -96899,7 +96899,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ορόσημα"
+            "value" : "ορόσημα που πέρασες"
           }
         },
         "es" : {
@@ -96911,7 +96911,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "virstanpylvästä"
+            "value" : "virstanpylvästä saavutettu"
           }
         },
         "fr" : {
@@ -96935,13 +96935,13 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "გავლილი ეტაპები"
+            "value" : "გავლილი ეტაპი"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "etapų įveikta"
+            "value" : "įveiktų etapų"
           }
         },
         "nb" : {
@@ -96959,7 +96959,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "etapów zaliczonych"
+            "value" : "zaliczonych etapów"
           }
         },
         "ru" : {
@@ -97042,7 +97042,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "samanos šliaužė šiek tiek toliau"
+            "value" : "samanos išplito dar šiek tiek"
           }
         },
         "nb" : {
@@ -97701,7 +97701,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "12 Monate ohne Alkohol"
+            "value" : "in 12 Monaten nicht getrunken"
           }
         },
         "el" : {
@@ -97713,7 +97713,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "copas que no has tomado en 12 meses"
+            "value" : "copas que no tomarás en 12 meses"
           }
         },
         "fi" : {
@@ -97725,7 +97725,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "non bues en 12 mois"
+            "value" : "non bus en 12 mois"
           }
         },
         "hi" : {
@@ -97755,7 +97755,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ikke drukket på 12 måneder"
+            "value" : "ikke drukket i løpet av 12 måneder"
           }
         },
         "nl" : {
@@ -97945,7 +97945,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "სხეულის ცხიმის"
+            "value" : "სხეულის ცხიმი"
           }
         },
         "lt" : {
@@ -98016,7 +98016,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "de %lld registradas"
+            "value" : "de %lld registrados"
           }
         },
         "fi" : {
@@ -98034,7 +98034,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld दर्ज में से"
+            "value" : "दर्ज %lld में से"
           }
         },
         "it" : {
@@ -98064,7 +98064,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "van %lld vastgelegd"
+            "value" : "van de %lld vastgelegde"
           }
         },
         "pl" : {
@@ -98123,7 +98123,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Loppuun viety: %1$lld · kesken: %2$lld"
+            "value" : "%1$lld kerrasta loppuun asti · %2$lld jäi kesken"
           }
         },
         "fr" : {
@@ -98135,7 +98135,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$lld पूरी की गईं में से · %2$lld अधूरी"
+            "value" : "पूरी की गई %1$lld में से · %2$lld अधूरी"
           }
         },
         "it" : {
@@ -98189,7 +98189,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Đã vượt qua %1$lld lần · còn dang dở %2$lld lần"
+            "value" : "trong số %1$lld lần, bạn đã vượt qua · %2$lld lần còn dang dở"
           }
         }
       }
@@ -98254,7 +98254,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "šaknys prasiplėtė per piršto plotį"
+            "value" : "šaknys nusidriekė per piršto plotį"
           }
         },
         "nb" : {
@@ -98290,7 +98290,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "rễ lan rộng thêm khoảng bằng bề ngang một ngón tay"
+            "value" : "rễ lan thêm chừng một ngón tay"
           }
         }
       }
@@ -98486,7 +98486,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "крона стала трохи густіша"
+            "value" : "крона стала трохи густішою"
           }
         },
         "vi" : {
@@ -99080,7 +99080,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "względem wczoraj: %@"
+            "value" : "od wczoraj: %@"
           }
         },
         "ru" : {
@@ -99092,7 +99092,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "порівняно з учора: %@"
+            "value" : "порівняно з учорашнім днем: %@"
           }
         },
         "vi" : {
