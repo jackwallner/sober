@@ -19,7 +19,7 @@ enum Theme {
     static let ringTrack = Color(red: 0.886, green: 0.851, blue: 0.792)       // warm sand-gray #E2D9CA
     static let textPrimary = Color(red: 0.102, green: 0.102, blue: 0.094)     // ink    #1A1A18
     static let textSecondary = Color(red: 0.357, green: 0.337, blue: 0.298)   // warm gray
-    static let textTertiary = Color(red: 0.557, green: 0.529, blue: 0.471)
+    static let textTertiary = Color(red: 0.430, green: 0.408, blue: 0.360)
     #endif
 
     // D1 "Slow morning" palette — moss anchor, warm sand accent, no chromatic energy.

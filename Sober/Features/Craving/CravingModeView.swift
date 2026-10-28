@@ -189,6 +189,8 @@ struct CravingModeView: View {
                     Text("Give me another minute")
                         .font(Theme.subhead(weight: .semibold))
                         .foregroundStyle(Theme.brandPrimary)
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .opacity(targetSeconds >= HabitVocabulary.maxUrgeSeconds ? 0 : 1)
@@ -274,6 +276,8 @@ struct CravingModeView: View {
                         Text("Not sure yet. Close session")
                             .font(Theme.subhead(weight: .semibold))
                             .foregroundStyle(Theme.textSecondary)
+                            .frame(maxWidth: .infinity, minHeight: 44)
+                            .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
 
@@ -281,6 +285,8 @@ struct CravingModeView: View {
                         Text("I gave in")
                             .font(Theme.subhead(weight: .semibold))
                             .foregroundStyle(Theme.textSecondary)
+                            .frame(maxWidth: .infinity, minHeight: 44)
+                            .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
                 }

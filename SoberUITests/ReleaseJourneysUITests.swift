@@ -41,14 +41,14 @@ final class ReleaseJourneysUITests: XCTestCase {
         home("home-after-craving", in: app)
 
         for tab in ["Timeline", "Health", "Journal", "Upgrade"] {
-            let button = app.tabBars.buttons[L(tab)]
+            let button = tabButton(tab, in: app)
             // The unfolded Duo shows Timeline as a pane beside the tabs, not in the bar.
-            if tab == "Timeline", app.tabBars.buttons[L("Health")].waitForExistence(timeout: 10), !button.exists { continue }
+            if tab == "Timeline", tabButton("Health", in: app).waitForExistence(timeout: 10), !button.exists { continue }
             XCTAssertTrue(button.waitForExistence(timeout: 10))
             button.tap()
             QA.checkpoint(app, tab.lowercased(), paywall: tab == "Upgrade")
         }
-        app.tabBars.buttons[L("Home")].tap()
+        tabButton("Home", in: app).tap()
         home("home-after-upgrade", in: app)
         QA.interrupt(app)
         home("home-after-background", in: app)
@@ -68,7 +68,7 @@ final class ReleaseJourneysUITests: XCTestCase {
         XCTAssertTrue(app.navigationBars[L("Checked in")].waitForExistence(timeout: 10))
         QA.checkpoint(app, "check-in-sheet")
 
-        app.buttons[L("Good")].tap()
+        app.buttons["checkin.mood.4"].tap()
         let note = app.textFields[L("Anything you want to remember about today?")]
         XCTAssertTrue(note.waitForExistence(timeout: 5))
         note.tap()
@@ -117,6 +117,12 @@ final class ReleaseJourneysUITests: XCTestCase {
 
     private func craving(in app: XCUIApplication) -> XCUIElement {
         app.buttons.containing(NSPredicate(format: "label BEGINSWITH %@", L("I'm having a"))).firstMatch
+    }
+
+    /// The tab bar's button; the unfolded Duo draws the tabs as a rail that is not a tab bar.
+    private func tabButton(_ tab: String, in app: XCUIApplication) -> XCUIElement {
+        let inBar = app.tabBars.buttons[L(tab)]
+        return inBar.exists ? inBar : app.buttons.matching(NSPredicate(format: "label == %@", L(tab))).firstMatch
     }
 
     private func home(_ name: String, in app: XCUIApplication) {

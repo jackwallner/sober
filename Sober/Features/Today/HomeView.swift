@@ -524,16 +524,18 @@ struct HomeView: View {
                     Text("Today is logged")
                         .font(Theme.subhead(weight: .semibold))
                         .foregroundStyle(Theme.textPrimary)
+                        .fixedSize(horizontal: false, vertical: true)
                     // The tap's receipt. A day counter would have said the same
                     // thing whether or not the user ever opened the app, so the
                     // confirmation shows the one record that only exists
                     // because they did.
                     HStack(spacing: Theme.Space.s) {
                         WeekStripView(days: week)
+                            .accessibilityHidden(true)
                         Text(TendedWeek.compactSummary(week))
                             .font(Theme.caption())
                             .foregroundStyle(Theme.textSecondary)
-                            .lineLimit(1)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
                 }
                 Spacer(minLength: 0)
@@ -901,14 +903,15 @@ private struct CheckInDetailSheet: View {
                                 VStack(spacing: 4) {
                                     Image(systemName: symbols[value - 1])
                                         .font(.title2)
-                                        .foregroundStyle(mood == value ? Theme.brandPrimary : Theme.textTertiary)
+                                        .foregroundStyle(mood == value ? Theme.brandPrimary : Theme.textSecondary)
                                     Text(moodLabels[value - 1])
                                         .font(Theme.caption(weight: .semibold))
-                                        .foregroundStyle(mood == value ? Theme.brandPrimary : Theme.textTertiary)
+                                        .foregroundStyle(mood == value ? Theme.brandPrimary : Theme.textSecondary)
                                 }
                                 .frame(maxWidth: .infinity)
                             }
                             .buttonStyle(.plain)
+                            .accessibilityIdentifier("checkin.mood.\(value)")
                         }
                     }
                     .padding(.vertical, Theme.Space.xs)

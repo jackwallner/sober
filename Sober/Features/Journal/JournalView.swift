@@ -105,10 +105,11 @@ struct JournalView: View {
             } label: {
                 Label("Write entry", systemImage: "square.and.pencil")
                     .font(Theme.subhead(weight: .semibold))
+                    .frame(minHeight: 44)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.borderless)
             .tint(Theme.brandPrimary)
-            .padding(.top, 2)
         }
         .padding(.vertical, Theme.Space.xs)
     }

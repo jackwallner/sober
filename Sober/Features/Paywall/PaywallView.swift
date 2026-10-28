@@ -772,13 +772,19 @@ struct PaywallView: View {
         HStack(spacing: m.lerp(12, 16)) {
             Button(action: startRestore) {
                 Text(isRestoring ? "Restoring…" : "Restore Purchases")
+                    .frame(minHeight: 44)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .disabled(isRestoring || isPurchasing)
             Text("·")
-            Link("Terms", destination: PaywallLinks.standardEULA)
+            Link(destination: PaywallLinks.standardEULA) {
+                Text("Terms").frame(minHeight: 44).contentShape(Rectangle())
+            }
             Text("·")
-            Link("Privacy Policy", destination: PaywallLinks.privacyPolicy)
+            Link(destination: PaywallLinks.privacyPolicy) {
+                Text("Privacy Policy").frame(minHeight: 44).contentShape(Rectangle())
+            }
         }
         .font(m.rounded(m.footerSize))
         .foregroundStyle(Theme.textTertiary)

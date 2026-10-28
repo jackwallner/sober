@@ -45,7 +45,9 @@ struct OnboardingView: View {
 
     var body: some View {
         ZStack {
-            Theme.brandGradient.ignoresSafeArea()
+            LinearGradient(colors: [Theme.brandPrimary, Color(red: 0.22, green: 0.40, blue: 0.31)],
+                           startPoint: .topLeading, endPoint: .bottomTrailing)
+                .ignoresSafeArea()
             Group {
                 switch step {
                 case 0: promiseStep
@@ -99,7 +101,7 @@ struct OnboardingView: View {
                     .multilineTextAlignment(.center)
                 Text("Count every day, grow a private bonsai, and see what your body and wallet get back.")
                     .font(Theme.body())
-                    .foregroundStyle(.white.opacity(0.88))
+                    .foregroundStyle(.white.opacity(0.9))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, Theme.Space.s)
             }
@@ -135,7 +137,7 @@ struct OnboardingView: View {
                     .fixedSize(horizontal: false, vertical: true)
                 Text("Today is fine. You can change this later.")
                     .font(Theme.subhead())
-                    .foregroundStyle(.white.opacity(0.8))
+                    .foregroundStyle(.white.opacity(0.9))
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
                 DatePicker("", selection: $startDate, in: ...Date.now, displayedComponents: [.date])
@@ -158,13 +160,13 @@ struct OnboardingView: View {
                     .multilineTextAlignment(.center)
                 Text("Optional. Use zero if you only want the day counter and garden.")
                     .font(Theme.subhead())
-                    .foregroundStyle(.white.opacity(0.8))
+                    .foregroundStyle(.white.opacity(0.9))
                     .multilineTextAlignment(.center)
 
                 VStack(spacing: Theme.Space.s) {
                     Text("Typical daily spend")
                         .font(Theme.subhead())
-                        .foregroundStyle(.white.opacity(0.82))
+                        .foregroundStyle(.white.opacity(0.9))
                     Text("\(formatCurrency(Int(costPerDay))) / day")
                         .font(.system(size: 44, weight: .bold, design: .rounded))
                     Slider(value: $costPerDay, in: 0...200, step: 5)
@@ -174,7 +176,7 @@ struct OnboardingView: View {
                 VStack(spacing: Theme.Space.s) {
                     Text("Typical calories")
                         .font(Theme.subhead())
-                        .foregroundStyle(.white.opacity(0.82))
+                        .foregroundStyle(.white.opacity(0.9))
                     Text("\(Int(caloriesPerDay)) / day")
                         .font(.system(size: 32, weight: .bold, design: .rounded))
                     Slider(value: $caloriesPerDay, in: 0...3000, step: 50)
@@ -200,7 +202,7 @@ struct OnboardingView: View {
                     .fixedSize(horizontal: false, vertical: true)
                 Text("Home counts down to it. You can change it later.")
                     .font(Theme.subhead())
-                    .foregroundStyle(.white.opacity(0.8))
+                    .foregroundStyle(.white.opacity(0.9))
                     .multilineTextAlignment(.center)
 
                 VStack(spacing: Theme.Space.s) {
@@ -272,13 +274,13 @@ struct OnboardingView: View {
                 if let detail {
                     Text(detail)
                         .font(Theme.subhead())
-                        .foregroundStyle(.white.opacity(0.75))
+                        .foregroundStyle(.white.opacity(0.9))
                 }
             }
             .padding(.horizontal, Theme.Space.l)
             .padding(.vertical, 14)
             .frame(maxWidth: .infinity)
-            .background(.white.opacity(selected ? 0.24 : 0.12), in: RoundedRectangle(cornerRadius: 16))
+            .background(.white.opacity(selected ? 0.18 : 0.10), in: RoundedRectangle(cornerRadius: 16))
             .contentShape(RoundedRectangle(cornerRadius: 16))
         }
         .buttonStyle(.plain)
@@ -292,7 +294,7 @@ struct OnboardingView: View {
         VStack(spacing: 5) {
             Text("One alcohol-free year keeps")
                 .font(Theme.subhead())
-                .foregroundStyle(.white.opacity(0.78))
+                .foregroundStyle(.white.opacity(0.9))
             if yearlyDollars > 0 {
                 Text(formatCurrency(yearlyDollars))
                     .font(.system(size: 44, weight: .bold, design: .rounded))
@@ -300,7 +302,7 @@ struct OnboardingView: View {
             if yearlyCalories > 0 {
                 Text("and \(yearlyCalories.formatted()) calories out of your routine")
                     .font(Theme.caption())
-                    .foregroundStyle(.white.opacity(0.78))
+                    .foregroundStyle(.white.opacity(0.9))
                     .multilineTextAlignment(.center)
             }
         }
@@ -395,7 +397,7 @@ struct OnboardingView: View {
                     .fixedSize(horizontal: false, vertical: true)
                 Text(trialSubhead)
                     .font(Theme.body())
-                    .foregroundStyle(.white.opacity(0.88))
+                    .foregroundStyle(.white.opacity(0.9))
                     .multilineTextAlignment(.center)
                     // Without this the parent compresses it to a single clipped
                     // line, which hid the charge-date half of the sentence.
@@ -419,7 +421,7 @@ struct OnboardingView: View {
             if showsTrialNote {
                 Text("We're a small indie studio. Your trial helps us keep building. Not for you? Cancel anytime and tell us what to fix.")
                     .font(Theme.subhead())
-                    .foregroundStyle(.white.opacity(0.78))
+                    .foregroundStyle(.white.opacity(0.9))
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
             }
@@ -531,8 +533,9 @@ struct OnboardingView: View {
         Button { showSkipTrialConfirm = true } label: {
             Text("Get started")
                 .font(Theme.caption(weight: .semibold))
-                .foregroundStyle(.white.opacity(0.7))
-                .padding(.vertical, 2)
+                .foregroundStyle(.white.opacity(0.92))
+                .frame(minWidth: 44, minHeight: 44)
+                .contentShape(Rectangle())
         }
         .disabled(trialInFlight)
     }
@@ -610,7 +613,7 @@ struct OnboardingView: View {
             Spacer(minLength: 0)
         }
         .font(Theme.caption())
-        .foregroundStyle(.white.opacity(0.72))
+        .foregroundStyle(.white.opacity(0.9))
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 4)
     }
@@ -636,7 +639,7 @@ struct OnboardingView: View {
     private func disclosureLine(_ text: String) -> some View {
         Text(text)
             .font(Theme.caption())
-            .foregroundStyle(.white.opacity(0.7))
+            .foregroundStyle(.white.opacity(0.9))
             .multilineTextAlignment(.center)
             .fixedSize(horizontal: false, vertical: true)
             .padding(.horizontal, Theme.Space.s)
@@ -709,15 +712,21 @@ struct OnboardingView: View {
         HStack(spacing: 12) {
             Button { restorePurchasesFromOnboarding() } label: {
                 Text(restoreInFlight ? "Restoring…" : "Restore")
+                    .frame(minHeight: 44)
+                    .contentShape(Rectangle())
             }
             .disabled(restoreInFlight)
             Text("·")
-            Link("Terms", destination: PaywallLinks.standardEULA)
+            Link(destination: PaywallLinks.standardEULA) {
+                Text("Terms").frame(minHeight: 44).contentShape(Rectangle())
+            }
             Text("·")
-            Link("Privacy", destination: PaywallLinks.privacyPolicy)
+            Link(destination: PaywallLinks.privacyPolicy) {
+                Text("Privacy").frame(minHeight: 44).contentShape(Rectangle())
+            }
         }
         .font(Theme.caption())
-        .foregroundStyle(.white.opacity(0.75))
+        .foregroundStyle(.white.opacity(0.92))
         .tint(.white)
     }
 
@@ -747,7 +756,7 @@ struct OnboardingView: View {
                     .fixedSize(horizontal: false, vertical: true)
                 Text("A reminder to log the day and water your bonsai, a note when a milestone is a day out, and a heads-up before a free trial converts. Nothing else, and you can turn it all off in Settings.")
                     .font(Theme.body())
-                    .foregroundStyle(.white.opacity(0.88))
+                    .foregroundStyle(.white.opacity(0.9))
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.horizontal, Theme.Space.s)
@@ -767,7 +776,7 @@ struct OnboardingView: View {
         Button { completeOnboarding() } label: {
             Text("Not now")
                 .font(Theme.caption(weight: .semibold))
-                .foregroundStyle(.white.opacity(0.7))
+                .foregroundStyle(.white.opacity(0.9))
                 .padding(.vertical, 2)
         }
         .disabled(reminderRequestInFlight)
