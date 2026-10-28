@@ -145,5 +145,3 @@ Ei. Sober on seurantatyökalu, eikä se diagnosoi tai hoida mitään. Aikajana t
 Ilmainen App Storessa ja Google Playssa. Tiliä ei tarvita. Päivitä Bloom+-versioon milloin tahansa.
 
 [Lataa ilmaiseksi](https://apps.apple.com/fi/app/sober-sobriety-day-counter/id6768869215?pt=128748779&ct=jw-sober-home-fi&mt=8)
-
-© 2026 Jack Wallner · Päivitetty viimeksi October 28, 2026

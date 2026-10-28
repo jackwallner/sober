@@ -6,7 +6,7 @@ Web page: https://jackwallner.com/ios/sober/cs/sobriety-milestones.html
 
 ## Milníky střízlivosti: co znamená 30, 60, 90 dnů a rok
 
-Autor: Jack Wallner · Naposledy aktualizováno 28. října 2026
+Autor: Jack Wallner · Naposledy aktualizováno 28. 10. 2026
 
 Milníky střízlivosti jsou počty dnů, které lidé oslavují na cestě k jednomu roku: 24 hodin, 30, 60 a 90 dnů, 6 a 9 měsíců, pak každé výročí. Je to zvyk, ne lékařská hranice. Anonymní alkoholici žetony a mince sami nevydávají a každá skupina si určuje vlastní rozvrh. Výzkum skutečně ukazuje měřitelné změny asi po měsíci bez alkoholu, a proto má hranice 30 dnů takovou váhu.
 

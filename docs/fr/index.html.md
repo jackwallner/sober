@@ -145,5 +145,3 @@ Non. Sober est un outil de suivi et ne diagnostique ni ne traite rien. La chrono
 Gratuit sur l'App Store et Google Play. Aucun compte requis. Passez à Bloom+ à tout moment.
 
 [Télécharger gratuitement](https://apps.apple.com/fr/app/sober-sobriety-day-counter/id6768869215?pt=128748779&ct=jw-sober-home-fr&mt=8)
-
-© 2026 Jack Wallner · Dernière mise à jour October 28, 2026

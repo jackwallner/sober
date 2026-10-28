@@ -6,7 +6,7 @@ Web page: https://jackwallner.com/ios/sober/fr/sobriety-milestones.html
 
 ## Étapes de sobriété : que signifient 30, 60, 90 jours et 1 an
 
-Par Jack Wallner · Dernière mise à jour 28 octobre 2026
+Par Jack Wallner · Dernière mise à jour 28/10/2026
 
 Les étapes de sobriété sont les nombres de jours que l'on marque sur la route vers un an : 24 heures, 30, 60 et 90 jours, 6 et 9 mois, puis chaque anniversaire. C'est une coutume, pas un seuil médical. Les Alcooliques anonymes ne délivrent pas eux-mêmes les jetons et les pièces, et chaque groupe fixe son propre calendrier. La recherche montre bien des changements mesurables après environ un mois sans alcool, c'est pourquoi le cap des 30 jours pèse autant.
 

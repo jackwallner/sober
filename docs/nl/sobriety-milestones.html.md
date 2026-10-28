@@ -6,7 +6,7 @@ Web page: https://jackwallner.com/ios/sober/nl/sobriety-milestones.html
 
 ## Mijlpalen van nuchterheid: 30, 60, 90 dagen en 1 jaar
 
-Door Jack Wallner · Laatst bijgewerkt 28 oktober 2026
+Door Jack Wallner · Laatst bijgewerkt 28-10-2026
 
 Mijlpalen van nuchterheid zijn de dagaantallen die mensen markeren op weg naar een jaar: 24 uur, 30, 60 en 90 dagen, 6 en 9 maanden, daarna elke verjaardag. Het is een gewoonte, geen medische drempel. De Anonieme Alcoholisten geven de fiches en munten zelf niet uit, en elke groep bepaalt haar eigen schema. Onderzoek laat wel meetbare veranderingen zien na ongeveer een maand zonder alcohol, daarom krijgt de grens van 30 dagen zoveel gewicht.
 

@@ -145,5 +145,3 @@ Sober це лічильник днів і віртуальний сад в од�
 Безкоштовно в App Store і Google Play. Обліковий запис не потрібен. Переходьте на Bloom+ будь-коли.
 
 [Завантажити безкоштовно](https://apps.apple.com/ua/app/sober-sobriety-day-counter/id6768869215?pt=128748779&ct=jw-sober-home-uk&mt=8)
-
-© 2026 Jack Wallner · Останнє оновлення October 28, 2026

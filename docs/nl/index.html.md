@@ -145,5 +145,3 @@ Nee. Sober is een trackingtool en stelt of behandelt niets. De tijdlijn vat alge
 Gratis in de App Store en op Google Play. Geen account nodig. Upgrade op elk moment naar Bloom+.
 
 [Gratis downloaden](https://apps.apple.com/nl/app/sober-sobriety-day-counter/id6768869215?pt=128748779&ct=jw-sober-home-nl&mt=8)
-
-© 2026 Jack Wallner · Laatst bijgewerkt October 28, 2026

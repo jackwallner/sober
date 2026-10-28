@@ -6,7 +6,7 @@ Web page: https://jackwallner.com/ios/sober/vi/sobriety-milestones.html
 
 ## Cột mốc cai rượu: ý nghĩa của 30, 60, 90 ngày và 1 năm
 
-Tác giả Jack Wallner · Cập nhật lần cuối 28 tháng 10, 2026
+Tác giả Jack Wallner · Cập nhật lần cuối 28/10/2026
 
 Cột mốc tỉnh táo là các số ngày mà mọi người đánh dấu trên đường đến một năm: 24 giờ, 30, 60 và 90 ngày, 6 và 9 tháng, rồi mỗi dịp kỷ niệm. Đó là một tục lệ, không phải ngưỡng y tế. Hội Người nghiện rượu ẩn danh không tự phát hành các đồng xu và huy hiệu, và mỗi nhóm tự quyết định lịch của mình. Nghiên cứu cho thấy những thay đổi đo được sau khoảng một tháng không rượu, đó là lý do mốc 30 ngày được coi trọng đến vậy.
 

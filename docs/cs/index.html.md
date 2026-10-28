@@ -146,4 +146,4 @@ Zdarma v App Store a na Google Play. Účet není potřeba. Na Bloom+ můžete p
 
 [Stáhnout zdarma](https://apps.apple.com/cz/app/sober-sobriety-day-counter/id6768869215?pt=128748779&ct=jw-sober-home-cs&mt=8)
 
-© 2026 Jack Wallner · Naposledy aktualizováno October 28, 2026
+© 2026 Jack Wallner · Naposledy aktualizováno 28. 10. 2026

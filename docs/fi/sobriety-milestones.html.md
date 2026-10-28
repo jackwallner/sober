@@ -6,7 +6,7 @@ Web page: https://jackwallner.com/ios/sober/fi/sobriety-milestones.html
 
 ## Raittiuden virstanpylväät: 30, 60, 90 päivää ja 1 vuosi
 
-Kirjoittanut Jack Wallner · Päivitetty viimeksi 28. lokakuuta 2026
+Kirjoittanut Jack Wallner · Päivitetty viimeksi 28.10.2026
 
 Raittiuden virstanpylväät ovat päivämääriä, jotka ihmiset merkitsevät matkalla kohti vuotta: 24 tuntia, 30, 60 ja 90 päivää, 6 ja 9 kuukautta, sitten jokainen vuosipäivä. Ne ovat tapa, eivät lääketieteellinen raja. Nimettömät Alkoholistit eivät itse jaa pelimerkkejä ja kolikoita, ja jokainen ryhmä päättää oman aikataulunsa. Tutkimus näyttää mitattavia muutoksia noin kuukauden alkoholittomuuden jälkeen, minkä vuoksi 30 päivän rajalle annetaan niin suuri paino.
 

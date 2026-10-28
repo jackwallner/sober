@@ -145,5 +145,3 @@ Nie. Sober to narzędzie do śledzenia i niczego nie diagnozuje ani nie leczy. O
 Za darmo w App Store i Google Play. Konto nie jest wymagane. Przejdź na Bloom+ w dowolnej chwili.
 
 [Pobierz za darmo](https://apps.apple.com/pl/app/sober-sobriety-day-counter/id6768869215?pt=128748779&ct=jw-sober-home-pl&mt=8)
-
-© 2026 Jack Wallner · Ostatnia aktualizacja October 28, 2026

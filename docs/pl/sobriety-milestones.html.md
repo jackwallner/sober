@@ -6,7 +6,7 @@ Web page: https://jackwallner.com/ios/sober/pl/sobriety-milestones.html
 
 ## Kamienie milowe trzeźwości: 30, 60, 90 dni i rok
 
-Autor: Jack Wallner · Ostatnia aktualizacja 28 października 2026
+Autor: Jack Wallner · Ostatnia aktualizacja 28.10.2026
 
 Kamienie milowe trzeźwości to liczby dni, które zaznacza się w drodze do roku: 24 godziny, 30, 60 i 90 dni, 6 i 9 miesięcy, potem każda rocznica. To zwyczaj, a nie próg medyczny. Anonimowi Alkoholicy sami nie wydają żetonów ani monet, a każda grupa ustala własny harmonogram. Badania pokazują mierzalne zmiany po około miesiącu bez alkoholu, dlatego granica 30 dni ma tak duże znaczenie.
 

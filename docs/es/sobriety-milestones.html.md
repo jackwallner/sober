@@ -6,7 +6,7 @@ Web page: https://jackwallner.com/ios/sober/es/sobriety-milestones.html
 
 ## Hitos de sobriedad: qué significan 30, 60, 90 días y 1 año
 
-Por Jack Wallner · Última actualización 28 de octubre de 2026
+Por Jack Wallner · Última actualización 28/10/2026
 
 Los hitos de sobriedad son los recuentos de días que la gente marca de camino a un año: 24 horas, 30, 60 y 90 días, 6 y 9 meses, y luego cada aniversario. Son una costumbre, no un umbral médico. Alcohólicos Anónimos no emite las fichas y monedas por sí mismo, y cada grupo decide su propio calendario. La investigación sí muestra cambios medibles tras aproximadamente un mes sin alcohol, por eso la marca de 30 días pesa tanto.
 

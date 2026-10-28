@@ -146,4 +146,4 @@ Gratis en el App Store y en Google Play. No requiere cuenta. Mejora a Bloom+ cua
 
 [Descargar gratis](https://apps.apple.com/es/app/sober-sobriety-day-counter/id6768869215?pt=128748779&ct=jw-sober-home-es&mt=8)
 
-© 2026 Jack Wallner · Última actualización October 28, 2026
+© 2026 Jack Wallner · Última actualización 28/10/2026
