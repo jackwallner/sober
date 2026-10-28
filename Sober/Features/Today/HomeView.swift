@@ -33,6 +33,8 @@ struct HomeView: View {
     @State private var showGrowth = false
     @State private var showCheckInDetail = false
     @State private var reviewPromptShownThisSession = false
+    /// Home is the selected tab; the system rating card never covers another tab.
+    @State private var isTabVisible = false
     @State private var showTrialRecap = false
     @State private var postOnboardingPaywallTask: Task<Void, Never>?
     @State private var showPlaybook = false
@@ -156,7 +158,9 @@ struct HomeView: View {
                 Text("What should we fix?")
             }
             .task(id: subscriptions.whatToFixDue) { await presentWhatToFixWhenClear() }
+            .onDisappear { isTabVisible = false }
             .onAppear {
+                isTabVisible = true
                 GardenService(context: context).applyVitalityDecay()
                 refreshDailyState()
                 presentPostOnboardingPaywallIfNeeded()
@@ -801,7 +805,7 @@ struct HomeView: View {
     /// it actually appears.
     /// Nothing of Home's is on screen over it.
     private var isHomeClear: Bool {
-        !showGrowth && !showCheckInDetail && !showSlipSheet && !showCraving
+        isTabVisible && !showGrowth && !showCheckInDetail && !showSlipSheet && !showCraving
             && !showSettings && !showCustomize && !showProgress && !showPlaybook
             && !showGoalEditor && !showResetAlert && !showWhatToFix
     }
@@ -903,12 +907,16 @@ private struct CheckInDetailSheet: View {
                                 VStack(spacing: 4) {
                                     Image(systemName: symbols[value - 1])
                                         .font(.title2)
+                                        .frame(height: 32)
                                         .foregroundStyle(mood == value ? Theme.brandPrimary : Theme.textSecondary)
                                     Text(moodLabels[value - 1])
                                         .font(Theme.caption(weight: .semibold))
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.7)
                                         .foregroundStyle(mood == value ? Theme.brandPrimary : Theme.textSecondary)
                                 }
-                                .frame(maxWidth: .infinity)
+                                .frame(maxWidth: .infinity, minHeight: 44)
+                                .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
                             .accessibilityIdentifier("checkin.mood.\(value)")
