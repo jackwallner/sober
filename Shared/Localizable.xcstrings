@@ -2973,7 +2973,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il più frequente: %@"
+            "value" : "Più frequente: %@"
           }
         },
         "ka" : {
@@ -6595,13 +6595,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld giorno senza alcol"
+                  "value" : "%lld giorno gratis"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld giorni senza alcol"
+                  "value" : "%lld giorni gratis"
                 }
               }
             }
@@ -6778,7 +6778,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld ngày tỉnh táo"
+            "value" : "%lld ngày miễn phí"
           }
         }
       }
@@ -8266,7 +8266,7 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld blaivių dienų"
+                  "value" : "%lld blaivios dienos"
                 }
               },
               "other" : {
@@ -18354,25 +18354,25 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "/ %lld ефект"
+                  "value" : "/ %lld перевага"
                 }
               },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "/ %lld ефекти"
+                  "value" : "/ %lld переваги"
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "/ %lld ефектів"
+                  "value" : "/ %lld переваг"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "/ %lld ефекту"
+                  "value" : "/ %lld переваги"
                 }
               }
             }
@@ -18648,7 +18648,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "100 pažymėjimų iš eilės."
+            "value" : "100 žymėjimų iš eilės."
           }
         },
         "nb" : {
@@ -18666,7 +18666,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "100 dni z rzędu z wpisem."
+            "value" : "100 zapisów dnia z rzędu."
           }
         },
         "ru" : {
@@ -18850,7 +18850,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "30 pažymėjimų iš eilės."
+            "value" : "30 žymėjimų iš eilės."
           }
         },
         "nb" : {
@@ -18868,7 +18868,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "30 dni z rzędu z wpisem."
+            "value" : "30 zapisów dnia z rzędu."
           }
         },
         "ru" : {
@@ -21241,7 +21241,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Znak długoterminowych postępów."
+            "value" : "Oznaka długofalowych postępów."
           }
         },
         "ru" : {
@@ -21253,7 +21253,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Знак довгострокового прогресу."
+            "value" : "Показник довгострокового прогресу."
           }
         },
         "vi" : {
@@ -24462,7 +24462,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Νεαρό"
+            "value" : "Έφηβο"
           }
         },
         "es" : {
@@ -24474,7 +24474,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nuori"
+            "value" : "Varttuva"
           }
         },
         "fr" : {
@@ -24522,19 +24522,19 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nastolatek"
+            "value" : "Dorastające"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Подросток"
+            "value" : "Подрастающий"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Підліток"
+            "value" : "Юний"
           }
         },
         "vi" : {
@@ -25905,13 +25905,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Bonsaien fikk stell hver dag i %lld dag."
+                  "value" : "%lld dag stelt"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Bonsaien fikk stell hver dag i %lld dager."
+                  "value" : "Alle %lld dagene stelt"
                 }
               }
             }
@@ -26182,7 +26182,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tutte le 6 specie di bonsai"
+            "value" : "Tutte e 6 le specie di bonsai"
           }
         },
         "ka" : {
@@ -26241,7 +26241,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Všechny výhody odemčeny"
+            "value" : "Všechny přínosy odemčeny"
           }
         },
         "de" : {
@@ -26319,7 +26319,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Все преимущества доступны"
+            "value" : "Все эффекты открыты"
           }
         },
         "uk" : {
@@ -26764,7 +26764,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ancestral"
+            "value" : "Milenario"
           }
         },
         "fi" : {
@@ -27893,7 +27893,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "बग़ीचे पर लौटें"
+            "value" : "बग़ीचे में लौटें"
           }
         },
         "it" : {
@@ -28059,7 +28059,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Výhody"
+            "value" : "Přínosy"
           }
         },
         "de" : {
@@ -28137,7 +28137,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Польза"
+            "value" : "Эффекты"
           }
         },
         "uk" : {
@@ -31594,7 +31594,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloom+ do wypróbowania za darmo"
+            "value" : "Wypróbuj Bloom+ za darmo"
           }
         },
         "ru" : {
@@ -34208,7 +34208,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "झरती शाखाओं वाली शैली"
+            "value" : "झरती शाखाओं वाला"
           }
         },
         "it" : {
@@ -34992,7 +34992,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Αλλαγή σε νηφαλιότητα"
+            "value" : "Αλλαγή σε νηφάλια μέρα"
           }
         },
         "es" : {
@@ -35313,7 +35313,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bilan du jour"
+            "value" : "Bilan"
           }
         },
         "hi" : {
@@ -35491,7 +35491,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Verfügbarkeit der Testphase wird geprüft …"
+            "value" : "Testphase wird geprüft …"
           }
         },
         "el" : {
@@ -35563,13 +35563,13 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Проверяем доступность пробного периода…"
+            "value" : "Проверяем пробный период…"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Перевіряємо доступність пробного періоду…"
+            "value" : "Перевіряємо пробний період…"
           }
         },
         "vi" : {
@@ -36008,7 +36008,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Próximamente"
+            "value" : "Lo que viene"
           }
         },
         "fi" : {
@@ -36115,7 +36115,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kumppanuuskasvit"
+            "value" : "Seuralaiskasvit"
           }
         },
         "fr" : {
@@ -36899,13 +36899,13 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nabídky se nepodařilo načíst"
+            "value" : "Plány se nepodařilo načíst"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abos konnten nicht geladen werden"
+            "value" : "Pläne konnten nicht geladen werden"
           }
         },
         "el" : {
@@ -37880,7 +37880,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sposoby na napady głodu"
+            "value" : "Sposoby na głód alkoholowy"
           }
         },
         "ru" : {
@@ -38723,7 +38723,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tägliches Tagebuch"
+            "value" : "Tagebuch"
           }
         },
         "el" : {
@@ -38741,7 +38741,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Päivittäinen päiväkirja"
+            "value" : "Päiväkirja"
           }
         },
         "fr" : {
@@ -38765,7 +38765,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "დღიური ყოველდღე"
+            "value" : "ყოველდღიური ჩანაწერები"
           }
         },
         "lt" : {
@@ -38795,7 +38795,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ежедневный дневник"
+            "value" : "Личный дневник"
           }
         },
         "uk" : {
@@ -39270,7 +39270,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "დღე %lld გელოდება"
+            "value" : "მე-%lld დღე გელოდება"
           }
         },
         "lt" : {
@@ -39597,7 +39597,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "dzień trzeźwości"
+            "value" : "dni trzeźwości"
           }
         },
         "ru" : {
@@ -39609,7 +39609,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "день тверезості"
+            "value" : "дня тверезості"
           }
         },
         "vi" : {
@@ -39739,7 +39739,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "dní střízlivosti"
+            "value" : "dne střízlivosti"
           }
         },
         "de" : {
@@ -40619,7 +40619,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Programista"
+            "value" : "Dla programistów"
           }
         },
         "ru" : {
@@ -43128,7 +43128,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "GRATIS-TESTPHASE"
+            "value" : "GRATIS TESTEN"
           }
         },
         "el" : {
@@ -43146,7 +43146,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ILMAINEN KOKEILU"
+            "value" : "ILMAISKOKEILU"
           }
         },
         "fr" : {
@@ -43170,7 +43170,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "უფასო საცდელი პერიოდი"
+            "value" : "უფასო საცდელი"
           }
         },
         "lt" : {
@@ -43182,7 +43182,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "GRATIS PRØVEPERIODE"
+            "value" : "PRØV GRATIS"
           }
         },
         "nl" : {
@@ -43194,7 +43194,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "PRÓBA ZA DARMO"
+            "value" : "OKRES PRÓBNY"
           }
         },
         "ru" : {
@@ -43212,10 +43212,11 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "DÙNG THỬ MIỄN PHÍ"
+            "value" : "THỬ MIỄN PHÍ"
           }
         }
-      }
+      },
+      "comment" : "Paywall badge on a plan row. Short ALL-CAPS pill; must fit about 14 characters."
     },
     "Feeling" : {
       "extractionState" : "manual",
@@ -43259,7 +43260,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "मनोभाव"
+            "value" : "मूड"
           }
         },
         "it" : {
@@ -43301,7 +43302,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Самочувствие"
+            "value" : "Настроение"
           }
         },
         "uk" : {
@@ -43705,7 +43706,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Свободное письмо"
+            "value" : "Свободная запись"
           }
         },
         "uk" : {
@@ -43782,7 +43783,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nemokamas bandomasis laikotarpis"
+            "value" : "Nemokamai"
           }
         },
         "nb" : {
@@ -44008,7 +44009,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Свободное письмо"
+            "value" : "Свободная запись"
           }
         },
         "uk" : {
@@ -44477,7 +44478,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cronologia della salute completa"
+            "value" : "Cronologia completa della salute"
           }
         },
         "ka" : {
@@ -44620,7 +44621,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Можливості саду"
+            "value" : "Елементи саду"
           }
         },
         "vi" : {
@@ -45772,7 +45773,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kasvava"
+            "value" : "Kasvamassa"
           }
         },
         "fr" : {
@@ -45867,7 +45868,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Héroe del semestre"
+            "value" : "Héroe de medio año"
           }
         },
         "fi" : {
@@ -46693,7 +46694,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "रोकें"
+            "value" : "साँस रोकें"
           }
         },
         "it" : {
@@ -46800,7 +46801,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inizio"
+            "value" : "Home"
           }
         },
         "ka" : {
@@ -47620,7 +47621,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Koks stiprus jis buvo?"
+            "value" : "Koks stiprus buvo potraukis?"
           }
         },
         "nb" : {
@@ -47751,7 +47752,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Я зірвався"
+            "value" : "Стався зрив"
           }
         },
         "vi" : {
@@ -48101,7 +48102,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "J'ai une envie"
+            "value" : "J'ai envie de boire"
           }
         },
         "hi" : {
@@ -48428,7 +48429,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Iškenčiau"
+            "value" : "Atlaikiau"
           }
         },
         "nb" : {
@@ -48458,7 +48459,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Я впорався"
+            "value" : "Усе позаду"
           }
         },
         "vi" : {
@@ -49266,7 +49267,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Минуло"
+            "value" : "Минулося"
           }
         },
         "vi" : {
@@ -49913,7 +49914,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pidetäänkö ilmaisversio?"
+            "value" : "Jatketaanko ilmaisversiolla?"
           }
         },
         "fr" : {
@@ -49931,7 +49932,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tenere la versione gratuita?"
+            "value" : "Restare con la versione gratuita?"
           }
         },
         "ka" : {
@@ -50317,7 +50318,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opettele tunnistamaan omat toimintamallisi"
+            "value" : "Tunnista omat toimintamallisi"
           }
         },
         "fr" : {
@@ -50418,7 +50419,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opettele tunnistamaan omat toimintamallisi."
+            "value" : "Tunnista omat toimintamallisi."
           }
         },
         "fr" : {
@@ -50632,7 +50633,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "क़ानूनी"
+            "value" : "क़ानूनी जानकारी"
           }
         },
         "it" : {
@@ -50899,7 +50900,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Navždy"
+            "value" : "Doživotně"
           }
         },
         "de" : {
@@ -50911,7 +50912,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Συνολικά"
+            "value" : "Ισόβιο"
           }
         },
         "es" : {
@@ -50935,7 +50936,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "हमेशा के लिए"
+            "value" : "आजीवन"
           }
         },
         "it" : {
@@ -50971,7 +50972,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dożywotnio"
+            "value" : "Dożywotni"
           }
         },
         "ru" : {
@@ -50992,7 +50993,8 @@
             "value" : "Trọn đời"
           }
         }
-      }
+      },
+      "comment" : "Paywall plan name for the one-time lifetime purchase (pay once, keep forever). Not a date range."
     },
     "Light" : {
       "extractionState" : "manual",
@@ -51606,7 +51608,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zapsat jako střízlivý"
+            "value" : "Zapsat jako střízlivý den"
           }
         },
         "de" : {
@@ -52622,7 +52624,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Längste"
+            "value" : "Rekord"
           }
         },
         "el" : {
@@ -52717,7 +52719,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nízká"
+            "value" : "Sklesle"
           }
         },
         "de" : {
@@ -52729,7 +52731,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Χαμηλή"
+            "value" : "Πεσμένα"
           }
         },
         "es" : {
@@ -52747,7 +52749,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Faible"
+            "value" : "Morose"
           }
         },
         "hi" : {
@@ -52771,13 +52773,13 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prislėgta"
+            "value" : "Liūdnai"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lav"
+            "value" : "Nedfor"
           }
         },
         "nl" : {
@@ -52801,7 +52803,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Низький"
+            "value" : "Сумно"
           }
         },
         "vi" : {
@@ -53710,13 +53712,13 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Щомісяця"
+            "value" : "Місячний"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tháng"
+            "value" : "Hằng tháng"
           }
         }
       }
@@ -53864,7 +53866,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "और"
+            "value" : "और विकल्प"
           }
         },
         "it" : {
@@ -54951,7 +54953,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ουδέτερα"
+            "value" : "Μέτρια"
           }
         },
         "es" : {
@@ -56163,7 +56165,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Καμία πληρωμή τώρα"
+            "value" : "Χωρίς πληρωμή τώρα"
           }
         },
         "es" : {
@@ -56864,7 +56866,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unsicher"
+            "value" : "Weiß nicht"
           }
         },
         "el" : {
@@ -56888,7 +56890,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pas sûr"
+            "value" : "Je ne sais pas"
           }
         },
         "hi" : {
@@ -57363,13 +57365,13 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zatím tu není co číst"
+            "value" : "Zatím není co vyhodnotit"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Noch nichts zu lesen"
+            "value" : "Noch nichts auszuwerten"
           }
         },
         "el" : {
@@ -57405,7 +57407,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ancora niente da leggere"
+            "value" : "Ancora nessun dato"
           }
         },
         "ka" : {
@@ -57417,7 +57419,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kol kas nėra ką skaityti"
+            "value" : "Kol kas nėra ko parodyti"
           }
         },
         "nb" : {
@@ -57441,7 +57443,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Пока нечего читать"
+            "value" : "Пока нет данных"
           }
         },
         "uk" : {
@@ -57880,7 +57882,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Σε καλό δρόμο για να εξοικονομήσεις"
+            "value" : "Αναμενόμενη εξοικονόμηση"
           }
         },
         "es" : {
@@ -57910,7 +57912,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sei sulla buona strada per risparmiare"
+            "value" : "Risparmio previsto"
           }
         },
         "ka" : {
@@ -57940,7 +57942,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Na dobrej drodze do oszczędności"
+            "value" : "Zaoszczędzisz"
           }
         },
         "ru" : {
@@ -58023,7 +58025,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Metai be alkoholio sutaupo"
+            "value" : "Per metus be alkoholio sutaupysi"
           }
         },
         "nb" : {
@@ -58070,7 +58072,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Milník jednoho měsíce je tu."
+            "value" : "První měsíc za tebou."
           }
         },
         "de" : {
@@ -58154,7 +58156,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Рубіж в один місяць пройдено."
+            "value" : "Перший місяць позаду."
           }
         },
         "vi" : {
@@ -58813,7 +58815,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "एक बार · कोई सदस्यता नहीं"
+            "value" : "एक बार का भुगतान · कोई सदस्यता नहीं"
           }
         },
         "it" : {
@@ -59027,7 +59029,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "დამთრგუნველი"
+            "value" : "ძალიან ძლიერი"
           }
         },
         "lt" : {
@@ -59740,7 +59742,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Planas"
+            "value" : "Veiksmų planas"
           }
         },
         "nb" : {
@@ -59776,7 +59778,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kế hoạch"
+            "value" : "Cẩm nang"
           }
         }
       }
@@ -61445,7 +61447,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CONSIGLIATO · RISPARMI IL %lld%%"
+            "value" : "CONSIGLIATO · -%lld%%"
           }
         },
         "ka" : {
@@ -61457,7 +61459,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "REKOMENDUOJAMA · SUTAUPYK %lld %%"
+            "value" : "REKOMENDUOJAMA · -%lld %%"
           }
         },
         "nb" : {
@@ -61487,7 +61489,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "РЕКОМЕНДУЄМО · ЕКОНОМІЯ %lld%%"
+            "value" : "РАДИМО · ЕКОНОМІЯ %lld%%"
           }
         },
         "vi" : {
@@ -61778,7 +61780,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wyrafinowane"
+            "value" : "Dopracowane"
           }
         },
         "ru" : {
@@ -63364,7 +63366,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Difficile"
+            "value" : "Pesante"
           }
         },
         "ka" : {
@@ -63667,7 +63669,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RISPARMI IL %lld%%"
+            "value" : "SCONTO %lld%%"
           }
         },
         "ka" : {
@@ -64451,7 +64453,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mira lo que vuelve."
+            "value" : "Mira lo que vas recuperando."
           }
         },
         "fi" : {
@@ -64463,7 +64465,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voyez ce qui revient."
+            "value" : "Découvrez ce que vous retrouvez."
           }
         },
         "hi" : {
@@ -64475,7 +64477,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Guarda cosa sta tornando."
+            "value" : "Scopri cosa stai recuperando."
           }
         },
         "ka" : {
@@ -64511,7 +64513,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Узнайте, что возвращается."
+            "value" : "Узнайте, что восстанавливается."
           }
         },
         "uk" : {
@@ -64713,7 +64715,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Посмотрите, к чему это ведёт"
+            "value" : "Посмотрите, во что это вырастет"
           }
         },
         "uk" : {
@@ -64814,7 +64816,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Посмотрите, к чему это ведёт."
+            "value" : "Посмотрите, во что это вырастет."
           }
         },
         "uk" : {
@@ -64915,7 +64917,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Посмотрите, когда наступит день цели."
+            "value" : "Узнайте, когда достигнете цели."
           }
         },
         "uk" : {
@@ -65580,7 +65582,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "सेटिंग्ज़"
+            "value" : "सेटिंग्स"
           }
         },
         "it" : {
@@ -65758,7 +65760,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Παρών και σήμερα"
+            "value" : "Και σήμερα εδώ"
           }
         },
         "es" : {
@@ -66453,7 +66455,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Milník šesti měsíců"
+            "value" : "Půlroční milník"
           }
         },
         "de" : {
@@ -67588,7 +67590,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Juhlat"
+            "value" : "Sosiaalinen tilanne"
           }
         },
         "fr" : {
@@ -67665,7 +67667,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ve společnosti nebo když ti někdo nabídne alkohol"
+            "value" : "Ve společnosti nebo když ti nabídnou"
           }
         },
         "de" : {
@@ -67683,7 +67685,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "En situaciones sociales o cuando te ofrecen una copa"
+            "value" : "Reuniones o si te ofrecen una copa"
           }
         },
         "fi" : {
@@ -67701,7 +67703,7 @@
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "सामाजिक मौक़े पर या किसी के ड्रिंक ऑफ़र करने पर"
+            "value" : "सामाजिक मौक़ा या ड्रिंक का ऑफ़र"
           }
         },
         "it" : {
@@ -67713,7 +67715,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ხალხთან ყოფნისას ან როცა სასმელს შემოგთავაზებენ"
+            "value" : "კომპანიაში ან სასმელის შეთავაზებისას"
           }
         },
         "lt" : {
@@ -68218,13 +68220,13 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "დაიწყე"
+            "value" : "დასაწყისი"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pradėti"
+            "value" : "Pradžia"
           }
         },
         "nb" : {
@@ -68254,7 +68256,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Почати"
+            "value" : "Початок"
           }
         },
         "vi" : {
@@ -70186,25 +70188,25 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pořád střízlivý"
+            "value" : "Pořád bez alkoholu"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Noch nüchtern"
+            "value" : "Weiterhin nüchtern"
           }
         },
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ακόμα νηφάλιος"
+            "value" : "Ακόμα χωρίς αλκοόλ"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sigo sobrio"
+            "value" : "Sigo sin beber"
           }
         },
         "fi" : {
@@ -70240,7 +70242,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vis dar blaivus"
+            "value" : "Vis dar be alkoholio"
           }
         },
         "nb" : {
@@ -71250,7 +71252,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sistema"
+            "value" : "Pagal sistemą"
           }
         },
         "nb" : {
@@ -72785,7 +72787,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tavallinen hetki"
+            "value" : "Tuttu hetki"
           }
         },
         "fr" : {
@@ -73225,7 +73227,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tre sterke måneder"
+            "value" : "Tre sterke måneder."
           }
         },
         "nl" : {
@@ -74354,13 +74356,13 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Завтра день %lld"
+            "value" : "Завтра %lld-й день"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Завтра день %lld"
+            "value" : "Завтра буде день %lld"
           }
         },
         "vi" : {
@@ -74579,7 +74581,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Náročné"
+            "value" : "Náročně"
           }
         },
         "de" : {
@@ -74597,7 +74599,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Difícil"
+            "value" : "Complicado"
           }
         },
         "fi" : {
@@ -75548,7 +75550,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vanlig kaloriinntak"
+            "value" : "Kalorier på en vanlig dag"
           }
         },
         "nl" : {
@@ -76422,13 +76424,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "გახსენი ყველა %lld ხე"
+                  "value" : "გახსენი %lld-ვე ხე"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "გახსენი ყველა %lld ხე"
+                  "value" : "გახსენი %lld-ვე ხე"
                 }
               }
             }
@@ -76530,7 +76532,7 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Открыть %lld дерево"
+                  "value" : "Открыть все %lld дерево"
                 }
               },
               "few" : {
@@ -77175,7 +77177,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Odblokuj z Bloom+"
+            "value" : "Odblokuj w Bloom+"
           }
         },
         "ru" : {
@@ -79601,7 +79603,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mitä säilyy"
+            "value" : "Mitä säilytät"
           }
         },
         "fr" : {
@@ -79649,7 +79651,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ile zostaje u ciebie"
+            "value" : "Co zachowujesz"
           }
         },
         "ru" : {
@@ -81182,7 +81184,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lộng gió"
+            "value" : "Bạt phong"
           }
         }
       }
@@ -81283,7 +81285,7 @@
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bonsai lộng gió"
+            "value" : "Bonsai bạt phong"
           }
         }
       }
@@ -81508,7 +81510,7 @@
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Στόχος μου"
+            "value" : "Ο στόχος σου"
           }
         },
         "es" : {
@@ -81728,7 +81730,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Écrire une note"
+            "value" : "Écrire une entrée"
           }
         },
         "hi" : {
@@ -81859,7 +81861,7 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skriv deg gjennom suget"
+            "value" : "Skriv deg gjennom suget."
           }
         },
         "nl" : {
@@ -81900,7 +81902,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ZATÍM JSI UŠETŘIL"
+            "value" : "ZATÍM MÁŠ UŠETŘENO"
           }
         },
         "de" : {
@@ -82073,7 +82075,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "TWOJE PIENIĄDZE ZOSTAJĄ U CIEBIE"
+            "value" : "PIENIĄDZE ZOSTAJĄ U CIEBIE"
           }
         },
         "ru" : {
@@ -82364,13 +82366,13 @@
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "År én"
+            "value" : "Første år"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jaar één"
+            "value" : "Eerste jaar"
           }
         },
         "pl" : {
@@ -82489,7 +82491,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Рік"
+            "value" : "Річний"
           }
         },
         "vi" : {
@@ -87112,7 +87114,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je drangpatronen"
+            "value" : "Je patronen bij trek"
           }
         },
         "pl" : {
@@ -87581,7 +87583,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Votre note"
+            "value" : "Votre entrée"
           }
         },
         "hi" : {
@@ -88056,7 +88058,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Odhad tvého cíle"
+            "value" : "Kdy dosáhneš cíle"
           }
         },
         "de" : {
@@ -88484,7 +88486,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kaavasi"
+            "value" : "Toimintamallisi"
           }
         },
         "fr" : {
@@ -88989,7 +88991,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Raittiiden päiviesi määrä kasvaa."
+            "value" : "Raittiit päiväsi karttuvat."
           }
         },
         "fr" : {
@@ -89722,7 +89724,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tvoje zkušební verze se neobnoví"
+            "value" : "Tvoje zkušební období se neobnoví"
           }
         },
         "de" : {
@@ -91236,7 +91238,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "rok Bloom+"
+            "value" : "rok s Bloom+"
           }
         },
         "de" : {
@@ -92670,7 +92672,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "około dnia"
+            "value" : "mniej więcej dzień"
           }
         },
         "ru" : {
@@ -93454,7 +93456,7 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "კალორიები"
+            "value" : "კალორია"
           }
         },
         "lt" : {
@@ -93674,7 +93676,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "drangmoment doorstaan"
+            "value" : "trekmoment doorstaan"
           }
         },
         "pl" : {
@@ -93686,7 +93688,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "тяга пережита"
+            "value" : "приступ тяги позади"
           }
         },
         "uk" : {
@@ -93715,7 +93717,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "überstandene Verlangen"
+            "value" : "Mal Verlangen überstanden"
           }
         },
         "el" : {
@@ -93775,7 +93777,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "drangmomenten doorstaan"
+            "value" : "trekmomenten doorstaan"
           }
         },
         "pl" : {
@@ -93787,7 +93789,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "тяги пережиты"
+            "value" : "приступа тяги позади"
           }
         },
         "uk" : {
@@ -93822,7 +93824,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "überstandene Verlangen"
+            "value" : "Mal Verlangen überstanden"
           }
         },
         "el" : {
@@ -93882,7 +93884,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "drangmomenten doorstaan"
+            "value" : "trekmomenten doorstaan"
           }
         },
         "pl" : {
@@ -93894,7 +93896,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "тяги пережиты"
+            "value" : "приступа тяги позади"
           }
         },
         "uk" : {
@@ -93929,7 +93931,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "überstandene Verlangen"
+            "value" : "Mal Verlangen überstanden"
           }
         },
         "el" : {
@@ -93989,7 +93991,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "drangmomenten doorstaan"
+            "value" : "trekmomenten doorstaan"
           }
         },
         "pl" : {
@@ -94001,7 +94003,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "тяг пережито"
+            "value" : "приступов тяги позади"
           }
         },
         "uk" : {
@@ -95403,7 +95405,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "verres non bus"
+            "value" : "verres évités"
           }
         },
         "hi" : {
@@ -95415,7 +95417,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bevande alcoliche evitate"
+            "value" : "drink evitati"
           }
         },
         "ka" : {
@@ -95480,7 +95482,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "vollen Zugriff auf Bloom+"
+            "value" : "voller Zugriff auf Bloom+"
           }
         },
         "el" : {
@@ -96261,7 +96263,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "gardés"
+            "value" : "économisés"
           }
         },
         "hi" : {
@@ -97232,7 +97234,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "perlopiù benissimo"
+            "value" : "perlopiù alla grande"
           }
         },
         "ka" : {
@@ -97321,7 +97323,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "plutôt bas"
+            "value" : "plutôt morose"
           }
         },
         "hi" : {
@@ -97493,7 +97495,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "spíš náročně"
+            "value" : "spíš mizerně"
           }
         },
         "de" : {
@@ -97850,7 +97852,7 @@
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "neišleistų alkoholiui"
+            "value" : "neišleista alkoholiui"
           }
         },
         "nb" : {
