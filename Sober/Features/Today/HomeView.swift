@@ -828,6 +828,9 @@ struct HomeView: View {
     private func scheduleReviewRequestAfterPositiveMoment() {
         guard ReviewPromptTracker.shouldRequestAfterPositiveMoment(hasCompletedSetup: hasCompletedOnboarding),
               !reviewPromptShownThisSession,
+              // The release gate's journeys run on a preview store; the system
+              // rating card would cover the screen they tap next.
+              !ProcessInfo.processInfo.arguments.contains("-previewStore"),
               isHomeClear
         else { return }
 
@@ -898,7 +901,7 @@ private struct CheckInDetailSheet: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Mood") {
+                Section {
                     HStack(spacing: Theme.Space.m) {
                         ForEach(1...5, id: \.self) { value in
                             Button {
@@ -913,7 +916,7 @@ private struct CheckInDetailSheet: View {
                                         .font(Theme.caption(weight: .semibold))
                                         .lineLimit(1)
                                         .minimumScaleFactor(0.7)
-                                        .foregroundStyle(mood == value ? Theme.brandPrimary : Theme.textSecondary)
+                                        .foregroundStyle(mood == value ? Theme.brandPrimary : Theme.textPrimary)
                                 }
                                 .frame(maxWidth: .infinity, minHeight: 44)
                                 .contentShape(Rectangle())
@@ -923,12 +926,22 @@ private struct CheckInDetailSheet: View {
                         }
                     }
                     .padding(.vertical, Theme.Space.xs)
+                } header: {
+                    Text("Mood").foregroundStyle(Theme.textSecondary)
                 }
-                Section("Note") {
+                .listRowBackground(Theme.cardSurface)
+                Section {
                     TextField("Anything you want to remember about today?", text: $note, axis: .vertical)
                         .lineLimit(1...4)
+                } header: {
+                    Text("Note").foregroundStyle(Theme.textSecondary)
                 }
+                .listRowBackground(Theme.cardSurface)
             }
+            // An opaque page: over the sheet's glass the headers and labels
+            // measured as low as 1.7:1 against the garden behind.
+            .scrollContentBackground(.hidden)
+            .background(Theme.background)
             .navigationTitle("Checked in")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

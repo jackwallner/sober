@@ -94,9 +94,9 @@ final class ReleaseJourneysUITests: XCTestCase {
         "Keep the free version?": "Kostenlose Version behalten?", "Not now": "Nicht jetzt",
         "I'm through it": "Ich hab's geschafft", "It passed": "Es ist vorbei",
         "Back to the garden": "Zurück zum Garten", "Timeline": "Verlauf", "Health": "Gesundheit",
-        "Journal": "Tagebuch", "Home": "Start", "I'm having a": "Ich habe Verlangen",
-        "Check in for today": "Heute einchecken", "Today is logged": "Heute ist eingetragen",
-        "Checked in": "Eingecheckt", "Good": "Gut", "Save": "Sichern", "Not saved": "Nicht gespeichert",
+        "Journal": "Tagebuch", "Home": "Start", "I'm having a": "Ich spüre Verlangen",
+        "Check in for today": "Heute einchecken", "Today is logged": "Heute eingetragen",
+        "Checked in": "Eingecheckt", "Good": "Gut", "Save": "Speichern", "Not saved": "Nicht gespeichert",
         "Anything you want to remember about today?": "Möchtest du dir etwas von heute merken?",
     ]
 
