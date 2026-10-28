@@ -942,6 +942,7 @@ private struct CheckInDetailSheet: View {
             // measured as low as 1.7:1 against the garden behind.
             .scrollContentBackground(.hidden)
             .background(Theme.background)
+            .navigationTitle("Checked in")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
