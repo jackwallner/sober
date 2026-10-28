@@ -43122,13 +43122,13 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ZKUŠEBNÍ VERZE ZDARMA"
+            "value" : "ZKOUŠKA ZDARMA"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "GRATIS TESTEN"
+            "value" : "GRATIS-TEST"
           }
         },
         "el" : {
@@ -43170,43 +43170,43 @@
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "უფასო საცდელი პერიოდი"
+            "value" : "უფასო საცდელი"
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "NEMOKAMAS BANDYMAS"
+            "value" : "NEMOKAMAI"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "GRATIS PRØVEPERIODE"
+            "value" : "GRATIS PRØVE"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "GRATIS PROEFPERIODE"
+            "value" : "GRATIS PROEF"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "DARMOWY OKRES PRÓBNY"
+            "value" : "OKRES PRÓBNY"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "БЕСПЛАТНЫЙ ПРОБНЫЙ ПЕРИОД"
+            "value" : "ПРОБНЫЙ ПЕРИОД"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "БЕЗКОШТОВНИЙ ПРОБНИЙ ПЕРІОД"
+            "value" : "ПРОБНИЙ ПЕРІОД"
           }
         },
         "vi" : {
