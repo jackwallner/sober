@@ -51,7 +51,8 @@ paths:
 - When Swift bonsai changes: 1. port it to Kotlin, 2. run `scripts/sync-android-bonsai.py`,
   3. `fm-gradle -p android testDebugUnitTest`, 4. look at the compare images below. Re-recording
   without porting fails `scenesMatchSwift`; do not loosen the tolerance or re-pin the manifest to
-  get green.
+  get green. A change that leaves every recorded scene byte-identical (2026-10-27:
+  `String(localized:)` on the style names) only needs the re-recorded manifest.
 - Not in the fixtures: airborne petals and leaves (their paths move every frame, only the wind math
   is pinned) and anti-aliasing. Check them by eye. Debug launch extras
   `--ez gallery true --es galleryStyle sakura --ei galleryDay 365 [--ei galleryWindMs 1400]` draw one
@@ -65,7 +66,7 @@ paths:
 
 ## Billing
 
-- Moving into the iOS project (2026-10-27): Play app `appa3060708af` in `proj10cf6202` has the Play products on entitlement `Sober Tracker - Alcohol Free Pro` and a non-current `android` offering. The next release swaps `REVENUECAT_PLAY_KEY` to that app's `goog_` key, and the code syncs existing Play purchases once (`SYNCED_TO_SHARED_PROJECT`) so old-project trials keep access. Upload the service-account JSON to that app first. Until then the release ships the old key below.
+- Moving into the iOS project (2026-10-27): Play app `appa3060708af` in `proj10cf6202` has the Play products on entitlement `Sober Tracker - Alcohol Free Pro` and a non-current `android` offering. The code syncs existing Play purchases once (`SYNCED_TO_SHARED_PROJECT`) so old-project trials keep access. Shipped 2026-10-27: vc2 (1.3.2) uses that app's `goog_` key and went to production review by API (the service account can now write production). The old project below stays until the update rolls out.
 - RevenueCat project `proj15d6bf77` "Sober Android" (separate from iOS
   `proj10cf6202`). Play app `app4a2732350e` (service-account credentials
   uploaded), Test Store app `app0e47955aca`. Entitlement `pro`, offering
