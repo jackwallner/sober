@@ -6,7 +6,7 @@ Web page: https://jackwallner.com/ios/sober/sobriety-milestones.html
 
 ## Sobriety Milestones: What 30, 60, 90 Days and 1 Year Mean
 
-By Jack Wallner · Last updated October 23, 2026
+By Jack Wallner · Last updated October 28, 2026
 
 Sobriety milestones are the day counts people mark on the way to a year: 24 hours, 30, 60 and 90 days, 6 and 9 months, then each anniversary. They are a custom, not a medical threshold. Alcoholics Anonymous does not issue the chips and coins itself, and each group decides its own schedule. Research does show measurable changes after about a month off alcohol, which is why the 30-day mark gets so much weight.
 

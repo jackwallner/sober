@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2352A073'/%3E%3Cpath d='M16 6C16 6 10 12 10 18C10 23 13 26 16 26C19 26 22 23 22 18C22 12 16 6 16 6Z' fill='%237AC78C' opacity='0.8'/%3E%3Cpath d='M16 10C16 10 12.5 14 12.5 18C12.5 21 14 24 16 24C18 24 19.5 21 19.5 18C19.5 14 16 10 16 10Z' fill='%23F2C773'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2352A073'/%3E%3Cpath d='M16 6C16 6 10 12 10 18C10 23 13 26 16 26C19 26 22 23 22 18C22 12 16 6 16 6Z' fill='%237AC78C' opacity='0.8'/%3E%3Cpath d='M16 10C16 10 12.5 14 12.5 18C12.5 21 14 24 16 24C18 24 19.5 21 19.5 18C19.5 14 16 10 16 10Z' fill='%23F2C773'/%3E%3C/svg%3E">
+<title>Sober: ứng dụng đếm ngày tỉnh táo cho iPhone &amp; Apple Watch</title>
+<meta name="description" content="Sober là ứng dụng miễn phí đếm ngày không rượu cho iPhone và Apple Watch. Đếm ngày, điểm danh mỗi ngày, trồng bonsai và thêm widget. Không cần tài khoản.">
+<link rel="canonical" href="https://jackwallner.com/ios/sober/vi/">
+    <link rel="alternate" hreflang="en" href="https://jackwallner.com/ios/sober/">
+    <link rel="alternate" hreflang="uk" href="https://jackwallner.com/ios/sober/uk/">
+    <link rel="alternate" hreflang="pl" href="https://jackwallner.com/ios/sober/pl/">
+    <link rel="alternate" hreflang="de" href="https://jackwallner.com/ios/sober/de/">
+    <link rel="alternate" hreflang="ru" href="https://jackwallner.com/ios/sober/ru/">
+    <link rel="alternate" hreflang="nl" href="https://jackwallner.com/ios/sober/nl/">
+    <link rel="alternate" hreflang="es" href="https://jackwallner.com/ios/sober/es/">
+    <link rel="alternate" hreflang="fr" href="https://jackwallner.com/ios/sober/fr/">
+    <link rel="alternate" hreflang="cs" href="https://jackwallner.com/ios/sober/cs/">
+    <link rel="alternate" hreflang="vi" href="https://jackwallner.com/ios/sober/vi/">
+    <link rel="alternate" hreflang="fi" href="https://jackwallner.com/ios/sober/fi/">
+    <link rel="alternate" hreflang="x-default" href="https://jackwallner.com/ios/sober/">
+<script>if(location.hostname==="jackwallner.github.io"){var c=document.querySelector('link[rel="canonical"]');if(c&&c.href.indexOf("https://jackwallner.com/")===0)location.replace(c.href)}</script>
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="apple-itunes-app" content="app-id=6768869215">
+
+<meta property="og:title" content="Sober: ứng dụng đếm ngày tỉnh táo cho iPhone &amp; Apple Watch">
+<meta property="og:description" content="Ứng dụng đếm ngày không rượu miễn phí cho iPhone và Apple Watch. Đếm ngày tỉnh táo, mỗi lần điểm danh trồng thêm một cây bonsai, giữ mọi thứ riêng tư. Không cần tài khoản.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jackwallner.com/ios/sober/vi/">
+<meta property="og:image" content="https://jackwallner.github.io/sober/og-preview.png">
+<meta property="og:video" content="https://jackwallner.github.io/sober/preview.mp4">
+<meta property="og:video:secure_url" content="https://jackwallner.github.io/sober/preview.mp4">
+<meta property="og:video:type" content="video/mp4">
+<meta property="og:video:width" content="1080">
+<meta property="og:video:height" content="1080">
+<meta property="og:site_name" content="Jack Wallner">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sober: ứng dụng đếm ngày tỉnh táo cho iPhone &amp; Apple Watch">
+<meta name="twitter:description" content="Ứng dụng đếm ngày không rượu miễn phí cho iPhone và Apple Watch. Đếm ngày tỉnh táo, mỗi lần điểm danh trồng thêm một cây bonsai, giữ mọi thứ riêng tư. Không cần tài khoản.">
+<meta name="twitter:image" content="https://jackwallner.github.io/sober/screenshot-1-counter.png">
+<script type="application/ld+json">{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "MobileApplication",
+            "dateModified": "2026-10-28",
+            "@id": "https://jackwallner.com/ios/sober/vi/#app",
+            "name": "Sober: Sobriety Day Counter",
+            "description": "Sober: ứng dụng đếm ngày tỉnh táo là ứng dụng miễn phí cho iPhone và Apple Watch. Ứng dụng đếm số ngày không rượu của bạn, thêm điểm danh hằng ngày với khu vườn bonsai lớn lên theo chuỗi của bạn, và hiển thị widget cùng tiện ích mặt đồng hồ. Không cần tài khoản và dữ liệu của bạn nằm trên thiết bị.",
+            "applicationCategory": "HealthApplication",
+            "operatingSystem": "iOS 17+, watchOS 10+, Android 8.0+",
+            "url": "https://jackwallner.com/ios/sober/vi/",
+            "alternateName": "Sober",
+            "downloadUrl": "https://apps.apple.com/vn/app/id6768869215",
+            "installUrl": [
+                "https://apps.apple.com/vn/app/id6768869215",
+                "https://play.google.com/store/apps/details?id=com.jackwallner.sober"
+            ],
+            "sameAs": [
+                "https://apps.apple.com/vn/app/id6768869215",
+                "https://play.google.com/store/apps/details?id=com.jackwallner.sober"
+            ],
+            "screenshot": [
+                "https://jackwallner.github.io/sober/screenshot-1-counter.png",
+                "https://jackwallner.github.io/sober/screenshot-2-calendar.png",
+                "https://jackwallner.github.io/sober/screenshot-3-checkin.png",
+                "https://jackwallner.github.io/sober/screenshot-4-milestone.png",
+                "https://jackwallner.github.io/sober/screenshot-5-saved.png",
+                "https://jackwallner.github.io/sober/screenshot-6-species.png"
+            ],
+            "featureList": [
+                "Bộ đếm ngày tỉnh táo với cột mốc tiếp theo",
+                "Điểm danh hằng ngày để trồng khu vườn bonsai ảo",
+                "Lịch tỉnh táo theo màu với các chuỗi",
+                "Dòng thời gian cột mốc sức khỏe kèm liên kết nguồn",
+                "Widget Màn hình chính, Màn hình khóa và Apple Watch",
+                "Nhật ký riêng tư có gợi ý (Bloom+)",
+                "Không tài khoản, không quảng cáo, dữ liệu nằm trên thiết bị"
+            ],
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            },
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "5.0",
+                "ratingCount": "5",
+                "bestRating": "5"
+            },
+            "author": {
+                "@type": "Person",
+                "name": "Jack Wallner",
+                "url": "https://jackwallner.com/"
+            },
+            "publisher": {
+                "@type": "Person",
+                "name": "Jack Wallner",
+                "url": "https://jackwallner.com/"
+            }
+        },
+        {
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "Có ứng dụng đếm ngày tỉnh táo miễn phí cho iPhone không?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Có. Sober: ứng dụng đếm ngày tỉnh táo miễn phí để tải và dùng. Bộ đếm ngày, điểm danh hằng ngày, lịch, khu vườn cơ bản và năm cột mốc sức khỏe đầu tiên đều miễn phí, còn bản nâng cấp tùy chọn Bloom+ thêm dòng thời gian đầy đủ, nhật ký, thành tích, tiền và calo tiết kiệm."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Làm sao theo dõi tôi đã tỉnh táo bao nhiêu ngày?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Đặt ngày bắt đầu tỉnh táo, Sober sẽ đếm ngày giúp bạn và hiển thị cột mốc tiếp theo. Điểm danh mỗi ngày một lần để ghi tâm trạng, thêm ghi chú và tưới cây bonsai."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Ứng dụng Sober có widget và ứng dụng Apple Watch không?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Có. Số ngày của bạn hiện trong widget Màn hình chính, Màn hình khóa và dưới dạng tiện ích mặt đồng hồ Apple Watch. Ứng dụng Apple Watch cho phép điểm danh hằng ngày ngay trên cổ tay."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Điều gì xảy ra với số ngày của tôi nếu tôi trượt?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Bạn tự ghi lại lần trượt, và bộ đếm ngày bắt đầu lại từ ngày đó. Khu vườn giữ lại một phần sự phát triển, nên ứng dụng không xóa tiến trình của bạn hay làm bạn xấu hổ."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Tôi có cần tài khoản không, và dữ liệu tỉnh táo của tôi có riêng tư không?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Không cần tài khoản. Sober không có quảng cáo hay phân tích, và dữ liệu của bạn nằm trên thiết bị."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Sober có phải là lựa chọn thay thế cho I Am Sober không?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Nếu bạn muốn một bộ đếm ngày đơn giản, riêng tư thì có. Sober không có tài khoản, không có bảng tin cộng đồng và không quảng cáo, và kết hợp bộ đếm với khu vườn lớn lên theo mỗi lần điểm danh hằng ngày."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Dòng thời gian lợi ích sức khỏe có phải là lời khuyên y tế không?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Không. Sober là công cụ theo dõi và không chẩn đoán hay điều trị bất cứ điều gì. Dòng thời gian tóm tắt các cột mốc sức khỏe chung từ nguồn NIAAA, CDC và AHA, nên hãy trao đổi với bác sĩ về tình hình của riêng bạn."
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Jack Wallner",
+                    "item": "https://jackwallner.com/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Ứng dụng iOS",
+                    "item": "https://jackwallner.com/ios/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "Sober: bộ đếm ngày tỉnh táo",
+                    "item": "https://jackwallner.com/ios/sober/vi/"
+                }
+            ]
+        }
+    ]
+}</script>
+<style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+            color: #1d1d1f;
+            background: #fafafa;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Nav */
+        nav {
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            background: rgba(250,250,250,0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #1d1d1f;
+        }
+
+        .nav-brand svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .nav-brand span {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .nav-link {
+            font-size: 14px;
+            text-decoration: none;
+            background: #1d1d1f;
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 980px;
+            font-weight: 500;
+            transition: opacity 0.15s;
+        }
+
+        .nav-link:hover { opacity: 0.85; }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 100px 24px 64px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            line-height: 1.08;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 span {
+            color: #42825d;
+        }
+
+        .hero .tagline {
+            font-size: 19px;
+            color: #6e6e73;
+            line-height: 1.5;
+            max-width: 440px;
+            margin: 0 auto 12px;
+        }
+
+        .hero .platforms {
+            font-size: 13px;
+            color: #6e6e73;
+            letter-spacing: 0.3px;
+            margin-bottom: 36px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: #1d1d1f;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 14px 36px;
+            border-radius: 980px;
+            text-decoration: none;
+            transition: opacity 0.15s;
+        }
+
+        .download-btn:hover { opacity: 0.85; }
+
+        .store-badges { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; }
+        .play-badge { display: inline-flex; transition: opacity 0.15s; }
+        .play-badge:hover { opacity: 0.85; }
+        .play-badge img { display: block; height: 46px; width: auto; }
+        .nav-actions { display: flex; align-items: center; gap: 10px; }
+        .nav-actions .play-badge img { height: 36px; }
+
+        /* Screenshot showcase */
+        .showcase {
+            padding: 0 0 80px;
+        }
+
+        .showcase-scroll {
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 0 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            scrollbar-width: none;
+        }
+
+        .showcase-scroll::-webkit-scrollbar { display: none; }
+
+        .showcase-card {
+            flex-shrink: 0;
+            scroll-snap-align: center;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 16px 48px rgba(0,0,0,0.08);
+        }
+
+        .showcase-card img {
+            width: auto;
+            height: 540px;
+            display: block;
+        }
+
+        /* Features */
+        .features {
+            padding: 80px 0;
+            background: #fff;
+            border-top: 1px solid rgba(0,0,0,0.06);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .features-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .features-header h2 {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .features-header p {
+            font-size: 17px;
+            color: #6e6e73;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: rgba(0,0,0,0.06);
+            border-top: 1px solid rgba(0,0,0,0.06);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .feature-card {
+            background: #fff;
+            padding: 36px 32px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: #6e6e73;
+            line-height: 1.55;
+        }
+
+        /* Privacy */
+        .privacy {
+            padding: 80px 0;
+            background: #fafafa;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .privacy .container {
+            max-width: 640px;
+            text-align: center;
+        }
+
+        .privacy .lockup {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #f5f5f7;
+            margin-bottom: 20px;
+        }
+
+        .privacy .lockup svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: #1d1d1f;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .privacy h2 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+
+        .privacy p {
+            font-size: 17px;
+            color: #6e6e73;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .privacy a {
+            font-size: 15px;
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .privacy a:hover { text-decoration: underline; }
+
+        /* More Info */
+        .more-info {
+            padding: 64px 24px;
+            background: #fff;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .more-info-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .more-info-header h2 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .more-info-header p {
+            font-size: 17px;
+            color: #6e6e73;
+        }
+
+        .more-info-content {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .more-info-section {
+            margin-bottom: 40px;
+        }
+
+        .more-info-section h3 {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #6e6e73;
+            margin-bottom: 12px;
+        }
+
+        .more-info-section p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #1d1d1f;
+            margin-bottom: 12px;
+        }
+
+        .more-info-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .more-info-section strong {
+            font-weight: 600;
+        }
+
+        .specs-table {
+            width: 100%;
+            font-size: 14px;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .specs-table td {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .specs-table td:first-child {
+            color: #6e6e73;
+            width: 140px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* CTA */
+        .cta {
+            text-align: center;
+            padding: 64px 24px 80px;
+            background: #fff;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .cta h2 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+
+        .cta p {
+            font-size: 15px;
+            color: #6e6e73;
+            margin-bottom: 28px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px 24px;
+            font-size: 12px;
+            color: #6e6e73;
+        }
+
+        footer a { display: inline-block; padding: 6px 0;
+            color: #6e6e73;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        footer a:hover { color: #1d1d1f; }
+
+        footer .divider { margin: 4px 0; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero { padding: 72px 20px 48px; }
+            .hero h1 { font-size: 36px; letter-spacing: -1px; }
+            .hero .tagline { font-size: 17px; }
+
+            .showcase-card img { height: 400px; }
+
+            .features-grid { grid-template-columns: 1fr; }
+
+            .features-header h2 { font-size: 28px; }
+            .privacy h2, .cta h2 { font-size: 26px; }
+        }
+
+        @media (max-width: 480px) {
+            .showcase-card img { height: 360px; }
+        }
+
+        /* FAQ */
+        .faq {
+            padding: 64px 24px;
+            background: #fafafa;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .faq-content {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border-top: 1px solid rgba(0,0,0,0.08);
+            padding: 18px 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .faq-item summary {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+            cursor: pointer;
+            color: #1d1d1f;
+        }
+
+        .faq-item p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #6e6e73;
+            margin-top: 10px;
+        }
+        .feature-card .tier {
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #42825d;
+        }
+            summary > h2.faq-q { display: inline; margin: 0; font: inherit; letter-spacing: inherit; color: inherit; }
+</style>
+</head>
+<body>
+<nav>
+<div class="container">
+<a class="nav-brand" href="./">
+<svg viewbox="0 0 32 32" fill="none">
+<rect width="32" height="32" rx="7" fill="#52A073"></rect>
+<path d="M16 6C16 6 10 12 10 18C10 23 13 26 16 26C19 26 22 23 22 18C22 12 16 6 16 6Z" fill="#7AC78C" opacity="0.8"></path>
+<path d="M16 10C16 10 12.5 14 12.5 18C12.5 21 14 24 16 24C18 24 19.5 21 19.5 18C19.5 14 16 10 16 10Z" fill="#F2C773"></path>
+</svg>
+<span>Sober</span>
+</a>
+<div class="nav-actions">
+<a class="nav-link" href="https://apps.apple.com/vn/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-home-vi&amp;mt=8">Tải về</a>
+<a class="play-badge" href="https://play.google.com/store/apps/details?id=com.jackwallner.sober" rel="noopener"><img src="../google-play-badge.webp" alt="Tải trên Google Play" width="121" height="36"></a>
+</div>
+</div>
+</nav>
+<section class="hero">
+<h1>Bộ đếm ngày tỉnh táo, <span>với khu vườn lớn dần</span></h1>
+<p class="tagline">Sober là ứng dụng đếm ngày tỉnh táo miễn phí cho iPhone và Apple Watch, có khu vườn ảo, mốc sức khỏe, nhật ký và hơn thế nữa, tất cả riêng tư và nằm trên thiết bị của bạn.</p>
+<p class="platforms">iPhone · Apple Watch · Widget</p>
+<div class="store-badges">
+<a class="download-btn" href="https://apps.apple.com/vn/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-home-vi&amp;mt=8">Tải miễn phí</a>
+<a class="play-badge" href="https://play.google.com/store/apps/details?id=com.jackwallner.sober" rel="noopener"><img src="../google-play-badge.webp" alt="Tải trên Google Play" width="155" height="46"></a>
+</div>
+</section>
+<section class="showcase">
+<div class="showcase-scroll">
+<div class="showcase-card">
+<img src="../screenshot-1-counter.webp" srcset="../screenshot-1-counter-360.webp 360w, ../screenshot-1-counter-540.webp 540w, ../screenshot-1-counter.webp 660w" sizes="(max-width: 480px) 176px, (max-width: 768px) 196px, 264px" alt="Bộ đếm ngày: 1.836 ngày tỉnh táo cùng rừng bonsai đang lớn của bạn" loading="lazy" decoding="async" width="660" height="1350">
+</div>
+<div class="showcase-card">
+<img src="../screenshot-2-calendar.webp" srcset="../screenshot-2-calendar-360.webp 360w, ../screenshot-2-calendar-540.webp 540w, ../screenshot-2-calendar.webp 660w" sizes="(max-width: 480px) 176px, (max-width: 768px) 196px, 264px" alt="Lịch tỉnh táo: các ngày theo màu cùng chuỗi hiện tại và dài nhất" loading="lazy" decoding="async" width="660" height="1350">
+</div>
+<div class="showcase-card">
+<img src="../screenshot-3-checkin.webp" srcset="../screenshot-3-checkin-360.webp 360w, ../screenshot-3-checkin-540.webp 540w, ../screenshot-3-checkin.webp 660w" sizes="(max-width: 480px) 176px, (max-width: 768px) 196px, 264px" alt="Điểm danh hằng ngày: ghi tâm trạng, thêm ghi chú và tưới cây bonsai" loading="lazy" decoding="async" width="660" height="1350">
+</div>
+<div class="showcase-card">
+<img src="../screenshot-4-milestone.webp" srcset="../screenshot-4-milestone-360.webp 360w, ../screenshot-4-milestone-540.webp 540w, ../screenshot-4-milestone.webp 660w" sizes="(max-width: 480px) 176px, (max-width: 768px) 196px, 264px" alt="Mừng cột mốc: Tròn một năm, cây của bạn gia nhập khu rừng" loading="lazy" decoding="async" width="660" height="1350">
+</div>
+<div class="showcase-card">
+<img src="../screenshot-5-saved.webp" srcset="../screenshot-5-saved-360.webp 360w, ../screenshot-5-saved-540.webp 540w, ../screenshot-5-saved.webp 660w" sizes="(max-width: 480px) 176px, (max-width: 768px) 196px, 264px" alt="Tiến trình đã lưu: tiền, calo và mỡ cơ thể tiết kiệm được trên hành trình" loading="lazy" decoding="async" width="660" height="1350">
+</div>
+<div class="showcase-card">
+<img src="../screenshot-6-species.webp" srcset="../screenshot-6-species-360.webp 360w, ../screenshot-6-species-540.webp 540w, ../screenshot-6-species.webp 660w" sizes="(max-width: 480px) 176px, (max-width: 768px) 196px, 264px" alt="Các loại bonsai: chọn một trong sáu kiểu cây khi chuỗi của bạn dài thêm" loading="lazy" decoding="async" width="660" height="1350">
+</div>
+</div>
+</section>
+<section class="features">
+<div class="container">
+<div class="features-header">
+<h2>Sober gồm những gì?</h2>
+<p>Bộ đếm và khu vườn miễn phí. Bloom+ thêm dòng thời gian đầy đủ, nhật ký, thành tích và khoản tiết kiệm.</p>
+</div>
+</div>
+<div class="features-grid">
+<div class="feature-card">
+<h3>Bộ đếm ngày</h3>
+<p>Xem đã bao nhiêu ngày kể từ lúc bắt đầu, mốc tiếp theo và lợi ích sức khỏe sắp tới, tất cả trên một màn hình.</p>
+</div>
+<div class="feature-card">
+<h3>Xem cây lớn lên</h3>
+<p>Khu vườn ảo lớn từ hạt giống thành cổ thụ khi chuỗi của bạn tiếp tục. Tưới cây mỗi ngày bằng lần điểm danh.</p>
+</div>
+<div class="feature-card">
+<h3>Dòng thời gian phục hồi cơ thể</h3>
+<p>13 lợi ích sức khỏe được NIAAA, CDC và AHA chứng thực. Xem đường huyết ổn định sau 24 giờ, gan cải thiện sau 30 ngày và rủi ro dài hạn giảm sau một năm.</p>
+</div>
+<div class="feature-card">
+<h3>Dòng thời gian sức khỏe đầy đủ</h3>
+<p>Xem cả 13 lợi ích với giải thích chi tiết và liên kết nguồn. Bức tranh đầy đủ về quá trình phục hồi của cơ thể bạn.</p>
+<p class="tier">Có trong Pro</p>
+</div>
+<div class="feature-card">
+<h3>Xem tiến trình của bạn</h3>
+<p>Lịch theo màu cho biết ngày tỉnh táo (xanh lá), không tỉnh táo (đỏ) và chưa điểm danh (xám). Theo dõi tỷ lệ thành công theo thời gian.</p>
+</div>
+<div class="feature-card">
+<h3>Nhật ký có gợi ý</h3>
+<p>Câu hỏi suy ngẫm hằng ngày, viết tự do và bộ chọn cảm xúc. Mọi bài viết đều riêng tư và lưu cục bộ trên thiết bị của bạn.</p>
+<p class="tier">Có trong Pro</p>
+</div>
+<div class="feature-card">
+<h3>Thành tích</h3>
+<p>9 cột mốc theo thời gian (Bước đầu tiên, Quý đầu, Năm thứ nhất) và chuỗi điểm danh (Tuần hoàn hảo, Kỷ luật kim cương).</p>
+<p class="tier">Có trong Pro</p>
+</div>
+<div class="feature-card">
+<h3>Tiền &amp; calo tiết kiệm</h3>
+<p>Xem bạn đã tiết kiệm bao nhiêu tiền và bao nhiêu calo kể từ khi bắt đầu hành trình. Tự đặt chi phí hằng ngày và ước tính calo của riêng bạn.</p>
+<p class="tier">Có trong Pro</p>
+</div>
+<div class="feature-card">
+<h3>Nhìn là thấy</h3>
+<p>Số ngày của bạn trên màn hình chính, màn hình khóa và Apple Watch. Bao gồm widget hệ thống và tiện ích mặt đồng hồ.</p>
+</div>
+</div>
+</section>
+<section class="privacy">
+<div class="container">
+<div class="lockup">
+<svg viewbox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+</div>
+<h2>Sober có riêng tư không?</h2>
+<p>Có. Sober được xây dựng với quyền riêng tư là ưu tiên hàng đầu. Không tài khoản, không phân tích, không quảng cáo, không SDK bên thứ ba ngoài StoreKit của Apple. Dữ liệu của bạn không bao giờ rời thiết bị. Mọi thông tin sức khỏe chỉ nằm cục bộ trong SwiftData.</p>
+<a href="../privacy-policy.html">Chính sách quyền riêng tư →</a>
+</div>
+</section>
+<section class="more-info">
+<div class="container">
+<div class="more-info-header">
+<h2>Thông tin thêm</h2>
+<p>Cách ứng dụng được xây dựng.</p>
+</div>
+<div class="more-info-content">
+<div class="more-info-section">
+<h3>Ý tưởng</h3>
+<p>Hầu hết ứng dụng về tỉnh táo bắt bạn điền biểu mẫu và nhìn chằm chằm vào một con số trơ trụi. Tôi muốn một khu vườn lớn lên mỗi lần bạn điểm danh, để tiến trình là thứ bạn nhìn thấy được.</p>
+<p>Sober là bộ đếm ngày và khu vườn ảo trong một. Điểm danh mỗi ngày một lần, xem cây bonsai lớn từ hạt giống thành cả khu rừng, và thấy dọc đường những lợi ích sức khỏe cùng số tiền bạn lấy lại được. Không đăng ký, không đám mây, không xấu hổ khi tái phát. Ứng dụng cốt lõi miễn phí.</p>
+</div>
+<div class="more-info-section">
+<h3>Bloom+</h3>
+<p>Bản nâng cấp tùy chọn cho ai muốn bức tranh đầy đủ. Có gói theo tháng, theo năm hoặc mua một lần dùng trọn đời, gói đăng ký có 7 ngày dùng thử miễn phí. Giá hiển thị trong ứng dụng trước khi bạn mua và khác nhau theo khu vực.</p>
+<p><strong>Dòng thời gian sức khỏe đầy đủ.</strong> Cả 13 lợi ích phục hồi (được chứng thực bởi nguồn NIAAA, CDC và AHA) kèm giải thích chi tiết. Bản miễn phí hiển thị 5 mục đầu.</p>
+<p><strong>Nhật ký có gợi ý.</strong> Câu hỏi suy ngẫm hằng ngày, viết tự do và bộ chọn cảm xúc. Bài viết luôn riêng tư và cục bộ, giống mọi thứ khác.</p>
+<p><strong>Thành tích.</strong> Cả 9 cột mốc theo thời gian (Bước đầu tiên, Quý đầu, Năm thứ nhất) và chuỗi điểm danh (Tuần hoàn hảo, Kỷ luật kim cương).</p>
+<p><strong>Tiền &amp; calo tiết kiệm, mọi loại cây trong vườn.</strong> Xem khoản tiết kiệm cộng dồn so với chi phí hằng ngày do bạn đặt, và trồng bất kỳ kiểu nào trong 6 kiểu bonsai khi chuỗi của bạn dài thêm.</p>
+</div>
+<div class="more-info-section">
+<h3>Thông số kỹ thuật</h3>
+<table class="specs-table">
+<tr><td>Nền tảng</td><td>iOS 17+, watchOS 10+</td></tr>
+<tr><td>Ngôn ngữ</td><td>Swift 6 với đồng thời nghiêm ngặt</td></tr>
+<tr><td>Framework</td><td>SwiftUI · SwiftData · StoreKit</td></tr>
+<tr><td>Dữ liệu</td><td>Không tài khoản, không HealthKit, hoàn toàn trên thiết bị</td></tr>
+<tr><td>Lưu trữ</td><td>SwiftData, chỉ cục bộ</td></tr>
+<tr><td>Widget</td><td>Màn hình chính, màn hình khóa, tiện ích mặt đồng hồ watchOS</td></tr>
+</table>
+</div>
+<div class="more-info-section">
+<h3>Điều quan trọng</h3>
+<p><strong>Khu vườn.</strong> Mỗi lần điểm danh thêm cho cây một đợt phát triển nhìn thấy được và cộng dồn.</p>
+<p><strong>Không xấu hổ khi tái phát.</strong> Bỏ lỡ một lần điểm danh hay ghi lại một lần trượt không trừng phạt bạn và không đưa khu vườn về số không.</p>
+<p><strong>Điểm danh ưu tiên trên đồng hồ.</strong> Ứng dụng Apple Watch biến điểm danh hằng ngày thành một cú chạm trên cổ tay, để thói quen vẫn giữ được vào những ngày bạn không muốn mở điện thoại.</p>
+<p><strong>Quyền riêng tư.</strong> Không tài khoản, không phân tích, không quảng cáo, không SDK bên thứ ba ngoài StoreKit. Dữ liệu về sự tỉnh táo rất nhạy cảm, nên ứng dụng không bao giờ hỏi bạn là ai hay gửi bất cứ gì ra khỏi thiết bị.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="faq">
+<div class="container">
+<div class="more-info-header">
+<h2>Câu hỏi</h2>
+<p>Trả lời nhanh về bộ đếm ngày tỉnh táo.</p>
+</div>
+<div class="faq-content">
+<details class="faq-item">
+<summary><h2 class="faq-q">Có ứng dụng đếm ngày tỉnh táo miễn phí cho iPhone không?</h2></summary>
+<p>Có. Sober: ứng dụng đếm ngày tỉnh táo miễn phí để tải và dùng. Bộ đếm ngày, điểm danh hằng ngày, lịch, khu vườn cơ bản và năm cột mốc sức khỏe đầu tiên đều miễn phí, còn bản nâng cấp tùy chọn Bloom+ thêm dòng thời gian đầy đủ, nhật ký, thành tích, tiền và calo tiết kiệm.</p>
+</details>
+<details class="faq-item">
+<summary><h2 class="faq-q">Làm sao theo dõi tôi đã tỉnh táo bao nhiêu ngày?</h2></summary>
+<p>Đặt ngày bắt đầu tỉnh táo, Sober sẽ đếm ngày giúp bạn và hiển thị cột mốc tiếp theo. Điểm danh mỗi ngày một lần để ghi tâm trạng, thêm ghi chú và tưới cây bonsai.</p>
+</details>
+<details class="faq-item">
+<summary><h2 class="faq-q">Ứng dụng Sober có widget và ứng dụng Apple Watch không?</h2></summary>
+<p>Có. Số ngày của bạn hiện trong widget Màn hình chính, Màn hình khóa và dưới dạng tiện ích mặt đồng hồ Apple Watch. Ứng dụng Apple Watch cho phép điểm danh hằng ngày ngay trên cổ tay.</p>
+</details>
+<details class="faq-item">
+<summary><h2 class="faq-q">Điều gì xảy ra với số ngày của tôi nếu tôi trượt?</h2></summary>
+<p>Bạn tự ghi lại lần trượt, và bộ đếm ngày bắt đầu lại từ ngày đó. Khu vườn giữ lại một phần sự phát triển, nên ứng dụng không xóa tiến trình của bạn hay làm bạn xấu hổ.</p>
+</details>
+<details class="faq-item">
+<summary><h2 class="faq-q">Tôi có cần tài khoản không, và dữ liệu tỉnh táo của tôi có riêng tư không?</h2></summary>
+<p>Không cần tài khoản. Sober không có quảng cáo hay phân tích, và dữ liệu của bạn nằm trên thiết bị.</p>
+</details>
+<details class="faq-item">
+<summary><h2 class="faq-q">Sober có phải là lựa chọn thay thế cho I Am Sober không?</h2></summary>
+<p>Nếu bạn muốn một bộ đếm ngày đơn giản, riêng tư thì có. Sober không có tài khoản, không có bảng tin cộng đồng và không quảng cáo, và kết hợp bộ đếm với khu vườn lớn lên theo mỗi lần điểm danh hằng ngày.</p>
+</details>
+<details class="faq-item">
+<summary><h2 class="faq-q">Dòng thời gian lợi ích sức khỏe có phải là lời khuyên y tế không?</h2></summary>
+<p>Không. Sober là công cụ theo dõi và không chẩn đoán hay điều trị bất cứ điều gì. Dòng thời gian tóm tắt các cột mốc sức khỏe chung từ nguồn NIAAA, CDC và AHA, nên hãy trao đổi với bác sĩ về tình hình của riêng bạn.</p>
+</details>
+</div>
+</div>
+</section>
+<section class="cta">
+<h2>Bắt đầu đếm ngày</h2>
+<p>Miễn phí trên App Store và Google Play. Không cần tài khoản. Nâng cấp lên Bloom+ bất cứ lúc nào.</p>
+<div class="store-badges">
+<a class="download-btn" href="https://apps.apple.com/vn/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-home-vi&amp;mt=8">Tải miễn phí</a>
+<a class="play-badge" href="https://play.google.com/store/apps/details?id=com.jackwallner.sober" rel="noopener"><img src="../google-play-badge.webp" alt="Tải trên Google Play" width="155" height="46"></a>
+</div>
+</section>
+<footer>
+<div class="divider">© 2026 Jack Wallner · Cập nhật lần cuối <time datetime="2026-10-28" data-updated>28/10/2026</time></div>
+<div>
+<a href="sobriety-milestones.html">Hướng dẫn về cột mốc</a>
+<a href="../i-am-sober-alternative.html">Lựa chọn thay thế I Am Sober</a>
+<a href="../support.html">Hỗ trợ</a>
+<a href="../privacy-policy.html">Quyền riêng tư</a>
+<a href="https://jackwallner.com/ios/">Thêm ứng dụng của Jack Wallner</a>
+</div>
+<div class="related-apps">Cũng của Jack: <a href="https://jackwallner.com/ios/quitzyn/">Quit Zyn</a> <a href="https://jackwallner.com/ios/fitness-streaks/">Fitness Habit Tracker</a> <a href="https://jackwallner.com/ios/headaches/">Migraine Headache Tracker Log</a></div>
+        <div class="lang-switch"><a href="../" hreflang="en" lang="en">English</a> <a href="../uk/" hreflang="uk" lang="uk">Українська</a> <a href="../pl/" hreflang="pl" lang="pl">Polski</a> <a href="../de/" hreflang="de" lang="de">Deutsch</a> <a href="../ru/" hreflang="ru" lang="ru">Русский</a> <a href="../nl/" hreflang="nl" lang="nl">Nederlands</a> <a href="../es/" hreflang="es" lang="es">Español</a> <a href="../fr/" hreflang="fr" lang="fr">Français</a> <a href="../cs/" hreflang="cs" lang="cs">Čeština</a> <span lang="vi">Tiếng Việt</span> <a href="../fi/" hreflang="fi" lang="fi">Suomi</a></div>
+</footer>
+</body>
+</html>

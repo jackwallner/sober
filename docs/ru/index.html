@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2352A073'/%3E%3Cpath d='M16 6C16 6 10 12 10 18C10 23 13 26 16 26C19 26 22 23 22 18C22 12 16 6 16 6Z' fill='%237AC78C' opacity='0.8'/%3E%3Cpath d='M16 10C16 10 12.5 14 12.5 18C12.5 21 14 24 16 24C18 24 19.5 21 19.5 18C19.5 14 16 10 16 10Z' fill='%23F2C773'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2352A073'/%3E%3Cpath d='M16 6C16 6 10 12 10 18C10 23 13 26 16 26C19 26 22 23 22 18C22 12 16 6 16 6Z' fill='%237AC78C' opacity='0.8'/%3E%3Cpath d='M16 10C16 10 12.5 14 12.5 18C12.5 21 14 24 16 24C18 24 19.5 21 19.5 18C19.5 14 16 10 16 10Z' fill='%23F2C773'/%3E%3C/svg%3E">
+<title>Sober: счётчик трезвости для iPhone &amp; Apple Watch</title>
+<meta name="description" content="Sober: бесплатный счётчик дней трезвости для iPhone и Apple Watch. Считайте дни, отмечайтесь ежедневно, растите бонсай. Без аккаунта.">
+<link rel="canonical" href="https://jackwallner.com/ios/sober/ru/">
+    <link rel="alternate" hreflang="en" href="https://jackwallner.com/ios/sober/">
+    <link rel="alternate" hreflang="uk" href="https://jackwallner.com/ios/sober/uk/">
+    <link rel="alternate" hreflang="pl" href="https://jackwallner.com/ios/sober/pl/">
+    <link rel="alternate" hreflang="de" href="https://jackwallner.com/ios/sober/de/">
+    <link rel="alternate" hreflang="ru" href="https://jackwallner.com/ios/sober/ru/">
+    <link rel="alternate" hreflang="nl" href="https://jackwallner.com/ios/sober/nl/">
+    <link rel="alternate" hreflang="es" href="https://jackwallner.com/ios/sober/es/">
+    <link rel="alternate" hreflang="fr" href="https://jackwallner.com/ios/sober/fr/">
+    <link rel="alternate" hreflang="cs" href="https://jackwallner.com/ios/sober/cs/">
+    <link rel="alternate" hreflang="vi" href="https://jackwallner.com/ios/sober/vi/">
+    <link rel="alternate" hreflang="fi" href="https://jackwallner.com/ios/sober/fi/">
+    <link rel="alternate" hreflang="x-default" href="https://jackwallner.com/ios/sober/">
+<script>if(location.hostname==="jackwallner.github.io"){var c=document.querySelector('link[rel="canonical"]');if(c&&c.href.indexOf("https://jackwallner.com/")===0)location.replace(c.href)}</script>
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="apple-itunes-app" content="app-id=6768869215">
+
+<meta property="og:title" content="Sober: счётчик трезвости для iPhone &amp; Apple Watch">
+<meta property="og:description" content="Бесплатный счётчик трезвости для iPhone и Apple Watch. Считайте дни без алкоголя, растите бонсай с каждой отметкой и сохраняйте приватность. Без аккаунта.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jackwallner.com/ios/sober/ru/">
+<meta property="og:image" content="https://jackwallner.github.io/sober/og-preview.png">
+<meta property="og:video" content="https://jackwallner.github.io/sober/preview.mp4">
+<meta property="og:video:secure_url" content="https://jackwallner.github.io/sober/preview.mp4">
+<meta property="og:video:type" content="video/mp4">
+<meta property="og:video:width" content="1080">
+<meta property="og:video:height" content="1080">
+<meta property="og:site_name" content="Jack Wallner">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sober: счётчик трезвости для iPhone &amp; Apple Watch">
+<meta name="twitter:description" content="Бесплатный счётчик трезвости для iPhone и Apple Watch. Считайте дни без алкоголя, растите бонсай с каждой отметкой и сохраняйте приватность. Без аккаунта.">
+<meta name="twitter:image" content="https://jackwallner.github.io/sober/screenshot-1-counter.png">
+<script type="application/ld+json">{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "MobileApplication",
+            "dateModified": "2026-10-28",
+            "@id": "https://jackwallner.com/ios/sober/ru/#app",
+            "name": "Sober: Sobriety Day Counter",
+            "description": "Sober: счётчик трезвости это бесплатное приложение для iPhone и Apple Watch. Оно считает дни без алкоголя, добавляет ежедневную отметку с садом бонсай, который растёт вместе с серией, и показывает виджеты и усложнения на часах. Аккаунт не нужен, а ваши данные остаются на устройстве.",
+            "applicationCategory": "HealthApplication",
+            "operatingSystem": "iOS 17+, watchOS 10+, Android 8.0+",
+            "url": "https://jackwallner.com/ios/sober/ru/",
+            "alternateName": "Sober",
+            "downloadUrl": "https://apps.apple.com/ru/app/id6768869215",
+            "installUrl": [
+                "https://apps.apple.com/ru/app/id6768869215",
+                "https://play.google.com/store/apps/details?id=com.jackwallner.sober"
+            ],
+            "sameAs": [
+                "https://apps.apple.com/ru/app/id6768869215",
+                "https://play.google.com/store/apps/details?id=com.jackwallner.sober"
+            ],
+            "screenshot": [
+                "https://jackwallner.github.io/sober/screenshot-1-counter.png",
+                "https://jackwallner.github.io/sober/screenshot-2-calendar.png",
+                "https://jackwallner.github.io/sober/screenshot-3-checkin.png",
+                "https://jackwallner.github.io/sober/screenshot-4-milestone.png",
+                "https://jackwallner.github.io/sober/screenshot-5-saved.png",
+                "https://jackwallner.github.io/sober/screenshot-6-species.png"
+            ],
+            "featureList": [
+                "Счётчик дней трезвости со следующей вехой",
+                "Ежедневная отметка, которая выращивает виртуальный сад бонсай",
+                "Календарь трезвости по цветам с сериями",
+                "Хронология вех здоровья со ссылками на источники",
+                "Виджеты для экрана «Домой», экрана блокировки и Apple Watch",
+                "Приватный дневник с подсказками (Bloom+)",
+                "Без аккаунта, без рекламы, данные на устройстве"
+            ],
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            },
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "5.0",
+                "ratingCount": "5",
+                "bestRating": "5"
+            },
+            "author": {
+                "@type": "Person",
+                "name": "Jack Wallner",
+                "url": "https://jackwallner.com/"
+            },
+            "publisher": {
+                "@type": "Person",
+                "name": "Jack Wallner",
+                "url": "https://jackwallner.com/"
+            }
+        },
+        {
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "Есть ли бесплатное приложение-счётчик дней трезвости для iPhone?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Да. Sober: счётчик трезвости можно скачать и использовать бесплатно. Счётчик дней, ежедневная отметка, календарь, базовый сад и первые пять вех здоровья бесплатны, а необязательное обновление Bloom+ добавляет полную хронологию, дневник, достижения, сэкономленные деньги и калории."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Как отслеживать, сколько дней я трезв?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Укажите дату начала трезвости, и Sober будет считать дни и показывать следующую веху. Отмечайтесь раз в день, чтобы записать настроение, добавить заметку и полить бонсай."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Есть ли у Sober виджет и приложение для Apple Watch?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Да. Число дней появляется в виджетах экрана «Домой» и экрана блокировки и как усложнения Apple Watch. Приложение для Apple Watch позволяет делать ежедневную отметку с запястья."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Что будет с моим счётчиком, если я сорвусь?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Срыв вы записываете сами, и счётчик дней начинает отсчёт с этой даты. Сад сохраняет часть роста, поэтому приложение не стирает ваш прогресс и не стыдит вас."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Нужен ли аккаунт и приватны ли мои данные о трезвости?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Аккаунт не нужен. В Sober нет рекламы и аналитики, а ваши данные остаются на устройстве."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Sober это альтернатива I Am Sober?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Если вам нужен простой приватный счётчик дней, да. В Sober нет аккаунта, ленты сообщества и рекламы, а счётчик соединён с садом, который растёт с каждой ежедневной отметкой."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Хронология пользы для здоровья это медицинский совет?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Нет. Sober это инструмент отслеживания, он ничего не диагностирует и не лечит. Хронология обобщает общие вехи здоровья из источников NIAAA, CDC и AHA, так что о своей ситуации поговорите с врачом."
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Jack Wallner",
+                    "item": "https://jackwallner.com/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Приложения для iOS",
+                    "item": "https://jackwallner.com/ios/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "Sober: счётчик трезвости",
+                    "item": "https://jackwallner.com/ios/sober/ru/"
+                }
+            ]
+        }
+    ]
+}</script>
+<style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+            color: #1d1d1f;
+            background: #fafafa;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Nav */
+        nav {
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            background: rgba(250,250,250,0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #1d1d1f;
+        }
+
+        .nav-brand svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .nav-brand span {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .nav-link {
+            font-size: 14px;
+            text-decoration: none;
+            background: #1d1d1f;
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 980px;
+            font-weight: 500;
+            transition: opacity 0.15s;
+        }
+
+        .nav-link:hover { opacity: 0.85; }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 100px 24px 64px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            line-height: 1.08;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 span {
+            color: #42825d;
+        }
+
+        .hero .tagline {
+            font-size: 19px;
+            color: #6e6e73;
+            line-height: 1.5;
+            max-width: 440px;
+            margin: 0 auto 12px;
+        }
+
+        .hero .platforms {
+            font-size: 13px;
+            color: #6e6e73;
+            letter-spacing: 0.3px;
+            margin-bottom: 36px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: #1d1d1f;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 14px 36px;
+            border-radius: 980px;
+            text-decoration: none;
+            transition: opacity 0.15s;
+        }
+
+        .download-btn:hover { opacity: 0.85; }
+
+        .store-badges { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; }
+        .play-badge { display: inline-flex; transition: opacity 0.15s; }
+        .play-badge:hover { opacity: 0.85; }
+        .play-badge img { display: block; height: 46px; width: auto; }
+        .nav-actions { display: flex; align-items: center; gap: 10px; }
+        .nav-actions .play-badge img { height: 36px; }
+
+        /* Screenshot showcase */
+        .showcase {
+            padding: 0 0 80px;
+        }
+
+        .showcase-scroll {
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 0 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            scrollbar-width: none;
+        }
+
+        .showcase-scroll::-webkit-scrollbar { display: none; }
+
+        .showcase-card {
+            flex-shrink: 0;
+            scroll-snap-align: center;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 16px 48px rgba(0,0,0,0.08);
+        }
+
+        .showcase-card img {
+            width: auto;
+            height: 540px;
+            display: block;
+        }
+
+        /* Features */
+        .features {
+            padding: 80px 0;
+            background: #fff;
+            border-top: 1px solid rgba(0,0,0,0.06);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .features-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .features-header h2 {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .features-header p {
+            font-size: 17px;
+            color: #6e6e73;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: rgba(0,0,0,0.06);
+            border-top: 1px solid rgba(0,0,0,0.06);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .feature-card {
+            background: #fff;
+            padding: 36px 32px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: #6e6e73;
+            line-height: 1.55;
+        }
+
+        /* Privacy */
+        .privacy {
+            padding: 80px 0;
+            background: #fafafa;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .privacy .container {
+            max-width: 640px;
+            text-align: center;
+        }
+
+        .privacy .lockup {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #f5f5f7;
+            margin-bottom: 20px;
+        }
+
+        .privacy .lockup svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: #1d1d1f;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .privacy h2 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+
+        .privacy p {
+            font-size: 17px;
+            color: #6e6e73;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .privacy a {
+            font-size: 15px;
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .privacy a:hover { text-decoration: underline; }
+
+        /* More Info */
+        .more-info {
+            padding: 64px 24px;
+            background: #fff;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .more-info-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .more-info-header h2 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .more-info-header p {
+            font-size: 17px;
+            color: #6e6e73;
+        }
+
+        .more-info-content {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .more-info-section {
+            margin-bottom: 40px;
+        }
+
+        .more-info-section h3 {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #6e6e73;
+            margin-bottom: 12px;
+        }
+
+        .more-info-section p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #1d1d1f;
+            margin-bottom: 12px;
+        }
+
+        .more-info-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .more-info-section strong {
+            font-weight: 600;
+        }
+
+        .specs-table {
+            width: 100%;
+            font-size: 14px;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .specs-table td {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .specs-table td:first-child {
+            color: #6e6e73;
+            width: 140px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* CTA */
+        .cta {
+            text-align: center;
+            padding: 64px 24px 80px;
+            background: #fff;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .cta h2 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+
+        .cta p {
+            font-size: 15px;
+            color: #6e6e73;
+            margin-bottom: 28px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px 24px;
+            font-size: 12px;
+            color: #6e6e73;
+        }
+
+        footer a { display: inline-block; padding: 6px 0;
+            color: #6e6e73;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        footer a:hover { color: #1d1d1f; }
+
+        footer .divider { margin: 4px 0; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero { padding: 72px 20px 48px; }
+            .hero h1 { font-size: 36px; letter-spacing: -1px; }
+            .hero .tagline { font-size: 17px; }
+
+            .showcase-card img { height: 400px; }
+
+            .features-grid { grid-template-columns: 1fr; }
+
+            .features-header h2 { font-size: 28px; }
+            .privacy h2, .cta h2 { font-size: 26px; }
+        }
+
+        @media (max-width: 480px) {
+            .showcase-card img { height: 360px; }
+        }
+
+        /* FAQ */
+        .faq {
+            padding: 64px 24px;
+            background: #fafafa;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .faq-content {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border-top: 1px solid rgba(0,0,0,0.08);
+            padding: 18px 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .faq-item summary {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+            cursor: pointer;
+            color: #1d1d1f;
+        }
+
+        .faq-item p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #6e6e73;
+            margin-top: 10px;
+        }
+        .feature-card .tier {
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #42825d;
+        }
+            summary > h2.faq-q { display: inline; margin: 0; font: inherit; letter-spacing: inherit; color: inherit; }
+</style>
+</head>
+<body>
+<nav>
+<div class="container">
+<a class="nav-brand" href="./">
+<svg viewbox="0 0 32 32" fill="none">
+<rect width="32" height="32" rx="7" fill="#52A073"></rect>
+<path d="M16 6C16 6 10 12 10 18C10 23 13 26 16 26C19 26 22 23 22 18C22 12 16 6 16 6Z" fill="#7AC78C" opacity="0.8"></path>
+<path d="M16 10C16 10 12.5 14 12.5 18C12.5 21 14 24 16 24C18 24 19.5 21 19.5 18C19.5 14 16 10 16 10Z" fill="#F2C773"></path>
+</svg>
+<span>Sober</span>
+</a>
+<div class="nav-actions">
+<a class="nav-link" href="https://apps.apple.com/ru/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-home-ru&amp;mt=8">Скачать</a>
+<a class="play-badge" href="https://play.google.com/store/apps/details?id=com.jackwallner.sober" rel="noopener"><img src="../google-play-badge.webp" alt="Доступно в Google Play" width="121" height="36"></a>
+</div>
+</div>
+</nav>
+<section class="hero">
+<h1>Счётчик трезвости <span>с растущим садом</span></h1>
+<p class="tagline">Sober: бесплатный счётчик трезвости для iPhone и Apple Watch с виртуальным садом, вехами здоровья, дневником и другим. Всё приватно и на вашем устройстве.</p>
+<p class="platforms">iPhone · Apple Watch · Виджеты</p>
+<div class="store-badges">
+<a class="download-btn" href="https://apps.apple.com/ru/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-home-ru&amp;mt=8">Скачать бесплатно</a>
+<a class="play-badge" href="https://play.google.com/store/apps/details?id=com.jackwallner.sober" rel="noopener"><img src="../google-play-badge.webp" alt="Доступно в Google Play" width="155" height="46"></a>
+</div>
+</section>
+<section class="showcase">
+<div class="showcase-scroll">
+<div class="showcase-card">
+<img src="../screenshot-1-counter.webp" srcset="../screenshot-1-counter-360.webp 360w, ../screenshot-1-counter-540.webp 540w, ../screenshot-1-counter.webp 660w" sizes="(max-width: 480px) 176px, (max-width: 768px) 196px, 264px" alt="Счётчик дней: 1 836 дней трезвости и ваша растущая роща бонсай" loading="lazy" decoding="async" width="660" height="1350">
+</div>
+<div class="showcase-card">
+<img src="../screenshot-2-calendar.webp" srcset="../screenshot-2-calendar-360.webp 360w, ../screenshot-2-calendar-540.webp 540w, ../screenshot-2-calendar.webp 660w" sizes="(max-width: 480px) 176px, (max-width: 768px) 196px, 264px" alt="Календарь трезвости: дни по цветам с текущей и самой длинной серией" loading="lazy" decoding="async" width="660" height="1350">
+</div>
+<div class="showcase-card">
+<img src="../screenshot-3-checkin.webp" srcset="../screenshot-3-checkin-360.webp 360w, ../screenshot-3-checkin-540.webp 540w, ../screenshot-3-checkin.webp 660w" sizes="(max-width: 480px) 176px, (max-width: 768px) 196px, 264px" alt="Ежедневная отметка: запишите настроение, добавьте заметку и полейте бонсай" loading="lazy" decoding="async" width="660" height="1350">
+</div>
+<div class="showcase-card">
+<img src="../screenshot-4-milestone.webp" srcset="../screenshot-4-milestone-360.webp 360w, ../screenshot-4-milestone-540.webp 540w, ../screenshot-4-milestone.webp 660w" sizes="(max-width: 480px) 176px, (max-width: 768px) 196px, 264px" alt="Праздник вехи: Целый год, ваше дерево попадает в рощу" loading="lazy" decoding="async" width="660" height="1350">
+</div>
+<div class="showcase-card">
+<img src="../screenshot-5-saved.webp" srcset="../screenshot-5-saved-360.webp 360w, ../screenshot-5-saved-540.webp 540w, ../screenshot-5-saved.webp 660w" sizes="(max-width: 480px) 176px, (max-width: 768px) 196px, 264px" alt="Прогресс сохранён: сэкономленные деньги, калории и жир за ваш путь" loading="lazy" decoding="async" width="660" height="1350">
+</div>
+<div class="showcase-card">
+<img src="../screenshot-6-species.webp" srcset="../screenshot-6-species-360.webp 360w, ../screenshot-6-species-540.webp 540w, ../screenshot-6-species.webp 660w" sizes="(max-width: 480px) 176px, (max-width: 768px) 196px, 264px" alt="Виды бонсай: выберите один из шести стилей дерева по мере роста серии" loading="lazy" decoding="async" width="660" height="1350">
+</div>
+</div>
+</section>
+<section class="features">
+<div class="container">
+<div class="features-header">
+<h2>Что входит в Sober?</h2>
+<p>Счётчик и сад бесплатны. Bloom+ добавляет полную хронологию, дневник, достижения и сбережения.</p>
+</div>
+</div>
+<div class="features-grid">
+<div class="feature-card">
+<h3>Счётчик дней</h3>
+<p>Смотрите, сколько дней прошло с начала, какая следующая веха и какая следующая польза для здоровья, всё на одном экране.</p>
+</div>
+<div class="feature-card">
+<h3>Смотрите, как он растёт</h3>
+<p>Виртуальный сад, который растёт от семечка до вековой кроны вместе с вашей серией. Поливайте его ежедневной отметкой.</p>
+</div>
+<div class="feature-card">
+<h3>Хронология восстановления организма</h3>
+<p>13 польз для здоровья, подтверждённых NIAAA, CDC и AHA. Смотрите, как сахар в крови стабилизируется через 24 часа, печень восстанавливается через 30 дней, а долгосрочный риск снижается через год.</p>
+</div>
+<div class="feature-card">
+<h3>Полная хронология здоровья</h3>
+<p>Все 13 преимуществ с подробными объяснениями и ссылками на источники. Полная картина восстановления вашего организма.</p>
+<p class="tier">Входит в Pro</p>
+</div>
+<div class="feature-card">
+<h3>Следите за прогрессом</h3>
+<p>Цветной календарь показывает трезвые дни (зелёные), нетрезвые (красные) и ещё без отметки (серые). Следите за долей успешных дней со временем.</p>
+</div>
+<div class="feature-card">
+<h3>Дневник с подсказками</h3>
+<p>Ежедневные вопросы для размышления, свободное письмо и выбор чувства. Все записи приватны и хранятся локально на вашем устройстве.</p>
+<p class="tier">Входит в Pro</p>
+</div>
+<div class="feature-card">
+<h3>Достижения</h3>
+<p>9 вех по времени (Первый шаг, Квартал, Год первый) и по сериям отметок (Идеальная неделя, Алмазная дисциплина).</p>
+<p class="tier">Входит в Pro</p>
+</div>
+<div class="feature-card">
+<h3>Сэкономленные деньги &amp; калории</h3>
+<p>Смотрите, сколько денег и калорий вы сэкономили с начала пути. Задайте собственные ежедневные расходы и оценки калорий.</p>
+<p class="tier">Входит в Pro</p>
+</div>
+<div class="feature-card">
+<h3>С одного взгляда</h3>
+<p>Число дней на экране «Домой», экране блокировки и Apple Watch. Системные и дополнительные усложнения включены.</p>
+</div>
+</div>
+</section>
+<section class="privacy">
+<div class="container">
+<div class="lockup">
+<svg viewbox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+</div>
+<h2>Sober приватен?</h2>
+<p>Да. Sober создан с упором на приватность. Без аккаунтов, без аналитики, без рекламы, без сторонних SDK, кроме StoreKit от Apple. Ваши данные никогда не покидают устройство. Вся информация о здоровье хранится локально в SwiftData.</p>
+<a href="../privacy-policy.html">Политика конфиденциальности →</a>
+</div>
+</section>
+<section class="more-info">
+<div class="container">
+<div class="more-info-header">
+<h2>Подробнее</h2>
+<p>Как это сделано.</p>
+</div>
+<div class="more-info-content">
+<div class="more-info-section">
+<h3>Идея</h3>
+<p>Большинство приложений о трезвости заставляют заполнять формы и смотреть на голое число. Я хотел сад, который растёт с каждой отметкой, чтобы прогресс можно было увидеть.</p>
+<p>Sober это счётчик дней и виртуальный сад в одном. Отмечайтесь раз в день, смотрите, как бонсай растёт от семечка до целой рощи, и видьте пользу для здоровья и деньги, которые вы возвращаете. Без регистрации, без облака, без стыда за срыв. Основное приложение бесплатно.</p>
+</div>
+<div class="more-info-section">
+<h3>Bloom+</h3>
+<p>Необязательное обновление для тех, кому нужна полная картина. Доступно помесячно, на год или как разовая пожизненная покупка, с 7-дневным бесплатным пробным периодом для подписок. Цены показаны в приложении перед покупкой и зависят от региона.</p>
+<p><strong>Полная хронология здоровья.</strong> Все 13 преимуществ восстановления (подтверждённых источниками NIAAA, CDC и AHA) с подробными объяснениями. Бесплатная версия показывает первые 5.</p>
+<p><strong>Дневник с подсказками.</strong> Ежедневные вопросы для размышления, свободное письмо и выбор чувства. Записи остаются приватными и локальными, как и всё остальное.</p>
+<p><strong>Достижения.</strong> Все 9 вех по времени (Первый шаг, Квартал, Год первый) и по сериям отметок (Идеальная неделя, Алмазная дисциплина).</p>
+<p><strong>Сэкономленные деньги &amp; калории, все виды сада.</strong> Смотрите текущие сбережения относительно заданных вами ежедневных расходов и выращивайте любой из 6 стилей бонсай по мере роста серии.</p>
+</div>
+<div class="more-info-section">
+<h3>Характеристики</h3>
+<table class="specs-table">
+<tr><td>Платформа</td><td>iOS 17+, watchOS 10+</td></tr>
+<tr><td>Язык</td><td>Swift 6 со строгой конкурентностью</td></tr>
+<tr><td>Фреймворк</td><td>SwiftUI · SwiftData · StoreKit</td></tr>
+<tr><td>Данные</td><td>Без аккаунтов, без HealthKit, полностью на устройстве</td></tr>
+<tr><td>Хранилище</td><td>SwiftData, только локально</td></tr>
+<tr><td>Виджеты</td><td>Экран «Домой», экран блокировки, усложнения watchOS</td></tr>
+</table>
+</div>
+<div class="more-info-section">
+<h3>Что было важно</h3>
+<p><strong>Сад.</strong> Каждая отметка добавляет дереву заметный, накапливающийся рост.</p>
+<p><strong>Без стыда за срыв.</strong> Пропущенная отметка или записанный срыв не наказывает вас и не обнуляет сад.</p>
+<p><strong>Отметки в первую очередь на часах.</strong> Приложение для Apple Watch делает ежедневную отметку одним касанием на запястье, так что привычка сохраняется и в дни, когда не хочется открывать телефон.</p>
+<p><strong>Приватность.</strong> Без аккаунтов, без аналитики, без рекламы, без сторонних SDK, кроме StoreKit. Данные о трезвости чувствительны, поэтому приложение никогда не спрашивает, кто вы, и ничего не отправляет с устройства.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="faq">
+<div class="container">
+<div class="more-info-header">
+<h2>Вопросы</h2>
+<p>Краткие ответы о счётчике дней трезвости.</p>
+</div>
+<div class="faq-content">
+<details class="faq-item">
+<summary><h2 class="faq-q">Есть ли бесплатное приложение-счётчик дней трезвости для iPhone?</h2></summary>
+<p>Да. Sober: счётчик трезвости можно скачать и использовать бесплатно. Счётчик дней, ежедневная отметка, календарь, базовый сад и первые пять вех здоровья бесплатны, а необязательное обновление Bloom+ добавляет полную хронологию, дневник, достижения, сэкономленные деньги и калории.</p>
+</details>
+<details class="faq-item">
+<summary><h2 class="faq-q">Как отслеживать, сколько дней я трезв?</h2></summary>
+<p>Укажите дату начала трезвости, и Sober будет считать дни и показывать следующую веху. Отмечайтесь раз в день, чтобы записать настроение, добавить заметку и полить бонсай.</p>
+</details>
+<details class="faq-item">
+<summary><h2 class="faq-q">Есть ли у Sober виджет и приложение для Apple Watch?</h2></summary>
+<p>Да. Число дней появляется в виджетах экрана «Домой» и экрана блокировки и как усложнения Apple Watch. Приложение для Apple Watch позволяет делать ежедневную отметку с запястья.</p>
+</details>
+<details class="faq-item">
+<summary><h2 class="faq-q">Что будет с моим счётчиком, если я сорвусь?</h2></summary>
+<p>Срыв вы записываете сами, и счётчик дней начинает отсчёт с этой даты. Сад сохраняет часть роста, поэтому приложение не стирает ваш прогресс и не стыдит вас.</p>
+</details>
+<details class="faq-item">
+<summary><h2 class="faq-q">Нужен ли аккаунт и приватны ли мои данные о трезвости?</h2></summary>
+<p>Аккаунт не нужен. В Sober нет рекламы и аналитики, а ваши данные остаются на устройстве.</p>
+</details>
+<details class="faq-item">
+<summary><h2 class="faq-q">Sober это альтернатива I Am Sober?</h2></summary>
+<p>Если вам нужен простой приватный счётчик дней, да. В Sober нет аккаунта, ленты сообщества и рекламы, а счётчик соединён с садом, который растёт с каждой ежедневной отметкой.</p>
+</details>
+<details class="faq-item">
+<summary><h2 class="faq-q">Хронология пользы для здоровья это медицинский совет?</h2></summary>
+<p>Нет. Sober это инструмент отслеживания, он ничего не диагностирует и не лечит. Хронология обобщает общие вехи здоровья из источников NIAAA, CDC и AHA, так что о своей ситуации поговорите с врачом.</p>
+</details>
+</div>
+</div>
+</section>
+<section class="cta">
+<h2>Начните отсчёт</h2>
+<p>Бесплатно в App Store и Google Play. Аккаунт не нужен. Переходите на Bloom+ в любое время.</p>
+<div class="store-badges">
+<a class="download-btn" href="https://apps.apple.com/ru/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-home-ru&amp;mt=8">Скачать бесплатно</a>
+<a class="play-badge" href="https://play.google.com/store/apps/details?id=com.jackwallner.sober" rel="noopener"><img src="../google-play-badge.webp" alt="Доступно в Google Play" width="155" height="46"></a>
+</div>
+</section>
+<footer>
+<div class="divider">© 2026 Jack Wallner · Обновлено <time datetime="2026-10-28" data-updated>28.10.2026</time></div>
+<div>
+<a href="sobriety-milestones.html">Руководство по вехам</a>
+<a href="../i-am-sober-alternative.html">Альтернативы I Am Sober</a>
+<a href="../support.html">Поддержка</a>
+<a href="../privacy-policy.html">Конфиденциальность</a>
+<a href="https://jackwallner.com/ios/">Другие приложения Jack Wallner</a>
+</div>
+<div class="related-apps">Также от Jack: <a href="https://jackwallner.com/ios/quitzyn/">Quit Zyn</a> <a href="https://jackwallner.com/ios/fitness-streaks/">Fitness Habit Tracker</a> <a href="https://jackwallner.com/ios/headaches/">Migraine Headache Tracker Log</a></div>
+        <div class="lang-switch"><a href="../" hreflang="en" lang="en">English</a> <a href="../uk/" hreflang="uk" lang="uk">Українська</a> <a href="../pl/" hreflang="pl" lang="pl">Polski</a> <a href="../de/" hreflang="de" lang="de">Deutsch</a> <span lang="ru">Русский</span> <a href="../nl/" hreflang="nl" lang="nl">Nederlands</a> <a href="../es/" hreflang="es" lang="es">Español</a> <a href="../fr/" hreflang="fr" lang="fr">Français</a> <a href="../cs/" hreflang="cs" lang="cs">Čeština</a> <a href="../vi/" hreflang="vi" lang="vi">Tiếng Việt</a> <a href="../fi/" hreflang="fi" lang="fi">Suomi</a></div>
+</footer>
+</body>
+</html>
