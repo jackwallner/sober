@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
-"""Record the original Swift bonsai renderer's drawing commands for the Android parity tests.
+"""Record the Swift bonsai scenes for the Android parity tests.
 
-The Android app draws bonsai natively (android/.../ui/bonsai/BonsaiRenderer.kt, a line-for-line
-port). This script compiles the Swift renderer core against a recording shim
-(scripts/android-bonsai/RecordingGraphics.swift) and dumps what it draws:
+The Android app draws the bonsai natively (android/.../ui/bonsai/Bonsai*.kt, a port of
+Shared/Bonsai/*.swift). This script compiles the real Swift renderer, paint, scene and wind files
+on macOS and records, per layer of each recorded scene: ink, clip chain, wind motion, and how much of
+a 2 unit sampling grid (offset off the integer edges) over the 600x600 design square the layer covers (count and centroid). It also
+records the wind math. BonsaiParityTest compares the Kotlin port against these within a small
+tolerance.
 
-  * android/app/src/test/resources/bonsai/sampled.jsonl.gz   committed, sampled days (+ low vitality)
-  * android/app/src/test/resources/bonsai/manifest.json      committed, renderer source SHA-256
-  * android/app/build/bonsai-full/<style>.jsonl.gz           gitignored, every day 0...365 x 6 styles
+  * android/app/src/test/resources/bonsai/sampled.jsonl.gz   committed scene fixture
+  * android/app/src/test/resources/bonsai/wind.jsonl         committed wind fixture
+  * android/app/src/test/resources/bonsai/manifest.json      committed, SHA-256 of every Swift bonsai file
 
 Usage:
-  scripts/sync-android-bonsai.py            regenerate fixture + manifest + full export
-  scripts/sync-android-bonsai.py --no-full  fixture + manifest only (skips the full export)
-  scripts/sync-android-bonsai.py --check    exit 1 if the Swift renderer changed since the manifest
+  scripts/sync-android-bonsai.py          re-record the fixtures and manifest (needs macOS and Xcode)
+  scripts/sync-android-bonsai.py --check  exit 1 if a Swift bonsai file changed since the manifest
+
+Changing a Swift bonsai file means porting it to Kotlin first, then re-recording here. Re-recording
+without porting makes BonsaiParityTest fail on the scene fixture, which is the point.
 """
 from __future__ import annotations
 
@@ -26,113 +31,130 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SOURCE = ROOT / "Shared/Bonsai/BonsaiRenderer.swift"
-ADAPTER = ROOT / "scripts/android-bonsai/RecordingGraphics.swift"
+SWIFT_DIR = ROOT / "Shared/Bonsai"
+EXPORTER = ROOT / "scripts/android-bonsai/export-main.swift"
+THEME_STUB = ROOT / "Tools/BonsaiAudit/Sources/BonsaiAudit/ThemeStub.swift"
 FIXTURE_DIR = ROOT / "android/app/src/test/resources/bonsai"
 MANIFEST = FIXTURE_DIR / "manifest.json"
 SAMPLED = FIXTURE_DIR / "sampled.jsonl.gz"
-FULL_DIR = ROOT / "android/app/build/bonsai-full"
+WIND = FIXTURE_DIR / "wind.jsonl"
 
 STYLES = ["traditional", "cascade", "windswept", "sakura", "maple", "pine"]
-# Styles whose foliage is dimmed by vitality (Swift satFactor).
 VITALITY_STYLES = ["traditional", "cascade", "windswept"]
+TEXTURED_STYLES = ["maple", "pine"]
 SAMPLE_DAYS = [*range(0, 11), 14, 21, 30, 45, 60, 90, 120, 180, 270, 300, 364, 365]
-# (vitality, days) recorded for VITALITY_STYLES on top of the vitality 1 sweep.
+# (vitality, days) for VITALITY_STYLES on top of the vitality 1 sweep.
 LOW_VITALITY = [(0.4, [8, 100, 365]), (0.0, [365])]
-SCHEMA_VERSION = 2
-
-MAIN = r'''
-import Foundation
-
-// usage: export <outdir> <vitality> <styles|all> <days|all>
-let args = CommandLine.arguments
-let output = URL(fileURLWithPath: args[1])
-let vitality = Double(args[2])!
-let styles = args[3] == "all"
-    ? BonsaiStyle.allCases
-    : args[3].split(separator: ",").map { BonsaiStyle(rawValue: String($0))! }
-let days: [Int] = args[4] == "all" ? Array(0...365) : args[4].split(separator: ",").map { Int($0)! }
-
-try FileManager.default.createDirectory(at: output, withIntermediateDirectories: true)
-for style in styles {
-    var lines = Data()
-    for day in days {
-        let record = DrawingRecord()
-        var context = GraphicsContext(record: record)
-        exportedDrawBonsai(day: day, style: style, vitality: vitality, in: &context)
-        let bounds = bonsaiContentRect(day: day, style: style)
-        let frame: [String: Any] = [
-            "day": day, "style": style.rawValue, "vitality": vitality,
-            "bounds": [bounds.minX, bounds.minY, bounds.width, bounds.height],
-            "commands": record.commands,
-        ]
-        lines.append(try JSONSerialization.data(withJSONObject: frame, options: [.sortedKeys]))
-        lines.append(10)
-    }
-    try lines.write(to: output.appendingPathComponent("\(style.rawValue).jsonl"))
-}
-'''
+# (scale, days) for the thumbnail levels of detail of the textured styles (scale 1 is the sweep).
+LOW_DETAIL = [(0.1, [30, 120, 365]), (0.3, [30, 120, 365])]
+SCHEMA_VERSION = 3
 
 
 def sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def renderer_core(text: str) -> str:
-    """The Swift file minus its SwiftUI view, plus the view's draw body as a plain function."""
-    marker = "// MARK: - Public View"
-    if text.count(marker) != 1:
-        raise ValueError("Review the changed Swift renderer before exporting its drawing core")
-    core, view = text.split(marker, 1)
-    start = view.index("            if style == .sakura {")
-    end = view.index("\n        }\n        .accessibilityLabel", start)
-    body = view[start:end]
-    if body.count("let satFactor =") != 1:
-        raise ValueError("Review the renderer's foliage boundary before exporting vitality")
-    core = core.replace("import SwiftUI", "import CoreGraphics\nimport Foundation")
-    return (
-        core
-        + "\nfunc exportedDrawBonsai(day: Int, style: BonsaiStyle, vitality: Double, in ctx: inout GraphicsContext) {\n"
-        + body
-        + "\n}\n"
-    )
+def swift_files() -> list[Path]:
+    return sorted(SWIFT_DIR.glob("*.swift"))
+
+
+def current_hashes() -> dict[str, str]:
+    files = {f"Shared/Bonsai/{p.name}": sha256(p.read_bytes()) for p in swift_files()}
+    files["scripts/android-bonsai/export-main.swift"] = sha256(EXPORTER.read_bytes())
+    return files
 
 
 def check_manifest() -> bool:
     if not MANIFEST.exists():
         print("No manifest; run scripts/sync-android-bonsai.py", file=sys.stderr)
         return False
-    manifest = json.loads(MANIFEST.read_text())
-    current = {"sourceSHA256": sha256(SOURCE.read_bytes()), "adapterSHA256": sha256(ADAPTER.read_bytes())}
-    stale = [key for key, value in current.items() if manifest.get(key) != value]
+    recorded = json.loads(MANIFEST.read_text())["files"]
+    current = current_hashes()
+    stale = sorted(k for k in current.keys() | recorded.keys() if current.get(k) != recorded.get(k))
     if stale:
         print(
-            f"Android bonsai fixture is stale ({', '.join(stale)} changed). "
-            "Port the change to BonsaiRenderer.kt, then run scripts/sync-android-bonsai.py.",
+            "Android bonsai fixtures are stale: " + ", ".join(stale) + " changed. "
+            "Port the change to the Kotlin files in android/app/src/main/java/**/ui/bonsai/, "
+            "then run scripts/sync-android-bonsai.py.",
             file=sys.stderr,
         )
         return False
-    print("Android bonsai fixture matches the Swift renderer.")
+    print("Android bonsai fixtures match the Swift bonsai files.")
     return True
 
 
-def build_exporter(temporary: Path) -> Path:
-    (temporary / "RendererCore.swift").write_text(renderer_core(SOURCE.read_text()))
-    (temporary / "main.swift").write_text(MAIN)
-    executable = temporary / "export"
+def replaced(text: str, old: str, new: str, name: str) -> str:
+    if text.count(old) != 1:
+        raise ValueError(f"{name} changed shape ('{old[:50]}'); update scripts/sync-android-bonsai.py")
+    return text.replace(old, new)
+
+
+def exporter_sources(directory: Path) -> list[Path]:
+    """The Swift sources the exporter builds: the real ones, with the scene layers readable and the bend shear captured."""
+    out: list[Path] = []
+    for path in swift_files():
+        text = path.read_text()
+        if path.name == "BonsaiScene.swift":
+            text = text.replace("fileprivate ", "")
+            text = replaced(
+                text,
+                "struct Layer { var path: Path; var shading: GraphicsContext.Shading; var clip, motion: Int }",
+                "struct Layer { var path: Path; var shading: GraphicsContext.Shading; var clip, motion: Int; var ink: BonsaiInk }",
+                "BonsaiScene.swift",
+            )
+            text = replaced(
+                text,
+                "shading: ink.shading(transform), clip: clip, motion: motion))",
+                "shading: ink.shading(transform), clip: clip, motion: motion, ink: ink))",
+                "BonsaiScene.swift",
+            )
+        elif path.name == "BonsaiWind.swift":
+            text = replaced(
+                text,
+                "ctx.concatenate(CGAffineTransform(a: 1, b: 0, c: tan(deg * .pi / 180), d: 1, tx: 0, ty: 0))",
+                "exportedShear = tan(deg * .pi / 180)\n        "
+                "ctx.concatenate(CGAffineTransform(a: 1, b: 0, c: tan(deg * .pi / 180), d: 1, tx: 0, ty: 0))",
+                "BonsaiWind.swift",
+            )
+            text += "\nnonisolated(unsafe) var exportedShear = 0.0\n"
+        elif path.name == "BonsaiRenderer.swift":
+            if text.count("#Preview {") != 1:
+                raise ValueError("BonsaiRenderer.swift changed shape (#Preview); update scripts/sync-android-bonsai.py")
+            text = text.split("#Preview {")[0]
+        target = directory / path.name
+        target.write_text(text)
+        out.append(target)
+    stub = directory / "ThemeStub.swift"
+    stub.write_text(THEME_STUB.read_text())
+    main = directory / "main.swift"
+    main.write_text(EXPORTER.read_text())
+    return [*out, stub, main]
+
+
+def build_exporter(directory: Path) -> Path:
+    executable = directory / "export"
     subprocess.run(
         [
-            "xcrun", "swiftc", "-O", "-target", "arm64-apple-macos14.0",
-            str(ADAPTER), str(temporary / "RendererCore.swift"), str(temporary / "main.swift"),
-            "-o", str(executable),
+            "xcrun", "swiftc", "-O", "-swift-version", "5", "-target", "arm64-apple-macos14.0",
+            *map(str, exporter_sources(directory)), "-o", str(executable),
         ],
         check=True,
     )
     return executable
 
 
-def run_export(executable: Path, out: Path, vitality: float, styles: str, days: str) -> None:
-    subprocess.run([str(executable), str(out), str(vitality), styles, days], check=True)
+def run_export(executable: Path, out: Path, vitality: float, scale: float, styles: list[str], days: list[int]) -> list[dict]:
+    subprocess.run(
+        [str(executable), str(out), str(vitality), str(scale), ",".join(styles), ",".join(map(str, days))],
+        check=True,
+    )
+    return [json.loads(line) for line in out.read_text().splitlines() if line.strip()]
+
+
+def compact(frame: dict) -> bytes:
+    if not frame["layers"] or len(frame["rect"]) != 4:
+        raise ValueError(f"Empty or invalid scene: {frame['style']} day {frame['day']}")
+    return json.dumps(frame, separators=(",", ":"), sort_keys=True).encode() + b"\n"
 
 
 def write_gzip(path: Path, data: bytes) -> None:
@@ -141,70 +163,39 @@ def write_gzip(path: Path, data: bytes) -> None:
         target.write(data)
 
 
-def compact(line: bytes) -> bytes:
-    frame = json.loads(line)
-    if not frame["commands"] or len(frame["bounds"]) != 4:
-        raise ValueError(f"Empty or invalid drawing: {frame['style']} day {frame['day']}")
-    return json.dumps(frame, separators=(",", ":"), sort_keys=True).encode() + b"\n"
-
-
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--check", action="store_true", help="only verify the manifest against the Swift source")
-    parser.add_argument("--no-full", action="store_true", help="skip the gitignored full export")
+    parser.add_argument("--check", action="store_true", help="only verify the manifest against the Swift sources")
     options = parser.parse_args()
     if options.check:
         sys.exit(0 if check_manifest() else 1)
 
-    source_hash = sha256(SOURCE.read_bytes())
-    adapter_hash = sha256(ADAPTER.read_bytes())
     with tempfile.TemporaryDirectory(prefix="sober-bonsai-export-") as directory:
-        temporary = Path(directory)
-        executable = build_exporter(temporary)
-
-        full = temporary / "full"
-        run_export(executable, full, 1.0, "all", "all")
-        sampled_lines: list[bytes] = []
-        full_frames = 0
-        for style in STYLES:
-            lines = (full / f"{style}.jsonl").read_bytes().splitlines()
-            full_frames += len(lines)
-            sampled_lines += [compact(l) for l in lines if json.loads(l)["day"] in SAMPLE_DAYS]
-        if full_frames != len(STYLES) * 366:
-            raise ValueError(f"Expected {len(STYLES) * 366} frames, got {full_frames}")
-
-        low_frames = 0
+        work = Path(directory)
+        executable = build_exporter(work)
+        frames: list[dict] = []
+        frames += run_export(executable, work / "base.jsonl", 1.0, 1.0, STYLES, SAMPLE_DAYS)
         for vitality, days in LOW_VITALITY:
-            low = temporary / f"vitality-{vitality}"
-            run_export(executable, low, vitality, ",".join(VITALITY_STYLES), ",".join(map(str, days)))
-            for style in VITALITY_STYLES:
-                lines = (low / f"{style}.jsonl").read_bytes().splitlines()
-                sampled_lines += [compact(l) for l in lines]
-                low_frames += len(lines)
+            frames += run_export(executable, work / f"v{vitality}.jsonl", vitality, 1.0, VITALITY_STYLES, days)
+        for scale, days in LOW_DETAIL:
+            frames += run_export(executable, work / f"s{scale}.jsonl", 1.0, scale, TEXTURED_STYLES, days)
+        write_gzip(SAMPLED, b"".join(compact(f) for f in frames))
 
-        write_gzip(SAMPLED, b"".join(sampled_lines))
-        manifest = {
-            "schemaVersion": SCHEMA_VERSION,
-            "source": "Shared/Bonsai/BonsaiRenderer.swift",
-            "sourceSHA256": source_hash,
-            "adapterSHA256": adapter_hash,
-            "styles": STYLES,
-            "fullFrameCount": full_frames,
-            "sampledFrameCount": len(sampled_lines),
-            "sampledDays": SAMPLE_DAYS,
-            "lowVitality": [{"vitality": v, "days": d, "styles": VITALITY_STYLES} for v, d in LOW_VITALITY],
-        }
-        MANIFEST.write_text(json.dumps(manifest, indent=2) + "\n")
-        print(f"Fixture: {len(sampled_lines)} frames ({low_frames} low vitality), {SAMPLED.stat().st_size:,} bytes.")
+        subprocess.run([str(executable), str(work / "wind.jsonl"), "wind"], check=True)
+        wind = (work / "wind.jsonl").read_text().splitlines()
+        WIND.write_text("\n".join(json.dumps(json.loads(l), separators=(",", ":"), sort_keys=True) for l in wind) + "\n")
 
-        if not options.no_full:
-            for style in STYLES:
-                write_gzip(FULL_DIR / f"{style}.jsonl.gz", b"".join(compact(l) for l in (full / f"{style}.jsonl").read_bytes().splitlines()))
-            (FULL_DIR / "manifest.json").write_text(
-                json.dumps({"sourceSHA256": source_hash, "frameCount": full_frames}, indent=2) + "\n"
-            )
-            total = sum(p.stat().st_size for p in FULL_DIR.glob("*.jsonl.gz"))
-            print(f"Full export: {full_frames} frames, {total:,} bytes in {FULL_DIR.relative_to(ROOT)}.")
+    layers = sum(len(f["layers"]) for f in frames)
+    MANIFEST.write_text(json.dumps({
+        "schemaVersion": SCHEMA_VERSION,
+        "files": current_hashes(),
+        "frameCount": len(frames),
+        "layerCount": layers,
+        "windCount": len(wind),
+        "grid": 2.0,
+        "gridOffset": [0.137, 0.291],
+    }, indent=2) + "\n")
+    print(f"Fixture: {len(frames)} scenes, {layers:,} layers, {SAMPLED.stat().st_size:,} bytes; {len(wind)} wind poses.")
 
 
 if __name__ == "__main__":

@@ -1,32 +1,46 @@
 package com.jackwallner.sober.ui.bonsai
 
+import android.content.res.Resources
+import android.provider.Settings
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Canvas as ComposeCanvas
+import androidx.compose.ui.graphics.ClipOp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.LinearGradientShader
 import androidx.compose.ui.graphics.Matrix
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathOperation
 import androidx.compose.ui.graphics.Shader
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.TileMode
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.compose.runtime.withFrameNanos
+import java.util.WeakHashMap
 
 /**
  * The procedural bonsai, drawn natively (port of the Swift BonsaiView).
  *
  * `fill` zooms onto the plant's content rect and bottom-anchors it (home centerpiece);
- * otherwise the 600x600 design square is centered in the frame. The command list is
- * cached per (day, style, vitality), so small collection tiles stay cheap.
+ * otherwise the 600x600 design square is centered in the frame. The tree is recorded once per
+ * (day, style, vitality, detail) and replayed every frame; `wind` supplies the sway, read in the
+ * draw phase (see [rememberWindClock]). Null draws the still tree.
  */
 @Composable
 fun BonsaiView(
@@ -35,10 +49,9 @@ fun BonsaiView(
     vitality: Double,
     modifier: Modifier = Modifier,
     fill: Boolean = false,
+    wind: (() -> BonsaiWind?)? = null,
 ) {
-    // Vitality only changes the three trunk-pipeline styles; keep the others on one cache key.
-    val vitalityKey = if (style.usesVitality) vitality.coerceIn(0.0, 1.0) else 1.0
-    val scene = remember(day, style, vitalityKey) { BonsaiScene.build(day, style, vitalityKey) }
+    val density = LocalDensity.current.density
     val rect = remember(day, style, fill) {
         if (fill) bonsaiContentRect(day, style) else BRect(0.0, 0.0, 600.0, 600.0)
     }
@@ -55,38 +68,117 @@ fun BonsaiView(
         val offX = (width - drawnW) / 2 - rect.minX * scale
         val offY = if (fill) (height - drawnH) - rect.minY * scale
         else (height - drawnH) / 2 - rect.minY * scale
+        val scene = bonsaiScene(day, style, vitality.coerceIn(0.0, 1.0), scale / density)
+        val pose = wind?.invoke()
         drawIntoCanvas { canvas ->
             canvas.save()
             canvas.clipRect(0f, 0f, size.width, size.height)
             canvas.translate(offX.toFloat(), offY.toFloat())
             canvas.scale(scale.toFloat(), scale.toFloat())
-            scene.draw(canvas, paint)
+            BonsaiPainter.paint(scene, pose, canvas, paint)
             canvas.restore()
         }
     }
 }
 
-private val BonsaiStyle.usesVitality: Boolean
-    get() = this == BonsaiStyle.Traditional || this == BonsaiStyle.Cascade || this == BonsaiStyle.Windswept
+/**
+ * A wind clock for the garden. Returns a reader to hand to [BonsaiView]: it gives null for the still
+ * tree (reduce motion) and the current pose otherwise. It runs only while the screen is resumed
+ * and continues from where it paused, so the tree never jumps.
+ */
+@Composable
+fun rememberWindClock(): () -> BonsaiWind? {
+    val context = LocalContext.current
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
+    val reduceMotion = remember {
+        Settings.Global.getFloat(context.contentResolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1f) == 0f
+    }
+    val ms = remember { mutableDoubleStateOf(0.0) }
+    LaunchedEffect(reduceMotion, lifecycle) {
+        if (reduceMotion) return@LaunchedEffect
+        lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            val resumedAt = ms.doubleValue
+            var origin = -1L
+            while (true) {
+                withFrameNanos { now ->
+                    if (origin < 0) origin = now
+                    ms.doubleValue = resumedAt + (now - origin) / 1_000_000.0
+                }
+            }
+        }
+    }
+    return { if (reduceMotion) null else BonsaiWind(ms.doubleValue) }
+}
 
-/** Pre-resolved platform draw calls for one tree, in the 600x600 design space. */
-internal class BonsaiScene private constructor(private val ops: List<Op>) {
+/** Replays a recorded scene onto a Compose canvas, already in design space. */
+internal object BonsaiPainter {
     private class Op(
         val path: Path,
-        val matrix: Matrix,
         val color: Color,
         val shader: Shader?,
         val strokeWidth: Float,
         val cap: StrokeCap,
         val isStroke: Boolean,
+        val clip: Int,
+        val motion: Int,
     )
 
-    fun draw(canvas: ComposeCanvas, paint: Paint) {
+    private class Prepared(val ops: List<Op>, val clips: List<List<Pair<Path, Boolean>>>)
+
+    private val prepared = WeakHashMap<BonsaiScene, Prepared>()
+
+    @Synchronized
+    private fun prepare(scene: BonsaiScene): Prepared = prepared.getOrPut(scene) {
+        val paths = HashMap<BonsaiPath, Path>()
+        fun path(p: BonsaiPath) = paths.getOrPut(p) { toPath(p) }
+        val ops = scene.layers.map { l ->
+            val ink = l.ink
+            val color = when (ink) {
+                is BonsaiInk.Color -> composeColor(ink.color)
+                // A shader paints opaque black through its stops; each stop carries its own alpha.
+                is BonsaiInk.Linear -> Color.Black
+            }
+            val shader = (ink as? BonsaiInk.Linear)?.let {
+                LinearGradientShader(
+                    from = Offset(it.start.x.toFloat(), it.start.y.toFloat()),
+                    to = Offset(it.end.x.toFloat(), it.end.y.toFloat()),
+                    colors = it.colors.map(::composeColor),
+                    colorStops = null,
+                    tileMode = TileMode.Clamp,
+                )
+            }
+            val cap = when (l.cap) {
+                BonsaiCap.Butt -> StrokeCap.Butt
+                BonsaiCap.Round -> StrokeCap.Round
+                BonsaiCap.Square -> StrokeCap.Square
+            }
+            Op(path(l.path), color, shader, l.strokeWidth.toFloat(), cap, l.isStroke, l.clip, l.motion)
+        }
+        val clips = scene.clips.map { chain -> chain.map { path(it.path) to it.inverse } }
+        Prepared(ops, clips)
+    }
+
+    fun paint(scene: BonsaiScene, wind: BonsaiWind?, canvas: ComposeCanvas, paint: Paint) {
+        val prep = prepare(scene)
+        val bend = scene.bendAffine(wind)
         paint.strokeMiterLimit = 10f
         paint.strokeJoin = StrokeJoin.Miter
-        for (op in ops) {
-            canvas.save()
-            canvas.concat(op.matrix)
+        var runClip = -1
+        var runMotion = -1
+        var open = false
+        for (op in prep.ops) {
+            if (op.clip != runClip || op.motion != runMotion) {
+                if (open) canvas.restore()
+                runClip = op.clip
+                runMotion = op.motion
+                canvas.save()
+                open = true
+                val placed = scene.placement(scene.motions[op.motion], wind, bend)
+                if (!placed.isIdentity) canvas.concat(toMatrix(placed))
+                for ((clip, inverse) in prep.clips[op.clip]) {
+                    canvas.clipPath(clip, if (inverse) ClipOp.Difference else ClipOp.Intersect)
+                }
+            }
             paint.shader = op.shader
             paint.color = op.color
             if (op.isStroke) {
@@ -97,78 +189,74 @@ internal class BonsaiScene private constructor(private val ops: List<Op>) {
                 paint.style = PaintingStyle.Fill
             }
             canvas.drawPath(op.path, paint)
-            canvas.restore()
         }
+        if (open) canvas.restore()
         paint.shader = null
+        paint.style = PaintingStyle.Fill
+
+        scene.air?.invoke(
+            BonsaiAirCanvas { path, color ->
+                paint.color = composeColor(color)
+                paint.style = PaintingStyle.Fill
+                canvas.drawPath(toPath(path), paint)
+            },
+            wind,
+        )
     }
 
-    companion object {
-        fun build(day: Int, style: BonsaiStyle, vitality: Double): BonsaiScene {
-            val recorder = BonsaiRecorder()
-            drawBonsai(day, style, vitality, recorder)
-            return BonsaiScene(recorder.commands.map(::toOp))
-        }
+    private fun composeColor(color: BonsaiColor) = Color(
+        red = color.red.toFloat(),
+        green = color.green.toFloat(),
+        blue = color.blue.toFloat(),
+        alpha = color.alpha.toFloat(),
+    )
 
-        private fun toOp(c: BonsaiCommand): Op {
-            val paint = c.paint
-            val color = when (paint) {
-                is BonsaiPaint.Solid -> composeColor(paint.color, c.opacity)
-                // Android paint alpha still modulates a shader: keep it opaque, the stops carry opacity.
-                is BonsaiPaint.LinearGradient -> Color.Black
+    /** Affine to Compose's column-major 4x4. */
+    private fun toMatrix(t: Affine): Matrix = Matrix(
+        floatArrayOf(
+            t.a.toFloat(), t.b.toFloat(), 0f, 0f,
+            t.c.toFloat(), t.d.toFloat(), 0f, 0f,
+            0f, 0f, 1f, 0f,
+            t.tx.toFloat(), t.ty.toFloat(), 0f, 1f,
+        ),
+    )
+
+    /** Booleans are combined once here; non-zero winding is Compose's default fill, as in SwiftUI. */
+    private fun toPath(source: BonsaiPath): Path {
+        if (source.isComposite) {
+            val op = when (source.boolOp!!) {
+                BoolOp.Union -> PathOperation.Union
+                BoolOp.Intersect -> PathOperation.Intersect
+                BoolOp.Difference -> PathOperation.Difference
             }
-            val shader = (paint as? BonsaiPaint.LinearGradient)?.let {
-                LinearGradientShader(
-                    from = Offset(it.start.x.toFloat(), it.start.y.toFloat()),
-                    to = Offset(it.end.x.toFloat(), it.end.y.toFloat()),
-                    colors = it.colors.map { stop -> composeColor(stop, c.opacity) },
-                    colorStops = null,
-                    tileMode = TileMode.Clamp,
+            val out = Path()
+            out.op(toPath(source.boolA!!), toPath(source.boolB!!), op)
+            return out
+        }
+        val path = Path()
+        source.forEachOp { op, v, i ->
+            when (op) {
+                BonsaiPath.OP_MOVE.toInt() -> path.moveTo(v[i].toFloat(), v[i + 1].toFloat())
+                BonsaiPath.OP_LINE.toInt() -> path.lineTo(v[i].toFloat(), v[i + 1].toFloat())
+                BonsaiPath.OP_QUAD.toInt() ->
+                    path.quadraticTo(v[i].toFloat(), v[i + 1].toFloat(), v[i + 2].toFloat(), v[i + 3].toFloat())
+                BonsaiPath.OP_CUBIC.toInt() -> path.cubicTo(
+                    v[i].toFloat(), v[i + 1].toFloat(), v[i + 2].toFloat(), v[i + 3].toFloat(),
+                    v[i + 4].toFloat(), v[i + 5].toFloat(),
+                )
+                BonsaiPath.OP_CLOSE.toInt() -> path.close()
+                BonsaiPath.OP_ELLIPSE.toInt() -> path.addOval(
+                    androidx.compose.ui.geometry.Rect(
+                        v[i].toFloat(), v[i + 1].toFloat(), (v[i] + v[i + 2]).toFloat(), (v[i + 1] + v[i + 3]).toFloat(),
+                    ),
                 )
             }
-            val cap = when (c.cap) {
-                BonsaiCap.Butt -> StrokeCap.Butt
-                BonsaiCap.Round -> StrokeCap.Round
-                BonsaiCap.Square -> StrokeCap.Square
-            }
-            return Op(toPath(c.path), toMatrix(c.transform), color, shader, c.strokeWidth.toFloat(), cap, c.isStroke)
         }
-
-        private fun composeColor(color: BonsaiColor, opacity: Double) = Color(
-            red = color.red.toFloat(),
-            green = color.green.toFloat(),
-            blue = color.blue.toFloat(),
-            alpha = (color.alpha * opacity).toFloat(),
-        )
-
-        /** Affine [a, b, c, d, tx, ty] to Compose's column-major 4x4. */
-        private fun toMatrix(t: DoubleArray): Matrix = Matrix(
-            floatArrayOf(
-                t[0].toFloat(), t[1].toFloat(), 0f, 0f,
-                t[2].toFloat(), t[3].toFloat(), 0f, 0f,
-                0f, 0f, 1f, 0f,
-                t[4].toFloat(), t[5].toFloat(), 0f, 1f,
-            ),
-        )
-
-        // Non-zero winding is Compose's default fill type, matching SwiftUI's FillStyle().
-        private fun toPath(source: BonsaiPath): Path {
-            val path = Path()
-            source.forEachOp { op, a, b, c, d ->
-                when (op) {
-                    BonsaiPath.OP_MOVE.toInt() -> path.moveTo(a.toFloat(), b.toFloat())
-                    BonsaiPath.OP_LINE.toInt() -> path.lineTo(a.toFloat(), b.toFloat())
-                    BonsaiPath.OP_QUAD.toInt() -> path.quadraticTo(a.toFloat(), b.toFloat(), c.toFloat(), d.toFloat())
-                    BonsaiPath.OP_CLOSE.toInt() -> path.close()
-                    BonsaiPath.OP_ELLIPSE.toInt() ->
-                        path.addOval(androidx.compose.ui.geometry.Rect(a.toFloat(), b.toFloat(), (a + c).toFloat(), (b + d).toFloat()))
-                }
-            }
-            return path
-        }
+        return path
     }
 }
 
-/** The same drawing into an offscreen bitmap, for the home-screen widget. */
+/** The same drawing into an offscreen bitmap, for the home-screen widget (the still tree). */
 fun renderBonsaiBitmap(
     day: Int,
     style: BonsaiStyle,
@@ -176,10 +264,10 @@ fun renderBonsaiBitmap(
     widthPx: Int,
     heightPx: Int,
     fill: Boolean,
+    wind: BonsaiWind? = null,
 ): android.graphics.Bitmap {
     val image = androidx.compose.ui.graphics.ImageBitmap(widthPx, heightPx)
     val canvas = ComposeCanvas(image)
-    val scene = BonsaiScene.build(day, style, if (style.usesVitality) vitality.coerceIn(0.0, 1.0) else 1.0)
     val rect = if (fill) bonsaiContentRect(day, style) else BRect(0.0, 0.0, 600.0, 600.0)
     val pad = if (fill) 1.04 else 1.0
     val width = widthPx.toDouble()
@@ -187,8 +275,10 @@ fun renderBonsaiBitmap(
     val scale = minOf(width / (rect.width * pad), height / (rect.height * pad))
     val offX = (width - rect.width * scale) / 2 - rect.minX * scale
     val offY = if (fill) (height - rect.height * scale) - rect.minY * scale else (height - rect.height * scale) / 2 - rect.minY * scale
+    val density = Resources.getSystem().displayMetrics.density
+    val scene = bonsaiScene(day, style, vitality.coerceIn(0.0, 1.0), scale / density)
     canvas.translate(offX.toFloat(), offY.toFloat())
     canvas.scale(scale.toFloat(), scale.toFloat())
-    scene.draw(canvas, Paint().apply { isAntiAlias = true })
+    BonsaiPainter.paint(scene, wind, canvas, Paint().apply { isAntiAlias = true })
     return image.asAndroidBitmap()
 }

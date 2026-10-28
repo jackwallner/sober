@@ -1,67 +1,19 @@
 {
-  "schemaVersion": 2,
-  "source": "Shared/Bonsai/BonsaiRenderer.swift",
-  "sourceSHA256": "d1bca37d5c6ccf168d723b46f93d17baae9bc1112a10cd7a05c81527a095b661",
-  "adapterSHA256": "78d7d6fe478c3a148dd58d13cb3bb36e0022fd5af148bf4ce1171420dfc03f78",
-  "styles": [
-    "traditional",
-    "cascade",
-    "windswept",
-    "sakura",
-    "maple",
-    "pine"
-  ],
-  "fullFrameCount": 2196,
-  "sampledFrameCount": 150,
-  "sampledDays": [
-    0,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    14,
-    21,
-    30,
-    45,
-    60,
-    90,
-    120,
-    180,
-    270,
-    300,
-    364,
-    365
-  ],
-  "lowVitality": [
-    {
-      "vitality": 0.4,
-      "days": [
-        8,
-        100,
-        365
-      ],
-      "styles": [
-        "traditional",
-        "cascade",
-        "windswept"
-      ]
-    },
-    {
-      "vitality": 0.0,
-      "days": [
-        365
-      ],
-      "styles": [
-        "traditional",
-        "cascade",
-        "windswept"
-      ]
-    }
+  "schemaVersion": 3,
+  "files": {
+    "Shared/Bonsai/BonsaiPaint.swift": "255ade62b5bfe31be97fc50f613f721af527897742c14bbf86b3787a034714e2",
+    "Shared/Bonsai/BonsaiRenderer.swift": "08555187d0909471f3539998f576fb404c843311805852561a4266e85ec66b0d",
+    "Shared/Bonsai/BonsaiScene.swift": "d3fe11d161226cdfb33bc81e45db23ee891e10c91cfd443d1d018645efe691d8",
+    "Shared/Bonsai/BonsaiView.swift": "4fa0806faef36a1433375373e6522f099d44a41c308a6e997937f8e25d7f08e8",
+    "Shared/Bonsai/BonsaiWind.swift": "4f3a891dc070ab84eb2a8a4e8fe64481edce50d8b83330e193569afe6c5463d4",
+    "scripts/android-bonsai/export-main.swift": "3c172d700eeacdeb6b33d450bbe0a3e7a57605d9a615661b24d033cf20040b11"
+  },
+  "frameCount": 162,
+  "layerCount": 20003,
+  "windCount": 7,
+  "grid": 2.0,
+  "gridOffset": [
+    0.137,
+    0.291
   ]
 }

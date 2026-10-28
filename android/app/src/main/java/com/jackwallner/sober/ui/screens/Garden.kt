@@ -74,6 +74,7 @@ import com.jackwallner.sober.model.TendedWeek
 import com.jackwallner.sober.ui.LocalGraph
 import com.jackwallner.sober.ui.bonsai.BonsaiStyle
 import com.jackwallner.sober.ui.bonsai.BonsaiView
+import com.jackwallner.sober.ui.bonsai.rememberWindClock
 import com.jackwallner.sober.ui.theme.SoberBrushes
 import com.jackwallner.sober.ui.theme.SoberColors
 import com.jackwallner.sober.ui.theme.SoberType
@@ -122,6 +123,7 @@ fun GardenScene(
     val premiumCount = species.count { it.id != GardenState.FREE_SPECIES }
     val activeName = species.firstOrNull { it.id == activeStyleId }?.name ?: style.displayName
 
+    val clock = rememberWindClock()
     BoxWithConstraints(modifier.clip(RoundedCornerShape(24.dp)).background(SoberBrushes.sky)) {
         val w = maxWidth
         val h = maxHeight
@@ -141,6 +143,8 @@ fun GardenScene(
                 style = bonsaiStyleFor(styleId),
                 vitality = 1.0,
                 fill = true,
+                // Each tree sways a little later than the last, as on iOS.
+                wind = { clock()?.offset(1700.0 * (index + 1)) },
                 modifier = Modifier
                     .size(size)
                     .offset(x = w * slots[index] - size / 2, y = groundY - size)
@@ -156,6 +160,7 @@ fun GardenScene(
             style = style,
             vitality = vitality,
             fill = true,
+            wind = clock,
             modifier = Modifier
                 .size(centerW, centerH)
                 .offset(x = (w - centerW) / 2, y = topInset)
