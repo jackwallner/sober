@@ -27,6 +27,14 @@ object DebugLaunchOptions {
     var gallery: Boolean = false
         private set
 
+    /** `--es galleryStyle sakura --ei galleryDay 365 [--ei galleryWindMs 5600]`: one 320 dp tree, as BonsaiAudit's home320. */
+    var galleryStyle: String? = null
+        private set
+    var galleryDay: Int? = null
+        private set
+    var galleryWindMs: Double? = null
+        private set
+
     fun apply(graph: AppGraph, intent: Intent?) {
         val extras = intent?.extras ?: return
         if (extras.getBoolean("uiTest")) graph.review.isAutomationRun = true
@@ -52,6 +60,9 @@ object DebugLaunchOptions {
         if (extras.containsKey("tab")) launchTab = extras.getInt("tab")
         showProgress = extras.getBoolean("showProgress")
         gallery = extras.getBoolean("gallery")
+        galleryStyle = extras.getString("galleryStyle")
+        galleryDay = if (extras.containsKey("galleryDay")) extras.getInt("galleryDay") else null
+        galleryWindMs = if (extras.containsKey("galleryWindMs")) extras.getInt("galleryWindMs").toDouble() else null
         if (extras.containsKey("onboardingStep")) onboardingStep = extras.getInt("onboardingStep")
     }
 

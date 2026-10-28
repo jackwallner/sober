@@ -6,7 +6,11 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Canvas as ComposeCanvas
@@ -24,15 +28,19 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.IntSize
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.compose.runtime.withFrameNanos
 import java.util.WeakHashMap
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * The procedural bonsai, drawn natively (port of the Swift BonsaiView).
@@ -52,30 +60,45 @@ fun BonsaiView(
     wind: (() -> BonsaiWind?)? = null,
 ) {
     val density = LocalDensity.current.density
+    val vitalityKey = vitality.coerceIn(0.0, 1.0)
     val rect = remember(day, style, fill) {
         if (fill) bonsaiContentRect(day, style) else BRect(0.0, 0.0, 600.0, 600.0)
     }
     val paint = remember { Paint().apply { isAntiAlias = true } }
-    Canvas(modifier.semantics { contentDescription = "Bonsai, day $day" }) {
+    var box by remember { mutableStateOf(IntSize.Zero) }
+    // How much leaf and needle texture the tree needs depends on the size it is drawn at.
+    val scale = if (box.width <= 0 || box.height <= 0) 0.0 else {
+        val pad = if (fill) 1.04 else 1.0
+        minOf(box.width / (rect.width * pad), box.height / (rect.height * pad)) / density
+    }
+    // The scene and its Compose paths (path booleans included) are built off the main thread; the
+    // previous tree stays on screen until the next is ready.
+    val scene by produceState<BonsaiScene?>(null, day, style, vitalityKey, detailFor(style, scale), scale > 0) {
+        if (scale <= 0.0) return@produceState
+        value = withContext(Dispatchers.Default) {
+            bonsaiScene(day, style, vitalityKey, scale).also { BonsaiPainter.prepare(it) }
+        }
+    }
+    Canvas(modifier.onSizeChanged { box = it }.semantics { contentDescription = "Bonsai, day $day" }) {
+        val ready = scene ?: return@Canvas
         val width = size.width.toDouble()
         val height = size.height.toDouble()
         if (width <= 0.0 || height <= 0.0) return@Canvas
         val pad = if (fill) 1.04 else 1.0
-        val scale = minOf(width / (rect.width * pad), height / (rect.height * pad))
-        val drawnW = rect.width * scale
-        val drawnH = rect.height * scale
+        val fit = minOf(width / (rect.width * pad), height / (rect.height * pad))
+        val drawnW = rect.width * fit
+        val drawnH = rect.height * fit
         // Center horizontally; center (default) or bottom-anchor (fill) the focus rect.
-        val offX = (width - drawnW) / 2 - rect.minX * scale
-        val offY = if (fill) (height - drawnH) - rect.minY * scale
-        else (height - drawnH) / 2 - rect.minY * scale
-        val scene = bonsaiScene(day, style, vitality.coerceIn(0.0, 1.0), scale / density)
+        val offX = (width - drawnW) / 2 - rect.minX * fit
+        val offY = if (fill) (height - drawnH) - rect.minY * fit
+        else (height - drawnH) / 2 - rect.minY * fit
         val pose = wind?.invoke()
         drawIntoCanvas { canvas ->
             canvas.save()
             canvas.clipRect(0f, 0f, size.width, size.height)
             canvas.translate(offX.toFloat(), offY.toFloat())
-            canvas.scale(scale.toFloat(), scale.toFloat())
-            BonsaiPainter.paint(scene, pose, canvas, paint)
+            canvas.scale(fit.toFloat(), fit.toFloat())
+            BonsaiPainter.paint(ready, pose, canvas, paint)
             canvas.restore()
         }
     }
@@ -112,7 +135,7 @@ fun rememberWindClock(): () -> BonsaiWind? {
 
 /** Replays a recorded scene onto a Compose canvas, already in design space. */
 internal object BonsaiPainter {
-    private class Op(
+    class Op(
         val path: Path,
         val color: Color,
         val shader: Shader?,
@@ -123,12 +146,12 @@ internal object BonsaiPainter {
         val motion: Int,
     )
 
-    private class Prepared(val ops: List<Op>, val clips: List<List<Pair<Path, Boolean>>>)
+    class Prepared(val ops: List<Op>, val clips: List<List<Pair<Path, Boolean>>>)
 
     private val prepared = WeakHashMap<BonsaiScene, Prepared>()
 
     @Synchronized
-    private fun prepare(scene: BonsaiScene): Prepared = prepared.getOrPut(scene) {
+    fun prepare(scene: BonsaiScene): Prepared = prepared.getOrPut(scene) {
         val paths = HashMap<BonsaiPath, Path>()
         fun path(p: BonsaiPath) = paths.getOrPut(p) { toPath(p) }
         val ops = scene.layers.map { l ->
@@ -282,3 +305,7 @@ fun renderBonsaiBitmap(
     BonsaiPainter.paint(scene, wind, canvas, Paint().apply { isAntiAlias = true })
     return image.asAndroidBitmap()
 }
+
+/** The scene's level of detail for a drawn size in dp per design unit (see bonsaiScene). */
+private fun detailFor(style: BonsaiStyle, scale: Double): Int =
+    if (style != BonsaiStyle.Maple && style != BonsaiStyle.Pine) 0 else if (scale < 0.2) 0 else if (scale < 0.5) 1 else 2
