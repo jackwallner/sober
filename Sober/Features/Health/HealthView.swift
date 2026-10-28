@@ -268,7 +268,7 @@ private struct BenefitRow: View {
         if collapsed {
             Text(earnedLabel)
                 .font(Theme.caption(weight: .semibold))
-                .foregroundStyle(Theme.textTertiary)
+                .foregroundStyle(Theme.textSecondary)
                 .monospacedDigit()
         } else if unlocked {
             EmptyView()
@@ -279,7 +279,7 @@ private struct BenefitRow: View {
         } else {
             Text(waitLabel)
                 .font(Theme.caption(weight: .semibold))
-                .foregroundStyle(Theme.textTertiary)
+                .foregroundStyle(Theme.textSecondary)
                 .monospacedDigit()
         }
     }

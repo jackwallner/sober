@@ -127,59 +127,63 @@ struct OnboardingView: View {
 
     private var startDateStep: some View {
         VStack(spacing: Theme.Space.xl) {
-            Spacer(minLength: Theme.Space.s)
-            Text("When did your sober journey begin?")
-                .font(Theme.display())
-                .multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
-            Text("Today is fine. You can change this later.")
-                .font(Theme.subhead())
-                .foregroundStyle(.white.opacity(0.8))
-                .multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
-            DatePicker("", selection: $startDate, in: ...Date.now, displayedComponents: [.date])
-                .datePickerStyle(.graphical)
-                .labelsHidden()
-                .colorScheme(.dark)
-                .tint(.white)
-            Spacer(minLength: Theme.Space.s)
+            pinned(spacing: Theme.Space.xl) {
+                Spacer(minLength: Theme.Space.s)
+                Text("When did your sober journey begin?")
+                    .font(Theme.display())
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text("Today is fine. You can change this later.")
+                    .font(Theme.subhead())
+                    .foregroundStyle(.white.opacity(0.8))
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                DatePicker("", selection: $startDate, in: ...Date.now, displayedComponents: [.date])
+                    .datePickerStyle(.graphical)
+                    .labelsHidden()
+                    .colorScheme(.dark)
+                    .tint(.white)
+                Spacer(minLength: Theme.Space.s)
+            }
             bottomBar(primaryTitle: String(localized: "Continue")) { withAnimation { step = 2 } }
         }
     }
 
     private var savingsStep: some View {
         VStack(spacing: Theme.Space.m) {
-            Spacer(minLength: Theme.Space.s)
-            Text("See what drinking used to cost")
-                .font(Theme.display())
-                .multilineTextAlignment(.center)
-            Text("Optional. Use zero if you only want the day counter and garden.")
-                .font(Theme.subhead())
-                .foregroundStyle(.white.opacity(0.8))
-                .multilineTextAlignment(.center)
-
-            VStack(spacing: Theme.Space.s) {
-                Text("Typical daily spend")
+            pinned(spacing: Theme.Space.m) {
+                Spacer(minLength: Theme.Space.s)
+                Text("See what drinking used to cost")
+                    .font(Theme.display())
+                    .multilineTextAlignment(.center)
+                Text("Optional. Use zero if you only want the day counter and garden.")
                     .font(Theme.subhead())
-                    .foregroundStyle(.white.opacity(0.82))
-                Text("\(formatCurrency(Int(costPerDay))) / day")
-                    .font(.system(size: 44, weight: .bold, design: .rounded))
-                Slider(value: $costPerDay, in: 0...200, step: 5)
-                    .tint(.white)
-            }
+                    .foregroundStyle(.white.opacity(0.8))
+                    .multilineTextAlignment(.center)
 
-            VStack(spacing: Theme.Space.s) {
-                Text("Typical calories")
-                    .font(Theme.subhead())
-                    .foregroundStyle(.white.opacity(0.82))
-                Text("\(Int(caloriesPerDay)) / day")
-                    .font(.system(size: 32, weight: .bold, design: .rounded))
-                Slider(value: $caloriesPerDay, in: 0...3000, step: 50)
-                    .tint(.white)
-            }
+                VStack(spacing: Theme.Space.s) {
+                    Text("Typical daily spend")
+                        .font(Theme.subhead())
+                        .foregroundStyle(.white.opacity(0.82))
+                    Text("\(formatCurrency(Int(costPerDay))) / day")
+                        .font(.system(size: 44, weight: .bold, design: .rounded))
+                    Slider(value: $costPerDay, in: 0...200, step: 5)
+                        .tint(.white)
+                }
 
-            savingsProjection
-            Spacer(minLength: Theme.Space.s)
+                VStack(spacing: Theme.Space.s) {
+                    Text("Typical calories")
+                        .font(Theme.subhead())
+                        .foregroundStyle(.white.opacity(0.82))
+                    Text("\(Int(caloriesPerDay)) / day")
+                        .font(.system(size: 32, weight: .bold, design: .rounded))
+                    Slider(value: $caloriesPerDay, in: 0...3000, step: 50)
+                        .tint(.white)
+                }
+
+                savingsProjection
+                Spacer(minLength: Theme.Space.s)
+            }
             bottomBar(primaryTitle: String(localized: "Continue")) { withAnimation { step = 3 } }
         }
     }
@@ -188,34 +192,36 @@ struct OnboardingView: View {
     /// about a date this user picked rather than about features.
     private var goalStep: some View {
         VStack(spacing: Theme.Space.l) {
-            Spacer(minLength: Theme.Space.s)
-            Text("What are you working toward?")
-                .font(Theme.display())
-                .multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
-            Text("Home counts down to it. You can change it later.")
-                .font(Theme.subhead())
-                .foregroundStyle(.white.opacity(0.8))
-                .multilineTextAlignment(.center)
+            pinned(spacing: Theme.Space.l) {
+                Spacer(minLength: Theme.Space.s)
+                Text("What are you working toward?")
+                    .font(Theme.display())
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text("Home counts down to it. You can change it later.")
+                    .font(Theme.subhead())
+                    .foregroundStyle(.white.opacity(0.8))
+                    .multilineTextAlignment(.center)
 
-            VStack(spacing: Theme.Space.s) {
-                ForEach(availableGoalPresets) { preset in
-                    goalOption(.preset(preset), title: preset.label, detail: GoalProjection.shortDate(preset.date(from: effectiveStart)))
-                }
-                goalOption(.custom, title: String(localized: "Pick a date"), detail: nil)
-                    .overlay(alignment: .trailing) {
-                        if goalChoice == .custom {
-                            DatePicker("Goal date", selection: $customGoalDate, in: GoalChoice.earliestCustomDate..., displayedComponents: [.date])
-                                .labelsHidden()
-                                .datePickerStyle(.compact)
-                                .colorScheme(.dark)
-                                .padding(.trailing, Theme.Space.s)
-                        }
+                VStack(spacing: Theme.Space.s) {
+                    ForEach(availableGoalPresets) { preset in
+                        goalOption(.preset(preset), title: preset.label, detail: GoalProjection.shortDate(preset.date(from: effectiveStart)))
                     }
-                goalOption(.none, title: String(localized: "No goal yet"), detail: nil)
-            }
+                    goalOption(.custom, title: String(localized: "Pick a date"), detail: nil)
+                        .overlay(alignment: .trailing) {
+                            if goalChoice == .custom {
+                                DatePicker("Goal date", selection: $customGoalDate, in: GoalChoice.earliestCustomDate..., displayedComponents: [.date])
+                                    .labelsHidden()
+                                    .datePickerStyle(.compact)
+                                    .colorScheme(.dark)
+                                    .padding(.trailing, Theme.Space.s)
+                            }
+                        }
+                    goalOption(.none, title: String(localized: "No goal yet"), detail: nil)
+                }
 
-            Spacer(minLength: Theme.Space.s)
+                Spacer(minLength: Theme.Space.s)
+            }
             bottomBar(
                 primaryTitle: trialResolutionInFlight ? String(localized: "Checking trial availability…") : String(localized: "Continue"),
                 busy: trialResolutionInFlight,
@@ -229,6 +235,18 @@ struct OnboardingView: View {
                 goalChoice = availableGoalPresets.first.map(GoalChoice.preset) ?? .none
             }
         }
+    }
+
+    /// A step's content above its docked button: it takes the room the button
+    /// leaves and scrolls where it does not fit (the Duo's short inner display),
+    /// so the button never moves between steps.
+    private func pinned<Content: View>(spacing: CGFloat, @ViewBuilder _ content: () -> Content) -> some View {
+        ViewThatFits(in: .vertical) {
+            VStack(spacing: spacing) { content() }
+            ScrollView { VStack(spacing: spacing) { content() } }
+                .scrollBounceBehavior(.basedOnSize)
+        }
+        .frame(maxHeight: .infinity)
     }
 
     private var effectiveStart: Date { min(startDate, .now) }

@@ -23,6 +23,7 @@ struct TrialOfferSheet: View {
 
     @Query private var settingsRows: [UserSettings]
     @State private var glowPulse = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private var costPerDayCents: Int { settingsRows.first?.costPerDayCents ?? 0 }
     private var yearlySpend: Int { Int((Double(costPerDayCents) * 365 / 100).rounded()) }
@@ -111,7 +112,7 @@ struct TrialOfferSheet: View {
             .padding(.top, 8)
             .safeAreaInset(edge: .bottom, spacing: 0) { ctaStack }
         }
-        .onAppear { glowPulse = true }
+        .onAppear { glowPulse = !reduceMotion }
     }
 
     // MARK: - Hero (animated glow + sparkle)
