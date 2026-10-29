@@ -136,7 +136,7 @@ struct TrialTimeline: View {
             if let reminderFootnote {
                 Text(reminderFootnote)
                     .font(.system(size: sizing.detail, design: .rounded))
-                    .foregroundStyle(secondary)
+                    .foregroundStyle(primary)
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
             }
@@ -195,7 +195,7 @@ struct TrialTimeline: View {
             if let reminderFootnote {
                 Text(reminderFootnote)
                     .font(Theme.caption())
-                    .foregroundStyle(secondary)
+                    .foregroundStyle(primary)
                     .padding(.top, compact ? 6 : 8)
                     .padding(.leading, 42)
                     .fixedSize(horizontal: false, vertical: true)
