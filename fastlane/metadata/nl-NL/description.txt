@@ -1,17 +1,32 @@
-Sober Tracker helpt je alcoholvrij te blijven met een dagteller, dagelijkse check-in en een virtuele tuin die groeit bij elke nuchtere dag.
+Tel alcoholvrije dagen en zie hoe je virtuele bonsai meegroeit.
+Check dagelijks in, bekijk je nuchterheidskalender en de volgende mijlpalen.
+Gebruik begeleide ademhaling bij trek. Na een uitglijder groeit je tuin verder.
 
 GRATIS
-• Alcoholvrije dagteller – dagen, uren en langste reeks
-• Dagelijkse check-in
-• Nuchterheidskalender
-• Virtuele tuin
-• Privé op je apparaat – geen account
+• Teller voor alcoholvrije dagen, uren en je langste reeks
+• Eén dagelijkse check-in
+• Nuchterheidskalender en data van volgende mijlpalen
+• Virtuele tuin met een groeiende bonsai
+• De eerste vijf gezondheidsvoordelen en verdiende badges
+• Tot nu toe bespaard geld en vermeden calorieën
+• Apple Watch en widgets voor je begin- en toegangsscherm
+• Privé op je apparaat, zonder account
 
 BLOOM+ (OPTIONEEL)
-• Gezondheidstijdlijn, dagboek, prestaties
-• Apple Watch en widgets
+• Je persoonlijke trekpatronen en plannen voor veelvoorkomende triggers
+• Prognoses voor geld, calorieën en mijlpalen tot je doeldatum
+• Prognoses voor spaargeld en boomgroei tot een jaar vooruit
+• Alle 13 gezondheidsmijlpalen met bronnen
+• Dagboek met schrijfsuggesties
+• Meer bonsaisoorten
 
-Gratis downloaden. Bloom+ wanneer je wilt.
+Houd je alcoholvrije voortgang dagelijks bij.
 
-Gebruiksvoorwaarden (standaard-EULA van Apple): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
-Privacybeleid: https://jackwallner.github.io/sober/privacy-policy.html
+Nieuwe abonnees die voor de aanbieding in aanmerking komen, kunnen Bloom+ 7 dagen gratis proberen. Bloom+ is verkrijgbaar als maand- of jaarabonnement en als eenmalige aankoop voor altijd. Prijzen worden vóór aankoop in de app getoond en verschillen per regio.
+
+De betaling wordt na bevestiging van de proefperiode via je Apple ID afgeschreven. Abonnementen worden automatisch verlengd, tenzij je minstens 24 uur vóór het einde van de huidige periode opzegt. De verlenging wordt binnen 24 uur vóór de volgende periode in rekening gebracht. Beheer of annuleer je abonnement via Instellingen > Apple ID > Abonnementen.
+
+Sober is een welzijnstracker en vervangt geen medische zorg, diagnose of behandeling. Stoppen met alcohol kan ontwenningsverschijnselen veroorzaken. Neem contact op met een gekwalificeerde zorgverlener als je risico loopt.
+
+Privacy: https://jackwallner.github.io/sober/privacy-policy.html
+Voorwaarden (standaard-EULA van Apple): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

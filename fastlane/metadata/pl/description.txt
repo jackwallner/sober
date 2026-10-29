@@ -1,17 +1,32 @@
-Sober Tracker pomaga pozostać trzeźwym dzięki licznikowi dni, codziennemu check-inowi i wirtualnemu ogrodowi rosnącemu z każdym dniem bez alkoholu.
+Zliczaj każdy dzień bez alkoholu i obserwuj, jak rośnie wirtualne bonsai.
+Codziennie zapisuj samopoczucie, sprawdzaj kalendarz trzeźwości i nadchodzące etapy.
+Przy głodzie alkoholu włącz prowadzone ćwiczenie oddechowe. Po potknięciu ogród zachowuje dotychczasowy wzrost.
 
 ZA DARMO
-• Licznik dni bez alkoholu
-• Codzienny check-in
-• Kalendarz trzeźwości
-• Wirtualny ogród
-• Prywatnie na urządzeniu – bez konta
+• Licznik dni bez alkoholu, godzin i najdłuższej serii
+• Jeden codzienny check-in
+• Kalendarz trzeźwości i daty kolejnych etapów
+• Wirtualny ogród z rosnącym bonsai
+• Pierwsze pięć korzyści zdrowotnych i zdobyte odznaki
+• Zaoszczędzone pieniądze i uniknięte kalorie do dziś
+• Apple Watch i widżety ekranu początkowego oraz blokady
+• Dane zostają na urządzeniu, konto nie jest potrzebne
 
 BLOOM+ (OPCJONALNIE)
-• Oś czasu zdrowia, dziennik, osiągnięcia
-• Apple Watch i widżety
+• Twoje wzorce głodu i plany działania dla typowych wyzwalaczy
+• Prognoza pieniędzy, kalorii i etapów do wybranej daty celu
+• Prognoza na rok
+• Pełna oś 13 korzyści zdrowotnych ze źródłami
+• Dziennik z podpowiedziami
+• Dodatkowe gatunki bonsai
 
-Pobierz za darmo. Bloom+ w dowolnym momencie.
+Sober pomaga obserwować postępy dzień po dniu.
 
+Osoby kwalifikujące się do oferty mogą wypróbować Bloom+ bezpłatnie przez 7 dni. Bloom+ jest dostępny w subskrypcji miesięcznej lub rocznej, a także jako jednorazowy zakup dożywotni. Cena jest widoczna w aplikacji przed zakupem i zależy od regionu.
+
+Płatność zostanie pobrana z Apple ID po potwierdzeniu okresu próbnego. Subskrypcje odnawiają się automatycznie, chyba że anulujesz je co najmniej 24 godziny przed końcem bieżącego okresu. Opłata za odnowienie jest pobierana w ciągu 24 godzin przed kolejnym okresem. Zarządzaj subskrypcją lub anuluj ją w Ustawienia > Apple ID > Subskrypcje.
+
+Sober pomaga śledzić postępy i nie zastępuje opieki medycznej, diagnozy ani leczenia. Jeśli odstawienie alkoholu może grozić niebezpiecznymi objawami odstawienia, skontaktuj się z wykwalifikowanym lekarzem.
+
+Prywatność: https://jackwallner.github.io/sober/privacy-policy.html
 Warunki korzystania (standardowa umowa EULA Apple): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
-Polityka prywatności: https://jackwallner.github.io/sober/privacy-policy.html

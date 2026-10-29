@@ -1,23 +1,32 @@
-Sober Tracker hilft dir, alkoholfrei zu bleiben – mit Tageszähler, täglichem Check-in und einem virtuellen Garten, der mit jedem nüchternen Tag wächst.
+Zähle jeden alkoholfreien Tag und sieh, wie ein virtueller Bonsai mitwächst.
+Checke täglich ein, sieh deinen Nüchternheitskalender und die nächsten Meilensteine.
+Bei Suchtdruck hilft eine geführte Atemübung. Nach einem Ausrutscher wächst dein Garten weiter.
 
-KOSTENLOS STARTEN
-• Alkoholfreier Tageszähler – Tage, Stunden und längste Serie
-• Täglicher Check-in – ein Tippen für deinen Tag
-• Nüchternheitskalender – nüchterne Tage auf einen Blick
-• Virtueller Garten – sieh deinen Fortschritt wachsen
-• Privat auf dem Gerät – kein Konto nötig
+KOSTENLOS
+• Zähler für alkoholfreie Tage, Stunden und deine längste Serie
+• Ein täglicher Check-in
+• Nüchternheitskalender und Termine der nächsten Meilensteine
+• Virtueller Garten mit wachsendem Bonsai
+• Die ersten fünf Gesundheitsvorteile und verdiente Abzeichen
+• Bisher gespartes Geld und vermiedene Kalorien
+• Apple Watch und Home Screen sowie Sperrbildschirm-Widgets
+• Privat auf deinem Gerät, kein Konto nötig
 
 BLOOM+ (OPTIONAL)
-• Gesundheits-Timeline mit Quellen
+• Deine persönlichen Verlangensmuster und Pläne für typische Auslöser
+• Prognosen für Geld, Kalorien und Meilensteine bis zu deinem Zieldatum
+• Vorschau auf ein Jahr
+• Alle 13 Gesundheitsmeilensteine mit Quellen
 • Tagebuch mit Impulsen
-• Erfolge und Meilensteine
-• Geld und Kalorien gespart
-• Mehr Gartenarten
-• Apple Watch & Widgets
+• Weitere Bonsaiarten
 
-Ob du aufhörst zu trinken, weniger trinkst oder trockene Tage sammelst: Sober Tracker macht es einfach.
+Sober hilft dir, deinen Fortschritt Tag für Tag zu verfolgen.
 
-Kostenlos laden. Bloom+ jederzeit upgraden.
+Berechtigte neue Abonnentinnen und Abonnenten können Bloom+ 7 Tage kostenlos testen. Bloom+ gibt es im Monats- oder Jahresabo sowie als einmaligen Kauf auf Lebenszeit. Die Preise werden vor dem Kauf in der App angezeigt und unterscheiden sich je nach Region.
 
+Die Zahlung wird nach Bestätigung des Probezeitraums über deine Apple ID abgerechnet. Abos verlängern sich automatisch, sofern du nicht mindestens 24 Stunden vor Ende der aktuellen Laufzeit kündigst. Die Abbuchung für die Verlängerung erfolgt innerhalb der 24 Stunden vor dem nächsten Zeitraum. Verwalte oder kündige dein Abo unter Einstellungen > Apple ID > Abonnements.
+
+Sober ist ein Wellness-Tracker und ersetzt keine medizinische Beratung, Diagnose oder Behandlung. Wenn ein Alkoholentzug für dich riskant sein könnte, wende dich an medizinisches Fachpersonal.
+
+Datenschutz: https://jackwallner.github.io/sober/privacy-policy.html
 Nutzungsbedingungen (Apples Standard-EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
-Datenschutzrichtlinie: https://jackwallner.github.io/sober/privacy-policy.html

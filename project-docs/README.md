@@ -16,3 +16,7 @@ Developer notes and historical audits for this repository. The published site re
 ## QA
 
 - [2026-10-11-bloom-day-zero](qa/2026-10-11-bloom-day-zero/): 1.3.3 goal step, trial page, Home cards, playbook and craving exit card captures, plus the CTA frame dump
+
+## ASO
+
+- [ASO pass index](aso/README.md): dated App Store metadata research and changes.
