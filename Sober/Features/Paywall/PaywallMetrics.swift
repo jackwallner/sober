@@ -60,7 +60,7 @@ struct PaywallMetrics: Equatable {
     /// the ~0.85 of the slack they are meant to spend: that is what makes
     /// `growth ≈ 0.9 × slack` fall out on every device at once instead of
     /// having to be re-tuned per phone.
-    static let compactPageHeight: CGFloat = 672
+    static let compactPageHeight: CGFloat = 700
     static let roomyPageHeight: CGFloat = 838
 
     /// Roughly what the detail lines and the section label add. Charged against
