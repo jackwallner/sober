@@ -10,7 +10,7 @@ import unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_LOCALES = ["en-US", "en-CA", "en-GB", "en-AU", "uk", "pl", "de-DE", "nl-NL", "ru"]
+DEFAULT_LOCALES = sorted(path.name for path in (ROOT / "fastlane" / "metadata").iterdir() if path.is_dir() and path.name != "review_information")
 LIMITS = {
     "name.txt": 30,
     "subtitle.txt": 30,
@@ -46,6 +46,8 @@ def validate_locale(locale: str) -> list[str]:
             continue
         value = read_value(path)
         values[filename] = value
+        if not value.strip():
+            errors.append(f"{locale}/{filename}: empty")
         if len(value) > limit:
             errors.append(f"{locale}/{filename}: {len(value)} characters, limit {limit}")
         if value != value.strip():
@@ -79,6 +81,11 @@ def main() -> int:
         print("\n".join(errors), file=sys.stderr)
         return 1
     print(f"Validated {len(args.locales)} locale(s): all field limits and copy checks pass.")
+    for locale in args.locales:
+        value = read_value(ROOT / "fastlane" / "metadata" / locale / "keywords.txt")
+        size = len(value.encode("utf-8"))
+        if size > 100:
+            print(f"{locale}/keywords.txt: {len(value)} characters, {size} UTF-8 bytes")
     return 0
 
 
