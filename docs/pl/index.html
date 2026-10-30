@@ -46,10 +46,10 @@
     "@graph": [
         {
             "@type": "MobileApplication",
-            "dateModified": "2026-10-28",
+            "dateModified": "2026-10-30",
             "@id": "https://jackwallner.com/ios/sober/pl/#app",
             "name": "Sober: Sobriety Day Counter",
-            "description": "Sober: licznik trzeźwości to darmowa aplikacja na iPhone i Apple Watch. Liczy dni bez alkoholu, dodaje codzienny meldunek z ogrodem bonsai, który rośnie wraz z Twoją serią, i pokazuje widżety oraz komplikacje na zegarku. Konto nie jest potrzebne, a Twoje dane zostają na urządzeniu.",
+            "description": "Sober: licznik trzeźwości to darmowa aplikacja na iPhone i Apple Watch. Liczy dni bez alkoholu, dodaje codzienny meldunek z ogrodem bonsai, który rośnie wraz z Twoją serią, i pokazuje widżety ekranu początkowego i ekranu blokady oraz aplikację na Apple Watch. Konto nie jest potrzebne, a Twoje dane zostają na urządzeniu.",
             "applicationCategory": "HealthApplication",
             "operatingSystem": "iOS 17+, watchOS 10+, Android 8.0+",
             "url": "https://jackwallner.com/ios/sober/pl/",
@@ -110,7 +110,7 @@
                     "name": "Czy jest darmowa aplikacja licznik trzeźwości na iPhone?",
                     "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "Tak. Sober: licznik trzeźwości można pobrać i używać za darmo. Licznik dni, codzienny meldunek, kalendarz, podstawowy ogród i pierwszych pięć zdrowotnych kamieni milowych są darmowe, a opcjonalne rozszerzenie Bloom+ dodaje pełną oś czasu, dziennik, osiągnięcia oraz zaoszczędzone pieniądze i kalorie."
+                        "text": "Tak. Sober: licznik trzeźwości można pobrać i używać za darmo. Licznik dni, codzienny meldunek, kalendarz, podstawowy ogród, widżety, aplikacja na Apple Watch, ćwiczenie oddechowe przy głodzie, dotychczas zaoszczędzone pieniądze i kalorie oraz pierwszych pięć zdrowotnych kamieni milowych są darmowe. Opcjonalne rozszerzenie Bloom+ dodaje Twoje wzorce głodu, prognozy do celu, pełną oś czasu zdrowia, dziennik i więcej gatunków bonsai."
                     }
                 },
                 {
@@ -126,7 +126,7 @@
                     "name": "Czy aplikacja Sober ma widżet i aplikację na Apple Watch?",
                     "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "Tak. Liczba dni pojawia się w widżetach ekranu początkowego i ekranu blokady oraz jako komplikacje Apple Watch. Aplikacja na Apple Watch pozwala zrobić codzienny meldunek z nadgarstka."
+                        "text": "Tak. Liczba dni pojawia się w trzech widżetach ekranu blokady i dwóch widżetach ekranu początkowego, a aplikacja na Apple Watch pokazuje liczbę dni, datę startu i etap drzewa. Wszystkie są darmowe."
                     }
                 },
                 {
@@ -679,7 +679,7 @@
 <div class="container">
 <div class="features-header">
 <h2>Co zawiera Sober?</h2>
-<p>Licznik i ogród są darmowe. Bloom+ dodaje pełną oś czasu, dziennik, osiągnięcia i oszczędności.</p>
+<p>Licznik, kalendarz, ogród, widżety, aplikacja na Watch i ćwiczenie oddechowe przy głodzie są darmowe. Bloom+ dodaje Twoje wzorce, prognozy, pełną oś czasu i dziennik.</p>
 </div>
 </div>
 <div class="features-grid">
@@ -698,7 +698,7 @@
 <div class="feature-card">
 <h3>Pełna oś czasu zdrowia</h3>
 <p>Wszystkie 13 korzyści ze szczegółowymi wyjaśnieniami i linkami do źródeł. Zobacz pełny obraz regeneracji swojego organizmu.</p>
-<p class="tier">W cenie Pro</p>
+<p class="tier">W cenie Bloom+</p>
 </div>
 <div class="feature-card">
 <h3>Zobacz swoje postępy</h3>
@@ -707,21 +707,19 @@
 <div class="feature-card">
 <h3>Dziennik z podpowiedziami</h3>
 <p>Codzienne pytania do refleksji, swobodne pisanie i wybór uczuć. Wszystkie wpisy są prywatne i zapisane lokalnie na Twoim urządzeniu.</p>
-<p class="tier">W cenie Pro</p>
+<p class="tier">W cenie Bloom+</p>
 </div>
 <div class="feature-card">
 <h3>Osiągnięcia</h3>
 <p>9 kamieni milowych za czas (Pierwszy krok, Kwartał, Rok pierwszy) i serie meldunków (Idealny tydzień, Diamentowa dyscyplina).</p>
-<p class="tier">W cenie Pro</p>
 </div>
 <div class="feature-card">
 <h3>Zaoszczędzone pieniądze &amp; kalorie</h3>
 <p>Zobacz, ile pieniędzy i kalorii zaoszczędziłeś od początku swojej drogi. Ustaw własne dzienne koszty i szacunki kalorii.</p>
-<p class="tier">W cenie Pro</p>
 </div>
 <div class="feature-card">
 <h3>Rzut oka</h3>
-<p>Liczba dni na ekranie głównym, ekranie blokady i Apple Watch. Widżety systemowe i komplikacje dodatkowe w zestawie.</p>
+<p>Liczba dni na ekranie głównym, ekranie blokady i Apple Watch.</p>
 </div>
 </div>
 </section>
@@ -731,7 +729,7 @@
 <svg viewbox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
 </div>
 <h2>Czy Sober jest prywatny?</h2>
-<p>Tak. Sober powstał z myślą o prywatności. Bez kont, bez analityki, bez reklam, bez zewnętrznych SDK poza StoreKit od Apple. Twoje dane nigdy nie opuszczają urządzenia. Wszystkie informacje zdrowotne zostają lokalnie w SwiftData.</p>
+<p>Tak. Sober powstał z myślą o prywatności. Bez kont, bez analityki, bez reklam. Dane o Twojej trzeźwości nigdy nie opuszczają urządzenia; RevenueCat tylko sprawdza status zakupu. Wszystkie informacje zdrowotne zostają lokalnie w SwiftData.</p>
 <a href="../privacy-policy.html">Polityka prywatności →</a>
 </div>
 </section>
@@ -752,8 +750,8 @@
 <p>Opcjonalne rozszerzenie dla tych, którzy chcą pełnego obrazu. Dostępne miesięcznie, rocznie lub jako jednorazowy zakup dożywotni, a subskrypcje mają 7-dniowy bezpłatny okres próbny. Ceny widać w aplikacji przed zakupem i różnią się w zależności od regionu.</p>
 <p><strong>Pełna oś czasu zdrowia.</strong> Wszystkie 13 korzyści regeneracji (potwierdzonych źródłami NIAAA, CDC i AHA) ze szczegółowymi wyjaśnieniami. Wersja darmowa pokazuje pierwsze 5.</p>
 <p><strong>Dziennik z podpowiedziami.</strong> Codzienne pytania do refleksji, swobodne pisanie i wybór uczuć. Wpisy pozostają prywatne i lokalne, tak jak wszystko inne.</p>
-<p><strong>Osiągnięcia.</strong> Wszystkie 9 kamieni milowych za czas (Pierwszy krok, Kwartał, Rok pierwszy) i serie meldunków (Idealny tydzień, Diamentowa dyscyplina).</p>
-<p><strong>Zaoszczędzone pieniądze &amp; kalorie, wszystkie gatunki w ogrodzie.</strong> Zobacz bieżące oszczędności względem ustalonego przez Ciebie dziennego kosztu i hoduj dowolny z 6 stylów bonsai, gdy Twoja seria rośnie.</p>
+<p><strong>Twoje wzorce głodu.</strong> Kiedy głód się pojawia, co go wywołuje i krótki plan na każdy częsty wyzwalacz.</p>
+<p><strong>Prognozy i więcej gatunków.</strong> Pieniądze, kalorie i kamienie milowe wyliczone do Twojej daty celu i na rok do przodu, a także więcej gatunków bonsai.</p>
 </div>
 <div class="more-info-section">
 <h3>Dane techniczne</h3>
@@ -763,15 +761,15 @@
 <tr><td>Framework</td><td>SwiftUI · SwiftData · StoreKit</td></tr>
 <tr><td>Dane</td><td>Bez kont, bez HealthKit, w całości na urządzeniu</td></tr>
 <tr><td>Przechowywanie</td><td>SwiftData, tylko lokalnie</td></tr>
-<tr><td>Widżety</td><td>Ekran początkowy, ekran blokady, komplikacje watchOS</td></tr>
+<tr><td>Widżety</td><td>Ekran początkowy (mały, średni), ekran blokady (okrągły, prostokątny, w linii)</td></tr>
 </table>
 </div>
 <div class="more-info-section">
 <h3>Co się liczyło</h3>
 <p><strong>Ogród.</strong> Każdy meldunek dodaje drzewu widoczny, kumulujący się wzrost.</p>
 <p><strong>Bez wstydu po nawrocie.</strong> Pominięty meldunek lub zapisane potknięcie nie karze Cię ani nie zeruje ogrodu.</p>
-<p><strong>Meldunki najpierw na zegarku.</strong> Aplikacja na Apple Watch zamienia codzienny meldunek w jedno stuknięcie na nadgarstku, więc nawyk przetrwa także w dni, gdy nie chcesz otwierać telefonu.</p>
-<p><strong>Prywatność.</strong> Bez kont, bez analityki, bez reklam, bez zewnętrznych SDK poza StoreKit. Dane o trzeźwości są wrażliwe, więc aplikacja nigdy nie pyta, kim jesteś, i niczego nie wysyła z urządzenia.</p>
+<p><strong>Apple Watch.</strong> Aplikacja na Watch pokazuje liczbę dni, datę startu i etap drzewa, a licznik działa od daty startu nawet wtedy, gdy aplikacja w telefonie pozostaje zamknięta.</p>
+<p><strong>Prywatność.</strong> Bez kont, bez analityki, bez reklam. RevenueCat tylko sprawdza status zakupu. Dane o trzeźwości są wrażliwe, więc aplikacja nigdy nie pyta, kim jesteś, i niczego nie wysyła z urządzenia.</p>
 </div>
 </div>
 </div>
@@ -785,7 +783,7 @@
 <div class="faq-content">
 <details class="faq-item">
 <summary><h2 class="faq-q">Czy jest darmowa aplikacja licznik trzeźwości na iPhone?</h2></summary>
-<p>Tak. Sober: licznik trzeźwości można pobrać i używać za darmo. Licznik dni, codzienny meldunek, kalendarz, podstawowy ogród i pierwszych pięć zdrowotnych kamieni milowych są darmowe, a opcjonalne rozszerzenie Bloom+ dodaje pełną oś czasu, dziennik, osiągnięcia oraz zaoszczędzone pieniądze i kalorie.</p>
+<p>Tak. Sober: licznik trzeźwości można pobrać i używać za darmo. Licznik dni, codzienny meldunek, kalendarz, podstawowy ogród, widżety, aplikacja na Apple Watch, ćwiczenie oddechowe przy głodzie, dotychczas zaoszczędzone pieniądze i kalorie oraz pierwszych pięć zdrowotnych kamieni milowych są darmowe. Opcjonalne rozszerzenie Bloom+ dodaje Twoje wzorce głodu, prognozy do celu, pełną oś czasu zdrowia, dziennik i więcej gatunków bonsai.</p>
 </details>
 <details class="faq-item">
 <summary><h2 class="faq-q">Jak śledzić, ile dni jestem trzeźwy?</h2></summary>
@@ -793,7 +791,7 @@
 </details>
 <details class="faq-item">
 <summary><h2 class="faq-q">Czy aplikacja Sober ma widżet i aplikację na Apple Watch?</h2></summary>
-<p>Tak. Liczba dni pojawia się w widżetach ekranu początkowego i ekranu blokady oraz jako komplikacje Apple Watch. Aplikacja na Apple Watch pozwala zrobić codzienny meldunek z nadgarstka.</p>
+<p>Tak. Liczba dni pojawia się w trzech widżetach ekranu blokady i dwóch widżetach ekranu początkowego, a aplikacja na Apple Watch pokazuje liczbę dni, datę startu i etap drzewa. Wszystkie są darmowe.</p>
 </details>
 <details class="faq-item">
 <summary><h2 class="faq-q">Co się stanie z moim licznikiem, jeśli się potknę?</h2></summary>
@@ -823,7 +821,7 @@
 </div>
 </section>
 <footer>
-<div class="divider">© 2026 Jack Wallner · Ostatnia aktualizacja <time datetime="2026-10-28" data-updated>28.10.2026</time></div>
+<div class="divider">© 2026 Jack Wallner · Ostatnia aktualizacja <time datetime="2026-10-30" data-updated>30.10.2026</time></div>
 <div>
 <a href="sobriety-milestones.html">Przewodnik po kamieniach milowych</a>
 <a href="../i-am-sober-alternative.html">Alternatywy dla I Am Sober</a>

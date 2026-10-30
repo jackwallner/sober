@@ -14,7 +14,7 @@ iPhone · Apple Watch · Widget
 
 ## Sober gồm những gì?
 
-Bộ đếm và khu vườn miễn phí. Bloom+ thêm dòng thời gian đầy đủ, nhật ký, thành tích và khoản tiết kiệm.
+Bộ đếm, lịch, khu vườn, widget, ứng dụng Watch và bài tập thở khi thèm đều miễn phí. Bloom+ thêm quy luật cơn thèm của bạn, dự báo, dòng thời gian đầy đủ và nhật ký.
 
 ### Bộ đếm ngày
 
@@ -32,7 +32,7 @@ Khu vườn ảo lớn từ hạt giống thành cổ thụ khi chuỗi của b�
 
 Xem cả 13 lợi ích với giải thích chi tiết và liên kết nguồn. Bức tranh đầy đủ về quá trình phục hồi của cơ thể bạn.
 
-Có trong Pro
+Có trong Bloom+
 
 ### Xem tiến trình của bạn
 
@@ -42,27 +42,23 @@ Lịch theo màu cho biết ngày tỉnh táo (xanh lá), không tỉnh táo (đ
 
 Câu hỏi suy ngẫm hằng ngày, viết tự do và bộ chọn cảm xúc. Mọi bài viết đều riêng tư và lưu cục bộ trên thiết bị của bạn.
 
-Có trong Pro
+Có trong Bloom+
 
 ### Thành tích
 
 9 cột mốc theo thời gian (Bước đầu tiên, Quý đầu, Năm thứ nhất) và chuỗi điểm danh (Tuần hoàn hảo, Kỷ luật kim cương).
 
-Có trong Pro
-
 ### Tiền & calo tiết kiệm
 
 Xem bạn đã tiết kiệm bao nhiêu tiền và bao nhiêu calo kể từ khi bắt đầu hành trình. Tự đặt chi phí hằng ngày và ước tính calo của riêng bạn.
 
-Có trong Pro
-
 ### Nhìn là thấy
 
-Số ngày của bạn trên màn hình chính, màn hình khóa và Apple Watch. Bao gồm widget hệ thống và tiện ích mặt đồng hồ.
+Số ngày của bạn trên màn hình chính, màn hình khóa và Apple Watch.
 
 ## Sober có riêng tư không?
 
-Có. Sober được xây dựng với quyền riêng tư là ưu tiên hàng đầu. Không tài khoản, không phân tích, không quảng cáo, không SDK bên thứ ba ngoài StoreKit của Apple. Dữ liệu của bạn không bao giờ rời thiết bị. Mọi thông tin sức khỏe chỉ nằm cục bộ trong SwiftData.
+Có. Sober được xây dựng với quyền riêng tư là ưu tiên hàng đầu. Không tài khoản, không phân tích, không quảng cáo. Dữ liệu tỉnh táo của bạn không bao giờ rời thiết bị; RevenueCat chỉ kiểm tra trạng thái mua hàng. Mọi thông tin sức khỏe chỉ nằm cục bộ trong SwiftData.
 
 [Chính sách quyền riêng tư →](https://jackwallner.com/ios/sober/privacy-policy.html)
 
@@ -84,9 +80,9 @@ Bản nâng cấp tùy chọn cho ai muốn bức tranh đầy đủ. Có gói t
 
 **Nhật ký có gợi ý.** Câu hỏi suy ngẫm hằng ngày, viết tự do và bộ chọn cảm xúc. Bài viết luôn riêng tư và cục bộ, giống mọi thứ khác.
 
-**Thành tích.** Cả 9 cột mốc theo thời gian (Bước đầu tiên, Quý đầu, Năm thứ nhất) và chuỗi điểm danh (Tuần hoàn hảo, Kỷ luật kim cương).
+**Quy luật cơn thèm của bạn.** Khi nào cơn thèm xuất hiện, điều gì kích hoạt nó và một kế hoạch ngắn cho từng tác nhân phổ biến.
 
-**Tiền & calo tiết kiệm, mọi loại cây trong vườn.** Xem khoản tiết kiệm cộng dồn so với chi phí hằng ngày do bạn đặt, và trồng bất kỳ kiểu nào trong 6 kiểu bonsai khi chuỗi của bạn dài thêm.
+**Dự báo và thêm loại cây.** Tiền, calo và cột mốc được dự báo đến ngày mục tiêu của bạn và một năm tiếp theo, cùng thêm nhiều loại bonsai.
 
 ### Thông số kỹ thuật
 
@@ -96,7 +92,7 @@ Bản nâng cấp tùy chọn cho ai muốn bức tranh đầy đủ. Có gói t
 | Framework | SwiftUI · SwiftData · StoreKit |
 | Dữ liệu | Không tài khoản, không HealthKit, hoàn toàn trên thiết bị |
 | Lưu trữ | SwiftData, chỉ cục bộ |
-| Widget | Màn hình chính, màn hình khóa, tiện ích mặt đồng hồ watchOS |
+| Widget | Màn hình chính (nhỏ, vừa), màn hình khóa (tròn, chữ nhật, nội tuyến) |
 
 ### Điều quan trọng
 
@@ -104,9 +100,9 @@ Bản nâng cấp tùy chọn cho ai muốn bức tranh đầy đủ. Có gói t
 
 **Không xấu hổ khi tái phát.** Bỏ lỡ một lần điểm danh hay ghi lại một lần trượt không trừng phạt bạn và không đưa khu vườn về số không.
 
-**Điểm danh ưu tiên trên đồng hồ.** Ứng dụng Apple Watch biến điểm danh hằng ngày thành một cú chạm trên cổ tay, để thói quen vẫn giữ được vào những ngày bạn không muốn mở điện thoại.
+**Apple Watch.** Ứng dụng Watch hiển thị số ngày, ngày bắt đầu và giai đoạn của cây, đồng thời tiếp tục đếm từ ngày bắt đầu của bạn ngay cả khi ứng dụng trên điện thoại vẫn đóng.
 
-**Quyền riêng tư.** Không tài khoản, không phân tích, không quảng cáo, không SDK bên thứ ba ngoài StoreKit. Dữ liệu về sự tỉnh táo rất nhạy cảm, nên ứng dụng không bao giờ hỏi bạn là ai hay gửi bất cứ gì ra khỏi thiết bị.
+**Quyền riêng tư.** Không tài khoản, không phân tích, không quảng cáo. RevenueCat chỉ kiểm tra trạng thái mua hàng. Dữ liệu về sự tỉnh táo rất nhạy cảm, nên ứng dụng không bao giờ hỏi bạn là ai hay gửi bất cứ gì ra khỏi thiết bị.
 
 ## Câu hỏi
 
@@ -114,7 +110,7 @@ Trả lời nhanh về bộ đếm ngày tỉnh táo.
 
 ## Có ứng dụng đếm ngày tỉnh táo miễn phí cho iPhone không?
 
-Có. Sober: ứng dụng đếm ngày tỉnh táo miễn phí để tải và dùng. Bộ đếm ngày, điểm danh hằng ngày, lịch, khu vườn cơ bản và năm cột mốc sức khỏe đầu tiên đều miễn phí, còn bản nâng cấp tùy chọn Bloom+ thêm dòng thời gian đầy đủ, nhật ký, thành tích, tiền và calo tiết kiệm.
+Có. Sober: ứng dụng đếm ngày tỉnh táo miễn phí để tải và dùng. Bộ đếm ngày, điểm danh hằng ngày, lịch, khu vườn cơ bản, widget, ứng dụng Apple Watch, bài tập thở khi thèm, số tiền và calo đã tiết kiệm được đến nay và năm cột mốc sức khỏe đầu tiên đều miễn phí. Bản nâng cấp tùy chọn Bloom+ thêm quy luật cơn thèm, dự báo theo mục tiêu, dòng thời gian sức khỏe đầy đủ, nhật ký và thêm nhiều loại bonsai.
 
 ## Làm sao theo dõi tôi đã tỉnh táo bao nhiêu ngày?
 
@@ -122,7 +118,7 @@ Có. Sober: ứng dụng đếm ngày tỉnh táo miễn phí để tải và d�
 
 ## Ứng dụng Sober có widget và ứng dụng Apple Watch không?
 
-Có. Số ngày của bạn hiện trong widget Màn hình chính, Màn hình khóa và dưới dạng tiện ích mặt đồng hồ Apple Watch. Ứng dụng Apple Watch cho phép điểm danh hằng ngày ngay trên cổ tay.
+Có. Số ngày của bạn hiện trong ba widget Màn hình khóa và hai widget Màn hình chính, còn ứng dụng Apple Watch hiển thị số ngày, ngày bắt đầu và giai đoạn của cây. Tất cả đều miễn phí.
 
 ## Điều gì xảy ra với số ngày của tôi nếu tôi trượt?
 

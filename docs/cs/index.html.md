@@ -14,7 +14,7 @@ iPhone · Apple Watch · Widgety
 
 ## Co Sober obsahuje?
 
-Počítadlo a zahrada jsou zdarma. Bloom+ přidává úplnou časovou osu, deník, úspěchy a úspory.
+Počítadlo, kalendář, zahrada, widgety, aplikace pro Watch a dechové cvičení při bažení jsou zdarma. Bloom+ přidává vaše vzorce, projekce, úplnou časovou osu a deník.
 
 ### Počítadlo dnů
 
@@ -32,7 +32,7 @@ Virtuální zahrada, která s vaší sérií roste ze semínka až ve starobylý
 
 Zobrazte všech 13 přínosů s podrobným vysvětlením a odkazy na zdroje. Celý obraz zotavení vašeho těla.
 
-Součástí Pro
+Součástí Bloom+
 
 ### Sledujte svůj pokrok
 
@@ -42,27 +42,23 @@ Barevný kalendář ukazuje dny střízlivé (zelené), nestřízlivé (červen�
 
 Denní otázky k zamyšlení, volné psaní a výběr pocitu. Všechny zápisy jsou soukromé a uložené lokálně ve vašem zařízení.
 
-Součástí Pro
+Součástí Bloom+
 
 ### Úspěchy
 
 9 milníků za čas (První krok, Čtvrtletí, První rok) a série hlášení (Perfektní týden, Diamantová disciplína).
 
-Součástí Pro
-
 ### Ušetřené peníze & kalorie
 
 Podívejte se, kolik peněz a kalorií jste od začátku ušetřili. Nastavte si vlastní denní náklady a odhady kalorií.
 
-Součástí Pro
-
 ### Na první pohled
 
-Počet dnů na domovské obrazovce, zamykací obrazovce a Apple Watch. Systémové i doplňkové komplikace v ceně.
+Počet dnů na domovské obrazovce, zamykací obrazovce a na Apple Watch.
 
 ## Je Sober soukromý?
 
-Ano. Sober je postaven s důrazem na soukromí. Žádné účty, žádná analytika, žádné reklamy, žádné cizí SDK kromě StoreKit od Applu. Vaše data nikdy neopustí zařízení. Veškeré zdravotní informace zůstávají lokálně v SwiftData.
+Ano. Sober je postaven s důrazem na soukromí. Žádné účty, žádná analytika, žádné reklamy. Data o vaší střízlivosti nikdy neopustí zařízení; RevenueCat jen ověřuje stav nákupu. Veškeré zdravotní informace zůstávají lokálně v SwiftData.
 
 [Zásady ochrany osobních údajů →](https://jackwallner.com/ios/sober/privacy-policy.html)
 
@@ -84,9 +80,9 @@ Volitelné rozšíření pro ty, kdo chtějí celý obraz. K dispozici měsíčn
 
 **Deník s nápovědami.** Denní otázky k zamyšlení, volné psaní a výběr pocitu. Zápisy zůstávají soukromé a lokální, stejně jako všechno ostatní.
 
-**Úspěchy.** Všech 9 milníků za čas (První krok, Čtvrtletí, První rok) a série hlášení (Perfektní týden, Diamantová disciplína).
+**Vaše vzorce bažení.** Kdy se bažení objeví, co ho spouští a krátký plán pro každý běžný spouštěč.
 
-**Ušetřené peníze & kalorie, všechny druhy zahrady.** Sledujte průběžné úspory oproti denním nákladům, které si nastavíte, a pěstujte kterýkoli ze 6 stylů bonsaje, jak vaše série roste.
+**Projekce a další druhy.** Peníze, kalorie a milníky promítnuté k cílovému datu a o rok dopředu, plus další druhy bonsají.
 
 ### Specifikace
 
@@ -96,7 +92,7 @@ Volitelné rozšíření pro ty, kdo chtějí celý obraz. K dispozici měsíčn
 | Framework | SwiftUI · SwiftData · StoreKit |
 | Data | Bez účtů, bez HealthKit, celé v zařízení |
 | Úložiště | SwiftData, pouze lokálně |
-| Widgety | Domovská obrazovka, zamykací obrazovka, komplikace watchOS |
+| Widgety | Domovská obrazovka (malý, střední), zamykací obrazovka (kruhový, obdélníkový, řádkový) |
 
 ### Na čem záleželo
 
@@ -104,9 +100,9 @@ Volitelné rozšíření pro ty, kdo chtějí celý obraz. K dispozici měsíčn
 
 **Žádný stud po recidivě.** Vynechané hlášení nebo zapsané selhání vás netrestá a nevrací zahradu na nulu.
 
-**Hlášení nejdřív na hodinkách.** Aplikace pro Apple Watch dělá z denního hlášení jedno klepnutí na zápěstí, takže návyk přežije i ve dnech, kdy se vám nechce otevírat telefon.
+**Apple Watch.** Aplikace pro Apple Watch ukazuje počet dnů, datum začátku a stadium stromu a počítá od data začátku dál, i když aplikace v telefonu zůstane zavřená.
 
-**Soukromí.** Žádné účty, žádná analytika, žádné reklamy, žádné cizí SDK kromě StoreKit. Data o střízlivosti jsou citlivá, proto se aplikace nikdy neptá, kdo jste, a nic neodesílá ze zařízení.
+**Soukromí.** Žádné účty, žádná analytika, žádné reklamy. RevenueCat jen ověřuje stav nákupu. Data o střízlivosti jsou citlivá, proto se aplikace nikdy neptá, kdo jste, a nic neodesílá ze zařízení.
 
 ## Otázky
 
@@ -114,7 +110,7 @@ Krátké odpovědi o počítadle dnů střízlivosti.
 
 ## Existuje bezplatná aplikace počítadlo dnů střízlivosti pro iPhone?
 
-Ano. Sober: počítadlo střízlivosti se stahuje a používá zdarma. Počítadlo dnů, denní hlášení, kalendář, základní zahrada a prvních pět zdravotních milníků jsou zdarma a volitelné rozšíření Bloom+ přidává úplnou časovou osu, deník, úspěchy a ušetřené peníze a kalorie.
+Ano. Sober: počítadlo střízlivosti se stahuje a používá zdarma. Počítadlo dnů, denní hlášení, kalendář, základní zahrada, widgety, aplikace pro Apple Watch, dechové cvičení při bažení, dosud ušetřené peníze a kalorie a prvních pět zdravotních milníků jsou zdarma. Volitelné rozšíření Bloom+ přidává vaše vzorce bažení, projekce k cíli, úplnou zdravotní časovou osu, deník a další druhy bonsají.
 
 ## Jak sleduji, kolik dnů jsem střízlivý?
 
@@ -122,7 +118,7 @@ Nastavte datum začátku střízlivosti a Sober dny počítá za vás a ukazuje 
 
 ## Má aplikace Sober widget a aplikaci pro Apple Watch?
 
-Ano. Počet dnů se zobrazuje ve widgetech domovské a zamykací obrazovky a jako komplikace Apple Watch. Aplikace pro Apple Watch umožňuje denní hlášení ze zápěstí.
+Ano. Počet dnů se zobrazuje ve třech widgetech zamykací obrazovky a dvou widgetech domovské obrazovky a aplikace pro Apple Watch ukazuje počet dnů, datum začátku a stadium stromu. Vše je zdarma.
 
 ## Co se stane s mým počítadlem, když selžu?
 
@@ -146,4 +142,4 @@ Zdarma v App Store a na Google Play. Účet není potřeba. Na Bloom+ můžete p
 
 [Stáhnout zdarma](https://apps.apple.com/cz/app/sober-sobriety-day-counter/id6768869215?pt=128748779&ct=jw-sober-home-cs&mt=8)
 
-© 2026 Jack Wallner · Naposledy aktualizováno 28. 10. 2026
+© 2026 Jack Wallner · Naposledy aktualizováno 30. 10. 2026

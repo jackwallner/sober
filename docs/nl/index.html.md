@@ -14,7 +14,7 @@ iPhone · Apple Watch · Widgets
 
 ## Wat zit er in Sober?
 
-De teller en de tuin zijn gratis. Bloom+ voegt de volledige tijdlijn, het dagboek, prestaties en besparingen toe.
+De teller, kalender, tuin, widgets, Watch-app en ademhalingsoefening bij cravings zijn gratis. Bloom+ voegt je patronen, prognoses, de volledige tijdlijn en het dagboek toe.
 
 ### Dagenteller
 
@@ -32,7 +32,7 @@ Een virtuele tuin die van zaadje tot eeuwenoude boom groeit naarmate je reeks do
 
 Zie alle 13 voordelen met uitgebreide uitleg en bronlinks. Het complete beeld van het herstel van je lichaam.
 
-Inbegrepen bij Pro
+Inbegrepen bij Bloom+
 
 ### Zie je voortgang
 
@@ -42,27 +42,23 @@ Een kalender met kleuren toont nuchter (groen), niet nuchter (rood) en nog niet 
 
 Dagelijkse reflectievragen, vrij schrijven en een gevoelskiezer. Alle notities zijn privé en lokaal op je apparaat opgeslagen.
 
-Inbegrepen bij Pro
+Inbegrepen bij Bloom+
 
 ### Prestaties
 
 9 mijlpalen voor tijd (Eerste stap, Kwartaalmeester, Jaar één) en check-inreeksen (Perfecte week, Diamanten discipline).
 
-Inbegrepen bij Pro
-
 ### Bespaard geld & calorieën
 
 Zie hoeveel geld en hoeveel calorieën je hebt bespaard sinds je begon. Stel je eigen dagelijkse kosten en calorieschattingen in.
 
-Inbegrepen bij Pro
-
 ### In één oogopslag
 
-Je dagenaantal op je beginscherm, toegangsscherm en Apple Watch. Systeem- en accessoirecomplicaties inbegrepen.
+Je dagenaantal op je beginscherm, toegangsscherm en Apple Watch.
 
 ## Is Sober privé?
 
-Ja. Sober is gebouwd met privacy voorop. Geen accounts, geen analyse, geen advertenties, geen SDK's van derden naast Apple's StoreKit. Je gegevens verlaten je apparaat nooit. Alle gezondheidsinformatie blijft lokaal in SwiftData.
+Ja. Sober is gebouwd met privacy voorop. Geen accounts, geen analyse, geen advertenties. Je nuchterheidsgegevens verlaten je apparaat nooit; RevenueCat controleert alleen de aankoopstatus. Alle gezondheidsinformatie blijft lokaal in SwiftData.
 
 [Privacybeleid →](https://jackwallner.com/ios/sober/privacy-policy.html)
 
@@ -84,9 +80,9 @@ Een optionele upgrade voor mensen die het volledige beeld willen. Maandelijks, j
 
 **Dagboek met suggesties.** Dagelijkse reflectievragen, vrij schrijven en een gevoelskiezer. Notities blijven privé en lokaal, net als al het andere.
 
-**Prestaties.** Alle 9 mijlpalen voor tijd (Eerste stap, Kwartaalmeester, Jaar één) en check-inreeksen (Perfecte week, Diamanten discipline).
+**Je craving-patronen.** Wanneer cravings opkomen, wat ze uitlokt en een kort plan voor elke veelvoorkomende trigger.
 
-**Bespaard geld & calorieën, alle tuinsoorten.** Zie je lopende besparingen ten opzichte van een dagelijkse kostprijs die je zelf instelt, en laat elk van de 6 bonsaistijlen groeien naarmate je reeks oploopt.
+**Prognoses en meer soorten.** Geld, calorieën en mijlpalen geprojecteerd naar je streefdatum en een jaar vooruit, plus meer bonsaisoorten.
 
 ### Specificaties
 
@@ -96,7 +92,7 @@ Een optionele upgrade voor mensen die het volledige beeld willen. Maandelijks, j
 | Framework | SwiftUI · SwiftData · StoreKit |
 | Gegevens | Geen accounts, geen HealthKit, volledig op het apparaat |
 | Opslag | SwiftData, alleen lokaal |
-| Widgets | Beginscherm, toegangsscherm, watchOS-complicaties |
+| Widgets | Beginscherm (klein, middel), toegangsscherm (rond, rechthoekig, inline) |
 
 ### Wat telde
 
@@ -104,9 +100,9 @@ Een optionele upgrade voor mensen die het volledige beeld willen. Maandelijks, j
 
 **Geen schaamte na een terugval.** Een gemiste check-in of een gelogde misstap straft je niet en zet je tuin niet terug naar nul.
 
-**Check-ins eerst op je horloge.** Met de Apple Watch-app is de dagelijkse check-in één tik op je pols, zodat de gewoonte standhoudt op dagen dat je je telefoon niet wilt openen.
+**Apple Watch.** De Watch-app toont je dagenaantal, startdatum en boomfase, en blijft tellen vanaf je startdatum, ook als de app op je telefoon gesloten blijft.
 
-**Privacy.** Geen accounts, geen analyse, geen advertenties, geen SDK's van derden naast StoreKit. Nuchterheidsgegevens zijn gevoelig, dus de app vraagt nooit wie je bent en stuurt niets van je apparaat weg.
+**Privacy.** Geen accounts, geen analyse, geen advertenties. RevenueCat controleert alleen de aankoopstatus. Nuchterheidsgegevens zijn gevoelig, dus de app vraagt nooit wie je bent en stuurt niets van je apparaat weg.
 
 ## Vragen
 
@@ -114,7 +110,7 @@ Korte antwoorden over de nuchterheidsteller.
 
 ## Is er een gratis app om nuchtere dagen te tellen voor iPhone?
 
-Ja. Sober: nuchterheidsteller is gratis te downloaden en te gebruiken. De dagenteller, dagelijkse check-in, kalender, basistuin en de eerste vijf gezondheidsmijlpalen zijn gratis, en de optionele upgrade Bloom+ voegt de volledige tijdlijn, het dagboek, prestaties en bespaard geld en calorieën toe.
+Ja. Sober: nuchterheidsteller is gratis te downloaden en te gebruiken. De dagenteller, dagelijkse check-in, kalender, basistuin, widgets, Apple Watch-app, ademhalingsoefening bij cravings, tot nu toe bespaard geld en calorieën en de eerste vijf gezondheidsmijlpalen zijn gratis. De optionele upgrade Bloom+ voegt je craving-patronen, doelprognoses, de volledige gezondheidstijdlijn, het dagboek en meer bonsaisoorten toe.
 
 ## Hoe houd ik bij hoeveel dagen ik nuchter ben?
 
@@ -122,7 +118,7 @@ Stel je startdatum in, en Sober telt de dagen voor je en toont je volgende mijlp
 
 ## Heeft de Sober-app een widget en een Apple Watch-app?
 
-Ja. Je dagenaantal verschijnt in widgets voor beginscherm en toegangsscherm en als Apple Watch-complicaties. Met de Apple Watch-app doe je de dagelijkse check-in vanaf je pols.
+Ja. Je dagenaantal verschijnt in drie widgets voor het toegangsscherm en twee widgets voor het beginscherm, en de Apple Watch-app toont je dagenaantal, startdatum en boomfase. Alle zijn gratis.
 
 ## Wat gebeurt er met mijn teller als ik een misstap maak?
 

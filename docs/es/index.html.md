@@ -14,7 +14,7 @@ iPhone · Apple Watch · Widgets
 
 ## ¿Qué incluye Sober?
 
-El contador y el jardín son gratis. Bloom+ añade la cronología completa, el diario, los logros y los ahorros.
+El contador, el calendario, el jardín, los widgets, la app del Watch y la respiración para los antojos son gratis. Bloom+ añade tus patrones, las proyecciones, la cronología completa y el diario.
 
 ### Contador de días
 
@@ -32,7 +32,7 @@ Un jardín virtual que crece de semilla a árbol milenario mientras continúa tu
 
 Mira los 13 beneficios con explicaciones detalladas y enlaces a las fuentes. La imagen completa de la recuperación de tu cuerpo.
 
-Incluido con Pro
+Incluido con Bloom+
 
 ### Mira tu progreso
 
@@ -42,27 +42,23 @@ Un calendario con colores que muestra días sobrio (verde), no sobrio (rojo) y p
 
 Preguntas de reflexión diarias, escritura libre y un selector de sentimientos. Todas las entradas son privadas y se guardan localmente en tu dispositivo.
 
-Incluido con Pro
+Incluido con Bloom+
 
 ### Logros
 
 9 hitos por tiempo (Primer paso, Un trimestre, Año uno) y rachas de registros (Semana perfecta, Disciplina de diamante).
 
-Incluido con Pro
-
 ### Dinero & calorías ahorrados
 
 Mira cuánto dinero y cuántas calorías has ahorrado desde que empezaste. Define tus propios costos diarios y estimaciones de calorías.
 
-Incluido con Pro
-
 ### De un vistazo
 
-Tu cuenta de días en la pantalla de inicio, la pantalla de bloqueo y el Apple Watch. Incluye widgets del sistema y complicaciones de accesorio.
+Tu cuenta de días en la pantalla de inicio, la pantalla de bloqueo y el Apple Watch.
 
 ## ¿Es Sober privado?
 
-Sí. Sober está construido con la privacidad primero. Sin cuentas, sin analíticas, sin anuncios, sin SDK de terceros aparte de StoreKit de Apple. Tus datos nunca salen de tu dispositivo. Toda la información de salud se queda en local en SwiftData.
+Sí. Sober está construido con la privacidad primero. Sin cuentas, sin analíticas, sin anuncios. Tus datos de sobriedad nunca salen de tu dispositivo; RevenueCat solo comprueba el estado de la compra. Toda la información de salud se queda en local en SwiftData.
 
 [Política de privacidad →](https://jackwallner.com/ios/sober/privacy-policy.html)
 
@@ -84,9 +80,9 @@ Una mejora opcional para quienes quieren la imagen completa. Disponible mensual,
 
 **Diario con sugerencias.** Preguntas de reflexión diarias, escritura libre y un selector de sentimientos. Las entradas siguen siendo privadas y locales, igual que todo lo demás.
 
-**Logros.** Los 9 hitos por tiempo (Primer paso, Un trimestre, Año uno) y rachas de registros (Semana perfecta, Disciplina de diamante).
+**Tus patrones de antojos.** Cuándo llegan los antojos, qué los desencadena y un plan corto para cada desencadenante común.
 
-**Dinero & calorías ahorrados, todas las especies del jardín.** Mira tus ahorros acumulados frente a un costo diario que tú defines, y cultiva cualquiera de los 6 estilos de bonsái a medida que crece tu racha.
+**Proyecciones y más especies.** Dinero, calorías e hitos proyectados hasta tu fecha objetivo y a un año vista, además de más especies de bonsái.
 
 ### Especificaciones
 
@@ -96,7 +92,7 @@ Una mejora opcional para quienes quieren la imagen completa. Disponible mensual,
 | Framework | SwiftUI · SwiftData · StoreKit |
 | Datos | Sin cuentas, sin HealthKit, todo en el dispositivo |
 | Almacenamiento | SwiftData, solo local |
-| Widgets | Pantalla de inicio, pantalla de bloqueo, complicaciones de watchOS |
+| Widgets | Pantalla de inicio (pequeño, mediano), pantalla de bloqueo (circular, rectangular, en línea) |
 
 ### Lo que importó
 
@@ -104,9 +100,9 @@ Una mejora opcional para quienes quieren la imagen completa. Disponible mensual,
 
 **Sin vergüenza por recaer.** Saltarte un registro o anotar un tropiezo no te castiga ni devuelve tu jardín a cero.
 
-**Registros desde el reloj primero.** La app del Apple Watch convierte el registro diario en un toque desde la muñeca, así el hábito sobrevive los días en que no quieres abrir el teléfono.
+**Apple Watch.** La app del Watch muestra tu cuenta de días, la fecha de inicio y la etapa del árbol, y sigue contando desde tu fecha de inicio aunque la app del teléfono permanezca cerrada.
 
-**Privacidad.** Sin cuentas, sin analíticas, sin anuncios, sin SDK de terceros aparte de StoreKit. Los datos de sobriedad son sensibles, así que la app nunca pregunta quién eres ni envía nada fuera del dispositivo.
+**Privacidad.** Sin cuentas, sin analíticas, sin anuncios. RevenueCat solo comprueba el estado de la compra. Los datos de sobriedad son sensibles, así que la app nunca pregunta quién eres ni envía nada fuera del dispositivo.
 
 ## Preguntas
 
@@ -114,7 +110,7 @@ Respuestas rápidas sobre el contador de sobriedad.
 
 ## ¿Hay una app gratis de contador de días sobrio para iPhone?
 
-Sí. Sober: contador de sobriedad es gratis para descargar y usar. El contador de días, el registro diario, el calendario, el jardín básico y los primeros cinco hitos de salud son gratis, y la mejora opcional Bloom+ añade la cronología completa, el diario, los logros y el dinero y las calorías ahorrados.
+Sí. Sober: contador de sobriedad es gratis para descargar y usar. El contador de días, el registro diario, el calendario, el jardín básico, los widgets, la app para Apple Watch, la respiración para los antojos, el dinero y las calorías ahorrados hasta ahora y los primeros cinco hitos de salud son gratis. La mejora opcional Bloom+ añade tus patrones de antojos, las proyecciones hacia tu meta, la cronología de salud completa, el diario y más especies de bonsái.
 
 ## ¿Cómo llevo la cuenta de cuántos días llevo sobrio?
 
@@ -122,7 +118,7 @@ Define tu fecha de inicio de sobriedad y Sober cuenta los días por ti y te mues
 
 ## ¿La app Sober tiene widget y app para Apple Watch?
 
-Sí. Tu cuenta de días aparece en widgets de pantalla de inicio y de bloqueo, y como complicaciones del Apple Watch. La app del Apple Watch te deja hacer el registro diario desde la muñeca.
+Sí. Tu cuenta de días aparece en tres widgets de la pantalla de bloqueo y dos de la pantalla de inicio, y la app para Apple Watch muestra tu cuenta, la fecha de inicio y la etapa del árbol. Todo es gratis.
 
 ## ¿Qué pasa con mi cuenta si tengo un tropiezo?
 
@@ -146,4 +142,4 @@ Gratis en el App Store y en Google Play. No requiere cuenta. Mejora a Bloom+ cua
 
 [Descargar gratis](https://apps.apple.com/es/app/sober-sobriety-day-counter/id6768869215?pt=128748779&ct=jw-sober-home-es&mt=8)
 
-© 2026 Jack Wallner · Última actualización 28/10/2026
+© 2026 Jack Wallner · Última actualización 30/10/2026

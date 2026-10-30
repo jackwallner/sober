@@ -14,7 +14,7 @@ iPhone · Apple Watch · Widgets
 
 ## Was bietet Sober?
 
-Zähler und Garten sind kostenlos. Bloom+ bringt die volle Zeitleiste, das Tagebuch, Erfolge und Ersparnisse dazu.
+Zähler, Kalender, Garten, Widgets, Watch-App und Atemübung bei Verlangen sind kostenlos. Bloom+ ergänzt deine Muster, Prognosen, die volle Zeitleiste und das Tagebuch.
 
 ### Tageszähler
 
@@ -32,7 +32,7 @@ Ein virtueller Garten, der mit deiner Serie vom Samen zum uralten Baum wächst. 
 
 Alle 13 Vorteile mit ausführlichen Erklärungen und Quellenlinks. Das ganze Bild der Erholung deines Körpers.
 
-In Pro enthalten
+In Bloom+ enthalten
 
 ### Deinen Fortschritt sehen
 
@@ -42,27 +42,23 @@ Ein farbcodierter Kalender zeigt nüchterne (grün), nicht nüchterne (rot) und 
 
 Tägliche Reflexionsfragen, freies Schreiben und eine Gefühlsauswahl. Alle Einträge sind privat und lokal auf deinem Gerät gespeichert.
 
-In Pro enthalten
+In Bloom+ enthalten
 
 ### Erfolge
 
 9 Meilensteine für Zeitspannen (Erster Schritt, Quartalsmeister, Jahr Eins) und Check-in-Serien (Perfekte Woche, Diamant-Disziplin).
 
-In Pro enthalten
-
 ### Gespartes Geld & Kalorien
 
 Sieh, wie viel Geld und wie viele Kalorien du seit dem Start gespart hast. Lege deine eigenen Tageskosten und Kalorienschätzungen fest.
 
-In Pro enthalten
-
 ### Auf einen Blick
 
-Deine Tageszahl auf Home-Bildschirm, Sperrbildschirm und Apple Watch. Systemwidgets und Zubehör-Komplikationen inklusive.
+Deine Tageszahl auf Home-Bildschirm, Sperrbildschirm und Apple Watch.
 
 ## Ist Sober privat?
 
-Ja. Sober ist von Grund auf auf Datenschutz ausgelegt. Keine Konten, keine Analyse, keine Werbung, keine SDKs von Drittanbietern außer Apples StoreKit. Deine Daten verlassen nie dein Gerät. Alle Gesundheitsdaten bleiben lokal in SwiftData.
+Ja. Sober ist von Grund auf auf Datenschutz ausgelegt. Keine Konten, keine Analyse, keine Werbung. Deine Nüchternheitsdaten verlassen nie dein Gerät; RevenueCat prüft nur den Kaufstatus. Alle Gesundheitsdaten bleiben lokal in SwiftData.
 
 [Datenschutzerklärung →](https://jackwallner.com/ios/sober/privacy-policy.html)
 
@@ -84,9 +80,9 @@ Ein optionales Upgrade für alle, die das ganze Bild wollen. Verfügbar als Mona
 
 **Tagebuch mit Impulsen.** Tägliche Reflexionsfragen, freies Schreiben und eine Gefühlsauswahl. Einträge bleiben privat und lokal, wie alles andere auch.
 
-**Erfolge.** Alle 9 Meilensteine für Zeitspannen (Erster Schritt, Quartalsmeister, Jahr Eins) und Check-in-Serien (Perfekte Woche, Diamant-Disziplin).
+**Deine Muster beim Verlangen.** Wann das Verlangen kommt, was es auslöst und ein kurzer Plan für jeden häufigen Auslöser.
 
-**Gespartes Geld & Kalorien, alle Gartenarten.** Sieh deine laufenden Ersparnisse im Vergleich zu den Tageskosten, die du festlegst, und lass jeden der 6 Bonsai-Stile wachsen, während deine Serie steigt.
+**Prognosen und mehr Arten.** Geld, Kalorien und Meilensteine, hochgerechnet bis zu deinem Zieldatum und ein Jahr voraus, dazu weitere Bonsai-Arten.
 
 ### Technische Daten
 
@@ -96,7 +92,7 @@ Ein optionales Upgrade für alle, die das ganze Bild wollen. Verfügbar als Mona
 | Framework | SwiftUI · SwiftData · StoreKit |
 | Daten | Keine Konten, kein HealthKit, komplett auf dem Gerät |
 | Speicher | SwiftData, nur lokal |
-| Widgets | Home-Bildschirm, Sperrbildschirm, watchOS-Komplikationen |
+| Widgets | Home-Bildschirm (klein, mittel), Sperrbildschirm (rund, rechteckig, Inline) |
 
 ### Was zählte
 
@@ -104,9 +100,9 @@ Ein optionales Upgrade für alle, die das ganze Bild wollen. Verfügbar als Mona
 
 **Keine Scham nach Rückfällen.** Ein verpasster Check-in oder ein eingetragener Ausrutscher bestraft dich nicht und setzt deinen Garten nicht auf null zurück.
 
-**Check-ins zuerst auf der Uhr.** Mit der Apple Watch App erledigst du den täglichen Check-in mit einem Tipp am Handgelenk, damit die Gewohnheit auch an Tagen hält, an denen du dein iPhone nicht öffnen willst.
+**Apple Watch.** Die Watch-App zeigt deine Tageszahl, das Startdatum und die Baumstufe und zählt ab deinem Startdatum weiter, auch wenn die App auf dem iPhone geschlossen bleibt.
 
-**Datenschutz.** Keine Konten, keine Analyse, keine Werbung, keine SDKs von Drittanbietern außer StoreKit. Nüchternheitsdaten sind sensibel, deshalb fragt die App nie, wer du bist, und sendet nichts vom Gerät.
+**Datenschutz.** Keine Konten, keine Analyse, keine Werbung. RevenueCat prüft nur den Kaufstatus. Nüchternheitsdaten sind sensibel, deshalb fragt die App nie, wer du bist, und sendet nichts vom Gerät.
 
 ## Fragen
 
@@ -114,7 +110,7 @@ Kurze Antworten zum Nüchternheitszähler.
 
 ## Gibt es eine kostenlose App zum Zählen nüchterner Tage fürs iPhone?
 
-Ja. Sober: Nüchternheitszähler ist kostenlos zu laden und zu nutzen. Tageszähler, täglicher Check-in, Kalender, einfacher Garten und die ersten fünf Gesundheitsmeilensteine sind gratis. Das optionale Upgrade Bloom+ ergänzt die volle Zeitleiste, das Tagebuch, Erfolge sowie gespartes Geld und Kalorien.
+Ja. Sober: Nüchternheitszähler ist kostenlos zu laden und zu nutzen. Tageszähler, täglicher Check-in, Kalender, einfacher Garten, Widgets, Apple Watch App, Atemübung bei Verlangen, bisher gespartes Geld und Kalorien sowie die ersten fünf Gesundheitsmeilensteine sind gratis. Das optionale Upgrade Bloom+ ergänzt deine Muster beim Verlangen, Zielprognosen, die volle Gesundheits-Zeitleiste, das Tagebuch und weitere Bonsai-Arten.
 
 ## Wie halte ich fest, wie viele Tage ich nüchtern bin?
 
@@ -122,7 +118,7 @@ Lege dein Startdatum fest, und Sober zählt die Tage für dich und zeigt dir den
 
 ## Hat die Sober App ein Widget und eine Apple Watch App?
 
-Ja. Deine Tageszahl erscheint in Widgets für Home-Bildschirm und Sperrbildschirm sowie als Apple Watch Komplikation. Mit der Apple Watch App erledigst du den täglichen Check-in direkt am Handgelenk.
+Ja. Deine Tageszahl erscheint in drei Widgets für den Sperrbildschirm und zwei Widgets für den Home-Bildschirm, und die Apple Watch App zeigt Tageszahl, Startdatum und Baumstufe. Alle sind kostenlos.
 
 ## Was passiert mit meiner Zählung, wenn ich einen Rückfall habe?
 

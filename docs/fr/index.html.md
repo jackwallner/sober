@@ -14,7 +14,7 @@ iPhone · Apple Watch · Widgets
 
 ## Que contient Sober ?
 
-Le compteur et le jardin sont gratuits. Bloom+ ajoute la chronologie complète, le journal, les succès et les économies.
+Le compteur, le calendrier, le jardin, les widgets, l'appli Watch et la respiration contre les envies sont gratuits. Bloom+ ajoute vos schémas, les projections, la chronologie complète et le journal.
 
 ### Compteur de jours
 
@@ -32,7 +32,7 @@ Un jardin virtuel qui passe de la graine à l'arbre ancien tant que votre série
 
 Voyez les 13 bienfaits avec des explications détaillées et des liens vers les sources. L'image complète de la récupération de votre corps.
 
-Inclus avec Pro
+Inclus avec Bloom+
 
 ### Suivez vos progrès
 
@@ -42,27 +42,23 @@ Un calendrier en couleurs montrant les jours sobres (vert), non sobres (rouge) e
 
 Questions de réflexion quotidiennes, écriture libre et sélecteur d'émotions. Toutes les entrées sont privées et stockées localement sur votre appareil.
 
-Inclus avec Pro
+Inclus avec Bloom+
 
 ### Succès
 
 9 étapes de durée (Premier pas, Trimestre, Année un) et de séries de validations (Semaine parfaite, Discipline diamant).
 
-Inclus avec Pro
-
 ### Argent & calories économisés
 
 Voyez combien d'argent et combien de calories vous avez économisés depuis le début. Définissez vos propres coûts quotidiens et estimations de calories.
 
-Inclus avec Pro
-
 ### En un coup d'œil
 
-Votre nombre de jours sur l'écran d'accueil, l'écran verrouillé et l'Apple Watch. Widgets système et complications d'accessoires inclus.
+Votre nombre de jours sur l'écran d'accueil, l'écran verrouillé et l'Apple Watch.
 
 ## Sober est-il privé ?
 
-Oui. Sober est conçu pour la confidentialité d'abord. Pas de comptes, pas d'analyse, pas de publicité, aucun SDK tiers hormis StoreKit d'Apple. Vos données ne quittent jamais votre appareil. Toutes les informations de santé restent en local dans SwiftData.
+Oui. Sober est conçu pour la confidentialité d'abord. Pas de comptes, pas d'analyse, pas de publicité. Vos données de sobriété ne quittent jamais votre appareil ; RevenueCat vérifie seulement l'état de l'achat. Toutes les informations de santé restent en local dans SwiftData.
 
 [Politique de confidentialité →](https://jackwallner.com/ios/sober/privacy-policy.html)
 
@@ -84,9 +80,9 @@ Une mise à niveau facultative pour celles et ceux qui veulent le tableau comple
 
 **Journal avec suggestions.** Questions de réflexion quotidiennes, écriture libre et sélecteur d'émotions. Les entrées restent privées et locales, comme tout le reste.
 
-**Succès.** Les 9 étapes de durée (Premier pas, Trimestre, Année un) et de séries de validations (Semaine parfaite, Discipline diamant).
+**Vos schémas d'envies.** Quand les envies surviennent, ce qui les déclenche, et un court plan pour chaque déclencheur courant.
 
-**Argent & calories économisés, toutes les espèces du jardin.** Voyez vos économies cumulées par rapport à un coût quotidien que vous définissez, et faites pousser l'un des 6 styles de bonsaï à mesure que votre série avance.
+**Projections et autres espèces.** Argent, calories et étapes projetés jusqu'à votre date objectif et un an plus loin, ainsi que d'autres espèces de bonsaï.
 
 ### Caractéristiques
 
@@ -96,7 +92,7 @@ Une mise à niveau facultative pour celles et ceux qui veulent le tableau comple
 | Framework | SwiftUI · SwiftData · StoreKit |
 | Données | Sans compte, sans HealthKit, entièrement sur l'appareil |
 | Stockage | SwiftData, local uniquement |
-| Widgets | Écran d'accueil, écran verrouillé, complications watchOS |
+| Widgets | Écran d'accueil (petit, moyen), écran verrouillé (circulaire, rectangulaire, en ligne) |
 
 ### Ce qui a compté
 
@@ -104,9 +100,9 @@ Une mise à niveau facultative pour celles et ceux qui veulent le tableau comple
 
 **Pas de honte après une rechute.** Manquer une validation ou noter un écart ne vous punit pas et ne remet pas votre jardin à zéro.
 
-**Validations d'abord sur la montre.** L'appli Apple Watch fait de la validation quotidienne un simple toucher au poignet, pour que l'habitude tienne les jours où vous ne voulez pas ouvrir votre téléphone.
+**Apple Watch.** L'appli Watch affiche votre nombre de jours, la date de départ et le stade de l'arbre, et elle continue de compter depuis votre date de départ même quand l'appli du téléphone reste fermée.
 
-**Confidentialité.** Pas de comptes, pas d'analyse, pas de publicité, aucun SDK tiers hormis StoreKit. Les données de sobriété sont sensibles : l'appli ne demande donc jamais qui vous êtes et n'envoie rien hors de l'appareil.
+**Confidentialité.** Pas de comptes, pas d'analyse, pas de publicité. RevenueCat vérifie seulement l'état de l'achat. Les données de sobriété sont sensibles : l'appli ne demande donc jamais qui vous êtes et n'envoie rien hors de l'appareil.
 
 ## Questions
 
@@ -114,7 +110,7 @@ Réponses rapides sur le compteur de jours de sobriété.
 
 ## Existe-t-il une appli gratuite de compteur de jours de sobriété pour iPhone ?
 
-Oui. Sober : compteur de sobriété se télécharge et s'utilise gratuitement. Le compteur de jours, la validation quotidienne, le calendrier, le jardin de base et les cinq premières étapes de santé sont gratuits, et la mise à niveau facultative Bloom+ ajoute la chronologie complète, le journal, les succès, l'argent et les calories économisés.
+Oui. Sober : compteur de sobriété se télécharge et s'utilise gratuitement. Le compteur de jours, la validation quotidienne, le calendrier, le jardin de base, les widgets, l'appli Apple Watch, la respiration contre les envies, l'argent et les calories économisés jusqu'ici et les cinq premières étapes de santé sont gratuits. La mise à niveau facultative Bloom+ ajoute vos schémas d'envies, les projections vers votre objectif, la chronologie de santé complète, le journal et d'autres espèces de bonsaï.
 
 ## Comment suivre le nombre de jours où je suis sobre ?
 
@@ -122,7 +118,7 @@ Indiquez votre date de début de sobriété, et Sober compte les jours pour vous
 
 ## L'appli Sober a-t-elle un widget et une appli Apple Watch ?
 
-Oui. Votre nombre de jours apparaît dans des widgets d'écran d'accueil et d'écran verrouillé et comme complications Apple Watch. L'appli Apple Watch vous permet de faire la validation quotidienne depuis votre poignet.
+Oui. Votre nombre de jours apparaît dans trois widgets d'écran verrouillé et deux widgets d'écran d'accueil, et l'appli Apple Watch affiche votre nombre de jours, la date de départ et le stade de l'arbre. Tous sont gratuits.
 
 ## Que devient mon compteur si je fais un écart ?
 

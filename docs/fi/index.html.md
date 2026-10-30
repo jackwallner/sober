@@ -14,7 +14,7 @@ iPhone · Apple Watch · Widgetit
 
 ## Mitä Sober sisältää?
 
-Laskuri ja puutarha ovat ilmaisia. Bloom+ lisää täyden aikajanan, päiväkirjan, saavutukset ja säästöt.
+Laskuri, kalenteri, puutarha, widgetit, Watch-sovellus ja himon hengitysharjoitus ovat ilmaisia. Bloom+ lisää himojesi kuviot, ennusteet, täyden aikajanan ja päiväkirjan.
 
 ### Päivälaskuri
 
@@ -32,7 +32,7 @@ Virtuaalipuutarha, joka kasvaa siemenestä ikivanhaksi puuksi putkesi jatkuessa.
 
 Katso kaikki 13 hyötyä yksityiskohtaisine selityksineen ja lähdelinkkeineen. Täydellinen kuva kehosi toipumisesta.
 
-Sisältyy Pro-versioon
+Sisältyy Bloom+-versioon
 
 ### Seuraa edistymistäsi
 
@@ -42,27 +42,23 @@ Värikoodattu kalenteri näyttää raittiit päivät (vihreä), ei-raittiit (pun
 
 Päivittäisiä pohdintakysymyksiä, vapaata kirjoittamista ja tunnevalitsin. Kaikki merkinnät ovat yksityisiä ja tallennettu paikallisesti laitteellesi.
 
-Sisältyy Pro-versioon
+Sisältyy Bloom+-versioon
 
 ### Saavutukset
 
 9 virstanpylvästä ajan mukaan (Ensimmäinen askel, Neljännesvuosi, Ensimmäinen vuosi) ja kirjausputkista (Täydellinen viikko, Timanttinen kuri).
 
-Sisältyy Pro-versioon
-
 ### Säästetyt rahat & kalorit
 
 Katso, kuinka paljon rahaa ja kuinka monta kaloria olet säästänyt matkasi alusta. Aseta omat päiväkohtaiset kustannukset ja kaloriarviot.
 
-Sisältyy Pro-versioon
-
 ### Yhdellä silmäyksellä
 
-Päivälukusi Koti-valikossa, lukitusnäytöllä ja Apple Watchissa. Järjestelmä- ja lisävarustekomplikaatiot mukana.
+Päivälukusi Koti-valikossa, lukitusnäytöllä ja Apple Watchissa.
 
 ## Onko Sober yksityinen?
 
-Kyllä. Sober on rakennettu yksityisyys edellä. Ei tilejä, ei analytiikkaa, ei mainoksia, ei kolmannen osapuolen SDK:ita Applen StoreKitin lisäksi. Tietosi eivät koskaan poistu laitteeltasi. Kaikki terveystiedot pysyvät paikallisesti SwiftDatassa.
+Kyllä. Sober on rakennettu yksityisyys edellä. Ei tilejä, ei analytiikkaa, ei mainoksia. Raittiustietosi eivät koskaan poistu laitteeltasi; RevenueCat tarkistaa vain ostotilan. Kaikki terveystiedot pysyvät paikallisesti SwiftDatassa.
 
 [Tietosuojakäytäntö →](https://jackwallner.com/ios/sober/privacy-policy.html)
 
@@ -84,9 +80,9 @@ Valinnainen päivitys niille, jotka haluavat täyden kuvan. Saatavilla kuukausi-
 
 **Päiväkirja ohjaavilla kysymyksillä.** Päivittäisiä pohdintakysymyksiä, vapaata kirjoittamista ja tunnevalitsin. Merkinnät pysyvät yksityisinä ja paikallisina, kuten kaikki muukin.
 
-**Saavutukset.** Kaikki 9 virstanpylvästä ajan mukaan (Ensimmäinen askel, Neljännesvuosi, Ensimmäinen vuosi) ja kirjausputkista (Täydellinen viikko, Timanttinen kuri).
+**Himojesi kuviot.** Milloin himo iskee, mikä sen laukaisee ja lyhyt suunnitelma jokaiselle yleiselle laukaisijalle.
 
-**Säästetyt rahat & kalorit, kaikki puutarhalajit.** Katso kertyneet säästösi suhteessa itse asettamaasi päiväkustannukseen ja kasvata mitä tahansa 6 bonsaityylistä putkesi kasvaessa.
+**Ennusteet ja lisää lajeja.** Rahat, kalorit ja virstanpylväät ennustettuna tavoitepäivääsi ja vuoden päähän, sekä lisää bonsailajeja.
 
 ### Tekniset tiedot
 
@@ -96,7 +92,7 @@ Valinnainen päivitys niille, jotka haluavat täyden kuvan. Saatavilla kuukausi-
 | Kehys | SwiftUI · SwiftData · StoreKit |
 | Data | Ei tilejä, ei HealthKitiä, kokonaan laitteella |
 | Tallennus | SwiftData, vain paikallisesti |
-| Widgetit | Koti-valikko, lukitusnäyttö, watchOS-komplikaatiot |
+| Widgetit | Koti-valikko (pieni, keskikokoinen), lukitusnäyttö (pyöreä, suorakulmainen, rivinsisäinen) |
 
 ### Mikä merkitsi
 
@@ -104,9 +100,9 @@ Valinnainen päivitys niille, jotka haluavat täyden kuvan. Saatavilla kuukausi-
 
 **Ei häpeää retkahduksesta.** Väliin jäänyt kirjaus tai kirjattu lipsahdus ei rankaise sinua eikä nollaa puutarhaasi.
 
-**Kirjaukset ensin kellolla.** Apple Watch -sovellus tekee päivittäisestä kirjauksesta yhden napautuksen ranteessa, joten tapa säilyy päivinä, jolloin et halua avata puhelinta.
+**Apple Watch.** Watch-sovellus näyttää päivälukusi, aloituspäivän ja puun vaiheen, ja se jatkaa laskemista aloituspäivästäsi, vaikka puhelimen sovellus pysyy suljettuna.
 
-**Yksityisyys.** Ei tilejä, ei analytiikkaa, ei mainoksia, ei kolmannen osapuolen SDK:ita StoreKitin lisäksi. Raittiustiedot ovat arkaluonteisia, joten sovellus ei koskaan kysy, kuka olet, eikä lähetä mitään pois laitteelta.
+**Yksityisyys.** Ei tilejä, ei analytiikkaa, ei mainoksia. RevenueCat tarkistaa vain ostotilan. Raittiustiedot ovat arkaluonteisia, joten sovellus ei koskaan kysy, kuka olet, eikä lähetä mitään pois laitteelta.
 
 ## Kysymyksiä
 
@@ -114,7 +110,7 @@ Lyhyet vastaukset raittiuspäivälaskurista.
 
 ## Onko iPhonelle ilmaista raittiuspäivien laskurisovellusta?
 
-Kyllä. Sober: raittiuslaskuri on ilmainen ladata ja käyttää. Päivälaskuri, päivittäinen kirjaus, kalenteri, peruspuutarha ja ensimmäiset viisi terveysvaihetta ovat ilmaisia, ja valinnainen Bloom+-päivitys lisää täyden aikajanan, päiväkirjan, saavutukset sekä säästetyt rahat ja kalorit.
+Kyllä. Sober: raittiuslaskuri on ilmainen ladata ja käyttää. Päivälaskuri, päivittäinen kirjaus, kalenteri, peruspuutarha, widgetit, Apple Watch -sovellus, himon hengitysharjoitus, tähän mennessä säästetyt rahat ja kalorit sekä ensimmäiset viisi terveysvaihetta ovat ilmaisia. Valinnainen Bloom+-päivitys lisää himojesi kuviot, tavoite-ennusteet, täyden terveysaikajanan, päiväkirjan ja lisää bonsailajeja.
 
 ## Miten seuraan, montako päivää olen ollut raittiina?
 
@@ -122,7 +118,7 @@ Aseta raittiuden alkamispäivä, niin Sober laskee päivät puolestasi ja näytt
 
 ## Onko Sober-sovelluksella widget ja Apple Watch -sovellus?
 
-Kyllä. Päivälukusi näkyy Koti-valikon ja lukitusnäytön widgeteissä sekä Apple Watchin komplikaatioina. Apple Watch -sovelluksella teet päivittäisen kirjauksen ranteestasi.
+Kyllä. Päivälukusi näkyy kolmessa lukitusnäytön widgetissä ja kahdessa Koti-valikon widgetissä, ja Apple Watch -sovellus näyttää päivälukusi, aloituspäivän ja puun vaiheen. Kaikki ovat ilmaisia.
 
 ## Mitä laskurilleni tapahtuu, jos lipsahdan?
 
