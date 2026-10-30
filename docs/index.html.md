@@ -32,7 +32,7 @@ A virtual garden that grows from seed to ancient tree as your streak continues. 
 
 See all 13 benefits with detailed explanations and source links. See the complete picture of your body's recovery.
 
-Included with Pro
+Included with Bloom+
 
 ### See your progress
 
@@ -42,7 +42,7 @@ A color-coded calendar showing sober (green), not sober (red), and yet to check 
 
 Daily reflection prompts, freeform writing, and a feeling picker. All entries are private and stored locally on your device.
 
-Included with Pro
+Included with Bloom+
 
 ### Achievements
 
