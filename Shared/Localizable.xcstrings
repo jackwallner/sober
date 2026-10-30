@@ -27851,6 +27851,107 @@
         }
       }
     },
+    "Back" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zpět"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zurück"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πίσω"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atrás"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Takaisin"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retour"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वापस"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indietro"
+          }
+        },
+        "ka" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "უკან"
+          }
+        },
+        "lt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atgal"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tilbake"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terug"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wstecz"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Назад"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Назад"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quay lại"
+          }
+        }
+      }
+    },
     "Back to the garden" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -40339,6 +40440,107 @@
         }
       }
     },
+    "Delete this entry?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smazat tento záznam?"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diesen Eintrag löschen?"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Διαγραφή αυτής της καταχώρισης;"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Eliminar esta entrada?"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poistetaanko tämä merkintä?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer cette entrée ?"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "यह प्रविष्टि हटाएँ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminare questa voce?"
+          }
+        },
+        "ka" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "წაიშალოს ეს ჩანაწერი?"
+          }
+        },
+        "lt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ištrinti šį įrašą?"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slette dette dagboknotatet?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze notitie verwijderen?"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usunąć ten wpis?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить эту запись?"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Видалити цей запис?"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xóa ghi chép này?"
+          }
+        }
+      }
+    },
     "Describe a moment of peace I experienced recently." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -41345,6 +41547,107 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sửa ghi chép"
+          }
+        }
+      }
+    },
+    "Edit note" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upravit poznámku"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notiz bearbeiten"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Επεξεργασία σημείωσης"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar nota"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muokkaa muistiinpanoa"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier la note"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नोट बदलें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifica nota"
+          }
+        },
+        "ka" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "შენიშვნის შეცვლა"
+          }
+        },
+        "lt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redaguoti pastabą"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rediger notat"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notitie bewerken"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edytuj notatkę"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить заметку"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Змінити нотатку"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sửa ghi chú"
           }
         }
       }
@@ -85907,6 +86210,107 @@
         }
       }
     },
+    "Your Bloom+ trial ends today" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tvoje zkušební verze Bloom+ končí dnes"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deine Bloom+-Testphase endet heute"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Η δοκιμή του Bloom+ λήγει σήμερα"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu prueba de Bloom+ termina hoy"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloom+-kokeilusi päättyy tänään"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre essai Bloom+ se termine aujourd'hui"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आपका Bloom+ ट्रायल आज ख़त्म होगा"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La tua prova di Bloom+ finisce oggi"
+          }
+        },
+        "ka" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "შენი Bloom+ საცდელი პერიოდი დღეს მთავრდება"
+          }
+        },
+        "lt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tavo Bloom+ bandomasis laikotarpis baigiasi šiandien"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloom+-prøveperioden din slutter i dag"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je proefperiode van Bloom+ eindigt vandaag"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twój okres próbny Bloom+ kończy się dzisiaj"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пробный период Bloom+ закончится сегодня"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пробний період Bloom+ завершиться сьогодні"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bản dùng thử Bloom+ kết thúc vào hôm nay"
+          }
+        }
+      }
+    },
     "Your Bloom+ trial ends tomorrow" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -87345,103 +87749,103 @@
         }
       }
     },
-    "Your day counter will restart at zero. Your history is kept." : {
+    "Your day counter will restart at day 1. Your history is kept." : {
       "extractionState" : "manual",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Počítadlo dní začne znovu od nuly. Historie zůstane."
+            "value" : "Počítadlo dní začne znovu od 1. dne. Historie zůstane."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dein Tageszähler startet wieder bei null. Dein Verlauf bleibt erhalten."
+            "value" : "Dein Tageszähler startet wieder bei Tag 1. Dein Verlauf bleibt erhalten."
           }
         },
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ο μετρητής ημερών θα ξεκινήσει από το μηδέν. Το ιστορικό σου μένει."
+            "value" : "Ο μετρητής ημερών θα ξεκινήσει ξανά από την ημέρα 1. Το ιστορικό σου μένει."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tu contador volverá a cero. Tu historial se conserva."
+            "value" : "Tu contador volverá al día 1. Tu historial se conserva."
           }
         },
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Päivälaskuri alkaa taas nollasta. Historiasi säilyy."
+            "value" : "Päivälaskuri alkaa taas päivästä 1. Historiasi säilyy."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Votre compteur repartira de zéro. Votre historique est conservé."
+            "value" : "Votre compteur repartira du jour 1. Votre historique est conservé."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "दिनों की गिनती शून्य से फिर शुरू होगी। आपका इतिहास बना रहेगा।"
+            "value" : "दिनों की गिनती दिन 1 से फिर शुरू होगी। आपका इतिहास बना रहेगा।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il contatore ripartirà da zero. La cronologia resterà salvata."
+            "value" : "Il contatore ripartirà dal giorno 1. La cronologia resterà salvata."
           }
         },
         "ka" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "დღეების მთვლელი ნულიდან დაიწყება. ისტორია შენარჩუნდება."
+            "value" : "დღეების მთვლელი პირველი დღიდან დაიწყება. ისტორია შენარჩუნდება."
           }
         },
         "lt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dienų skaitiklis prasidės nuo nulio. Istorija išliks."
+            "value" : "Dienų skaitiklis prasidės nuo 1 dienos. Istorija išliks."
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dagtelleren starter på null igjen. Historikken beholdes."
+            "value" : "Dagtelleren starter på dag 1 igjen. Historikken beholdes."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je dagenteller begint weer bij nul. Je geschiedenis blijft bewaard."
+            "value" : "Je dagenteller begint weer bij dag 1. Je geschiedenis blijft bewaard."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Licznik dni zacznie od zera. Historia zostanie zachowana."
+            "value" : "Licznik dni zacznie od dnia 1. Historia zostanie zachowana."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Счётчик дней начнётся с нуля. История сохранится."
+            "value" : "Счётчик дней начнётся с первого дня. История сохранится."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Лічильник днів почнеться з нуля. Історія збережеться."
+            "value" : "Лічильник днів почнеться з першого дня. Історія збережеться."
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bộ đếm ngày sẽ bắt đầu lại từ 0. Lịch sử của bạn vẫn được giữ."
+            "value" : "Bộ đếm ngày sẽ bắt đầu lại từ ngày 1. Lịch sử của bạn vẫn được giữ."
           }
         }
       }

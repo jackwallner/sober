@@ -55,9 +55,21 @@ enum TrialLifecycle {
     }
 
     static func daysRemaining(now: Date = .now) -> Int? {
-        guard let endsAt, endsAt > now else { return nil }
-        let days = Calendar.current.dateComponents([.day], from: now, to: endsAt).day ?? 0
-        return max(1, days)
+        guard let endsAt else { return nil }
+        return daysRemaining(until: endsAt, now: now)
+    }
+
+    /// Calendar days until the trial's last day: 0 on that day, 1 the day
+    /// before. Counting whole 24-hour blocks and rounding "less than a day"
+    /// up to 1 told someone "ends tomorrow" hours before the charge.
+    nonisolated static func daysRemaining(until endsAt: Date, now: Date, calendar: Calendar = .current) -> Int? {
+        guard endsAt > now else { return nil }
+        let days = calendar.dateComponents(
+            [.day],
+            from: calendar.startOfDay(for: now),
+            to: calendar.startOfDay(for: endsAt)
+        ).day ?? 0
+        return max(0, days)
     }
 
     /// Short "here's what you've grown" line reused by the reminder and recap.

@@ -42,7 +42,9 @@ final class AchievementService {
             sortBy: [SortDescriptor(\.day)]
         )
         let sortedDays = (try? context.fetch(descriptor))?
-            .filter { $0.wasSober }
+            // Check-in badges need check-ins: a day the app assumed is sober,
+            // but nobody checked in on it.
+            .filter { $0.wasSober && $0.wasLogged }
             .map { DateHelpers.startOfDay($0.day) } ?? []
         guard !sortedDays.isEmpty else { return 0 }
         var longest = 1

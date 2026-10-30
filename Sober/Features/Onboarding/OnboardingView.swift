@@ -21,7 +21,7 @@ struct OnboardingView: View {
     }
     #endif
     @State private var startDate: Date = .now
-    @State private var costPerDay: Double = 20
+    @State private var costPerDay = Double(SpendScale.current.defaultDaily)
     @State private var caloriesPerDay: Double = 600
     @State private var trialInFlight = false
     @State private var trialResolutionInFlight = false
@@ -169,7 +169,11 @@ struct OnboardingView: View {
                         .foregroundStyle(.white)
                     Text("\(formatCurrency(Int(costPerDay))) / day")
                         .font(.system(size: 44, weight: .bold, design: .rounded))
-                    Slider(value: $costPerDay, in: 0...200, step: 5)
+                    Slider(
+                        value: $costPerDay,
+                        in: 0...Double(SpendScale.current.maxDaily),
+                        step: Double(SpendScale.current.step)
+                    )
                         .tint(.white)
                 }
 
@@ -295,6 +299,8 @@ struct OnboardingView: View {
             Text("One alcohol-free year keeps")
                 .font(Theme.subhead())
                 .foregroundStyle(.white)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
             if yearlyDollars > 0 {
                 Text(formatCurrency(yearlyDollars))
                     .font(.system(size: 44, weight: .bold, design: .rounded))
@@ -363,7 +369,7 @@ struct OnboardingView: View {
                 ConversionDiagnostics.record(.freeVersionChosen)
                 finishOnboarding()
             }
-            Button("Keep my free trial", role: .cancel) {}
+            Button(offerIncludesTrial ? "Keep my free trial" : "Back", role: .cancel) {}
         } message: {
             Text("You'll keep the day counter, the calendar, your tree, and the countdown to your goal. Your goal projection, the urge playbook, the full health timeline, the journal, and the other species stay locked.")
         }
@@ -904,6 +910,7 @@ struct OnboardingView: View {
     private func persistSetup() {
         let settings = SettingsService(context: context).current()
         settings.costPerDayCents = Int(costPerDay * 100)
+        settings.currencyCode = SpendScale.currentCode
         settings.caloriesPerDay = Int(caloriesPerDay)
         settings.dailyReminderEnabled = dailyRemindersOptIn
         settings.madeCommitment = false

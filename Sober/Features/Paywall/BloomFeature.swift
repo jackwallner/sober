@@ -228,9 +228,12 @@ func presentPassiveTrialNudge(
           TrialNudgeGate.canShow()
     else { return }
     try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+    // Checked again after the wait: a paywall shown and closed inside it
+    // restarted the cooldown, and this one would follow it straight away.
     guard !Task.isCancelled,
           !subscriptions.isProSubscriber,
-          TrialOfferCoordinator.shared.pendingRequest == nil
+          TrialOfferCoordinator.shared.pendingRequest == nil,
+          TrialNudgeGate.canShow()
     else { return }
     TrialOfferCoordinator.shared.request(intent, policy: .subsequentPassive)
 }
