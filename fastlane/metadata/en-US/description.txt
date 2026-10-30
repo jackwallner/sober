@@ -1,35 +1,52 @@
-Count your alcohol-free days on iPhone, Apple Watch and your Lock Screen. Sober is a free sobriety tracker with no account: open it and your day count is right there.
+Sober is a free app that counts the days since you stopped drinking alcohol. It shows your sober day count on your iPhone, your Lock Screen, and your Apple Watch, with no account to create.
 
-FREE, NO ACCOUNT
-• Sober day counter with days, hours, and your longest streak
-• One daily check-in with your mood and a note
-• Sobriety calendar of your dry days, and check in later for a day you missed
-• A bonsai that grows with every sober day
-• Lock Screen widgets and Home Screen widgets with your day count
-• Apple Watch app with your day count and tree stage
-• Craving mode: when a craving hits, tap once for a guided box-breathing session, with no paywall
-• After a slip, the counter restarts, your bonsai keeps half its growth, and your calendar and past streaks stay
-• Countdown to a goal date, such as the end of a dry month, 30 days, 90 days, or a year
-• Money saved and calories avoided so far
-• First five health milestones and the badges you earn
-• No ads, and your data stays on your iPhone
+Use it for Dry January, a sober month, cutting back, or long-term sobriety.
 
-BLOOM+ (OPTIONAL)
-• Your craving patterns: when cravings hit and what sets them off
-• A short plan for each common trigger, with a line to say when someone offers you a drink
-• Money, calories, and milestones projected to your goal date
-• Year-ahead projections for savings and tree growth
-• Full 13-milestone health timeline with sources
-• Journal with prompts
-• More bonsai species
+DAY COUNTER (FREE)
+• Counts alcohol-free days from the start date you set
+• Shows your longest streak and your next milestone
+• Counts down to a goal: 30 days, 90 days, a year, or a date you pick
+• Sends an optional daily reminder at the hour you choose
 
-Use Sober for a dry month, for cutting back, or to count sober time with no end date, one day at a time.
+CHECK-IN AND CALENDAR (FREE)
+• Logs one daily check-in with your mood and a note
+• Marks each day on a calendar as sober or a slip
+• Grows a bonsai with every sober day
 
-Eligible new subscribers can try Bloom+ free for 7 days. Bloom+ is available monthly or yearly, plus a one-time lifetime option. Prices appear in the app before you buy and vary by region.
+SLIPS (FREE)
+• Restarts the counter from the date of a slip you log
+• Keeps half your bonsai's growth, your calendar, and your past streaks after a slip
 
-Payment is charged to your Apple ID after trial confirmation. Subscriptions renew automatically unless canceled at least 24 hours before the current period ends. Your account is charged within 24 hours before renewal. Manage or cancel in Settings > Apple ID > Subscriptions.
+CRAVINGS (FREE)
+• Starts guided box breathing in one tap when a craving hits
+• Paces each breath in four 4-second phases for about three minutes
+
+WIDGETS AND APPLE WATCH (FREE)
+• Shows your day count in three Lock Screen and two Home Screen widgets
+• Shows your day count, start date, and tree stage in the Apple Watch app
+
+MONEY AND HEALTH (FREE)
+• Shows money saved and calories avoided since your start date
+• Shows the first five health milestones
+• Awards badges as you reach milestones
+
+PRIVACY (FREE)
+• Works with no account or sign-up
+• Stores your data on your iPhone and shows no ads
+
+FREE / BLOOM+
+Everything above is free. The optional Bloom+ upgrade:
+• Shows your craving patterns: when cravings hit and what sets them off
+• Builds a plan for each common trigger, with a line to say when offered a drink
+• Projects savings and milestones to your goal date and a year ahead
+• Unlocks the full 13-milestone health timeline with sources
+• Adds a journal with prompts and more bonsai species
+
+Bloom+ is monthly, yearly, or a lifetime purchase, with a 7-day free trial for eligible new subscribers. Prices appear in the app before you buy.
+
+Subscriptions renew automatically unless canceled at least 24 hours before the period ends. Manage or cancel in Settings > Apple ID > Subscriptions.
 
 Sober is a wellness tracker, not medical care, diagnosis, or treatment. If stopping alcohol may put you at risk of withdrawal, contact a qualified clinician.
 
-Privacy: https://jackwallner.com/ios/sober/privacy-policy.html
 Terms (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Privacy: https://jackwallner.com/ios/sober/privacy-policy.html
