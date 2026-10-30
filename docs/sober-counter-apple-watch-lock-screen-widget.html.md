@@ -6,7 +6,7 @@ Web page: https://jackwallner.com/ios/sober/sober-counter-apple-watch-lock-scree
 
 ## Is there a sober counter with an Apple Watch app and a lock screen widget?
 
-By Jack Wallner · Last updated October 29, 2026
+By Jack Wallner · Last updated October 30, 2026
 
 **Yes. Sober: Sobriety Day Counter has an Apple Watch app and three Lock Screen widgets that show your days sober, and all of them are free.** [Get Sober on the App Store](https://apps.apple.com/us/app/sober-sobriety-day-counter/id6768869215?pt=128748779&ct=jw-sober-sober-counter-apple-watch-lock-screen-widget&mt=8). It also has small and medium Home Screen widgets with your bonsai, and it needs no account.
 
@@ -80,6 +80,7 @@ No. Your iPhone shares the count with your own Watch directly, with no account.
 - [Free App With a Breathing Exercise for a Drinking Craving](https://jackwallner.com/ios/sober/drinking-craving-breathing-app.html)
 - [Sobriety App That Keeps Your Progress After a Slip](https://jackwallner.com/ios/sober/sobriety-app-slip-keeps-progress.html)
 - [Dry January App to Track Alcohol-Free Days on a Calendar](https://jackwallner.com/ios/sober/dry-january-tracker-app.html)
+- [Sobriety Counter App for Android: Sober on Google Play](https://jackwallner.com/ios/sober/sobriety-counter-app-android.html)
 - [I Am Sober Alternatives: 5 Sobriety Apps Compared](https://jackwallner.com/ios/sober/i-am-sober-alternative.html)
 
 ## Sources

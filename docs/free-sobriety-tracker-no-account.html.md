@@ -6,7 +6,7 @@ Web page: https://jackwallner.com/ios/sober/free-sobriety-tracker-no-account.htm
 
 ## Is there a free sobriety tracker that doesn't paywall everything and needs no account?
 
-By Jack Wallner · Last updated October 29, 2026
+By Jack Wallner · Last updated October 30, 2026
 
 **Yes. Sober: Sobriety Day Counter is free to download, needs no account, and keeps the day counter, daily check-in, calendar, bonsai garden, widgets, Apple Watch app and a craving breathing session free.** [Get Sober on the App Store](https://apps.apple.com/us/app/sober-sobriety-day-counter/id6768869215?pt=128748779&ct=jw-sober-free-sobriety-tracker-no-account&mt=8). The optional Bloom+ upgrade adds extras such as your craving patterns, the full health timeline and a journal. There are no ads, and what you log stays on your iPhone.
 
@@ -94,6 +94,7 @@ Yes. Sober is also on Google Play.
 - [Free App With a Breathing Exercise for a Drinking Craving](https://jackwallner.com/ios/sober/drinking-craving-breathing-app.html)
 - [Sobriety App That Keeps Your Progress After a Slip](https://jackwallner.com/ios/sober/sobriety-app-slip-keeps-progress.html)
 - [Dry January App to Track Alcohol-Free Days on a Calendar](https://jackwallner.com/ios/sober/dry-january-tracker-app.html)
+- [Sobriety Counter App for Android: Sober on Google Play](https://jackwallner.com/ios/sober/sobriety-counter-app-android.html)
 - [I Am Sober Alternatives: 5 Sobriety Apps Compared](https://jackwallner.com/ios/sober/i-am-sober-alternative.html)
 
 ## Sources
