@@ -14,7 +14,7 @@ iPhone · Apple Watch · Widgets
 
 ## What does Sober include?
 
-The counter and garden are free. Bloom+ adds the full timeline, journal, achievements, and savings.
+The counter, calendar, garden, widgets, Watch app and craving breathing are free. Bloom+ adds your patterns, projections, the full timeline and the journal.
 
 ### Day counter
 
@@ -48,21 +48,17 @@ Included with Pro
 
 9 milestones across time (First Step, Quarter Master, Year One) and check-in streaks (Perfect Week, Diamond Discipline).
 
-Included with Pro
-
 ### Money & calories saved
 
-See how much money and how many calories you've saved since starting your journey. Set your own daily cost and calorie estimates.
-
-Included with Pro
+See how much money and how many calories you've kept since starting your journey. Set your own daily cost and calorie estimates.
 
 ### At a glance
 
-Your day count on your home screen, lock screen, and Apple Watch. System and accessory complications included.
+Your day count on your Home Screen, your Lock Screen and your Apple Watch.
 
 ## Is Sober private?
 
-Yes. Sober is built with privacy first. No accounts, no analytics, no ads, no third-party SDKs beyond Apple's StoreKit. Your data never leaves your device. All health information stays local in SwiftData.
+Yes. Sober is built with privacy first. No accounts, no analytics, no ads. Your sobriety data never leaves your device; RevenueCat only checks purchase status. All health information stays local in SwiftData.
 
 [Privacy Policy →](https://jackwallner.com/ios/sober/privacy-policy.html)
 
@@ -84,9 +80,9 @@ An optional upgrade for people who want the full picture. Monthly, yearly, or a 
 
 **Journal with prompts.** Daily reflection prompts, freeform writing, and a feeling picker. Entries stay private and local, same as everything else.
 
-**Achievements.** All 9 milestones across time (First Step, Quarter Master, Year One) and check-in streaks (Perfect Week, Diamond Discipline).
+**Your craving patterns.** When cravings hit, what sets them off, and a short plan for each common trigger.
 
-**Money & calories saved, all garden species.** See your running savings against a daily cost you set, and grow any of the 6 bonsai styles as your streak builds.
+**Projections and more species.** Money, calories and milestones projected to your goal date and a year ahead, plus more bonsai species.
 
 ### Specs
 
@@ -96,7 +92,7 @@ An optional upgrade for people who want the full picture. Monthly, yearly, or a 
 | Framework | SwiftUI · SwiftData · StoreKit |
 | Data | No accounts, no HealthKit, entirely on-device |
 | Storage | SwiftData, local only |
-| Widgets | Home Screen, Lock Screen, watchOS complications |
+| Widgets | Home Screen (small, medium), Lock Screen (circular, rectangular, inline) |
 
 ### What Mattered
 
@@ -104,9 +100,9 @@ An optional upgrade for people who want the full picture. Monthly, yearly, or a 
 
 **No relapse shame.** Missing a check-in or logging a slip doesn't punish you or reset your garden to zero.
 
-**Watch-first check-ins.** The Apple Watch app makes the daily check-in a one-tap action from your wrist, so the habit survives on the days you don't want to open your phone.
+**Apple Watch.** The Watch app shows your day count, start date and tree stage, and it keeps counting from your start date even when the phone app stays closed.
 
-**Privacy.** No accounts, no analytics, no ads, no third-party SDKs beyond StoreKit. Sobriety data is sensitive, so the app never asks who you are or sends anything off-device.
+**Privacy.** No accounts, no analytics, no ads. RevenueCat only checks purchase status. Sobriety data is sensitive, so the app never asks who you are or sends anything off-device.
 
 ## Questions
 
@@ -114,7 +110,7 @@ Quick answers about the sobriety day counter.
 
 ## Is there a free sobriety day counter app for iPhone?
 
-Yes. Sober: Sobriety Day Counter is free to download and use. The day counter, daily check-in, calendar, basic garden and first five health milestones are free, and the optional Bloom+ upgrade adds the full timeline, journal, achievements, and money and calories saved.
+Yes. Sober: Sobriety Day Counter is free to download and use. The day counter, daily check-in, calendar, basic garden, widgets, Apple Watch app, craving breathing, money and calories kept so far, and first five health milestones are free. The optional Bloom+ upgrade adds your craving patterns, goal projections, the full health timeline, the journal and more bonsai species.
 
 ## How do I track how many days I have been sober?
 
@@ -122,7 +118,7 @@ Set your sobriety start date, and Sober counts the days for you and shows your n
 
 ## Does the Sober app have a widget and an Apple Watch app?
 
-Yes. Your day count appears in Home Screen and Lock Screen widgets and as Apple Watch complications. The Apple Watch app lets you do the daily check-in from your wrist.
+Yes. Your day count appears in three Lock Screen widgets and two Home Screen widgets, and the Apple Watch app shows your count, start date and tree stage. All of them are free.
 
 ## What happens to my count if I slip?
 
