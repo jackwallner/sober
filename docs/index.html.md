@@ -110,7 +110,7 @@ Quick answers about the sobriety day counter.
 
 ## Is there a free sobriety day counter app for iPhone?
 
-Yes. Sober: Sobriety Day Counter is free to download and use. The day counter, daily check-in, calendar, basic garden, widgets, Apple Watch app, craving breathing, money and calories kept so far, and first five health milestones are free. The optional Bloom+ upgrade adds your craving patterns, goal projections, the full health timeline, the journal and more bonsai species.
+Yes. Sober: Sobriety Day Counter is free to use with no account, and the free features do not expire: the day counter, daily check-in, calendar, bonsai, goal countdown, widgets, Apple Watch app, craving breathing, money and calories saved so far, the first five health milestones and earned badges. Bloom+ is an optional upgrade, as a monthly or yearly subscription or a one-time lifetime purchase. It adds your craving patterns, a plan for each common trigger, savings and milestones projected to your goal date, the full 13-milestone health timeline with sources, a journal with prompts and more bonsai species.
 
 ## How do I track how many days I have been sober?
 
@@ -118,15 +118,15 @@ Set your sobriety start date, and Sober counts the days for you and shows your n
 
 ## Does the Sober app have a widget and an Apple Watch app?
 
-Yes. Your day count appears in three Lock Screen widgets and two Home Screen widgets, and the Apple Watch app shows your count, start date and tree stage. All of them are free.
+Yes, and all of them are free. Three Lock Screen widgets and two Home Screen widgets show your day count. The Apple Watch app shows your day count, start date and tree stage, and keeps counting even when the iPhone app is closed. Check-ins happen in the iPhone app. There is no watch face complication.
 
 ## What happens to my count if I slip?
 
-You log a slip yourself, and the day counter restarts from that date. The garden keeps part of its growth, so the app does not wipe out your progress or shame you.
+If you slip, you log it and the count starts over, while your calendar, your past streaks and half of your bonsai's growth stay. You can log a slip for today or for a past date.
 
 ## Do I need an account, and is my sobriety data private?
 
-No account is needed. Sober has no ads or analytics, and your data stays on your device.
+No account is needed. Sober has no ads, no analytics and no cross-app tracking. Check-ins, slips and journal entries are stored on your iPhone and never sent to a server.
 
 ## Is Sober an alternative to I Am Sober?
 

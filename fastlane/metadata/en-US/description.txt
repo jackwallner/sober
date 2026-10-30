@@ -1,50 +1,47 @@
-Sober is a free app that counts the days since you stopped drinking alcohol. It shows your sober day count on your iPhone, your Lock Screen, and your Apple Watch, with no account to create.
+Sober counts the days since your last drink. If you slip, you log it and the count starts over, while your calendar, your past streaks and half of your bonsai's growth stay. It is free to use with no account, and your entries stay on your iPhone.
 
-Use it for Dry January, a sober month, cutting back, or long-term sobriety.
+COUNT YOUR DAYS
+• A day counter from the start date you set, with your longest streak and your next milestone
+• A countdown to a goal: 30 days, 90 days, a year, or a date you pick, such as the end of a dry month
+• An optional daily reminder at the hour you choose
 
-DAY COUNTER (FREE)
-• Counts alcohol-free days from the start date you set
-• Shows your longest streak and your next milestone
-• Counts down to a goal: 30 days, 90 days, a year, or a date you pick
-• Sends an optional daily reminder at the hour you choose
+CHECK IN
+• One check-in a day with your mood and a note
+• A calendar that marks each day sober or a slip, where you can also log a day you missed
+• A bonsai that grows with each sober day
 
-CHECK-IN AND CALENDAR (FREE)
-• Logs one daily check-in with your mood and a note
-• Marks each day on a calendar as sober or a slip
-• Grows a bonsai with every sober day
+WHEN A CRAVING HITS
+• Craving mode starts guided box breathing in one tap: in, hold, out, hold, 4 seconds each, for about three minutes
 
-SLIPS (FREE)
-• Restarts the counter from the date of a slip you log
-• Keeps half your bonsai's growth, your calendar, and your past streaks after a slip
+AFTER A SLIP
+• Log a slip for today or for a past date
+• The day count starts over, and your calendar and past streaks stay as they were
+• Your bonsai keeps half of its growth
 
-CRAVINGS (FREE)
-• Starts guided box breathing in one tap when a craving hits
-• Paces each breath in four 4-second phases for about three minutes
+LOCK SCREEN AND APPLE WATCH
+• Three Lock Screen widgets and two Home Screen widgets show your day count
+• The Apple Watch app shows your day count, start date and tree stage, and keeps counting even when the iPhone app is closed
+• Check-ins happen in the iPhone app. There is no watch face complication.
 
-WIDGETS AND APPLE WATCH (FREE)
-• Shows your day count in three Lock Screen and two Home Screen widgets
-• Shows your day count, start date, and tree stage in the Apple Watch app
+MONEY AND HEALTH
+• Money saved and calories avoided since your start date, from the daily amounts you set
+• The first five health milestones on the recovery timeline
+• Badges for the milestones you reach
 
-MONEY AND HEALTH (FREE)
-• Shows money saved and calories avoided since your start date
-• Shows the first five health milestones
-• Awards badges as you reach milestones
+PRIVACY
+• No account, no ads, no analytics and no cross-app tracking
+• Check-ins, slips and journal entries are stored on your iPhone and never sent to a server
 
-PRIVACY (FREE)
-• Works with no account or sign-up
-• Stores your data on your iPhone and shows no ads
+FREE AND BLOOM+
+Everything above is free and does not expire. Bloom+ is an optional upgrade, as a monthly or yearly subscription or a one-time lifetime purchase. Eligible new subscribers can try it free for 7 days. Bloom+ adds:
+• Your craving patterns: when cravings hit and what sets them off
+• A plan for each common trigger, with a line to say when someone offers you a drink
+• Savings and milestones projected to your goal date and a year ahead
+• The full 13-milestone health timeline with sources
+• A journal with prompts
+• More bonsai species
 
-FREE / BLOOM+
-Everything above is free. The optional Bloom+ upgrade:
-• Shows your craving patterns: when cravings hit and what sets them off
-• Builds a plan for each common trigger, with a line to say when offered a drink
-• Projects savings and milestones to your goal date and a year ahead
-• Unlocks the full 13-milestone health timeline with sources
-• Adds a journal with prompts and more bonsai species
-
-Bloom+ is monthly, yearly, or a lifetime purchase, with a 7-day free trial for eligible new subscribers. Prices appear in the app before you buy.
-
-Subscriptions renew automatically unless canceled at least 24 hours before the period ends. Manage or cancel in Settings > Apple ID > Subscriptions.
+Prices appear in the app before you buy and vary by region. Subscriptions renew automatically unless canceled at least 24 hours before the current period ends. Manage or cancel in Settings > Apple ID > Subscriptions.
 
 Sober is a wellness tracker, not medical care, diagnosis, or treatment. If stopping alcohol may put you at risk of withdrawal, contact a qualified clinician.
 

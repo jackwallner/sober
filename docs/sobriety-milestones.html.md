@@ -6,7 +6,7 @@ Web page: https://jackwallner.com/ios/sober/sobriety-milestones.html
 
 ## Sobriety Milestones: What 30, 60, 90 Days and 1 Year Mean
 
-By Jack Wallner · Last updated October 28, 2026
+By Jack Wallner · Last updated October 30, 2026
 
 Sobriety milestones are the day counts people mark on the way to a year: 24 hours, 30, 60 and 90 days, 6 and 9 months, then each anniversary. They are a custom, not a medical threshold. Alcoholics Anonymous does not issue the chips and coins itself, and each group decides its own schedule. Research does show measurable changes after about a month off alcohol, which is why the 30-day mark gets so much weight.
 
@@ -53,7 +53,7 @@ If you want help with drinking, SAMHSA's National Helpline at 1-800-662-HELP (43
 
 ## How Sober helps
 
-[Sober](https://jackwallner.com/ios/sober/) is a private day counter for iPhone and Apple Watch. It counts your days from the start date you set, shows the next milestone, and draws a bonsai that grows with each daily check-in. Achievements mark 1 week, 30 days, 90 days, 180 days and 1 year, and the health timeline lists 13 dated markers with their NIAAA, CDC and AHA sources. There is no account, and your data stays on your device. If you log a slip, the counter restarts from that date and the garden keeps part of its growth. Comparing apps? See the [I Am Sober alternatives](https://jackwallner.com/ios/sober/i-am-sober-alternative.html).
+[Sober](https://jackwallner.com/ios/sober/) is a private day counter for iPhone and Apple Watch. It counts your days from the start date you set, shows the next milestone, and draws a bonsai that grows with each daily check-in. Achievements mark 1 week, 30 days, 90 days, 180 days and 1 year, and the health timeline lists 13 dated markers with their NIAAA, CDC and AHA sources. There is no account, and your data stays on your device. If you slip, you log it and the count starts over, while your calendar, your past streaks and half of your bonsai's growth stay. Comparing apps? See the [I Am Sober alternatives](https://jackwallner.com/ios/sober/i-am-sober-alternative.html).
 
 Free day counter for iPhone, Apple Watch and Android. No account needed.
 
