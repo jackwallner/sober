@@ -19,7 +19,7 @@ General information, not medical advice. Sober is a wellness tracker, not treatm
 1. On the day you start, install Sober and set that day as your start date.
 2. On the goal step, tap **Pick a date** and choose January 31. Home counts down to it.
 3. Check in once a day. Each check-in marks the day on the calendar.
-4. Missed a day? Open it in the calendar and check in for it later.
+4. Missed a day? Open it in the calendar and tap **Log as sober**.
 5. Add a Lock Screen widget to see the count without opening the app.
 
 ## What does the calendar show?
@@ -88,5 +88,5 @@ No. Sober has no sign-up, and your data stays on your iPhone.
 
 - [Sober: Sobriety Day Counter on the App Store](https://apps.apple.com/us/app/sober-sobriety-day-counter/id6768869215?pt=128748779&ct=jw-sober-dry-january-tracker-app&mt=8)
 - [Try Dry: The Dry January app on the App Store](https://apps.apple.com/us/app/id1441293755)
-- [Alcohol Change UK: Try Dry, the Dry January app](https://alcoholchange.org.uk/help-and-support/managing-your-drinking/dry-january-app)
+- [Alcohol Change UK: Try Dry, the Dry January app](https://alcoholchange.org.uk/help-and-support/managing-your-drinking/dry-january/get-involved/the-dry-january-app)
 - [SAMHSA National Helpline](https://www.samhsa.gov/find-help/national-helpline)

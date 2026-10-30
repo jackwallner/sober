@@ -24,7 +24,7 @@ General information, not medical advice. Sober is a wellness tracker, not treatm
 | Longest streak | Kept, worked out from the corrected dates |
 | Calendar | Every sober day you counted stays, and the slip day is marked |
 
-Before you confirm, the slip screen shows exactly what you keep, including how many days of growth the tree carries over.
+The slip screen on Home shows what you keep before you confirm, including how many days of growth the tree carries over.
 
 ## Why does the counter still restart?
 
@@ -32,17 +32,19 @@ So the number stays honest. The counter shows your current run of alcohol-free d
 
 ## How do you log a slip?
 
-1. On Home, tap **I slipped**. Or open a day in the calendar and tap **Log a slip**, which works for past dates too.
-2. Add a mood or a note if you want.
+1. On Home, open the **More** menu (the three dots) and tap **I slipped**.
+2. Pick the day and add a note if you want. Any day in your current run works.
 3. Tap **Log it and keep going**.
+
+You can also open a day in the calendar, add a mood or note, tap **Log a slip** and confirm with **Log slip**.
 
 ## Logged a slip by mistake?
 
-Open that day in the calendar and undo it. The counter and the tree go back to how they were. Undo works while it is the most recent slip on your record.
+Open that day in the calendar and tap **Change to sober**. The counter and the tree go back to how they were. Undo works while it is the most recent slip on your record.
 
 ## How do other apps handle a slip?
 
-It varies. Some counters reset everything to zero, and some let you choose to keep the streak running. Sober restarts the count and keeps the garden growth, streak history and calendar. For other counters side by side, see [I Am Sober alternatives](https://jackwallner.com/ios/sober/i-am-sober-alternative.html).
+Apps differ, so check each listing. Sober restarts the count and keeps the garden growth, streak history and calendar. For other counters side by side, see [I Am Sober alternatives](https://jackwallner.com/ios/sober/i-am-sober-alternative.html).
 
 Free on the App Store. No account required.
 

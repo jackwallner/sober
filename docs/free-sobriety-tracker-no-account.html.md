@@ -46,7 +46,7 @@ What you log is stored on your iPhone and shared only with your own widgets and 
 ## What is Sober like to use each day?
 
 - Open it and the number of days is the first thing you see.
-- Check in once a day: tap sober, pick a mood, add a note if you want. Each check-in waters the bonsai.
+- Check in once a day: tap **Check in for today**, then add a mood and a note if you want. Each check-in waters the bonsai.
 - The calendar fills in as you go, and you can check in for a past day you missed.
 - When a craving hits, tap **I'm having a craving** for a full-screen breathing session.
 - Add a Lock Screen widget and you can see the count without opening the app.

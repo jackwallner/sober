@@ -8,7 +8,7 @@ Web page: https://jackwallner.com/ios/sober/drinking-craving-breathing-app.html
 
 By Jack Wallner · Last updated October 29, 2026
 
-**Yes. Sober: Sobriety Day Counter has a free craving mode: tap I'm having a craving and a full-screen box-breathing session starts, with no paywall anywhere in it.** [Get Sober on the App Store](https://apps.apple.com/us/app/sober-sobriety-day-counter/id6768869215?pt=128748779&ct=jw-sober-drinking-craving-breathing-app&mt=8). It sits inside a free alcohol-free day counter, needs no account, and keeps a log of each craving on your iPhone.
+**Yes. Sober: Sobriety Day Counter has a free craving mode: tap I'm having a craving and a full-screen box-breathing session starts, with no paywall in the session.** [Get Sober on the App Store](https://apps.apple.com/us/app/sober-sobriety-day-counter/id6768869215?pt=128748779&ct=jw-sober-drinking-craving-breathing-app&mt=8). It sits inside a free alcohol-free day counter, needs no account, and keeps a log of each craving on your iPhone.
 
 **Disclosure:** Jack Wallner makes Sober. Every detail about Sober below was checked against the app's current build. Other apps are described from their public App Store listings, linked in the sources.
 
@@ -18,13 +18,13 @@ General information, not medical advice. Sober is a wellness tracker, not treatm
 
 1. On the Home screen, tap **I'm having a craving**. A full-screen session opens.
 2. Follow the shape as it grows and shrinks: breathe in for 4 seconds, hold for 4, breathe out for 4, hold for 4, and repeat.
-3. Stay as long as you need. Tap **Give me another minute** to keep going, or **I'm through it** when you are ready.
+3. The session runs 3 minutes. Tap **Give me another minute** to add time, up to 10 minutes in all, or **I'm through it** when you are ready.
 4. Answer two optional questions: how strong it was, from 1 (mild) to 5 (overwhelming), and what set it off.
-5. Close with **It passed**, **Not sure yet** or **I gave in**. The session is logged with how long you stayed with it.
+5. Close with **It passed**, **Not sure yet** or **I gave in**. The session is logged with how long you stayed with it. **I gave in** also offers to log a slip, which you can cancel.
 
 ## What is free, and what does Bloom+ add?
 
-The breathing session, the craving log, the day counter and the calendar are free. Bloom+ reads your logged cravings back to you, such as the hours they tend to hit and what sets them off, and adds a short plan for each common trigger with a line to say when someone offers you a drink. The session itself never stops to sell you anything.
+The breathing session, the day counter and the calendar are free, and each session is saved on your iPhone. Bloom+ reads your logged cravings back to you, such as the hours they tend to hit and what sets them off, and adds a short plan for each common trigger with a line to say when someone offers you a drink. The session never stops to sell you anything. The card at the end that links to your plan for next time is part of Bloom+, and tapping it opens the Bloom+ offer unless you subscribe.
 
 ## What else is in the app?
 
@@ -46,15 +46,15 @@ Free on the App Store. No account required.
 
 ### Is Sober's craving mode free?
 
-Yes. The full breathing session and the craving log are free, with no paywall in the flow.
+Yes. The full breathing session is free, with no paywall in the flow.
 
 ### What kind of breathing exercise is it?
 
-Box breathing: in for 4 seconds, hold for 4, out for 4, hold for 4, repeated for as long as you want.
+Box breathing: in for 4 seconds, hold for 4, out for 4, hold for 4, repeated for 3 minutes, or up to 10 if you add time.
 
 ### Can I see my past cravings?
 
-Each session is logged on your iPhone. Bloom+ adds patterns from that log, such as common times and triggers.
+Each session is saved on your iPhone. The free version shows how many cravings you have ridden out. Bloom+ reads the log back as patterns, such as common times and triggers.
 
 ### Do I need an account?
 
