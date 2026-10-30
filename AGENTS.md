@@ -91,6 +91,8 @@ user's own habit spend via `HabitPriceComparison` rather than quoting figures.
 - Trial pitch indie note test (`trial_note` on the `default` offering, remote 50/50, what-to-fix alert after a trial cancel): `.claude/rules/trial-note.md`.
 - `Sober.storekit` tests the paywall in the simulator without RevenueCat dashboard config.
 - SwiftData migrations: any change to a `@Model`'s stored properties needs a schema migration (lightweight is fine for now; wipe-and-retry on corruption).
+- `DailyCheckIn.day` is the instant of local midnight, so it is zone-bound. `CheckInService.normalizeDayKeys` re-keys every row to the current zone (remembered in `checkInDayKeyZone`) and merges same-day duplicates before any fill or check-in. Walk days with `CheckInService.calendarDays`, never by adding a day to a start of day: zones that skip midnight for DST start that day at 01:00.
+- Daily spend controls scale by currency (`SpendScale`): 20/5/200 times a rough local unit per US dollar.
 - Widget snapshots are decoupled from SwiftData via `WidgetSnapshotStore` so the widget doesn't need a SwiftData schema.
 
 ## Android port

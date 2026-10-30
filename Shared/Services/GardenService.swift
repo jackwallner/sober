@@ -101,6 +101,7 @@ final class GardenService {
     func water(at date: Date = .now) {
         let state = current()
         state.lastWateredAt = date
+        state.vitalityDecayDays = 0
         state.vitality = min(1.0, state.vitality + 0.25)
         context.saveOrReport()
     }
@@ -109,12 +110,18 @@ final class GardenService {
     /// Recovery-first by design: floored at 0.3 so a returning user never finds
     /// a "dead" garden, and a single check-in (`water`) immediately perks it
     /// back up. Does nothing until the first-ever check-in sets `lastWateredAt`.
+    ///
+    /// Home calls this on every appearance, so only days not yet charged are
+    /// taken off: subtracting the full gap each time dulled the tree a little
+    /// more with every tab switch.
     func applyVitalityDecay(asOf date: Date = .now) {
         let state = current()
         guard let last = state.lastWateredAt else { return }
         let daysMissed = DateHelpers.daysBetween(last, date)
-        guard daysMissed > 0 else { return }
-        state.vitality = max(0.3, state.vitality - Double(daysMissed) * 0.1)
+        let uncharged = daysMissed - state.vitalityDecayDays
+        guard uncharged > 0 else { return }
+        state.vitality = max(0.3, state.vitality - Double(uncharged) * 0.1)
+        state.vitalityDecayDays = daysMissed
         context.saveOrReport()
     }
 

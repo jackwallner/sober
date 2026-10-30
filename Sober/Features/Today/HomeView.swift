@@ -25,6 +25,7 @@ struct HomeView: View {
     @State private var week: [TendedDay] = []
     @State private var todayWasSlip = false
     @State private var checkedInToday = false
+    @State private var todayHasNote = false
     @State private var daysMissed = 0
     @State private var showSettings = false
     @State private var showCustomize = false
@@ -144,7 +145,7 @@ struct HomeView: View {
                     WidgetSnapshotPump.push(context: context)
                 }
             } message: {
-                Text("Your day counter will restart at zero. Your history is kept.")
+                Text("Your day counter will restart at day 1. Your history is kept.")
             }
             // The trial note promised "tell us what to fix". See `TrialNote`.
             .alert("Your trial won't renew", isPresented: $showWhatToFix) {
@@ -205,7 +206,10 @@ struct HomeView: View {
             }
             // A check-in opens this sheet at once, so the ask scheduled by the
             // check-in usually finds it still up. Retry once it closes.
-            .sheet(isPresented: $showCheckInDetail, onDismiss: scheduleReviewRequestAfterPositiveMoment) {
+            .sheet(isPresented: $showCheckInDetail, onDismiss: {
+                refreshCheckInState()
+                scheduleReviewRequestAfterPositiveMoment()
+            }) {
                 CheckInDetailSheet()
                     .presentationDetents([.height(320)])
             }
@@ -401,6 +405,14 @@ struct HomeView: View {
         return 246 + stageBoost + min(120, CGFloat(gardenContentScore) * 16)
     }
 
+    private func trialRecapTitle(_ remaining: Int) -> String {
+        switch remaining {
+        case 0: String(localized: "Your Bloom+ trial ends today")
+        case 1: String(localized: "Your Bloom+ trial ends tomorrow")
+        default: String(localized: "Your Bloom+ trial ends in \(remaining) days")
+        }
+    }
+
     /// Final-stretch heads-up while a Bloom+ trial is running. Leads with what
     /// the trial has been worth so the decision is about value, not about a
     /// charge appearing out of nowhere.
@@ -413,7 +425,7 @@ struct HomeView: View {
                     .foregroundStyle(Theme.brandPrimary)
                     .frame(width: 28)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(remaining == 1 ? "Your Bloom+ trial ends tomorrow" : "Your Bloom+ trial ends in \(remaining) days")
+                    Text(trialRecapTitle(remaining))
                         .font(Theme.subhead(weight: .semibold))
                         .foregroundStyle(Theme.textPrimary)
                     Text(trialRecapDetail)
@@ -544,7 +556,7 @@ struct HomeView: View {
                 }
                 Spacer(minLength: 0)
                 Button { showCheckInDetail = true } label: {
-                    Text("Add note")
+                    Text(todayHasNote ? "Edit note" : "Add note")
                         .font(Theme.caption(weight: .semibold))
                 }
                 .buttonStyle(.bordered)
@@ -648,6 +660,7 @@ struct HomeView: View {
         let svc = CheckInService(context: context)
         checkedInToday = svc.hasCheckedIn()
         todayWasSlip = svc.loggedSlip()
+        todayHasNote = !(svc.detail().note ?? "").isEmpty
         daysMissed = svc.daysSinceLastCheckIn()
         lifetimeSoberDays = svc.lifetimeSoberDayCount()
         bestStreak = SobrietyService(context: context).longestStreakDays()
@@ -888,6 +901,7 @@ private struct CheckInDetailSheet: View {
     @Environment(\.dismiss) private var dismiss
     @State private var mood: Int?
     @State private var note: String = ""
+    @State private var loaded = false
 
     private let symbols = ["cloud.rain.fill", "cloud.fill", "cloud.sun.fill", "sun.max.fill", "sparkles"]
     private let moodLabels = [
@@ -944,6 +958,9 @@ private struct CheckInDetailSheet: View {
             .background(Theme.background)
             .navigationTitle("Checked in")
             .navigationBarTitleDisplayMode(.inline)
+            // Opens on what today already holds: an empty field here used to
+            // replace the note saved earlier in the day.
+            .onAppear(perform: load)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("Checked in")
@@ -963,11 +980,16 @@ private struct CheckInDetailSheet: View {
         }
     }
 
+    private func load() {
+        guard !loaded else { return }
+        loaded = true
+        let saved = CheckInService(context: context).detail()
+        mood = saved.mood
+        note = saved.note ?? ""
+    }
+
     private func save() {
-        let trimmed = note.trimmingCharacters(in: .whitespacesAndNewlines)
-        if mood != nil || !trimmed.isEmpty {
-            CheckInService(context: context).checkIn(mood: mood, note: trimmed.isEmpty ? nil : trimmed)
-        }
+        CheckInService(context: context).saveDetail(mood: mood, note: note)
         dismiss()
     }
 }
@@ -1344,7 +1366,9 @@ struct ProgressSheet: View {
         // a non-subscriber's hard-won "Perfect Week" look identical to one
         // they'd never earned, which punishes loyalty.
         let everEarned = unlockedAchievements.contains { $0.achievementID == a.id }
-        let unlocked = everEarned || days >= a.dayThreshold
+        // A streak badge counts check-ins, which the day counter does not
+        // know about, so only the trophy case can say it was earned.
+        let unlocked = everEarned || (a.kind == .timeMilestone && days >= a.dayThreshold)
         return HStack(spacing: Theme.Space.m) {
             Image(systemName: a.icon)
                 .font(.title3)

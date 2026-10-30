@@ -86,7 +86,13 @@ enum SlipRecorder {
             sobriety.resetJourney(startingAt: dayAfter, endingPreviousOn: day)
         }
 
-        let carryover = garden.recordSlip(previousStreakDays: previousStreak)
+        // An older slip leaves the live run, and so the live tree, as it was.
+        // Recording it in the garden halved the tree again, overwrote the
+        // undo snapshot of the latest slip, and reset the grove baseline so a
+        // finished cycle was counted twice.
+        let carryover = alreadyRestarted
+            ? garden.current().carryoverDays
+            : garden.recordSlip(previousStreakDays: previousStreak)
         WidgetSnapshotPump.push(context: context)
 
         return Outcome(previousStreakDays: previousStreak, carryoverDays: carryover)

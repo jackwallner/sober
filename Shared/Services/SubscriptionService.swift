@@ -423,7 +423,15 @@ final class SubscriptionService: NSObject {
         defer { purchaseInFlight = false }
 
         let startedTrial = isEligibleForIntroOffer(package)
-        let result = try await client.purchase(package: package)
+        let result: PurchaseResultData
+        do {
+            result = try await client.purchase(package: package)
+        } catch where Self.isDeferredPayment(error) {
+            // Ask to Buy and bank approval arrive as an error, not as a
+            // pending result, so they read as a failed purchase and invited a
+            // second request. The entitlement lands later through the delegate.
+            return .pending
+        }
         let state = processPurchaseResult(
             customerInfo: result.customerInfo,
             userCancelled: result.userCancelled
@@ -437,6 +445,10 @@ final class SubscriptionService: NSObject {
             syncConversionAttributes()
         }
         return state
+    }
+
+    nonisolated static func isDeferredPayment(_ error: Error) -> Bool {
+        (error as? RevenueCat.ErrorCode) == .paymentPendingError
     }
 
     func restorePurchases() async {

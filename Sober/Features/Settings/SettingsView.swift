@@ -101,11 +101,15 @@ struct SettingsView: View {
                         }
                     }
                     Section {
-                        Stepper(value: bind(\.costPerDayCents, on: s), in: 0...20000, step: 100) {
+                        Stepper(
+                            value: bind(\.costPerDayCents, on: s),
+                            in: 0...(SpendScale.current.maxDaily * 100),
+                            step: SpendScale.current.unit * 100
+                        ) {
                             HStack {
                                 Text("Cost per day")
                                 Spacer()
-                                Text(Double(s.costPerDayCents / 100).formatted(.currency(code: Locale.current.currency?.identifier ?? "USD").precision(.fractionLength(0))))
+                                Text(Double(s.costPerDayCents / 100).formatted(.currency(code: SpendScale.currentCode).precision(.fractionLength(0))))
                                     .foregroundStyle(Theme.textSecondary)
                                     .monospacedDigit()
                             }

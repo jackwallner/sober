@@ -121,6 +121,7 @@ private struct JournalEntryDetailSheet: View {
     let entry: JournalEntry
     @State private var isEditing = false
     @State private var editedText = ""
+    @State private var confirmDelete = false
 
     private var promptText: String? {
         guard let id = entry.promptID else { return nil }
@@ -185,10 +186,10 @@ private struct JournalEntryDetailSheet: View {
                 }
                 ToolbarItem(placement: .topBarLeading) {
                     HStack {
+                        // It shares a capsule with Edit, so one stray tap
+                        // used to destroy the entry for good.
                         Button(role: .destructive) {
-                            context.delete(entry)
-                            context.saveOrReport()
-                            dismiss()
+                            confirmDelete = true
                         } label: {
                             Image(systemName: "trash")
                         }
@@ -205,6 +206,14 @@ private struct JournalEntryDetailSheet: View {
                         }
                     }
                 }
+            }
+            .confirmationDialog("Delete this entry?", isPresented: $confirmDelete, titleVisibility: .visible) {
+                Button("Delete entry", role: .destructive) {
+                    context.delete(entry)
+                    context.saveOrReport()
+                    dismiss()
+                }
+                Button("Cancel", role: .cancel) {}
             }
         }
     }
