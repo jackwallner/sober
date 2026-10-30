@@ -31,5 +31,5 @@ Payment is charged to your Apple ID after trial confirmation. Subscriptions rene
 
 Sober is a wellness tracker, not medical care, diagnosis, or treatment. If stopping alcohol may put you at risk of withdrawal, contact a qualified clinician.
 
-Privacy: https://jackwallner.github.io/sober/privacy-policy.html
+Privacy: https://jackwallner.com/ios/sober/privacy-policy.html
 Terms (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

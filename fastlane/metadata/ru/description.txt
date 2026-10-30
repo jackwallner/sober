@@ -28,5 +28,5 @@ BLOOM+ (НЕОБЯЗАТЕЛЬНО)
 
 Sober помогает следить за самочувствием и не заменяет медицинскую помощь, диагностику или лечение. Если прекращение употребления алкоголя может вызвать опасную абстиненцию, обратитесь к квалифицированному медицинскому специалисту.
 
-Конфиденциальность: https://jackwallner.github.io/sober/privacy-policy.html
+Конфиденциальность: https://jackwallner.com/ios/sober/privacy-policy.html
 Условия использования (стандартная лицензия Apple): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

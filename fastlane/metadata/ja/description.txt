@@ -19,4 +19,4 @@ BLOOM+（オプション）
 無料ダウンロード。いつでもBloom+にアップグレード。
 
 利用規約（Apple標準のEULA）：https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
-プライバシーポリシー：https://jackwallner.github.io/sober/privacy-policy.html
+プライバシーポリシー：https://jackwallner.com/ios/sober/privacy-policy.html

@@ -28,5 +28,5 @@ Die Zahlung wird nach Bestätigung des Probezeitraums über deine Apple ID abger
 
 Sober ist ein Wellness-Tracker und ersetzt keine medizinische Beratung, Diagnose oder Behandlung. Wenn ein Alkoholentzug für dich riskant sein könnte, wende dich an medizinisches Fachpersonal.
 
-Datenschutz: https://jackwallner.github.io/sober/privacy-policy.html
+Datenschutz: https://jackwallner.com/ios/sober/privacy-policy.html
 Nutzungsbedingungen (Apples Standard-EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

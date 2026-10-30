@@ -28,5 +28,5 @@ BLOOM+ (اختياري)
 
 Sober تطبيق للعافية ولا يحل محل الرعاية الطبية أو التشخيص أو العلاج. إذا كان التوقف عن الكحول قد يعرّضك لخطر أعراض الانسحاب، فتواصل مع مختص صحي مؤهل.
 
-الخصوصية: https://jackwallner.github.io/sober/privacy-policy.html
+الخصوصية: https://jackwallner.com/ios/sober/privacy-policy.html
 شروط الاستخدام (اتفاقية Apple القياسية): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
