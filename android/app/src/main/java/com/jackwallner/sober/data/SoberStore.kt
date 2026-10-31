@@ -143,12 +143,19 @@ class SoberStore(
     // MARK: - Onboarding
 
     /** `persistSetup`: idempotent, so every step can call it. */
-    fun persistSetup(start: Instant, costPerDayCents: Int, caloriesPerDay: Int, remindersOptIn: Boolean) = update { old ->
+    fun persistSetup(
+        start: Instant,
+        costPerDayCents: Int,
+        caloriesPerDay: Int,
+        remindersOptIn: Boolean,
+        currencyCode: String = settings.currencyCode,
+    ) = update { old ->
         val clamped = minOf(start, clock.now())
         val withJourney = if (JourneyDays.active(old) == null) SoberEngine.startJourney(old, clamped, clock)
         else SoberEngine.changeStart(old, clamped, clock)
         withJourney.copy(settings = withJourney.settings.copy(
             costPerDayCents = costPerDayCents,
+            currencyCode = currencyCode,
             caloriesPerDay = caloriesPerDay,
             dailyReminderEnabled = remindersOptIn,
             madeCommitment = false,

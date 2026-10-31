@@ -44,6 +44,7 @@ import com.jackwallner.sober.BuildConfig
 import com.jackwallner.sober.data.PitchIntent
 import com.jackwallner.sober.data.PitchPolicy
 import com.jackwallner.sober.data.StoreLinks
+import com.jackwallner.sober.model.SpendScale
 import com.jackwallner.sober.ui.Format
 import com.jackwallner.sober.ui.LocalGraph
 import com.jackwallner.sober.ui.openUrl
@@ -209,6 +210,7 @@ fun SettingsScreen(onClose: () -> Unit) {
                     }
                 }
             }
+            val spend = remember { SpendScale.current() }
             InsetSection("Cost & Calories", footer = "Used to estimate money and calories saved while you stay sober.") {
                 Item {
                     StepperRow(
@@ -217,9 +219,9 @@ fun SettingsScreen(onClose: () -> Unit) {
                             Text(Format.currencyFromCents(settings.costPerDayCents), style = SoberType.body(), color = SoberColors.textSecondary)
                         },
                         canDecrement = settings.costPerDayCents > 0,
-                        canIncrement = settings.costPerDayCents < 20_000,
-                        onDecrement = { store.updateSettings { it.copy(costPerDayCents = maxOf(0, it.costPerDayCents - 100)) } },
-                        onIncrement = { store.updateSettings { it.copy(costPerDayCents = minOf(20_000, it.costPerDayCents + 100)) } },
+                        canIncrement = settings.costPerDayCents < spend.maxDaily * 100,
+                        onDecrement = { store.updateSettings { it.copy(costPerDayCents = maxOf(0, it.costPerDayCents - spend.unit * 100)) } },
+                        onIncrement = { store.updateSettings { it.copy(costPerDayCents = minOf(spend.maxDaily * 100, it.costPerDayCents + spend.unit * 100)) } },
                         decrementLabel = "Lower cost per day",
                         incrementLabel = "Raise cost per day",
                     )

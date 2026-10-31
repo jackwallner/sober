@@ -66,6 +66,7 @@ import com.jackwallner.sober.data.StoreLinks
 import com.jackwallner.sober.data.SubscriptionService
 import com.jackwallner.sober.data.TrialSubsequentPitchGate
 import com.jackwallner.sober.model.JourneyDays
+import com.jackwallner.sober.model.SpendScale
 import com.jackwallner.sober.ui.Format
 import com.jackwallner.sober.ui.LocalGraph
 import com.jackwallner.sober.ui.findActivity
@@ -105,7 +106,8 @@ fun OnboardingScreen() {
 
     var step by rememberSaveable { mutableIntStateOf(0) }
     var startDay by rememberSaveable { mutableStateOf(graph.clock.today().toString()) }
-    var costPerDay by rememberSaveable { mutableFloatStateOf(20f) }
+    val spendScale = remember { SpendScale.current() }
+    var costPerDay by rememberSaveable { mutableFloatStateOf(spendScale.defaultDaily.toFloat()) }
     var caloriesPerDay by rememberSaveable { mutableFloatStateOf(600f) }
     var trialInFlight by remember { mutableStateOf(false) }
     var resolutionInFlight by remember { mutableStateOf(false) }
@@ -122,7 +124,7 @@ fun OnboardingScreen() {
     fun startInstant(): Instant =
         minOf(startDate.atTime(LocalTime.now(graph.clock.zone())).atZone(graph.clock.zone()).toInstant(), graph.clock.now())
 
-    fun persistSetup() = store.persistSetup(startInstant(), (costPerDay * 100).toInt(), caloriesPerDay.toInt(), remindersOptIn)
+    fun persistSetup() = store.persistSetup(startInstant(), (costPerDay * 100).toInt(), caloriesPerDay.toInt(), remindersOptIn, SpendScale.currentCode())
 
     fun finishOnboarding() {
         if (step == 4) return
@@ -254,7 +256,7 @@ fun OnboardingScreen() {
                 when (current) {
                     1 -> StartDateStep(startDate, graph.clock.today(), onPick = { startDay = it.toString() }) { step = 2 }
                     2 -> SavingsStep(
-                        costPerDay, caloriesPerDay,
+                        costPerDay, caloriesPerDay, spendScale,
                         onCost = { costPerDay = it }, onCalories = { caloriesPerDay = it },
                         inFlight = resolutionInFlight, error = resolutionError,
                         onStartFree = ::finishOnboarding, onContinue = ::resolveTrialAndContinue,
@@ -421,6 +423,7 @@ private fun StartDateStep(selected: LocalDate, today: LocalDate, onPick: (LocalD
 private fun SavingsStep(
     cost: Float,
     calories: Float,
+    spendScale: SpendScale,
     onCost: (Float) -> Unit,
     onCalories: (Float) -> Unit,
     inFlight: Boolean,
@@ -443,8 +446,8 @@ private fun SavingsStep(
                 )
                 Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(Space.s)) {
                     Text("Typical daily spend", style = SoberType.subhead(), color = Color.White.copy(alpha = 0.82f))
-                    Text("$${cost.toInt()} / day", style = SoberType.rounded(if (compactHeight()) 34.sp else 44.sp, FontWeight.Bold), color = Color.White)
-                    SoberSlider(cost, onCost, 0f..200f, 5f, Color.White, Color.White.copy(alpha = 0.3f),
+                    Text("${Format.currency(cost.toDouble())} / day", style = SoberType.rounded(if (compactHeight()) 34.sp else 44.sp, FontWeight.Bold), color = Color.White)
+                    SoberSlider(cost, onCost, 0f..spendScale.maxDaily.toFloat(), spendScale.step.toFloat(), Color.White, Color.White.copy(alpha = 0.3f),
                         modifier = Modifier.testTagCompat("onboarding.costSlider").semantics { contentDescription = "Typical daily spend" })
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(Space.s)) {
