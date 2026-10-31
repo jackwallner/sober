@@ -124,6 +124,7 @@ fun HomeScreen() {
     val dayInCycle = GardenGrowth.cycle(treeDays).dayInCycle
     val stage = GardenGrowth.stage(treeDays)
     val checkedInToday = store.hasCheckedIn()
+    val todayHasNote = !store.todayDetail().second.isNullOrEmpty()
     val todayWasSlip = store.loggedSlip()
     val daysMissed = store.daysSinceLastCheckIn()
     val week = TendedWeek.days(store.today, state.checkIns)
@@ -284,6 +285,7 @@ fun HomeScreen() {
                         )
                         CheckInControl(
                             checkedInToday = checkedInToday,
+                            todayHasNote = todayHasNote,
                             todayWasSlip = todayWasSlip,
                             daysMissed = daysMissed,
                             week = week,
@@ -467,6 +469,7 @@ private fun TrialRecapBanner(remaining: Int, summary: String?, onDismiss: () -> 
 @Composable
 private fun CheckInControl(
     checkedInToday: Boolean,
+    todayHasNote: Boolean,
     todayWasSlip: Boolean,
     daysMissed: Int,
     week: List<com.jackwallner.sober.model.TendedDay>,
@@ -523,7 +526,7 @@ private fun CheckInControl(
                     Text("${TendedWeek.tendedCount(week)}/7 tended", style = SoberType.caption(), color = SoberColors.textSecondary, maxLines = 1)
                 }
             }
-            BorderedButton("Add note", small = true, onClick = onAddNote)
+            BorderedButton(if (todayHasNote) "Edit note" else "Add note", small = true, onClick = onAddNote)
         }
         else -> Column(
             Modifier.fillMaxWidth()
@@ -572,16 +575,17 @@ private fun CravingControl(urge: String, onClick: () -> Unit) {
 @Composable
 private fun CheckInDetailSheet(onClose: () -> Unit) {
     val store = LocalGraph.current.store
-    var mood by remember { mutableStateOf<Int?>(null) }
-    var note by remember { mutableStateOf("") }
+    // Opens on what today already holds: an empty field here used to replace the note saved earlier in the day.
+    val saved = remember { store.todayDetail() }
+    var mood by remember { mutableStateOf(saved.first) }
+    var note by remember { mutableStateOf(saved.second.orEmpty()) }
     Column(Modifier.fillMaxWidth()) {
         SheetBar(
             "Checked in",
             leading = { TextAction("Skip", onClick = onClose) },
             trailing = {
                 TextAction("Save", style = SoberType.body(FontWeight.SemiBold)) {
-                    val trimmed = note.trim()
-                    if (mood != null || trimmed.isNotEmpty()) store.addTodayDetail(mood, trimmed.ifEmpty { null })
+                    store.addTodayDetail(mood, note)
                     onClose()
                 }
             },

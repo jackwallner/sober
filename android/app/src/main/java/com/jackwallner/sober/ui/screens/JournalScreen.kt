@@ -45,6 +45,7 @@ import com.jackwallner.sober.ui.theme.LargeTitle
 import com.jackwallner.sober.ui.theme.PlainTextField
 import com.jackwallner.sober.ui.theme.SegmentedPicker
 import com.jackwallner.sober.ui.theme.SheetBar
+import com.jackwallner.sober.ui.theme.SoberAlert
 import com.jackwallner.sober.ui.theme.SheetHeight
 import com.jackwallner.sober.ui.theme.SoberColors
 import com.jackwallner.sober.ui.theme.SoberSheet
@@ -175,15 +176,29 @@ private fun EntryDetailSheet(entry: JournalEntry, onClose: () -> Unit) {
     val graph = LocalGraph.current
     var editing by remember { mutableStateOf(false) }
     var edited by remember { mutableStateOf(entry.text) }
+    var confirmDelete by remember { mutableStateOf(false) }
     val prompt = entry.promptId?.let { id -> graph.content.prompts.firstOrNull { it.id == id }?.text }
+    if (confirmDelete) {
+        SoberAlert(
+            title = "Delete this entry?",
+            message = null,
+            confirmTitle = "Delete entry",
+            dismissTitle = "Cancel",
+            destructive = true,
+            onConfirm = {
+                confirmDelete = false
+                graph.store.deleteJournalEntry(entry.id)
+                onClose()
+            },
+            onDismiss = { confirmDelete = false },
+        )
+    }
     Column(Modifier.fillMaxSize()) {
         SheetBar(
             if (entry.kind == JournalKind.FREEFORM) "Free Write" else "Entry",
             leading = {
-                BarIcon("trash", "Delete entry", tint = SoberColors.danger) {
-                    graph.store.deleteJournalEntry(entry.id)
-                    onClose()
-                }
+                // It shares a bar with Edit, so one stray tap used to destroy the entry for good.
+                BarIcon("trash", "Delete entry", tint = SoberColors.danger) { confirmDelete = true }
                 if (!editing) BarIcon("pencil", "Edit entry") {
                     edited = entry.text
                     editing = true

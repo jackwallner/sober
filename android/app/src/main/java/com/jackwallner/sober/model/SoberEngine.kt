@@ -50,6 +50,24 @@ object SoberEngine {
         return state.copy(checkIns = (state.checkIns.filterNot { it.day == day } + entry).sortedBy { it.day })
     }
 
+    /** The mood and note saved for a day, so the note sheet opens on what is already there. */
+    fun detail(state: SoberState, day: LocalDate): Pair<Int?, String?> =
+        state.checkIns.firstOrNull { it.day == day }?.let { it.mood to it.note } ?: (null to null)
+
+    /**
+     * Saves the note sheet's edit exactly as written: a cleared note clears and
+     * the day's sober or slip answer is left alone. [checkIn] keeps an old note
+     * for a null one and marks the day sober, which is right for a tap and wrong
+     * for an edit.
+     */
+    fun saveDetail(state: SoberState, day: LocalDate, mood: Int?, note: String?): SoberState {
+        val text = note?.trim()?.ifEmpty { null }
+        val old = state.checkIns.firstOrNull { it.day == day }
+        if (old == null && mood == null && text == null) return state
+        val entry = (old ?: CheckIn(day)).copy(mood = mood?.coerceIn(1, 5), note = text, wasLogged = true)
+        return state.copy(checkIns = (state.checkIns.filterNot { it.day == day } + entry).sortedBy { it.day })
+    }
+
     fun fillJourney(state: SoberState, through: LocalDate, clock: AppClock): SoberState {
         val start = JourneyDays.active(state)?.start?.atZone(clock.zone())?.toLocalDate() ?: return state
         if (start > through) return state

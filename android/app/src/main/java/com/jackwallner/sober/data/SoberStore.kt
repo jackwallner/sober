@@ -189,7 +189,11 @@ class SoberStore(
 
     fun checkInToday() = update { SoberEngine.water(SoberEngine.checkIn(it, today), clock) }
 
-    fun addTodayDetail(mood: Int?, note: String?) = update { SoberEngine.checkIn(it, today, mood = mood, note = note) }
+    /** The mood and note saved today, so the note sheet opens on them instead of an empty field. */
+    fun todayDetail(): Pair<Int?, String?> = SoberEngine.detail(state, today)
+
+    /** Saves the note sheet's edit exactly; a cleared note clears and a slip day stays a slip. */
+    fun addTodayDetail(mood: Int?, note: String?) = update { SoberEngine.saveDetail(it, today, mood, note) }
 
     /** "Still sober" after an absence. */
     fun backfillAndWater() = update { SoberEngine.water(SoberEngine.backfillSoberDays(it, today), clock) }
