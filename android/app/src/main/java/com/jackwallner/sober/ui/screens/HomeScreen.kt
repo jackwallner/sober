@@ -332,7 +332,7 @@ fun HomeScreen() {
     if (showResetAlert) {
         SoberAlert(
             title = "Reset sobriety counter?",
-            message = "Your day counter will restart at zero. Your history is kept.",
+            message = "Your day counter will restart at day 1. Your history is kept.",
             confirmTitle = "Reset",
             dismissTitle = "Cancel",
             destructive = true,
@@ -451,7 +451,11 @@ private fun TrialRecapBanner(remaining: Int, summary: String?, onDismiss: () -> 
         SymbolIcon("sparkles", SoberColors.brandPrimary, 24.dp, Modifier.width(28.dp))
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
             Text(
-                if (remaining == 1) "Your Bloom+ trial ends tomorrow" else "Your Bloom+ trial ends in $remaining days",
+                when (remaining) {
+                    0 -> "Your Bloom+ trial ends today"
+                    1 -> "Your Bloom+ trial ends tomorrow"
+                    else -> "Your Bloom+ trial ends in $remaining days"
+                },
                 style = SoberType.subhead(FontWeight.SemiBold), color = SoberColors.textPrimary,
             )
             Text(detail, style = SoberType.caption(), color = SoberColors.textSecondary)

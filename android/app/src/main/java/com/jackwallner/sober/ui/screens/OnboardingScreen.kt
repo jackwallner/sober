@@ -295,7 +295,7 @@ fun OnboardingScreen() {
         SoberAlert(
             title = "Keep the free version?",
             message = "You'll keep the day counter, the calendar, and your tree. Your year-ahead projection, the full health timeline, the journal, and the other species stay locked.",
-            confirmTitle = "Keep my free trial",
+            confirmTitle = if (offerIncludesTrial) "Keep my free trial" else "Back",
             dismissTitle = "Get started",
             onConfirm = { showSkipConfirm = false },
             onDismiss = {

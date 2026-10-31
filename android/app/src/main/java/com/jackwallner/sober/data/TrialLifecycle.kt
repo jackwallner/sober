@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.jackwallner.sober.model.AppClock
+import java.time.Instant
+import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 
 /**
@@ -27,10 +29,7 @@ class TrialLifecycle(
 
     fun daysRemaining(): Int? {
         val end = endsAtMillis ?: return null
-        val now = clock.now().toEpochMilli()
-        if (end <= now) return null
-        val days = ChronoUnit.DAYS.between(clock.now(), java.time.Instant.ofEpochMilli(end)).toInt()
-        return maxOf(1, days)
+        return daysRemaining(Instant.ofEpochMilli(end), clock.now(), clock.zone())
     }
 
     var recapSummary: String?
@@ -88,6 +87,17 @@ class TrialLifecycle(
     }
 
     companion object {
+        /**
+         * Calendar days until the trial's last day: 0 on that day, 1 the day
+         * before. Counting whole 24-hour blocks and rounding "less than a day"
+         * up to 1 told someone "ends tomorrow" hours before the charge.
+         */
+        fun daysRemaining(endsAt: Instant, now: Instant, zone: ZoneId): Int? {
+            if (endsAt <= now) return null
+            val days = ChronoUnit.DAYS.between(now.atZone(zone).toLocalDate(), endsAt.atZone(zone).toLocalDate())
+            return maxOf(0, days.toInt())
+        }
+
         const val RECAP_LEAD_DAYS = 3
         private const val ENDS_AT = "trialLifecycle.endsAt"
         private const val RECAP_SUMMARY = "trialLifecycle.recapSummary"

@@ -187,7 +187,9 @@ class PitchScheduler(
             coordinator.pendingRequest != null || !nudges.canShow()
         ) return
         delay((delaySeconds * 1000).toLong())
-        if (subscriptions.isPro || coordinator.pendingRequest != null) return
+        // Checked again after the wait: a paywall shown and closed inside it
+        // restarted the cooldown, and this one would follow it straight away.
+        if (!passiveNudgeStillAllowed(subscriptions.isPro, coordinator.pendingRequest != null, nudges.canShow())) return
         coordinator.request(intent, PitchPolicy.SUBSEQUENT_PASSIVE)
     }
 
@@ -204,3 +206,7 @@ class PitchScheduler(
         coordinator.request(intent, PitchPolicy.SUBSEQUENT_PASSIVE)
     }
 }
+
+/** The guard `PitchScheduler.passiveNudge` re-runs once its delay has passed. */
+internal fun passiveNudgeStillAllowed(isPro: Boolean, hasPendingRequest: Boolean, cooldownElapsed: Boolean): Boolean =
+    !isPro && !hasPendingRequest && cooldownElapsed
