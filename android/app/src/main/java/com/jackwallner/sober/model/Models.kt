@@ -69,6 +69,8 @@ data class GardenState(
     val groveCountAtJourneyStart: Int = 0,
     val carryoverDays: Int = 0,
     val carryoverBeforeSlip: Int = 0,
+    /** Missed days since [lastWateredAt] already taken off [vitality], so each is charged once. */
+    val vitalityDecayDays: Int = 0,
 ) {
     companion object { const val FREE_SPECIES = "traditional-bonsai" }
 }

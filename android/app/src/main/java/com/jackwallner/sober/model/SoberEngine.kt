@@ -106,14 +106,18 @@ object SoberEngine {
     }
 
     fun water(state: SoberState, clock: AppClock): SoberState = state.copy(garden = state.garden.copy(
-        vitality = minOf(1.0, state.garden.vitality + 0.25), lastWateredAt = clock.now(),
+        vitality = minOf(1.0, state.garden.vitality + 0.25), lastWateredAt = clock.now(), vitalityDecayDays = 0,
     ))
 
     fun decayVitality(state: SoberState, clock: AppClock): SoberState {
         val last = state.garden.lastWateredAt ?: return state
         val missed = ChronoUnit.DAYS.between(last.atZone(clock.zone()).toLocalDate(), clock.today()).toInt()
-        if (missed <= 0) return state
-        return state.copy(garden = state.garden.copy(vitality = maxOf(0.3, state.garden.vitality - missed * 0.1)))
+        val uncharged = missed - state.garden.vitalityDecayDays
+        if (uncharged <= 0) return state
+        return state.copy(garden = state.garden.copy(
+            vitality = maxOf(0.3, state.garden.vitality - uncharged * 0.1),
+            vitalityDecayDays = missed,
+        ))
     }
 
     fun recordSlip(
@@ -139,6 +143,8 @@ object SoberEngine {
             val start = minOf(restartDay.atStartOfDay(clock.zone()).toInstant(), clock.now())
             next = next.copy(journeys = journeys + Journey(start = start))
         }
+        // An older slip leaves the live run, and so the live tree, as it was.
+        if (alreadyRestarted) return next
         val had = GardenGrowth.treeDays(previousStreak, state.garden.carryoverDays)
         return next.copy(garden = state.garden.copy(
             carryoverBeforeSlip = state.garden.carryoverDays,
@@ -198,8 +204,9 @@ object SoberEngine {
         return state.copy(garden = state.garden.copy(speciesId = speciesId))
     }
 
+    /** Streak badges say "check-ins", so a day the app only assumed is sober does not count. */
     fun longestSoberStreak(state: SoberState): Int {
-        val days = state.checkIns.filter { it.wasSober }.map { it.day }.distinct().sorted()
+        val days = state.checkIns.filter { it.wasSober && it.wasLogged }.map { it.day }.distinct().sorted()
         if (days.isEmpty()) return 0
         var longest = 1
         var current = 1

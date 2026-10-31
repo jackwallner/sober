@@ -74,6 +74,7 @@ object SoberCodec {
             put("groveCountAtJourneyStart", state.garden.groveCountAtJourneyStart)
             put("carryoverDays", state.garden.carryoverDays)
             put("carryoverBeforeSlip", state.garden.carryoverBeforeSlip)
+            put("vitalityDecayDays", state.garden.vitalityDecayDays)
         })
         put("earnedAchievementIds", JSONArray(state.earnedAchievementIds.sorted()))
     }.toString()
@@ -123,6 +124,7 @@ object SoberCodec {
                 groveCountAtJourneyStart = garden.getInt("groveCountAtJourneyStart").coerceAtLeast(0),
                 carryoverDays = garden.optInt("carryoverDays", 0).coerceIn(0, 364),
                 carryoverBeforeSlip = garden.optInt("carryoverBeforeSlip", 0).coerceIn(0, 364),
+                vitalityDecayDays = garden.optInt("vitalityDecayDays", 0).coerceAtLeast(0),
             ),
             earnedAchievementIds = json.getJSONArray("earnedAchievementIds").strings().toSet(),
         )
