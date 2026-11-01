@@ -4,9 +4,17 @@ import XCTest
 final class TrialNoteTests: XCTestCase {
     private var defaults: UserDefaults!
 
+    private var suite = ""
+
+    /// A fresh suite per test: a reused simulator can still hold a shared
+    /// suite's values after removePersistentDomain.
     override func setUp() {
-        defaults = UserDefaults(suiteName: "TrialNoteTests")
-        defaults.removePersistentDomain(forName: "TrialNoteTests")
+        suite = "TrialNoteTests-\(UUID().uuidString)"
+        defaults = UserDefaults(suiteName: suite)
+    }
+
+    override func tearDown() {
+        defaults.removePersistentDomain(forName: suite)
     }
 
     func testMissingOrUnknownMetadataIsTheLivePitch() {
