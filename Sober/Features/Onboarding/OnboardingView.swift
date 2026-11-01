@@ -65,6 +65,7 @@ struct OnboardingView: View {
         }
         .task {
             ConversionDiagnostics.record(.onboardingReached)
+            restoreSavedSetup()
             #if canImport(RevenueCat)
             if subscriptions.isConfigured, subscriptions.packages.isEmpty {
                 await subscriptions.fetchProducts()
@@ -907,6 +908,23 @@ struct OnboardingView: View {
         }
     }
 
+    /// A setup saved before the app was killed mid-onboarding fills the
+    /// steps again, so tapping through never turns a saved start date into today.
+    private func restoreSavedSetup() {
+        let settings = SettingsService(context: context).current()
+        guard !settings.hasCompletedOnboarding,
+              let journey = SobrietyService(context: context).activeJourney() else { return }
+        startDate = journey.startDate
+        costPerDay = Double(settings.costPerDayCents) / 100
+        caloriesPerDay = Double(settings.caloriesPerDay)
+        if let goal = journey.goalDate {
+            goalChoice = .custom
+            customGoalDate = goal
+        } else {
+            goalChoice = .none
+        }
+    }
+
     private func persistSetup() {
         let settings = SettingsService(context: context).current()
         settings.costPerDayCents = Int(costPerDay * 100)
@@ -914,7 +932,17 @@ struct OnboardingView: View {
         settings.caloriesPerDay = Int(caloriesPerDay)
         settings.dailyReminderEnabled = dailyRemindersOptIn
         settings.madeCommitment = false
-        let journey = SobrietyService(context: context).startJourney(at: effectiveStart)
+        // While setup is unfinished the open journey moves with the answers.
+        // A new one per pass left the earlier pass behind as a closed run,
+        // which Home then showed as a "Best" streak the user never had.
+        let service = SobrietyService(context: context)
+        let journey: SobrietyJourney
+        if !settings.hasCompletedOnboarding, let open = service.activeJourney() {
+            open.startDate = effectiveStart
+            journey = open
+        } else {
+            journey = service.startJourney(at: effectiveStart)
+        }
         journey.goalDate = selectedGoalDate
         _ = GardenService(context: context).current()
         context.saveOrReport()
