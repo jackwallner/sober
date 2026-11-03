@@ -294,6 +294,7 @@ let stride_ = Int(args.first(where: { $0.hasPrefix("--stride=") })?.dropFirst(9)
 let outDir = args.first(where: { $0.hasPrefix("--out=") })?.dropFirst(6).description
     ?? FileManager.default.currentDirectoryPath + "/audit-out"
 let onlyStyle = args.first(where: { $0.hasPrefix("--style=") })?.dropFirst(8).description
+let keepAlpha = args.contains("--alpha")
 let onlyCfg = args.first(where: { $0.hasPrefix("--config=") })?.dropFirst(9).description
 try? FileManager.default.createDirectory(atPath: outDir, withIntermediateDirectories: true)
 
@@ -357,7 +358,7 @@ func renderMode(_ styles: [BonsaiStyle], days: [Int], wind: BonsaiWind?, outDir:
                 guard let rgba = renderRGBA(style: style, day: day, cfg: cfg, wind: wind) else { continue }
                 let n = cfg.px
                 var buf = rgba
-                for i in 0..<(n * n) {                       // flatten onto white
+                for i in 0..<(keepAlpha ? 0 : n * n) {       // flatten onto white unless --alpha
                     let a = Double(buf[i * 4 + 3]) / 255
                     for ch in 0..<3 {
                         buf[i * 4 + ch] = UInt8(max(0, min(255, Double(buf[i * 4 + ch]) + 255 * (1 - a))))
