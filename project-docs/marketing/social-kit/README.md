@@ -39,6 +39,15 @@ Types 2, 3 and 11 use the wave 1 posts. Trees are the app's own `BonsaiView`, re
 
 `schedule.py` writes `Schedule.csv`: 63 posts over Nov 3 to 23 rotating the 12 types across slots, then the dated seasonal posts and the Dry January series. A type wins at 2x the account median views at 72h across its posts; after week 3, drop the bottom three types and double the top three.
 
+## Wave 3 and the TikTok queue (2026-11-02)
+
+The research pass (`research-2026-11b.md`) changed the plan: video first, since SoberTok's repeatable format is a 5 to 12 second text loop with real motion, and photo carousels get far less reach.
+
+- `video3.py`: 21 motion loops (tree sways, push-in, drifting petals or stars, native white text boxes): "Ever notice...?" body-signal hooks (E), builder "ask the room" questions (A), a Friday POV (F) and wave 2's POVs re-cut with motion (V).
+- `posts3.py` + `build_v3.py`: carousels in two new looks (night, plain text) and "who you become" identity hooks, each with a no-app cut.
+- `tiktok/queue.py`: the 10-day lineup (24 videos, 6 carousels), staged into iCloud `Queue/` with each slot's caption and hashtags. `tiktok/schedule.mjs` fills TikTok Studio over DevTools, verifies every field, then schedules; `tiktok/cdp.mjs` is the DevTools client.
+- Judge after 30 posts by median views per format: drop anything under 3k after two tries, make more of anything over 10k. Pause if 3 posts in a row sit under 20 views after 24 hours, and check Studio for an "ineligible for recommendation" flag.
+
 ## Rules
 
 - Speak as the builder ("I built this"). Never invent a personal recovery story.
@@ -46,10 +55,11 @@ Types 2, 3 and 11 use the wave 1 posts. Trees are the app's own `BonsaiView`, re
 - Positive hooks, no em dashes, no pictures of alcohol.
 - Every CTA spells "Sober Sobriety Day Counter": it ranks the app #1 on the US App Store, while "sober" and "sober tracker" don't (checked 2026-11-02).
 - TikTok: turn on More options > Disclose post content > Your brand on every post.
+- Hashtags: #sobertok #sobercurious plus two topic tags matched to the hook (#hangxiety, #mocktails, #cravings). #sober and #soberjourney underperform.
 
 ## Slots
 
-06:30, 11:30 and 17:30 America/Los_Angeles, every day, all three platforms. Day N slot 1 goes at 06:30, and so on.
+TikTok: 07:15, 16:15 and 18:30 America/Los_Angeles (05:30 instead of 07:15 on weekends), 45+ minutes clear of Mahj Tips' 06:30, 11:30 and 17:30. 16:15 and 18:30 PT are 7:15 and 9:30 PM ET, the evening craving peak.
 
 ## TikTok first (2026-11-02)
 
