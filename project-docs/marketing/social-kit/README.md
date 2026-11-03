@@ -17,6 +17,28 @@ The Sober version of the Mahj Tips channel (`~/ios/growth/social-autopost`): 3 p
 
 Content lives in `posts.py`: 7 formats x 6 posts (first 30 days, craving toolkit, what to say, sober math, evening swaps, milestones, restart kindly). Slide 4 is always the app, with two real 1.3.2 screenshots and the icon.
 
+## Wave 2: the experiment (2026-11-02)
+
+Research in `research-2026-11.md` set a 12-type test. Wave 2 fills it, in iCloud `Sober Social Kit/Wave 2/<type>/`:
+
+| Type | Posts | Built by |
+|---|---|---|
+| 1 Day counter | N1-N6, tree at that day | `build_v2.py` |
+| 4 Bonsai timelapse | T1-T8 videos, the app's real tree growing through 31 to 365 days | `video.py` |
+| 5 Craving tools | R1-R4 box-breathing videos, plus wave 1 B posts | `video.py` |
+| 6 POV | V1-V12, 7 s text videos | `video.py` |
+| 7 Builder | K1-K6, the dev's design choices | `build_v2.py` |
+| 8 Common question | Q1-Q6, 3 slides | `build_v2.py` |
+| 9 Poll | P1-P6, A or B, 3 slides | `build_v2.py` |
+| 10 Signs | S1-S6 | `build_v2.py` |
+| 12 Milestone reveal | M1-M6, one tree style at day 1, 30, 100, 365 | `build_v2.py` |
+| 13 Seasonal | H1-H12, Thanksgiving to Dry January, each with a schedule-after date | `build_v2.py` |
+| 14 Dry January day | J01-J31, "Day N" with the tree at day N and a tip | `build_v2.py` |
+
+Types 2, 3 and 11 use the wave 1 posts. Trees are the app's own `BonsaiView`, rendered headless by `Tools/BonsaiAudit` (`./frames.sh` fills `frames/`, gitignored). Only the traditional tree is free; the other five are Bloom+, and the copy says so.
+
+`schedule.py` writes `Schedule.csv`: 63 posts over Nov 3 to 23 rotating the 12 types across slots, then the dated seasonal posts and the Dry January series. A type wins at 2x the account median views at 72h across its posts; after week 3, drop the bottom three types and double the top three.
+
 ## Rules
 
 - Speak as the builder ("I built this"). Never invent a personal recovery story.
@@ -30,6 +52,9 @@ Content lives in `posts.py`: 7 formats x 6 posts (first 30 days, craving toolkit
 06:30, 11:30 and 17:30 America/Los_Angeles, every day, all three platforms. Day N slot 1 goes at 06:30, and so on.
 
 ## TikTok first (2026-11-02)
+
+Login: `pro-login sober`, or the QR route (`tiktok.com/login/qrcode` on the 9226 Chrome, scanned from the TikTok app). jmbp2's display sleeps, which blanks the window; `caffeinate -u` over ssh wakes it.
+
 
 TikTok only for now. Its own Chrome on jmbp2 (`com.jackwallner.sober-chrome`, DevTools 127.0.0.1:9226, profile `SoberSocialAgent`), kept apart from the @mahjtips social Chrome on 9225. Jack signs in once with `pro-login sober` from the Air. The kit's TikTok files (no Shorts or IG crops) are mirrored to jmbp2 `~/sober-social-kit/` so a fleet run can upload from there. Scheduling goes through TikTok Studio web (`tiktok.com/tiktokstudio/upload`, Photos tab), up to 10 days ahead.
 

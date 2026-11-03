@@ -338,7 +338,7 @@ POSTS = [
     {"id": "F5", "fmt": "F", "sound": "warm",
      "hook": "A bonsai that grows every day you stay sober",
      "s2": "Every sober day adds growth: new branches, fuller leaves.",
-     "s3": "Pick your tree: traditional bonsai, cascading, cherry blossom, Japanese maple, black pine.",
+     "s3": "The traditional bonsai is free. Bloom+ adds cascading, windswept, cherry blossom, Japanese maple and black pine.",
      "s4": "I built this app so the progress is something you can see.",
      "shots": ("species", "home"),
      "s5": "Day 1 is a sapling. Watch what day 100 looks like.",
