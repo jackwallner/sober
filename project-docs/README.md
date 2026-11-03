@@ -12,6 +12,7 @@ Developer notes and historical audits for this repository. The published site re
 ## Marketing
 
 - [aso-plan.md](marketing/aso-plan.md): aso-plan.md: Sober Tracker ASO Plan
+- [social-kit](marketing/social-kit/README.md): Sober TikTok, Instagram and YouTube kit: 42 posts, builder, profile copy
 
 ## QA
 

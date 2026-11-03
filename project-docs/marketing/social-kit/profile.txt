@@ -1,0 +1,25 @@
+PROFILE (same on TikTok, Instagram and YouTube)
+
+Handle: @soberdaycounter
+  Fallbacks, in order: @soberdays.app, @sobertreeapp, @soberbonsai
+Display name: Sober Day Counter
+Picture: avatar.png (the app icon)
+YouTube banner: youtube-banner.jpg
+
+Bio (TikTok, 80 characters max):
+Alcohol-free tips + a bonsai that grows with every sober day. I built the app.
+
+Bio (Instagram):
+Alcohol-free tips, 3 a day
+A bonsai that grows with every sober day
+I built the app, free to start
+
+Link (TikTok needs 1,000 followers for a bio link; Instagram and YouTube take it now):
+https://apps.apple.com/us/app/id6768869215?pt=128748779&ct=bio-sober&mt=8
+
+YouTube description:
+Short, practical tips for alcohol-free days: cravings, evenings, what to say, and the money you keep. I built Sober: Sobriety Day Counter, a day counter with a bonsai that grows every sober day. Free to start: https://apps.apple.com/us/app/id6768869215?pt=128748779&ct=yt-sober&mt=8
+
+Not medical advice. If you drink heavily every day, talk to a doctor before you stop. US: SAMHSA's free helpline, 1-800-662-4357, 24/7.
+
+Account type: TikTok Business account (category: Health), so posts can be scheduled from TikTok Studio web and carry the "Your brand" disclosure.
