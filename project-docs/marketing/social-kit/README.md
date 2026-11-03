@@ -29,6 +29,10 @@ Content lives in `posts.py`: 7 formats x 6 posts (first 30 days, craving toolkit
 
 06:30, 11:30 and 17:30 America/Los_Angeles, every day, all three platforms. Day N slot 1 goes at 06:30, and so on.
 
+## TikTok first (2026-11-02)
+
+TikTok only for now. Its own Chrome on jmbp2 (`com.jackwallner.sober-chrome`, DevTools 127.0.0.1:9226, profile `SoberSocialAgent`), kept apart from the @mahjtips social Chrome on 9225. Jack signs in once with `pro-login sober` from the Air. The kit's TikTok files (no Shorts or IG crops) are mirrored to jmbp2 `~/sober-social-kit/` so a fleet run can upload from there. Scheduling goes through TikTok Studio web (`tiktok.com/tiktokstudio/upload`, Photos tab), up to 10 days ahead.
+
 ## Setup (Jack, once)
 
 1. Create the three accounts with the details in `Profile/profile.txt` (agents can't create accounts). Use a new Google account or a brand channel for YouTube; TikTok as a Business account.
