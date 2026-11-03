@@ -3,9 +3,31 @@
 //   node cdp.mjs files '<css>' /remote/path ...   node cdp.mjs click x y   node cdp.mjs type 'text'
 const PORT = process.env.CDP_PORT || 9226;
 
+// Open a new tab at url and close every other page, so each job starts clean (a draft left on the
+// upload page holds a "Leave site?" dialog that can freeze the renderer).
+export async function freshTab(url) {
+  const v = await (await fetch(`http://127.0.0.1:${PORT}/json/version`)).json();
+  const ws = new WebSocket(v.webSocketDebuggerUrl);
+  await new Promise(r => (ws.onopen = r));
+  let id = 0;
+  const pend = new Map();
+  ws.onmessage = m => { const d = JSON.parse(m.data); if (d.id && pend.has(d.id)) { pend.get(d.id)(d); pend.delete(d.id); } };
+  const send = (method, params = {}) => new Promise(res => { const n = ++id; pend.set(n, res); ws.send(JSON.stringify({ id: n, method, params })); });
+  const { result } = await send("Target.getTargets");
+  const created = await send("Target.createTarget", { url });
+  for (const t of result.targetInfos.filter(t => t.type === "page")) await send("Target.closeTarget", { targetId: t.targetId });
+  ws.close();
+  return created.result.targetId;
+}
+
 export async function page() {
-  const tabs = await (await fetch(`http://127.0.0.1:${PORT}/json`)).json();
-  const t = tabs.find(p => p.type === "page" && p.url.includes("tiktok")) || tabs.find(p => p.type === "page");
+  let t;
+  for (let i = 0; i < 40 && !t; i++) {
+    const tabs = (await (await fetch(`http://127.0.0.1:${PORT}/json`)).json()).filter(p => p.type === "page" && p.webSocketDebuggerUrl);
+    t = tabs.find(p => p.url.includes("tiktok")) || (i > 20 && tabs[0]);
+    if (!t) await new Promise(r => setTimeout(r, 500));
+  }
+  if (!t) throw new Error("no debuggable page");
   const ws = new WebSocket(t.webSocketDebuggerUrl);
   await new Promise(r => (ws.onopen = r));
   let id = 0;
@@ -13,12 +35,16 @@ export async function page() {
   ws.onmessage = m => {
     const d = JSON.parse(m.data);
     if (d.id && pending.has(d.id)) { pending.get(d.id)(d); pending.delete(d.id); }
+    // Accept "Leave site?" and any other JS dialog so it never blocks the page.
+    if (d.method === "Page.javascriptDialogOpening") ws.send(JSON.stringify({ id: 0, method: "Page.handleJavaScriptDialog", params: { accept: true } }));
   };
-  const send = (method, params = {}) => new Promise((res, rej) => {
+  const send = (method, params = {}, ms = 60000) => new Promise((res, rej) => {
     const n = ++id;
-    pending.set(n, d => (d.error ? rej(new Error(`${method}: ${d.error.message}`)) : res(d.result)));
+    const timer = setTimeout(() => { pending.delete(n); rej(new Error(`${method}: no reply in ${ms / 1000}s (page frozen?)`)); }, ms);
+    pending.set(n, d => { clearTimeout(timer); d.error ? rej(new Error(`${method}: ${d.error.message}`)) : res(d.result); });
     ws.send(JSON.stringify({ id: n, method, params }));
   });
+  ws.send(JSON.stringify({ id: 0, method: "Page.enable" }));
   const evaluate = async expr => {
     const r = await send("Runtime.evaluate", { expression: expr, awaitPromise: true, returnByValue: true });
     if (r.exceptionDetails) throw new Error(r.exceptionDetails.exception?.description || r.exceptionDetails.text);

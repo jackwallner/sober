@@ -3,7 +3,7 @@
 // --dry fills everything and stops before the Schedule button. Every slot is verified before it is
 // scheduled; a slot that fails verification is skipped and reported. Results go to scheduled.jsonl.
 import fs from "fs";
-import { page } from "./cdp.mjs";
+import { freshTab, page } from "./cdp.mjs";
 
 const args = process.argv.slice(2);
 const opt = k => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : null; };
@@ -15,8 +15,15 @@ const done = fs.existsSync(log) ? fs.readFileSync(log, "utf8").trim().split("\n"
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-const p = await page();
-const ev = p.evaluate;
+let p, ev, step = "";
+async function connect(url) {
+  if (p) if (p) p.close();
+await freshTab("https://www.tiktok.com/tiktokstudio/content");
+  await freshTab(url);
+  await sleep(5000);
+  p = await page();
+  ev = expr => p.evaluate(expr);
+}
 
 async function waitFor(expr, ms = 60000, what = expr) {
   const end = Date.now() + ms;
@@ -110,11 +117,25 @@ async function disclose() {
   return ev(`!!${brand}?.checked`);
 }
 
+// First-run popups: "New editing features" (Got it) and "Turn on automatic content checks?" (Cancel,
+// so no account setting changes).
+async function dismissPopups() {
+  // Each popup's button is looked up inside the smallest element holding that popup's own text.
+  const inBox = (text, button) => `(()=>{const box=[...document.querySelectorAll("div")].filter(d=>d.innerText?.includes(${JSON.stringify(text)})&&[...d.querySelectorAll("button")].some(b=>b.innerText.trim()==${JSON.stringify(button)})).sort((x,y)=>x.innerText.length-y.innerText.length)[0];return box&&[...box.querySelectorAll("button")].find(b=>b.innerText.trim()==${JSON.stringify(button)})})()`;
+  const popups = [["Discard this post?", "Not now"], ["Turn on automatic content checks?", "Cancel"], ["New editing features added", "Got it"]];
+  for (let i = 0; i < 4; i++) {
+    let hit = false;
+    for (const [text, button] of popups) {
+      if (await ev(`!!${inBox(text, button)}`)) { await p.clickEl(inBox(text, button)); hit = true; await sleep(700); }
+    }
+    if (!hit) return;
+  }
+}
+
 async function one(slot) {
-  await p.nav("https://www.tiktok.com/tiktokstudio/upload?from=webapp");
+  step = "open";
+  await connect("https://www.tiktok.com/tiktokstudio/upload?from=webapp");
   await waitFor(`!!document.querySelector("input[type=file]")`, 30000, "upload page");
-  // Leave any draft-recovery prompt.
-  if (await ev(`!!${byText("button", "Discard")}`)) { await p.clickEl(byText("button", "Discard")); await sleep(800); }
   if (slot.kind === "photo") {
     await p.clickEl(`${byText("button,[role=tab],div", "Photos")}`);
     await waitFor(`!!document.querySelector("input[type=file][accept*=image]")`, 10000, "photos tab");
@@ -123,6 +144,8 @@ async function one(slot) {
     await p.files("input[type=file][accept*=video]", slot.files);
   }
   await waitFor(`!!document.querySelector(".public-DraftEditor-content")`, 90000, "editor");
+  await sleep(1500);
+  await dismissPopups();
   if (slot.kind === "video") {
     await waitFor(`/Uploaded|uploaded/.test(document.body.innerText) && !/Uploading/.test(document.body.innerText)`, 240000, "video upload");
   } else {
@@ -131,13 +154,18 @@ async function one(slot) {
     await selectAllAndDelete();
     await p.type(slot.title);
   }
+  await dismissPopups();
+  step = "caption";
   await fillCaption(slot.caption);
   if (await ev(`!!${leaf("Show more")}`)) { await p.clickEl(leaf("Show more")); await sleep(600); }
   await p.clickEl(`[...document.querySelectorAll("input[name=postSchedule]")].find(i=>i.value=="schedule")`);
   await sleep(1200);
   if (await ev(`!!${byText("button", "Allow")}`)) { await p.clickEl(byText("button", "Allow")); await sleep(1200); }
+  step = "date";
   await setDate(slot.date);
+  step = "time";
   await setTime(slot.time);
+  step = "disclose";
   const brand = slot.disclose ? await disclose() : true;
 
   // Verify before scheduling.
@@ -178,8 +206,10 @@ for (const slot of queue) {
     if (status === "scheduled")
       fs.appendFileSync(log, JSON.stringify({ date: slot.date, time: slot.time, id: slot.id, mode: slot.mode, status, at: new Date().toISOString() }) + "\n");
   } catch (e) {
-    console.log(`${slot.date} ${slot.time} ${slot.id} FAILED: ${e.message}`);
+    console.log(`${slot.date} ${slot.time} ${slot.id} FAILED at ${step}: ${e.message.split("\n")[0]}`);
+    await p?.shot(new URL(`./shots/FAIL-${slot.date}-${slot.id}.jpg`, import.meta.url).pathname).catch(() => {});
   }
   await sleep(4000);
 }
-p.close();
+if (p) p.close();
+await freshTab("https://www.tiktok.com/tiktokstudio/content");

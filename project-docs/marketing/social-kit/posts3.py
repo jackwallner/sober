@@ -62,7 +62,7 @@ POSTS3 = [
                 "When it rings|Notice the urge is smaller. That's you getting stronger."],
      "app": "My app has a craving mode that breathes with you through it.",
      "close": "Save this for 9pm.", "tree": ("pine", 120),
-     "caption": "The 9pm urge has a timer. Save this for the next one."},
+     "caption": "The 9pm urge has a timer."},
     {"id": "Nt2", "look": "night", "hook": "Sunday night, alcohol-free: a calm reset",
      "slides": ["7pm|Lay out tomorrow's clothes. One less decision.",
                 "8pm|Something warm: tea, cocoa, a bath.",

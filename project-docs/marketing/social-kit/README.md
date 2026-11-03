@@ -45,7 +45,7 @@ The research pass (`research-2026-11b.md`) changed the plan: video first, since 
 
 - `video3.py`: 21 motion loops (tree sways, push-in, drifting petals or stars, native white text boxes): "Ever notice...?" body-signal hooks (E), builder "ask the room" questions (A), a Friday POV (F) and wave 2's POVs re-cut with motion (V).
 - `posts3.py` + `build_v3.py`: carousels in two new looks (night, plain text) and "who you become" identity hooks, each with a no-app cut.
-- `tiktok/queue.py`: the 10-day lineup (24 videos, 6 carousels), staged into iCloud `Queue/` with each slot's caption and hashtags. `tiktok/schedule.mjs` fills TikTok Studio over DevTools, verifies every field, then schedules; `tiktok/cdp.mjs` is the DevTools client.
+- `tiktok/queue.py`: the 10-day lineup (24 videos, 6 carousels), staged into iCloud `Queue/` with each slot's caption and hashtags. All 30 slots (Nov 3 to 12) are scheduled and verified in Studio; `tiktok/scheduled.jsonl` is the ledger.
 - Judge after 30 posts by median views per format: drop anything under 3k after two tries, make more of anything over 10k. Pause if 3 posts in a row sit under 20 views after 24 hours, and check Studio for an "ineligible for recommendation" flag.
 
 ## Rules
@@ -66,7 +66,15 @@ TikTok: 07:15, 16:15 and 18:30 America/Los_Angeles (05:30 instead of 07:15 on we
 Login: `pro-login sober`, or the QR route (`tiktok.com/login/qrcode` on the 9226 Chrome, scanned from the TikTok app). jmbp2's display sleeps, which blanks the window; `caffeinate -u` over ssh wakes it.
 
 
-TikTok only for now. Its own Chrome on jmbp2 (`com.jackwallner.sober-chrome`, DevTools 127.0.0.1:9226, profile `SoberSocialAgent`), kept apart from the @mahjtips social Chrome on 9225. Jack signs in once with `pro-login sober` from the Air. The kit's TikTok files (no Shorts or IG crops) are mirrored to jmbp2 `~/sober-social-kit/` so a fleet run can upload from there. Scheduling goes through TikTok Studio web (`tiktok.com/tiktokstudio/upload`, Photos tab), up to 10 days ahead.
+TikTok only for now. Scheduling runs through Claude in Chrome in the Air's "Sober TikTok" Chrome profile (signed in as the Sober account; the Default profile is @mahjtips, and TikTok web has no account switcher). Never copy TikTok cookies between browsers: it revoked the session on both. Studio flow (`tiktok.com/tiktokstudio/upload`, up to 10 days ahead):
+
+- Videos tab for loops, Photos tab for carousels (title field, then the sound "When It Starts to Rain" from the Recent tab; silent carousels lose reach).
+- Description is DraftJS, so type it with real keystrokes, one hashtag at a time.
+- Schedule radio, date button, then real clicks in the time picker's hour and minute columns.
+- Show more > Disclose post content > Your brand, then check every field before Schedule. Dismiss "automatic content checks" with Cancel.
+- Claude in Chrome caps one batch's uploads at 10 MB, so batch two or three posts at a time.
+
+`tiktok/schedule.mjs` and `cdp.mjs` are the older DevTools route for a headless Chrome on port 9226.
 
 ## Setup (Jack, once)
 

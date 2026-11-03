@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import os
 import pathlib
 import shutil
 import sys
@@ -33,7 +34,8 @@ import posts3 as P3  # noqa: E402
 import video3 as V3  # noqa: E402
 
 QUEUE = K.ICLOUD / "Queue"
-REMOTE = "/Users/jmbp2/sober-social-kit/Queue"
+# Paths the uploading Chrome reads. The Air's own Chrome (9227) by default; SOBER_REMOTE=1 for jmbp2.
+REMOTE = "/Users/jmbp2/sober-social-kit/Queue" if os.environ.get("SOBER_REMOTE") else str(K.ICLOUD / "Queue")
 # PT. Mahj Tips posts at 06:30, 11:30 and 17:30; these stay 45+ minutes clear of it. 16:15 is 7:15 PM ET,
 # 18:30 is 9:30 PM ET, the evening craving peak (research-2026-11b.md). Weekend mornings go early (8:30 AM ET).
 SLOTS = ["07:15", "16:15", "18:30"]
@@ -55,6 +57,7 @@ LINEUP = [
 ]
 
 FULL_CTA = f'I built the app in this post: {P.APP}. Search "{P.SEARCH}" on the App Store, it\'s free to start.'
+SEARCH_CTA = f'Search "{P.SEARCH}" on the App Store, it\'s free to start.'
 SOFT_CTA = (f'PS: I built an app where a bonsai grows with every sober day. Search "{P.SEARCH}" '
             "on the App Store, it's free to start.")
 VIDEO_Q = {4: "What day are you on?", 5: "Did it help? Comment a number from 1 to 10.", 6: "Who else?"}
@@ -113,7 +116,7 @@ def resolve(pid: str, mode: str) -> dict:
 def caption(r: dict, mode: str) -> str:
     parts = [r["body"]]
     if mode != "warm":
-        parts.append(FULL_CTA if mode == "full" else SOFT_CTA)
+        parts.append(SEARCH_CTA if r["body"].startswith("I built") else FULL_CTA if mode == "full" else SOFT_CTA)
     if r["safety"]:
         parts.append(P.SAFETY)
     parts.append(" ".join(BASE_TAGS + r["tags"]))
