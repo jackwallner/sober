@@ -29,7 +29,7 @@ Replaces the app-led kit after Jack's review: nobody on TikTok knows the app or 
 | Topical | What's happening this week | Sober October ended, clocks changed, football, Friendsgiving |
 | Kindness | Hard moments | The 24 hours after a slip |
 | POV and questions | Short text videos | Friday night in, "what did you think was normal?" |
-| Tools | Use it right now | 60-second breathing guide |
+| Tools | Use it right now | 30-second breathing guide |
 
 ## Look
 
