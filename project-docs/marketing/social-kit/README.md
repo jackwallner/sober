@@ -1,6 +1,8 @@
 # Sober social kit
 
-**Current direction (2026-11-04): the sobriety page in `page/`. Read `page/STRATEGY.md` first.** It replaces the app-led content below: short videos over real footage with hooks from `page/hooks-v3.md`, and no app for now. `python3 page/build_v3.py` renders to iCloud `Sober Social Kit/Page v3/`. The sections below describe the retired waves, whose post-builders, rules and voice no longer apply. The Studio scheduling flow still does, except that the Your brand step stays off and the date picker now reaches 30 days ahead.
+**Current direction (2026-11-04): the sobriety page in `page/`. Read `page/STRATEGY.md` first.** It replaces the app-led content below: short videos over real footage with hooks from `page/hooks-v3.md`, and no app for now. `python3 page/build_v3.py` renders to iCloud `Sober Social Kit/Page v3/`. The sections below describe the retired waves, whose post-builders, rules and voice no longer apply. The Studio scheduling flow still does, except that the Your brand step stays off and the date picker now reaches 30 days ahead. Studio can't edit or delete posts that have the brand disclosure on (only the TikTok app can), and it stops accepting new posts with "You can only schedule up to 30 posts". `Page v3/Schedule.csv` lists what's scheduled and what's held.
+
+Footage: read the `videos.pexels.com/video-files/...` URLs from a clip's page and curl them into `Page v3/stock/<id>-1080.mp4`. Pexels' download button pops an alert on Jack's screen for every click.
 
 The Sober version of the Mahj Tips channel (`~/ios/growth/social-autopost`): 3 posts a day on TikTok, Instagram and YouTube, every post scheduled ahead, posted as the person who built the app.
 
