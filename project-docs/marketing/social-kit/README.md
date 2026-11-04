@@ -1,5 +1,7 @@
 # Sober social kit
 
+**Current direction (2026-11-04): the sobriety page in `page/`. Read `page/STRATEGY.md` first.** It replaces the app-led content below: a sobriety account with tips, insights and topical posts, where a few carousels carry one app slide. `python3 page/build.py` renders to iCloud `Sober Social Kit/Page v1/`, and `python3 page/slots.py` writes its schedule. The sections below describe the retired waves, whose post-builders, rules and voice no longer apply. The Studio scheduling flow still does.
+
 The Sober version of the Mahj Tips channel (`~/ios/growth/social-autopost`): 3 posts a day on TikTok, Instagram and YouTube, every post scheduled ahead, posted as the person who built the app.
 
 ## What's built

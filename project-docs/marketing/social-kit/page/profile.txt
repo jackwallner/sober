@@ -1,0 +1,8 @@
+PROFILE (the sobriety page)
+
+Display name: Sober Daily
+Handle: @thesoberdaily
+  Fallbacks, in order: @soberdailytips, @sober.everyday
+  (checked 2026-11-04: @soberdaily, @dailysober and @sober.daily are taken or blocked; the app confirms when you save)
+Picture: Profile/avatar-page.png in iCloud "Sober Social Kit"
+Bio: Sobriety tips for real life. Run by the maker of the Sober app.
