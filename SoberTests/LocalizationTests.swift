@@ -7,7 +7,7 @@ import Testing
 /// "not empty" check, so these compare against the catalog's own wording.
 @Suite("Localization")
 struct LocalizationTests {
-    static let languages = ["cs", "de", "el", "es", "et", "fi", "fr", "hi", "hu", "it", "ka", "lt", "nb", "nl", "pl", "ru", "sv", "th", "uk", "vi", "zh-Hans"]
+    static let languages = ["cs", "de", "el", "es", "et", "fi", "fr", "hi", "hu", "it", "ka", "lt", "nb", "nl", "pl", "ro", "ru", "sv", "th", "tr", "uk", "vi", "zh-Hans"]
 
     private func bundle(_ language: String) -> Bundle? {
         let hosts = [Bundle.main] + Bundle.allBundles

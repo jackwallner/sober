@@ -21,7 +21,7 @@ import sys
 
 ROOT = os.getcwd()
 DIRS = ['Sober', 'Shared', 'SoberWatch', 'SoberWidgets']
-LANGS = ['cs', 'de', 'el', 'es', 'et', 'fi', 'fr', 'hi', 'hu', 'it', 'ka', 'lt', 'nb', 'nl', 'pl', 'ru', 'sv', 'th', 'uk', 'vi', 'zh-Hans']
+LANGS = ['cs', 'de', 'el', 'es', 'et', 'fi', 'fr', 'hi', 'hu', 'it', 'ka', 'lt', 'nb', 'nl', 'pl', 'ro', 'ru', 'sv', 'th', 'tr', 'uk', 'vi', 'zh-Hans']
 UI_FUNCS = {'Text', 'Button', 'Label', 'Section', 'Toggle', 'TextField', 'navigationTitle', 'accessibilityLabel',
             'alert', 'DatePicker', 'Stepper', 'Link', 'configurationDisplayName', 'description', 'eyebrow',
             'confirmationDialog', 'Picker', 'LocalizedStringKey', 'accessibilityHint', 'SecureField'}
