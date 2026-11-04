@@ -9,8 +9,9 @@ paths:
 
 # Sober: localization (added 2026-10-27)
 
-The app, widgets and Watch ship in English plus cs, de, el, es, fi, fr, hi, it,
-ka, lt, nb, nl, pl, ru, uk, vi (regions with 2+ new customers). Non-English
+The app, widgets and Watch ship in English plus cs, de, el, es, et, fi, fr, hi,
+hu, it, ka, lt, nb, nl, pl, ru, sv, th, uk, vi, zh-Hans (regions with 2+ new
+customers; et, hu, sv, th and zh-Hans added 2026-11-04). Non-English
 markets trialed at about 6% against 15 to 19% for US/UK/CA/AU while the App
 Store pages were already translated, so the copy inside the app is the lever.
 

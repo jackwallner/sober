@@ -21,7 +21,7 @@ import sys
 
 ROOT = os.getcwd()
 DIRS = ['Sober', 'Shared', 'SoberWatch', 'SoberWidgets']
-LANGS = ['cs', 'de', 'el', 'es', 'fi', 'fr', 'hi', 'it', 'ka', 'lt', 'nb', 'nl', 'pl', 'ru', 'uk', 'vi']
+LANGS = ['cs', 'de', 'el', 'es', 'et', 'fi', 'fr', 'hi', 'hu', 'it', 'ka', 'lt', 'nb', 'nl', 'pl', 'ru', 'sv', 'th', 'uk', 'vi', 'zh-Hans']
 UI_FUNCS = {'Text', 'Button', 'Label', 'Section', 'Toggle', 'TextField', 'navigationTitle', 'accessibilityLabel',
             'alert', 'DatePicker', 'Stepper', 'Link', 'configurationDisplayName', 'description', 'eyebrow',
             'confirmationDialog', 'Picker', 'LocalizedStringKey', 'accessibilityHint', 'SecureField'}
@@ -162,6 +162,14 @@ def main():
                 bad = [] if specs(loc['stringUnit']['value'], loc.get('substitutions')) == want else [loc['stringUnit']['value']]
             for v in bad:
                 problems.append(f'"{key}" [{lang}]: format specifiers differ in "{v}"')
+    for key, entry in catalog.items():
+        for lang, loc in entry.get('localizations', {}).items():
+            units = [loc] + list(loc.get('variations', {}).get('plural', {}).values())
+            for unit in units:
+                value = unit.get('stringUnit', {}).get('value', '')
+                for name in re.findall(r'%(?:\d+\$)?#@(\w+)@', value):
+                    if name not in loc.get('substitutions', {}):
+                        problems.append(f'"{key}" [{lang}]: plural token {name!r} has no substitution')
     for p in problems:
         print(p)
     print(f'{len(catalog)} keys, {len(LANGS)} languages, {len(problems)} problems')
