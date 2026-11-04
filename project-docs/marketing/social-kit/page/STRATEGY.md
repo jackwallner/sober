@@ -1,6 +1,8 @@
 # The sobriety page (2026-11-04)
 
-**Update, same day:** Jack rejected the plain-type look and the advice hooks in `posts.py` as forgettable. The direction is now `hooks-v2.md`: short videos over real footage, with visceral first lines that make a random scroller self-conscious about their drinking, then open a door. `samples_v2.py` builds the samples. The rules on the app, sourcing and honesty below still apply; "Look", "Voice" and "Mix" are being replaced.
+**Update, same day:** Jack rejected the plain-type look and the advice hooks in `posts.py` as forgettable, then approved the footage samples. The direction is now `hooks-v3.md`: short videos over real footage, with visceral first lines that carry their own drinking cue, so a random scroller knows what it's about, then open a door. `posts_v3.py` holds the posts and `build_v3.py` renders them to iCloud `Page v3/`.
+
+**No app in this phase.** Jack wants the page grown first: no app slides, no app in captions, disclosure off. The app sections below apply only once he says to start. The rules on sourcing and honesty still apply; "Look", "Voice" and "Mix" are replaced.
 
 Replaces the app-led kit after Jack's review: nobody on TikTok knows the app or is motivated by a plant. This is a sobriety page that happens to be run by the app's maker.
 
