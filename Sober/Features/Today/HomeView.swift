@@ -169,7 +169,8 @@ struct HomeView: View {
                 // The pool devices' accessibility bridge is unreliable, so the
                 // sheets that can't be reached by `axe tap` get a launch
                 // argument, same as -seedDemo. DEBUG only.
-                if ProcessInfo.processInfo.arguments.contains("-showProgress") {
+                if ProcessInfo.processInfo.arguments.contains("-showProgress")
+                    || ProcessInfo.processInfo.arguments.contains("-scrollProgressSaved") {
                     showProgress = true
                 }
                 // -showPlaybook [trigger]: the playbook, optionally on one plan.
@@ -1048,6 +1049,7 @@ struct ProgressSheet: View {
 
     var body: some View {
         NavigationStack {
+            ScrollViewReader { proxy in
             List {
                 if showTrialNudge {
                     Section { trialNudgeRow }
@@ -1099,7 +1101,7 @@ struct ProgressSheet: View {
                         savedRow(label: String(localized: "Calories"), streak: caloriesAvoided.formatted(), lifetime: lifetimeCaloriesAvoided.formatted(), sub: String(localized: "\(settings?.caloriesPerDay ?? 0) / day"), icon: "flame.fill")
                         savedRow(label: String(localized: "Body fat"), streak: poundsOfFat(caloriesAvoided), lifetime: poundsOfFat(lifetimeCaloriesAvoided), sub: bodyFatRate, icon: "scalemass.fill")
                     } header: {
-                        Text("Kept so far")
+                        Text("Kept so far").id("screenshotSaved")
                     } footer: {
                         Text("Streak counts your current run. Lifetime counts every sober day on your record, including days the app filled in for you, so past progress isn't lost on a reset.")
                     }
@@ -1154,7 +1156,15 @@ struct ProgressSheet: View {
                     ForEach(AchievementCatalog.all.filter { $0.kind == .streak }) { achievementRow($0) }
                 }
             }
+            #if DEBUG
+            .task {
+                guard ProcessInfo.processInfo.arguments.contains("-scrollProgressSaved") else { return }
+                try? await Task.sleep(for: .seconds(1))
+                proxy.scrollTo("screenshotSaved", anchor: .top)
+            }
+            #endif
             .listStyle(.insetGrouped)
+            }
             .navigationTitle("Your progress")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
