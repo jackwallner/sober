@@ -17,11 +17,13 @@ def read_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def config(path: Path) -> Dict[str, Any]:
+def config(path: Path, locale: str = None) -> Dict[str, Any]:
     data = read_json(path)
     if not isinstance(data.get("sets"), dict) or not data["sets"]:
         raise ValueError("config needs nonempty sets")
     for key, group in data["sets"].items():
+        if locale:
+            group["frames"] = [f for f in group["frames"] if locale not in f.get("exclude_locales", [])]
         if not group.get("frames"):
             raise ValueError(f"{key}: empty frames")
         names = [f["file"] for f in group["frames"]]

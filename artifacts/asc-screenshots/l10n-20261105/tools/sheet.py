@@ -20,7 +20,7 @@ def main() -> None:
     p.add_argument('--out-root', type=Path, required=True)
     p.add_argument('--base-label', default='en')
     args = p.parse_args()
-    data = config(args.config)
+    data = config(args.config, args.locale)
     sheets = args.out_root / 'sheets'
     sheets.mkdir(parents=True, exist_ok=True)
     for key, group in data['sets'].items():

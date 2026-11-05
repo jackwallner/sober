@@ -1,0 +1,541 @@
+{
+  "english_locale": "en-US",
+  "sets": {
+    "phone": {
+      "canvas": [
+        1290,
+        2796
+      ],
+      "frames": [
+        {
+          "file": "appstore_preview_01_counter.png",
+          "base": "../../../fastlane/screenshots/en-US/appstore_preview_01_counter.png",
+          "plate": "plates/1.png",
+          "raw": "home",
+          "screen": [
+            238,
+            900,
+            814,
+            1715
+          ],
+          "radius": 62,
+          "header_box": [
+            90,
+            235,
+            1100,
+            300
+          ],
+          "font": ".NewYork-Regular",
+          "color": [
+            17,
+            18,
+            15
+          ],
+          "max_size": 105,
+          "min_size": 50,
+          "align": "left",
+          "extra_text": [
+            {
+              "key": "tagline",
+              "box": [
+                92,
+                140,
+                600,
+                35
+              ],
+              "font": "HelveticaNeue",
+              "color": [
+                81,
+                83,
+                76
+              ],
+              "max_size": 20,
+              "min_size": 12
+            },
+            {
+              "key": "subhead",
+              "box": [
+                94,
+                545,
+                1080,
+                70
+              ],
+              "font": "HelveticaNeue",
+              "color": [
+                81,
+                83,
+                76
+              ],
+              "max_size": 37,
+              "min_size": 18
+            }
+          ],
+          "plate_box": [
+            80,
+            225,
+            1210,
+            475
+          ],
+          "text_box": [
+            90,
+            235,
+            800,
+            300
+          ],
+          "exclude_locales": [
+            "fr-FR",
+            "es-MX",
+            "ru"
+          ]
+        },
+        {
+          "file": "appstore_preview_02_garden.png",
+          "base": "../../../fastlane/screenshots/en-US/appstore_preview_02_garden.png",
+          "plate": "plates/2.png",
+          "raw": "home",
+          "screen": [
+            238,
+            900,
+            814,
+            1715
+          ],
+          "radius": 62,
+          "header_box": [
+            90,
+            235,
+            1100,
+            300
+          ],
+          "font": ".NewYork-Regular",
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "max_size": 105,
+          "min_size": 50,
+          "align": "left",
+          "extra_text": [
+            {
+              "key": "tagline",
+              "box": [
+                92,
+                140,
+                600,
+                35
+              ],
+              "font": "HelveticaNeue",
+              "color": [
+                237,
+                228,
+                207
+              ],
+              "max_size": 20,
+              "min_size": 12
+            },
+            {
+              "key": "subhead",
+              "box": [
+                94,
+                545,
+                1080,
+                70
+              ],
+              "font": "HelveticaNeue",
+              "color": [
+                237,
+                228,
+                207
+              ],
+              "max_size": 37,
+              "min_size": 18
+            }
+          ],
+          "plate_box": [
+            80,
+            225,
+            1210,
+            475
+          ],
+          "text_box": [
+            90,
+            235,
+            800,
+            300
+          ],
+          "exclude_locales": [
+            "fr-FR",
+            "es-MX",
+            "ru"
+          ]
+        },
+        {
+          "file": "appstore_preview_03_savings.png",
+          "base": "../../../fastlane/screenshots/en-US/appstore_preview_03_savings.png",
+          "plate": "plates/3.png",
+          "raw": "savings",
+          "screen": [
+            238,
+            900,
+            814,
+            1715
+          ],
+          "radius": 62,
+          "header_box": [
+            90,
+            235,
+            1100,
+            300
+          ],
+          "font": ".NewYork-Regular",
+          "color": [
+            17,
+            18,
+            15
+          ],
+          "max_size": 105,
+          "min_size": 50,
+          "align": "left",
+          "extra_text": [
+            {
+              "key": "tagline",
+              "box": [
+                92,
+                140,
+                600,
+                35
+              ],
+              "font": "HelveticaNeue",
+              "color": [
+                81,
+                83,
+                76
+              ],
+              "max_size": 20,
+              "min_size": 12
+            },
+            {
+              "key": "subhead",
+              "box": [
+                94,
+                545,
+                1080,
+                70
+              ],
+              "font": "HelveticaNeue",
+              "color": [
+                81,
+                83,
+                76
+              ],
+              "max_size": 37,
+              "min_size": 18
+            }
+          ],
+          "plate_box": [
+            80,
+            225,
+            1210,
+            475
+          ],
+          "text_box": [
+            90,
+            235,
+            800,
+            300
+          ],
+          "exclude_locales": [
+            "fr-FR",
+            "ru",
+            "zh-Hans"
+          ]
+        },
+        {
+          "file": "appstore_preview_04_recovery.png",
+          "base": "../../../fastlane/screenshots/en-US/appstore_preview_04_recovery.png",
+          "plate": "plates/4.png",
+          "raw": "health",
+          "screen": [
+            238,
+            900,
+            814,
+            1715
+          ],
+          "radius": 62,
+          "header_box": [
+            90,
+            235,
+            1100,
+            300
+          ],
+          "font": ".NewYork-Regular",
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "max_size": 105,
+          "min_size": 50,
+          "align": "left",
+          "extra_text": [
+            {
+              "key": "tagline",
+              "box": [
+                92,
+                140,
+                600,
+                35
+              ],
+              "font": "HelveticaNeue",
+              "color": [
+                237,
+                228,
+                207
+              ],
+              "max_size": 20,
+              "min_size": 12
+            },
+            {
+              "key": "subhead",
+              "box": [
+                94,
+                545,
+                1080,
+                70
+              ],
+              "font": "HelveticaNeue",
+              "color": [
+                237,
+                228,
+                207
+              ],
+              "max_size": 37,
+              "min_size": 18
+            }
+          ],
+          "plate_box": [
+            80,
+            225,
+            1210,
+            475
+          ],
+          "text_box": [
+            90,
+            235,
+            800,
+            300
+          ],
+          "exclude_locales": [
+            "nl-NL",
+            "es-MX",
+            "it"
+          ]
+        },
+        {
+          "file": "appstore_preview_05_private.png",
+          "base": "../../../fastlane/screenshots/en-US/appstore_preview_05_private.png",
+          "plate": "plates/5.png",
+          "raw": "journal",
+          "screen": [
+            238,
+            900,
+            814,
+            1715
+          ],
+          "radius": 62,
+          "header_box": [
+            90,
+            235,
+            1100,
+            300
+          ],
+          "font": ".NewYork-Regular",
+          "color": [
+            17,
+            18,
+            15
+          ],
+          "max_size": 105,
+          "min_size": 50,
+          "align": "left",
+          "extra_text": [
+            {
+              "key": "tagline",
+              "box": [
+                92,
+                140,
+                600,
+                35
+              ],
+              "font": "HelveticaNeue",
+              "color": [
+                81,
+                83,
+                76
+              ],
+              "max_size": 20,
+              "min_size": 12
+            },
+            {
+              "key": "subhead",
+              "box": [
+                94,
+                545,
+                1080,
+                70
+              ],
+              "font": "HelveticaNeue",
+              "color": [
+                81,
+                83,
+                76
+              ],
+              "max_size": 37,
+              "min_size": 18
+            },
+            {
+              "key": "badge",
+              "box": [
+                385,
+                765,
+                520,
+                80
+              ],
+              "font": "HelveticaNeue",
+              "color": [
+                255,
+                255,
+                255
+              ],
+              "fill": [
+                40,
+                95,
+                72
+              ],
+              "max_size": 30,
+              "min_size": 16,
+              "align": "center"
+            }
+          ],
+          "plate_box": [
+            80,
+            225,
+            1210,
+            475
+          ],
+          "text_box": [
+            90,
+            235,
+            800,
+            300
+          ],
+          "exclude_locales": [
+            "pl"
+          ]
+        },
+        {
+          "file": "appstore_preview_06_trial.png",
+          "base": "../../../fastlane/screenshots/en-US/appstore_preview_06_trial.png",
+          "plate": "plates/6.png",
+          "raw": "bloom",
+          "screen": [
+            238,
+            900,
+            814,
+            1715
+          ],
+          "radius": 62,
+          "header_box": [
+            90,
+            235,
+            1100,
+            300
+          ],
+          "font": ".NewYork-Regular",
+          "color": [
+            255,
+            255,
+            255
+          ],
+          "max_size": 105,
+          "min_size": 50,
+          "align": "left",
+          "extra_text": [
+            {
+              "key": "tagline",
+              "box": [
+                92,
+                140,
+                600,
+                35
+              ],
+              "font": "HelveticaNeue",
+              "color": [
+                237,
+                228,
+                207
+              ],
+              "max_size": 20,
+              "min_size": 12
+            },
+            {
+              "key": "subhead",
+              "box": [
+                94,
+                545,
+                1080,
+                70
+              ],
+              "font": "HelveticaNeue",
+              "color": [
+                237,
+                228,
+                207
+              ],
+              "max_size": 37,
+              "min_size": 18
+            },
+            {
+              "key": "badge",
+              "box": [
+                355,
+                760,
+                580,
+                85
+              ],
+              "font": "HelveticaNeue",
+              "color": [
+                23,
+                63,
+                49
+              ],
+              "fill": [
+                207,
+                165,
+                76
+              ],
+              "max_size": 30,
+              "min_size": 16,
+              "align": "center"
+            }
+          ],
+          "plate_box": [
+            80,
+            225,
+            1210,
+            475
+          ],
+          "text_box": [
+            90,
+            235,
+            800,
+            300
+          ],
+          "exclude_locales": [
+            "pl"
+          ]
+        }
+      ]
+    }
+  }
+}

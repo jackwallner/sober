@@ -41,6 +41,11 @@ func covers(_ font: NSFont, _ text: String) -> Bool {
 
 func chooseFont(_ job: Job) -> NSFont {
     let locale = job.locale.replacingOccurrences(of: "_", with: "-").lowercased()
+    if job.font == ".NewYork-Regular",
+       let descriptor = NSFont.systemFont(ofSize: 100).fontDescriptor.withDesign(.serif),
+       let font = NSFont(descriptor: descriptor, size: 100), covers(font, job.text) {
+        return font
+    }
     var names = [job.font]
     if locale.hasPrefix("ja") { names += ["HiraginoSans-W8"] }
     if locale.hasPrefix("zh") {
@@ -144,6 +149,8 @@ func render(_ job: Job) throws -> Result {
     return Result(size: size, width: Double(value.width), height: Double(value.height),
                   fits: fits(size), font: font.fontName)
 }
+
+CTFontManagerRegisterFontsForURL(URL(fileURLWithPath: "/System/Library/Fonts/NewYork.ttf") as CFURL, .process, nil)
 
 do {
     let jobs = try JSONDecoder().decode([Job].self, from: FileHandle.standardInput.readDataToEndOfFile())

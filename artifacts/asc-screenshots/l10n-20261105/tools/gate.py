@@ -73,7 +73,14 @@ def english_sources(catalog: Path, lang: str) -> Dict[str, str]:
             for text in [key] + source_values:
                 if normalize(text):
                     result[normalize(text)] = text
-    return result
+    # A source word can also be the correct translation of another key, such
+    # as German "Start" for Home. OCR alone cannot distinguish those uses.
+    valid_translations = set()
+    for entry in data.get('strings', {}).values():
+        locales = entry.get('localizations', {})
+        translation = locales.get(lang, locales.get(lang.split('-')[0], {}))
+        valid_translations.update(normalize(v) for v in translated_values(translation))
+    return {key: value for key, value in result.items() if key not in valid_translations}
 
 
 def main() -> int:
@@ -88,7 +95,7 @@ def main() -> int:
     args = p.parse_args()
     if args.catalog and not args.lang:
         p.error('--catalog requires --lang')
-    data, headers = config(args.config), read_json(args.headers)
+    data, headers = config(args.config, args.locale), read_json(args.headers)
     english_locale = data.get('english_locale', 'en-US')
     english = headers.get(english_locale, headers.get('en', {}))
     failures = []
@@ -140,6 +147,10 @@ def main() -> int:
                 if not raw.is_file():
                     failures.append(f'RAW {name}: missing {target["raw"]}')
                     continue
+                with Image.open(raw) as im:
+                    sample = np.asarray(im.convert("RGB").resize((100, 216)), dtype=np.float32)[20:200]
+                if np.std(sample, axis=(0, 1)).mean() < 4:
+                    failures.append(f"RAW {name}: blank capture {target['raw']}")
                 raw_frames.setdefault(raw.resolve(), []).append(name)
                 if not reference.is_file():
                     failures.append(f'RAW {name}: missing English reference {target["raw"]}')

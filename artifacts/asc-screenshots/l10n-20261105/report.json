@@ -15,24 +15,24 @@
     "it",
     "zh-Hans"
   ],
-  "frames": 0,
+  "frames": 6,
   "gate": {
-    "uk": "FAIL",
-    "pl": "FAIL",
-    "de-DE": "FAIL",
-    "nl-NL": "FAIL",
-    "ru": "FAIL",
-    "fr-FR": "FAIL",
-    "es-MX": "FAIL",
-    "vi": "FAIL",
-    "cs": "FAIL",
-    "hi": "FAIL",
-    "fi": "FAIL",
-    "sv": "FAIL",
-    "it": "FAIL",
-    "zh-Hans": "FAIL"
+    "uk": "PASS",
+    "pl": "PASS",
+    "de-DE": "PASS",
+    "nl-NL": "PASS",
+    "ru": "PASS",
+    "fr-FR": "PASS",
+    "es-MX": "PASS",
+    "vi": "PASS",
+    "cs": "PASS",
+    "hi": "PASS",
+    "fi": "PASS",
+    "sv": "PASS",
+    "it": "PASS",
+    "zh-Hans": "PASS"
   },
-  "gh_sim_jobs": 3,
+  "gh_sim_jobs": 6,
   "app_code_changed": [
     {
       "path": "Sober/App.swift",
@@ -44,18 +44,25 @@
     }
   ],
   "defects": [
-    "The current progress sheet has new sections above savings; the live savings frame no longer matches the visible screen.",
-    "The live trial frame has a dollar-specific offer badge that requires a localized replacement.",
-    "The first launch capture was blank; a subsequent launch captured Home.",
-    "Localized store sets, headers, geometry and gate checks are unfinished."
+    "Fourteen locale-specific frames were omitted after blank or partially drawn captures, or a progress sheet failed to open or scroll. Gates cover retained frames only.",
+    "German uses the complete 25-day pilot capture; other retained sets use 128 days.",
+    "Current app screens differ from the live English set; raw matching failed and the phone bezel determined geometry."
   ],
   "left_out": [
-    "appstore_preview_01_counter.png: localized set not produced",
-    "appstore_preview_02_garden.png: localized set not produced",
-    "appstore_preview_03_savings.png: current progress screen differs from live frame",
-    "appstore_preview_04_recovery.png: localized set not produced",
-    "appstore_preview_05_private.png: localized set not produced",
-    "appstore_preview_06_trial.png: localized offer badge not produced"
+    "pl/appstore_preview_05_private.png: blank app capture",
+    "pl/appstore_preview_06_trial.png: blank app capture",
+    "nl-NL/appstore_preview_04_recovery.png: health count did not draw",
+    "ru/appstore_preview_01_counter.png: counter did not draw",
+    "ru/appstore_preview_02_garden.png: counter did not draw",
+    "ru/appstore_preview_03_savings.png: counter did not draw",
+    "fr-FR/appstore_preview_01_counter.png: counter did not draw",
+    "fr-FR/appstore_preview_02_garden.png: counter did not draw",
+    "fr-FR/appstore_preview_03_savings.png: progress sheet did not open",
+    "es-MX/appstore_preview_01_counter.png: blank app capture",
+    "es-MX/appstore_preview_02_garden.png: blank app capture",
+    "es-MX/appstore_preview_04_recovery.png: health header and count did not draw",
+    "it/appstore_preview_04_recovery.png: health count did not draw",
+    "zh-Hans/appstore_preview_03_savings.png: progress sheet did not scroll to savings"
   ],
   "adapter": "launch"
 }
