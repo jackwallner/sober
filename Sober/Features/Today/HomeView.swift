@@ -545,13 +545,9 @@ struct HomeView: View {
                     // thing whether or not the user ever opened the app, so the
                     // confirmation shows the one record that only exists
                     // because they did.
-                    HStack(spacing: Theme.Space.s) {
-                        WeekStripView(days: week)
-                            .accessibilityHidden(true)
-                        Text(TendedWeek.compactSummary(week))
-                            .font(Theme.caption())
-                            .foregroundStyle(Theme.textSecondary)
-                            .fixedSize(horizontal: false, vertical: true)
+                    ViewThatFits(in: .horizontal) {
+                        weekReceipt(horizontal: true)
+                        weekReceipt(horizontal: false)
                     }
                 }
                 Spacer(minLength: 0)
@@ -604,6 +600,21 @@ struct HomeView: View {
             }
             .buttonStyle(.plain)
         }
+    }
+
+    @ViewBuilder
+    private func weekReceipt(horizontal: Bool) -> some View {
+        let layout = horizontal ? AnyLayout(HStackLayout(spacing: Theme.Space.s))
+            : AnyLayout(VStackLayout(alignment: .leading, spacing: Theme.Space.xs))
+        layout {
+            WeekStripView(days: week)
+                .accessibilityHidden(true)
+            Text(TendedWeek.compactSummary(week))
+                .font(Theme.caption())
+                .foregroundStyle(Theme.textSecondary)
+                .fixedSize(horizontal: true, vertical: false)
+        }
+        .fixedSize(horizontal: true, vertical: false)
     }
 
     /// The only control on Home that is for a bad moment rather than a good
