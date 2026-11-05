@@ -1,0 +1,166 @@
+{
+ "repo": "sober",
+ "github": "jackwallner/sober",
+ "bundle": "com.jackwallner.sober",
+ "family": "scene",
+ "asc_id": "6768869215",
+ "live_version": "1.3.7",
+ "targets": [
+  {
+   "rank": 5,
+   "store_locale": "uk",
+   "lang": "uk",
+   "apple_languages": "(uk)",
+   "apple_locale": "uk_UA",
+   "regions": [
+    "Ukraine"
+   ],
+   "customers": 71.0
+  },
+  {
+   "rank": 6,
+   "store_locale": "pl",
+   "lang": "pl",
+   "apple_languages": "(pl)",
+   "apple_locale": "pl_PL",
+   "regions": [
+    "Poland"
+   ],
+   "customers": 67.0
+  },
+  {
+   "rank": 13,
+   "store_locale": "de-DE",
+   "lang": "de",
+   "apple_languages": "(de)",
+   "apple_locale": "de_DE",
+   "regions": [
+    "Germany"
+   ],
+   "customers": 43.0
+  },
+  {
+   "rank": 20,
+   "store_locale": "nl-NL",
+   "lang": "nl",
+   "apple_languages": "(nl)",
+   "apple_locale": "nl_NL",
+   "regions": [
+    "Netherlands"
+   ],
+   "customers": 29.0
+  },
+  {
+   "rank": 31,
+   "store_locale": "ru",
+   "lang": "ru",
+   "apple_languages": "(ru)",
+   "apple_locale": "ru_RU",
+   "regions": [
+    "Russian Federation"
+   ],
+   "customers": 19.0
+  },
+  {
+   "rank": 53,
+   "store_locale": "fr-FR",
+   "lang": "fr",
+   "apple_languages": "(fr)",
+   "apple_locale": "fr_FR",
+   "regions": [
+    "France"
+   ],
+   "customers": 12.0
+  },
+  {
+   "rank": 60,
+   "store_locale": "es-MX",
+   "lang": "es",
+   "apple_languages": "(es)",
+   "apple_locale": "es_MX",
+   "regions": [
+    "Mexico"
+   ],
+   "customers": 11.0
+  },
+  {
+   "rank": 66,
+   "store_locale": "vi",
+   "lang": "vi",
+   "apple_languages": "(vi)",
+   "apple_locale": "vi_VN",
+   "regions": [
+    "Vietnam"
+   ],
+   "customers": 9.0
+  },
+  {
+   "rank": 70,
+   "store_locale": "cs",
+   "lang": "cs",
+   "apple_languages": "(cs)",
+   "apple_locale": "cs_CZ",
+   "regions": [
+    "Czechia"
+   ],
+   "customers": 9.0
+  },
+  {
+   "rank": 71,
+   "store_locale": "hi",
+   "lang": "hi",
+   "apple_languages": "(hi)",
+   "apple_locale": "hi_IN",
+   "regions": [
+    "India"
+   ],
+   "customers": 9.0
+  },
+  {
+   "rank": 80,
+   "store_locale": "fi",
+   "lang": "fi",
+   "apple_languages": "(fi)",
+   "apple_locale": "fi_FI",
+   "regions": [
+    "Finland"
+   ],
+   "customers": 8.0
+  },
+  {
+   "rank": 81,
+   "store_locale": "sv",
+   "lang": "sv",
+   "apple_languages": "(sv)",
+   "apple_locale": "sv_SE",
+   "regions": [
+    "Sweden"
+   ],
+   "customers": 8.0
+  },
+  {
+   "rank": 90,
+   "store_locale": "it",
+   "lang": "it",
+   "apple_languages": "(it)",
+   "apple_locale": "it_IT",
+   "regions": [
+    "Italy"
+   ],
+   "customers": 7.0
+  },
+  {
+   "rank": 91,
+   "store_locale": "zh-Hans",
+   "lang": "zh-Hans",
+   "apple_languages": "(zh-Hans)",
+   "apple_locale": "zh_CN",
+   "regions": [
+    "China"
+   ],
+   "customers": 7.0
+  }
+ ],
+ "store_locales_missing": [],
+ "dest": "artifacts/asc-screenshots/l10n-20261105"
+}

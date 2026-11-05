@@ -1,0 +1,49 @@
+{
+ "phone": {
+  "display_type": "APP_IPHONE_67",
+  "frames": [
+   {
+    "file": "appstore_preview_01_counter.png",
+    "md5": "2b15868f4b1b89e1b5874270c6aefc07",
+    "url": "https://is1-ssl.mzstatic.com/image/thumb/1-0KL0UdHxCL02rQgknCzQ/1290x2796bb.png",
+    "w": 1290,
+    "h": 2796
+   },
+   {
+    "file": "appstore_preview_02_garden.png",
+    "md5": "77bfd22e08c9a0dea131cbfbd6b42ddb",
+    "url": "https://is1-ssl.mzstatic.com/image/thumb/B8815MqZRSBPAvFNxaaUKQ/1290x2796bb.png",
+    "w": 1290,
+    "h": 2796
+   },
+   {
+    "file": "appstore_preview_03_savings.png",
+    "md5": "22beeefa5e7437cdecd05b96170ee8f0",
+    "url": "https://is1-ssl.mzstatic.com/image/thumb/rONgc2SgEmtUgLoO_uP1Qg/1290x2796bb.png",
+    "w": 1290,
+    "h": 2796
+   },
+   {
+    "file": "appstore_preview_04_recovery.png",
+    "md5": "d8147918291ea9259124efa3f9c04c79",
+    "url": "https://is1-ssl.mzstatic.com/image/thumb/BQztkNUvZqJB0pjihgp_kQ/1290x2796bb.png",
+    "w": 1290,
+    "h": 2796
+   },
+   {
+    "file": "appstore_preview_05_private.png",
+    "md5": "bff5db152c02d2405011885f74a5ceac",
+    "url": "https://is1-ssl.mzstatic.com/image/thumb/7TcEMlx-AUq0zpx7bonRUQ/1290x2796bb.png",
+    "w": 1290,
+    "h": 2796
+   },
+   {
+    "file": "appstore_preview_06_trial.png",
+    "md5": "1797b6f7740cc450b75037a79752a9c4",
+    "url": "https://is1-ssl.mzstatic.com/image/thumb/EMOhgRKe6fjHBvtbTIy85A/1290x2796bb.png",
+    "w": 1290,
+    "h": 2796
+   }
+  ]
+ }
+}
