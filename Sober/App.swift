@@ -196,8 +196,13 @@ struct RootView: View {
         if args.contains("-demoPro") {
             SubscriptionService.shared.setLocalOverride(isPro: true)
         }
-        guard args.contains("-seedDemo"),
-              !(settingsRows.first?.hasCompletedOnboarding ?? false) else { return }
+        guard args.contains("-seedDemo") else { return }
+        if settingsRows.first?.hasCompletedOnboarding ?? false {
+            if args.contains("-storeScreenshots") {
+                refreshScreenshotJournal()
+            }
+            return
+        }
 
         let settings = SettingsService(context: context).current()
         settings.costPerDayCents = 2000
@@ -224,12 +229,24 @@ struct RootView: View {
         // zero, the first Home appearance replays one over the screen.
         GardenService(context: context).current().lastUnlockNotifiedAtDays = days + 1
         CheckInService(context: context).fillJourney(start: start, through: .now)
+        if args.contains("-storeScreenshots") {
+            CheckInService(context: context).checkIn()
+        }
         // Badges are otherwise earned when Home appears, so a capture that opens
         // on another tab showed none. The counter is 1-based (start day is Day 1).
         AchievementService(context: context).processUnlocks(currentDays: days + 1)
         seedJournal(start: start)
         try? context.save()
         WidgetSnapshotPump.push(context: context)
+    }
+
+    /// Refresh seeded text after a screenshot locale change on the same simulator.
+    private func refreshScreenshotJournal() {
+        let entries = (try? context.fetch(FetchDescriptor<JournalEntry>())) ?? []
+        for entry in entries { context.delete(entry) }
+        let start = Calendar.current.date(byAdding: .day, value: -127, to: .now) ?? .now
+        seedJournal(start: start)
+        try? context.save()
     }
 
     /// Journal renders an empty state until entries exist, which makes for a

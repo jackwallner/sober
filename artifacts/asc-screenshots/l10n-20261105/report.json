@@ -1,0 +1,61 @@
+{
+  "locales": [
+    "uk",
+    "pl",
+    "de-DE",
+    "nl-NL",
+    "ru",
+    "fr-FR",
+    "es-MX",
+    "vi",
+    "cs",
+    "hi",
+    "fi",
+    "sv",
+    "it",
+    "zh-Hans"
+  ],
+  "frames": 0,
+  "gate": {
+    "uk": "FAIL",
+    "pl": "FAIL",
+    "de-DE": "FAIL",
+    "nl-NL": "FAIL",
+    "ru": "FAIL",
+    "fr-FR": "FAIL",
+    "es-MX": "FAIL",
+    "vi": "FAIL",
+    "cs": "FAIL",
+    "hi": "FAIL",
+    "fi": "FAIL",
+    "sv": "FAIL",
+    "it": "FAIL",
+    "zh-Hans": "FAIL"
+  },
+  "gh_sim_jobs": 3,
+  "app_code_changed": [
+    {
+      "path": "Sober/App.swift",
+      "debug_only": true
+    },
+    {
+      "path": "Sober/Features/Today/HomeView.swift",
+      "debug_only": false
+    }
+  ],
+  "defects": [
+    "The current progress sheet has new sections above savings; the live savings frame no longer matches the visible screen.",
+    "The live trial frame has a dollar-specific offer badge that requires a localized replacement.",
+    "The first launch capture was blank; a subsequent launch captured Home.",
+    "Localized store sets, headers, geometry and gate checks are unfinished."
+  ],
+  "left_out": [
+    "appstore_preview_01_counter.png: localized set not produced",
+    "appstore_preview_02_garden.png: localized set not produced",
+    "appstore_preview_03_savings.png: current progress screen differs from live frame",
+    "appstore_preview_04_recovery.png: localized set not produced",
+    "appstore_preview_05_private.png: localized set not produced",
+    "appstore_preview_06_trial.png: localized offer badge not produced"
+  ],
+  "adapter": "launch"
+}
