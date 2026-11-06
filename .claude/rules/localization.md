@@ -65,3 +65,12 @@ Store pages were already translated, so the copy inside the app is the lever.
 `--screen "-AppleLanguages (de) -AppleLocale de_DE -onboardingStep 4 -previewStore"`
 (trial page) and `"... -PaywallSnapshot yearly -previewStore"` (paywall). The
 preview store formats prices in en_US, so its "$" is a fixture, not a bug.
+
+## Language row
+
+Settings has a Language row that names the running localization in itself
+(`Bundle.main.preferredLocalizations`) and opens `openSettingsURLString`, Apple's
+route for a per-app language change. iOS hides the app's Language option on a
+device with one preferred language unless `UIPrefersShowingLanguageSettings` is
+YES in `Info.plist`, so keep that key. The simulator's Settings opens at its root
+for this link; check the landing on a real iPhone.
