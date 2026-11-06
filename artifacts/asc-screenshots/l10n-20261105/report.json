@@ -32,7 +32,33 @@
     "it": "PASS",
     "zh-Hans": "PASS"
   },
-  "gh_sim_jobs": 6,
+  "gh_sim_jobs": 2,
+  "gh_sim_runs": [
+    {
+      "id": "sober-shots-mbair33dd-1105-182512-22797",
+      "mode": "all",
+      "target_screens_captured": 67,
+      "tests": {
+        "result": "PASS",
+        "passed": 225,
+        "failed": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "id": "sober-shots-mbair33dd-1105-192915-20909",
+      "mode": "launch",
+      "target_screens_captured": 3,
+      "scenes": [
+        "zh-Hans/health",
+        "zh-Hans/journal",
+        "zh-Hans/bloom"
+      ],
+      "result": "PASS"
+    }
+  ],
+  "raw_target_screens": 70,
+  "adapter": "launch",
   "app_code_changed": [
     {
       "path": "Sober/App.swift",
@@ -43,26 +69,193 @@
       "debug_only": false
     }
   ],
-  "defects": [
-    "Fourteen locale-specific frames were omitted after blank or partially drawn captures, or a progress sheet failed to open or scroll. Gates cover retained frames only.",
-    "German uses the complete 25-day pilot capture; other retained sets use 128 days.",
-    "Current app screens differ from the live English set; raw matching failed and the phone bezel determined geometry."
+  "checks": {
+    "localization": "PASS: 776 keys, 23 languages, 0 problems",
+    "visual_review": "All 14 six-frame locale sheets reviewed. Frame 3 shows current Saved values; frame 6 uses localized free-today and seven-day copy without currency.",
+    "headers": "All 14 target locales have localized taglines and subheads for all six frames, plus both localized badges; headers rendered and visually reviewed.",
+    "installed_pngs": 84,
+    "en-US_untouched": true
+  },
+  "ui_defect_resolutions": [
+    {
+      "locale": "pl",
+      "file": "appstore_preview_05_private.png",
+      "severity": "blocker",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: blank app capture. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "status": "fixed",
+      "resolution": "Fixed: captured and composed pl/phone/journal.png; pl gate PASS."
+    },
+    {
+      "locale": "pl",
+      "file": "appstore_preview_06_trial.png",
+      "severity": "blocker",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: blank app capture. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "status": "fixed",
+      "resolution": "Fixed: captured and composed pl/phone/bloom.png; pl gate PASS."
+    },
+    {
+      "locale": "nl-NL",
+      "file": "appstore_preview_04_recovery.png",
+      "severity": "blocker",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: health count did not draw. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "status": "fixed",
+      "resolution": "Fixed: captured and composed nl-NL/phone/health.png; nl-NL gate PASS."
+    },
+    {
+      "locale": "ru",
+      "file": "appstore_preview_01_counter.png",
+      "severity": "blocker",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: counter did not draw. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "status": "fixed",
+      "resolution": "Fixed: captured and composed ru/phone/home.png; ru gate PASS."
+    },
+    {
+      "locale": "ru",
+      "file": "appstore_preview_02_garden.png",
+      "severity": "blocker",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: counter did not draw. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "status": "fixed",
+      "resolution": "Fixed: captured and composed ru/phone/home.png; ru gate PASS."
+    },
+    {
+      "locale": "ru",
+      "file": "appstore_preview_03_savings.png",
+      "severity": "blocker",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: counter did not draw. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "status": "fixed",
+      "resolution": "Fixed: captured and composed ru/phone/savings.png; ru gate PASS."
+    },
+    {
+      "locale": "fr-FR",
+      "file": "appstore_preview_01_counter.png",
+      "severity": "blocker",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: counter did not draw. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "status": "fixed",
+      "resolution": "Fixed: captured and composed fr-FR/phone/home.png; fr-FR gate PASS."
+    },
+    {
+      "locale": "fr-FR",
+      "file": "appstore_preview_02_garden.png",
+      "severity": "blocker",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: counter did not draw. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "status": "fixed",
+      "resolution": "Fixed: captured and composed fr-FR/phone/home.png; fr-FR gate PASS."
+    },
+    {
+      "locale": "fr-FR",
+      "file": "appstore_preview_03_savings.png",
+      "severity": "blocker",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: progress sheet did not open. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "status": "fixed",
+      "resolution": "Fixed: captured and composed fr-FR/phone/savings.png; fr-FR gate PASS."
+    },
+    {
+      "locale": "es-MX",
+      "file": "appstore_preview_01_counter.png",
+      "severity": "blocker",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: blank app capture. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "status": "fixed",
+      "resolution": "Fixed: captured and composed es-MX/phone/home.png; es-MX gate PASS."
+    },
+    {
+      "locale": "es-MX",
+      "file": "appstore_preview_02_garden.png",
+      "severity": "blocker",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: blank app capture. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "status": "fixed",
+      "resolution": "Fixed: captured and composed es-MX/phone/home.png; es-MX gate PASS."
+    },
+    {
+      "locale": "es-MX",
+      "file": "appstore_preview_04_recovery.png",
+      "severity": "blocker",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: health header and count did not draw. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "status": "fixed",
+      "resolution": "Fixed: captured and composed es-MX/phone/health.png; es-MX gate PASS."
+    },
+    {
+      "locale": "it",
+      "file": "appstore_preview_04_recovery.png",
+      "severity": "blocker",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: health count did not draw. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "status": "fixed",
+      "resolution": "Fixed: captured and composed it/phone/health.png; it gate PASS."
+    },
+    {
+      "locale": "zh-Hans",
+      "file": "appstore_preview_03_savings.png",
+      "severity": "blocker",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: progress sheet did not scroll to savings. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "status": "fixed",
+      "resolution": "Fixed: captured and composed zh-Hans/phone/savings.png; zh-Hans gate PASS."
+    },
+    {
+      "locale": "de-DE",
+      "file": "appstore_preview_01_counter.png",
+      "severity": "minor",
+      "what": "Uses the 25-day pilot instead of the 128-day demo in English and the other locales. The garden is visibly younger, savings are 500 euros instead of 2,560 local currency units, and health shows 6/13 instead of 10/13. Internally consistent, but the demo state does not match across locales.",
+      "status": "fixed",
+      "resolution": "Fixed: recaptured this German frame with the shared 128-day demo state; the visual sheet confirms parity with other locales."
+    },
+    {
+      "locale": "de-DE",
+      "file": "appstore_preview_02_garden.png",
+      "severity": "minor",
+      "what": "Uses the 25-day pilot instead of the 128-day demo in English and the other locales. The garden is visibly younger, savings are 500 euros instead of 2,560 local currency units, and health shows 6/13 instead of 10/13. Internally consistent, but the demo state does not match across locales.",
+      "status": "fixed",
+      "resolution": "Fixed: recaptured this German frame with the shared 128-day demo state; the visual sheet confirms parity with other locales."
+    },
+    {
+      "locale": "de-DE",
+      "file": "appstore_preview_03_savings.png",
+      "severity": "minor",
+      "what": "Uses the 25-day pilot instead of the 128-day demo in English and the other locales. The garden is visibly younger, savings are 500 euros instead of 2,560 local currency units, and health shows 6/13 instead of 10/13. Internally consistent, but the demo state does not match across locales.",
+      "status": "fixed",
+      "resolution": "Fixed: recaptured this German frame with the shared 128-day demo state; the visual sheet confirms parity with other locales."
+    },
+    {
+      "locale": "de-DE",
+      "file": "appstore_preview_04_recovery.png",
+      "severity": "minor",
+      "what": "Uses the 25-day pilot instead of the 128-day demo in English and the other locales. The garden is visibly younger, savings are 500 euros instead of 2,560 local currency units, and health shows 6/13 instead of 10/13. Internally consistent, but the demo state does not match across locales.",
+      "status": "fixed",
+      "resolution": "Fixed: recaptured this German frame with the shared 128-day demo state; the visual sheet confirms parity with other locales."
+    },
+    {
+      "locale": "de-DE",
+      "file": "appstore_preview_05_private.png",
+      "severity": "minor",
+      "what": "Uses the 25-day pilot instead of the 128-day demo in English and the other locales. The garden is visibly younger, savings are 500 euros instead of 2,560 local currency units, and health shows 6/13 instead of 10/13. Internally consistent, but the demo state does not match across locales.",
+      "status": "fixed",
+      "resolution": "Fixed: recaptured this German frame with the shared 128-day demo state; the visual sheet confirms parity with other locales."
+    },
+    {
+      "locale": "de-DE",
+      "file": "appstore_preview_06_trial.png",
+      "severity": "minor",
+      "what": "Uses the 25-day pilot instead of the 128-day demo in English and the other locales. The garden is visibly younger, savings are 500 euros instead of 2,560 local currency units, and health shows 6/13 instead of 10/13. Internally consistent, but the demo state does not match across locales.",
+      "status": "fixed",
+      "resolution": "Fixed: recaptured this German frame with the shared 128-day demo state; the visual sheet confirms parity with other locales."
+    },
+    {
+      "locale": "de-DE",
+      "file": "all phone frames",
+      "severity": "blocker",
+      "what": "German was kept from the pilot at 25 days. Every other locale shows 128 days. Recapture German so it matches.",
+      "status": "fixed",
+      "resolution": "Fixed: all six German frames now use the 128-day demo and match the counter, garden, savings, and health state across locales."
+    },
+    {
+      "locale": "all",
+      "file": "tools/capture.py",
+      "severity": "blocker",
+      "what": "Two earlier recaptures on the Air failed: first only en-US came back; second gh-sim exited 0 yet capture.py reported every capture missing while ~/.gh-sim/results/sober-shots-mbair33dd-1105-115925-11969/shots held only en-US. Check that all --screen args reach gh-sim and that --id-file names the new result. Then recapture all target locales in one job, since raws are not in git and header fixes need every raw.",
+      "status": "fixed",
+      "resolution": "Fixed: adapter now uses the fresh GH-SIM id-file, verifies exact screen mapping, retains partial captures, and captures all 70 target raw scenes across the successful 67 + 3 runs."
+    }
   ],
-  "left_out": [
-    "pl/appstore_preview_05_private.png: blank app capture",
-    "pl/appstore_preview_06_trial.png: blank app capture",
-    "nl-NL/appstore_preview_04_recovery.png: health count did not draw",
-    "ru/appstore_preview_01_counter.png: counter did not draw",
-    "ru/appstore_preview_02_garden.png: counter did not draw",
-    "ru/appstore_preview_03_savings.png: counter did not draw",
-    "fr-FR/appstore_preview_01_counter.png: counter did not draw",
-    "fr-FR/appstore_preview_02_garden.png: counter did not draw",
-    "fr-FR/appstore_preview_03_savings.png: progress sheet did not open",
-    "es-MX/appstore_preview_01_counter.png: blank app capture",
-    "es-MX/appstore_preview_02_garden.png: blank app capture",
-    "es-MX/appstore_preview_04_recovery.png: health header and count did not draw",
-    "it/appstore_preview_04_recovery.png: health count did not draw",
-    "zh-Hans/appstore_preview_03_savings.png: progress sheet did not scroll to savings"
-  ],
-  "adapter": "launch"
+  "left_out": [],
+  "reviewer_caveats": [
+    "Seven-day trial eligibility is a runtime offering setting and cannot be verified from static screenshots; the badge copy mirrors the English offer."
+  ]
 }

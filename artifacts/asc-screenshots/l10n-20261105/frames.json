@@ -81,11 +81,6 @@
             235,
             800,
             300
-          ],
-          "exclude_locales": [
-            "fr-FR",
-            "es-MX",
-            "ru"
           ]
         },
         {
@@ -162,11 +157,6 @@
             235,
             800,
             300
-          ],
-          "exclude_locales": [
-            "fr-FR",
-            "es-MX",
-            "ru"
           ]
         },
         {
@@ -243,11 +233,6 @@
             235,
             800,
             300
-          ],
-          "exclude_locales": [
-            "fr-FR",
-            "ru",
-            "zh-Hans"
           ]
         },
         {
@@ -324,11 +309,6 @@
             235,
             800,
             300
-          ],
-          "exclude_locales": [
-            "nl-NL",
-            "es-MX",
-            "it"
           ]
         },
         {
@@ -428,9 +408,6 @@
             235,
             800,
             300
-          ],
-          "exclude_locales": [
-            "pl"
           ]
         },
         {
@@ -530,9 +507,6 @@
             235,
             800,
             300
-          ],
-          "exclude_locales": [
-            "pl"
           ]
         }
       ]
