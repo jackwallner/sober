@@ -14,7 +14,7 @@ if len(sys.argv) > 1:
     wanted = set(sys.argv[1:]) | {'en-US'}
     locales = [locale for locale in locales if locale['store_locale'] in wanted]
 scenes = [('home', ''), ('savings', '-showProgress -scrollProgressSaved'), ('health', '-tab 2'), ('journal', '-tab 3'), ('bloom', '-tab 4')]
-command = ['gh-sim', 'launch', '--device', 'iPhone 17 Pro Max', '--wait', '6', '--record-seconds', '1', '--args', '-seedDemo -seedDays 127 -storeScreenshots -demoPro']
+command = ['gh-sim', 'launch', '--device', 'iPhone 17 Pro Max', '--wait', '14', '--record-seconds', '1', '--args', '-seedDemo -seedDays 127 -storeScreenshots -demoPro']
 for locale in locales:
     for _, args in scenes:
         command += ['--screen', f"-AppleLanguages {locale['apple_languages']} -AppleLocale {locale['apple_locale']} {args}"]
