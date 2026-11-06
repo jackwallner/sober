@@ -1,0 +1,200 @@
+{
+  "verdict": "FIX",
+  "header_fixes": [
+    {
+      "locale": "pl",
+      "file": "appstore_preview_01_counter.png#subhead",
+      "before": "Licznik, meldunki i kalendarz",
+      "after": "Licznik, zapisy dnia i kalendarz",
+      "why": "Meldunki suggests reports or roll calls. Use the catalog term Zapis dnia for check-ins."
+    },
+    {
+      "locale": "pl",
+      "file": "appstore_preview_05_private.png#subhead",
+      "before": "Dziennik i meldunki pozostają prywatne",
+      "after": "Dziennik i zapisy dnia pozostają prywatne",
+      "why": "Use the catalog term for check-ins consistently. This frame is currently omitted; apply when restored."
+    },
+    {
+      "locale": "uk",
+      "file": "appstore_preview_03_savings.png",
+      "before": "Дізнайтеся ціну\nалкогольних звичок",
+      "after": "Дізнайтеся, скільки\nкоштував алкоголь",
+      "why": "Name the past financial cost of alcohol explicitly, matching the English savings frame. The original can suggest the broader consequences of drinking habits."
+    },
+    {
+      "locale": "fi",
+      "file": "appstore_preview_01_counter.png",
+      "before": "Selvät päivät\nyhdellä silmäyksellä",
+      "after": "Raittiit päivät\nyhdellä silmäyksellä",
+      "why": "Raittiit names sobriety explicitly and matches the catalog term raittiina. Selvät is ambiguous outside context."
+    },
+    {
+      "locale": "fi",
+      "file": "appstore_preview_03_savings.png",
+      "before": "Näe, mitä juominen\nmaksaa",
+      "after": "Näe, mitä\njuominen maksoi",
+      "why": "Use past tense for what drinking used to cost and balance the two lines. The original says what drinking currently costs."
+    },
+    {
+      "locale": "fi",
+      "file": "appstore_preview_05_private.png",
+      "before": "Oma päiväkirjasi\nyksityisesti",
+      "after": "Päiväkirjasi\npysyy yksityisenä",
+      "why": "Use an idiomatic sentence meaning your journal stays private. Oma päiväkirjasi yksityisesti is an awkward noun phrase followed by an adverb."
+    },
+    {
+      "locale": "it",
+      "file": "appstore_preview_05_private.png#badge",
+      "before": "NESSUN ACCESSO RICHIESTO",
+      "after": "SENZA ACCOUNT",
+      "why": "Use the catalog wording senza account. Nessun accesso richiesto is a literal and unnatural rendering of no login required."
+    },
+    {
+      "locale": "zh-Hans",
+      "file": "appstore_preview_02_garden.png",
+      "before": "陪你一起成长\n的花园",
+      "after": "与你一起\n成长的花园",
+      "why": "Balance the two lines and avoid leaving 的花园 isolated on a short second line. Preserve the garden that grows with you meaning."
+    }
+  ],
+  "ui_defects": [
+    {
+      "locale": "pl",
+      "file": "appstore_preview_05_private.png",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: blank app capture. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "severity": "blocker"
+    },
+    {
+      "locale": "pl",
+      "file": "appstore_preview_06_trial.png",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: blank app capture. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "severity": "blocker"
+    },
+    {
+      "locale": "nl-NL",
+      "file": "appstore_preview_04_recovery.png",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: health count did not draw. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "severity": "blocker"
+    },
+    {
+      "locale": "ru",
+      "file": "appstore_preview_01_counter.png",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: counter did not draw. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "severity": "blocker"
+    },
+    {
+      "locale": "ru",
+      "file": "appstore_preview_02_garden.png",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: counter did not draw. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "severity": "blocker"
+    },
+    {
+      "locale": "ru",
+      "file": "appstore_preview_03_savings.png",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: counter did not draw. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "severity": "blocker"
+    },
+    {
+      "locale": "fr-FR",
+      "file": "appstore_preview_01_counter.png",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: counter did not draw. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "severity": "blocker"
+    },
+    {
+      "locale": "fr-FR",
+      "file": "appstore_preview_02_garden.png",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: counter did not draw. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "severity": "blocker"
+    },
+    {
+      "locale": "fr-FR",
+      "file": "appstore_preview_03_savings.png",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: progress sheet did not open. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "severity": "blocker"
+    },
+    {
+      "locale": "es-MX",
+      "file": "appstore_preview_01_counter.png",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: blank app capture. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "severity": "blocker"
+    },
+    {
+      "locale": "es-MX",
+      "file": "appstore_preview_02_garden.png",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: blank app capture. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "severity": "blocker"
+    },
+    {
+      "locale": "es-MX",
+      "file": "appstore_preview_04_recovery.png",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: health header and count did not draw. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "severity": "blocker"
+    },
+    {
+      "locale": "it",
+      "file": "appstore_preview_04_recovery.png",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: health count did not draw. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "severity": "blocker"
+    },
+    {
+      "locale": "zh-Hans",
+      "file": "appstore_preview_03_savings.png",
+      "what": "Missing from the intended six-frame phone set, confirmed on disk. Producer reports: progress sheet did not scroll to savings. The retained-frame PASS does not cover this omission. Orchestrator must restore and review this frame.",
+      "severity": "blocker"
+    },
+    {
+      "locale": "de-DE",
+      "file": "appstore_preview_01_counter.png",
+      "what": "Uses the 25-day pilot instead of the 128-day demo in English and the other locales. The garden is visibly younger, savings are 500 euros instead of 2,560 local currency units, and health shows 6/13 instead of 10/13. Internally consistent, but the demo state does not match across locales.",
+      "severity": "minor"
+    },
+    {
+      "locale": "de-DE",
+      "file": "appstore_preview_02_garden.png",
+      "what": "Uses the 25-day pilot instead of the 128-day demo in English and the other locales. The garden is visibly younger, savings are 500 euros instead of 2,560 local currency units, and health shows 6/13 instead of 10/13. Internally consistent, but the demo state does not match across locales.",
+      "severity": "minor"
+    },
+    {
+      "locale": "de-DE",
+      "file": "appstore_preview_03_savings.png",
+      "what": "Uses the 25-day pilot instead of the 128-day demo in English and the other locales. The garden is visibly younger, savings are 500 euros instead of 2,560 local currency units, and health shows 6/13 instead of 10/13. Internally consistent, but the demo state does not match across locales.",
+      "severity": "minor"
+    },
+    {
+      "locale": "de-DE",
+      "file": "appstore_preview_04_recovery.png",
+      "what": "Uses the 25-day pilot instead of the 128-day demo in English and the other locales. The garden is visibly younger, savings are 500 euros instead of 2,560 local currency units, and health shows 6/13 instead of 10/13. Internally consistent, but the demo state does not match across locales.",
+      "severity": "minor"
+    },
+    {
+      "locale": "de-DE",
+      "file": "appstore_preview_05_private.png",
+      "what": "Uses the 25-day pilot instead of the 128-day demo in English and the other locales. The garden is visibly younger, savings are 500 euros instead of 2,560 local currency units, and health shows 6/13 instead of 10/13. Internally consistent, but the demo state does not match across locales.",
+      "severity": "minor"
+    },
+    {
+      "locale": "de-DE",
+      "file": "appstore_preview_06_trial.png",
+      "what": "Uses the 25-day pilot instead of the 128-day demo in English and the other locales. The garden is visibly younger, savings are 500 euros instead of 2,560 local currency units, and health shows 6/13 instead of 10/13. Internally consistent, but the demo state does not match across locales.",
+      "severity": "minor"
+    },
+    {
+      "locale": "de-DE",
+      "file": "all phone frames",
+      "what": "German was kept from the pilot at 25 days. Every other locale shows 128 days. Recapture German so it matches.",
+      "severity": "blocker"
+    },
+    {
+      "locale": "all",
+      "file": "tools/capture.py",
+      "what": "Two earlier recaptures on the Air failed: first only en-US came back; second gh-sim exited 0 yet capture.py reported every capture missing while ~/.gh-sim/results/sober-shots-mbair33dd-1105-115925-11969/shots held only en-US. Check that all --screen args reach gh-sim and that --id-file names the new result. Then recapture all target locales in one job, since raws are not in git and header fixes need every raw.",
+      "severity": "blocker"
+    }
+  ],
+  "unsure": [
+    "Header fixes are saved only in copy/headers.json. tools/reskin.py requires every raw in its validation loop and cannot reuse existing screens. Raws are absent, so no PNG was changed. Orchestrator must render the corrected copy and check line fit, clipping and uniform header size again.",
+    "Visual coverage: all 14 target locales, one phone set each, 70 retained frames, reviewed against their English counterparts using tools/sheet.py and frames.json. Missing raws prevented raw checks. Swift/CoreText is unavailable on this Linux host, so a temporary Pillow callback rendered contact-sheet labels only; production screenshot pixels were unchanged. Full-frame checks of Swedish and Chinese garden counters and Hindi navigation cleared apparent thumbnail clipping.",
+    "Trial duration and eligibility cannot be verified from these images. Frame 6 promises a seven-day Bloom+ trial while showing the active Bloom+ dashboard, as in English. Confirm the offer is available to the intended audience before publishing."
+  ]
+}
