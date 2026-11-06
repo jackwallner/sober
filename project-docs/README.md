@@ -9,6 +9,7 @@ Developer notes and historical audits for this repository. The published site re
 - [reg93.md](audits/reg93.md): Sober build 83 to build 87 regression audit
 - [reg94.md](audits/reg94.md): Sober build 83 to build 88 regression audit
 - [state-machines-2026-11-06.md](audits/state-machines-2026-11-06.md): state machines, invariants and 19 reachable bugs, with a repro suite
+- [state-machines-2026-11-06-review.md](audits/state-machines-2026-11-06-review.md): independent review of that audit: 6 confirmed, 11 minor, 2 rejected, with method changes for the fleet pilot
 
 ## Marketing
 
