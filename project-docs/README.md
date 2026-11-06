@@ -8,6 +8,7 @@ Developer notes and historical audits for this repository. The published site re
 - [ios27Sober.md](audits/ios27Sober.md): iOS 27 compatibility audit: Sober
 - [reg93.md](audits/reg93.md): Sober build 83 to build 87 regression audit
 - [reg94.md](audits/reg94.md): Sober build 83 to build 88 regression audit
+- [state-machines-2026-11-06.md](audits/state-machines-2026-11-06.md): state machines, invariants and 19 reachable bugs, with a repro suite
 
 ## Marketing
 
