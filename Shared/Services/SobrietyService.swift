@@ -200,6 +200,14 @@ final class SobrietyService {
     /// closed by a slip. Matching any run that ended on `day` let a slip
     /// yesterday be undone straight through a slip today, or through an older
     /// slip entered later, reopening a run that overlaps the ones after it.
+    ///
+    /// Only a run that began after the slip's run can block it. Two kinds of
+    /// closed run sit beside it without coming after it: the run older
+    /// onboarding builds left behind, which shares its start and ends wherever
+    /// setup ran, and a Reset or leftover run the user moved the start back
+    /// past, which `trimClosedJourneys` leaves empty on its own start. Taken
+    /// as "the run before", either one refused the undo of the slip that
+    /// really closed the run before the active one.
     private func reversibleSplit(endedOn day: Date) -> (closed: SobrietyJourney, active: SobrietyJourney)? {
         guard let active = activeJourney() else { return nil }
         let target = DateHelpers.startOfDay(day)
@@ -208,14 +216,18 @@ final class SobrietyService {
         guard gap == 0 || gap == 1 else { return nil }
 
         let descriptor = FetchDescriptor<SobrietyJourney>()
-        let journeys = (try? context.fetch(descriptor)) ?? []
-        let predecessor = journeys
-            .filter { $0 !== active && $0.endDate != nil }
-            .max(by: { ($0.startDate, $0.endDate ?? .distantPast) < ($1.startDate, $1.endDate ?? .distantPast) })
-        guard let closed = predecessor,
-              let end = closed.endDate,
-              DateHelpers.startOfDay(end) == target,
-              closed.resetReason == Self.slipReason
+        let closedRuns = ((try? context.fetch(descriptor)) ?? []).filter { j in
+            guard j !== active, let end = j.endDate else { return false }
+            return end > j.startDate || j.resetReason == Self.slipReason
+        }
+        let candidate = closedRuns
+            .filter { j in
+                guard let end = j.endDate else { return false }
+                return j.resetReason == Self.slipReason && DateHelpers.startOfDay(end) == target
+            }
+            .max(by: { $0.startDate < $1.startDate })
+        guard let closed = candidate,
+              !closedRuns.contains(where: { $0 !== closed && $0.startDate > closed.startDate })
         else { return nil }
         return (closed, active)
     }
