@@ -30,8 +30,8 @@ final class SobrietyService {
 
     /// Move the active journey's start to a new timestamp (e.g. the user
     /// correcting their start date/time). Clamped to not run into the future,
-    /// and not back past the run before it or a logged slip
-    /// (`earliestStartDate`), since runs must not overlap.
+    /// and not back past a logged slip (`earliestStartDate`). Runs must not
+    /// overlap, so a closed run the new start reaches into is trimmed to it.
     ///
     /// Moving the start later drops the days the app assumed sober for the
     /// old range. Kept, they went on counting in lifetime days, money and
@@ -44,6 +44,7 @@ final class SobrietyService {
         var newStart = min(date, .now)
         if let earliest = earliestStartDate() { newStart = max(newStart, earliest) }
         journey.startDate = newStart
+        trimClosedJourneys(after: newStart, keeping: journey)
         let newStartDay = DateHelpers.startOfDay(newStart)
         if newStartDay > oldStart {
             let descriptor = FetchDescriptor<DailyCheckIn>(
@@ -59,21 +60,36 @@ final class SobrietyService {
     }
 
     /// The earliest start the active run can be moved back to: the day after
-    /// the run before it ended in a slip (or the moment a Reset ended it), and
-    /// never across a logged slip. Nil when nothing came before. Never later
-    /// than the current start, so the picker can always show it.
+    /// the latest logged slip. Nil when no slip came before. Never later than
+    /// the current start, so the picker can always show it.
+    ///
+    /// Only slips set the floor. A Reset (or the closed run older onboarding
+    /// builds left behind) is not a day the user drank, and it has no undo, so
+    /// moving the start back past it is how a Reset gets corrected. Such a run
+    /// is trimmed instead (`trimClosedJourneys`).
     func earliestStartDate() -> Date? {
         guard let active = activeJourney() else { return nil }
         let journeys = (try? context.fetch(FetchDescriptor<SobrietyJourney>())) ?? []
         var bounds: [Date] = journeys.compactMap { j in
-            guard j !== active, let end = j.endDate else { return nil }
-            return j.resetReason == Self.slipReason ? Self.dayAfter(end) : end
+            guard j !== active, let end = j.endDate, j.resetReason == Self.slipReason else { return nil }
+            return Self.dayAfter(end)
         }
         if let lastSlip = CheckInService(context: context).lastSlipDate() {
             bounds.append(Self.dayAfter(lastSlip))
         }
         guard let bound = bounds.max() else { return nil }
         return min(bound, active.startDate)
+    }
+
+    /// End every closed run still going at `start` there, so a start moved
+    /// back past a Reset leaves no overlapping runs. A run that began after
+    /// `start` is kept, ending where it began.
+    private func trimClosedJourneys(after start: Date, keeping active: SobrietyJourney) {
+        let journeys = (try? context.fetch(FetchDescriptor<SobrietyJourney>())) ?? []
+        for j in journeys where j !== active {
+            guard let end = j.endDate, end > start else { continue }
+            j.endDate = max(j.startDate, start)
+        }
     }
 
     private static func dayAfter(_ date: Date) -> Date {

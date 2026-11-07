@@ -326,6 +326,39 @@ struct SlipHistoryRegressionTests {
         #expect(sobriety.currentDayCount() == 401)
     }
 
+    @Test func j4_aResetDoesNotStopTheStartMovingBack() {
+        sobriety.startJourney(at: DateHelpers.daysAgo(40))
+        sobriety.reset()
+        sobriety.updateStartDate(DateHelpers.daysAgo(3))
+        #expect(sobriety.currentDayCount() == 4)
+        #expect(sobriety.longestStreakDays() == 38)
+        #expect(closedRunsEndBy(sobriety.activeJourney()?.startDate))
+    }
+
+    @Test func j4_aMistakenResetCanBeUndoneFromSettings() {
+        sobriety.startJourney(at: DateHelpers.daysAgo(40))
+        sobriety.reset()
+        sobriety.updateStartDate(DateHelpers.daysAgo(40))
+        #expect(sobriety.currentDayCount() == 41)
+        #expect(closedRunsEndBy(sobriety.activeJourney()?.startDate))
+    }
+
+    @Test func j4_aLeftoverOnboardingRunDoesNotLockTheStart() {
+        // Builds before 2026-10-31 closed the first pass's run at the moment
+        // setup ran again, with no reason.
+        sobriety.startJourney(at: DateHelpers.daysAgo(40))
+        sobriety.startJourney(at: DateHelpers.daysAgo(40))
+        sobriety.updateStartDate(DateHelpers.daysAgo(60))
+        #expect(sobriety.currentDayCount() == 61)
+        #expect(closedRunsEndBy(sobriety.activeJourney()?.startDate))
+    }
+
+    private func closedRunsEndBy(_ start: Date?) -> Bool {
+        guard let start else { return false }
+        let runs = (try? context.fetch(FetchDescriptor<SobrietyJourney>())) ?? []
+        return runs.allSatisfy { j in j.endDate.map { $0 <= max(start, j.startDate) } ?? true }
+    }
+
     // G1 to G5
 
     @Test func g1_undoPastAYearDoesNotAddATree() {
