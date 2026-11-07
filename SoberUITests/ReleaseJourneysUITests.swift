@@ -73,7 +73,7 @@ final class ReleaseJourneysUITests: XCTestCase {
         // At accessibility sizes the mood rows push the note below the fold.
         var scrolls = 0
         while !note.isHittable && scrolls < 6 {
-            QA.swipe(app.navigationBars[L("Checked in")].otherElements.firstMatch.exists ? app.tables.firstMatch : app, .up)
+            QA.swipe(app.tables.firstMatch, .up)
             scrolls += 1
         }
         XCTAssertTrue(note.waitForExistence(timeout: 5))
