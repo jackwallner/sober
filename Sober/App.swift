@@ -191,8 +191,13 @@ struct RootView: View {
     ///                 each other the way the hand-captured 1.1.4 frames did
     ///   -seedGoal N : set a 30/90/365-day goal on the seeded journey
     ///   -demoPro    : flip the local Pro override on
+    ///   -freshOnboarding : show onboarding even if an earlier run on this
+    ///                 simulator finished it, so the first-run journey is repeatable
     private func seedDemoIfRequested() {
         let args = ProcessInfo.processInfo.arguments
+        if args.contains("-freshOnboarding"), let row = settingsRows.first, row.hasCompletedOnboarding {
+            row.hasCompletedOnboarding = false
+        }
         if args.contains("-demoPro") {
             SubscriptionService.shared.setLocalOverride(isPro: true)
         }

@@ -155,7 +155,7 @@ struct CravingModeView: View {
                     .font(Theme.body())
                     .foregroundStyle(Theme.textPrimary)
                     .multilineTextAlignment(.center)
-                    .animation(.easeInOut, value: CravingCoach.line(elapsed: elapsed, target: targetSeconds))
+                    .animation(reduceMotion ? nil : .easeInOut, value: CravingCoach.line(elapsed: elapsed, target: targetSeconds))
                 // Held back until the user is far enough in that a line about
                 // their own history reads as reassurance rather than a stat.
                 if let coachLine, elapsed >= targetSeconds / 3 {
@@ -168,7 +168,7 @@ struct CravingModeView: View {
             }
             .frame(maxWidth: 320)
             .fixedSize(horizontal: false, vertical: true)
-            .animation(.easeInOut, value: elapsed >= targetSeconds / 3)
+            .animation(reduceMotion ? nil : .easeInOut, value: elapsed >= targetSeconds / 3)
 
             Spacer(minLength: 0)
 
@@ -208,7 +208,7 @@ struct CravingModeView: View {
     }
 
     private func advanceToReflect() {
-        withAnimation { step = .reflect }
+        withAnimation(reduceMotion ? nil : .default) { step = .reflect }
     }
 
     // MARK: - Reflect
@@ -418,7 +418,7 @@ struct CravingModeView: View {
         // can show.
         guard outcome == .rodeItOut, service.lastSaveSucceeded else { dismiss(); return }
         rodeOutTotal = service.rodeOutCount()
-        withAnimation { step = .done }
+        withAnimation(reduceMotion ? nil : .default) { step = .done }
     }
 }
 

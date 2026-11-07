@@ -8,7 +8,7 @@ final class ReleaseJourneysUITests: XCTestCase {
 
     func test1FirstCounterAndOptionalTrial() {
         let app = XCUIApplication(bundleIdentifier: "com.jackwallner.sober")
-        QA.launch(app, arguments: ["-previewStore"])
+        QA.launch(app, arguments: ["-previewStore", "-freshOnboarding"])
         tap(L("Start my counter"), in: app)
         checkpoint("start-date", button: L("Continue"), in: app)
         tap(L("Continue"), in: app)
