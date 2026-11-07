@@ -11,7 +11,7 @@ Developer notes and historical audits for this repository. The published site re
 - [state-machines-2026-11-06.md](audits/state-machines-2026-11-06.md): state machines, invariants and 19 reachable bugs, with a repro suite
 - [state-machines-2026-11-06-review.md](audits/state-machines-2026-11-06-review.md): independent review of that audit: 6 confirmed, 11 minor, 2 rejected, with method changes for the fleet pilot
 - [state-machines-2026-11-06-fixes.md](audits/state-machines-2026-11-06-fixes.md): fixes for the review's 19 in-scope claims, with regression tests and final suite results (J4 reworked after the first verify pass, its floor capped at now after the second)
-- [state-machines-2026-11-06-verify.md](audits/state-machines-2026-11-06-verify.md): independent check of those fixes (second pass): all 21 hold on their routes and the J4 rework is fixed, but J4's picker floor with Z1's run re-key can crash Settings after a westward zone change
+- [state-machines-2026-11-06-verify.md](audits/state-machines-2026-11-06-verify.md): independent check of those fixes (third pass): the Z1 crash is fixed and all 21 hold on their routes, but S1's undo rule with J4's trim refuses the next slip's undo after the start is moved earlier past a Reset or leftover onboarding run
 
 ## Marketing
 
