@@ -61,7 +61,7 @@ struct SettingsView: View {
                         DatePicker(
                             "Start",
                             selection: startDateBinding(journey),
-                            in: ...Date.now,
+                            in: (SobrietyService(context: context).earliestStartDate() ?? .distantPast)...Date.now,
                             displayedComponents: [.date]
                         )
                     } header: {
@@ -217,6 +217,7 @@ struct SettingsView: View {
             .onChange(of: scenePhase) { _, phase in
                 if phase == .active {
                     Task { await refreshNotificationStatus() }
+                    ReminderSync.sync(context: context)
                 }
             }
         }
@@ -289,6 +290,7 @@ struct SettingsView: View {
                     through: DateHelpers.daysAgo(1)
                 )
                 WidgetSnapshotPump.push(context: context)
+                ReminderSync.sync(context: context)
             }
         )
     }
@@ -305,32 +307,15 @@ struct SettingsView: View {
 
     private func rescheduleReminder() {
         guard let s = settings else { return }
-        let hour = s.dailyReminderHour
         let enabled = s.dailyReminderEnabled
-        let committed = s.madeCommitment
-        let streak = activeJourney.map { SobrietyService.daysSinceStart($0.startDate) } ?? 0
+        let plan = ReminderSync.plan(context: context)
         Task {
-            if enabled {
-                // Turning the toggle on is the user asking for notifications,
-                // so this is where we're allowed to raise the system prompt.
-                // Everything else only schedules when permission already exists.
-                await NotificationService.ensureAuthorized()
-                await NotificationService.scheduleDailyReminder(hour: hour, committed: committed, streakDays: streak)
-                if let next = AchievementCatalog.nextTimeMilestone(after: streak) {
-                    await NotificationService.scheduleMilestoneEve(
-                        currentDays: streak,
-                        milestoneDays: next.dayThreshold,
-                        milestoneTitle: next.title,
-                        hour: hour
-                    )
-                }
-                await NotificationService.scheduleLapseNudge(streakDays: streak)
-            } else {
-                await NotificationService.cancelDailyReminder()
-                // Milestone/lapse nudges ride on this opt-in, so turning reminders
-                // off has to silence everything, not just the daily one.
-                NotificationService.cancelRetentionNudges()
-            }
+            // Turning the toggle on is the user asking for notifications,
+            // so this is where we're allowed to raise the system prompt.
+            // Everything else only schedules when permission already exists.
+            // Off cancels the milestone and lapse nudges too: they ride on it.
+            if enabled { await NotificationService.ensureAuthorized() }
+            await ReminderSync.apply(plan, context: context)
         }
     }
 }

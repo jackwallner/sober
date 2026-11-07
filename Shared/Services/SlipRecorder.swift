@@ -83,7 +83,13 @@ enum SlipRecorder {
             // it at `.now` left it overlapping the fresh run whenever the slip
             // was back-dated, so a slip from ten days ago *raised* the longest
             // streak.
-            sobriety.resetJourney(startingAt: dayAfter, endingPreviousOn: day)
+            let fresh = sobriety.resetJourney(startingAt: dayAfter, endingPreviousOn: day)
+            fresh.gardenBeforeSlip = GardenSlipRecord.snapshot(garden.slipSnapshot()).stored
+        } else {
+            if let rest = sobriety.splitClosedJourney(at: day) {
+                rest.gardenBeforeSlip = GardenSlipRecord.untouched.stored
+                context.saveOrReport()
+            }
         }
 
         // An older slip leaves the live run, and so the live tree, as it was.
@@ -94,6 +100,7 @@ enum SlipRecorder {
             ? garden.current().carryoverDays
             : garden.recordSlip(previousStreakDays: previousStreak)
         WidgetSnapshotPump.push(context: context)
+        ReminderSync.sync(context: context)
 
         return Outcome(previousStreakDays: previousStreak, carryoverDays: carryover)
     }
@@ -123,13 +130,16 @@ enum SlipRecorder {
         let garden = GardenService(context: context)
 
         guard checkIns.loggedSlip(on: day) else { return false }
+        // Read before the reopen deletes the run that holds it.
+        let gardenRecord = GardenSlipRecord(stored: sobriety.activeJourney()?.gardenBeforeSlip)
         // Reopen first: if the counter can't be put back, the calendar row must
         // stay as it is rather than disagree with it.
         guard let restoredStreak = sobriety.reopenJourney(endedOn: day) else { return false }
 
-        checkIns.checkIn(for: day, wasSober: true, mood: mood, note: note)
-        garden.undoSlip(restoredStreakDays: restoredStreak)
+        checkIns.checkIn(for: day, wasSober: true, mood: mood, note: note, overwritingSlip: true)
+        garden.undoSlip(restoredStreakDays: restoredStreak, record: gardenRecord)
         WidgetSnapshotPump.push(context: context)
+        ReminderSync.sync(context: context)
         return true
     }
 }

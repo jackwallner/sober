@@ -629,6 +629,7 @@ struct TimelineView: View {
             note: trimmed.isEmpty ? nil : trimmed
         )
         WidgetSnapshotPump.push(context: context)
+        ReminderSync.sync(context: context)
     }
 
     /// Reverse a slip in full: calendar row, counter, journey, and garden.
@@ -647,5 +648,6 @@ struct TimelineView: View {
         context.delete(checkIn)
         context.saveOrReport()
         WidgetSnapshotPump.push(context: context)
+        ReminderSync.sync(context: context)
     }
 }

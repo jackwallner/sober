@@ -143,6 +143,7 @@ struct HomeView: View {
                     GardenService(context: context).resetForNewJourney()
                     refreshCheckInState()
                     WidgetSnapshotPump.push(context: context)
+                    ReminderSync.sync(context: context)
                 }
             } message: {
                 Text("Your day counter will restart at day 1. Your history is kept.")
@@ -478,7 +479,7 @@ struct HomeView: View {
                         refreshCheckInState()
                         WidgetSnapshotPump.push(context: context)
                         recordPositiveMomentForReview()
-                        scheduleRetentionNudges()
+                        ReminderSync.sync(context: context)
                         recordCheckInForTrialPitch()
                     } label: {
                         Label("Still sober", systemImage: "checkmark.circle.fill")
@@ -568,12 +569,18 @@ struct HomeView: View {
             )
         } else {
             Button {
+                // Home's flags can lag the store while the Timeline pane sits
+                // beside it on an unfolded Duo.
+                guard !CheckInService(context: context).loggedSlip() else {
+                    refreshCheckInState()
+                    return
+                }
                 CheckInService(context: context).checkIn()
                 GardenService(context: context).water()
                 refreshCheckInState()
                 WidgetSnapshotPump.push(context: context)
                 recordPositiveMomentForReview()
-                scheduleRetentionNudges()
+                ReminderSync.sync(context: context)
                 recordCheckInForTrialPitch()
                 showCheckInDetail = true
             } label: {
@@ -663,8 +670,7 @@ struct HomeView: View {
         refreshCheckInState()
         checkForGrowth()
         WidgetSnapshotPump.push(context: context)
-        refreshReminderCopy()
-        scheduleRetentionNudges()
+        ReminderSync.sync(context: context)
         refreshTrialRecap()
     }
 
@@ -760,42 +766,6 @@ struct HomeView: View {
         }
     }
 
-    /// Keep the daily reminder's streak copy current. No-ops unless a reminder
-    /// is already pending, so it never resurrects one the user disabled.
-    private func refreshReminderCopy() {
-        guard let s = settingsRows.first, s.dailyReminderEnabled else { return }
-        let hour = s.dailyReminderHour
-        let committed = s.madeCommitment
-        let streak = days
-        Task {
-            await NotificationService.refreshDailyReminder(hour: hour, committed: committed, streakDays: streak)
-        }
-    }
-
-    /// Milestone-eve and lapse nudges ride on the daily-reminder opt-in, so a
-    /// user who turned reminders off never gets them. Rescheduled on every Home
-    /// appearance and check-in: the lapse nudge is a rolling timer that only
-    /// fires for someone who stopped returning.
-    private func scheduleRetentionNudges() {
-        guard let s = settingsRows.first, s.dailyReminderEnabled else { return }
-        let hour = s.dailyReminderHour
-        let current = days
-        let next = AchievementCatalog.nextTimeMilestone(after: current)
-        Task {
-            await NotificationService.scheduleLapseNudge(streakDays: current)
-            if let next {
-                await NotificationService.scheduleMilestoneEve(
-                    currentDays: current,
-                    milestoneDays: next.dayThreshold,
-                    milestoneTitle: next.title,
-                    hour: hour
-                )
-            } else {
-                NotificationService.cancelMilestoneEve()
-            }
-        }
-    }
-
     /// Refresh the banner and keep the trial-reminder copy stocked with real
     /// numbers, so a notification scheduled later can name what they've built.
     private func refreshTrialRecap() {
@@ -807,6 +777,7 @@ struct HomeView: View {
         } else {
             TrialLifecycle.recapSummary = String(localized: "\(days) sober days so far.")
         }
+        TrialLifecycle.resync()
         showTrialRecap = TrialLifecycle.shouldShowRecap()
     }
 

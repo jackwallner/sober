@@ -74,6 +74,44 @@ enum GardenGrowthEvent: Equatable, Sendable {
     case treeCompleted(total: Int)
 }
 
+// MARK: - Slip snapshots
+
+struct GardenSlipSnapshot: Codable, Equatable, Sendable {
+    var carryoverDays: Int
+    var groveCountAtJourneyStart: Int
+    var vitality: Double
+    var lastWateredAt: Date?
+    var vitalityDecayDays: Int
+}
+
+/// What undoing the slip that started a run gives back to the garden, read
+/// from `SobrietyJourney.gardenBeforeSlip`.
+enum GardenSlipRecord: Equatable, Sendable {
+    /// The run predates snapshots.
+    case legacy
+    /// An older slip entered out of order, which never touched the garden.
+    case untouched
+    case snapshot(GardenSlipSnapshot)
+
+    init(stored: Data?) {
+        guard let stored else { self = .legacy; return }
+        if stored.isEmpty { self = .untouched; return }
+        if let snapshot = try? JSONDecoder().decode(GardenSlipSnapshot.self, from: stored) {
+            self = .snapshot(snapshot)
+        } else {
+            self = .legacy
+        }
+    }
+
+    var stored: Data? {
+        switch self {
+        case .legacy: return nil
+        case .untouched: return Data()
+        case .snapshot(let snapshot): return try? JSONEncoder().encode(snapshot)
+        }
+    }
+}
+
 // MARK: - Service
 
 @MainActor
@@ -171,10 +209,16 @@ final class GardenService {
     ///
     /// Returns the new carryover so the caller can tell the user what the tree
     /// kept, which is the only reason the number is worth computing.
+    ///
+    /// Half of the tree on screen, which past a year is the day in the current
+    /// cycle: halving the whole streak handed a 400-day user's 35-day sapling
+    /// 200 days, so the slip grew the tree.
     @discardableResult
     func recordSlip(previousStreakDays: Int) -> Int {
         let state = current()
-        let had = Self.treeDays(streakDays: previousStreakDays, carryover: state.carryoverDays)
+        let had = Self.cycleProgress(
+            forDays: Self.treeDays(streakDays: previousStreakDays, carryover: state.carryoverDays)
+        ).dayInCycle
         let kept = min(364, Int(Double(had) * Self.slipCarryoverFraction))
         state.carryoverBeforeSlip = state.carryoverDays
         state.carryoverDays = kept
@@ -186,27 +230,65 @@ final class GardenService {
         return kept
     }
 
+    /// The parts of the garden a slip changes, taken just before it.
+    func slipSnapshot() -> GardenSlipSnapshot {
+        let state = current()
+        return GardenSlipSnapshot(
+            carryoverDays: state.carryoverDays,
+            groveCountAtJourneyStart: state.groveCountAtJourneyStart,
+            vitality: state.vitality,
+            lastWateredAt: state.lastWateredAt,
+            vitalityDecayDays: state.vitalityDecayDays
+        )
+    }
+
     /// Give the tree back what the slip took, for a user correcting a slip they
-    /// did not mean to log. The exact pre-slip carryover is restored from
-    /// `carryoverBeforeSlip` rather than re-derived, because halving throws away
-    /// the odd day and an undo that quietly shrinks the tree is its own bug.
+    /// did not mean to log. The slip's own snapshot is restored rather than
+    /// re-derived, because halving throws away the odd day and an undo that
+    /// quietly shrinks the tree is its own bug. So are the grove baseline (or
+    /// the next Home visit appended a tree that was never grown), and vitality
+    /// and watering (or the tree came back healthier and stopped fading).
     ///
     /// `restoredStreakDays` is the counter the correction puts back. The growth
     /// watermark moves up to match it so the user isn't walked back through
     /// every stage celebration the tree already earned on the way up.
     @discardableResult
-    func undoSlip(restoredStreakDays: Int) -> Int {
+    func undoSlip(restoredStreakDays: Int, record: GardenSlipRecord = .legacy) -> Int {
         let state = current()
-        let restored = state.carryoverBeforeSlip
-        state.carryoverDays = restored
+        switch record {
+        case .untouched:
+            break
+        case .snapshot(let before):
+            state.carryoverDays = before.carryoverDays
+            state.groveCountAtJourneyStart = before.groveCountAtJourneyStart
+            if state.lastWateredAt == nil {
+                state.vitality = before.vitality
+                state.lastWateredAt = before.lastWateredAt
+                state.vitalityDecayDays = before.vitalityDecayDays
+            } else {
+                // Watered since the slip: keep that, and hand back only what
+                // the slip took.
+                let taken = before.vitality - max(0.3, before.vitality - 0.3)
+                state.vitality = min(1.0, state.vitality + taken)
+            }
+        case .legacy:
+            // A slip logged before snapshots were kept. Its carryover is the
+            // one-slot value; the baseline is what the grove held before the
+            // restored run's own cycles.
+            state.carryoverDays = state.carryoverBeforeSlip
+            state.groveCountAtJourneyStart = max(
+                0,
+                state.completedTreeStyles.count - Self.cycleProgress(forDays: restoredStreakDays).completed
+            )
+            state.vitality = min(1.0, state.vitality + 0.3)
+        }
         state.carryoverBeforeSlip = 0
         state.lastUnlockNotifiedAtDays = max(
             state.lastUnlockNotifiedAtDays,
-            Self.treeDays(streakDays: restoredStreakDays, carryover: restored)
+            Self.treeDays(streakDays: restoredStreakDays, carryover: state.carryoverDays)
         )
-        state.vitality = min(1.0, state.vitality + 0.3)
         context.saveOrReport()
-        return restored
+        return state.carryoverDays
     }
 
     // ── Cycle ──
