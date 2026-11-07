@@ -201,13 +201,16 @@ final class SobrietyService {
     /// yesterday be undone straight through a slip today, or through an older
     /// slip entered later, reopening a run that overlaps the ones after it.
     ///
-    /// Only a run that began after the slip's run can block it. Two kinds of
-    /// closed run sit beside it without coming after it: the run older
-    /// onboarding builds left behind, which shares its start and ends wherever
-    /// setup ran, and a Reset or leftover run the user moved the start back
-    /// past, which `trimClosedJourneys` leaves empty on its own start. Taken
-    /// as "the run before", either one refused the undo of the slip that
-    /// really closed the run before the active one.
+    /// Only a run between the slip and the active run can block it: one that
+    /// began at or after the slip's run ended and ended by the active run's
+    /// start. A later slip and a Reset after the slip are such runs. Two kinds
+    /// of closed run sit beside the slip's run without coming after it: the
+    /// run older onboarding builds left behind, which starts anywhere inside
+    /// the user's run when setup was redone on a later launch and ends
+    /// wherever setup ran, and a Reset or leftover run the user moved the
+    /// start back past, which `trimClosedJourneys` leaves empty on its own
+    /// start. Taken as "the run before", either one refused the undo of the
+    /// slip that really closed the run before the active one.
     private func reversibleSplit(endedOn day: Date) -> (closed: SobrietyJourney, active: SobrietyJourney)? {
         guard let active = activeJourney() else { return nil }
         let target = DateHelpers.startOfDay(day)
@@ -226,9 +229,12 @@ final class SobrietyService {
                 return j.resetReason == Self.slipReason && DateHelpers.startOfDay(end) == target
             }
             .max(by: { $0.startDate < $1.startDate })
-        guard let closed = candidate,
-              !closedRuns.contains(where: { $0 !== closed && $0.startDate > closed.startDate })
-        else { return nil }
+        guard let closed = candidate, let slipEnd = closed.endDate else { return nil }
+        let blocked = closedRuns.contains { j in
+            guard j !== closed, let end = j.endDate else { return false }
+            return j.startDate >= slipEnd && end <= active.startDate
+        }
+        guard !blocked else { return nil }
         return (closed, active)
     }
 

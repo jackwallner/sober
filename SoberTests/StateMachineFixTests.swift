@@ -451,6 +451,56 @@ struct SlipHistoryRegressionTests {
         #expect(sobriety.currentDayCount() == 101)
     }
 
+    // A setup killed after the trial step and redone on a later launch left a
+    // run that starts after the user's own run (the date re-picked earlier, or
+    // the same date at an earlier hour) and ended when setup ran again. It
+    // sits inside the user's run, not after it, so it must not block an undo.
+
+    private func insertLeftoverRun(from start: Date, endedOn end: Date, active: Date) {
+        context.insert(SobrietyJourney(startDate: start, endDate: end.addingTimeInterval(9 * 3600)))
+        context.insert(SobrietyJourney(startDate: active))
+        context.saveOrReport()
+    }
+
+    @Test func s1_leftoverRunStartingLaterSameDateThenSlipTodayIsUndoable() {
+        let day = DateHelpers.daysAgo(100)
+        insertLeftoverRun(
+            from: day.addingTimeInterval(22 * 3600), endedOn: DateHelpers.daysAgo(99),
+            active: day.addingTimeInterval(8 * 3600)
+        )
+        #expect(sobriety.currentDayCount() == 101)
+        SlipRecorder.record(on: today, context: context)
+        #expect(sobriety.currentDayCount() == 1)
+        #expect(SlipRecorder.canUndo(on: today, context: context))
+        #expect(SlipRecorder.undo(on: today, context: context))
+        #expect(sobriety.currentDayCount() == 101)
+    }
+
+    @Test func s1_leftoverRunStartingLaterEarlierDateThenSlipTodayIsUndoable() {
+        insertLeftoverRun(
+            from: DateHelpers.daysAgo(90), endedOn: DateHelpers.daysAgo(89),
+            active: DateHelpers.daysAgo(100)
+        )
+        #expect(sobriety.currentDayCount() == 101)
+        SlipRecorder.record(on: today, context: context)
+        #expect(sobriety.currentDayCount() == 1)
+        #expect(SlipRecorder.canUndo(on: today, context: context))
+        #expect(SlipRecorder.undo(on: today, context: context))
+        #expect(sobriety.currentDayCount() == 101)
+    }
+
+    @Test func s1_aSlipBackDatedBeforeALaterLeftoverRunIsUndoable() {
+        insertLeftoverRun(
+            from: DateHelpers.daysAgo(20), endedOn: DateHelpers.daysAgo(19),
+            active: DateHelpers.daysAgo(30)
+        )
+        SlipRecorder.record(on: DateHelpers.daysAgo(25), context: context)
+        #expect(sobriety.currentDayCount() == 25)
+        #expect(SlipRecorder.canUndo(on: DateHelpers.daysAgo(25), context: context))
+        #expect(SlipRecorder.undo(on: DateHelpers.daysAgo(25), context: context))
+        #expect(sobriety.currentDayCount() == 31)
+    }
+
     private func closedRunsEndBy(_ start: Date?) -> Bool {
         guard let start else { return false }
         let runs = (try? context.fetch(FetchDescriptor<SobrietyJourney>())) ?? []
