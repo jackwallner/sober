@@ -463,8 +463,13 @@ private final class FakeTrialScheduler: TrialNotificationScheduling {
     var authorized = true
     var scheduled: [String?] = []
     var cancelled = 0
+    var prompts = 0
 
-    func ensureAuthorized() async -> Bool { authorized }
+    func ensureAuthorized() async -> Bool {
+        prompts += 1
+        return authorized
+    }
+    func isAuthorized() async -> Bool { authorized }
     func scheduleTrialEndingReminder(endsAt: Date, summary: String?, now: Date) async {
         scheduled.append(summary)
     }
@@ -509,6 +514,8 @@ struct TrialReminderRegressionTests {
             TrialLifecycle.sync(isTrialing: true, endsAt: end)
             try await settle()
             #expect(scheduler.scheduled.count == 1)
+            // Only the first sight of the trial may raise the system prompt.
+            #expect(scheduler.prompts == 1)
         }
     }
 

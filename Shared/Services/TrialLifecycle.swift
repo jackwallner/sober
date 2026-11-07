@@ -3,6 +3,8 @@ import Foundation
 @MainActor
 protocol TrialNotificationScheduling {
     func ensureAuthorized() async -> Bool
+    /// Permission as it stands, without ever raising the system prompt.
+    func isAuthorized() async -> Bool
     func scheduleTrialEndingReminder(endsAt: Date, summary: String?, now: Date) async
     func cancelTrialEndingReminder()
 }
@@ -11,6 +13,10 @@ protocol TrialNotificationScheduling {
 private struct LiveTrialNotificationScheduler: TrialNotificationScheduling {
     func ensureAuthorized() async -> Bool {
         await NotificationService.ensureAuthorized()
+    }
+
+    func isAuthorized() async -> Bool {
+        await NotificationService.isAuthorized()
     }
 
     func scheduleTrialEndingReminder(endsAt: Date, summary: String?, now: Date) async {
@@ -111,7 +117,9 @@ enum TrialLifecycle {
             return
         }
         let summary = recapSummary
+        let isNewTrial: Bool
         if let current = endsAt, abs(current.timeIntervalSince(newEnd)) < 60 {
+            isNewTrial = false
             // Same trial we already know about: leave a matching reminder alone.
             let scheduledEnd = defaults.double(forKey: scheduledEndKey)
             if abs(scheduledEnd - newEnd.timeIntervalSince1970) < 60,
@@ -119,6 +127,7 @@ enum TrialLifecycle {
                 return
             }
         } else {
+            isNewTrial = true
             defaults.set(newEnd.timeIntervalSince1970, forKey: endsAtKey)
             defaults.removeObject(forKey: recapDismissedForKey)
             defaults.removeObject(forKey: scheduledEndKey)
@@ -131,8 +140,12 @@ enum TrialLifecycle {
             // The paywall's trial timeline promises "we'll remind you before
             // your trial ends". This is the moment that promise is made good:
             // the user has just started a trial, so asking now is expected.
-            // Once they've answered, this no longer prompts.
-            guard await scheduler.ensureAuthorized(), mine == generation else { return }
+            // Later syncs of the same trial run on every Home visit, so they
+            // only check: a permission sheet on app open gets declined.
+            let allowed = isNewTrial
+                ? await scheduler.ensureAuthorized()
+                : await scheduler.isAuthorized()
+            guard allowed, mine == generation else { return }
             await scheduler.scheduleTrialEndingReminder(
                 endsAt: newEnd,
                 summary: summary,
