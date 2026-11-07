@@ -6,6 +6,7 @@ import SwiftUI
 /// with a day-over-day growth note. Merges the old Calendar + Growth Log.
 struct TimelineView: View {
     @Environment(\.modelContext) private var context
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(SubscriptionService.self) private var subscriptions
     @Query(sort: \DailyCheckIn.day, order: .reverse) private var checkIns: [DailyCheckIn]
     @Query(sort: \SobrietyJourney.startDate, order: .reverse) private var journeys: [SobrietyJourney]
@@ -569,9 +570,18 @@ struct TimelineView: View {
             String(localized: "Good"),
             String(localized: "Great"),
         ]
+        // Five columns cannot hold an accessibility-size icon over its label,
+        // so the moods become full-width rows there.
+        let isAccessibilitySize = dynamicTypeSize.isAccessibilitySize
+        let moodsLayout = isAccessibilitySize
+            ? AnyLayout(VStackLayout(spacing: Theme.Space.s))
+            : AnyLayout(HStackLayout(spacing: Theme.Space.m))
+        let moodLayout = isAccessibilitySize
+            ? AnyLayout(HStackLayout(spacing: Theme.Space.s))
+            : AnyLayout(VStackLayout(spacing: 4))
         return VStack(alignment: .leading, spacing: 4) {
             Text("Mood").font(Theme.caption(weight: .semibold)).foregroundStyle(Theme.textSecondary)
-            HStack(spacing: Theme.Space.m) {
+            moodsLayout {
                 ForEach(1...5, id: \.self) { value in
                     Button {
                         draftMood = (draftMood == value) ? nil : value
@@ -581,7 +591,7 @@ struct TimelineView: View {
                             saveCheckInEdit()
                         }
                     } label: {
-                        VStack(spacing: 4) {
+                        moodLayout {
                             Image(systemName: symbols[value - 1])
                                 .font(.title3)
                                 .foregroundStyle(draftMood == value ? Theme.brandPrimary : Theme.textTertiary)
@@ -589,7 +599,7 @@ struct TimelineView: View {
                                 .font(Theme.caption(weight: .semibold))
                                 .foregroundStyle(draftMood == value ? Theme.brandPrimary : Theme.textTertiary)
                         }
-                        .frame(maxWidth: .infinity)
+                        .frame(maxWidth: .infinity, alignment: isAccessibilitySize ? .leading : .center)
                     }
                     .buttonStyle(.plain)
                 }

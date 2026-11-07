@@ -911,9 +911,24 @@ struct HomeView: View {
 private struct CheckInDetailSheet: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var mood: Int?
     @State private var note: String = ""
     @State private var loaded = false
+
+    /// Five columns cannot hold an accessibility-size icon over its label, so
+    /// the moods become full-width rows there.
+    private var isAccessibilitySize: Bool { dynamicTypeSize.isAccessibilitySize }
+    private var moodsLayout: AnyLayout {
+        isAccessibilitySize
+            ? AnyLayout(VStackLayout(spacing: Theme.Space.s))
+            : AnyLayout(HStackLayout(spacing: Theme.Space.m))
+    }
+    private var moodLayout: AnyLayout {
+        isAccessibilitySize
+            ? AnyLayout(HStackLayout(spacing: Theme.Space.s))
+            : AnyLayout(VStackLayout(spacing: 4))
+    }
 
     private let symbols = ["cloud.rain.fill", "cloud.fill", "cloud.sun.fill", "sun.max.fill", "sparkles"]
     private let moodLabels = [
@@ -928,23 +943,23 @@ private struct CheckInDetailSheet: View {
         NavigationStack {
             Form {
                 Section {
-                    HStack(spacing: Theme.Space.m) {
+                    moodsLayout {
                         ForEach(1...5, id: \.self) { value in
                             Button {
                                 mood = (mood == value) ? nil : value
                             } label: {
-                                VStack(spacing: 4) {
+                                moodLayout {
                                     Image(systemName: symbols[value - 1])
                                         .font(.title2)
-                                        .frame(height: 32)
+                                        .frame(minHeight: 32)
                                         .foregroundStyle(mood == value ? Theme.brandPrimary : Theme.textSecondary)
                                     Text(moodLabels[value - 1])
                                         .font(Theme.caption(weight: .semibold))
-                                        .lineLimit(1)
-                                        .minimumScaleFactor(0.7)
+                                        .lineLimit(isAccessibilitySize ? nil : 1)
+                                        .minimumScaleFactor(isAccessibilitySize ? 1 : 0.7)
                                         .foregroundStyle(mood == value ? Theme.brandPrimary : Theme.textPrimary)
                                 }
-                                .frame(maxWidth: .infinity, minHeight: 44)
+                                .frame(maxWidth: .infinity, minHeight: 44, alignment: isAccessibilitySize ? .leading : .center)
                                 .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
