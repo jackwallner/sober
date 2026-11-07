@@ -10,7 +10,7 @@ Developer notes and historical audits for this repository. The published site re
 - [reg94.md](audits/reg94.md): Sober build 83 to build 88 regression audit
 - [state-machines-2026-11-06.md](audits/state-machines-2026-11-06.md): state machines, invariants and 19 reachable bugs, with a repro suite
 - [state-machines-2026-11-06-review.md](audits/state-machines-2026-11-06-review.md): independent review of that audit: 6 confirmed, 11 minor, 2 rejected, with method changes for the fleet pilot
-- [state-machines-2026-11-06-fixes.md](audits/state-machines-2026-11-06-fixes.md): fixes for the review's 19 in-scope claims, with regression tests and final suite results
+- [state-machines-2026-11-06-fixes.md](audits/state-machines-2026-11-06-fixes.md): fixes for the review's 19 in-scope claims, with regression tests and final suite results (J4 reworked after the verify pass)
 - [state-machines-2026-11-06-verify.md](audits/state-machines-2026-11-06-verify.md): independent check of those fixes: 18 of 19 hold, J4's start date floor blocks back-dating after a Reset
 
 ## Marketing
