@@ -75019,7 +75019,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geld, Kalorien und Meilensteine bis zu deinem gewählten Datum."
+            "value" : "Geld, Kalorien, Meilensteine bis zum Ziel."
           }
         },
         "el" : {
@@ -112984,7 +112984,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wann es kommt, was es auslöst, wie lange es dauert."
+            "value" : "Wann, warum und wie lange."
           }
         },
         "el" : {
