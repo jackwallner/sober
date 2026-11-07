@@ -926,7 +926,7 @@ private struct CheckInDetailSheet: View {
     }
     private var moodLayout: AnyLayout {
         isAccessibilitySize
-            ? AnyLayout(HStackLayout(spacing: Theme.Space.s))
+            ? AnyLayout(HStackLayout(spacing: Theme.Space.m))
             : AnyLayout(VStackLayout(spacing: 4))
     }
 
@@ -951,7 +951,7 @@ private struct CheckInDetailSheet: View {
                                 moodLayout {
                                     Image(systemName: symbols[value - 1])
                                         .font(.title2)
-                                        .frame(minHeight: 32)
+                                        .frame(minWidth: isAccessibilitySize ? 72 : nil, minHeight: 32)
                                         .foregroundStyle(mood == value ? Theme.brandPrimary : Theme.textSecondary)
                                     Text(moodLabels[value - 1])
                                         .font(Theme.caption(weight: .semibold))

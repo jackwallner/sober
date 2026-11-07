@@ -70,6 +70,12 @@ final class ReleaseJourneysUITests: XCTestCase {
 
         app.buttons["checkin.mood.4"].tap()
         let note = app.textFields[L("Anything you want to remember about today?")]
+        // At accessibility sizes the mood rows push the note below the fold.
+        var scrolls = 0
+        while !note.isHittable && scrolls < 6 {
+            QA.swipe(app.navigationBars[L("Checked in")].otherElements.firstMatch.exists ? app.tables.firstMatch : app, .up)
+            scrolls += 1
+        }
         XCTAssertTrue(note.waitForExistence(timeout: 5))
         note.tap()
         note.typeText("Journey note")
