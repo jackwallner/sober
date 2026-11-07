@@ -353,6 +353,23 @@ struct SlipHistoryRegressionTests {
         #expect(closedRunsEndBy(sobriety.activeJourney()?.startDate))
     }
 
+    /// A slip, then a zone change west: Z1 re-keys the new run's start to the
+    /// new zone's midnight of the same date, which can be after now. The floor
+    /// followed it, and Settings' `earliest...Date.now` trapped.
+    @Test func j4_theStartFloorNeverPassesNowAfterAZoneChange() {
+        let today = DateHelpers.startOfDay(.now)
+        let tomorrow = DateHelpers.daysAgo(-1)
+        context.insert(SobrietyJourney(startDate: DateHelpers.daysAgo(30), endDate: today, resetReason: "slip"))
+        context.insert(SobrietyJourney(startDate: tomorrow))
+        context.saveOrReport()
+        let now = Date.now
+        // Control: the re-keyed run starts after now.
+        #expect(sobriety.activeJourney()?.startDate ?? .distantPast > now)
+        let floor = sobriety.earliestStartDate(now: now)
+        #expect(floor != nil)
+        #expect(floor.map { $0 <= now } ?? false)
+    }
+
     private func closedRunsEndBy(_ start: Date?) -> Bool {
         guard let start else { return false }
         let runs = (try? context.fetch(FetchDescriptor<SobrietyJourney>())) ?? []

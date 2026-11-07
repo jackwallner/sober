@@ -61,13 +61,15 @@ final class SobrietyService {
 
     /// The earliest start the active run can be moved back to: the day after
     /// the latest logged slip. Nil when no slip came before. Never later than
-    /// the current start, so the picker can always show it.
+    /// the current start, so the picker can always show it, and never later
+    /// than `now`: a zone change west can re-key the start past the present,
+    /// and Settings builds `earliest...now`, which traps if reversed.
     ///
     /// Only slips set the floor. A Reset (or the closed run older onboarding
     /// builds left behind) is not a day the user drank, and it has no undo, so
     /// moving the start back past it is how a Reset gets corrected. Such a run
     /// is trimmed instead (`trimClosedJourneys`).
-    func earliestStartDate() -> Date? {
+    func earliestStartDate(now: Date = .now) -> Date? {
         guard let active = activeJourney() else { return nil }
         let journeys = (try? context.fetch(FetchDescriptor<SobrietyJourney>())) ?? []
         var bounds: [Date] = journeys.compactMap { j in
@@ -78,7 +80,7 @@ final class SobrietyService {
             bounds.append(Self.dayAfter(lastSlip))
         }
         guard let bound = bounds.max() else { return nil }
-        return min(bound, active.startDate)
+        return min(bound, active.startDate, now)
     }
 
     /// End every closed run still going at `start` there, so a start moved
