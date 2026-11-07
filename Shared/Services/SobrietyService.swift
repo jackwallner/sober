@@ -253,11 +253,18 @@ final class SobrietyService {
         let slipDay = DateHelpers.startOfDay(day)
         guard let dayAfter = Calendar.current.date(byAdding: .day, value: 1, to: slipDay) else { return nil }
         let journeys = (try? context.fetch(FetchDescriptor<SobrietyJourney>())) ?? []
-        let covering = journeys.first { j in
+        let spanning = journeys.filter { j in
             guard let end = j.endDate else { return false }
             return DateHelpers.startOfDay(j.startDate) <= slipDay
                 && dayAfter <= DateHelpers.startOfDay(end)
         }
+        // The run older onboarding builds left behind can span the day too.
+        // Taking whichever the fetch returned first could split it and leave
+        // the user's run counting straight through this slip. Theirs is the
+        // one a slip closed, else the one that ended last: the leftover ended
+        // when setup ran, before any Reset.
+        let covering = spanning.first { $0.resetReason == Self.slipReason }
+            ?? spanning.max { ($0.endDate ?? .distantPast) < ($1.endDate ?? .distantPast) }
         guard let covering, let oldEnd = covering.endDate else { return nil }
         let rest = SobrietyJourney(
             startDate: dayAfter,

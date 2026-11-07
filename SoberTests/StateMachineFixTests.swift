@@ -501,6 +501,29 @@ struct SlipHistoryRegressionTests {
         #expect(sobriety.currentDayCount() == 31)
     }
 
+    /// An unsorted fetch has no promised order, so both insertion orders run,
+    /// each in its own store.
+    @Test(arguments: [false, true])
+    func j1_anOlderSlipSplitsTheUsersRunNotALeftoverOne(leftoverFirst: Bool) throws {
+        let container = try makeContainer()
+        let context = container.mainContext
+        let leftover = SobrietyJourney(
+            startDate: DateHelpers.daysAgo(90),
+            endDate: DateHelpers.daysAgo(61).addingTimeInterval(9 * 3600)
+        )
+        let run = SobrietyJourney(startDate: DateHelpers.daysAgo(100))
+        for j in leftoverFirst ? [leftover, run] : [run, leftover] { context.insert(j) }
+        context.saveOrReport()
+        let sobriety = SobrietyService(context: context)
+        SlipRecorder.record(on: DateHelpers.daysAgo(10), context: context)
+        SlipRecorder.record(on: DateHelpers.daysAgo(70), context: context)
+        #expect(sobriety.currentDayCount() == 10)
+        #expect(sobriety.longestStreakDays() == 60)
+        #expect(SlipRecorder.undo(on: DateHelpers.daysAgo(10), context: context))
+        #expect(sobriety.currentDayCount() == 70)
+        withExtendedLifetime(container) {}
+    }
+
     private func closedRunsEndBy(_ start: Date?) -> Bool {
         guard let start else { return false }
         let runs = (try? context.fetch(FetchDescriptor<SobrietyJourney>())) ?? []
