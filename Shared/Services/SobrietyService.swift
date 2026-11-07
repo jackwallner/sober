@@ -29,11 +29,56 @@ final class SobrietyService {
     }
 
     /// Move the active journey's start to a new timestamp (e.g. the user
-    /// correcting their start date/time). Clamped to not run into the future.
+    /// correcting their start date/time). Clamped to not run into the future,
+    /// and not back past the run before it or a logged slip
+    /// (`earliestStartDate`), since runs must not overlap.
+    ///
+    /// Moving the start later drops the days the app assumed sober for the
+    /// old range. Kept, they went on counting in lifetime days, money and
+    /// calories ("Day 5" over "100 days sober"), and they sit before the first
+    /// run, where Timeline can't select them. Days the user tapped, or gave a
+    /// mood or note, stay.
     func updateStartDate(_ date: Date) {
         guard let journey = activeJourney() else { return }
-        journey.startDate = min(date, .now)
+        let oldStart = DateHelpers.startOfDay(journey.startDate)
+        var newStart = min(date, .now)
+        if let earliest = earliestStartDate() { newStart = max(newStart, earliest) }
+        journey.startDate = newStart
+        let newStartDay = DateHelpers.startOfDay(newStart)
+        if newStartDay > oldStart {
+            let descriptor = FetchDescriptor<DailyCheckIn>(
+                predicate: #Predicate {
+                    $0.day >= oldStart && $0.day < newStartDay && !$0.wasLogged && $0.wasSober
+                }
+            )
+            for row in (try? context.fetch(descriptor)) ?? [] where row.mood == nil && row.note == nil {
+                context.delete(row)
+            }
+        }
         context.saveOrReport()
+    }
+
+    /// The earliest start the active run can be moved back to: the day after
+    /// the run before it ended in a slip (or the moment a Reset ended it), and
+    /// never across a logged slip. Nil when nothing came before. Never later
+    /// than the current start, so the picker can always show it.
+    func earliestStartDate() -> Date? {
+        guard let active = activeJourney() else { return nil }
+        let journeys = (try? context.fetch(FetchDescriptor<SobrietyJourney>())) ?? []
+        var bounds: [Date] = journeys.compactMap { j in
+            guard j !== active, let end = j.endDate else { return nil }
+            return j.resetReason == Self.slipReason ? Self.dayAfter(end) : end
+        }
+        if let lastSlip = CheckInService(context: context).lastSlipDate() {
+            bounds.append(Self.dayAfter(lastSlip))
+        }
+        guard let bound = bounds.max() else { return nil }
+        return min(bound, active.startDate)
+    }
+
+    private static func dayAfter(_ date: Date) -> Date {
+        let day = DateHelpers.startOfDay(date)
+        return Calendar.current.date(byAdding: .day, value: 1, to: day) ?? day
     }
 
     /// Set or clear the goal on the active journey. Stored as a start of day so
@@ -75,7 +120,7 @@ final class SobrietyService {
     func resetJourney(
         startingAt start: Date,
         endingPreviousOn end: Date = .now,
-        reason: String? = "slip"
+        reason: String? = SobrietyService.slipReason
     ) -> SobrietyJourney {
         let current = activeJourney()
         if let current {
@@ -105,6 +150,11 @@ final class SobrietyService {
     @discardableResult
     func reopenJourney(endedOn day: Date) -> Int? {
         guard let (closed, active) = reversibleSplit(endedOn: day) else { return nil }
+        // A goal set or cleared after the slip lived on the run being deleted.
+        // Left alone, the reopened run quietly brought back the old one.
+        if active.goalDate != Self.carriedGoal(from: closed) {
+            closed.goalDate = active.goalDate
+        }
         context.delete(active)
         closed.endDate = nil
         closed.resetReason = nil
@@ -127,6 +177,11 @@ final class SobrietyService {
     /// one, leaving overlapping runs and a counter reading past slips the user
     /// never took back. A back-dated slip starts the fresh run the next day; one
     /// logged today starts it the same day, because the start clamps to now.
+    ///
+    /// The closed run must also be the one directly before the active run, and
+    /// closed by a slip. Matching any run that ended on `day` let a slip
+    /// yesterday be undone straight through a slip today, or through an older
+    /// slip entered later, reopening a run that overlaps the ones after it.
     private func reversibleSplit(endedOn day: Date) -> (closed: SobrietyJourney, active: SobrietyJourney)? {
         guard let active = activeJourney() else { return nil }
         let target = DateHelpers.startOfDay(day)
@@ -136,14 +191,49 @@ final class SobrietyService {
 
         let descriptor = FetchDescriptor<SobrietyJourney>()
         let journeys = (try? context.fetch(descriptor)) ?? []
-        let closed = journeys
-            .filter { j in
-                guard let end = j.endDate, j !== active else { return false }
-                return DateHelpers.startOfDay(end) == target
-            }
-            .max(by: { $0.startDate < $1.startDate })
-        guard let closed else { return nil }
+        let predecessor = journeys
+            .filter { $0 !== active && $0.endDate != nil }
+            .max(by: { ($0.startDate, $0.endDate ?? .distantPast) < ($1.startDate, $1.endDate ?? .distantPast) })
+        guard let closed = predecessor,
+              let end = closed.endDate,
+              DateHelpers.startOfDay(end) == target,
+              closed.resetReason == Self.slipReason
+        else { return nil }
         return (closed, active)
+    }
+
+    static let slipReason = "slip"
+
+    /// Stop the closed run that a back-dated slip on `day` falls inside, and
+    /// keep the rest of that run as its own closed run after the slip.
+    ///
+    /// Without this an older slip entered after a newer one left the run it
+    /// fell in spanning it, so the longest streak counted straight through a
+    /// day the user had just logged as a slip, right after the alert promised
+    /// it "reflects the corrected dates". Returns the run made for the days
+    /// after the slip, or nil when no closed run spans `day`.
+    @discardableResult
+    func splitClosedJourney(at day: Date) -> SobrietyJourney? {
+        let slipDay = DateHelpers.startOfDay(day)
+        guard let dayAfter = Calendar.current.date(byAdding: .day, value: 1, to: slipDay) else { return nil }
+        let journeys = (try? context.fetch(FetchDescriptor<SobrietyJourney>())) ?? []
+        let covering = journeys.first { j in
+            guard let end = j.endDate else { return false }
+            return DateHelpers.startOfDay(j.startDate) <= slipDay
+                && dayAfter <= DateHelpers.startOfDay(end)
+        }
+        guard let covering, let oldEnd = covering.endDate else { return nil }
+        let rest = SobrietyJourney(
+            startDate: dayAfter,
+            endDate: oldEnd,
+            resetReason: covering.resetReason,
+            goalDate: covering.goalDate
+        )
+        covering.endDate = max(covering.startDate, slipDay)
+        covering.resetReason = Self.slipReason
+        context.insert(rest)
+        context.saveOrReport()
+        return rest
     }
 
     /// Whole days since the active journey's start. Returns 0 if none.

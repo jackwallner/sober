@@ -13,16 +13,24 @@ final class CheckInService {
 
     /// Record a day the user acted on. `logged` marks it as a real tap, which
     /// is what separates a tended day from one the app assumed on their behalf.
+    ///
+    /// A sober check-in never turns a logged slip green: only
+    /// `SlipRecorder.undo`, which also puts the counter back, may
+    /// (`overwritingSlip`). A Home left showing "Check in for today" after the
+    /// Timeline pane logged a slip used to erase it, leaving the counter reset
+    /// and no undo.
     func checkIn(
         for date: Date = .now,
         wasSober: Bool = true,
         mood: Int? = nil,
         note: String? = nil,
-        logged: Bool = true
+        logged: Bool = true,
+        overwritingSlip: Bool = false
     ) {
         Self.normalizeDayKeys(context: context, defaults: dayKeyDefaults)
         let day = DateHelpers.startOfDay(date)
         if let existing = find(day: day) {
+            if wasSober, !overwritingSlip, existing.wasLogged, !existing.wasSober { return }
             existing.wasSober = wasSober
             existing.mood = mood ?? existing.mood
             existing.note = note ?? existing.note
@@ -269,6 +277,7 @@ final class CheckInService {
                 changed = true
             }
         }
+        if rekeyJourneyDays(context: context, from: keyedZone, to: zone) { changed = true }
         if changed {
             do {
                 try context.save()
@@ -279,6 +288,33 @@ final class CheckInService {
             }
         }
         defaults.set(zone.identifier, forKey: AppGroup.checkInDayKeyZoneKey)
+    }
+
+    /// Run boundaries a slip wrote are local midnights too (the day after a
+    /// back-dated slip, the slip day itself), and so are goals. Left in the old
+    /// zone while the rows moved, a flight west counted the run one day long
+    /// and lost the undo for its slip, whose end no longer matched the day.
+    /// Only exact midnights of the zone the rows were keyed in move; a run
+    /// started "now" keeps its instant. Returns whether anything moved.
+    private static func rekeyJourneyDays(context: ModelContext, from keyedZone: TimeZone?, to zone: TimeZone) -> Bool {
+        guard let keyedZone, keyedZone.identifier != zone.identifier,
+              context.holds(SobrietyJourney.self),
+              let journeys = try? context.fetch(FetchDescriptor<SobrietyJourney>())
+        else { return false }
+        var keyed = Calendar(identifier: .gregorian)
+        keyed.timeZone = keyedZone
+        func moved(_ date: Date) -> Date? {
+            guard keyed.startOfDay(for: date) == date else { return nil }
+            let target = startOfCalendarDay(containing: date, keyedIn: keyedZone, in: zone)
+            return target == date ? nil : target
+        }
+        var changed = false
+        for journey in journeys {
+            if let start = moved(journey.startDate) { journey.startDate = start; changed = true }
+            if let end = journey.endDate.flatMap(moved) { journey.endDate = end; changed = true }
+            if let goal = journey.goalDate.flatMap(moved) { journey.goalDate = goal; changed = true }
+        }
+        return changed
     }
 
     /// This zone's start of the calendar day a stored row stands for.
@@ -408,5 +444,14 @@ final class CheckInService {
             predicate: #Predicate { $0.day == day }
         )
         return try? context.fetch(descriptor).first
+    }
+}
+
+extension ModelContext {
+    /// Whether this store's schema has `type`. Stores opened for one job (the
+    /// widget, tests) hold only some models, and fetching one they lack fails.
+    func holds<T: PersistentModel>(_ type: T.Type) -> Bool {
+        let name = String(describing: type)
+        return container.schema.entities.contains { $0.name == name }
     }
 }
