@@ -11,7 +11,7 @@ Developer notes and historical audits for this repository. The published site re
 - [state-machines-2026-11-06.md](audits/state-machines-2026-11-06.md): state machines, invariants and 19 reachable bugs, with a repro suite
 - [state-machines-2026-11-06-review.md](audits/state-machines-2026-11-06-review.md): independent review of that audit: 6 confirmed, 11 minor, 2 rejected, with method changes for the fleet pilot
 - [state-machines-2026-11-06-fixes.md](audits/state-machines-2026-11-06-fixes.md): fixes for the review's 19 in-scope claims, with regression tests and final suite results (J4 reworked after the first verify pass, its floor capped at now after the second, S1's undo rule reworked after the third)
-- [state-machines-2026-11-06-verify.md](audits/state-machines-2026-11-06-verify.md): independent check of those fixes (fourth pass): PASS, the S1 and J4 undo regression is fixed, all 21 hold on their routes, 271 tests green, and N1, S1, N2 tests fail with their fixes reverted
+- [state-machines-2026-11-06-verify.md](audits/state-machines-2026-11-06-verify.md): independent check of those fixes (fifth pass): FAIL, S1's undo rule refuses the latest slip for users with a leftover onboarding run that starts after their active run (probe fails on HEAD, passes on 9733bc3); the other 18 hold, 271 tests green, and N1, S1, N2 tests fail with their fixes reverted
 
 ## Marketing
 
