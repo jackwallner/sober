@@ -7,158 +7,85 @@
  "live_version": "1.3.7",
  "targets": [
   {
+   "rank": 1,
+   "store_locale": "el",
+   "lang": "el",
+   "apple_languages": "(el)",
+   "apple_locale": "el_GR",
+   "regions": [],
+   "customers": 0
+  },
+  {
+   "rank": 2,
+   "store_locale": "et",
+   "lang": "et",
+   "apple_languages": "(et)",
+   "apple_locale": "et_EE",
+   "regions": [],
+   "customers": 0
+  },
+  {
+   "rank": 3,
+   "store_locale": "hu",
+   "lang": "hu",
+   "apple_languages": "(hu)",
+   "apple_locale": "hu_HU",
+   "regions": [],
+   "customers": 0
+  },
+  {
+   "rank": 4,
+   "store_locale": "ka",
+   "lang": "ka",
+   "apple_languages": "(ka)",
+   "apple_locale": "ka_GE",
+   "regions": [],
+   "customers": 0
+  },
+  {
    "rank": 5,
-   "store_locale": "uk",
-   "lang": "uk",
-   "apple_languages": "(uk)",
-   "apple_locale": "uk_UA",
-   "regions": [
-    "Ukraine"
-   ],
-   "customers": 71.0
+   "store_locale": "lt",
+   "lang": "lt",
+   "apple_languages": "(lt)",
+   "apple_locale": "lt_LT",
+   "regions": [],
+   "customers": 0
   },
   {
    "rank": 6,
-   "store_locale": "pl",
-   "lang": "pl",
-   "apple_languages": "(pl)",
-   "apple_locale": "pl_PL",
-   "regions": [
-    "Poland"
-   ],
-   "customers": 67.0
+   "store_locale": "no",
+   "lang": "nb",
+   "apple_languages": "(nb)",
+   "apple_locale": "nb_NO",
+   "regions": [],
+   "customers": 0
   },
   {
-   "rank": 13,
-   "store_locale": "de-DE",
-   "lang": "de",
-   "apple_languages": "(de)",
-   "apple_locale": "de_DE",
-   "regions": [
-    "Germany"
-   ],
-   "customers": 43.0
+   "rank": 7,
+   "store_locale": "ro",
+   "lang": "ro",
+   "apple_languages": "(ro)",
+   "apple_locale": "ro_RO",
+   "regions": [],
+   "customers": 0
   },
   {
-   "rank": 20,
-   "store_locale": "nl-NL",
-   "lang": "nl",
-   "apple_languages": "(nl)",
-   "apple_locale": "nl_NL",
-   "regions": [
-    "Netherlands"
-   ],
-   "customers": 29.0
+   "rank": 8,
+   "store_locale": "th",
+   "lang": "th",
+   "apple_languages": "(th)",
+   "apple_locale": "th_TH",
+   "regions": [],
+   "customers": 0
   },
   {
-   "rank": 31,
-   "store_locale": "ru",
-   "lang": "ru",
-   "apple_languages": "(ru)",
-   "apple_locale": "ru_RU",
-   "regions": [
-    "Russian Federation"
-   ],
-   "customers": 19.0
-  },
-  {
-   "rank": 53,
-   "store_locale": "fr-FR",
-   "lang": "fr",
-   "apple_languages": "(fr)",
-   "apple_locale": "fr_FR",
-   "regions": [
-    "France"
-   ],
-   "customers": 12.0
-  },
-  {
-   "rank": 60,
-   "store_locale": "es-MX",
-   "lang": "es",
-   "apple_languages": "(es)",
-   "apple_locale": "es_MX",
-   "regions": [
-    "Mexico"
-   ],
-   "customers": 11.0
-  },
-  {
-   "rank": 66,
-   "store_locale": "vi",
-   "lang": "vi",
-   "apple_languages": "(vi)",
-   "apple_locale": "vi_VN",
-   "regions": [
-    "Vietnam"
-   ],
-   "customers": 9.0
-  },
-  {
-   "rank": 70,
-   "store_locale": "cs",
-   "lang": "cs",
-   "apple_languages": "(cs)",
-   "apple_locale": "cs_CZ",
-   "regions": [
-    "Czechia"
-   ],
-   "customers": 9.0
-  },
-  {
-   "rank": 71,
-   "store_locale": "hi",
-   "lang": "hi",
-   "apple_languages": "(hi)",
-   "apple_locale": "hi_IN",
-   "regions": [
-    "India"
-   ],
-   "customers": 9.0
-  },
-  {
-   "rank": 80,
-   "store_locale": "fi",
-   "lang": "fi",
-   "apple_languages": "(fi)",
-   "apple_locale": "fi_FI",
-   "regions": [
-    "Finland"
-   ],
-   "customers": 8.0
-  },
-  {
-   "rank": 81,
-   "store_locale": "sv",
-   "lang": "sv",
-   "apple_languages": "(sv)",
-   "apple_locale": "sv_SE",
-   "regions": [
-    "Sweden"
-   ],
-   "customers": 8.0
-  },
-  {
-   "rank": 90,
-   "store_locale": "it",
-   "lang": "it",
-   "apple_languages": "(it)",
-   "apple_locale": "it_IT",
-   "regions": [
-    "Italy"
-   ],
-   "customers": 7.0
-  },
-  {
-   "rank": 91,
-   "store_locale": "zh-Hans",
-   "lang": "zh-Hans",
-   "apple_languages": "(zh-Hans)",
-   "apple_locale": "zh_CN",
-   "regions": [
-    "China"
-   ],
-   "customers": 7.0
+   "rank": 9,
+   "store_locale": "tr",
+   "lang": "tr",
+   "apple_languages": "(tr)",
+   "apple_locale": "tr_TR",
+   "regions": [],
+   "customers": 0
   }
  ],
  "store_locales_missing": [],
