@@ -244,6 +244,8 @@ private struct BenefitRow: View {
         // Collapsed, the row trims the List's own inset to a standard 44 pt
         // row: at 53 pt the fourth missed the pane's cut line by a point.
         .padding(.vertical, collapsed ? -4 : Theme.Space.xs)
+        // One 44 pt row to tap and to read, not a bare icon and a date.
+        .modifier(CollapsedRowElement(collapsed: collapsed))
     }
 
     /// Three visual states so users can tell at a glance *why* a benefit is
@@ -281,6 +283,18 @@ private struct BenefitRow: View {
                 .font(Theme.caption(weight: .semibold))
                 .foregroundStyle(Theme.textSecondary)
                 .monospacedDigit()
+        }
+    }
+}
+
+private struct CollapsedRowElement: ViewModifier {
+    let collapsed: Bool
+
+    func body(content: Content) -> some View {
+        if collapsed {
+            content.accessibilityElement(children: .combine)
+        } else {
+            content
         }
     }
 }

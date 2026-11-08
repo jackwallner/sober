@@ -112,6 +112,7 @@ struct JournalView: View {
             .tint(Theme.brandPrimary)
         }
         .padding(.vertical, Theme.Space.xs)
+        .accessibilityElement(children: .combine)
     }
 }
 
@@ -240,6 +241,7 @@ private struct EntryRow: View {
                 .lineLimit(4)
         }
         .padding(.vertical, Theme.Space.xs)
+        .accessibilityElement(children: .combine)
     }
 }
 

@@ -71,11 +71,11 @@ final class ReleaseJourneysUITests: XCTestCase {
         app.buttons["checkin.mood.4"].tap()
         let note = app.textFields[L("Anything you want to remember about today?")]
         // At accessibility sizes the mood rows push the note below the fold.
-        // Swipe on the last mood row, the one nearest the note: it sits inside the sheet's Form, which is a
-        // collection view, and the Home list behind the sheet is not.
+        // Swipe on the mood row just tapped: it sits inside the sheet's Form, which is a collection view, and
+        // the Home list behind the sheet is not. The last row may not be in the hierarchy yet.
         var scrolls = 0
         while !note.isHittable && scrolls < 6 {
-            QA.swipe(app.buttons["checkin.mood.5"], .up)
+            QA.swipe(app.buttons["checkin.mood.4"], .up)
             scrolls += 1
         }
         XCTAssertTrue(note.waitForExistence(timeout: 5))

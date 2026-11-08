@@ -922,11 +922,13 @@ private struct CheckInDetailSheet: View {
                                 moodLayout {
                                     Image(systemName: symbols[value - 1])
                                         .font(.title2)
-                                        .frame(minWidth: isAccessibilitySize ? 72 : nil, minHeight: 32)
+                                        .frame(minWidth: isAccessibilitySize ? 44 : nil, minHeight: 32)
                                         .foregroundStyle(mood == value ? Theme.brandPrimary : Theme.textSecondary)
                                     Text(moodLabels[value - 1])
                                         .font(Theme.caption(weight: .semibold))
                                         .lineLimit(isAccessibilitySize ? nil : 1)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .layoutPriority(1)
                                         .minimumScaleFactor(isAccessibilitySize ? 1 : 0.7)
                                         .foregroundStyle(mood == value ? Theme.brandPrimary : Theme.textPrimary)
                                 }
