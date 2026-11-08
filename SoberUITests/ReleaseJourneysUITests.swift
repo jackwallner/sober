@@ -58,12 +58,17 @@ final class ReleaseJourneysUITests: XCTestCase {
 
     func testCoreLoopCheckInIsLoggedAndSurvivesRelaunch() {
         let app = XCUIApplication(bundleIdentifier: "com.jackwallner.sober")
-        QA.launch(app, arguments: ["-seedDemo", "-previewStore"])
+        let lastNudge = String(Date.now.timeIntervalSince1970)
+        QA.launch(app, arguments: ["-seedDemo", "-seedDays", "0", "-previewStore", "-lastTrialNudgeAt", lastNudge])
         home("home-before-check-in", in: app)
         XCTAssertFalse(app.staticTexts[L("Today is logged")].exists)
 
-        let checkIn = app.buttons.containing(NSPredicate(format: "label BEGINSWITH %@", L("Check in for today"))).firstMatch
+        let checkIn = app.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", L("Check in for today"))).firstMatch
         XCTAssertTrue(checkIn.waitForExistence(timeout: 15))
+        for _ in 0..<4 where !checkIn.isHittable {
+            QA.swipe(app.scrollViews.firstMatch, .up)
+        }
+        XCTAssertTrue(checkIn.isHittable)
         checkIn.tap()
         XCTAssertTrue(app.navigationBars[L("Checked in")].waitForExistence(timeout: 10))
         QA.checkpoint(app, "check-in-sheet")
