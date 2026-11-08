@@ -524,10 +524,125 @@ struct SlipHistoryRegressionTests {
         withExtendedLifetime(container) {}
     }
 
+    /// Closed runs read as ending by `start`. They are stored as they were
+    /// and cut at read time (`SobrietyService.effectiveEnd`).
     private func closedRunsEndBy(_ start: Date?) -> Bool {
         guard let start else { return false }
         let runs = (try? context.fetch(FetchDescriptor<SobrietyJourney>())) ?? []
-        return runs.allSatisfy { j in j.endDate.map { $0 <= max(start, j.startDate) } ?? true }
+        return runs.allSatisfy { j in
+            SobrietyService.effectiveEnd(of: j, among: runs).map { $0 <= max(start, j.startDate) } ?? true
+        }
+    }
+
+    // J4 with J3: a start edit is reversible. Moving it back past a Reset and
+    // forward again gives the Reset run back its tail and its days.
+
+    /// A Reset 20 days ago, after 29 sober days from 49 days ago.
+    private func insertResetRun(from start: Int, resetDaysAgo reset: Int) -> Date {
+        let resetMoment = DateHelpers.daysAgo(reset).addingTimeInterval(14 * 3600)
+        context.insert(SobrietyJourney(startDate: DateHelpers.daysAgo(start).addingTimeInterval(9 * 3600), endDate: resetMoment))
+        context.insert(SobrietyJourney(startDate: resetMoment))
+        context.saveOrReport()
+        return resetMoment
+    }
+
+    /// The Settings binding: move the start, then backfill as it does.
+    private func setStart(_ date: Date) {
+        sobriety.updateStartDate(date)
+        checkIns.fillJourney(start: sobriety.activeJourney()?.startDate ?? date, through: DateHelpers.daysAgo(1))
+    }
+
+    @Test func j4_j3_assumedDaysOfAResetRunSurviveAStartMovedBackThenForward() {
+        let resetMoment = insertResetRun(from: 49, resetDaysAgo: 20)
+        checkIns.fillJourney(start: DateHelpers.daysAgo(49), through: DateHelpers.daysAgo(1))
+        #expect(checkIns.lifetimeSoberDayCount() == 49)
+        #expect(sobriety.longestStreakDays() == 30)
+
+        setStart(DateHelpers.daysAgo(40).addingTimeInterval(14 * 3600))
+        #expect(sobriety.currentDayCount() == 41)
+        setStart(resetMoment)
+        #expect(sobriety.currentDayCount() == 21)
+
+        #expect(checkIns.lifetimeSoberDayCount() == 49)
+        #expect(sobriety.longestStreakDays() == 30)
+    }
+
+    @Test func j4_aResetRunsLengthSurvivesAStartMovedBackThenForward() {
+        let resetMoment = insertResetRun(from: 200, resetDaysAgo: 20)
+        for n in 1...200 { checkIns.checkIn(for: DateHelpers.daysAgo(n)) }
+        #expect(checkIns.lifetimeSoberDayCount() == 200)
+        #expect(sobriety.longestStreakDays() == 181)
+
+        setStart(DateHelpers.daysAgo(100).addingTimeInterval(14 * 3600))
+        #expect(sobriety.currentDayCount() == 101)
+        #expect(sobriety.longestStreakDays() == 101)
+        setStart(resetMoment)
+        #expect(sobriety.currentDayCount() == 21)
+
+        #expect(sobriety.longestStreakDays() == 181)
+        #expect(checkIns.lifetimeSoberDayCount() == 200)
+    }
+
+    /// The moved run, cut short by a later slip, still covers the Reset run's
+    /// tail, so the Reset run keeps reading as cut where the start was moved.
+    @Test func j4_aSlipAfterTheMoveKeepsTheResetRunCut() {
+        _ = insertResetRun(from: 100, resetDaysAgo: 20)
+        sobriety.updateStartDate(DateHelpers.daysAgo(40).addingTimeInterval(14 * 3600))
+        #expect(sobriety.longestStreakDays() == 61)
+        SlipRecorder.record(on: DateHelpers.daysAgo(10), context: context)
+        #expect(sobriety.currentDayCount() == 10)
+        #expect(sobriety.longestStreakDays() == 61)
+    }
+
+    /// Moved back past the whole Reset run, then a slip inside its old span:
+    /// the Reset run still reads as empty, not up to the next run.
+    @Test func j4_aSlipInsideTheResetRunsSpanKeepsItEmpty() {
+        _ = insertResetRun(from: 100, resetDaysAgo: 20)
+        sobriety.updateStartDate(DateHelpers.daysAgo(150))
+        SlipRecorder.record(on: DateHelpers.daysAgo(50), context: context)
+        #expect(sobriety.currentDayCount() == 50)
+        let runs = (try? context.fetch(FetchDescriptor<SobrietyJourney>())) ?? []
+        let reset = runs.first { $0.endDate != nil && $0.resetReason == nil }
+        #expect(reset.map { SobrietyService.effectiveEnd(of: $0, among: runs) == $0.startDate } ?? false)
+    }
+
+    /// Builds before 2026-09-04 closed a back-dated slip's run at the moment
+    /// it was logged, so it overlaps the run the slip started. That run, later
+    /// Reset, still counts in full.
+    @Test func upgrade_anOldOverlappingSlipRunDoesNotHideTheNextRun() {
+        context.insert(SobrietyJourney(
+            startDate: DateHelpers.daysAgo(40),
+            endDate: DateHelpers.daysAgo(30).addingTimeInterval(15 * 3600),
+            resetReason: "slip"
+        ))
+        context.insert(SobrietyJourney(startDate: DateHelpers.daysAgo(34), endDate: DateHelpers.daysAgo(2)))
+        context.insert(SobrietyJourney(startDate: DateHelpers.daysAgo(2)))
+        context.saveOrReport()
+        #expect(sobriety.longestStreakDays() == 33)
+    }
+
+    /// A zone change west re-keys a slip run's end to the new zone's midnight,
+    /// which can fall an hour after the next run began. That run still counts.
+    @Test func z1_aSlipEndRekeyedPastTheNextRunsStartDoesNotHideIt() {
+        context.insert(SobrietyJourney(startDate: DateHelpers.daysAgo(40), endDate: DateHelpers.daysAgo(30), resetReason: "slip"))
+        context.insert(SobrietyJourney(startDate: DateHelpers.daysAgo(30).addingTimeInterval(-3600), endDate: DateHelpers.daysAgo(2)))
+        context.insert(SobrietyJourney(startDate: DateHelpers.daysAgo(2)))
+        context.saveOrReport()
+        #expect(sobriety.longestStreakDays() == 30)
+    }
+
+    /// A leftover onboarding run that began on the day a slip is back-dated
+    /// to, and ended after it, sits across the slip, not after it.
+    @Test func s1_aLeftoverStartedOnABackDatedSlipsDayDoesNotBlockItsUndo() {
+        insertLeftoverRun(
+            from: DateHelpers.daysAgo(25).addingTimeInterval(9 * 3600), endedOn: DateHelpers.daysAgo(19),
+            active: DateHelpers.daysAgo(30)
+        )
+        SlipRecorder.record(on: DateHelpers.daysAgo(25), context: context)
+        #expect(sobriety.currentDayCount() == 25)
+        #expect(SlipRecorder.canUndo(on: DateHelpers.daysAgo(25), context: context))
+        #expect(SlipRecorder.undo(on: DateHelpers.daysAgo(25), context: context))
+        #expect(sobriety.currentDayCount() == 31)
     }
 
     // G1 to G5

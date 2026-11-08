@@ -41,7 +41,7 @@ struct TimelineView: View {
         let covering = journeys.first { j in
             let s = DateHelpers.startOfDay(j.startDate)
             guard d >= s else { return false }
-            if let end = j.endDate {
+            if let end = SobrietyService.effectiveEnd(of: j, among: journeys) {
                 return d <= DateHelpers.startOfDay(end)
             }
             return true
