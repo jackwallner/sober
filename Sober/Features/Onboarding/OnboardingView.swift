@@ -901,10 +901,18 @@ struct OnboardingView: View {
     private func restorePurchasesFromOnboarding() {
         guard !restoreInFlight else { return }
         restoreInFlight = true
+        trialError = nil
         Task { @MainActor in
             defer { restoreInFlight = false }
             await subscriptions.restorePurchases()
-            if subscriptions.isProSubscriber { finishOnboarding() }
+            if subscriptions.isProSubscriber {
+                finishOnboarding()
+            } else {
+                // Nothing to restore, or the restore failed: say so, as the
+                // paywall and Settings do, instead of a button that did nothing.
+                trialError = subscriptions.lastError
+                    ?? String(localized: "No active Bloom+ purchase found for this Apple ID.")
+            }
         }
     }
 
