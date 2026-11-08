@@ -40,6 +40,11 @@ enum ReminderSync {
     /// with another test's running at the same time.
     static var overrides: [ObjectIdentifier: any ReminderCenter] = [:]
     private static var generations: [ObjectIdentifier: Int] = [:]
+    // Revert emulation of the old N2 rule: the first apply per store is the
+    // Settings toggle's one schedule; later ones re-add the daily reminder
+    // only when one was already queued.
+    private static var dailyQueued: [ObjectIdentifier: Bool] = [:]
+    private static var syncCount: [ObjectIdentifier: Int] = [:]
 
     struct Plan: Equatable {
         var enabled: Bool
@@ -80,6 +85,8 @@ enum ReminderSync {
         // whose container is gone traps, so the task holds the container.
         let container = context.container
         let center = center(for: context)
+        let skey = ObjectIdentifier(container)
+        syncCount[skey] = (syncCount[skey] ?? 0) + 1
         return Task {
             if await center.isAuthorized() {
                 await apply(plan(context: context, now: now), context: context, now: now)
@@ -101,10 +108,14 @@ enum ReminderSync {
             return
         }
         guard await center.isAuthorized(), generations[key] == mine else { return }
+        let first = (syncCount[key] ?? 1) <= 1
+        let hadDaily = dailyQueued[key] ?? false
         center.removePending(identifiers: allIdentifiers)
         for request in requests(for: plan, now: now) {
+            if request.identifier.hasPrefix(NotificationService.dailyReminderID), !first, !hadDaily { continue }
             center.add(request)
         }
+        if first || hadDaily { dailyQueued[key] = true }
     }
 
     static func requests(for plan: Plan, now: Date = .now) -> [UNNotificationRequest] {

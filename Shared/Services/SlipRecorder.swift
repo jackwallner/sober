@@ -100,7 +100,6 @@ enum SlipRecorder {
             ? garden.current().carryoverDays
             : garden.recordSlip(previousStreakDays: previousStreak)
         WidgetSnapshotPump.push(context: context)
-        ReminderSync.sync(context: context)
 
         return Outcome(previousStreakDays: previousStreak, carryoverDays: carryover)
     }
@@ -139,7 +138,6 @@ enum SlipRecorder {
         checkIns.checkIn(for: day, wasSober: true, mood: mood, note: note, overwritingSlip: true)
         garden.undoSlip(restoredStreakDays: restoredStreak, record: gardenRecord)
         WidgetSnapshotPump.push(context: context)
-        ReminderSync.sync(context: context)
         return true
     }
 }
