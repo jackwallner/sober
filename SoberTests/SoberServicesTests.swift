@@ -41,6 +41,8 @@ private final class RecordingTrialNotificationScheduler: TrialNotificationSchedu
         return true
     }
 
+    func isAuthorized() async -> Bool { true }
+
     func scheduleTrialEndingReminder(endsAt: Date, summary: String?, now: Date) async {
         scheduledReminder = (endsAt, summary, now)
     }

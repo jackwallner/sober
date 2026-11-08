@@ -42,7 +42,7 @@ struct TimelineView: View {
         let covering = journeys.first { j in
             let s = DateHelpers.startOfDay(j.startDate)
             guard d >= s else { return false }
-            if let end = j.endDate {
+            if let end = SobrietyService.effectiveEnd(of: j, among: journeys) {
                 return d <= DateHelpers.startOfDay(end)
             }
             return true
@@ -639,6 +639,7 @@ struct TimelineView: View {
             note: trimmed.isEmpty ? nil : trimmed
         )
         WidgetSnapshotPump.push(context: context)
+        ReminderSync.sync(context: context)
     }
 
     /// Reverse a slip in full: calendar row, counter, journey, and garden.
@@ -657,5 +658,6 @@ struct TimelineView: View {
         context.delete(checkIn)
         context.saveOrReport()
         WidgetSnapshotPump.push(context: context)
+        ReminderSync.sync(context: context)
     }
 }

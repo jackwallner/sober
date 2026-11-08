@@ -73,21 +73,81 @@ enum NotificationService {
         }
     }
 
-    static func scheduleDailyReminder(hour: Int, committed: Bool = true, streakDays: Int = 0) async {
+    /// How many dated daily reminders are kept queued ahead. iOS holds 64
+    /// pending requests per app; the milestone, lapse and trial ones need three.
+    static let dailyReminderWindowDays = 30
+
+    /// Every identifier the daily reminder has used: the old single repeating
+    /// request, and one per queued day.
+    static var dailyReminderIdentifiers: [String] {
+        [dailyReminderID] + (0..<dailyReminderWindowDays).map { "\(dailyReminderID).\($0)" }
+    }
+
+    static func scheduleDailyReminder(
+        hour: Int,
+        committed: Bool = true,
+        streakDays: Int = 0,
+        checkedInToday: Bool = false
+    ) async {
         guard await isAuthorized() else { return }
         let center = UNUserNotificationCenter.current()
         await cancelDailyReminder()
+        for request in dailyReminderRequests(
+            hour: hour,
+            committed: committed,
+            streakDays: streakDays,
+            checkedInToday: checkedInToday
+        ) {
+            try? await center.add(request)
+        }
+    }
 
-        // Copy stays supportive — even the "committed" variants avoid guilt
+    /// One dated request per day ahead, each with that day's own count.
+    ///
+    /// A single repeating request froze its copy at the last app open, so a
+    /// week away read "Day 31 is waiting" every morning, and it still fired on
+    /// a day already checked in. `streakDays` is the counter today; today's
+    /// reminder is left out once today is logged or its hour has passed.
+    static func dailyReminderRequests(
+        hour: Int,
+        committed: Bool,
+        streakDays: Int,
+        checkedInToday: Bool,
+        now: Date = .now,
+        calendar: Calendar = .current
+    ) -> [UNNotificationRequest] {
+        let startOfToday = calendar.startOfDay(for: now)
+        return (0..<dailyReminderWindowDays).compactMap { offset in
+            if offset == 0 && checkedInToday { return nil }
+            guard let day = calendar.date(byAdding: .day, value: offset, to: startOfToday),
+                  let fireDate = calendar.date(bySettingHour: hour, minute: 0, second: 0, of: day),
+                  fireDate > now
+            else { return nil }
+            let content = dailyReminderContent(
+                dayCount: streakDays > 0 ? streakDays + offset : 0,
+                committed: committed
+            )
+            let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: fireDate)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+            return UNNotificationRequest(
+                identifier: "\(dailyReminderID).\(offset)",
+                content: content,
+                trigger: trigger
+            )
+        }
+    }
+
+    /// `dayCount` is the counter on the day the reminder fires.
+    static func dailyReminderContent(dayCount: Int, committed: Bool) -> UNMutableNotificationContent {
+        // Copy stays supportive: even the "committed" variants avoid guilt
         // language. People early in recovery delete apps that scold. When we
-        // know the streak, lead with it so the reminder feels personal; the
-        // schedule is refreshed on every check-in/app-open so it stays current.
+        // know the streak, lead with it so the reminder feels personal.
         let content = UNMutableNotificationContent()
-        if streakDays > 1 {
-            content.title = String(localized: "Day \(streakDays + 1) is waiting")
+        if dayCount > 1 {
+            content.title = String(localized: "Day \(dayCount) is waiting")
             content.body = committed
-                ? String(localized: "You're \(streakDays) days in. Log today and water your bonsai.")
-                : String(localized: "\(streakDays) days and growing. If today's a sober one, log it.")
+                ? String(localized: "You're \(dayCount) days in. Log today and water your bonsai.")
+                : String(localized: "\(dayCount) days and growing. If today's a sober one, log it.")
         } else {
             content.title = committed ? String(localized: "Showing up today") : String(localized: "Daily check-in")
             content.body = committed
@@ -96,26 +156,12 @@ enum NotificationService {
         }
         content.sound = .default
         content.userInfo = [deepLinkKey: deepLinkCheckIn]
-
-        var components = DateComponents()
-        components.hour = hour
-        components.minute = 0
-        let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
-        let request = UNNotificationRequest(identifier: dailyReminderID, content: content, trigger: trigger)
-        try? await center.add(request)
-    }
-
-    /// Re-schedule the daily reminder with fresh streak copy, but only if one
-    /// is already pending — never resurrects a reminder the user turned off.
-    static func refreshDailyReminder(hour: Int, committed: Bool, streakDays: Int) async {
-        let pending = await UNUserNotificationCenter.current().pendingNotificationRequests()
-        guard pending.contains(where: { $0.identifier == dailyReminderID }) else { return }
-        await scheduleDailyReminder(hour: hour, committed: committed, streakDays: streakDays)
+        return content
     }
 
     static func cancelDailyReminder() async {
         UNUserNotificationCenter.current().removePendingNotificationRequests(
-            withIdentifiers: [dailyReminderID]
+            withIdentifiers: dailyReminderIdentifiers
         )
     }
 
@@ -135,14 +181,32 @@ enum NotificationService {
         guard await isAuthorized() else { return }
         let center = UNUserNotificationCenter.current()
         cancelMilestoneEve()
+        guard let request = milestoneEveRequest(
+            currentDays: currentDays,
+            milestoneDays: milestoneDays,
+            milestoneTitle: milestoneTitle,
+            hour: hour,
+            now: now,
+            calendar: calendar
+        ) else { return }
+        try? await center.add(request)
+    }
 
+    static func milestoneEveRequest(
+        currentDays: Int,
+        milestoneDays: Int,
+        milestoneTitle: String,
+        hour: Int,
+        now: Date = .now,
+        calendar: Calendar = .current
+    ) -> UNNotificationRequest? {
         guard let fireDate = milestoneEveFireDate(
             currentDays: currentDays,
             milestoneDays: milestoneDays,
             hour: hour,
             now: now,
             calendar: calendar
-        ) else { return }
+        ) else { return nil }
 
         let content = UNMutableNotificationContent()
         content.title = String(localized: "Tomorrow is day \(milestoneDays)")
@@ -152,8 +216,7 @@ enum NotificationService {
 
         let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: fireDate)
         let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
-        let request = UNNotificationRequest(identifier: milestoneEveID, content: content, trigger: trigger)
-        try? await center.add(request)
+        return UNNotificationRequest(identifier: milestoneEveID, content: content, trigger: trigger)
     }
 
     /// When the milestone-eve nudge should fire, or nil when there's nothing to
@@ -188,7 +251,10 @@ enum NotificationService {
         guard await isAuthorized() else { return }
         let center = UNUserNotificationCenter.current()
         cancelLapseNudge()
+        try? await center.add(lapseNudgeRequest(streakDays: streakDays))
+    }
 
+    static func lapseNudgeRequest(streakDays: Int) -> UNNotificationRequest {
         let content = UNMutableNotificationContent()
         if streakDays > 0 {
             content.title = String(localized: "Your garden is still here")
@@ -204,8 +270,7 @@ enum NotificationService {
             timeInterval: TimeInterval(lapseNudgeDays) * 86_400,
             repeats: false
         )
-        let request = UNNotificationRequest(identifier: lapseNudgeID, content: content, trigger: trigger)
-        try? await center.add(request)
+        return UNNotificationRequest(identifier: lapseNudgeID, content: content, trigger: trigger)
     }
 
     static func cancelLapseNudge() {

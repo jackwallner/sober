@@ -30,6 +30,11 @@ enum AppGroup {
     /// A trip changes the zone, and the rows are re-keyed to match it.
     static let checkInDayKeyZoneKey = "checkInDayKeyZone"
 
+    /// Ids of the closed runs builds from 2026-08-24 to 2026-10-31 left at
+    /// the user's start, seen while they still shared it. A start moved later
+    /// drops their days (`SobrietyService.updateStartDate`).
+    static let leftoverOnboardingRunIDsKey = "leftoverOnboardingRunIDs"
+
     static let journalTabVisitCountKey = "journalTabVisitCount"
     static let checkInCompletedCountKey = "checkInCompletedCount"
     static let growthCelebrationCountKey = "growthCelebrationCount"

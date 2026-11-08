@@ -486,6 +486,8 @@ final class SubscriptionService: NSObject {
         TrialLifecycle.sync(
             isTrialing: entitlement?.isActive == true && entitlement?.periodType == .trial,
             endsAt: entitlement?.expirationDate,
+            // A billing retry is Apple still trying, not a choice to leave.
+            willRenew: entitlement.map { $0.willRenew || $0.billingIssueDetectedAt != nil } ?? true,
             now: now
         )
         whatToFixDue = TrialNote.whatToFixDue(
