@@ -80,9 +80,11 @@ enum ReminderSync {
         // whose container is gone traps, so the task holds the container.
         let container = context.container
         let center = center(for: context)
+        let revertKey = ObjectIdentifier(container)
+        let first = revertSeen.insert(revertKey).inserted
         return Task {
             if await center.isAuthorized() {
-                await apply(plan(context: context, now: now), context: context, now: now)
+                await apply(plan(context: context, now: now), context: context, now: now, daily: first || revertDaily.contains(revertKey))
             }
             withExtendedLifetime(container) {}
         }
@@ -91,7 +93,12 @@ enum ReminderSync {
     /// A later call supersedes an earlier one still waiting on permission, so
     /// two quick syncs can't land old copy over new. Off cancels the
     /// milestone and lapse nudges too: they ride on the same opt-in.
-    static func apply(_ plan: Plan, context: ModelContext, now: Date = .now) async {
+    // SCRATCH: old N2 rule. The first sync per store stands in for the toggle's
+    // one schedule call; later syncs re-add daily requests only if one was queued.
+    static var revertSeen: Set<ObjectIdentifier> = []
+    static var revertDaily: Set<ObjectIdentifier> = []
+
+    static func apply(_ plan: Plan, context: ModelContext, now: Date = .now, daily: Bool = true) async {
         let center = center(for: context)
         let key = ObjectIdentifier(context.container)
         let mine = (generations[key] ?? 0) + 1
@@ -102,9 +109,11 @@ enum ReminderSync {
         }
         guard await center.isAuthorized(), generations[key] == mine else { return }
         center.removePending(identifiers: allIdentifiers)
-        for request in requests(for: plan, now: now) {
+        for request in requests(for: plan, now: now)
+        where daily || !request.identifier.hasPrefix(NotificationService.dailyReminderID) {
             center.add(request)
         }
+        if daily { revertDaily.insert(key) }
     }
 
     static func requests(for plan: Plan, now: Date = .now) -> [UNNotificationRequest] {
