@@ -10,7 +10,7 @@ Developer notes and historical audits for this repository. The published site re
 - [reg94.md](audits/reg94.md): Sober build 83 to build 88 regression audit
 - [state-machines-2026-11-06.md](audits/state-machines-2026-11-06.md): state machines, invariants and 19 reachable bugs, with a repro suite
 - [state-machines-2026-11-06-review.md](audits/state-machines-2026-11-06-review.md): independent review of that audit: 6 confirmed, 11 minor, 2 rejected, with method changes for the fleet pilot
-- [state-machines-2026-11-06-fixes.md](audits/state-machines-2026-11-06-fixes.md): fixes for the review's 19 in-scope claims, with regression tests and final suite results (J4 reworked after the first verify pass, its floor capped at now after the second, S1's undo rule reworked after the third and fifth, J1's split hardened after the fifth)
+- [state-machines-2026-11-06-fixes.md](audits/state-machines-2026-11-06-fixes.md): fixes for the review's 19 in-scope claims, with regression tests and final suite results (J4 reworked after the first verify pass, its floor capped at now after the second, S1's undo rule reworked after the third and fifth, J1's split hardened after the fifth, J4's trim replaced by a read-time cut and J3's cleanup limited to days no closed run covers after the sixth)
 - [state-machines-2026-11-06-verify.md](audits/state-machines-2026-11-06-verify.md): independent check of those fixes (sixth pass): FAIL, J4's trim of a Reset run plus J3's row cleanup lose the Reset run's tail and days when Settings › Start moves back past a Reset and forward again (probe fails on HEAD, passes on 9733bc3); the fifth pass's S1 finding is fixed, the other fixes hold, 275 tests green, and N1, S1, N2 and J1 tests fail with their fixes reverted
 
 ## Marketing
