@@ -213,7 +213,6 @@ struct HomeView: View {
                 scheduleReviewRequestAfterPositiveMoment()
             }) {
                 CheckInDetailSheet()
-                    .presentationDetents([.height(320)])
             }
             .sheet(isPresented: $showSettings) { SettingsView() }
             .sheet(isPresented: $showPlaybook) { UrgePlaybookView(initialTrigger: playbookTrigger) }
@@ -921,11 +920,12 @@ private struct CheckInDetailSheet: View {
                             } label: {
                                 moodLayout {
                                     Image(systemName: symbols[value - 1])
-                                        .font(.title2)
+                                        .font(isAccessibilitySize ? .headline : .title2)
                                         .frame(minWidth: isAccessibilitySize ? 44 : nil, minHeight: 32)
                                         .foregroundStyle(mood == value ? Theme.brandPrimary : Theme.textSecondary)
+                                        .accessibilityHidden(true)
                                     Text(moodLabels[value - 1])
-                                        .font(Theme.caption(weight: .semibold))
+                                        .font(isAccessibilitySize ? .headline : Theme.caption(weight: .semibold))
                                         .lineLimit(isAccessibilitySize ? nil : 1)
                                         .fixedSize(horizontal: false, vertical: true)
                                         .layoutPriority(1)
@@ -937,6 +937,7 @@ private struct CheckInDetailSheet: View {
                             }
                             .buttonStyle(.plain)
                             .accessibilityIdentifier("checkin.mood.\(value)")
+                            .accessibilityAddTraits(mood == value ? .isSelected : [])
                         }
                     }
                     .padding(.vertical, Theme.Space.xs)
@@ -978,6 +979,7 @@ private struct CheckInDetailSheet: View {
                 }
             }
         }
+        .presentationDetents([isAccessibilitySize ? .large : .height(320)])
     }
 
     private func load() {

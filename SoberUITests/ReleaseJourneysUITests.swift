@@ -68,17 +68,20 @@ final class ReleaseJourneysUITests: XCTestCase {
         XCTAssertTrue(app.navigationBars[L("Checked in")].waitForExistence(timeout: 10))
         QA.checkpoint(app, "check-in-sheet")
 
-        app.buttons["checkin.mood.4"].tap()
-        let note = app.textFields[L("Anything you want to remember about today?")]
-        // At accessibility sizes the mood rows push the note below the fold.
-        // Swipe on the mood row just tapped: it sits inside the sheet's Form, which is a collection view, and
-        // the Home list behind the sheet is not. The last row may not be in the hierarchy yet.
-        var scrolls = 0
-        while !note.isHittable && scrolls < 6 {
-            QA.swipe(app.buttons["checkin.mood.4"], .up)
-            scrolls += 1
+        let form = app.collectionViews.firstMatch
+        let good = app.buttons["checkin.mood.4"]
+        XCTAssertTrue(form.waitForExistence(timeout: 5))
+        for _ in 0..<6 where !good.isHittable {
+            QA.swipe(form, .up)
         }
-        XCTAssertTrue(note.waitForExistence(timeout: 5))
+        XCTAssertTrue(good.isHittable)
+        good.tap()
+        XCTAssertTrue(good.isSelected)
+        let note = app.textFields[L("Anything you want to remember about today?")]
+        for _ in 0..<6 where !note.isHittable {
+            QA.swipe(form, .up)
+        }
+        XCTAssertTrue(note.isHittable)
         note.tap()
         note.typeText("Journey note")
         QA.checkpoint(app, "check-in-filled")
