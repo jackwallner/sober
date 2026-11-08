@@ -13,7 +13,16 @@
     "fi",
     "sv",
     "it",
-    "zh-Hans"
+    "zh-Hans",
+    "el",
+    "et",
+    "hu",
+    "ka",
+    "lt",
+    "no",
+    "ro",
+    "th",
+    "tr"
   ],
   "frames": 6,
   "gate": {
@@ -30,7 +39,16 @@
     "fi": "PASS",
     "sv": "PASS",
     "it": "PASS",
-    "zh-Hans": "PASS"
+    "zh-Hans": "PASS",
+    "el": "PASS",
+    "et": "PASS",
+    "hu": "PASS",
+    "ka": "PASS",
+    "lt": "PASS",
+    "no": "PASS",
+    "ro": "PASS",
+    "th": "PASS",
+    "tr": "PASS"
   },
   "gh_sim_jobs": 2,
   "gh_sim_runs": [
@@ -257,5 +275,21 @@
   "left_out": [],
   "reviewer_caveats": [
     "Seven-day trial eligibility is a runtime offering setting and cannot be verified from static screenshots; the badge copy mirrors the English offer."
-  ]
+  ],
+  "local_pool_run_2026_11_08": {
+    "locales": [
+      "el",
+      "et",
+      "hu",
+      "ka",
+      "lt",
+      "no",
+      "ro",
+      "th",
+      "tr"
+    ],
+    "method": "agent-sim local capture (iPhone 18 Pro Max, 1320x2868), launch adapter, same args as capture.py",
+    "headers": "native copy written for these 9 locales",
+    "visual_review": "All 9 sheets reviewed; hu frame 5 badge was clipped, shortened and recomposed"
+  }
 }
