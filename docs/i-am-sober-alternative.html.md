@@ -1,16 +1,16 @@
 # I Am Sober Alternatives: 5 Sobriety Apps Compared
 
-> Five iPhone sobriety counters compared as I Am Sober alternatives: I Am Sober, Sober Time, Days Since, Sober Day and Sober. Facts as of October 2026.
+> Five iPhone sobriety counters compared as I Am Sober alternatives: I Am Sober, Sober Time, Days Since, Sober Day and Sober. Facts as of November 2026.
 
 Web page: https://jackwallner.com/ios/sober/i-am-sober-alternative.html
 
 ## I Am Sober Alternatives for iPhone
 
-By Jack Wallner · Last updated October 23, 2026
+By Jack Wallner · Last updated November 12, 2026
 
 **Best if you want a community and a daily pledge: I Am Sober itself. Best for a live counter with many display modes and several trackers: Sober Time. Best for tracking any habit with a plain counter: Days Since. Best for a simple alcohol-free counter with no account, plus widgets and an Apple Watch app: Sober.** A sobriety counter is an app that counts the days since you stopped drinking or quit a habit. Sober Day suits people who want a guided plan to cut back. Most of the differences are in setup length, account needs and what stays free.
 
-**How we compared.** We read each app's App Store listing and pulled rating, rating count and update date on October 12, 2026. We also ran I Am Sober, Sober Time, Days Since and Sober Day through first launch to note setup, accounts and upgrade screens. We did not subscribe to anything. **Disclosure:** Jack Wallner makes Sober: Sobriety Day Counter, so read its entry with that in mind.
+**How we compared.** We read each app's App Store listing and pulled rating, rating count and update date on November 12, 2026. We also ran I Am Sober, Sober Time, Days Since and Sober Day through first launch to note setup, accounts and upgrade screens. We did not subscribe to anything. **Disclosure:** Jack Wallner makes Sober: Sobriety Day Counter, so read its entry with that in mind.
 
 General information, not medical advice. A counter is a wellness tool, not treatment. If stopping alcohol could put you at risk of withdrawal, talk to a clinician first. In the US, the SAMHSA National Helpline offers free, confidential help around the clock at 1-800-662-4357.
 
@@ -20,13 +20,13 @@ I Am Sober adds community, Sober Time adds display modes and trackers, Days Sinc
 
 | App | Best for | Price model | Apple Watch | iPad | Account | Rating (count) | Last updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [I Am Sober](https://apps.apple.com/us/app/id672904239) | Community, daily pledge and reasons to quit | Free + subscription | Yes | Not listed | Needed for some features | 4.88 (188,724) | Oct 12, 2026 |
-| [Sober Time - Sobriety Counter](https://apps.apple.com/us/app/id1158895079) | Live counter, display modes and many trackers | Free + subscription | Yes | Yes | None in our test | 4.85 (42,694) | Oct 3, 2026 |
-| [Days Since: Quit Habit Tracker](https://apps.apple.com/us/app/id1445348921) | Tracking habits beyond alcohol | Free + subscription or lifetime | Yes | Not listed | None in our test | 4.82 (19,425) | Oct 1, 2026 |
-| [Sober Day - Sobriety Counter](https://apps.apple.com/us/app/id6541761567) | Guided plan to quit or cut back | Free + subscription | Not listed | Yes | Name asked in setup | 4.86 (254) | Jan 29, 2026 |
-| [Sober: Sobriety Day Counter](https://apps.apple.com/us/app/id6768869215?pt=128748779&ct=jw-sober-i-am-sober-alternative&mt=8) | Simple alcohol-free counter, no account | Free + subscription or lifetime | Yes | Not listed | None | 5.0 (5) | Sep 30, 2026 |
+| [I Am Sober](https://apps.apple.com/us/app/id672904239) | Community, daily pledge and reasons to quit | Free + subscription | Yes | Not listed | Needed for some features | 4.88 (191,081) | Nov 1, 2026 |
+| [Sober Time - Sobriety Counter](https://apps.apple.com/us/app/id1158895079) | Live counter, display modes and many trackers | Free + subscription | Yes | Yes | None in our test | 4.85 (43,445) | Nov 4, 2026 |
+| [Days Since: Quit Habit Tracker](https://apps.apple.com/us/app/id1445348921) | Tracking habits beyond alcohol | Free + subscription or lifetime | Yes | Not listed | None in our test | 4.82 (19,752) | Nov 8, 2026 |
+| [Sober Day - Sobriety Counter](https://apps.apple.com/us/app/id6541761567) | Guided plan to quit or cut back | Free + subscription | Not listed | Yes | Name asked in setup | 4.85 (256) | Jan 29, 2026 |
+| [Sober: Sobriety Day Counter](https://apps.apple.com/us/app/id6768869215?pt=128748779&ct=jw-sober-i-am-sober-alternative&mt=8) | Simple alcohol-free counter, no account | Free + subscription or lifetime | Yes | Not listed | None | 5.0 (5) | Nov 10, 2026 |
 
-Ratings and update dates are from each app's App Store listing as of October 12, 2026. Apple Watch and iPad show the devices each listing names; "Not listed" means the listing does not name them. Price models describe the structure only, because prices vary by region and change.
+Ratings and update dates are from each app's App Store listing as of November 12, 2026. Apple Watch and iPad show the devices each listing names; "Not listed" means the listing does not name them. Price models describe the structure only, because prices vary by region and change.
 
 ## The apps, one by one
 
@@ -48,7 +48,7 @@ This one is built around a plan. Its listing describes daily tasks, consumption 
 
 ### Sober: Sobriety Day Counter
 
-Jack Wallner's app. It shows days alcohol-free, with a one-tap daily check-in that grows a garden, a calendar, money and calories kept so far, a craving-mode breathing screen, and widgets and an Apple Watch app that stay free. A slip does not wipe your progress. Limits: it tracks alcohol only and one journey at a time, has no community or account sync, and the full health timeline and craving patterns are in the paid Bloom+ tier. It has 5 ratings, so its score says little yet.
+Jack Wallner's app. It shows days alcohol-free, with a one-tap daily check-in that grows a bonsai, a calendar, money saved and calories avoided, a craving-mode breathing screen, and widgets and an Apple Watch app that stay free. A slip restarts the day count but keeps your calendar and past streaks. Limits: it tracks alcohol only and one journey at a time, has no community or account sync, and the full health timeline and craving patterns are in the paid Bloom+ tier. It has 5 ratings, so its score says little yet.
 
 ## Which should you pick?
 
