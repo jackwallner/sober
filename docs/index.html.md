@@ -8,7 +8,7 @@ Web page: https://jackwallner.com/ios/sober/
 
 Sober is a free sobriety day counter app for iPhone and Apple Watch, with a virtual garden, health milestones, a journal, and more, all private and on your device.
 
-iPhone · Apple Watch · Widgets
+Free · No account · iPhone, Apple Watch and Lock Screen widgets
 
 [Download for free](https://apps.apple.com/us/app/sober-sobriety-day-counter/id6768869215?pt=128748779&ct=jw-sober-home&mt=8)
 
@@ -107,6 +107,14 @@ An optional upgrade for people who want the full picture. Monthly, yearly, or a 
 ## Questions
 
 Quick answers about the sobriety day counter.
+
+## Is there a sobriety counter app with a Lock Screen widget and no account?
+
+Yes. Sober: Sobriety Day Counter has three Lock Screen widgets and two Home Screen widgets that show your day count, all free. It needs no account, has no ads or analytics, and keeps your check-ins on your iPhone.
+
+## What's a good sobriety counter app for iPhone?
+
+Sober: Sobriety Day Counter counts the days since your last drink on iPhone, Apple Watch and the Lock Screen. If you slip, the count restarts while your calendar, past streaks and half of your bonsai's growth stay. The counter, widgets and Apple Watch app are free, with no account.
 
 ## Is there a free sobriety day counter app for iPhone?
 
