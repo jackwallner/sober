@@ -6,7 +6,7 @@ Web page: https://jackwallner.com/ios/sober/fi/sobriety-milestones.html
 
 ## Raittiuden virstanpylväät: 30, 60, 90 päivää ja 1 vuosi
 
-Kirjoittanut Jack Wallner · Päivitetty viimeksi 28.10.2026
+Kirjoittanut Jack Wallner · Päivitetty viimeksi 30.10.2026
 
 Raittiuden virstanpylväät ovat päivämääriä, jotka ihmiset merkitsevät matkalla kohti vuotta: 24 tuntia, 30, 60 ja 90 päivää, 6 ja 9 kuukautta, sitten jokainen vuosipäivä. Ne ovat tapa, eivät lääketieteellinen raja. Nimettömät Alkoholistit eivät itse jaa pelimerkkejä ja kolikoita, ja jokainen ryhmä päättää oman aikataulunsa. Tutkimus näyttää mitattavia muutoksia noin kuukauden alkoholittomuuden jälkeen, minkä vuoksi 30 päivän rajalle annetaan niin suuri paino.
 
@@ -53,7 +53,7 @@ Jos haluat apua juomiseen, SAMHSAn National Helpline numerossa 1-800-662-HELP (4
 
 ## Näin Sober auttaa
 
-[Sober](https://jackwallner.com/ios/sober/fi/) on yksityinen päivälaskuri iPhonelle ja Apple Watchille. Se laskee päiväsi asettamastasi alkamispäivästä, näyttää seuraavan virstanpylvään ja piirtää bonsain, joka kasvaa jokaisella päivittäisellä kirjauksella. Saavutukset merkitsevät 1 viikon, 30 päivää, 90 päivää, 180 päivää ja 1 vuoden, ja terveysaikajana listaa 13 päivättyä merkintää NIAAA:n, CDC:n ja AHA:n lähteineen. Tiliä ei ole, ja tietosi pysyvät laitteellasi. Jos kirjaat lipsahduksen, laskuri alkaa alusta kyseisestä päivästä ja puutarha säilyttää osan kasvustaan. Vertailetko sovelluksia? Katso [I Am Soberin vaihtoehdot](https://jackwallner.com/ios/sober/i-am-sober-alternative.html).
+[Sober](https://jackwallner.com/ios/sober/fi/) on yksityinen päivälaskuri iPhonelle ja Apple Watchille. Se laskee päiväsi asettamastasi alkamispäivästä, näyttää seuraavan virstanpylvään ja piirtää bonsain, joka kasvaa jokaisella päivittäisellä kirjauksella. Saavutukset merkitsevät 1 viikon, 30 päivää, 90 päivää, 180 päivää ja 1 vuoden, ja terveysaikajana listaa 13 päivättyä merkintää NIAAA:n, CDC:n ja AHA:n lähteineen. Tiliä ei ole, ja tietosi pysyvät laitteellasi. Jos lipsahdat, kirjaat sen ja laskuri alkaa alusta, mutta kalenterisi, aiemmat putkesi ja puolet bonsaisi kasvusta säilyvät. Vertailetko sovelluksia? Katso [I Am Soberin vaihtoehdot](https://jackwallner.com/ios/sober/i-am-sober-alternative.html).
 
 Ilmainen päivälaskuri iPhonelle, Apple Watchille ja Androidille. Tiliä ei tarvita.
 

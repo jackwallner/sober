@@ -6,7 +6,7 @@ Web page: https://jackwallner.com/ios/sober/nl/sobriety-milestones.html
 
 ## Mijlpalen van nuchterheid: 30, 60, 90 dagen en 1 jaar
 
-Door Jack Wallner · Laatst bijgewerkt 28-10-2026
+Door Jack Wallner · Laatst bijgewerkt 30-10-2026
 
 Mijlpalen van nuchterheid zijn de dagaantallen die mensen markeren op weg naar een jaar: 24 uur, 30, 60 en 90 dagen, 6 en 9 maanden, daarna elke verjaardag. Het is een gewoonte, geen medische drempel. De Anonieme Alcoholisten geven de fiches en munten zelf niet uit, en elke groep bepaalt haar eigen schema. Onderzoek laat wel meetbare veranderingen zien na ongeveer een maand zonder alcohol, daarom krijgt de grens van 30 dagen zoveel gewicht.
 
@@ -53,7 +53,7 @@ Als je hulp wilt bij drinken, is de SAMHSA National Helpline op 1-800-662-HELP (
 
 ## Hoe Sober helpt
 
-[Sober](https://jackwallner.com/ios/sober/nl/) is een privé dagenteller voor iPhone en Apple Watch. Hij telt je dagen vanaf de startdatum die je instelt, toont de volgende mijlpaal en tekent een bonsai die groeit met elke dagelijkse check-in. Prestaties markeren 1 week, 30 dagen, 90 dagen, 180 dagen en 1 jaar, en de gezondheidstijdlijn bevat 13 gedateerde markeringen met hun bronnen van NIAAA, CDC en AHA. Er is geen account, en je gegevens blijven op je apparaat. Als je een misstap logt, begint de teller opnieuw vanaf die datum en behoudt de tuin een deel van zijn groei. Apps aan het vergelijken? Bekijk de [alternatieven voor I Am Sober](https://jackwallner.com/ios/sober/i-am-sober-alternative.html).
+[Sober](https://jackwallner.com/ios/sober/nl/) is een privé dagenteller voor iPhone en Apple Watch. Hij telt je dagen vanaf de startdatum die je instelt, toont de volgende mijlpaal en tekent een bonsai die groeit met elke dagelijkse check-in. Prestaties markeren 1 week, 30 dagen, 90 dagen, 180 dagen en 1 jaar, en de gezondheidstijdlijn bevat 13 gedateerde markeringen met hun bronnen van NIAAA, CDC en AHA. Er is geen account, en je gegevens blijven op je apparaat. Heb je een misstap, dan log je die en begint de teller opnieuw, terwijl je kalender, je eerdere reeksen en de helft van de groei van je bonsai blijven staan. Apps aan het vergelijken? Bekijk de [alternatieven voor I Am Sober](https://jackwallner.com/ios/sober/i-am-sober-alternative.html).
 
 Gratis dagenteller voor iPhone, Apple Watch en Android. Geen account nodig.
 

@@ -6,7 +6,7 @@ Web page: https://jackwallner.com/ios/sober/fr/sobriety-milestones.html
 
 ## Étapes de sobriété : que signifient 30, 60, 90 jours et 1 an
 
-Par Jack Wallner · Dernière mise à jour 28/10/2026
+Par Jack Wallner · Dernière mise à jour 30/10/2026
 
 Les étapes de sobriété sont les nombres de jours que l'on marque sur la route vers un an : 24 heures, 30, 60 et 90 jours, 6 et 9 mois, puis chaque anniversaire. C'est une coutume, pas un seuil médical. Les Alcooliques anonymes ne délivrent pas eux-mêmes les jetons et les pièces, et chaque groupe fixe son propre calendrier. La recherche montre bien des changements mesurables après environ un mois sans alcool, c'est pourquoi le cap des 30 jours pèse autant.
 
@@ -53,7 +53,7 @@ Si vous voulez de l'aide pour votre consommation d'alcool, la ligne d'aide natio
 
 ## Comment Sober aide
 
-[Sober](https://jackwallner.com/ios/sober/fr/) est un compteur de jours privé pour iPhone et Apple Watch. Il compte vos jours depuis la date de début que vous définissez, affiche la prochaine étape et dessine un bonsaï qui grandit à chaque validation quotidienne. Les succès marquent 1 semaine, 30 jours, 90 jours, 180 jours et 1 an, et la chronologie de santé liste 13 repères datés avec leurs sources du NIAAA, des CDC et de l'AHA. Il n'y a pas de compte, et vos données restent sur votre appareil. Si vous notez un écart, le compteur repart de cette date et le jardin garde une partie de sa croissance. Vous comparez des applis ? Voyez les [alternatives à I Am Sober](https://jackwallner.com/ios/sober/i-am-sober-alternative.html).
+[Sober](https://jackwallner.com/ios/sober/fr/) est un compteur de jours privé pour iPhone et Apple Watch. Il compte vos jours depuis la date de début que vous définissez, affiche la prochaine étape et dessine un bonsaï qui grandit à chaque validation quotidienne. Les succès marquent 1 semaine, 30 jours, 90 jours, 180 jours et 1 an, et la chronologie de santé liste 13 repères datés avec leurs sources du NIAAA, des CDC et de l'AHA. Il n'y a pas de compte, et vos données restent sur votre appareil. Si vous faites un écart, vous le notez et le compteur repart à zéro, mais votre calendrier, vos séries passées et la moitié de la croissance de votre bonsaï sont conservés. Vous comparez des applis ? Voyez les [alternatives à I Am Sober](https://jackwallner.com/ios/sober/i-am-sober-alternative.html).
 
 Compteur de jours gratuit pour iPhone, Apple Watch et Android. Aucun compte requis.
 

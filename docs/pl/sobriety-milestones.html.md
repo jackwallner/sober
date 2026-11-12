@@ -6,7 +6,7 @@ Web page: https://jackwallner.com/ios/sober/pl/sobriety-milestones.html
 
 ## Kamienie milowe trzeźwości: 30, 60, 90 dni i rok
 
-Autor: Jack Wallner · Ostatnia aktualizacja 28.10.2026
+Autor: Jack Wallner · Ostatnia aktualizacja 30.10.2026
 
 Kamienie milowe trzeźwości to liczby dni, które zaznacza się w drodze do roku: 24 godziny, 30, 60 i 90 dni, 6 i 9 miesięcy, potem każda rocznica. To zwyczaj, a nie próg medyczny. Anonimowi Alkoholicy sami nie wydają żetonów ani monet, a każda grupa ustala własny harmonogram. Badania pokazują mierzalne zmiany po około miesiącu bez alkoholu, dlatego granica 30 dni ma tak duże znaczenie.
 
@@ -53,7 +53,7 @@ Jeśli potrzebujesz pomocy w związku z piciem, infolinia SAMHSA National Helpli
 
 ## Jak pomaga Sober
 
-[Sober](https://jackwallner.com/ios/sober/pl/) to prywatny licznik dni na iPhone i Apple Watch. Liczy dni od ustawionej daty startu, pokazuje następny kamień milowy i rysuje bonsai, który rośnie z każdym codziennym meldunkiem. Osiągnięcia oznaczają 1 tydzień, 30 dni, 90 dni, 180 dni i 1 rok, a oś czasu zdrowia zawiera 13 datowanych znaczników ze źródłami NIAAA, CDC i AHA. Nie ma konta, a Twoje dane zostają na urządzeniu. Jeśli zapiszesz potknięcie, licznik startuje od nowa od tej daty, a ogród zachowuje część wzrostu. Porównujesz aplikacje? Zobacz [alternatywy dla I Am Sober](https://jackwallner.com/ios/sober/i-am-sober-alternative.html).
+[Sober](https://jackwallner.com/ios/sober/pl/) to prywatny licznik dni na iPhone i Apple Watch. Liczy dni od ustawionej daty startu, pokazuje następny kamień milowy i rysuje bonsai, który rośnie z każdym codziennym meldunkiem. Osiągnięcia oznaczają 1 tydzień, 30 dni, 90 dni, 180 dni i 1 rok, a oś czasu zdrowia zawiera 13 datowanych znaczników ze źródłami NIAAA, CDC i AHA. Nie ma konta, a Twoje dane zostają na urządzeniu. Jeśli zdarzy się potknięcie, zapisujesz je i licznik startuje od nowa, a kalendarz, wcześniejsze serie i połowa wzrostu bonsai zostają. Porównujesz aplikacje? Zobacz [alternatywy dla I Am Sober](https://jackwallner.com/ios/sober/i-am-sober-alternative.html).
 
 Darmowy licznik dni na iPhone, Apple Watch i Androida. Konto nie jest potrzebne.
 

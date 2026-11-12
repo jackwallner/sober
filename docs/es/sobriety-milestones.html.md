@@ -6,7 +6,7 @@ Web page: https://jackwallner.com/ios/sober/es/sobriety-milestones.html
 
 ## Hitos de sobriedad: qué significan 30, 60, 90 días y 1 año
 
-Por Jack Wallner · Última actualización 28/10/2026
+Por Jack Wallner · Última actualización 30/10/2026
 
 Los hitos de sobriedad son los recuentos de días que la gente marca de camino a un año: 24 horas, 30, 60 y 90 días, 6 y 9 meses, y luego cada aniversario. Son una costumbre, no un umbral médico. Alcohólicos Anónimos no emite las fichas y monedas por sí mismo, y cada grupo decide su propio calendario. La investigación sí muestra cambios medibles tras aproximadamente un mes sin alcohol, por eso la marca de 30 días pesa tanto.
 
@@ -53,7 +53,7 @@ Si quieres ayuda con la bebida, la línea de ayuda nacional de SAMHSA (National 
 
 ## Cómo ayuda Sober
 
-[Sober](https://jackwallner.com/ios/sober/es/) es un contador de días privado para iPhone y Apple Watch. Cuenta tus días desde la fecha de inicio que fijas, muestra el próximo hito y dibuja un bonsái que crece con cada registro diario. Los logros marcan 1 semana, 30 días, 90 días, 180 días y 1 año, y la cronología de salud lista 13 marcadores con fecha y sus fuentes de NIAAA, CDC y AHA. No hay cuenta y tus datos se quedan en tu dispositivo. Si registras un tropiezo, el contador se reinicia desde esa fecha y el jardín conserva parte de su crecimiento. ¿Comparando apps? Mira las [alternativas a I Am Sober](https://jackwallner.com/ios/sober/i-am-sober-alternative.html).
+[Sober](https://jackwallner.com/ios/sober/es/) es un contador de días privado para iPhone y Apple Watch. Cuenta tus días desde la fecha de inicio que fijas, muestra el próximo hito y dibuja un bonsái que crece con cada registro diario. Los logros marcan 1 semana, 30 días, 90 días, 180 días y 1 año, y la cronología de salud lista 13 marcadores con fecha y sus fuentes de NIAAA, CDC y AHA. No hay cuenta y tus datos se quedan en tu dispositivo. Si tienes un tropiezo, lo registras y el contador vuelve a empezar, pero tu calendario, tus rachas anteriores y la mitad del crecimiento de tu bonsái se conservan. ¿Comparando apps? Mira las [alternativas a I Am Sober](https://jackwallner.com/ios/sober/i-am-sober-alternative.html).
 
 Contador de días gratis para iPhone, Apple Watch y Android. Sin cuenta.
 

@@ -6,7 +6,7 @@ Web page: https://jackwallner.com/ios/sober/vi/sobriety-milestones.html
 
 ## Cột mốc cai rượu: ý nghĩa của 30, 60, 90 ngày và 1 năm
 
-Tác giả Jack Wallner · Cập nhật lần cuối 28/10/2026
+Tác giả Jack Wallner · Cập nhật lần cuối 30/10/2026
 
 Cột mốc tỉnh táo là các số ngày mà mọi người đánh dấu trên đường đến một năm: 24 giờ, 30, 60 và 90 ngày, 6 và 9 tháng, rồi mỗi dịp kỷ niệm. Đó là một tục lệ, không phải ngưỡng y tế. Hội Người nghiện rượu ẩn danh không tự phát hành các đồng xu và huy hiệu, và mỗi nhóm tự quyết định lịch của mình. Nghiên cứu cho thấy những thay đổi đo được sau khoảng một tháng không rượu, đó là lý do mốc 30 ngày được coi trọng đến vậy.
 
@@ -53,7 +53,7 @@ Nếu bạn cần giúp đỡ về việc uống rượu, đường dây SAMHSA 
 
 ## Sober giúp thế nào
 
-[Sober](https://jackwallner.com/ios/sober/vi/) là bộ đếm ngày riêng tư cho iPhone và Apple Watch. Nó đếm ngày từ ngày bắt đầu bạn đặt, hiển thị cột mốc tiếp theo và vẽ một cây bonsai lớn lên theo mỗi lần điểm danh hằng ngày. Thành tích đánh dấu 1 tuần, 30 ngày, 90 ngày, 180 ngày và 1 năm, còn dòng thời gian sức khỏe liệt kê 13 mốc có ngày kèm nguồn NIAAA, CDC và AHA. Không có tài khoản, và dữ liệu của bạn nằm trên thiết bị. Nếu bạn ghi một lần trượt, bộ đếm bắt đầu lại từ ngày đó và khu vườn giữ lại một phần sự phát triển. Đang so sánh ứng dụng? Xem [các lựa chọn thay thế I Am Sober](https://jackwallner.com/ios/sober/i-am-sober-alternative.html).
+[Sober](https://jackwallner.com/ios/sober/vi/) là bộ đếm ngày riêng tư cho iPhone và Apple Watch. Nó đếm ngày từ ngày bắt đầu bạn đặt, hiển thị cột mốc tiếp theo và vẽ một cây bonsai lớn lên theo mỗi lần điểm danh hằng ngày. Thành tích đánh dấu 1 tuần, 30 ngày, 90 ngày, 180 ngày và 1 năm, còn dòng thời gian sức khỏe liệt kê 13 mốc có ngày kèm nguồn NIAAA, CDC và AHA. Không có tài khoản, và dữ liệu của bạn nằm trên thiết bị. Nếu bạn trượt, hãy ghi lại và bộ đếm sẽ bắt đầu lại, còn lịch, các chuỗi ngày trước đó và một nửa sự phát triển của cây bonsai vẫn được giữ lại. Đang so sánh ứng dụng? Xem [các lựa chọn thay thế I Am Sober](https://jackwallner.com/ios/sober/i-am-sober-alternative.html).
 
 Bộ đếm ngày miễn phí cho iPhone, Apple Watch và Android. Không cần tài khoản.
 

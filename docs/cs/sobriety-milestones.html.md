@@ -6,7 +6,7 @@ Web page: https://jackwallner.com/ios/sober/cs/sobriety-milestones.html
 
 ## Milníky střízlivosti: co znamená 30, 60, 90 dnů a rok
 
-Autor: Jack Wallner · Naposledy aktualizováno 28. 10. 2026
+Autor: Jack Wallner · Naposledy aktualizováno 30. 10. 2026
 
 Milníky střízlivosti jsou počty dnů, které lidé oslavují na cestě k jednomu roku: 24 hodin, 30, 60 a 90 dnů, 6 a 9 měsíců, pak každé výročí. Je to zvyk, ne lékařská hranice. Anonymní alkoholici žetony a mince sami nevydávají a každá skupina si určuje vlastní rozvrh. Výzkum skutečně ukazuje měřitelné změny asi po měsíci bez alkoholu, a proto má hranice 30 dnů takovou váhu.
 
@@ -53,7 +53,7 @@ Pokud chcete pomoc s pitím, linka SAMHSA National Helpline na čísle 1-800-662
 
 ## Jak pomáhá Sober
 
-[Sober](https://jackwallner.com/ios/sober/cs/) je soukromé počítadlo dnů pro iPhone a Apple Watch. Počítá dny od data začátku, které nastavíte, ukazuje další milník a kreslí bonsaj, který roste s každým denním hlášením. Úspěchy označují 1 týden, 30 dnů, 90 dnů, 180 dnů a 1 rok a zdravotní časová osa uvádí 13 datovaných značek se zdroji NIAAA, CDC a AHA. Není tu žádný účet a vaše data zůstávají ve vašem zařízení. Pokud zapíšete selhání, počítadlo se restartuje od tohoto data a zahrada si ponechá část růstu. Porovnáváte aplikace? Podívejte se na [alternativy k I Am Sober](https://jackwallner.com/ios/sober/i-am-sober-alternative.html).
+[Sober](https://jackwallner.com/ios/sober/cs/) je soukromé počítadlo dnů pro iPhone a Apple Watch. Počítá dny od data začátku, které nastavíte, ukazuje další milník a kreslí bonsaj, který roste s každým denním hlášením. Úspěchy označují 1 týden, 30 dnů, 90 dnů, 180 dnů a 1 rok a zdravotní časová osa uvádí 13 datovaných značek se zdroji NIAAA, CDC a AHA. Není tu žádný účet a vaše data zůstávají ve vašem zařízení. Pokud selžete, zapíšete to a počítadlo začne znovu, ale kalendář, dřívější série i polovina růstu vašeho bonsaje zůstanou. Porovnáváte aplikace? Podívejte se na [alternativy k I Am Sober](https://jackwallner.com/ios/sober/i-am-sober-alternative.html).
 
 Bezplatné počítadlo dnů pro iPhone, Apple Watch a Android. Účet není potřeba.
 

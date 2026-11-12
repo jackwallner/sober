@@ -6,7 +6,7 @@ Web page: https://jackwallner.com/ios/sober/de/sobriety-milestones.html
 
 ## Meilensteine der Nüchternheit: 30, 60, 90 Tage, 1 Jahr
 
-Von Jack Wallner · Zuletzt aktualisiert 28. Oktober 2026
+Von Jack Wallner · Zuletzt aktualisiert 30. Oktober 2026
 
 Meilensteine der Nüchternheit sind die Tageszahlen, die man auf dem Weg zu einem Jahr markiert: 24 Stunden, 30, 60 und 90 Tage, 6 und 9 Monate, dann jedes Jubiläum. Sie sind ein Brauch, keine medizinische Schwelle. Die Anonymen Alkoholiker geben die Chips und Münzen nicht selbst aus, und jede Gruppe legt ihren eigenen Rhythmus fest. Die Forschung zeigt messbare Veränderungen nach etwa einem Monat ohne Alkohol, weshalb die 30-Tage-Marke so viel Gewicht bekommt.
 
@@ -53,7 +53,7 @@ Wenn du Hilfe beim Trinken möchtest: Die National Helpline der SAMHSA unter 1-8
 
 ## Wie Sober hilft
 
-[Sober](https://jackwallner.com/ios/sober/de/) ist ein privater Tageszähler für iPhone und Apple Watch. Er zählt deine Tage ab dem von dir gesetzten Startdatum, zeigt den nächsten Meilenstein und zeichnet einen Bonsai, der mit jedem täglichen Check-in wächst. Erfolge markieren 1 Woche, 30 Tage, 90 Tage, 180 Tage und 1 Jahr, und die Gesundheits-Zeitleiste listet 13 datierte Marker mit ihren Quellen von NIAAA, CDC und AHA. Es gibt kein Konto, und deine Daten bleiben auf deinem Gerät. Wenn du einen Rückfall einträgst, startet der Zähler ab diesem Datum neu, und der Garten behält einen Teil seines Wachstums. Du vergleichst Apps? Sieh dir die [Alternativen zu I Am Sober](https://jackwallner.com/ios/sober/i-am-sober-alternative.html) an.
+[Sober](https://jackwallner.com/ios/sober/de/) ist ein privater Tageszähler für iPhone und Apple Watch. Er zählt deine Tage ab dem von dir gesetzten Startdatum, zeigt den nächsten Meilenstein und zeichnet einen Bonsai, der mit jedem täglichen Check-in wächst. Erfolge markieren 1 Woche, 30 Tage, 90 Tage, 180 Tage und 1 Jahr, und die Gesundheits-Zeitleiste listet 13 datierte Marker mit ihren Quellen von NIAAA, CDC und AHA. Es gibt kein Konto, und deine Daten bleiben auf deinem Gerät. Wenn du rückfällig wirst, trägst du es ein und der Zähler beginnt von vorn, während dein Kalender, deine bisherigen Serien und die Hälfte des Wachstums deines Bonsais erhalten bleiben. Du vergleichst Apps? Sieh dir die [Alternativen zu I Am Sober](https://jackwallner.com/ios/sober/i-am-sober-alternative.html) an.
 
 Kostenloser Tageszähler für iPhone, Apple Watch und Android. Kein Konto nötig.
 
