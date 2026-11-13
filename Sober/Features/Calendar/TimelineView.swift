@@ -302,17 +302,26 @@ struct TimelineView: View {
         let cells: [Date?] = Array(repeating: nil, count: leadingBlanks)
             + range.map { cal.date(byAdding: .day, value: $0 - 1, to: firstOfMonth) }
 
-        return LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: 7), spacing: 6) {
-            ForEach(Array(weekdaySymbols.enumerated()), id: \.offset) { _, sym in
-                Text(sym)
-                    .font(Theme.caption(weight: .semibold))
-                    .foregroundStyle(Theme.textSecondary)
+        // An eager Grid, not a LazyVGrid: a six-row month in the pane left the
+        // lazy grid's height stale, and the month header rode up out of its card.
+        return Grid(horizontalSpacing: 6, verticalSpacing: 6) {
+            GridRow {
+                ForEach(Array(weekdaySymbols.enumerated()), id: \.offset) { _, sym in
+                    Text(sym)
+                        .font(Theme.caption(weight: .semibold))
+                        .foregroundStyle(Theme.textSecondary)
+                        .frame(maxWidth: .infinity)
+                }
             }
-            ForEach(Array(cells.enumerated()), id: \.offset) { _, date in
-                if let date {
-                    dayCell(date: date)
-                } else {
-                    Color.clear.frame(height: dayCellHeight)
+            ForEach(Array(stride(from: 0, to: cells.count, by: 7)), id: \.self) { start in
+                GridRow {
+                    ForEach(start..<min(start + 7, cells.count), id: \.self) { index in
+                        if let date = cells[index] {
+                            dayCell(date: date)
+                        } else {
+                            Color.clear.frame(height: dayCellHeight)
+                        }
+                    }
                 }
             }
         }
