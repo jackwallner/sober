@@ -527,11 +527,13 @@ struct TimelineView: View {
                     pendingSlipDay = day
                 } label: {
                     Label("Change to slip", systemImage: "arrow.left.arrow.right")
+                    .foregroundStyle(Theme.dangerText)
                 }
                 Button(role: .destructive) {
                     deleteCheckIn(checkIn)
                 } label: {
                     Label("Delete log", systemImage: "trash")
+                    .foregroundStyle(Theme.dangerText)
                 }
             } else if SlipRecorder.canUndo(on: day, context: context) {
                 // Goes through `SlipRecorder.undo`, not a plain check-in edit.
@@ -560,6 +562,7 @@ struct TimelineView: View {
                 pendingSlipDay = day
             } label: {
                 Label("Log a slip", systemImage: "exclamationmark.triangle")
+                    .foregroundStyle(Theme.dangerText)
             }
         }
     }
