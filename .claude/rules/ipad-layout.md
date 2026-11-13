@@ -35,3 +35,5 @@ removed once shipped, so every surface is checked in portrait and landscape.
   `gh-sim test --scheme SoberUITests --device "iPad Pro 13-inch (M5)" --only SoberUITests/IPadCaptureUITests`.
   Frames land in `~/.gh-sim/results/<id>/attachments/`. Never configure the
   production RevenueCat key on a simulator run.
+- Landscape shortens the Timeline pane's day cells and the paywall caps its page height on iPad (`maxPageHeight` 820) so nothing clips. The month grid is an eager `Grid`, not a `LazyVGrid`: a six-row month left the lazy grid's height stale and the header rode out of its card.
+- Store frames: `artifacts/asc-screenshots/l10n-20261105/tools/capture_ipad.py`, `compose_ipad.py` and `upload_ipad.py` make and upload the 13-inch set (`APP_IPAD_PRO_3GEN_129`, 2064x2752, six frames per locale).
