@@ -62,6 +62,7 @@ struct OnboardingView: View {
             .padding(.horizontal, Theme.Space.l)
             .padding(.vertical, Theme.Space.l)
             .foregroundStyle(.white)
+            .readableColumn()
         }
         .task {
             ConversionDiagnostics.record(.onboardingReached)

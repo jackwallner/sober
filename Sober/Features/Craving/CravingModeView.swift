@@ -49,11 +49,14 @@ struct CravingModeView: View {
     var body: some View {
         ZStack {
             Theme.background.ignoresSafeArea()
-            switch step {
-            case .breathing: breathingStep
-            case .reflect: reflectStep
-            case .done: doneStep
+            Group {
+                switch step {
+                case .breathing: breathingStep
+                case .reflect: reflectStep
+                case .done: doneStep
+                }
             }
+            .readableColumn(620)
         }
         .onReceive(tick) { _ in
             guard step == .breathing else { return }

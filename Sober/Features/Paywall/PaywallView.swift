@@ -178,7 +178,7 @@ struct PaywallView: View {
         // to be available to the dock as well, which is built outside the inner
         // reader and so cannot see it.
         GeometryReader { page in
-            let m = PaywallMetrics(pageHeight: page.size.height - pitchHeaderPremium + missingTimelineRelief)
+            let m = PaywallMetrics(pageHeight: min(page.size.height, Self.maxPageHeight) - pitchHeaderPremium + missingTimelineRelief)
             GeometryReader { proxy in
                 // `proxy.size.height` is already the region left over once the
                 // status bar, the tab bar, and the dock are taken out, because
@@ -188,13 +188,18 @@ struct PaywallView: View {
                 // as a number rather than as a proposal, because a scroll view
                 // will not commit to a height along its own scroll axis.
                 ScrollView(showsIndicators: false) {
-                    paywallStack(m, fitting: proxy.size.height)
+                    paywallStack(m, fitting: min(proxy.size.height, Self.maxPageHeight))
+                        .readableColumn(560)
                 }
                 .scrollBounceBehavior(.basedOnSize)
             }
-            .safeAreaInset(edge: .bottom, spacing: 0) { purchaseDock(m) }
+            .safeAreaInset(edge: .bottom, spacing: 0) { purchaseDock(m).readableColumn(560) }
         }
     }
+
+    /// An iPad pane is far taller than any phone, and the rows would spread to
+    /// fill it. Phones never reach this height, so only iPad is capped.
+    private static let maxPageHeight: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 820 : .infinity
 
     /// Tapping a plan card used to rebuild this stack four ways at once: the
     /// VStack spacing changed, the habit line swapped text (and height), the

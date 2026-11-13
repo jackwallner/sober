@@ -23,6 +23,7 @@ struct TimelineView: View {
     /// cards (`paneScroll`): the selected day's tree sits beside its caption so
     /// the month, the day and the streaks fit the first screen.
     private let isPane: Bool
+    @State private var paneHeight: CGFloat = 0
 
     init(isPane: Bool = false) {
         self.isPane = isPane
@@ -173,6 +174,7 @@ struct TimelineView: View {
             .padding(.bottom, Theme.Space.l)
         }
         .scrollIndicators(.hidden)
+        .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { paneHeight = $0 }
         .background(Color(.systemGroupedBackground))
         .ignoresSafeArea(.container, edges: .trailing)
         .toolbar(.hidden, for: .navigationBar)
@@ -317,7 +319,14 @@ struct TimelineView: View {
     }
 
     /// A little shorter in the pane, so its first screen holds whole cards.
-    private var dayCellHeight: CGFloat { isPane ? 32 : 36 }
+    /// On an iPad the pane is as tall as the screen, so the grid grows with
+    /// it instead of leaving the lower third of a portrait pane empty. Landscape
+    /// gets shorter cells so the check-in still starts on the first screen.
+    private var dayCellHeight: CGFloat {
+        guard isPane else { return 36 }
+        guard UIDevice.current.userInterfaceIdiom == .pad else { return 32 }
+        return min(56, max(36, (paneHeight - 740) / 6))
+    }
 
     private var weekdaySymbols: [String] {
         let f = DateFormatter()
