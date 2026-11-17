@@ -439,6 +439,11 @@ struct OnboardingView: View {
             TrialNote.markSeen(showedNote: showsTrialNote)
             subscriptions.syncConversionAttributes()
         }
+        .task(id: subscriptions.onboardingPlanConfig) {
+            guard subscriptions.onboardingPlanConfig != .monthly, subscriptions.directOfferPackage != nil else { return }
+            OnboardingPlan.markSeen(subscriptions.onboardingFirstKind)
+            subscriptions.syncConversionAttributes()
+        }
     }
 
     /// The `trial_note` test's line. Only on a pitch that offers a trial.

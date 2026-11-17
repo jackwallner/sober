@@ -133,6 +133,8 @@ final class SubscriptionService: NSObject {
 
     /// The `default` offering's `trial_note` switch. See `TrialNote`.
     private(set) var trialNoteConfig: TrialNote.Config = .none
+    /// The `default` offering's `onboarding_plan` switch. See `OnboardingPlan`.
+    private(set) var onboardingPlanConfig: OnboardingPlan.Config = .monthly
     /// The trial note's promise: ask what to fix once its trial stops renewing.
     private(set) var whatToFixDue = false
     private var productFetchTask: Task<Void, Never>?
@@ -309,6 +311,7 @@ final class SubscriptionService: NSObject {
             let offering = try await client.paywallOffering(forceRefresh: false)
             packages = offering?.soberSortedPackages ?? []
             trialNoteConfig = TrialNote.config(from: offering?.metadata)
+            onboardingPlanConfig = OnboardingPlan.config(from: offering?.metadata)
             if packages.isEmpty {
                 // The network call succeeded but the paywall offering is missing
                 // or carries no packages — a RevenueCat dashboard gap (offering
@@ -384,6 +387,7 @@ final class SubscriptionService: NSObject {
         // of onboarding, these say how often and how early they were pitched.
         attributes.merge(ConversionDiagnostics.subscriberAttributes) { _, fleet in fleet }
         if let arm = TrialNote.seenArm() { attributes[TrialNote.attributeKey] = arm }
+        if let arm = OnboardingPlan.seenArm() { attributes[OnboardingPlan.attributeKey] = arm }
         guard !attributes.isEmpty else { return }
         client.setSubscriberAttributes(attributes)
     }
@@ -542,12 +546,17 @@ final class SubscriptionService: NSObject {
     }
 
     #if canImport(RevenueCat)
-    /// The plan the one-tap onboarding trial actually buys: monthly when it
-    /// carries a free-trial intro offer this Apple ID is still eligible for,
-    /// yearly as the fallback.
+    /// The plan the onboarding button leads with (`OnboardingPlan`).
+    var onboardingFirstKind: SoberPackageKind {
+        OnboardingPlan.kind(onboardingPlanConfig)
+    }
+
+    /// The plan the one-tap onboarding trial actually buys: the leading plan
+    /// when it carries a free-trial intro offer this Apple ID is still eligible
+    /// for, the other one as the fallback.
     var directTrialPackage: Package? {
         let trialPackages = packages.filter { isEligibleForIntroOffer($0) }
-        return Self.preferredTrialPackage(from: trialPackages)
+        return Self.preferredTrialPackage(from: trialPackages, first: onboardingFirstKind)
     }
 
     /// What the one-tap onboarding CTA actually buys, trial or not.
@@ -557,25 +566,28 @@ final class SubscriptionService: NSObject {
     /// through to a paywall sheet on Home. Same preference order, minus the
     /// eligibility filter, so a returning user still gets an offer in place.
     var directOfferPackage: Package? {
-        directTrialPackage ?? Self.preferredTrialPackage(from: packages)
+        directTrialPackage ?? Self.preferredTrialPackage(from: packages, first: onboardingFirstKind)
     }
 
-    static func preferredTrialPackage(from trialPackages: [Package]) -> Package? {
-        guard let preferredKind = preferredTrialKind(from: trialPackages.map(\.soberPackageKind)) else {
+    static func preferredTrialPackage(from trialPackages: [Package], first: SoberPackageKind = .monthly) -> Package? {
+        guard let preferredKind = preferredTrialKind(from: trialPackages.map(\.soberPackageKind), first: first) else {
             return nil
         }
         return trialPackages.first { $0.soberPackageKind == preferredKind }
     }
 
-    /// Monthly first for the one-tap onboarding trial (2026-10-16). The yearly
-    /// CTA sent Apple's sheet to "$29.99 every year": on the 1.3.3 page 3 of 4
-    /// users who tapped it cancelled there, and fleet-wide the onboarding pages
-    /// that sell a monthly trial convert best (Mahj, 129 of 130 trials monthly,
-    /// 43% of viewers). The paywall keeps its own yearly default; this only
-    /// picks what the onboarding button buys.
-    nonisolated static func preferredTrialKind(from kinds: [SoberPackageKind]) -> SoberPackageKind? {
-        if kinds.contains(.monthly) { return .monthly }
-        if kinds.contains(.yearly) { return .yearly }
+    /// Monthly first for the one-tap onboarding trial since 2026-10-16, unless
+    /// `OnboardingPlan` leads with yearly. The yearly CTA sent Apple's sheet to
+    /// "$29.99 every year": on the 1.3.3 page 3 of 4 users who tapped it
+    /// cancelled there, and fleet-wide the onboarding pages that sell a monthly
+    /// trial convert best (Mahj, 129 of 130 trials monthly, 43% of viewers).
+    /// The paywall keeps its own yearly default; this only picks what the
+    /// onboarding button buys.
+    nonisolated static func preferredTrialKind(from kinds: [SoberPackageKind],
+                                               first: SoberPackageKind = .monthly) -> SoberPackageKind? {
+        let second: SoberPackageKind = first == .yearly ? .monthly : .yearly
+        if kinds.contains(first) { return first }
+        if kinds.contains(second) { return second }
         return kinds.first
     }
 
@@ -601,7 +613,7 @@ final class SubscriptionService: NSObject {
             logger.error("Onboarding trial failed: intro eligibility did not resolve")
             return .failed
         }
-        if Self.preferredTrialPackage(from: trialPackages.filter { isEligibleForIntroOffer($0) }) != nil {
+        if Self.preferredTrialPackage(from: trialPackages.filter { isEligibleForIntroOffer($0) }, first: onboardingFirstKind) != nil {
             return .eligible
         }
 
