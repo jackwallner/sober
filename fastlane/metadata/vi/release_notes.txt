@@ -1,1 +1,3 @@
-Giờ đây bạn có thể đổi ngôn ngữ của ứng dụng trong Cài đặt. Bản cập nhật này cũng có các bản sửa lỗi và cải tiến.
+Mới: thử thách Tháng Một không rượu bia 2027. Từ ngày 18 tháng 12, bạn sẽ thấy nó ở Trang chủ. Hãy check-in mỗi ngày trong tháng Một để lấp đầy cả tháng, và ghi lại đủ 31 ngày không rượu bia để nhận huy hiệu Tháng Một không rượu bia 2027.
+
+Bản cập nhật này còn có: thao tác di chuyển mượt hơn trong khu vườn được phóng to, cùng các bản sửa lỗi và cải tiến.
