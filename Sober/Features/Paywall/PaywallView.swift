@@ -712,7 +712,7 @@ struct PaywallView: View {
             .background(Theme.brandGradient, in: RoundedRectangle(cornerRadius: m.ctaRadius))
             .shadow(color: Theme.brandPrimary.opacity(0.3), radius: 12, y: 6)
             .buttonStyle(.plain)
-            .disabled(isPurchasing || selectedPackage == nil)
+            .disabled(isPurchasing)
 
             disclosureSlot(m)
 
