@@ -45,10 +45,10 @@ final class ReleaseJourneysUITests: XCTestCase {
             // The unfolded Duo shows Timeline as a pane beside the tabs, not in the bar.
             if tab == "Timeline", tabButton("Health", in: app).waitForExistence(timeout: 10), !button.exists { continue }
             XCTAssertTrue(button.waitForExistence(timeout: 10))
-            button.tap()
+            QA.openTab(app, L(tab))
             QA.checkpoint(app, tab.lowercased(), paywall: tab == "Upgrade")
         }
-        tabButton("Home", in: app).tap()
+        QA.openTab(app, L("Home"))
         home("home-after-upgrade", in: app)
         QA.interrupt(app)
         home("home-after-background", in: app)
@@ -135,10 +135,8 @@ final class ReleaseJourneysUITests: XCTestCase {
         app.buttons.containing(NSPredicate(format: "label BEGINSWITH %@", L("I'm having a"))).firstMatch
     }
 
-    /// The tab bar's button; the unfolded Duo draws the tabs as a rail that is not a tab bar.
     private func tabButton(_ tab: String, in app: XCUIApplication) -> XCUIElement {
-        let inBar = app.tabBars.buttons[L(tab)]
-        return inBar.exists ? inBar : app.buttons.matching(NSPredicate(format: "label == %@", L(tab))).firstMatch
+        QA.tab(app, L(tab))
     }
 
     private func home(_ name: String, in app: XCUIApplication) {
