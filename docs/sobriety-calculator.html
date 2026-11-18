@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2352A073'/%3E%3Cpath d='M16 6C16 6 10 12 10 18C10 23 13 26 16 26C19 26 22 23 22 18C22 12 16 6 16 6Z' fill='%237AC78C' opacity='0.8'/%3E%3Cpath d='M16 10C16 10 12.5 14 12.5 18C12.5 21 14 24 16 24C18 24 19.5 21 19.5 18C19.5 14 16 10 16 10Z' fill='%23F2C773'/%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2352A073'/%3E%3Cpath d='M16 6C16 6 10 12 10 18C10 23 13 26 16 26C19 26 22 23 22 18C22 12 16 6 16 6Z' fill='%237AC78C' opacity='0.8'/%3E%3Cpath d='M16 10C16 10 12.5 14 12.5 18C12.5 21 14 24 16 24C18 24 19.5 21 19.5 18C19.5 14 16 10 16 10Z' fill='%23F2C773'/%3E%3C/svg%3E">
+    <title>Sobriety Calculator: Money and Calories Saved Not Drinking</title>
+    <meta name="description" content="Free sobriety calculator. Enter drinks per week, price per drink and your sober date to see days sober, money saved and calories saved over time.">
+    <link rel="canonical" href="https://jackwallner.com/ios/sober/sobriety-calculator.html">
+    <meta http-equiv="refresh" content="0; url=https://jackwallner.com/ios/sober/sobriety-calculator.html">
+    <script>if(location.hostname==="jackwallner.github.io"){var c=document.querySelector('link[rel="canonical"]');if(c&&c.href.indexOf("https://jackwallner.com/")===0)location.replace(c.href)}</script>
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta property="og:title" content="Sobriety Calculator: Money and Calories Saved Not Drinking">
+    <meta property="og:description" content="Free sobriety calculator. Enter drinks per week, price per drink and your sober date to see days sober, money saved and calories saved over time.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jackwallner.com/ios/sober/sobriety-calculator.html">
+    <meta property="og:image" content="https://jackwallner.github.io/sober/screenshot-5-saved.png">
+    <meta property="og:site_name" content="Jack Wallner">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sobriety Calculator: Money and Calories Saved Not Drinking">
+    <meta name="twitter:description" content="Free sobriety calculator. Enter drinks per week, price per drink and your sober date to see days sober, money saved and calories saved over time.">
+    <meta name="twitter:image" content="https://jackwallner.github.io/sober/screenshot-5-saved.png">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Sobriety Calculator",
+      "url": "https://jackwallner.com/ios/sober/sobriety-calculator.html",
+      "description": "Free sobriety calculator. Enter drinks per week, price per drink and your sober date to see days sober, money saved and calories saved over time.",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Jack Wallner",
+        "url": "https://jackwallner.com/"
+      },
+      "datePublished": "2026-11-18",
+      "dateModified": "2026-11-18",
+      "image": "https://jackwallner.github.io/sober/screenshot-5-saved.png",
+      "isPartOf": {
+        "@type": "WebPage",
+        "@id": "https://jackwallner.com/ios/sober/",
+        "name": "Sober: Sobriety Day Counter",
+        "url": "https://jackwallner.com/ios/sober/"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much money do you save by not drinking?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Multiply your drinks per week by what each one cost. At 14 drinks a week and $8 a drink that is $112 a week, $16 a day and $5,840 a year."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many calories are in an alcoholic drink?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "MedlinePlus lists about 153 calories in a 12 oz regular beer, 103 in a light beer, 125 in a 5 oz glass of red wine, 121 in white wine, 97 in a 1.5 oz shot of 80-proof spirits and 168 in a 4 oz margarita."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I work out how many days sober I am?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Count the days from your sober date through today, with the sober date as day 1. Someone who stopped on January 1 is on day 31 on January 31."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will I lose weight if I stop drinking?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It depends on what replaces the drinks. The calculator shows the calories that were in the drinks themselves. Your weight also depends on food, activity and your body, so the body fat figure is an energy comparison, not a forecast."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this calculator save what I type?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The math runs in your browser. Nothing you enter is sent anywhere or stored, and it is gone when you close the page."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Jack Wallner",
+          "item": "https://jackwallner.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "iOS apps",
+          "item": "https://jackwallner.com/ios/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Sober: Sobriety Day Counter",
+          "item": "https://jackwallner.com/ios/sober/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Sobriety Calculator",
+          "item": "https://jackwallner.com/ios/sober/sobriety-calculator.html"
+        }
+      ]
+    }
+  ]
+}
+    </script>
+    <style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; color: #1d1d1f; background: #fafafa; -webkit-font-smoothing: antialiased; line-height: 1.7; }
+nav { padding: 16px 0; border-bottom: 1px solid rgba(0,0,0,0.06); background: rgba(250,250,250,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 10; }
+nav .container { display: flex; align-items: center; justify-content: space-between; max-width: 980px; }
+.nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #1d1d1f; }
+.nav-brand img, .nav-brand svg { width: 32px; height: 32px; border-radius: 7px; }
+.nav-brand span { font-size: 15px; font-weight: 600; }
+.nav-link { font-size: 14px; text-decoration: none; background: #1d1d1f; color: #fff; padding: 8px 18px; border-radius: 980px; font-weight: 500; }
+.container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+article { padding: 56px 0 72px; }
+article h1 { font-size: 36px; font-weight: 700; letter-spacing: -1px; line-height: 1.15; margin-bottom: 14px; }
+article .meta { font-size: 14px; color: #6e6e73; margin-bottom: 28px; }
+article .answer { font-size: 19px; line-height: 1.55; padding: 18px 22px; background: #f5f5f7; border-left: 4px solid #52A073; border-radius: 0 12px 12px 0; margin-bottom: 28px; }
+article h2 { font-size: 24px; font-weight: 600; letter-spacing: -0.3px; line-height: 1.25; margin: 40px 0 12px; }
+article h3 { font-size: 18px; font-weight: 600; margin: 24px 0 8px; }
+article p { font-size: 17px; margin-bottom: 18px; }
+article ul, article ol { margin: 0 0 18px 24px; font-size: 17px; }
+article li { margin-bottom: 8px; }
+article a { color: #2f7a50; }
+article table { width: 100%; border-collapse: collapse; margin: 0 0 24px; font-size: 15px; line-height: 1.5; }
+article th, article td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid rgba(0,0,0,0.08); }
+article th { font-weight: 600; background: #f5f5f7; }
+.calc { background: #fff; border: 1px solid rgba(0,0,0,0.08); border-radius: 18px; padding: 24px; margin: 0 0 28px; }
+.calc .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.calc label { display: block; font-size: 13px; color: #6e6e73; margin-bottom: 6px; line-height: 1.3; }
+.calc input, .calc select { width: 100%; min-width: 0; height: 46px; font: inherit; font-size: 17px; padding: 0 12px; border: 1px solid rgba(0,0,0,0.14); border-radius: 10px; background: #fafafa; color: #1d1d1f; -webkit-appearance: none; appearance: none; }
+.calc select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%236e6e73' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+.calc input:focus-visible, .calc select:focus-visible { outline: 2px solid #52A073; outline-offset: 1px; }
+.result { margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(0,0,0,0.08); }
+.result .big { font-size: 40px; font-weight: 700; letter-spacing: -1px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.result .big small { font-size: 16px; font-weight: 500; color: #6e6e73; letter-spacing: 0; margin-left: 6px; }
+.result .sub { font-size: 15px; color: #6e6e73; margin: 8px 0 16px; }
+.result table { margin: 0; font-variant-numeric: tabular-nums; }
+.result td:nth-child(n+2), .result th:nth-child(n+2) { text-align: right; }
+.result tr:last-child td { border-bottom: 0; }
+.result tr.so-far td { font-weight: 600; }
+.note { font-size: 15px; color: #515154; background: #f5f5f7; border-radius: 12px; padding: 14px 18px; margin: 0 0 18px; }
+.sources li { font-size: 15px; word-break: break-word; }
+.cta-box { background: #f5f5f7; border-radius: 16px; padding: 28px; margin: 36px 0; text-align: center; }
+.cta-box p { font-size: 15px; color: #515154; margin-bottom: 16px; }
+.cta-box a.btn { display: inline-block; background: #1d1d1f; color: #fff; font-size: 15px; font-weight: 500; padding: 12px 28px; border-radius: 980px; text-decoration: none; }
+.store-badges { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; }
+.play-badge { display: inline-flex; transition: opacity 0.15s; }
+.play-badge:hover { opacity: 0.85; }
+.play-badge img { display: block; height: 46px; width: auto; }
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+.nav-actions .play-badge img { height: 36px; }
+footer { text-align: center; padding: 20px 24px; font-size: 12px; color: #6e6e73; border-top: 1px solid rgba(0,0,0,0.06); }
+footer a { display: inline-block; padding: 6px 0; color: #6e6e73; text-decoration: none; margin: 0 10px; }
+@media (max-width: 768px) { article h1 { font-size: 28px; } article { padding: 40px 0 56px; } article .answer { font-size: 17px; } article table { font-size: 14px; } }
+@media (max-width: 480px) { .calc { padding: 18px; } .result .big { font-size: 34px; } .result th, .result td { padding: 9px 6px; } }
+</style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a class="nav-brand" href="./">
+                <svg viewBox="0 0 32 32" fill="none">
+                <rect width="32" height="32" rx="7" fill="#52A073"/>
+                <path d="M16 6C16 6 10 12 10 18C10 23 13 26 16 26C19 26 22 23 22 18C22 12 16 6 16 6Z" fill="#7AC78C" opacity="0.8"/>
+                <path d="M16 10C16 10 12.5 14 12.5 18C12.5 21 14 24 16 24C18 24 19.5 21 19.5 18C19.5 14 16 10 16 10Z" fill="#F2C773"/>
+                </svg>
+                <span>Sober</span>
+            </a>
+            <div class="nav-actions">
+                <a class="nav-link" href="https://apps.apple.com/us/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-sobriety-calculator&amp;mt=8">Download</a>
+                <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.jackwallner.sober" rel="noopener"><img src="google-play-badge.webp" alt="Get it on Google Play" width="121" height="36"></a>
+            </div>
+        </div>
+    </nav>
+
+    <article>
+        <div class="container">
+            <h1>Sobriety Calculator: Money and Calories Saved Not Drinking</h1>
+            <p class="meta">By Jack Wallner &middot; Last updated <time datetime="2026-11-18" data-updated>November 18, 2026</time></p>
+            <p class="answer">Enter how many drinks you had in a week and what each one cost. The calculator shows the money and calories that stay with you over a week, a month, a year and five years. Add your sober date to see your day count and the totals so far.</p>
+
+            <form class="calc" id="calc" onsubmit="return false" aria-label="Sobriety calculator">
+                <div class="row">
+                    <div>
+                        <label for="drinks">Drinks per week</label>
+                        <input id="drinks" type="number" inputmode="decimal" min="0" step="1" value="14">
+                    </div>
+                    <div>
+                        <label for="price">Price per drink ($)</label>
+                        <input id="price" type="number" inputmode="decimal" min="0" step="0.5" value="8">
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <label for="kind">Drink</label>
+                        <select id="kind">
+                            <option value="153">Beer, 12 oz</option>
+                            <option value="103">Light beer, 12 oz</option>
+                            <option value="125">Red wine, 5 oz</option>
+                            <option value="121">White wine, 5 oz</option>
+                            <option value="97">Spirits, 1.5 oz</option>
+                            <option value="168">Margarita, 4 oz</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="kcal">Calories per drink</label>
+                        <input id="kcal" type="number" inputmode="numeric" min="0" step="1" value="153">
+                    </div>
+                </div>
+                <div>
+                    <label for="since">Sober since</label>
+                    <input id="since" type="date">
+                </div>
+                <div class="result" aria-live="polite">
+                    <div class="big" id="big"></div>
+                    <p class="sub" id="sub"></p>
+                    <table>
+                        <thead><tr><th scope="col">Time sober</th><th scope="col">Money</th><th scope="col">Calories</th></tr></thead>
+                        <tbody id="rows"></tbody>
+                    </table>
+                </div>
+            </form>
+
+            <div class="note">General information, not medical advice. Sober is a tracking tool and does not diagnose or treat anything. If you drink heavily, talk to a doctor before you stop, because sudden withdrawal can be dangerous.</div>
+
+            <h2>How is the money saved worked out?</h2>
+            <p>Drinks per week times price per drink gives a weekly figure. Divide by 7 for a day, then multiply by 365 for a year. At 14 drinks a week and $8 a drink, that is $112 a week, $16 a day and $5,840 a year. Use the price you really paid: a bar pour with a tip costs several times what the same drink costs at home.</p>
+
+            <h2>How many calories are in a drink?</h2>
+            <p>These are the figures the calculator fills in, from the MedlinePlus table of calorie counts for alcoholic drinks. Change the number if your usual drink is bigger or stronger.</p>
+            <table>
+                <tr><th>Drink</th><th>Serving</th><th>Calories</th></tr>
+                <tr><td>Regular beer</td><td>12 oz</td><td>153</td></tr>
+                <tr><td>Light beer</td><td>12 oz</td><td>103</td></tr>
+                <tr><td>Red wine</td><td>5 oz</td><td>125</td></tr>
+                <tr><td>White wine</td><td>5 oz</td><td>121</td></tr>
+                <tr><td>80-proof spirits</td><td>1.5 oz</td><td>97</td></tr>
+                <tr><td>Margarita</td><td>4 oz</td><td>168</td></tr>
+            </table>
+
+            <h2>What do the calories add up to?</h2>
+            <p>The line under the big number compares the yearly calories with body fat, using the common figure of 3,500 calories per pound (7,700 per kilogram). It is an energy comparison. What happens to your weight depends on what you eat and drink instead, how much you move, and your own body.</p>
+
+            <h2>How are days sober counted?</h2>
+            <p>From your sober date through today, with the sober date as day 1. Someone who stopped on January 1 is on day 31 on January 31. The totals so far are that day count times your daily money and calories.</p>
+
+            <h2>How Sober helps</h2>
+            <p><a href="./">Sober</a> is a private day counter for iPhone, Apple Watch and Android. You set your cost and calories per day once, and it keeps the money and calories running total next to your day count, with the next <a href="sobriety-milestones.html">milestone</a> ahead. There is no account, and your data stays on your device.</p>
+
+            <div class="cta-box">
+                <p>Free day counter for iPhone, Apple Watch and Android. No account needed.</p>
+                <div class="store-badges">
+                    <a class="btn" href="https://apps.apple.com/us/app/sober-sobriety-day-counter/id6768869215?pt=128748779&amp;ct=jw-sober-sobriety-calculator&amp;mt=8">Download Sober</a>
+                    <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.jackwallner.sober" rel="noopener"><img src="google-play-badge.webp" alt="Get it on Google Play" width="155" height="46"></a>
+                </div>
+            </div>
+
+            <h2>Frequently asked questions</h2>
+<h3>How much money do you save by not drinking?</h3>
+<p>Multiply your drinks per week by what each one cost. At 14 drinks a week and $8 a drink that is $112 a week, $16 a day and $5,840 a year.</p>
+<h3>How many calories are in an alcoholic drink?</h3>
+<p>MedlinePlus lists about 153 calories in a 12 oz regular beer, 103 in a light beer, 125 in a 5 oz glass of red wine, 121 in white wine, 97 in a 1.5 oz shot of 80-proof spirits and 168 in a 4 oz margarita.</p>
+<h3>How do I work out how many days sober I am?</h3>
+<p>Count the days from your sober date through today, with the sober date as day 1. Someone who stopped on January 1 is on day 31 on January 31.</p>
+<h3>Will I lose weight if I stop drinking?</h3>
+<p>It depends on what replaces the drinks. The calculator shows the calories that were in the drinks themselves. Your weight also depends on food, activity and your body, so the body fat figure is an energy comparison, not a forecast.</p>
+<h3>Does this calculator save what I type?</h3>
+<p>No. The math runs in your browser. Nothing you enter is sent anywhere or stored, and it is gone when you close the page.</p>
+
+            <p>Related: <a href="sobriety-milestones.html">Sobriety Milestones: What 30, 60, 90 Days and 1 Year Mean</a> and <a href="dry-january-tracker-app.html">a Dry January tracker</a>.</p>
+            <h2>Sources</h2>
+            <ul class="sources">
+<li><a href="https://medlineplus.gov/ency/patientinstructions/000886.htm" rel="noopener">MedlinePlus: Calorie count, alcoholic beverages</a></li>
+            </ul>
+        </div>
+    </article>
+
+    <footer>
+        <div>&copy; 2026 Jack Wallner</div>
+        <div>
+            <a href="./">Home</a>
+            <a href="support.html">Support</a>
+            <a href="privacy-policy.html">Privacy</a>
+            <a href="https://jackwallner.com/ios/">More apps by Jack Wallner</a>
+        </div>
+    </footer>
+    <script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var drinks = $("drinks"), price = $("price"), kind = $("kind"), kcal = $("kcal"), since = $("since");
+  var DAY = 86400000;
+  var num = function (el) { var v = parseFloat(el.value); return isFinite(v) && v > 0 ? v : 0; };
+  var money = function (v) { return "$" + Math.round(v).toLocaleString("en-US"); };
+  var whole = function (v) { return Math.round(v).toLocaleString("en-US"); };
+  var plural = function (n, word) { return n + " " + word + (n === 1 ? "" : "s"); };
+
+  // Days from the sober date through today, the sober date being day 1. 0 when unset or in the future.
+  function daysSober() {
+    var p = since.value.split("-");
+    if (p.length !== 3) return 0;
+    var now = new Date();
+    var start = Date.UTC(+p[0], +p[1] - 1, +p[2]);
+    var today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+    return start > today ? 0 : Math.round((today - start) / DAY) + 1;
+  }
+
+  function span(days) {
+    if (days < 31) return "";
+    var p = since.value.split("-");
+    var now = new Date();
+    var end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    var y = end.getFullYear() - +p[0], m = end.getMonth() - (+p[1] - 1), d = end.getDate() - +p[2];
+    if (d < 0) { m -= 1; d += new Date(end.getFullYear(), end.getMonth(), 0).getDate(); }
+    if (m < 0) { y -= 1; m += 12; }
+    var parts = [];
+    if (y) parts.push(plural(y, "year"));
+    if (m) parts.push(plural(m, "month"));
+    if (d) parts.push(plural(d, "day"));
+    return parts.join(", ");
+  }
+
+  function row(label, days, perDay, kcalDay, cls) {
+    return "<tr" + (cls ? ' class="' + cls + '"' : "") + "><td>" + label + "</td><td>" + money(perDay * days) + "</td><td>" + whole(kcalDay * days) + "</td></tr>";
+  }
+
+  function draw() {
+    var perDay = num(drinks) * num(price) / 7;
+    var kcalDay = num(drinks) * num(kcal) / 7;
+    var days = daysSober();
+    var yearKcal = kcalDay * 365;
+    var fat = (yearKcal / 3500).toFixed(yearKcal < 35000 ? 1 : 0) + " lb (" + (yearKcal / 7700).toFixed(1) + " kg)";
+    if (days) {
+      var long = span(days);
+      $("big").innerHTML = plural(days, "day").replace(/^\d+/, whole(days)) + "<small>sober</small>";
+      $("sub").textContent = (long ? long + ". " : "") + money(perDay * days) + " and " + whole(kcalDay * days) + " calories so far.";
+    } else {
+      $("big").innerHTML = money(perDay * 365) + "<small>a year</small>";
+      $("sub").textContent = whole(yearKcal) + " calories a year, the energy in about " + fat + " of body fat.";
+    }
+    $("rows").innerHTML =
+      (days ? row("So far", days, perDay, kcalDay, "so-far") : "") +
+      row("1 week", 7, perDay, kcalDay) +
+      row("1 month", 365 / 12, perDay, kcalDay) +
+      row("1 year", 365, perDay, kcalDay) +
+      row("5 years", 1825, perDay, kcalDay);
+  }
+
+  kind.addEventListener("change", function () { kcal.value = kind.value; draw(); });
+  [drinks, price, kcal, since].forEach(function (el) { el.addEventListener("input", draw); });
+  var t = new Date();
+  since.max = t.getFullYear() + "-" + ("0" + (t.getMonth() + 1)).slice(-2) + "-" + ("0" + t.getDate()).slice(-2);
+  draw();
+})();
+    </script>
+</body>
+</html>
