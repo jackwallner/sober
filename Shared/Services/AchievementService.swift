@@ -25,12 +25,29 @@ final class AchievementService {
             switch a.kind {
             case .timeMilestone: earned = currentDays >= a.dayThreshold
             case .streak: earned = longestStreak >= a.dayThreshold
+            case .challenge: earned = false
             }
             if earned {
                 context.insert(UnlockedAchievement(achievementID: a.id))
             }
         }
+        if !already.contains(JanuaryChallenge.achievementID), januaryChallengeComplete() {
+            context.insert(UnlockedAchievement(achievementID: JanuaryChallenge.achievementID))
+        }
         context.saveOrReport()
+    }
+
+    /// All 31 January days on record as dry.
+    private func januaryChallengeComplete(now: Date = JanuaryChallenge.clock()) -> Bool {
+        let days = JanuaryChallenge.days()
+        guard let first = days.first, let last = days.last, now >= last else { return false }
+        let descriptor = FetchDescriptor<DailyCheckIn>(
+            predicate: #Predicate { $0.day >= first && $0.day <= last }
+        )
+        let facts = ((try? context.fetch(descriptor)) ?? []).map {
+            CheckInFacts(day: $0.day, wasSober: $0.wasSober, wasLogged: $0.wasLogged, mood: $0.mood)
+        }
+        return JanuaryChallenge.snapshot(now: now, facts: facts).isComplete
     }
 
     func unlocked() -> [UnlockedAchievement] {

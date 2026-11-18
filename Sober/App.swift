@@ -158,6 +158,11 @@ struct RootView: View {
             Text(saveFailures.message ?? "")
         }
         .task { WidgetSnapshotPump.push(context: context) }
+        .onOpenURL { url in
+            guard JanuaryChallenge.handles(url) else { return }
+            ChallengeLinkInbox.shared.pending = true
+            NotificationCenter.default.post(name: .soberOpenCheckIn, object: nil)
+        }
         #if DEBUG
         .task { seedDemoIfRequested() }
         #endif
@@ -191,6 +196,8 @@ struct RootView: View {
     ///                 each other the way the hand-captured 1.1.4 frames did
     ///   -seedGoal N : set a 30/90/365-day goal on the seeded journey
     ///   -demoPro    : flip the local Pro override on
+    ///   -openChallenge : open the Dry January sheet, as its link does
+    ///   -challengeNow yyyy-MM-dd : the date the challenge reads
     ///   -freshOnboarding : show onboarding even if an earlier run on this
     ///                 simulator finished it, so the first-run journey is repeatable
     private func seedDemoIfRequested() {
@@ -200,6 +207,11 @@ struct RootView: View {
         }
         if args.contains("-demoPro") {
             SubscriptionService.shared.setLocalOverride(isPro: true)
+        }
+        // -openChallenge: what `sober://dry-january` does, for headless
+        // captures, where `simctl openurl` stops on a confirmation alert.
+        if args.contains("-openChallenge") {
+            ChallengeLinkInbox.shared.pending = true
         }
         guard args.contains("-seedDemo") else { return }
         if settingsRows.first?.hasCompletedOnboarding ?? false {
@@ -233,7 +245,8 @@ struct RootView: View {
         // A user this far in has already seen each stage's celebration; left at
         // zero, the first Home appearance replays one over the screen.
         GardenService(context: context).current().lastUnlockNotifiedAtDays = days + 1
-        CheckInService(context: context).fillJourney(start: start, through: .now)
+        // With -challengeNow the month the challenge reads is filled too.
+        CheckInService(context: context).fillJourney(start: start, through: JanuaryChallenge.clock())
         if args.contains("-storeScreenshots") {
             CheckInService(context: context).checkIn()
         }

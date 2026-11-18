@@ -44,6 +44,9 @@ struct HomeView: View {
     /// has finished closing, for the same reason as `pendingCravingOutcome`.
     @State private var pendingPlaybookRequest: UrgeTrigger??
     @State private var showGoalEditor = false
+    @State private var showChallenge = false
+    @State private var challengeNow = JanuaryChallenge.clock()
+    @State private var challengeInbox = ChallengeLinkInbox.shared
     @Environment(\.requestReview) private var requestReview
     @Environment(\.isUnfoldedPane) private var isUnfoldedPane
 
@@ -250,6 +253,13 @@ struct HomeView: View {
                 )
             }
             .sheet(isPresented: $showCustomize) { GardenCustomizationView() }
+            .sheet(isPresented: $showChallenge) { JanuaryChallengeSheet(now: challengeNow) }
+            .onChange(of: challengeInbox.pending, initial: true) { _, pending in
+                guard pending else { return }
+                challengeInbox.pending = false
+                challengeNow = JanuaryChallenge.clock()
+                showChallenge = JanuaryChallenge.acceptsLink(now: challengeNow)
+            }
             .sheet(isPresented: $showProgress) {
                 ProgressSheet(days: days, gardenState: gardenState, isPro: isPro)
                     .presentationDetents([.medium, .large])
@@ -291,6 +301,10 @@ struct HomeView: View {
     private var aheadSection: some View {
         if let journey = activeJourney {
             VStack(spacing: Theme.Space.m) {
+                if JanuaryChallenge.showsCard(now: challengeNow) {
+                    JanuaryChallengeCard(now: challengeNow) { showChallenge = true }
+                        .paneRow()
+                }
                 UpcomingMilestonesCard(start: journey.startDate, isPro: isPro) {
                     requestSubsequentLockedFeaturePitch(.healthTimeline)
                 }
@@ -664,8 +678,11 @@ struct HomeView: View {
             // the active "Check in for today" control is reachable (auto-
             // filling today would always render the "Today is logged"
             // state before the user ever taps).
-            CheckInService(context: context).fillJourney(start: j.startDate, through: DateHelpers.daysAgo(1))
+            // `clock()` is the real clock outside a DEBUG `-challengeNow` capture.
+            challengeNow = JanuaryChallenge.clock()
+            CheckInService(context: context).fillJourney(start: j.startDate, through: DateHelpers.daysAgo(1, from: challengeNow))
         }
+        challengeNow = JanuaryChallenge.clock()
         refreshCheckInState()
         checkForGrowth()
         WidgetSnapshotPump.push(context: context)
@@ -748,7 +765,8 @@ struct HomeView: View {
         // The in-view latch only dedupes the delay task (onAppear fires again on
         // every tab switch). The persisted flag is what makes this one-shot, and
         // it is consumed below, at the moment the pitch is actually requested.
-        guard !showGrowth, postOnboardingPaywallTask == nil else { return }
+        // A challenge link opened the app: the pitch waits for the next arrival.
+        guard !showGrowth, !showChallenge, !challengeInbox.pending, postOnboardingPaywallTask == nil else { return }
         postOnboardingPaywallTask = Task { @MainActor in
             defer { postOnboardingPaywallTask = nil }
             try? await Task.sleep(nanoseconds: 700_000_000)
@@ -756,7 +774,7 @@ struct HomeView: View {
             // good whenever a growth celebration or review prompt landed inside
             // the delay window, which 1.2.5's lower review thresholds made a
             // regular event. Leaving it set retries on the next Home arrival.
-            guard !showGrowth else { return }
+            guard !showGrowth, !showChallenge else { return }
             AppGroup.defaults.set(false, forKey: AppGroup.postOnboardingPaywallKey)
             // Start the passive-nudge cooldown here so the day-0 popup and the
             // Home/Timeline/Health passive nudges don't fire back-to-back.
@@ -1145,6 +1163,10 @@ struct ProgressSheet: View {
                 Section("Streaks") {
                     ForEach(AchievementCatalog.all.filter { $0.kind == .streak }) { achievementRow($0) }
                 }
+
+                if showsChallengeBadge {
+                    Section("Dry January") { achievementRow(AchievementCatalog.dryJanuary) }
+                }
             }
             #if DEBUG
             .task {
@@ -1393,12 +1415,21 @@ struct ProgressSheet: View {
             Spacer()
             if unlocked {
                 Image(systemName: "checkmark.seal.fill").foregroundStyle(Theme.brandPrimary)
-            } else if !isPro {
+            } else if !isPro, a.kind != .challenge {
                 Image(systemName: "lock.fill").foregroundStyle(Theme.textTertiary)
             }
         }
         .contentShape(Rectangle())
-        .onTapGesture { if !unlocked && !isPro { requestSubsequentLockedFeaturePitch(.progressSheet) } }
+        .onTapGesture {
+            if !unlocked && !isPro && a.kind != .challenge { requestSubsequentLockedFeaturePitch(.progressSheet) }
+        }
+    }
+
+    /// The challenge badge has a row while the challenge is on, and for good
+    /// once earned.
+    private var showsChallengeBadge: Bool {
+        JanuaryChallenge.showsCard(now: JanuaryChallenge.clock())
+            || unlockedAchievements.contains { $0.achievementID == JanuaryChallenge.achievementID }
     }
 
     private static let currencyFormatter: NumberFormatter = {

@@ -107,6 +107,7 @@ release state and the remote-Pro emulator recipe: `.claude/rules/android.md`.
 - `.claude/rules/iphone-duo.md`: unfolded iPhone Duo split (Home tabs beside Timeline).
 - `.claude/rules/ipad-layout.md`: iPad layout (Duo split reused, readable columns, capture sweep).
 - `.claude/rules/screenshots.md`: localized store screenshot capture and composition.
+- `.claude/rules/january-challenge.md`: Dry January 2027 challenge behind the in-app event, `sober://dry-january`, debug clock.
 
 ---
 Shared iOS conventions (build, simulator, release/TestFlight, ASC key, signing, RevenueCat dev tips, review funnel, gotchas):

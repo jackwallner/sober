@@ -3,6 +3,8 @@ import Foundation
 enum AchievementKind: String, Codable {
     case timeMilestone
     case streak
+    /// A dated challenge, earned inside its own window (`JanuaryChallenge`).
+    case challenge
 }
 
 struct Achievement: Identifiable, Hashable {
@@ -30,8 +32,12 @@ enum AchievementCatalog {
         Achievement(id: "diamond-discipline", title: String(localized: "Diamond Discipline"), description: String(localized: "100 consecutive check-ins."), kind: .streak, dayThreshold: 100, icon: "diamond.fill"),
     ]
 
+    /// Earned by 31 dry days in January 2027. Kept out of `all` so the day
+    /// counter and the check-in streak never award it.
+    static let dryJanuary = Achievement(id: JanuaryChallenge.achievementID, title: String(localized: "Dry January 2027"), description: String(localized: "All 31 days of January without a drink."), kind: .challenge, dayThreshold: JanuaryChallenge.length, icon: "calendar.badge.checkmark")
+
     static func achievement(id: String) -> Achievement? {
-        all.first { $0.id == id }
+        (all + [dryJanuary]).first { $0.id == id }
     }
 
     static func timeMilestones(unlockedAt days: Int) -> [Achievement] {

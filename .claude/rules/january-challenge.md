@@ -1,0 +1,32 @@
+---
+paths:
+  - "Shared/Services/JanuaryChallenge.swift"
+  - "Sober/Features/Challenge/**"
+  - "SoberUITests/JanuaryChallengeUITests.swift"
+---
+
+# Sober: Dry January 2027 challenge (added 2026-11-18)
+
+The real, dated thing behind the App Store in-app event "Dry January 2027" (January 1
+to 31, 2027; App Review 2.3.13 wants an event to be timely and its link to land
+on it). Event spec, art and state: `~/ios/growth/2026-11-18-listing-strategy/january-events/`.
+
+- `JanuaryChallenge` (Shared) is pure date math over the January check-ins:
+  each day is dry, slip, open or ahead. A slip never erases the other days.
+- Home shows the card from December 18, 2026 (the day the App Store starts
+  promoting the event) to February 7, 2027. The sheet shows the count, the
+  month and the badge. Nothing in it is paid.
+- `sober://dry-january` opens the sheet (`RootView.onOpenURL` sets
+  `ChallengeLinkInbox.shared.pending`, Home consumes it, so a cold launch and
+  onboarding both work). From February 8, 2027 the link just opens Home. The
+  URL scheme `sober` is in `Sober/Info.plist`; keep it while the event is
+  approved or published.
+- The badge `dry-january-2027` is `AchievementCatalog.dryJanuary`, kept out of `all`,
+  earned by `AchievementService` once January 31 has come and all 31 days are
+  dry. It is never locked behind the paywall.
+- DEBUG launch args: `-challengeNow 2027-01-12` sets the date the challenge
+  reads, `-openChallenge` does what the link does (`simctl openurl` stops on a
+  confirmation alert). UI tests run under the `SoberUITests` scheme:
+  `gh-sim test --scheme SoberUITests --only SoberUITests/JanuaryChallengeUITests`.
+- After February 2027 the code can be removed, or re-dated for the next
+  January: change `year`, the achievement id and the four catalog keys.
