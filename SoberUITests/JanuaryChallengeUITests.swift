@@ -1,7 +1,7 @@
 import XCTest
 
-/// Dry January, the in-app event behind the App Store event card: the Home
-/// card, the sheet in each phase, and the `sober://dry-january` link.
+/// Dry January, the in-app event behind the App Store event card: the
+/// Timeline row, the sheet in each phase, and the `sober://dry-january` link.
 /// `-challengeNow` sets the date the challenge reads.
 final class JanuaryChallengeUITests: XCTestCase {
     override func setUp() {
@@ -27,23 +27,22 @@ final class JanuaryChallengeUITests: XCTestCase {
         XCTAssertTrue(craving.waitForExistence(timeout: 30))
     }
 
-    func test1CardOpensTheSheetAndDoneClosesIt() {
+    func test1TimelineRowOpensTheSheetAndDoneClosesIt() {
         let app = launch(["-challengeNow", "2027-01-12"])
         waitForHome(app)
-        // Start on the garden: the swipe has to scroll Home, not pan the tree.
-        let window = app.windows.firstMatch
-        window.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.45))
-            .press(forDuration: 0.05, thenDragTo: window.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.05)))
-        let card = app.buttons["januaryChallengeCard"]
-        XCTAssertTrue(card.waitForExistence(timeout: 10))
-        keep(app, "01-home-card")
-        card.tap()
+        XCTAssertFalse(app.buttons["januaryChallengeRow"].exists, "Home carries no challenge row")
+        app.tabBars.buttons["Timeline"].tap()
+        let row = app.buttons["januaryChallengeRow"]
+        XCTAssertTrue(row.waitForExistence(timeout: 10))
+        keep(app, "01-timeline-row")
+        row.tap()
         let title = app.navigationBars["Dry January"]
         XCTAssertTrue(title.waitForExistence(timeout: 10))
         XCTAssertTrue(app.staticTexts["of 31 dry days"].exists)
         keep(app, "02-sheet-active")
         app.buttons["Done"].tap()
         XCTAssertTrue(title.waitForNonExistence(timeout: 10))
+        XCTAssertTrue(row.exists, "Done returns to Timeline")
     }
 
     func test2TheEventLinkOpensTheSheet() throws {
@@ -65,11 +64,12 @@ final class JanuaryChallengeUITests: XCTestCase {
     func test4AFullMonthEarnsTheBadge() {
         let app = launch(["-challengeNow", "2027-02-02", "-openChallenge"])
         XCTAssertTrue(app.navigationBars["Dry January"].waitForExistence(timeout: 30))
-        XCTAssertTrue(app.staticTexts["31"].waitForExistence(timeout: 10))
+        // Timeline sits behind the sheet with its own 31: any match will do.
+        XCTAssertTrue(app.staticTexts["31"].firstMatch.waitForExistence(timeout: 10))
         keep(app, "05-sheet-complete")
     }
 
-    func test5AfterItIsPutAwayTheLinkOpensHomeOnly() throws {
+    func test5AfterItIsPutAwayTheLinkOpensNoSheet() throws {
         let app = launch(["-challengeNow", "2027-02-20"])
         waitForHome(app)
         app.open(try XCTUnwrap(URL(string: "sober://dry-january")))

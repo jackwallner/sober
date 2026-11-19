@@ -12,8 +12,9 @@ struct TimelineView: View {
     @Query(sort: \SobrietyJourney.startDate, order: .reverse) private var journeys: [SobrietyJourney]
     @Query private var gardenStates: [GardenState]
 
-    @State private var monthAnchor: Date = DateHelpers.startOfDay()
-    @State private var selectedDate: Date = DateHelpers.startOfDay()
+    // `clock()` is the real clock outside a DEBUG `-challengeNow` capture.
+    @State private var monthAnchor: Date = DateHelpers.startOfDay(JanuaryChallenge.clock())
+    @State private var selectedDate: Date = DateHelpers.startOfDay(JanuaryChallenge.clock())
     @State private var draftMood: Int?
     @State private var draftNote: String = ""
     @State private var pendingSlipDay: Date?
@@ -24,6 +25,9 @@ struct TimelineView: View {
     /// the month, the day and the streaks fit the first screen.
     private let isPane: Bool
     @State private var paneHeight: CGFloat = 0
+    @State private var showChallenge = false
+    @State private var challengeNow = JanuaryChallenge.clock()
+    @State private var challengeInbox = ChallengeLinkInbox.shared
 
     init(isPane: Bool = false) {
         self.isPane = isPane
@@ -88,7 +92,17 @@ struct TimelineView: View {
                     guard !isPane else { return }
                     await presentPassiveTrialNudge(subscriptions, intent: .progressSheet)
                 }
-                .onAppear { loadDraft() }
+                .onAppear {
+                    loadDraft()
+                    challengeNow = JanuaryChallenge.clock()
+                }
+                .sheet(isPresented: $showChallenge) { JanuaryChallengeSheet(now: challengeNow) }
+                .onChange(of: challengeInbox.pending, initial: true) { _, pending in
+                    guard pending else { return }
+                    challengeInbox.pending = false
+                    challengeNow = JanuaryChallenge.clock()
+                    showChallenge = JanuaryChallenge.acceptsLink(now: challengeNow)
+                }
                 .onChange(of: selectedDate) { _, _ in loadDraft() }
                 .alert(
                     "Log a slip?",
@@ -111,6 +125,9 @@ struct TimelineView: View {
 
     private var list: some View {
         List {
+            if JanuaryChallenge.showsCard(now: challengeNow) {
+                Section { challengeRow }
+            }
             summarySection
 
             Section {
@@ -155,6 +172,9 @@ struct TimelineView: View {
                     .font(.largeTitle.bold())
                     .frame(height: Self.paneHeaderHeight, alignment: .bottomLeading)
                     .accessibilityAddTraits(.isHeader)
+                if JanuaryChallenge.showsCard(now: challengeNow) {
+                    paneCard { challengeRow }
+                }
                 paneCard(spacing: Theme.Space.s) {
                     monthNav
                     monthGrid
@@ -178,6 +198,10 @@ struct TimelineView: View {
         .background(Color(.systemGroupedBackground))
         .ignoresSafeArea(.container, edges: .trailing)
         .toolbar(.hidden, for: .navigationBar)
+    }
+
+    private var challengeRow: some View {
+        JanuaryChallengeRow(now: challengeNow) { showChallenge = true }
     }
 
     private func paneCard<Content: View>(

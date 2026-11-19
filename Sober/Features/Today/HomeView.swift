@@ -44,7 +44,6 @@ struct HomeView: View {
     /// has finished closing, for the same reason as `pendingCravingOutcome`.
     @State private var pendingPlaybookRequest: UrgeTrigger??
     @State private var showGoalEditor = false
-    @State private var showChallenge = false
     @State private var challengeNow = JanuaryChallenge.clock()
     @State private var challengeInbox = ChallengeLinkInbox.shared
     @Environment(\.requestReview) private var requestReview
@@ -253,13 +252,6 @@ struct HomeView: View {
                 )
             }
             .sheet(isPresented: $showCustomize) { GardenCustomizationView() }
-            .sheet(isPresented: $showChallenge) { JanuaryChallengeSheet(now: challengeNow) }
-            .onChange(of: challengeInbox.pending, initial: true) { _, pending in
-                guard pending else { return }
-                challengeInbox.pending = false
-                challengeNow = JanuaryChallenge.clock()
-                showChallenge = JanuaryChallenge.acceptsLink(now: challengeNow)
-            }
             .sheet(isPresented: $showProgress) {
                 ProgressSheet(days: days, gardenState: gardenState, isPro: isPro)
                     .presentationDetents([.medium, .large])
@@ -301,10 +293,6 @@ struct HomeView: View {
     private var aheadSection: some View {
         if let journey = activeJourney {
             VStack(spacing: Theme.Space.m) {
-                if JanuaryChallenge.showsCard(now: challengeNow) {
-                    JanuaryChallengeCard(now: challengeNow) { showChallenge = true }
-                        .paneRow()
-                }
                 UpcomingMilestonesCard(start: journey.startDate, isPro: isPro) {
                     requestSubsequentLockedFeaturePitch(.healthTimeline)
                 }
@@ -766,7 +754,7 @@ struct HomeView: View {
         // every tab switch). The persisted flag is what makes this one-shot, and
         // it is consumed below, at the moment the pitch is actually requested.
         // A challenge link opened the app: the pitch waits for the next arrival.
-        guard !showGrowth, !showChallenge, !challengeInbox.pending, postOnboardingPaywallTask == nil else { return }
+        guard !showGrowth, !challengeInbox.pending, postOnboardingPaywallTask == nil else { return }
         postOnboardingPaywallTask = Task { @MainActor in
             defer { postOnboardingPaywallTask = nil }
             try? await Task.sleep(nanoseconds: 700_000_000)
@@ -774,7 +762,7 @@ struct HomeView: View {
             // good whenever a growth celebration or review prompt landed inside
             // the delay window, which 1.2.5's lower review thresholds made a
             // regular event. Leaving it set retries on the next Home arrival.
-            guard !showGrowth, !showChallenge else { return }
+            guard !showGrowth, !challengeInbox.pending else { return }
             AppGroup.defaults.set(false, forKey: AppGroup.postOnboardingPaywallKey)
             // Start the passive-nudge cooldown here so the day-0 popup and the
             // Home/Timeline/Health passive nudges don't fire back-to-back.

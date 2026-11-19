@@ -27,6 +27,18 @@ struct JanuaryChallengeTests {
         #expect(days.last == day(2027, 1, 31, hour: 0))
     }
 
+    /// A Buddhist or Islamic device calendar read 2027 as its own year and
+    /// hid the challenge for the whole month: the dates are always Gregorian.
+    @Test func defaultsAreGregorianWhateverTheDeviceCalendar() {
+        #expect(JanuaryChallenge.calendar.identifier == .gregorian)
+        let first = JanuaryChallenge.days().first ?? .distantPast
+        var buddhist = Calendar(identifier: .buddhist)
+        buddhist.timeZone = JanuaryChallenge.calendar.timeZone
+        #expect(buddhist.component(.year, from: first) == 2570)
+        let gregorian = JanuaryChallenge.calendar.dateComponents([.year, .month, .day], from: first)
+        #expect(gregorian.year == 2027 && gregorian.month == 1 && gregorian.day == 1)
+    }
+
     @Test func upcomingCountsDownToJanuaryFirst() {
         let snapshot = JanuaryChallenge.snapshot(now: day(2026, 12, 18), facts: [], calendar: calendar)
         #expect(snapshot.phase == .upcoming(daysUntilStart: 14))

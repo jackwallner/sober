@@ -1,8 +1,8 @@
 import SwiftData
 import SwiftUI
 
-/// Carries a challenge link from `RootView.onOpenURL` to Home, which may not
-/// exist yet (cold launch, or onboarding still in front of it).
+/// Carries a challenge link from `RootView.onOpenURL` to Timeline, which may
+/// not exist yet (cold launch, or onboarding still in front of it).
 @MainActor
 @Observable
 final class ChallengeLinkInbox {
@@ -34,8 +34,8 @@ private func startDateLabel(_ snapshot: JanuaryChallenge.Snapshot) -> String {
     (snapshot.days.first?.date ?? .now).formatted(.dateTime.month(.wide).day())
 }
 
-/// Dry January's door on Home.
-struct JanuaryChallengeCard: View {
+/// Dry January's row at the top of Timeline, the month view it extends.
+struct JanuaryChallengeRow: View {
     let now: Date
     let onTap: () -> Void
     private let checkIns = JanuaryCheckIns()
@@ -43,32 +43,38 @@ struct JanuaryChallengeCard: View {
     var body: some View {
         let snapshot = checkIns.snapshot(now: now)
         Button(action: onTap) {
-            AheadCard(icon: "calendar", title: String(localized: "Dry January")) {
-                HStack(alignment: .firstTextBaseline, spacing: 6) {
-                    if case .upcoming(let days) = snapshot.phase {
-                        Text(startDateLabel(snapshot))
-                            .font(Theme.subhead(weight: .semibold))
-                            .foregroundStyle(Theme.textPrimary)
-                        Text("in \(days) days")
-                            .font(Theme.subhead())
-                            .foregroundStyle(Theme.textSecondary)
-                    } else {
-                        Text("\(snapshot.dryDays)")
-                            .font(Theme.bigNumber(40))
-                            .foregroundStyle(Theme.brandPrimary)
-                        Text("of 31 dry days")
-                            .font(Theme.subhead(weight: .semibold))
-                            .foregroundStyle(Theme.textSecondary)
+            HStack(spacing: Theme.Space.m) {
+                Image(systemName: "calendar.badge.checkmark")
+                    .font(.title3)
+                    .foregroundStyle(Theme.brandPrimary)
+                    .accessibilityHidden(true)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Dry January")
+                        .font(Theme.body(weight: .semibold))
+                        .foregroundStyle(Theme.textPrimary)
+                    HStack(alignment: .firstTextBaseline, spacing: 4) {
+                        if case .upcoming(let days) = snapshot.phase {
+                            Text(startDateLabel(snapshot))
+                            Text("in \(days) days")
+                        } else {
+                            Text("\(snapshot.dryDays)")
+                            Text("of 31 dry days")
+                        }
                     }
-                    Spacer(minLength: 0)
-                    Image(systemName: "chevron.right")
-                        .font(Theme.caption(weight: .semibold))
-                        .foregroundStyle(Theme.textTertiary)
+                    .font(Theme.subhead())
+                    .foregroundStyle(Theme.textSecondary)
                 }
+                Spacer(minLength: 0)
+                Image(systemName: "chevron.right")
+                    .font(Theme.caption(weight: .semibold))
+                    .foregroundStyle(Theme.textTertiary)
+                    .accessibilityHidden(true)
             }
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .accessibilityIdentifier("januaryChallengeCard")
+        .accessibilityElement(children: .combine)
+        .accessibilityIdentifier("januaryChallengeRow")
     }
 }
 

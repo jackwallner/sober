@@ -6,6 +6,8 @@ extension Notification.Name {
     /// Posted when the user taps the daily-reminder notification — MainTabView
     /// switches to Home so the check-in button is right there.
     static let soberOpenCheckIn = Notification.Name("com.jackwallner.sober.openCheckIn")
+    /// Posted by the Dry January link: Timeline holds the challenge.
+    static let soberOpenTimeline = Notification.Name("com.jackwallner.sober.openTimeline")
     /// Posted when the user taps the trial-ending reminder. Lands on Bloom+ so
     /// they can see what they'd keep before deciding.
     static let soberOpenBloomPlus = Notification.Name("com.jackwallner.sober.openBloomPlus")
@@ -161,7 +163,7 @@ struct RootView: View {
         .onOpenURL { url in
             guard JanuaryChallenge.handles(url) else { return }
             ChallengeLinkInbox.shared.pending = true
-            NotificationCenter.default.post(name: .soberOpenCheckIn, object: nil)
+            NotificationCenter.default.post(name: .soberOpenTimeline, object: nil)
         }
         #if DEBUG
         .task { seedDemoIfRequested() }
@@ -303,7 +305,7 @@ struct MainTabView: View {
         let args = ProcessInfo.processInfo.arguments
         guard let index = args.firstIndex(of: "-tab"),
               index + 1 < args.count,
-              let parsed = Int(args[index + 1]) else { return 0 }
+              let parsed = Int(args[index + 1]) else { return args.contains("-openChallenge") ? 1 : 0 }
         return parsed
     }
     @State private var tab = MainTabView.launchTab
@@ -414,6 +416,10 @@ struct MainTabView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .soberOpenBloomPlus)) { _ in
             tab = 4
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .soberOpenTimeline)) { _ in
+            // Unfolded, Timeline is its own pane and already on screen.
+            if split == nil { tab = 1 }
         }
         .onChange(of: tab) { _, newTab in
             if newTab == 4, !subscriptions.isProSubscriber {
