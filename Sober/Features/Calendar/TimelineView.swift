@@ -39,6 +39,15 @@ struct TimelineView: View {
     private var earliestStart: Date? { journeys.last?.startDate }
     private var activeStart: Date? { journeys.first(where: { $0.isActive })?.startDate }
 
+    /// Fills unlogged past days the way Home does. The dry-january link can
+    /// open Timeline before Home has appeared this launch, and the challenge
+    /// would count short until it did.
+    private func refreshChallengeDays() {
+        challengeNow = JanuaryChallenge.clock()
+        guard let start = activeStart else { return }
+        CheckInService(context: context).fillJourney(start: start, through: DateHelpers.daysAgo(1, from: challengeNow))
+    }
+
     /// Sober days accrued as of a given calendar date. Looks up whichever
     /// historical journey covered that date so the tree preview keeps showing
     /// past growth after a relapse reset.
@@ -94,13 +103,13 @@ struct TimelineView: View {
                 }
                 .onAppear {
                     loadDraft()
-                    challengeNow = JanuaryChallenge.clock()
+                    refreshChallengeDays()
                 }
                 .sheet(isPresented: $showChallenge) { JanuaryChallengeSheet(now: challengeNow) }
                 .onChange(of: challengeInbox.pending, initial: true) { _, pending in
                     guard pending else { return }
                     challengeInbox.pending = false
-                    challengeNow = JanuaryChallenge.clock()
+                    refreshChallengeDays()
                     showChallenge = JanuaryChallenge.acceptsLink(now: challengeNow)
                 }
                 .onChange(of: selectedDate) { _, _ in loadDraft() }

@@ -41,3 +41,7 @@ on it). Event spec, art and state: `~/ios/growth/2026-11-18-listing-strategy/jan
 - The app fills unlogged past days as sober (`fillJourney`), so the challenge
   counts dry days, not daily check-ins: copy says "every dry day", never
   "check in each day".
+- Timeline fills unlogged past days itself (`refreshChallengeDays`, the same
+  `fillJourney` Home runs) on appear and when the link arrives: the event link
+  lands on Timeline, often before Home has appeared that launch, and the count
+  read short until it did.
