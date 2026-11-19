@@ -1,3 +1,3 @@
-New: the Dry January 2027 challenge. From December 18 you'll find it on Home. Check in each day of January to fill in the month, and log all 31 days dry to earn the Dry January 2027 badge.
+New: the Dry January 2027 challenge. From December 18 it sits at the top of Timeline. Every dry day of January fills in the month, and all 31 earn the Dry January 2027 badge.
 
 Also in this update: smoother panning in the zoomed garden, plus fixes and improvements.
