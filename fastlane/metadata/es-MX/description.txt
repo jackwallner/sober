@@ -1,4 +1,4 @@
-Sober cuenta los días desde tu último trago en tu iPhone, tu Apple Watch y tres widgets gratis de la pantalla de bloqueo, sin cuenta. Si tienes una recaída, la registras y el contador vuelve a empezar, pero tu calendario, tus rachas anteriores y la mitad del crecimiento de tu bonsái se quedan. El contador de días es gratis y tus registros se quedan en tu iPhone.
+Sober cuenta los días desde tu último trago en tu iPhone, tu Apple Watch y tres widgets gratis de la pantalla de bloqueo, sin cuenta. Si tienes un desliz, lo registras y el contador vuelve a empezar, pero tu calendario, tus rachas anteriores y la mitad del crecimiento de tu bonsái se quedan. El contador de días es gratis y tus registros se quedan en tu iPhone.
 
 CUENTA TUS DÍAS
 • Un contador de días desde la fecha de inicio que tú eliges, con tu racha más larga y tu próximo hito
@@ -7,14 +7,14 @@ CUENTA TUS DÍAS
 
 REGISTRA TU DÍA
 • Un registro al día con tu estado de ánimo y una nota
-• Un calendario que marca cada día como sobrio o recaída, donde también puedes registrar un día que olvidaste
+• Un calendario que marca cada día como sobrio o desliz, donde también puedes registrar un día que olvidaste
 • Un bonsái que crece con cada día sobrio
 
 CUANDO LLEGA EL ANTOJO
-• El modo antojo inicia con un toque una respiración guiada en caja: inhala, sostén, exhala, sostén, 4 segundos cada uno, durante unos tres minutos
+• El modo antojo inicia con un toque una respiración guiada en caja: inhala, mantén, exhala, mantén, 4 segundos cada tiempo, durante unos tres minutos
 
-SI TIENES UNA RECAÍDA
-• Registra una recaída de hoy o de una fecha anterior
+SI TIENES UN DESLIZ
+• Registra un desliz de hoy o de una fecha anterior
 • El contador de días vuelve a empezar, y tu calendario y tus rachas anteriores se quedan como estaban
 • Tu bonsái conserva la mitad de su crecimiento
 
@@ -30,7 +30,7 @@ DINERO Y SALUD
 
 PRIVACIDAD
 • Sin cuenta, sin anuncios, sin analíticas y sin rastreo entre apps
-• Los registros, las recaídas y las entradas del diario se guardan en tu iPhone y nunca se envían a un servidor
+• Los registros, los deslices y las entradas del diario se guardan en tu iPhone y nunca se envían a un servidor
 
 GRATIS Y BLOOM+
 Todo lo anterior es gratis y no caduca. Bloom+ es una mejora opcional, con suscripción mensual o anual o una compra única de por vida. Las suscripciones incluyen una prueba gratis para nuevos suscriptores elegibles, y la app muestra su duración antes de empezar. Bloom+ agrega:

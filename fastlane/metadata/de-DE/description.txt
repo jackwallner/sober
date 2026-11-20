@@ -11,7 +11,7 @@ EINCHECKEN
 • Ein Bonsai, der mit jedem nüchternen Tag wächst
 
 WENN DAS VERLANGEN KOMMT
-• Der Verlangen-Modus startet mit einem Tipp eine geführte Boxatmung: ein, halten, aus, halten, je 4 Sekunden, etwa drei Minuten lang
+• Der Verlangen-Modus startet mit einem Tipp eine geführte Boxatmung: einatmen, halten, ausatmen, halten, je 4 Sekunden, etwa drei Minuten lang
 
 NACH EINEM AUSRUTSCHER
 • Trage einen Ausrutscher für heute oder für ein vergangenes Datum ein
@@ -25,11 +25,11 @@ SPERRBILDSCHIRM UND APPLE WATCH
 
 GELD UND GESUNDHEIT
 • Gespartes Geld und vermiedene Kalorien seit deinem Startdatum, berechnet aus den Tagesbeträgen, die du festlegst
-• Die ersten fünf Gesundheits-Meilensteine der Erholungs-Zeitleiste
+• Die ersten fünf Gesundheits-Meilensteine der Zeitleiste zur Erholung
 • Abzeichen für die Meilensteine, die du erreichst
 
 DATENSCHUTZ
-• Kein Konto, keine Werbung, keine Analyse und kein App-übergreifendes Tracking
+• Kein Konto, keine Werbung, keine Analysedienste und kein App-übergreifendes Tracking
 • Check-ins, Ausrutscher und Tagebucheinträge liegen auf deinem iPhone und werden nie an einen Server gesendet
 
 KOSTENLOS UND BLOOM+

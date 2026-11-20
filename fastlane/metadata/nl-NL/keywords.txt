@@ -1,1 +1,1 @@
-teller,alcohol,minder,stoppen,verslaving,trek,terugval,dagboek,gewoonte,stemming,nuchterheid,sober
+teller,tracker,alcohol,minder,stoppen,verslaving,trek,terugval,dagboek,stemming,nuchterheid,sober

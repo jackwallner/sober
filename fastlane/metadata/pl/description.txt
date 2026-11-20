@@ -1,4 +1,4 @@
-Sober zlicza dni od ostatniego drinka na iPhonie, Apple Watch i w trzech bezpłatnych widżetach ekranu blokady, bez konta. Gdy się potkniesz, zapisujesz to i licznik zaczyna od nowa, a kalendarz, wcześniejsze serie i połowa wzrostu bonsai zostają. Licznik dni jest bezpłatny, a twoje wpisy zostają na iPhonie.
+Sober zlicza dni od ostatniego drinka na iPhonie, Apple Watch i w trzech bezpłatnych widżetach ekranu blokady, bez konta. Gdy się potkniesz, zapisujesz to i liczenie zaczyna się od nowa, a kalendarz, wcześniejsze serie i połowa wzrostu bonsai zostają. Licznik dni jest bezpłatny, a twoje wpisy zostają na iPhonie.
 
 LICZ DNI
 • Licznik dni od ustawionej przez ciebie daty startu, z najdłuższą serią i kolejnym etapem
@@ -11,11 +11,11 @@ ZAPISUJ DZIEŃ
 • Bonsai, które rośnie z każdym trzeźwym dniem
 
 GDY POJAWIA SIĘ GŁÓD ALKOHOLOWY
-• Tryb głodu jednym dotknięciem uruchamia prowadzony oddech kwadratowy: wdech, zatrzymanie, wydech, zatrzymanie, po 4 sekundy, przez około trzy minuty
+• Tryb głodu alkoholowego jednym dotknięciem uruchamia prowadzony oddech kwadratowy: wdech, zatrzymanie, wydech, zatrzymanie, po 4 sekundy, przez około trzy minuty
 
 PO POTKNIĘCIU
 • Zapisz potknięcie z dzisiaj albo z wcześniejszej daty
-• Licznik dni zaczyna od nowa, a kalendarz i wcześniejsze serie zostają bez zmian
+• Liczenie dni zaczyna się od nowa, a kalendarz i wcześniejsze serie zostają bez zmian
 • Bonsai zachowuje połowę swojego wzrostu
 
 EKRAN BLOKADY I APPLE WATCH
@@ -25,7 +25,7 @@ EKRAN BLOKADY I APPLE WATCH
 
 PIENIĄDZE I ZDROWIE
 • Zaoszczędzone pieniądze i uniknięte kalorie od daty startu, według dziennych kwot, które ustawisz
-• Pierwszych pięć etapów zdrowotnych na osi czasu zdrowienia
+• Pierwsze pięć etapów zdrowotnych na osi czasu zdrowienia
 • Odznaki za osiągnięte etapy
 
 PRYWATNOŚĆ
@@ -34,14 +34,14 @@ PRYWATNOŚĆ
 
 ZA DARMO I BLOOM+
 Wszystko powyżej jest bezpłatne i nie wygasa. Bloom+ to opcjonalne rozszerzenie: subskrypcja miesięczna lub roczna albo jednorazowy zakup dożywotni. Subskrypcje mają bezpłatny okres próbny dla uprawnionych nowych subskrybentów, a aplikacja pokazuje jego długość przed startem. Bloom+ dodaje:
-• Twoje wzorce głodu: kiedy się pojawia i co go wywołuje
+• Twoje wzorce głodu alkoholowego: kiedy się pojawia i co go wywołuje
 • Plan na każdy typowy wyzwalacz, ze zdaniem na moment, gdy ktoś proponuje ci drinka
 • Oszczędności i etapy z prognozą do wybranej daty celu i na rok do przodu
 • Pełną oś czasu z 13 etapami zdrowotnymi i źródłami
 • Dziennik z podpowiedziami
 • Więcej gatunków bonsai
 
-Ceny widać w aplikacji przed zakupem i zależą od regionu. Subskrypcje odnawiają się automatycznie, chyba że anulujesz je co najmniej 24 godziny przed końcem bieżącego okresu. Zarządzaj subskrypcją lub anuluj ją w Ustawienia > Apple ID > Subskrypcje.
+Ceny widać w aplikacji przed zakupem i zależą od regionu. Subskrypcje odnawiają się automatycznie, chyba że anulujesz je co najmniej 24 godziny przed końcem bieżącego okresu. Zarządzaj subskrypcją lub anuluj ją w Ustawieniach > Apple ID > Subskrypcje.
 
 Sober pomaga śledzić postępy i nie zastępuje opieki medycznej, diagnozy ani leczenia. Jeśli odstawienie alkoholu może wiązać się z ryzykiem objawów odstawiennych, skontaktuj się z wykwalifikowanym lekarzem.
 

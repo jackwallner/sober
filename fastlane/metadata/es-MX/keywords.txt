@@ -1,1 +1,1 @@
-alcohol,sobrio,tomar,antojo,adicción,recaída,abstinencia,diario,calendario,hábito,tracker,vicio
+alcohol,sobrio,tomar,antojo,adicción,recaída,abstinencia,diario,calendario,hábito,tracker,vicio,meta

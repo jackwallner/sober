@@ -5,13 +5,13 @@ TEL JE DAGEN
 • Een aftelling naar een doel: 30 dagen, 90 dagen, een jaar of een datum naar keuze, zoals het einde van een droge maand
 • Een optionele dagelijkse herinnering op het uur dat jij kiest
 
-CHECK IN
+DAGELIJKSE CHECK-IN
 • Eén check-in per dag met je stemming en een notitie
 • Een kalender die elke dag markeert als nuchter of uitglijder, waarin je ook een gemiste dag kunt vastleggen
 • Een bonsai die met elke nuchtere dag groeit
 
-ALS DE TREK TOESLAAT
-• Trekmodus start met één tik begeleide boxademhaling: in, vasthouden, uit, vasthouden, elk 4 seconden, ongeveer drie minuten
+ALS DE TREK IN ALCOHOL TOESLAAT
+• Trekmodus start met één tik begeleide boxademhaling: in, vasthouden, uit, vasthouden, elk vier seconden, ongeveer drie minuten
 
 NA EEN UITGLIJDER
 • Leg een uitglijder vast voor vandaag of voor een eerdere datum
@@ -25,16 +25,16 @@ TOEGANGSSCHERM EN APPLE WATCH
 
 GELD EN GEZONDHEID
 • Bespaard geld en vermeden calorieën sinds je startdatum, op basis van de dagbedragen die je instelt
-• De eerste vijf gezondheidsmijlpalen op de herstel-tijdlijn
+• De eerste vijf gezondheidsmijlpalen op de hersteltijdlijn
 • Badges voor de mijlpalen die je bereikt
 
 PRIVACY
-• Geen account, geen advertenties, geen analyse en geen tracking tussen apps
+• Geen account, geen advertenties, geen analysetools en geen tracking tussen apps
 • Check-ins, uitglijders en dagboekitems staan op je iPhone en worden nooit naar een server gestuurd
 
 GRATIS EN BLOOM+
 Alles hierboven is gratis en verloopt niet. Bloom+ is een optionele upgrade, als maand- of jaarabonnement of als eenmalige levenslange aankoop. Abonnementen bevatten een gratis proefperiode voor in aanmerking komende nieuwe abonnees, en de app toont de duur voordat je begint. Bloom+ voegt toe:
-• Je trekpatronen: wanneer de trek komt en wat hem aanwakkert
+• Je trekpatronen: wanneer de trek komt en wat die uitlokt
 • Een plan voor elke veelvoorkomende trigger, met een zin voor het moment dat iemand je een drankje aanbiedt
 • Besparingen en mijlpalen, vooruitgerekend tot je doeldatum en een jaar vooruit
 • De volledige tijdlijn met 13 gezondheidsmijlpalen en bronnen
