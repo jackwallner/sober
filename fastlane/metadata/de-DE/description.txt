@@ -1,32 +1,49 @@
-Zähle jeden alkoholfreien Tag und sieh, wie ein virtueller Bonsai mitwächst.
-Checke täglich ein, sieh deinen Nüchternheitskalender und die nächsten Meilensteine.
-Bei Suchtdruck hilft eine geführte Atemübung. Nach einem Ausrutscher wächst dein Garten weiter.
+Sober zählt die Tage seit deinem letzten Drink auf deinem iPhone, deiner Apple Watch und mit drei kostenlosen Sperrbildschirm-Widgets, ganz ohne Konto. Wenn du ausrutschst, trägst du es ein und der Zähler beginnt von vorn, während Kalender, frühere Serien und die Hälfte des Wachstums deines Bonsai erhalten bleiben. Der Tageszähler ist kostenlos, und deine Einträge bleiben auf deinem iPhone.
 
-KOSTENLOS
-• Zähler für alkoholfreie Tage, Stunden und deine längste Serie
-• Ein täglicher Check-in
-• Nüchternheitskalender und Termine der nächsten Meilensteine
-• Virtueller Garten mit wachsendem Bonsai
-• Die ersten fünf Gesundheitsvorteile und verdiente Abzeichen
-• Bisher gespartes Geld und vermiedene Kalorien
-• Apple Watch und Home Screen sowie Sperrbildschirm-Widgets
-• Privat auf deinem Gerät, kein Konto nötig
+TAGE ZÄHLEN
+• Ein Tageszähler ab dem Startdatum, das du festlegst, mit deiner längsten Serie und deinem nächsten Meilenstein
+• Ein Countdown zu deinem Ziel: 30 Tage, 90 Tage, ein Jahr oder ein Datum deiner Wahl, zum Beispiel das Ende eines trockenen Monats
+• Eine optionale tägliche Erinnerung zur Uhrzeit deiner Wahl
 
-BLOOM+ (OPTIONAL)
-• Deine persönlichen Verlangensmuster und Pläne für typische Auslöser
-• Prognosen für Geld, Kalorien und Meilensteine bis zu deinem Zieldatum
-• Vorschau auf ein Jahr
-• Alle 13 Gesundheitsmeilensteine mit Quellen
-• Tagebuch mit Impulsen
-• Weitere Bonsaiarten
+EINCHECKEN
+• Ein Check-in pro Tag mit deiner Stimmung und einer Notiz
+• Ein Kalender, der jeden Tag als nüchtern oder Ausrutscher markiert und in dem du auch einen verpassten Tag nachtragen kannst
+• Ein Bonsai, der mit jedem nüchternen Tag wächst
 
-Sober hilft dir, deinen Fortschritt Tag für Tag zu verfolgen.
+WENN DAS VERLANGEN KOMMT
+• Der Verlangen-Modus startet mit einem Tipp eine geführte Boxatmung: ein, halten, aus, halten, je 4 Sekunden, etwa drei Minuten lang
 
-Berechtigte neue Abonnentinnen und Abonnenten können Bloom+ 7 Tage kostenlos testen. Bloom+ gibt es im Monats- oder Jahresabo sowie als einmaligen Kauf auf Lebenszeit. Die Preise werden vor dem Kauf in der App angezeigt und unterscheiden sich je nach Region.
+NACH EINEM AUSRUTSCHER
+• Trage einen Ausrutscher für heute oder für ein vergangenes Datum ein
+• Der Tageszähler beginnt von vorn, Kalender und frühere Serien bleiben wie sie waren
+• Dein Bonsai behält die Hälfte seines Wachstums
 
-Die Zahlung wird nach Bestätigung des Probezeitraums über deine Apple ID abgerechnet. Abos verlängern sich automatisch, sofern du nicht mindestens 24 Stunden vor Ende der aktuellen Laufzeit kündigst. Die Abbuchung für die Verlängerung erfolgt innerhalb der 24 Stunden vor dem nächsten Zeitraum. Verwalte oder kündige dein Abo unter Einstellungen > Apple ID > Abonnements.
+SPERRBILDSCHIRM UND APPLE WATCH
+• Drei Sperrbildschirm-Widgets und zwei Home-Bildschirm-Widgets zeigen deine Tage
+• Die Apple Watch App zeigt Tageszähler, Startdatum und Baumstufe und zählt weiter, auch wenn die iPhone App geschlossen ist
+• Check-ins machst du in der iPhone App. Eine Komplikation für das Zifferblatt gibt es nicht.
 
-Sober ist ein Wellness-Tracker und ersetzt keine medizinische Beratung, Diagnose oder Behandlung. Wenn ein Alkoholentzug für dich riskant sein könnte, wende dich an medizinisches Fachpersonal.
+GELD UND GESUNDHEIT
+• Gespartes Geld und vermiedene Kalorien seit deinem Startdatum, berechnet aus den Tagesbeträgen, die du festlegst
+• Die ersten fünf Gesundheits-Meilensteine der Erholungs-Zeitleiste
+• Abzeichen für die Meilensteine, die du erreichst
 
+DATENSCHUTZ
+• Kein Konto, keine Werbung, keine Analyse und kein App-übergreifendes Tracking
+• Check-ins, Ausrutscher und Tagebucheinträge liegen auf deinem iPhone und werden nie an einen Server gesendet
+
+KOSTENLOS UND BLOOM+
+Alles oben Genannte ist kostenlos und läuft nicht ab. Bloom+ ist ein optionales Upgrade, als Monats- oder Jahresabo oder als einmaliger Lifetime-Kauf. Abos enthalten für berechtigte neue Abonnenten eine kostenlose Testphase, deren Dauer die App vor dem Start anzeigt. Bloom+ bietet zusätzlich:
+• Deine Verlangen-Muster: wann Verlangen auftritt und was es auslöst
+• Einen Plan für jeden häufigen Auslöser, mit einem Satz für den Moment, in dem dir jemand einen Drink anbietet
+• Ersparnisse und Meilensteine, hochgerechnet bis zu deinem Zieldatum und ein Jahr voraus
+• Die vollständige Zeitleiste mit 13 Gesundheits-Meilensteinen und Quellen
+• Ein Tagebuch mit Impulsfragen
+• Mehr Bonsai-Arten
+
+Preise siehst du vor dem Kauf in der App, sie variieren je nach Region. Abos verlängern sich automatisch, sofern du nicht mindestens 24 Stunden vor Ende des aktuellen Zeitraums kündigst. Verwalte oder kündige dein Abo unter Einstellungen > Apple ID > Abonnements.
+
+Sober hilft dir, deinen Fortschritt festzuhalten, und ersetzt keine medizinische Versorgung, Diagnose oder Behandlung. Wenn das Absetzen von Alkohol für dich mit dem Risiko von Entzugserscheinungen verbunden sein kann, wende dich an eine qualifizierte Ärztin oder einen qualifizierten Arzt.
+
+Nutzungsbedingungen (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 Datenschutz: https://jackwallner.com/ios/sober/privacy-policy.html
-Nutzungsbedingungen (Apples Standard-EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

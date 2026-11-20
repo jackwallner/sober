@@ -1,32 +1,49 @@
-Zliczaj każdy dzień bez alkoholu i obserwuj, jak rośnie wirtualne bonsai.
-Codziennie zapisuj samopoczucie, sprawdzaj kalendarz trzeźwości i nadchodzące etapy.
-Przy głodzie alkoholu włącz prowadzone ćwiczenie oddechowe. Po potknięciu ogród zachowuje część swojego wzrostu.
+Sober zlicza dni od ostatniego drinka na iPhonie, Apple Watch i w trzech bezpłatnych widżetach ekranu blokady, bez konta. Gdy się potkniesz, zapisujesz to i licznik zaczyna od nowa, a kalendarz, wcześniejsze serie i połowa wzrostu bonsai zostają. Licznik dni jest bezpłatny, a twoje wpisy zostają na iPhonie.
 
-ZA DARMO
-• Licznik dni bez alkoholu, godzin i najdłuższej serii
-• Jeden codzienny check-in
-• Kalendarz trzeźwości i daty kolejnych etapów
-• Wirtualny ogród z rosnącym bonsai
-• Pierwsze pięć korzyści zdrowotnych i zdobyte odznaki
-• Zaoszczędzone pieniądze i uniknięte kalorie do dziś
-• Apple Watch i widżety ekranu początkowego oraz blokady
-• Dane zostają na urządzeniu, konto nie jest potrzebne
+LICZ DNI
+• Licznik dni od ustawionej przez ciebie daty startu, z najdłuższą serią i kolejnym etapem
+• Odliczanie do celu: 30 dni, 90 dni, rok albo wybrana data, na przykład koniec miesiąca bez alkoholu
+• Opcjonalne codzienne przypomnienie o wybranej godzinie
 
-BLOOM+ (OPCJONALNIE)
-• Twoje wzorce głodu i plany działania dla typowych wyzwalaczy
-• Prognoza pieniędzy, kalorii i etapów do wybranej daty celu
-• Prognoza na rok
-• Pełna oś 13 korzyści zdrowotnych ze źródłami
+ZAPISUJ DZIEŃ
+• Jeden zapis dziennie z nastrojem i notatką
+• Kalendarz oznaczający każdy dzień jako trzeźwy albo potknięcie, w którym możesz też dodać pominięty dzień
+• Bonsai, które rośnie z każdym trzeźwym dniem
+
+GDY POJAWIA SIĘ GŁÓD ALKOHOLOWY
+• Tryb głodu jednym dotknięciem uruchamia prowadzony oddech kwadratowy: wdech, zatrzymanie, wydech, zatrzymanie, po 4 sekundy, przez około trzy minuty
+
+PO POTKNIĘCIU
+• Zapisz potknięcie z dzisiaj albo z wcześniejszej daty
+• Licznik dni zaczyna od nowa, a kalendarz i wcześniejsze serie zostają bez zmian
+• Bonsai zachowuje połowę swojego wzrostu
+
+EKRAN BLOKADY I APPLE WATCH
+• Trzy widżety ekranu blokady i dwa widżety ekranu początkowego pokazują liczbę dni
+• Aplikacja na Apple Watch pokazuje liczbę dni, datę startu i etap drzewa oraz liczy dalej, nawet gdy aplikacja na iPhonie jest zamknięta
+• Zapisy robisz w aplikacji na iPhonie. Nie ma komplikacji na tarczę zegarka.
+
+PIENIĄDZE I ZDROWIE
+• Zaoszczędzone pieniądze i uniknięte kalorie od daty startu, według dziennych kwot, które ustawisz
+• Pierwszych pięć etapów zdrowotnych na osi czasu zdrowienia
+• Odznaki za osiągnięte etapy
+
+PRYWATNOŚĆ
+• Bez konta, reklam, analityki i śledzenia między aplikacjami
+• Zapisy, potknięcia i wpisy w dzienniku są przechowywane na iPhonie i nigdy nie trafiają na serwer
+
+ZA DARMO I BLOOM+
+Wszystko powyżej jest bezpłatne i nie wygasa. Bloom+ to opcjonalne rozszerzenie: subskrypcja miesięczna lub roczna albo jednorazowy zakup dożywotni. Subskrypcje mają bezpłatny okres próbny dla uprawnionych nowych subskrybentów, a aplikacja pokazuje jego długość przed startem. Bloom+ dodaje:
+• Twoje wzorce głodu: kiedy się pojawia i co go wywołuje
+• Plan na każdy typowy wyzwalacz, ze zdaniem na moment, gdy ktoś proponuje ci drinka
+• Oszczędności i etapy z prognozą do wybranej daty celu i na rok do przodu
+• Pełną oś czasu z 13 etapami zdrowotnymi i źródłami
 • Dziennik z podpowiedziami
-• Dodatkowe gatunki bonsai
+• Więcej gatunków bonsai
 
-Sober pomaga obserwować postępy dzień po dniu.
+Ceny widać w aplikacji przed zakupem i zależą od regionu. Subskrypcje odnawiają się automatycznie, chyba że anulujesz je co najmniej 24 godziny przed końcem bieżącego okresu. Zarządzaj subskrypcją lub anuluj ją w Ustawienia > Apple ID > Subskrypcje.
 
-Osoby kwalifikujące się do oferty mogą wypróbować Bloom+ bezpłatnie przez 7 dni. Bloom+ jest dostępny w subskrypcji miesięcznej lub rocznej, a także jako jednorazowy zakup dożywotni. Cena jest widoczna w aplikacji przed zakupem i zależy od regionu.
+Sober pomaga śledzić postępy i nie zastępuje opieki medycznej, diagnozy ani leczenia. Jeśli odstawienie alkoholu może wiązać się z ryzykiem objawów odstawiennych, skontaktuj się z wykwalifikowanym lekarzem.
 
-Płatność zostanie pobrana z Apple ID po potwierdzeniu okresu próbnego. Subskrypcje odnawiają się automatycznie, chyba że anulujesz je co najmniej 24 godziny przed końcem bieżącego okresu. Opłata za odnowienie jest pobierana w ciągu 24 godzin przed kolejnym okresem. Zarządzaj subskrypcją lub anuluj ją w Ustawienia > Apple ID > Subskrypcje.
-
-Sober pomaga śledzić postępy i nie zastępuje opieki medycznej, diagnozy ani leczenia. Jeśli odstawienie alkoholu może grozić niebezpiecznymi objawami odstawienia, skontaktuj się z wykwalifikowanym lekarzem.
-
+Warunki (standardowa umowa EULA Apple): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 Prywatność: https://jackwallner.com/ios/sober/privacy-policy.html
-Warunki korzystania (standardowa umowa EULA Apple): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

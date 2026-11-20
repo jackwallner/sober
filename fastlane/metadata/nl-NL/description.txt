@@ -1,32 +1,49 @@
-Tel alcoholvrije dagen en zie hoe je virtuele bonsai meegroeit.
-Check dagelijks in, bekijk je nuchterheidskalender en de volgende mijlpalen.
-Gebruik begeleide ademhaling bij trek. Na een uitglijder groeit je tuin verder.
+Sober telt de dagen sinds je laatste drankje op je iPhone, je Apple Watch en drie gratis widgets voor je toegangsscherm, zonder account. Als je uitglijdt, leg je dat vast en begint de teller opnieuw, terwijl je kalender, je eerdere reeksen en de helft van de groei van je bonsai blijven staan. De dagenteller is gratis en je gegevens blijven op je iPhone.
 
-GRATIS
-• Teller voor alcoholvrije dagen, uren en je langste reeks
-• Eén dagelijkse check-in
-• Nuchterheidskalender en data van volgende mijlpalen
-• Virtuele tuin met een groeiende bonsai
-• De eerste vijf gezondheidsvoordelen en verdiende badges
-• Tot nu toe bespaard geld en vermeden calorieën
-• Apple Watch en widgets voor je begin- en toegangsscherm
-• Privé op je apparaat, zonder account
+TEL JE DAGEN
+• Een dagenteller vanaf de startdatum die je instelt, met je langste reeks en je volgende mijlpaal
+• Een aftelling naar een doel: 30 dagen, 90 dagen, een jaar of een datum naar keuze, zoals het einde van een droge maand
+• Een optionele dagelijkse herinnering op het uur dat jij kiest
 
-BLOOM+ (OPTIONEEL)
-• Je persoonlijke trekpatronen en plannen voor veelvoorkomende triggers
-• Prognoses voor geld, calorieën en mijlpalen tot je doeldatum
-• Prognoses voor spaargeld en boomgroei tot een jaar vooruit
-• Alle 13 gezondheidsmijlpalen met bronnen
-• Dagboek met schrijfsuggesties
+CHECK IN
+• Eén check-in per dag met je stemming en een notitie
+• Een kalender die elke dag markeert als nuchter of uitglijder, waarin je ook een gemiste dag kunt vastleggen
+• Een bonsai die met elke nuchtere dag groeit
+
+ALS DE TREK TOESLAAT
+• Trekmodus start met één tik begeleide boxademhaling: in, vasthouden, uit, vasthouden, elk 4 seconden, ongeveer drie minuten
+
+NA EEN UITGLIJDER
+• Leg een uitglijder vast voor vandaag of voor een eerdere datum
+• De dagenteller begint opnieuw, terwijl je kalender en eerdere reeksen blijven zoals ze waren
+• Je bonsai houdt de helft van zijn groei
+
+TOEGANGSSCHERM EN APPLE WATCH
+• Drie widgets voor het toegangsscherm en twee voor het beginscherm tonen je aantal dagen
+• De Apple Watch-app toont je aantal dagen, je startdatum en de fase van je boom, en blijft tellen, ook als de iPhone-app dicht is
+• Check-ins doe je in de iPhone-app. Er is geen complicatie voor de wijzerplaat.
+
+GELD EN GEZONDHEID
+• Bespaard geld en vermeden calorieën sinds je startdatum, op basis van de dagbedragen die je instelt
+• De eerste vijf gezondheidsmijlpalen op de herstel-tijdlijn
+• Badges voor de mijlpalen die je bereikt
+
+PRIVACY
+• Geen account, geen advertenties, geen analyse en geen tracking tussen apps
+• Check-ins, uitglijders en dagboekitems staan op je iPhone en worden nooit naar een server gestuurd
+
+GRATIS EN BLOOM+
+Alles hierboven is gratis en verloopt niet. Bloom+ is een optionele upgrade, als maand- of jaarabonnement of als eenmalige levenslange aankoop. Abonnementen bevatten een gratis proefperiode voor in aanmerking komende nieuwe abonnees, en de app toont de duur voordat je begint. Bloom+ voegt toe:
+• Je trekpatronen: wanneer de trek komt en wat hem aanwakkert
+• Een plan voor elke veelvoorkomende trigger, met een zin voor het moment dat iemand je een drankje aanbiedt
+• Besparingen en mijlpalen, vooruitgerekend tot je doeldatum en een jaar vooruit
+• De volledige tijdlijn met 13 gezondheidsmijlpalen en bronnen
+• Een dagboek met vragen
 • Meer bonsaisoorten
 
-Houd je alcoholvrije voortgang dagelijks bij.
+Prijzen zie je in de app voordat je koopt en ze verschillen per regio. Abonnementen worden automatisch verlengd, tenzij je minstens 24 uur voor het einde van de huidige periode opzegt. Beheer of annuleer je abonnement via Instellingen > Apple ID > Abonnementen.
 
-Nieuwe abonnees die voor de aanbieding in aanmerking komen, kunnen Bloom+ 7 dagen gratis proberen. Bloom+ is verkrijgbaar als maand- of jaarabonnement en als eenmalige aankoop voor altijd. Prijzen worden vóór aankoop in de app getoond en verschillen per regio.
+Sober helpt je voortgang bij te houden en vervangt geen medische zorg, diagnose of behandeling. Als stoppen met alcohol een risico op ontwenningsverschijnselen kan geven, neem dan contact op met een gekwalificeerde arts.
 
-De betaling wordt na bevestiging van de proefperiode via je Apple ID afgeschreven. Abonnementen worden automatisch verlengd, tenzij je minstens 24 uur vóór het einde van de huidige periode opzegt. De verlenging wordt binnen 24 uur vóór de volgende periode in rekening gebracht. Beheer of annuleer je abonnement via Instellingen > Apple ID > Abonnementen.
-
-Sober is een welzijnstracker en vervangt geen medische zorg, diagnose of behandeling. Stoppen met alcohol kan ontwenningsverschijnselen veroorzaken. Neem contact op met een gekwalificeerde zorgverlener als je risico loopt.
-
+Voorwaarden (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 Privacy: https://jackwallner.com/ios/sober/privacy-policy.html
-Voorwaarden (standaard-EULA van Apple): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/

@@ -1,18 +1,49 @@
-Sober Tracker vous aide à rester sobre avec un compteur de jours, un check-in quotidien et un jardin virtuel qui grandit à chaque jour sans alcool.
+Sober compte les jours depuis votre dernier verre sur votre iPhone, votre Apple Watch et trois widgets gratuits de l'écran verrouillé, sans compte. Si vous avez un écart, vous le notez et le compteur repart à zéro, alors que votre calendrier, vos séries passées et la moitié de la croissance de votre bonsaï restent. Le compteur de jours est gratuit et vos entrées restent sur votre iPhone.
 
-GRATUIT
-• Compteur de jours sans alcool
-• Check-in quotidien
-• Calendrier de sobriété
-• Jardin virtuel
-• Privé sur l'appareil – aucun compte
+COMPTEZ VOS JOURS
+• Un compteur de jours depuis la date de début que vous choisissez, avec votre plus longue série et votre prochaine étape
+• Un compte à rebours vers un objectif : 30 jours, 90 jours, un an ou une date de votre choix, comme la fin d'un mois sans alcool
+• Un rappel quotidien facultatif à l'heure de votre choix
 
-BLOOM+ (OPTIONNEL)
-• Timeline santé, journal, succès
-• Économies et plus d'espèces au jardin
-• Apple Watch et widgets
+FAITES VOTRE BILAN
+• Un bilan par jour avec votre humeur et une note
+• Un calendrier qui marque chaque jour comme sobre ou écart, où vous pouvez aussi ajouter un jour oublié
+• Un bonsaï qui grandit à chaque jour sobre
 
-Téléchargement gratuit. Bloom+ en tout temps.
+QUAND UNE ENVIE SURGIT
+• Le mode envie lance en un toucher une respiration carrée guidée : inspirez, retenez, expirez, retenez, 4 secondes chacun, pendant environ trois minutes
 
-Conditions d'utilisation (CLUF standard d'Apple): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
-Politique de confidentialité: https://jackwallner.com/ios/sober/privacy-policy.html
+APRÈS UN ÉCART
+• Notez un écart pour aujourd'hui ou pour une date passée
+• Le compteur de jours repart à zéro, alors que votre calendrier et vos séries passées restent tels quels
+• Votre bonsaï garde la moitié de sa croissance
+
+ÉCRAN VERROUILLÉ ET APPLE WATCH
+• Trois widgets de l'écran verrouillé et deux de l'écran d'accueil affichent votre nombre de jours
+• L'app Apple Watch affiche votre nombre de jours, votre date de début et le stade de l'arbre, et continue de compter même quand l'app iPhone est fermée
+• Les bilans se font dans l'app iPhone. Il n'y a pas de complication de cadran.
+
+ARGENT ET SANTÉ
+• Argent économisé et calories évitées depuis votre date de début, d'après les montants quotidiens que vous réglez
+• Les cinq premières étapes santé de la chronologie du rétablissement
+• Des badges pour les étapes que vous atteignez
+
+CONFIDENTIALITÉ
+• Pas de compte, pas de publicité, pas d'analyses et pas de suivi entre les apps
+• Les bilans, écarts et entrées de journal restent sur votre iPhone et ne sont jamais envoyés à un serveur
+
+GRATUIT ET BLOOM+
+Tout ce qui précède est gratuit et n'expire pas. Bloom+ est une mise à niveau facultative, en abonnement mensuel ou annuel ou en achat unique à vie. Les abonnements incluent un essai gratuit pour les nouveaux abonnés admissibles, et l'app en indique la durée avant le début. Bloom+ ajoute :
+• Vos tendances d'envies : quand elles surviennent et ce qui les déclenche
+• Un plan pour chaque déclencheur courant, avec une phrase à dire quand on vous offre un verre
+• Des économies et des étapes projetées jusqu'à votre date d'objectif et sur un an
+• La chronologie complète de 13 étapes santé avec sources
+• Un journal avec questions guides
+• Plus d'espèces de bonsaï
+
+Les prix s'affichent dans l'app avant l'achat et varient selon la région. Les abonnements se renouvellent automatiquement, sauf annulation au moins 24 heures avant la fin de la période en cours. Gérez ou annulez dans Réglages > Apple ID > Abonnements.
+
+Sober aide à suivre vos progrès et ne remplace pas les soins médicaux, le diagnostic ni le traitement. Si l'arrêt de l'alcool peut présenter un risque de symptômes de sevrage, consultez un professionnel de la santé qualifié.
+
+Conditions (CLUF) : https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Confidentialité : https://jackwallner.com/ios/sober/privacy-policy.html

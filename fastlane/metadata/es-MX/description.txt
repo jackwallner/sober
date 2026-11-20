@@ -1,17 +1,49 @@
-Sober Tracker te ayuda a mantenerte sobrio con contador de días, check-in diario y un jardín virtual que crece cada día sin alcohol.
+Sober cuenta los días desde tu último trago en tu iPhone, tu Apple Watch y tres widgets gratis de la pantalla de bloqueo, sin cuenta. Si tienes una recaída, la registras y el contador vuelve a empezar, pero tu calendario, tus rachas anteriores y la mitad del crecimiento de tu bonsái se quedan. El contador de días es gratis y tus registros se quedan en tu iPhone.
 
-GRATIS
-• Contador de días sin alcohol
-• Check-in diario
-• Calendario de sobriedad
-• Jardín virtual
-• Privado – sin cuenta
+CUENTA TUS DÍAS
+• Un contador de días desde la fecha de inicio que tú eliges, con tu racha más larga y tu próximo hito
+• Una cuenta regresiva hacia una meta: 30 días, 90 días, un año o la fecha que elijas, como el fin de un mes sin alcohol
+• Un recordatorio diario opcional a la hora que prefieras
 
-BLOOM+ (OPCIONAL)
-• Salud, diario, logros, ahorros
-• Más jardín, Apple Watch y widgets
+REGISTRA TU DÍA
+• Un registro al día con tu estado de ánimo y una nota
+• Un calendario que marca cada día como sobrio o recaída, donde también puedes registrar un día que olvidaste
+• Un bonsái que crece con cada día sobrio
 
-Descarga gratis. Bloom+ cuando quieras.
+CUANDO LLEGA EL ANTOJO
+• El modo antojo inicia con un toque una respiración guiada en caja: inhala, sostén, exhala, sostén, 4 segundos cada uno, durante unos tres minutos
 
-Términos de uso (CLUF estándar de Apple): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
-Política de privacidad: https://jackwallner.com/ios/sober/privacy-policy.html
+SI TIENES UNA RECAÍDA
+• Registra una recaída de hoy o de una fecha anterior
+• El contador de días vuelve a empezar, y tu calendario y tus rachas anteriores se quedan como estaban
+• Tu bonsái conserva la mitad de su crecimiento
+
+PANTALLA DE BLOQUEO Y APPLE WATCH
+• Tres widgets de la pantalla de bloqueo y dos de la pantalla de inicio muestran tu cuenta de días
+• La app del Apple Watch muestra tu cuenta de días, tu fecha de inicio y la etapa del árbol, y sigue contando aunque la app del iPhone esté cerrada
+• Los registros se hacen en la app del iPhone. No hay complicación para la carátula del reloj.
+
+DINERO Y SALUD
+• Dinero ahorrado y calorías evitadas desde tu fecha de inicio, según los montos diarios que configures
+• Los primeros cinco hitos de salud de la línea de tiempo de recuperación
+• Insignias por los hitos que alcances
+
+PRIVACIDAD
+• Sin cuenta, sin anuncios, sin analíticas y sin rastreo entre apps
+• Los registros, las recaídas y las entradas del diario se guardan en tu iPhone y nunca se envían a un servidor
+
+GRATIS Y BLOOM+
+Todo lo anterior es gratis y no caduca. Bloom+ es una mejora opcional, con suscripción mensual o anual o una compra única de por vida. Las suscripciones incluyen una prueba gratis para nuevos suscriptores elegibles, y la app muestra su duración antes de empezar. Bloom+ agrega:
+• Tus patrones de antojos: cuándo llegan y qué los desencadena
+• Un plan para cada detonante común, con una frase para cuando alguien te ofrece un trago
+• Ahorros e hitos proyectados a tu fecha meta y a un año
+• La línea de tiempo completa de 13 hitos de salud con fuentes
+• Un diario con preguntas guía
+• Más especies de bonsái
+
+Los precios aparecen en la app antes de comprar y varían según la región. Las suscripciones se renuevan automáticamente a menos que las canceles al menos 24 horas antes de que termine el periodo actual. Administra o cancela en Configuración > Apple ID > Suscripciones.
+
+Sober te ayuda a seguir tu progreso y no sustituye la atención médica, el diagnóstico ni el tratamiento. Si dejar el alcohol puede implicar riesgo de síntomas de abstinencia, consulta a un profesional de la salud calificado.
+
+Términos (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Privacidad: https://jackwallner.com/ios/sober/privacy-policy.html

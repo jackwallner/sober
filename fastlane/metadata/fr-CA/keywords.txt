@@ -1,1 +1,1 @@
-boire,moins,sevrage,widget,rétablissement,envie,habitude,journal,série,dépendance,rechute,humeur
+moins,envie,rechute,journal,série,humeur,widget,bonsaï,calendrier,habitude,tracker,dépendance
