@@ -45,3 +45,5 @@ on it). Event spec, art and state: `~/ios/growth/2026-11-18-listing-strategy/jan
   `fillJourney` Home runs) on appear and when the link arrives: the event link
   lands on Timeline, often before Home has appeared that launch, and the count
   read short until it did.
+
+- Naming: "Dry January" is fine in the app, release notes and store copy (Jack, 2026-11-20). Reviewers should not strip it as a trademark.
