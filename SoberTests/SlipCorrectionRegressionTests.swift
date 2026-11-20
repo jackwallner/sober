@@ -70,6 +70,45 @@ struct SlipJourneyBoundaryTests {
         #expect(sobriety.currentDayCount() == 10)
     }
 
+    /// Bug catalog 2026-11-20 B2: a slip logged today opens its run now, so
+    /// an older slip entered afterwards used to close that new run as a
+    /// zero-length stub, skip the split and charge the tree again.
+    @Test func anOlderSlipAfterTodaysSlipSplitsTheEarlierRun() {
+        let sobriety = SobrietyService(context: context)
+        let garden = GardenService(context: context)
+        sobriety.startJourney(at: DateHelpers.daysAgo(100))
+        SlipRecorder.record(on: .now, context: context)
+        let carryoverAfterToday = garden.current().carryoverDays
+
+        SlipRecorder.record(on: DateHelpers.daysAgo(50), context: context)
+
+        #expect(journeys().count == 3)
+        #expect(sobriety.longestStreakDays() == 51)
+        #expect(garden.current().carryoverDays == carryoverAfterToday)
+        #expect(sobriety.currentDayCount() == 1)
+    }
+
+    @Test func todaysSlipStillUndoesAfterAnOlderOne() {
+        let sobriety = SobrietyService(context: context)
+        sobriety.startJourney(at: DateHelpers.daysAgo(100))
+        SlipRecorder.record(on: .now, context: context)
+        SlipRecorder.record(on: DateHelpers.daysAgo(50), context: context)
+
+        #expect(SlipRecorder.undo(on: .now, context: context))
+        #expect(sobriety.currentDayCount() == 50)
+    }
+
+    @Test func yesterdaysSlipAfterTodaysLeavesNoStub() {
+        let sobriety = SobrietyService(context: context)
+        sobriety.startJourney(at: DateHelpers.daysAgo(30))
+        SlipRecorder.record(on: .now, context: context)
+        SlipRecorder.record(on: DateHelpers.daysAgo(1), context: context)
+
+        #expect(journeys().count == 3)
+        #expect(sobriety.currentDayCount() == 1)
+        #expect(sobriety.longestStreakDays() == 30)
+    }
+
     /// Every recorded run still describes a distinct stretch of days.
     @Test func repeatedSlipsLeaveNoOverlap() {
         SobrietyService(context: context).startJourney(at: DateHelpers.daysAgo(40))
@@ -252,5 +291,30 @@ struct PatternDenominatorTests {
         let facts = Array(repeating: craving(.unresolved), count: 4)
         #expect(facts.count >= CravingInsights.minimumForTiming)
         #expect(CravingInsights.resolved(facts).isEmpty)
+    }
+}
+
+/// Bug catalog 2026-11-20 B3: an unasked Bloom+ pitch must wait while Home
+/// has its own sheet or the craving cover up.
+@Suite("Passive pitches wait for Home")
+@MainActor
+struct PassivePitchHostTests {
+    @Test func aPassivePitchIsHeldWhileHomePresents() {
+        let coordinator = TrialOfferCoordinator.shared
+        let saved = (coordinator.hostIsPresenting, coordinator.isPresentingSheet, coordinator.pendingRequest)
+        defer {
+            coordinator.hostIsPresenting = saved.0
+            coordinator.isPresentingSheet = saved.1
+            coordinator.pendingRequest = saved.2
+        }
+        coordinator.pendingRequest = nil
+        coordinator.isPresentingSheet = false
+        coordinator.hostIsPresenting = false
+        #expect(coordinator.canPostPassivePitch)
+        coordinator.hostIsPresenting = true
+        #expect(!coordinator.canPostPassivePitch)
+        coordinator.hostIsPresenting = false
+        coordinator.isPresentingSheet = true
+        #expect(!coordinator.canPostPassivePitch)
     }
 }

@@ -74,9 +74,14 @@ enum SlipRecorder {
         ) ?? day
         // An out-of-order slip leaves the current run beginning exactly where it
         // already began, so closing it and opening an identical one would only
-        // litter the record with a zero-length stub.
+        // litter the record with a zero-length stub. A slip logged today opens
+        // its run now, not at tomorrow's midnight, so an older slip entered
+        // after it is matched by the run starting on the newest slip's day.
+        let isOlderThanLatest = DateHelpers.startOfDay(day) < DateHelpers.startOfDay(latestSlip)
         let alreadyRestarted = sobriety.activeJourney().map {
-            DateHelpers.startOfDay($0.startDate) >= DateHelpers.startOfDay(dayAfter)
+            let start = DateHelpers.startOfDay($0.startDate)
+            return start >= DateHelpers.startOfDay(dayAfter)
+                || (isOlderThanLatest && start >= DateHelpers.startOfDay(latestSlip))
         } ?? false
         if !alreadyRestarted {
             // The run that just ended stopped on the slip day, not today: closing
