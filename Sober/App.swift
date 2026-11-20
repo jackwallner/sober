@@ -1,5 +1,6 @@
 import SwiftData
 import SwiftUI
+import UIKit
 import UserNotifications
 
 extension Notification.Name {
@@ -48,6 +49,9 @@ struct SoberApp: App {
     @State private var subscriptions = SubscriptionService.shared
 
     init() {
+        // Before anything opens the store: a failed open only counts toward
+        // setting the file aside while the phone is unlocked.
+        StoreState.protectedDataAvailable = { UIApplication.shared.isProtectedDataAvailable }
         SubscriptionService.shared.configure()
         #if DEBUG
         Self.loadPreviewStoreIfRequested()
@@ -79,6 +83,12 @@ struct SoberApp: App {
         }
         #endif
         UNUserNotificationCenter.current().delegate = NotificationTapRouter.shared
+        Self.prepareStore()
+    }
+
+    /// Runs on every store that opens, including one a Try Again reaches.
+    static func prepareStore() {
+        guard StoreState.shared.status != .unavailable else { return }
         // Before any view can run `fillJourney`, or this build's assumed rows
         // would be marked tended along with the legacy ones.
         CheckInService.migrateLegacyCheckInsIfNeeded(
@@ -118,11 +128,11 @@ struct SoberApp: App {
                 PaywallScreenshotHarness(mode: mode)
                     .environment(subscriptions)
             } else {
-                RootView()
+                StoreGate()
                     .environment(subscriptions)
             }
             #else
-            RootView()
+            StoreGate()
                 .environment(subscriptions)
             #endif
         }
