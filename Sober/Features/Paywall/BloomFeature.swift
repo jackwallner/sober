@@ -144,7 +144,18 @@ final class TrialOfferCoordinator: ObservableObject {
     /// sheet systems — owned by different view layers — never race to present.
     @Published var isPresentingSheet = false
 
+    /// True while Home has a sheet, the craving cover or the growth
+    /// celebration up. The paywall sheet is attached above Home, so a passive
+    /// pitch posted now would land on a note in progress or the craving
+    /// screen, or be dropped by SwiftUI and leave the paywall flag stuck.
+    var hostIsPresenting = false
+
     private init() {}
+
+    /// The last check before a passive (unasked) pitch is posted.
+    var canPostPassivePitch: Bool {
+        pendingRequest == nil && !isPresentingSheet && !hostIsPresenting
+    }
 
     func request(_ intent: Intent, policy: PitchPolicy = .subsequentLocked) {
         pendingRequest = PendingRequest(intent: intent, policy: policy)
@@ -232,7 +243,7 @@ func presentPassiveTrialNudge(
     // restarted the cooldown, and this one would follow it straight away.
     guard !Task.isCancelled,
           !subscriptions.isProSubscriber,
-          TrialOfferCoordinator.shared.pendingRequest == nil,
+          TrialOfferCoordinator.shared.canPostPassivePitch,
           TrialNudgeGate.canShow()
     else { return }
     TrialOfferCoordinator.shared.request(intent, policy: .subsequentPassive)
@@ -257,7 +268,7 @@ func evaluateUsageBasedTrialPitch(
     try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
     guard !Task.isCancelled,
           !subscriptions.isProSubscriber,
-          TrialOfferCoordinator.shared.pendingRequest == nil,
+          TrialOfferCoordinator.shared.canPostPassivePitch,
           TrialNudgeGate.canShow(),
           TrialSubsequentPitchGate.canPresentTrialPitch(for: intent)
     else { return }

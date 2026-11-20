@@ -190,6 +190,9 @@ struct HomeView: View {
             }
             .modifier(HomeDayRefresh(perform: refreshDailyState))
             .task { await presentPassiveTrialNudge(subscriptions, intent: .postOnboarding, delay: 6) }
+            .onChange(of: homeIsPresenting, initial: true) { _, presenting in
+                TrialOfferCoordinator.shared.hostIsPresenting = presenting
+            }
             .overlay {
                 if showGrowth, let event = growthEvent {
                     GrowthCelebrationView(
@@ -805,6 +808,13 @@ struct HomeView: View {
     /// same cooldown and gates the old funnel used, and Apple decides whether
     /// it actually appears.
     /// Nothing of Home's is on screen over it.
+    /// Any of Home's own sheets, covers or overlays is up.
+    private var homeIsPresenting: Bool {
+        showGrowth || showCheckInDetail || showSlipSheet || showCraving
+            || showSettings || showCustomize || showProgress || showPlaybook
+            || showGoalEditor || showResetAlert || showWhatToFix
+    }
+
     private var isHomeClear: Bool {
         isTabVisible && !showGrowth && !showCheckInDetail && !showSlipSheet && !showCraving
             && !showSettings && !showCustomize && !showProgress && !showPlaybook
