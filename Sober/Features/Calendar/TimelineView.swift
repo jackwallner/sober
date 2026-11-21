@@ -17,6 +17,9 @@ struct TimelineView: View {
     @State private var selectedDate: Date = DateHelpers.startOfDay(JanuaryChallenge.clock())
     @State private var draftMood: Int?
     @State private var draftNote: String = ""
+    /// Typing a note writes the row at once but saves and refreshes the widget
+    /// and Watch once the burst ends, not on every character.
+    @State private var noteSave = DebouncedAction()
     @State private var pendingSlipDay: Date?
     /// The unfolded Duo's Timeline pane beside Home. It is on screen from
     /// launch, so it skips the appear nudge (that would pitch every cold start
@@ -112,7 +115,10 @@ struct TimelineView: View {
                     refreshChallengeDays()
                     showChallenge = JanuaryChallenge.acceptsLink(now: challengeNow)
                 }
-                .onChange(of: selectedDate) { _, _ in loadDraft() }
+                .onChange(of: selectedDate) { _, _ in
+                    noteSave.flush()
+                    loadDraft()
+                }
                 .alert(
                     "Log a slip?",
                     isPresented: Binding(get: { pendingSlipDay != nil }, set: { if !$0 { pendingSlipDay = nil } }),
@@ -671,11 +677,12 @@ struct TimelineView: View {
                     if let ci = existing {
                         ci.note = new.isEmpty ? nil : new
                         ci.wasLogged = true
-                        saveCheckInEdit()
+                        noteSave.schedule { saveCheckInEdit() }
                     }
                 }
             ), axis: .vertical)
                 .lineLimit(1...4)
+                .onDisappear { noteSave.flush() }
         }
     }
 
