@@ -177,6 +177,10 @@ final class CheckInService {
         let cal = Calendar.current
         let from: Date = {
             if let last = lastLoggedCheckInDate() {
+                // A tap from before the active run began belongs to a run the
+                // user has since ended (Reset counter), so the span starts at
+                // the run, never inside the days they discarded.
+                if let runStart = activeRunStartDay(), last < runStart { return min(runStart, today) }
                 return cal.date(byAdding: .day, value: 1, to: DateHelpers.startOfDay(last)) ?? today
             }
             return today
@@ -408,7 +412,18 @@ final class CheckInService {
     /// a "you have been gone for 200 days" banner on first launch.
     func daysSinceLastCheckIn(asOf now: Date = .now) -> Int {
         guard let last = lastLoggedCheckInDate() else { return 0 }
-        return max(0, DateHelpers.daysBetween(last, now))
+        // Days before the active run began were discarded by Reset counter, so
+        // they are not days the user was away from this run.
+        let anchor = activeRunStartDay().map { max(last, $0) } ?? last
+        return max(0, DateHelpers.daysBetween(anchor, now))
+    }
+
+    /// Start of the day the active run began, or nil when the store holds no
+    /// journeys (widget and test stores) or none is open.
+    private func activeRunStartDay() -> Date? {
+        guard context.holds(SobrietyJourney.self),
+              let run = SobrietyService(context: context).activeJourney() else { return nil }
+        return DateHelpers.startOfDay(run.startDate)
     }
 
     func lastCheckInDate() -> Date? {

@@ -235,3 +235,51 @@ struct PatternSampleFloorTests {
         #expect(CravingInsights.nextUnlock(resolved) == nil)
     }
 }
+
+@Suite("Reset counter ends the old run's missed days")
+@MainActor
+struct ResetCounterMissedDaysTests {
+    private let container: ModelContainer
+
+    init() throws {
+        container = try ModelContainer(
+            for: DailyCheckIn.self, SobrietyJourney.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
+    }
+
+    private var context: ModelContext { container.mainContext }
+
+    /// Check in once, stay away for days (rows assumed), then Reset counter.
+    private func resetAfterAbsence() -> CheckInService {
+        let sobriety = SobrietyService(context: context)
+        sobriety.startJourney(at: DateHelpers.daysAgo(10))
+        let svc = CheckInService(context: context)
+        svc.checkIn(for: DateHelpers.daysAgo(5))
+        svc.fillJourney(start: DateHelpers.daysAgo(10), through: DateHelpers.daysAgo(1))
+        sobriety.reset()
+        return svc
+    }
+
+    @Test func aFreshRunHasNoMissedSpan() {
+        let svc = resetAfterAbsence()
+        #expect(svc.daysSinceLastCheckIn() == 0)
+    }
+
+    @Test func stillSoberNeverCertifiesDaysFromBeforeTheReset() {
+        let svc = resetAfterAbsence()
+        svc.backfillSoberDays()
+        let before = svc.facts(from: DateHelpers.daysAgo(4), to: DateHelpers.daysAgo(1))
+        #expect(before.allSatisfy { !$0.wasLogged })
+    }
+
+    @Test func absenceInsideTheNewRunIsStillMeasured() {
+        let sobriety = SobrietyService(context: context)
+        sobriety.startJourney(at: DateHelpers.daysAgo(3))
+        let svc = CheckInService(context: context)
+        svc.checkIn(for: DateHelpers.daysAgo(10))
+        #expect(svc.daysSinceLastCheckIn() == 3)
+        svc.backfillSoberDays()
+        #expect(svc.facts(from: DateHelpers.daysAgo(3), to: .now).allSatisfy { $0.wasLogged })
+    }
+}
