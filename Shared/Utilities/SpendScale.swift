@@ -23,6 +23,14 @@ struct SpendScale: Equatable {
         SpendScale(currencyCode: Locale.current.currency?.identifier)
     }
 
+    /// The currency the user's figures are kept in: the one stored when they
+    /// set up, never the live device region, which changes on a move or a
+    /// region switch and would turn 4,000 yen a day into $4,000. Blank or
+    /// missing falls back to the device currency.
+    init(settings: UserSettings?) {
+        self.init(currencyCode: Money.code(settings?.currencyCode))
+    }
+
     /// The device locale's currency, the one the controls are labelled in.
     static var currentCode: String {
         Locale.current.currency?.identifier ?? "USD"
@@ -40,4 +48,21 @@ struct SpendScale: Equatable {
         "SAR": 5, "AED": 5, "SEK": 10, "THB": 50, "TRY": 50, "TWD": 50,
         "UAH": 50, "VND": 20000, "ZAR": 20,
     ]
+}
+
+/// Whole-unit money text in the currency the user's figures are kept in.
+enum Money {
+    /// `stored` when it is a real code, else the device currency.
+    static func code(_ stored: String?) -> String {
+        if let stored, !stored.isEmpty { return stored }
+        return SpendScale.currentCode
+    }
+
+    static func format(dollars: Double, code stored: String?) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencyCode = code(stored)
+        formatter.maximumFractionDigits = 0
+        return formatter.string(from: NSNumber(value: dollars)) ?? String(Int(dollars))
+    }
 }

@@ -77,17 +77,10 @@ struct PaywallView: View {
 
     private var moneySaved: String {
         let dollars = Double(savedCents) / 100
-        return Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? String(Int(dollars))
+        return Money.format(dollars: dollars, code: settingsRows.first?.currencyCode)
     }
 
     private var yearlySpend: Int { Int((Double(costPerDayCents) * 365 / 100).rounded()) }
-
-    private static let currencyFormatter: NumberFormatter = {
-        let f = NumberFormatter()
-        f.numberStyle = .currency
-        f.maximumFractionDigits = 0
-        return f
-    }()
 
     var body: some View {
         ZStack {
@@ -493,7 +486,7 @@ struct PaywallView: View {
                     .fixedSize(horizontal: false, vertical: true)
             } else if costPerDayCents > 0 {
                 eyebrow("YOUR MONEY, KEPT", size: m.heroEyebrowSize)
-                let yearlyLabel = Self.currencyFormatter.string(from: NSNumber(value: yearlySpend)) ?? String(yearlySpend)
+                let yearlyLabel = Money.format(dollars: Double(yearlySpend), code: settingsRows.first?.currencyCode)
                 Text("Up to \(yearlyLabel)/yr")
                     .font(.system(size: m.heroAmountSize, weight: .heavy, design: .rounded))
                     .foregroundStyle(Theme.brandPrimary)

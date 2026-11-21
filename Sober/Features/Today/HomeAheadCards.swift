@@ -63,6 +63,7 @@ struct GoalCard: View {
     let isPro: Bool
     let costPerDayCents: Int
     let caloriesPerDay: Int
+    var currencyCode: String? = nil
     var now: Date = .now
     let onEdit: () -> Void
     let onLockedTap: () -> Void
@@ -71,7 +72,8 @@ struct GoalCard: View {
         if let goal {
             let projection = GoalProjection(
                 start: start, goal: goal, now: now,
-                costPerDayCents: costPerDayCents, caloriesPerDay: caloriesPerDay
+                costPerDayCents: costPerDayCents, caloriesPerDay: caloriesPerDay,
+                currencyCode: currencyCode
             )
             AheadCard(icon: "flag.checkered", title: String(localized: "Goal · \(GoalProjection.shortDate(projection.goalDate))"), trailing: editButton) {
                 if projection.isReached {

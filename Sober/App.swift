@@ -94,6 +94,7 @@ struct SoberApp: App {
         CheckInService.migrateLegacyCheckInsIfNeeded(
             context: DataService.sharedModelContainer.mainContext
         )
+        SettingsService.settleCurrencyIfNeeded(context: DataService.sharedModelContainer.mainContext)
         // Merges the duplicates earlier builds wrote after a time zone change,
         // before anything reads or fills the calendar.
         CheckInService.normalizeDayKeys(context: DataService.sharedModelContainer.mainContext)

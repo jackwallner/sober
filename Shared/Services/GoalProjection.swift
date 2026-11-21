@@ -58,6 +58,8 @@ struct GoalProjection: Equatable {
     let milestonesPassed: [HealthBenefit]
     /// The subset still ahead of the user today.
     let milestonesStillAhead: [HealthBenefit]
+    /// The currency the daily spend was entered in; nil reads the device's.
+    let currencyCode: String?
 
     var isReached: Bool { daysToGo == 0 }
 
@@ -67,8 +69,10 @@ struct GoalProjection: Equatable {
         now: Date = .now,
         costPerDayCents: Int,
         caloriesPerDay: Int,
+        currencyCode: String? = nil,
         calendar: Calendar = .current
     ) {
+        self.currencyCode = currencyCode
         let goalDay = calendar.startOfDay(for: goal)
         let today = calendar.startOfDay(for: now)
         let startDay = calendar.startOfDay(for: start)
@@ -91,15 +95,11 @@ struct GoalProjection: Equatable {
 
     var hasSpend: Bool { moneyCents > 0 }
 
-    static func currency(cents: Int) -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.maximumFractionDigits = 0
-        let dollars = Double(cents) / 100
-        return formatter.string(from: NSNumber(value: dollars)) ?? "$\(Int(dollars))"
+    static func currency(cents: Int, code: String? = nil) -> String {
+        Money.format(dollars: Double(cents) / 100, code: code)
     }
 
-    var moneyText: String { Self.currency(cents: moneyCents) }
+    var moneyText: String { Self.currency(cents: moneyCents, code: currencyCode) }
 
     /// "Nov 9" in the user's locale, or "Oct 11, 2027" once the date is in
     /// another year. Without the year a 1-year goal reads as yesterday.

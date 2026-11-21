@@ -26,6 +26,10 @@ enum AppGroup {
     /// an earlier build recorded came back reading as "the app assumed this".
     static let legacyCheckInsMarkedLoggedKey = "legacyCheckInsMarkedLogged"
 
+    /// Set once an upgrading install's stored currency has been settled
+    /// (`SettingsService.settleCurrencyIfNeeded`).
+    static let currencySettledKey = "currencySettled"
+
     /// Identifier of the time zone whose midnights `DailyCheckIn.day` holds.
     /// A trip changes the zone, and the rows are re-keyed to match it.
     static let checkInDayKeyZoneKey = "checkInDayKeyZone"

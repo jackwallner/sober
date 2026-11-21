@@ -306,6 +306,7 @@ struct HomeView: View {
                     isPro: isPro,
                     costPerDayCents: settings?.costPerDayCents ?? 0,
                     caloriesPerDay: settings?.caloriesPerDay ?? 0,
+                    currencyCode: settings?.currencyCode,
                     onEdit: { showGoalEditor = true },
                     onLockedTap: { requestSubsequentLockedFeaturePitch(.goalProjection) }
                 )
@@ -780,7 +781,7 @@ struct HomeView: View {
         let cents = settingsRows.first?.costPerDayCents ?? 0
         if cents > 0 {
             let dollars = Double(days * cents) / 100
-            let money = Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? String(Int(dollars))
+            let money = Money.format(dollars: dollars, code: settingsRows.first?.currencyCode)
             TrialLifecycle.recapSummary = String(localized: "\(days) sober days and \(money) saved so far.")
         } else {
             TrialLifecycle.recapSummary = String(localized: "\(days) sober days so far.")
@@ -788,13 +789,6 @@ struct HomeView: View {
         TrialLifecycle.resync()
         showTrialRecap = TrialLifecycle.shouldShowRecap()
     }
-
-    private static let currencyFormatter: NumberFormatter = {
-        let f = NumberFormatter()
-        f.numberStyle = .currency
-        f.maximumFractionDigits = 0
-        return f
-    }()
 
     /// A check-in, a ridden-out craving, or a growth celebration. Each one
     /// may request the system rating prompt once Home is clear.
@@ -1274,7 +1268,7 @@ struct ProgressSheet: View {
 
     private var projectedMoneyAYear: String {
         let dollars = Double((settings?.costPerDayCents ?? 0) * 365) / 100
-        return Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? String(Int(dollars))
+        return Money.format(dollars: dollars, code: settings?.currencyCode)
     }
 
     private var projectedCaloriesAYear: Int { (settings?.caloriesPerDay ?? 0) * 365 }
@@ -1351,7 +1345,7 @@ struct ProgressSheet: View {
     private var lifetimeMoneySaved: String {
         let cents = lifetimeSoberDays * (settings?.costPerDayCents ?? 0)
         let dollars = Double(cents) / 100
-        return Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? String(Int(dollars))
+        return Money.format(dollars: dollars, code: settings?.currencyCode)
     }
 
     private var lifetimeCaloriesAvoided: Int { lifetimeSoberDays * (settings?.caloriesPerDay ?? 0) }
@@ -1359,7 +1353,7 @@ struct ProgressSheet: View {
     private var savedSoFar: String {
         let cents = days * (settings?.costPerDayCents ?? 0)
         let dollars = Double(cents) / 100
-        return Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? String(Int(dollars))
+        return Money.format(dollars: dollars, code: settings?.currencyCode)
     }
 
     private var moneySaved: String { savedSoFar }
@@ -1387,7 +1381,7 @@ struct ProgressSheet: View {
 
     private var costPerDayText: String {
         let dollars = Double(settings?.costPerDayCents ?? 0) / 100
-        return Self.currencyFormatter.string(from: NSNumber(value: dollars)) ?? String(Int(dollars))
+        return Money.format(dollars: dollars, code: settings?.currencyCode)
     }
 
     private func achievementRow(_ a: Achievement) -> some View {
@@ -1429,13 +1423,6 @@ struct ProgressSheet: View {
         JanuaryChallenge.showsCard(now: JanuaryChallenge.clock())
             || unlockedAchievements.contains { $0.achievementID == JanuaryChallenge.achievementID }
     }
-
-    private static let currencyFormatter: NumberFormatter = {
-        let f = NumberFormatter()
-        f.numberStyle = .currency
-        f.maximumFractionDigits = 0
-        return f
-    }()
 }
 
 /// Keep mounted Home state current across suspension, midnight and clock changes.

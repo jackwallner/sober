@@ -114,7 +114,7 @@ private struct BloomPlusHubView: View {
             }
             .foregroundStyle(Theme.brandPrimary)
 
-            Text(Self.currency.string(from: NSNumber(value: lifetimeMoneySaved)) ?? "0")
+            Text(Money.format(dollars: lifetimeMoneySaved, code: settings?.currencyCode))
                 .font(.system(size: 54, weight: .bold, design: .rounded))
                 .foregroundStyle(Theme.textPrimary)
                 .lineLimit(1)
@@ -167,7 +167,7 @@ private struct BloomPlusHubView: View {
                 Text("On track to save")
                     .font(Theme.caption())
                     .foregroundStyle(Theme.textSecondary)
-                Text("\(Self.currency.string(from: NSNumber(value: yearlyProjection)) ?? "0") a year")
+                Text("\(Money.format(dollars: yearlyProjection, code: settings?.currencyCode)) a year")
                     .font(Theme.body(weight: .semibold))
                     .foregroundStyle(Theme.textPrimary)
             }
@@ -266,11 +266,4 @@ private struct BloomPlusHubView: View {
     }
 
     private static let milestonesCardShape = PaneCut.Card(inset: Theme.Space.l, cornerRadius: 16)
-
-    private static let currency: NumberFormatter = {
-        let f = NumberFormatter()
-        f.numberStyle = .currency
-        f.maximumFractionDigits = 0
-        return f
-    }()
 }
