@@ -60,7 +60,7 @@ struct CravingModeView: View {
         }
         .onReceive(tick) { _ in
             guard step == .breathing else { return }
-            elapsed += 1
+            syncElapsed()
             if elapsed >= targetSeconds { advanceToReflect() }
         }
         .onChange(of: breathPhase) { _, phase in animate(to: phase) }
@@ -210,7 +210,15 @@ struct CravingModeView: View {
         return String(format: "%d:%02d", left / 60, left % 60)
     }
 
+    /// Reads the clock rather than counting ticks: ticks stop while the app is
+    /// backgrounded, so a locked phone shortened the saved session.
+    private func syncElapsed() {
+        guard step == .breathing else { return }
+        elapsed = CravingService.elapsedSeconds(since: startedAt, atLeast: elapsed)
+    }
+
     private func advanceToReflect() {
+        syncElapsed()
         withAnimation(reduceMotion ? nil : .default) { step = .reflect }
     }
 
@@ -406,6 +414,7 @@ struct CravingModeView: View {
     private func finish(outcome: CravingOutcome) {
         guard !hasFinished else { return }
         hasFinished = true
+        syncElapsed()
         let service = CravingService(context: context)
         service.record(
             startedAt: startedAt,

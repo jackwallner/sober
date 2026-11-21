@@ -15,6 +15,14 @@ final class CravingService {
         self.context = context
     }
 
+    /// Whole seconds a session has run, read from the wall clock. The view's
+    /// one second timer does not fire while the app is in the background, so
+    /// counting ticks lost every second the phone was locked mid-urge. Never
+    /// less than `counted`, so a clock set backwards cannot rewind a session.
+    nonisolated static func elapsedSeconds(since startedAt: Date, now: Date = .now, atLeast counted: Int = 0) -> Int {
+        max(counted, Int(now.timeIntervalSince(startedAt)))
+    }
+
     /// Persist a finished session. The episode is written once, at the end,
     /// rather than opened at the start and updated: a session the user
     /// abandons by force-quitting mid-urge should not leave a dangling row

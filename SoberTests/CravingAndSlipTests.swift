@@ -161,3 +161,31 @@ struct CravingCoachTests {
         #expect(!CravingCoach.line(elapsed: 0, target: 0).isEmpty)
     }
 }
+
+@Suite("Craving session clock")
+struct CravingSessionClockTests {
+    private let start = Date(timeIntervalSince1970: 1_756_000_000)
+
+    /// The tick counter stopped at 60 while the phone was locked for five
+    /// minutes; the clock says six.
+    @Test func backgroundedTimeStillCounts() {
+        let now = start.addingTimeInterval(360)
+        #expect(CravingService.elapsedSeconds(since: start, now: now, atLeast: 60) == 360)
+    }
+
+    @Test func aClockSetBackwardsNeverRewindsTheSession() {
+        let now = start.addingTimeInterval(-30)
+        #expect(CravingService.elapsedSeconds(since: start, now: now, atLeast: 45) == 45)
+    }
+
+    @Test func theSavedEpisodeCarriesTheWallClockLength() throws {
+        let container = try ModelContainer(for: CravingEpisode.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+        let service = MainActor.assumeIsolated { CravingService(context: container.mainContext) }
+        let now = start.addingTimeInterval(360)
+        let seconds = CravingService.elapsedSeconds(since: start, now: now, atLeast: 60)
+        let episode = MainActor.assumeIsolated {
+            service.record(startedAt: start, secondsElapsed: seconds, outcome: .rodeItOut, intensity: 3, now: now)
+        }
+        #expect(episode.secondsElapsed == Int(episode.endedAt.timeIntervalSince(episode.startedAt)))
+    }
+}
