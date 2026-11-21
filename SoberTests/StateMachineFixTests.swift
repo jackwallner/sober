@@ -976,3 +976,28 @@ struct TrialReminderRegressionTests {
     }
     #endif
 }
+
+@Suite("Trial reminder tap survives a cold launch")
+@MainActor
+struct NotificationRouteInboxTests {
+    /// The tap arrives before any view exists to hear a post; the inbox keeps it.
+    @Test func aTapBeforeTheTabsExistIsStillThereWhenTheyAsk() {
+        let inbox = NotificationRouteInbox()
+        inbox.receive(deepLink: NotificationService.deepLinkBloomPlus)
+        #expect(inbox.takeBloomPlus())
+    }
+
+    @Test func theRouteIsTakenOnce() {
+        let inbox = NotificationRouteInbox()
+        inbox.receive(deepLink: NotificationService.deepLinkBloomPlus)
+        _ = inbox.takeBloomPlus()
+        #expect(!inbox.takeBloomPlus())
+    }
+
+    @Test func otherLinksDoNotOpenBloomPlus() {
+        let inbox = NotificationRouteInbox()
+        inbox.receive(deepLink: NotificationService.deepLinkCheckIn)
+        inbox.receive(deepLink: nil)
+        #expect(!inbox.takeBloomPlus())
+    }
+}

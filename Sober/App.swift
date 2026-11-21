@@ -9,9 +9,28 @@ extension Notification.Name {
     static let soberOpenCheckIn = Notification.Name("com.jackwallner.sober.openCheckIn")
     /// Posted by the Dry January link: Timeline holds the challenge.
     static let soberOpenTimeline = Notification.Name("com.jackwallner.sober.openTimeline")
-    /// Posted when the user taps the trial-ending reminder. Lands on Bloom+ so
-    /// they can see what they'd keep before deciding.
-    static let soberOpenBloomPlus = Notification.Name("com.jackwallner.sober.openBloomPlus")
+}
+
+/// Holds the trial-ending reminder's destination until Bloom+ can take it.
+/// A tap that launches the app is delivered before `MainTabView` exists (the
+/// store gate and onboarding sit in front of it), and a posted notification
+/// has no replay, so the app opened on Home. Same shape as
+/// `ChallengeLinkInbox`, which the Dry January link needed for the same race.
+@MainActor
+@Observable
+final class NotificationRouteInbox {
+    static let shared = NotificationRouteInbox()
+    var opensBloomPlus = false
+
+    func receive(deepLink: String?) {
+        if deepLink == NotificationService.deepLinkBloomPlus { opensBloomPlus = true }
+    }
+
+    /// True once per tap, so a second visit to the tab is not pulled back.
+    func takeBloomPlus() -> Bool {
+        defer { opensBloomPlus = false }
+        return opensBloomPlus
+    }
 }
 
 /// Routes notification taps. Without a delegate, tapping the daily reminder
@@ -30,15 +49,15 @@ final class NotificationTapRouter: NSObject, UNUserNotificationCenterDelegate, @
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         let info = response.notification.request.content.userInfo
-        let name: Notification.Name?
-        switch info[NotificationService.deepLinkKey] as? String {
-        case NotificationService.deepLinkCheckIn: name = .soberOpenCheckIn
-        case NotificationService.deepLinkBloomPlus: name = .soberOpenBloomPlus
-        default: name = nil
-        }
+        let link = info[NotificationService.deepLinkKey] as? String
         nonisolated(unsafe) let done = completionHandler
         Task { @MainActor in
-            if let name { NotificationCenter.default.post(name: name, object: nil) }
+            switch link {
+            case NotificationService.deepLinkCheckIn:
+                NotificationCenter.default.post(name: .soberOpenCheckIn, object: nil)
+            default:
+                NotificationRouteInbox.shared.receive(deepLink: link)
+            }
             done()
         }
     }
@@ -334,6 +353,7 @@ struct MainTabView: View {
     #else
     @State private var tab = 0
     #endif
+    @State private var routes = NotificationRouteInbox.shared
     @State private var showTrialPaywall = false
     @State private var trialOfferFocus: BloomFeature?
     /// The container's width and fold, measured so the unfolded iPhone Duo can
@@ -425,9 +445,8 @@ struct MainTabView: View {
         .onReceive(NotificationCenter.default.publisher(for: .soberOpenCheckIn)) { _ in
             tab = 0
         }
-        .onReceive(NotificationCenter.default.publisher(for: .soberOpenBloomPlus)) { _ in
-            tab = 4
-        }
+        .onAppear { openPendingRoute() }
+        .onChange(of: routes.opensBloomPlus) { _, _ in openPendingRoute() }
         .onReceive(NotificationCenter.default.publisher(for: .soberOpenTimeline)) { _ in
             // Unfolded, Timeline is its own pane and already on screen.
             if split == nil { tab = 1 }
@@ -445,6 +464,10 @@ struct MainTabView: View {
                 impressionId: paywallImpressionId(for: trialOfferFocus)
             )
         }
+    }
+
+    private func openPendingRoute() {
+        if routes.takeBloomPlus() { tab = 4 }
     }
 
     private func syncPresentationFlag() {
