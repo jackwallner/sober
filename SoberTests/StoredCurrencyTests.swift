@@ -37,10 +37,11 @@ struct StoredCurrencyTests {
         #expect(!p.moneyText.contains("$"))
     }
 
-    private func store(_ settings: UserSettings) throws -> ModelContext {
+    /// A context does not keep its container alive, so the container is returned too.
+    private func store(_ settings: UserSettings) throws -> (container: ModelContainer, context: ModelContext) {
         let container = try ModelContainer(for: UserSettings.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
         container.mainContext.insert(settings)
-        return container.mainContext
+        return (container, container.mainContext)
     }
 
     private func freshDefaults() -> UserDefaults {
@@ -52,29 +53,33 @@ struct StoredCurrencyTests {
 
     /// Builds before 2026-10-30 left the "USD" default whatever the person used.
     @Test func anUpgradingInstallTakesTheDeviceCurrencyItWasEnteredIn() throws {
-        let context = try store(UserSettings(currencyCode: "USD", hasCompletedOnboarding: true))
+        let (container, context) = try store(UserSettings(currencyCode: "USD", hasCompletedOnboarding: true))
         SettingsService.settleCurrencyIfNeeded(context: context, defaults: freshDefaults(), deviceCode: "EUR")
+        withExtendedLifetime(container) {}
         #expect(try context.fetch(FetchDescriptor<UserSettings>()).first?.currencyCode == "EUR")
     }
 
     @Test func aCodeOnboardingWroteIsNeverOverwritten() throws {
-        let context = try store(UserSettings(currencyCode: "JPY", hasCompletedOnboarding: true))
+        let (container, context) = try store(UserSettings(currencyCode: "JPY", hasCompletedOnboarding: true))
         SettingsService.settleCurrencyIfNeeded(context: context, defaults: freshDefaults(), deviceCode: "USD")
+        withExtendedLifetime(container) {}
         #expect(try context.fetch(FetchDescriptor<UserSettings>()).first?.currencyCode == "JPY")
     }
 
     @Test func settlingHappensOnlyOnce() throws {
         let defaults = freshDefaults()
-        let context = try store(UserSettings(currencyCode: "USD", hasCompletedOnboarding: true))
+        let (container, context) = try store(UserSettings(currencyCode: "USD", hasCompletedOnboarding: true))
         SettingsService.settleCurrencyIfNeeded(context: context, defaults: defaults, deviceCode: "USD")
         try context.fetch(FetchDescriptor<UserSettings>()).first?.currencyCode = "USD"
         SettingsService.settleCurrencyIfNeeded(context: context, defaults: defaults, deviceCode: "EUR")
+        withExtendedLifetime(container) {}
         #expect(try context.fetch(FetchDescriptor<UserSettings>()).first?.currencyCode == "USD")
     }
 
     @Test func aRowStillInOnboardingIsLeftForOnboardingToWrite() throws {
-        let context = try store(UserSettings(currencyCode: "USD", hasCompletedOnboarding: false))
+        let (container, context) = try store(UserSettings(currencyCode: "USD", hasCompletedOnboarding: false))
         SettingsService.settleCurrencyIfNeeded(context: context, defaults: freshDefaults(), deviceCode: "EUR")
+        withExtendedLifetime(container) {}
         #expect(try context.fetch(FetchDescriptor<UserSettings>()).first?.currencyCode == "USD")
     }
 }
