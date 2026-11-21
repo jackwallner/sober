@@ -178,14 +178,14 @@ struct CravingSessionClockTests {
         #expect(CravingService.elapsedSeconds(since: start, now: now, atLeast: 45) == 45)
     }
 
+    @MainActor
     @Test func theSavedEpisodeCarriesTheWallClockLength() throws {
         let container = try ModelContainer(for: CravingEpisode.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
-        let service = MainActor.assumeIsolated { CravingService(context: container.mainContext) }
         let now = start.addingTimeInterval(360)
         let seconds = CravingService.elapsedSeconds(since: start, now: now, atLeast: 60)
-        let episode = MainActor.assumeIsolated {
-            service.record(startedAt: start, secondsElapsed: seconds, outcome: .rodeItOut, intensity: 3, now: now)
-        }
-        #expect(episode.secondsElapsed == Int(episode.endedAt.timeIntervalSince(episode.startedAt)))
+        let episode = CravingService(context: container.mainContext)
+            .record(startedAt: start, secondsElapsed: seconds, outcome: .rodeItOut, intensity: 3, now: now)
+        #expect(episode.secondsElapsed == 360)
+        #expect(episode.endedAt?.timeIntervalSince(episode.startedAt) == 360)
     }
 }
