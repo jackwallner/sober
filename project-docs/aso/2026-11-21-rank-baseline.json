@@ -1,0 +1,7043 @@
+{
+ "app_id": 6768869215,
+ "base": "80f9764",
+ "taken": "2026-11-22 04:42",
+ "locales": {
+  "en-GB": [
+   {
+    "term": "Sober: Sobriety Day Counter",
+    "kind": "name",
+    "store": "gb",
+    "rank": "1/180"
+   },
+   {
+    "term": "Dry Days & Alcohol Free Streak",
+    "kind": "subtitle",
+    "store": "gb",
+    "rank": "146/179"
+   },
+   {
+    "term": "Quit Drinking, Grow Each Day",
+    "kind": "old subtitle",
+    "store": "gb",
+    "rank": "4/181"
+   },
+   {
+    "term": "tracker",
+    "kind": "keyword",
+    "store": "gb",
+    "rank": "-/188"
+   },
+   {
+    "term": "quit",
+    "kind": "keyword",
+    "store": "gb",
+    "rank": "-/191"
+   },
+   {
+    "term": "drinking",
+    "kind": "keyword",
+    "store": "gb",
+    "rank": "-/185"
+   },
+   {
+    "term": "stop",
+    "kind": "keyword",
+    "store": "gb",
+    "rank": "-/187"
+   },
+   {
+    "term": "january",
+    "kind": "keyword",
+    "store": "gb",
+    "rank": "42/188"
+   },
+   {
+    "term": "drink",
+    "kind": "keyword",
+    "store": "gb",
+    "rank": "-/189"
+   },
+   {
+    "term": "less",
+    "kind": "keyword",
+    "store": "gb",
+    "rank": "-/190"
+   },
+   {
+    "term": "recovery",
+    "kind": "keyword",
+    "store": "gb",
+    "rank": "-/188"
+   },
+   {
+    "term": "habit",
+    "kind": "keyword",
+    "store": "gb",
+    "rank": "-/185"
+   },
+   {
+    "term": "diary",
+    "kind": "keyword",
+    "store": "gb",
+    "rank": "-/192"
+   },
+   {
+    "term": "cravings",
+    "kind": "keyword",
+    "store": "gb",
+    "rank": "-/158"
+   },
+   {
+    "term": "relapse",
+    "kind": "keyword",
+    "store": "gb",
+    "rank": "171/189"
+   },
+   {
+    "term": "calendar",
+    "kind": "keyword",
+    "store": "gb",
+    "rank": "-/183"
+   },
+   {
+    "term": "journal",
+    "kind": "keyword",
+    "store": "gb",
+    "rank": "-/189"
+   },
+   {
+    "term": "alcohol",
+    "kind": "dropped keyword",
+    "store": "gb",
+    "rank": "-/183"
+   },
+   {
+    "term": "watch",
+    "kind": "dropped keyword",
+    "store": "gb",
+    "rank": "-/172"
+   },
+   {
+    "term": "private",
+    "kind": "dropped keyword",
+    "store": "gb",
+    "rank": "-/183"
+   },
+   {
+    "term": "widget",
+    "kind": "dropped keyword",
+    "store": "gb",
+    "rank": "-/188"
+   },
+   {
+    "term": "streak",
+    "kind": "dropped keyword",
+    "store": "gb",
+    "rank": "-/189"
+   },
+   {
+    "term": "checkin",
+    "kind": "dropped keyword",
+    "store": "gb",
+    "rank": "-/174"
+   }
+  ],
+  "en-CA": [
+   {
+    "term": "Sober: Sobriety Day Counter",
+    "kind": "name",
+    "store": "ca",
+    "rank": "1/179"
+   },
+   {
+    "term": "Quit Drinking, Alcohol Free",
+    "kind": "subtitle",
+    "store": "ca",
+    "rank": "150/191"
+   },
+   {
+    "term": "Quit Drinking, Grow Each Day",
+    "kind": "old subtitle",
+    "store": "ca",
+    "rank": "1/182"
+   },
+   {
+    "term": "tracker",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/190"
+   },
+   {
+    "term": "stop",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/189"
+   },
+   {
+    "term": "dry",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/193"
+   },
+   {
+    "term": "january",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "37/185"
+   },
+   {
+    "term": "streak",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/185"
+   },
+   {
+    "term": "drink",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/192"
+   },
+   {
+    "term": "less",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/194"
+   },
+   {
+    "term": "habit",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/192"
+   },
+   {
+    "term": "diary",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/197"
+   },
+   {
+    "term": "cravings",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/185"
+   },
+   {
+    "term": "relapse",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "113/193"
+   },
+   {
+    "term": "calendar",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/187"
+   },
+   {
+    "term": "journal",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/187"
+   },
+   {
+    "term": "recovery",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/194"
+   },
+   {
+    "term": "alcohol",
+    "kind": "dropped keyword",
+    "store": "ca",
+    "rank": "-/173"
+   },
+   {
+    "term": "watch",
+    "kind": "dropped keyword",
+    "store": "ca",
+    "rank": "-/170"
+   },
+   {
+    "term": "private",
+    "kind": "dropped keyword",
+    "store": "ca",
+    "rank": "-/183"
+   },
+   {
+    "term": "widget",
+    "kind": "dropped keyword",
+    "store": "ca",
+    "rank": "-/193"
+   },
+   {
+    "term": "checkin",
+    "kind": "dropped keyword",
+    "store": "ca",
+    "rank": "-/182"
+   }
+  ],
+  "fr-CA": [
+   {
+    "term": "Arrêter de boire: Jours sobres",
+    "kind": "name",
+    "store": "ca",
+    "rank": "-/163"
+   },
+   {
+    "term": "Compteur sobriété, sans alcool",
+    "kind": "subtitle",
+    "store": "ca",
+    "rank": "25/178"
+   },
+   {
+    "term": "Arrêter alcool: Jours secs",
+    "kind": "old name",
+    "store": "ca",
+    "rank": "1/63"
+   },
+   {
+    "term": "Compteur sobriété & jardin",
+    "kind": "old subtitle",
+    "store": "ca",
+    "rank": "14/183"
+   },
+   {
+    "term": "moins",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/186"
+   },
+   {
+    "term": "envie",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/174"
+   },
+   {
+    "term": "rechute",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "16/190"
+   },
+   {
+    "term": "journal",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/187"
+   },
+   {
+    "term": "série",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/176"
+   },
+   {
+    "term": "humeur",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/194"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/193"
+   },
+   {
+    "term": "bonsaï",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/144"
+   },
+   {
+    "term": "calendrier",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/176"
+   },
+   {
+    "term": "habitude",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/183"
+   },
+   {
+    "term": "tracker",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/190"
+   },
+   {
+    "term": "dépendance",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "97/159"
+   },
+   {
+    "term": "stop",
+    "kind": "keyword",
+    "store": "ca",
+    "rank": "-/189"
+   },
+   {
+    "term": "boire",
+    "kind": "dropped keyword",
+    "store": "ca",
+    "rank": "-/169"
+   },
+   {
+    "term": "sevrage",
+    "kind": "dropped keyword",
+    "store": "ca",
+    "rank": "130/192"
+   },
+   {
+    "term": "rétablissement",
+    "kind": "dropped keyword",
+    "store": "ca",
+    "rank": "31/163"
+   }
+  ],
+  "en-AU": [
+   {
+    "term": "Sober: Sobriety Day Counter",
+    "kind": "name",
+    "store": "au",
+    "rank": "1/179"
+   },
+   {
+    "term": "Quit Drinking & Sober Tracker",
+    "kind": "subtitle",
+    "store": "au",
+    "rank": "74/195"
+   },
+   {
+    "term": "Quit Drinking, Grow Each Day",
+    "kind": "old subtitle",
+    "store": "au",
+    "rank": "5/182"
+   },
+   {
+    "term": "alcohol",
+    "kind": "keyword",
+    "store": "au",
+    "rank": "-/179"
+   },
+   {
+    "term": "free",
+    "kind": "keyword",
+    "store": "au",
+    "rank": "-/189"
+   },
+   {
+    "term": "dry",
+    "kind": "keyword",
+    "store": "au",
+    "rank": "-/187"
+   },
+   {
+    "term": "streak",
+    "kind": "keyword",
+    "store": "au",
+    "rank": "-/189"
+   },
+   {
+    "term": "addiction",
+    "kind": "keyword",
+    "store": "au",
+    "rank": "-/193"
+   },
+   {
+    "term": "recovery",
+    "kind": "keyword",
+    "store": "au",
+    "rank": "-/192"
+   },
+   {
+    "term": "habit",
+    "kind": "keyword",
+    "store": "au",
+    "rank": "-/194"
+   },
+   {
+    "term": "clean",
+    "kind": "keyword",
+    "store": "au",
+    "rank": "-/194"
+   },
+   {
+    "term": "craving",
+    "kind": "keyword",
+    "store": "au",
+    "rank": "-/188"
+   },
+   {
+    "term": "relapse",
+    "kind": "keyword",
+    "store": "au",
+    "rank": "-/194"
+   },
+   {
+    "term": "money",
+    "kind": "keyword",
+    "store": "au",
+    "rank": "-/194"
+   },
+   {
+    "term": "saved",
+    "kind": "keyword",
+    "store": "au",
+    "rank": "-/159"
+   },
+   {
+    "term": "calories",
+    "kind": "keyword",
+    "store": "au",
+    "rank": "-/198"
+   },
+   {
+    "term": "diary",
+    "kind": "keyword",
+    "store": "au",
+    "rank": "-/190"
+   },
+   {
+    "term": "tracker",
+    "kind": "dropped keyword",
+    "store": "au",
+    "rank": "-/189"
+   },
+   {
+    "term": "cravings",
+    "kind": "dropped keyword",
+    "store": "au",
+    "rank": "-/176"
+   },
+   {
+    "term": "calendar",
+    "kind": "dropped keyword",
+    "store": "au",
+    "rank": "-/187"
+   },
+   {
+    "term": "watch",
+    "kind": "dropped keyword",
+    "store": "au",
+    "rank": "-/170"
+   },
+   {
+    "term": "private",
+    "kind": "dropped keyword",
+    "store": "au",
+    "rank": "-/184"
+   },
+   {
+    "term": "widget",
+    "kind": "dropped keyword",
+    "store": "au",
+    "rank": "-/191"
+   },
+   {
+    "term": "checkin",
+    "kind": "dropped keyword",
+    "store": "au",
+    "rank": "-/175"
+   },
+   {
+    "term": "journal",
+    "kind": "dropped keyword",
+    "store": "au",
+    "rank": "-/194"
+   }
+  ],
+  "uk": [
+   {
+    "term": "Кинути пити: Дні тверезості",
+    "kind": "name",
+    "store": "ua",
+    "rank": "7/20"
+   },
+   {
+    "term": "Лічильник, календар, щоденник",
+    "kind": "subtitle",
+    "store": "ua",
+    "rank": "8/28"
+   },
+   {
+    "term": "Кинь алкоголь: Сухі дні & app",
+    "kind": "old name",
+    "store": "ua",
+    "rank": "1/1"
+   },
+   {
+    "term": "Лічильник тверезості & сад",
+    "kind": "old subtitle",
+    "store": "ua",
+    "rank": "1/1"
+   },
+   {
+    "term": "тверезість",
+    "kind": "keyword",
+    "store": "ua",
+    "rank": "95/191"
+   },
+   {
+    "term": "алкоголь",
+    "kind": "keyword",
+    "store": "ua",
+    "rank": "9/163"
+   },
+   {
+    "term": "сухі",
+    "kind": "keyword",
+    "store": "ua",
+    "rank": "1/6"
+   },
+   {
+    "term": "залежність",
+    "kind": "keyword",
+    "store": "ua",
+    "rank": "41/194"
+   },
+   {
+    "term": "зрив",
+    "kind": "keyword",
+    "store": "ua",
+    "rank": "9/51"
+   },
+   {
+    "term": "тяга",
+    "kind": "keyword",
+    "store": "ua",
+    "rank": "34/193"
+   },
+   {
+    "term": "без",
+    "kind": "keyword",
+    "store": "ua",
+    "rank": "-/185"
+   },
+   {
+    "term": "менше",
+    "kind": "keyword",
+    "store": "ua",
+    "rank": "34/120"
+   },
+   {
+    "term": "звичка",
+    "kind": "keyword",
+    "store": "ua",
+    "rank": "-/197"
+   },
+   {
+    "term": "настрій",
+    "kind": "keyword",
+    "store": "ua",
+    "rank": "175/193"
+   },
+   {
+    "term": "серія",
+    "kind": "keyword",
+    "store": "ua",
+    "rank": "70/173"
+   },
+   {
+    "term": "віджет",
+    "kind": "keyword",
+    "store": "ua",
+    "rank": "-/186"
+   },
+   {
+    "term": "бонсай",
+    "kind": "keyword",
+    "store": "ua",
+    "rank": "-/171"
+   },
+   {
+    "term": "трекер",
+    "kind": "keyword",
+    "store": "ua",
+    "rank": "-/177"
+   },
+   {
+    "term": "пити",
+    "kind": "dropped keyword",
+    "store": "ua",
+    "rank": "-/183"
+   },
+   {
+    "term": "кинути",
+    "kind": "dropped keyword",
+    "store": "ua",
+    "rank": "144/192"
+   },
+   {
+    "term": "відновлення",
+    "kind": "dropped keyword",
+    "store": "ua",
+    "rank": "103/189"
+   },
+   {
+    "term": "щоденник",
+    "kind": "dropped keyword",
+    "store": "ua",
+    "rank": "-/181"
+   },
+   {
+    "term": "календар",
+    "kind": "dropped keyword",
+    "store": "ua",
+    "rank": "-/181"
+   }
+  ],
+  "pl": [
+   {
+    "term": "Rzuć alkohol: Dni trzeźwości",
+    "kind": "name",
+    "store": "pl",
+    "rank": "-/16"
+   },
+   {
+    "term": "Licznik, kalendarz i dziennik",
+    "kind": "subtitle",
+    "store": "pl",
+    "rank": "-/196"
+   },
+   {
+    "term": "Rzuć alkohol: Suche dni & app",
+    "kind": "old name",
+    "store": "pl",
+    "rank": "-/54"
+   },
+   {
+    "term": "Licznik trzeźwości & ogród",
+    "kind": "old subtitle",
+    "store": "pl",
+    "rank": "-/45"
+   },
+   {
+    "term": "trzeźwość",
+    "kind": "keyword",
+    "store": "pl",
+    "rank": "-/140"
+   },
+   {
+    "term": "bez",
+    "kind": "keyword",
+    "store": "pl",
+    "rank": "-/190"
+   },
+   {
+    "term": "alkoholu",
+    "kind": "keyword",
+    "store": "pl",
+    "rank": "-/157"
+   },
+   {
+    "term": "pić",
+    "kind": "keyword",
+    "store": "pl",
+    "rank": "-/180"
+   },
+   {
+    "term": "mniej",
+    "kind": "keyword",
+    "store": "pl",
+    "rank": "-/181"
+   },
+   {
+    "term": "przestać",
+    "kind": "keyword",
+    "store": "pl",
+    "rank": "-/24"
+   },
+   {
+    "term": "uzależnienie",
+    "kind": "keyword",
+    "store": "pl",
+    "rank": "-/194"
+   },
+   {
+    "term": "nałóg",
+    "kind": "keyword",
+    "store": "pl",
+    "rank": "-/186"
+   },
+   {
+    "term": "abstynencja",
+    "kind": "keyword",
+    "store": "pl",
+    "rank": "-/119"
+   },
+   {
+    "term": "głód",
+    "kind": "keyword",
+    "store": "pl",
+    "rank": "-/163"
+   },
+   {
+    "term": "nastrój",
+    "kind": "keyword",
+    "store": "pl",
+    "rank": "-/197"
+   },
+   {
+    "term": "nawrót",
+    "kind": "keyword",
+    "store": "pl",
+    "rank": "-/57"
+   },
+   {
+    "term": "suche",
+    "kind": "keyword",
+    "store": "pl",
+    "rank": "-/200"
+   },
+   {
+    "term": "widget",
+    "kind": "dropped keyword",
+    "store": "pl",
+    "rank": "-/180"
+   },
+   {
+    "term": "odwyk",
+    "kind": "dropped keyword",
+    "store": "pl",
+    "rank": "-/192"
+   },
+   {
+    "term": "nawyk",
+    "kind": "dropped keyword",
+    "store": "pl",
+    "rank": "-/198"
+   },
+   {
+    "term": "dziennik",
+    "kind": "dropped keyword",
+    "store": "pl",
+    "rank": "-/186"
+   },
+   {
+    "term": "seria",
+    "kind": "dropped keyword",
+    "store": "pl",
+    "rank": "-/162"
+   },
+   {
+    "term": "kalendarz",
+    "kind": "dropped keyword",
+    "store": "pl",
+    "rank": "-/176"
+   }
+  ],
+  "de-DE": [
+   {
+    "term": "Nüchtern: Tage ohne Alkohol",
+    "kind": "name",
+    "store": "de",
+    "rank": "-/152"
+   },
+   {
+    "term": "Nüchternheitszähler & Tagebuch",
+    "kind": "subtitle",
+    "store": "de",
+    "rank": "-/3"
+   },
+   {
+    "term": "Alkohol stoppen: Trockene Tage",
+    "kind": "old name",
+    "store": "de",
+    "rank": "-/8"
+   },
+   {
+    "term": "Nüchternheitszähler & Garten",
+    "kind": "old subtitle",
+    "store": "de",
+    "rank": "-/0"
+   },
+   {
+    "term": "alkoholfrei",
+    "kind": "keyword",
+    "store": "de",
+    "rank": "-/171"
+   },
+   {
+    "term": "aufhören",
+    "kind": "keyword",
+    "store": "de",
+    "rank": "-/188"
+   },
+   {
+    "term": "trinken",
+    "kind": "keyword",
+    "store": "de",
+    "rank": "-/179"
+   },
+   {
+    "term": "weniger",
+    "kind": "keyword",
+    "store": "de",
+    "rank": "-/172"
+   },
+   {
+    "term": "stoppen",
+    "kind": "keyword",
+    "store": "de",
+    "rank": "-/186"
+   },
+   {
+    "term": "tracker",
+    "kind": "keyword",
+    "store": "de",
+    "rank": "-/171"
+   },
+   {
+    "term": "sucht",
+    "kind": "keyword",
+    "store": "de",
+    "rank": "-/180"
+   },
+   {
+    "term": "verlangen",
+    "kind": "keyword",
+    "store": "de",
+    "rank": "-/190"
+   },
+   {
+    "term": "rückfall",
+    "kind": "keyword",
+    "store": "de",
+    "rank": "-/163"
+   },
+   {
+    "term": "stimmung",
+    "kind": "keyword",
+    "store": "de",
+    "rank": "-/192"
+   },
+   {
+    "term": "abstinenz",
+    "kind": "keyword",
+    "store": "de",
+    "rank": "-/150"
+   },
+   {
+    "term": "widget",
+    "kind": "dropped keyword",
+    "store": "de",
+    "rank": "-/178"
+   },
+   {
+    "term": "erholung",
+    "kind": "dropped keyword",
+    "store": "de",
+    "rank": "-/176"
+   },
+   {
+    "term": "serie",
+    "kind": "dropped keyword",
+    "store": "de",
+    "rank": "-/184"
+   },
+   {
+    "term": "tagebuch",
+    "kind": "dropped keyword",
+    "store": "de",
+    "rank": "-/181"
+   },
+   {
+    "term": "kalender",
+    "kind": "dropped keyword",
+    "store": "de",
+    "rank": "-/169"
+   }
+  ],
+  "ru": [
+   {
+    "term": "Бросить пить: Дни трезвости",
+    "kind": "name",
+    "store": "ru",
+    "rank": "-/111"
+   },
+   {
+    "term": "Бросить пить: Дни трезвости",
+    "kind": "name",
+    "store": "us",
+    "rank": "-/112"
+   },
+   {
+    "term": "Счетчик, календарь и дневник",
+    "kind": "subtitle",
+    "store": "ru",
+    "rank": "67/99"
+   },
+   {
+    "term": "Счетчик, календарь и дневник",
+    "kind": "subtitle",
+    "store": "us",
+    "rank": "50/98"
+   },
+   {
+    "term": "Брось алкоголь: Сухие дни",
+    "kind": "old name",
+    "store": "ru",
+    "rank": "1/1"
+   },
+   {
+    "term": "Брось алкоголь: Сухие дни",
+    "kind": "old name",
+    "store": "us",
+    "rank": "1/1"
+   },
+   {
+    "term": "Счётчик воздержания & сад",
+    "kind": "old subtitle",
+    "store": "ru",
+    "rank": "1/1"
+   },
+   {
+    "term": "Счётчик воздержания & сад",
+    "kind": "old subtitle",
+    "store": "us",
+    "rank": "1/1"
+   },
+   {
+    "term": "трезвость",
+    "kind": "keyword",
+    "store": "ru",
+    "rank": "-/186"
+   },
+   {
+    "term": "трезвость",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "180/185"
+   },
+   {
+    "term": "алкоголь",
+    "kind": "keyword",
+    "store": "ru",
+    "rank": "115/165"
+   },
+   {
+    "term": "алкоголь",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "19/186"
+   },
+   {
+    "term": "не",
+    "kind": "keyword",
+    "store": "ru",
+    "rank": "-/179"
+   },
+   {
+    "term": "не",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/172"
+   },
+   {
+    "term": "пью",
+    "kind": "keyword",
+    "store": "ru",
+    "rank": "-/153"
+   },
+   {
+    "term": "пью",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/52"
+   },
+   {
+    "term": "трезвый",
+    "kind": "keyword",
+    "store": "ru",
+    "rank": "-/79"
+   },
+   {
+    "term": "трезвый",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/74"
+   },
+   {
+    "term": "сухие",
+    "kind": "keyword",
+    "store": "ru",
+    "rank": "1/6"
+   },
+   {
+    "term": "сухие",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "1/5"
+   },
+   {
+    "term": "воздержание",
+    "kind": "keyword",
+    "store": "ru",
+    "rank": "32/53"
+   },
+   {
+    "term": "воздержание",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "19/36"
+   },
+   {
+    "term": "зависимость",
+    "kind": "keyword",
+    "store": "ru",
+    "rank": "193/193"
+   },
+   {
+    "term": "зависимость",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/191"
+   },
+   {
+    "term": "срыв",
+    "kind": "keyword",
+    "store": "ru",
+    "rank": "51/111"
+   },
+   {
+    "term": "срыв",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "10/113"
+   },
+   {
+    "term": "тяга",
+    "kind": "keyword",
+    "store": "ru",
+    "rank": "-/189"
+   },
+   {
+    "term": "тяга",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "47/196"
+   },
+   {
+    "term": "настроение",
+    "kind": "keyword",
+    "store": "ru",
+    "rank": "-/183"
+   },
+   {
+    "term": "настроение",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/186"
+   },
+   {
+    "term": "привычка",
+    "kind": "keyword",
+    "store": "ru",
+    "rank": "-/189"
+   },
+   {
+    "term": "привычка",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/191"
+   },
+   {
+    "term": "меньше",
+    "kind": "keyword",
+    "store": "ru",
+    "rank": "-/187"
+   },
+   {
+    "term": "меньше",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "80/186"
+   },
+   {
+    "term": "пить",
+    "kind": "dropped keyword",
+    "store": "ru",
+    "rank": "-/176"
+   },
+   {
+    "term": "пить",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/175"
+   },
+   {
+    "term": "бросить",
+    "kind": "dropped keyword",
+    "store": "ru",
+    "rank": "-/184"
+   },
+   {
+    "term": "бросить",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/187"
+   },
+   {
+    "term": "виджет",
+    "kind": "dropped keyword",
+    "store": "ru",
+    "rank": "-/184"
+   },
+   {
+    "term": "виджет",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/186"
+   },
+   {
+    "term": "восстановление",
+    "kind": "dropped keyword",
+    "store": "ru",
+    "rank": "-/187"
+   },
+   {
+    "term": "восстановление",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "166/183"
+   },
+   {
+    "term": "дневник",
+    "kind": "dropped keyword",
+    "store": "ru",
+    "rank": "-/184"
+   },
+   {
+    "term": "дневник",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/179"
+   }
+  ],
+  "nl-NL": [
+   {
+    "term": "Stop met drinken: Droge dagen",
+    "kind": "name",
+    "store": "nl",
+    "rank": "-/6"
+   },
+   {
+    "term": "Alcoholvrij en nuchter blijven",
+    "kind": "subtitle",
+    "store": "nl",
+    "rank": "-/2"
+   },
+   {
+    "term": "Herstelteller & virtuele tuin",
+    "kind": "old subtitle",
+    "store": "nl",
+    "rank": "-/0"
+   },
+   {
+    "term": "teller",
+    "kind": "keyword",
+    "store": "nl",
+    "rank": "-/187"
+   },
+   {
+    "term": "tracker",
+    "kind": "keyword",
+    "store": "nl",
+    "rank": "-/179"
+   },
+   {
+    "term": "alcohol",
+    "kind": "keyword",
+    "store": "nl",
+    "rank": "-/171"
+   },
+   {
+    "term": "minder",
+    "kind": "keyword",
+    "store": "nl",
+    "rank": "-/175"
+   },
+   {
+    "term": "stoppen",
+    "kind": "keyword",
+    "store": "nl",
+    "rank": "-/181"
+   },
+   {
+    "term": "verslaving",
+    "kind": "keyword",
+    "store": "nl",
+    "rank": "-/165"
+   },
+   {
+    "term": "trek",
+    "kind": "keyword",
+    "store": "nl",
+    "rank": "-/152"
+   },
+   {
+    "term": "terugval",
+    "kind": "keyword",
+    "store": "nl",
+    "rank": "-/109"
+   },
+   {
+    "term": "dagboek",
+    "kind": "keyword",
+    "store": "nl",
+    "rank": "-/192"
+   },
+   {
+    "term": "stemming",
+    "kind": "keyword",
+    "store": "nl",
+    "rank": "-/185"
+   },
+   {
+    "term": "nuchterheid",
+    "kind": "keyword",
+    "store": "nl",
+    "rank": "-/41"
+   },
+   {
+    "term": "sober",
+    "kind": "keyword",
+    "store": "nl",
+    "rank": "-/193"
+   },
+   {
+    "term": "widget",
+    "kind": "dropped keyword",
+    "store": "nl",
+    "rank": "-/180"
+   },
+   {
+    "term": "nuchter",
+    "kind": "dropped keyword",
+    "store": "nl",
+    "rank": "-/186"
+   },
+   {
+    "term": "verlangen",
+    "kind": "dropped keyword",
+    "store": "nl",
+    "rank": "-/182"
+   },
+   {
+    "term": "gewoonte",
+    "kind": "dropped keyword",
+    "store": "nl",
+    "rank": "-/192"
+   },
+   {
+    "term": "serie",
+    "kind": "dropped keyword",
+    "store": "nl",
+    "rank": "-/184"
+   },
+   {
+    "term": "kalender",
+    "kind": "dropped keyword",
+    "store": "nl",
+    "rank": "-/169"
+   }
+  ],
+  "es-MX": [
+   {
+    "term": "Dejar de beber: Días secos",
+    "kind": "name",
+    "store": "mx",
+    "rank": "2/9"
+   },
+   {
+    "term": "Dejar de beber: Días secos",
+    "kind": "name",
+    "store": "us",
+    "rank": "3/118"
+   },
+   {
+    "term": "Contador de sobriedad y rachas",
+    "kind": "subtitle",
+    "store": "mx",
+    "rank": "-/142"
+   },
+   {
+    "term": "Contador de sobriedad y rachas",
+    "kind": "subtitle",
+    "store": "us",
+    "rank": "-/159"
+   },
+   {
+    "term": "Dejar alcohol: Días secos",
+    "kind": "old name",
+    "store": "mx",
+    "rank": "1/13"
+   },
+   {
+    "term": "Dejar alcohol: Días secos",
+    "kind": "old name",
+    "store": "us",
+    "rank": "1/136"
+   },
+   {
+    "term": "Contador sobriedad & jardín",
+    "kind": "old subtitle",
+    "store": "mx",
+    "rank": "15/191"
+   },
+   {
+    "term": "Contador sobriedad & jardín",
+    "kind": "old subtitle",
+    "store": "us",
+    "rank": "19/176"
+   },
+   {
+    "term": "alcohol",
+    "kind": "keyword",
+    "store": "mx",
+    "rank": "104/192"
+   },
+   {
+    "term": "alcohol",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/175"
+   },
+   {
+    "term": "sobrio",
+    "kind": "keyword",
+    "store": "mx",
+    "rank": "-/188"
+   },
+   {
+    "term": "sobrio",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/181"
+   },
+   {
+    "term": "tomar",
+    "kind": "keyword",
+    "store": "mx",
+    "rank": "-/171"
+   },
+   {
+    "term": "tomar",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/155"
+   },
+   {
+    "term": "antojo",
+    "kind": "keyword",
+    "store": "mx",
+    "rank": "41/184"
+   },
+   {
+    "term": "antojo",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "20/170"
+   },
+   {
+    "term": "adicción",
+    "kind": "keyword",
+    "store": "mx",
+    "rank": "168/190"
+   },
+   {
+    "term": "adicción",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/183"
+   },
+   {
+    "term": "recaída",
+    "kind": "keyword",
+    "store": "mx",
+    "rank": "41/193"
+   },
+   {
+    "term": "recaída",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "31/172"
+   },
+   {
+    "term": "abstinencia",
+    "kind": "keyword",
+    "store": "mx",
+    "rank": "-/170"
+   },
+   {
+    "term": "abstinencia",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/186"
+   },
+   {
+    "term": "diario",
+    "kind": "keyword",
+    "store": "mx",
+    "rank": "-/174"
+   },
+   {
+    "term": "diario",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/177"
+   },
+   {
+    "term": "calendario",
+    "kind": "keyword",
+    "store": "mx",
+    "rank": "-/176"
+   },
+   {
+    "term": "calendario",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/181"
+   },
+   {
+    "term": "hábito",
+    "kind": "keyword",
+    "store": "mx",
+    "rank": "-/195"
+   },
+   {
+    "term": "hábito",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/190"
+   },
+   {
+    "term": "tracker",
+    "kind": "keyword",
+    "store": "mx",
+    "rank": "-/177"
+   },
+   {
+    "term": "tracker",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/189"
+   },
+   {
+    "term": "vicio",
+    "kind": "keyword",
+    "store": "mx",
+    "rank": "-/184"
+   },
+   {
+    "term": "vicio",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/194"
+   },
+   {
+    "term": "meta",
+    "kind": "keyword",
+    "store": "mx",
+    "rank": "-/176"
+   },
+   {
+    "term": "meta",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/176"
+   },
+   {
+    "term": "beber",
+    "kind": "dropped keyword",
+    "store": "mx",
+    "rank": "-/155"
+   },
+   {
+    "term": "beber",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/137"
+   },
+   {
+    "term": "menos",
+    "kind": "dropped keyword",
+    "store": "mx",
+    "rank": "-/190"
+   },
+   {
+    "term": "menos",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/170"
+   },
+   {
+    "term": "widget",
+    "kind": "dropped keyword",
+    "store": "mx",
+    "rank": "-/180"
+   },
+   {
+    "term": "widget",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/188"
+   },
+   {
+    "term": "recuperación",
+    "kind": "dropped keyword",
+    "store": "mx",
+    "rank": "156/179"
+   },
+   {
+    "term": "recuperación",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "172/184"
+   },
+   {
+    "term": "humor",
+    "kind": "dropped keyword",
+    "store": "mx",
+    "rank": "-/141"
+   },
+   {
+    "term": "humor",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/154"
+   },
+   {
+    "term": "serie",
+    "kind": "dropped keyword",
+    "store": "mx",
+    "rank": "-/189"
+   },
+   {
+    "term": "serie",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/182"
+   },
+   {
+    "term": "salud",
+    "kind": "dropped keyword",
+    "store": "mx",
+    "rank": "-/169"
+   },
+   {
+    "term": "salud",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/169"
+   }
+  ],
+  "ar-SA": [
+   {
+    "term": "إقلاع الكحول: أيام جافة",
+    "kind": "name",
+    "store": "sa",
+    "rank": "1/1"
+   },
+   {
+    "term": "إقلاع الكحول: أيام جافة",
+    "kind": "name",
+    "store": "us",
+    "rank": "1/2"
+   },
+   {
+    "term": "عداد التعافي & حديقة افتراضية",
+    "kind": "subtitle",
+    "store": "sa",
+    "rank": "1/1"
+   },
+   {
+    "term": "عداد التعافي & حديقة افتراضية",
+    "kind": "subtitle",
+    "store": "us",
+    "rank": "1/1"
+   },
+   {
+    "term": "إقلاع الكحول: أيام جافة تطبيق",
+    "kind": "old name",
+    "store": "sa",
+    "rank": "1/1"
+   },
+   {
+    "term": "إقلاع الكحول: أيام جافة تطبيق",
+    "kind": "old name",
+    "store": "us",
+    "rank": "1/2"
+   },
+   {
+    "term": "شرب",
+    "kind": "keyword",
+    "store": "sa",
+    "rank": "-/183"
+   },
+   {
+    "term": "شرب",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/183"
+   },
+   {
+    "term": "أقل",
+    "kind": "keyword",
+    "store": "sa",
+    "rank": "-/177"
+   },
+   {
+    "term": "أقل",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/102"
+   },
+   {
+    "term": "إدمان",
+    "kind": "keyword",
+    "store": "sa",
+    "rank": "-/194"
+   },
+   {
+    "term": "إدمان",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/182"
+   },
+   {
+    "term": "ودجة",
+    "kind": "keyword",
+    "store": "sa",
+    "rank": "-/190"
+   },
+   {
+    "term": "ودجة",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/182"
+   },
+   {
+    "term": "انتكاسة",
+    "kind": "keyword",
+    "store": "sa",
+    "rank": "46/46"
+   },
+   {
+    "term": "انتكاسة",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "8/55"
+   },
+   {
+    "term": "شهوة",
+    "kind": "keyword",
+    "store": "sa",
+    "rank": "58/71"
+   },
+   {
+    "term": "شهوة",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "20/71"
+   },
+   {
+    "term": "عادة",
+    "kind": "keyword",
+    "store": "sa",
+    "rank": "-/194"
+   },
+   {
+    "term": "عادة",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/197"
+   },
+   {
+    "term": "يوميات",
+    "kind": "keyword",
+    "store": "sa",
+    "rank": "-/196"
+   },
+   {
+    "term": "يوميات",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/196"
+   },
+   {
+    "term": "سلسلة",
+    "kind": "keyword",
+    "store": "sa",
+    "rank": "-/166"
+   },
+   {
+    "term": "سلسلة",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "132/190"
+   },
+   {
+    "term": "تقويم",
+    "kind": "keyword",
+    "store": "sa",
+    "rank": "-/184"
+   },
+   {
+    "term": "تقويم",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/185"
+   },
+   {
+    "term": "صحة",
+    "kind": "keyword",
+    "store": "sa",
+    "rank": "-/185"
+   },
+   {
+    "term": "صحة",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/188"
+   },
+   {
+    "term": "خاص",
+    "kind": "keyword",
+    "store": "sa",
+    "rank": "-/195"
+   },
+   {
+    "term": "خاص",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/190"
+   },
+   {
+    "term": "نبيذ",
+    "kind": "keyword",
+    "store": "sa",
+    "rank": "-/176"
+   },
+   {
+    "term": "نبيذ",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/181"
+   },
+   {
+    "term": "بيرة",
+    "kind": "keyword",
+    "store": "sa",
+    "rank": "-/196"
+   },
+   {
+    "term": "بيرة",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/178"
+   },
+   {
+    "term": "streak",
+    "kind": "keyword",
+    "store": "sa",
+    "rank": "-/191"
+   },
+   {
+    "term": "streak",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/185"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "sa",
+    "rank": "-/181"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/188"
+   },
+   {
+    "term": "calendar",
+    "kind": "keyword",
+    "store": "sa",
+    "rank": "-/183"
+   },
+   {
+    "term": "calendar",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/190"
+   }
+  ],
+  "ca": [
+   {
+    "term": "Deixa l'alcohol: Dies secs",
+    "kind": "name",
+    "store": "es",
+    "rank": "-/0"
+   },
+   {
+    "term": "Comptador abstinència & jardí",
+    "kind": "subtitle",
+    "store": "es",
+    "rank": "-/18"
+   },
+   {
+    "term": "beure",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/164"
+   },
+   {
+    "term": "menys",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/171"
+   },
+   {
+    "term": "addicció",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/168"
+   },
+   {
+    "term": "recuperació",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/120"
+   },
+   {
+    "term": "recaiguda",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/27"
+   },
+   {
+    "term": "desig",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/190"
+   },
+   {
+    "term": "humor",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/139"
+   },
+   {
+    "term": "hàbit",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/192"
+   },
+   {
+    "term": "diari",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/195"
+   },
+   {
+    "term": "sèrie",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/167"
+   },
+   {
+    "term": "calendari",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/175"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/175"
+   },
+   {
+    "term": "privat",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/184"
+   },
+   {
+    "term": "vi",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/146"
+   }
+  ],
+  "cs": [
+   {
+    "term": "Přestaň pít: Suché dny",
+    "kind": "name",
+    "store": "cz",
+    "rank": "-/1"
+   },
+   {
+    "term": "Počítadlo abstinence & zahrada",
+    "kind": "subtitle",
+    "store": "cz",
+    "rank": "-/52"
+   },
+   {
+    "term": "Přestaň pít: Suché dny & app",
+    "kind": "old name",
+    "store": "cz",
+    "rank": "-/3"
+   },
+   {
+    "term": "méně",
+    "kind": "keyword",
+    "store": "cz",
+    "rank": "-/136"
+   },
+   {
+    "term": "přestat",
+    "kind": "keyword",
+    "store": "cz",
+    "rank": "-/181"
+   },
+   {
+    "term": "závislost",
+    "kind": "keyword",
+    "store": "cz",
+    "rank": "-/192"
+   },
+   {
+    "term": "zotavení",
+    "kind": "keyword",
+    "store": "cz",
+    "rank": "-/54"
+   },
+   {
+    "term": "relaps",
+    "kind": "keyword",
+    "store": "cz",
+    "rank": "-/172"
+   },
+   {
+    "term": "chuť",
+    "kind": "keyword",
+    "store": "cz",
+    "rank": "-/145"
+   },
+   {
+    "term": "nálada",
+    "kind": "keyword",
+    "store": "cz",
+    "rank": "-/189"
+   },
+   {
+    "term": "zvyk",
+    "kind": "keyword",
+    "store": "cz",
+    "rank": "-/190"
+   },
+   {
+    "term": "deník",
+    "kind": "keyword",
+    "store": "cz",
+    "rank": "-/175"
+   },
+   {
+    "term": "série",
+    "kind": "keyword",
+    "store": "cz",
+    "rank": "-/179"
+   },
+   {
+    "term": "kalendář",
+    "kind": "keyword",
+    "store": "cz",
+    "rank": "-/174"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "cz",
+    "rank": "-/177"
+   },
+   {
+    "term": "soukromí",
+    "kind": "keyword",
+    "store": "cz",
+    "rank": "-/196"
+   },
+   {
+    "term": "víno",
+    "kind": "keyword",
+    "store": "cz",
+    "rank": "-/139"
+   }
+  ],
+  "da": [
+   {
+    "term": "Stop med alkohol: Tørre dage",
+    "kind": "name",
+    "store": "dk",
+    "rank": "-/4"
+   },
+   {
+    "term": "Dagtæller & virtuel have",
+    "kind": "subtitle",
+    "store": "dk",
+    "rank": "-/0"
+   },
+   {
+    "term": "Genopretning & virtuel have",
+    "kind": "old subtitle",
+    "store": "dk",
+    "rank": "-/0"
+   },
+   {
+    "term": "drikke",
+    "kind": "keyword",
+    "store": "dk",
+    "rank": "-/151"
+   },
+   {
+    "term": "mindre",
+    "kind": "keyword",
+    "store": "dk",
+    "rank": "-/187"
+   },
+   {
+    "term": "afhængighed",
+    "kind": "keyword",
+    "store": "dk",
+    "rank": "-/186"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "dk",
+    "rank": "-/176"
+   },
+   {
+    "term": "bedring",
+    "kind": "keyword",
+    "store": "dk",
+    "rank": "-/161"
+   },
+   {
+    "term": "tilbagefald",
+    "kind": "keyword",
+    "store": "dk",
+    "rank": "-/54"
+   },
+   {
+    "term": "trang",
+    "kind": "keyword",
+    "store": "dk",
+    "rank": "-/191"
+   },
+   {
+    "term": "humør",
+    "kind": "keyword",
+    "store": "dk",
+    "rank": "-/161"
+   },
+   {
+    "term": "vane",
+    "kind": "keyword",
+    "store": "dk",
+    "rank": "-/190"
+   },
+   {
+    "term": "dagbog",
+    "kind": "keyword",
+    "store": "dk",
+    "rank": "-/184"
+   },
+   {
+    "term": "serie",
+    "kind": "keyword",
+    "store": "dk",
+    "rank": "-/184"
+   },
+   {
+    "term": "kalender",
+    "kind": "keyword",
+    "store": "dk",
+    "rank": "-/167"
+   },
+   {
+    "term": "vin",
+    "kind": "keyword",
+    "store": "dk",
+    "rank": "-/179"
+   }
+  ],
+  "el": [
+   {
+    "term": "Σταμάτα το αλκοόλ: Ξηρές μέρες",
+    "kind": "name",
+    "store": "gr",
+    "rank": "-/0"
+   },
+   {
+    "term": "Μετρητής νηφαλιότητας & κήπος",
+    "kind": "subtitle",
+    "store": "gr",
+    "rank": "-/0"
+   },
+   {
+    "term": "Σταμάτα αλκοόλ: Ξηρές μέρες",
+    "kind": "old name",
+    "store": "gr",
+    "rank": "-/0"
+   },
+   {
+    "term": "Μετρητής αποκατάστασης & κήπος",
+    "kind": "old subtitle",
+    "store": "gr",
+    "rank": "-/0"
+   },
+   {
+    "term": "πίνω",
+    "kind": "keyword",
+    "store": "gr",
+    "rank": "-/32"
+   },
+   {
+    "term": "λιγότερο",
+    "kind": "keyword",
+    "store": "gr",
+    "rank": "-/37"
+   },
+   {
+    "term": "σταματώ",
+    "kind": "keyword",
+    "store": "gr",
+    "rank": "-/4"
+   },
+   {
+    "term": "εξάρτηση",
+    "kind": "keyword",
+    "store": "gr",
+    "rank": "-/37"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "gr",
+    "rank": "-/180"
+   },
+   {
+    "term": "ανάρρωση",
+    "kind": "keyword",
+    "store": "gr",
+    "rank": "-/36"
+   },
+   {
+    "term": "υποτροπή",
+    "kind": "keyword",
+    "store": "gr",
+    "rank": "-/36"
+   },
+   {
+    "term": "λαχτάρα",
+    "kind": "keyword",
+    "store": "gr",
+    "rank": "-/46"
+   },
+   {
+    "term": "διάθεση",
+    "kind": "keyword",
+    "store": "gr",
+    "rank": "-/190"
+   },
+   {
+    "term": "συνήθεια",
+    "kind": "keyword",
+    "store": "gr",
+    "rank": "-/188"
+   },
+   {
+    "term": "ημερολόγιο",
+    "kind": "keyword",
+    "store": "gr",
+    "rank": "-/188"
+   },
+   {
+    "term": "σειρά",
+    "kind": "keyword",
+    "store": "gr",
+    "rank": "-/163"
+   }
+  ],
+  "es-ES": [
+   {
+    "term": "Dejar el alcohol: Días secos",
+    "kind": "name",
+    "store": "es",
+    "rank": "-/12"
+   },
+   {
+    "term": "Contador de sobriedad & jardín",
+    "kind": "subtitle",
+    "store": "es",
+    "rank": "-/180"
+   },
+   {
+    "term": "Dejar alcohol: Días secos",
+    "kind": "old name",
+    "store": "es",
+    "rank": "-/12"
+   },
+   {
+    "term": "Contador sobriedad & jardín",
+    "kind": "old subtitle",
+    "store": "es",
+    "rank": "-/180"
+   },
+   {
+    "term": "beber",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/161"
+   },
+   {
+    "term": "menos",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/186"
+   },
+   {
+    "term": "adicción",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/187"
+   },
+   {
+    "term": "antojo",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/110"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/175"
+   },
+   {
+    "term": "recuperación",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/185"
+   },
+   {
+    "term": "recaída",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/183"
+   },
+   {
+    "term": "humor",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/139"
+   },
+   {
+    "term": "diario",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/176"
+   },
+   {
+    "term": "serie",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/188"
+   },
+   {
+    "term": "calendario",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/169"
+   },
+   {
+    "term": "salud",
+    "kind": "keyword",
+    "store": "es",
+    "rank": "-/169"
+   }
+  ],
+  "fi": [
+   {
+    "term": "Lopeta juominen: Kuivat päivät",
+    "kind": "name",
+    "store": "fi",
+    "rank": "-/0"
+   },
+   {
+    "term": "Raittiuslaskuri & puutarha",
+    "kind": "subtitle",
+    "store": "fi",
+    "rank": "-/0"
+   },
+   {
+    "term": "Lopeta alkoholi: Kuivat päivät",
+    "kind": "old name",
+    "store": "fi",
+    "rank": "-/0"
+   },
+   {
+    "term": "juoda",
+    "kind": "keyword",
+    "store": "fi",
+    "rank": "-/33"
+   },
+   {
+    "term": "vähemmän",
+    "kind": "keyword",
+    "store": "fi",
+    "rank": "-/186"
+   },
+   {
+    "term": "lopettaa",
+    "kind": "keyword",
+    "store": "fi",
+    "rank": "-/36"
+   },
+   {
+    "term": "riippuvuus",
+    "kind": "keyword",
+    "store": "fi",
+    "rank": "-/191"
+   },
+   {
+    "term": "toipuminen",
+    "kind": "keyword",
+    "store": "fi",
+    "rank": "-/58"
+   },
+   {
+    "term": "retkahdus",
+    "kind": "keyword",
+    "store": "fi",
+    "rank": "-/43"
+   },
+   {
+    "term": "himo",
+    "kind": "keyword",
+    "store": "fi",
+    "rank": "-/166"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "fi",
+    "rank": "-/181"
+   },
+   {
+    "term": "tapa",
+    "kind": "keyword",
+    "store": "fi",
+    "rank": "-/170"
+   },
+   {
+    "term": "päiväkirja",
+    "kind": "keyword",
+    "store": "fi",
+    "rank": "-/182"
+   },
+   {
+    "term": "sarja",
+    "kind": "keyword",
+    "store": "fi",
+    "rank": "-/174"
+   },
+   {
+    "term": "kalenteri",
+    "kind": "keyword",
+    "store": "fi",
+    "rank": "-/176"
+   }
+  ],
+  "fr-FR": [
+   {
+    "term": "Arrêter de boire: Jours secs",
+    "kind": "name",
+    "store": "fr",
+    "rank": "-/0"
+   },
+   {
+    "term": "Arrêter de boire: Jours secs",
+    "kind": "name",
+    "store": "us",
+    "rank": "1/73"
+   },
+   {
+    "term": "Compteur sobriété & jardin",
+    "kind": "subtitle",
+    "store": "fr",
+    "rank": "-/184"
+   },
+   {
+    "term": "Compteur sobriété & jardin",
+    "kind": "subtitle",
+    "store": "us",
+    "rank": "17/187"
+   },
+   {
+    "term": "Arrêter alcool: Jours secs",
+    "kind": "old name",
+    "store": "fr",
+    "rank": "-/0"
+   },
+   {
+    "term": "Arrêter alcool: Jours secs",
+    "kind": "old name",
+    "store": "us",
+    "rank": "1/59"
+   },
+   {
+    "term": "moins",
+    "kind": "keyword",
+    "store": "fr",
+    "rank": "-/181"
+   },
+   {
+    "term": "moins",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/154"
+   },
+   {
+    "term": "sevrage",
+    "kind": "keyword",
+    "store": "fr",
+    "rank": "-/196"
+   },
+   {
+    "term": "sevrage",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "100/194"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "fr",
+    "rank": "-/177"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/188"
+   },
+   {
+    "term": "rétablissement",
+    "kind": "keyword",
+    "store": "fr",
+    "rank": "-/60"
+   },
+   {
+    "term": "rétablissement",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "26/156"
+   },
+   {
+    "term": "envie",
+    "kind": "keyword",
+    "store": "fr",
+    "rank": "-/174"
+   },
+   {
+    "term": "envie",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/189"
+   },
+   {
+    "term": "habitude",
+    "kind": "keyword",
+    "store": "fr",
+    "rank": "-/190"
+   },
+   {
+    "term": "habitude",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/183"
+   },
+   {
+    "term": "journal",
+    "kind": "keyword",
+    "store": "fr",
+    "rank": "-/180"
+   },
+   {
+    "term": "journal",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/192"
+   },
+   {
+    "term": "série",
+    "kind": "keyword",
+    "store": "fr",
+    "rank": "-/189"
+   },
+   {
+    "term": "série",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/179"
+   },
+   {
+    "term": "dépendance",
+    "kind": "keyword",
+    "store": "fr",
+    "rank": "-/160"
+   },
+   {
+    "term": "dépendance",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "114/143"
+   },
+   {
+    "term": "rechute",
+    "kind": "keyword",
+    "store": "fr",
+    "rank": "-/192"
+   },
+   {
+    "term": "rechute",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "35/192"
+   },
+   {
+    "term": "humeur",
+    "kind": "keyword",
+    "store": "fr",
+    "rank": "-/188"
+   },
+   {
+    "term": "humeur",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/196"
+   },
+   {
+    "term": "boire",
+    "kind": "dropped keyword",
+    "store": "fr",
+    "rank": "-/169"
+   },
+   {
+    "term": "boire",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/179"
+   }
+  ],
+  "he": [
+   {
+    "term": "הפסקת אלכוהול: ימים יבשים",
+    "kind": "name",
+    "store": "il",
+    "rank": "1/1"
+   },
+   {
+    "term": "מונה התאוששות וגן וירטואלי",
+    "kind": "subtitle",
+    "store": "il",
+    "rank": "1/1"
+   },
+   {
+    "term": "שתייה",
+    "kind": "keyword",
+    "store": "il",
+    "rank": "-/185"
+   },
+   {
+    "term": "פחות",
+    "kind": "keyword",
+    "store": "il",
+    "rank": "96/103"
+   },
+   {
+    "term": "הפסקה",
+    "kind": "keyword",
+    "store": "il",
+    "rank": "148/152"
+   },
+   {
+    "term": "התמכרות",
+    "kind": "keyword",
+    "store": "il",
+    "rank": "-/197"
+   },
+   {
+    "term": "וידג'ט",
+    "kind": "keyword",
+    "store": "il",
+    "rank": "-/193"
+   },
+   {
+    "term": "החלמה",
+    "kind": "keyword",
+    "store": "il",
+    "rank": "56/57"
+   },
+   {
+    "term": "נפילה",
+    "kind": "keyword",
+    "store": "il",
+    "rank": "56/57"
+   },
+   {
+    "term": "תשוקה",
+    "kind": "keyword",
+    "store": "il",
+    "rank": "21/21"
+   },
+   {
+    "term": "הרגל",
+    "kind": "keyword",
+    "store": "il",
+    "rank": "-/187"
+   },
+   {
+    "term": "יומן",
+    "kind": "keyword",
+    "store": "il",
+    "rank": "-/180"
+   },
+   {
+    "term": "רצף",
+    "kind": "keyword",
+    "store": "il",
+    "rank": "-/176"
+   },
+   {
+    "term": "לוח",
+    "kind": "keyword",
+    "store": "il",
+    "rank": "-/180"
+   },
+   {
+    "term": "שנה",
+    "kind": "keyword",
+    "store": "il",
+    "rank": "-/171"
+   },
+   {
+    "term": "גן",
+    "kind": "keyword",
+    "store": "il",
+    "rank": "-/174"
+   },
+   {
+    "term": "בריאות",
+    "kind": "keyword",
+    "store": "il",
+    "rank": "-/175"
+   },
+   {
+    "term": "פרטי",
+    "kind": "keyword",
+    "store": "il",
+    "rank": "-/194"
+   },
+   {
+    "term": "יין",
+    "kind": "keyword",
+    "store": "il",
+    "rank": "-/198"
+   },
+   {
+    "term": "בירה",
+    "kind": "keyword",
+    "store": "il",
+    "rank": "46/55"
+   },
+   {
+    "term": "wine",
+    "kind": "keyword",
+    "store": "il",
+    "rank": "-/189"
+   },
+   {
+    "term": "לוחשנה",
+    "kind": "dropped keyword",
+    "store": "il",
+    "rank": "37/38"
+   }
+  ],
+  "hi": [
+   {
+    "term": "शराब छोड़ें – शुष्क दिन",
+    "kind": "name",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "संयम गिनती और वर्चुअल बगीचा",
+    "kind": "subtitle",
+    "store": "in",
+    "rank": "1/1"
+   },
+   {
+    "term": "शराब छोड़ें – शुष्क दिन अॅप",
+    "kind": "old name",
+    "store": "in",
+    "rank": "1/1"
+   },
+   {
+    "term": "पीना",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "121/190"
+   },
+   {
+    "term": "कम",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/187"
+   },
+   {
+    "term": "छोड़ना",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "23/94"
+   },
+   {
+    "term": "लत",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/182"
+   },
+   {
+    "term": "सुधार",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "114/196"
+   },
+   {
+    "term": "पुनरावृत्ति",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "10/35"
+   },
+   {
+    "term": "लालसा",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "5/21"
+   },
+   {
+    "term": "आदत",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/197"
+   },
+   {
+    "term": "डायरी",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/199"
+   },
+   {
+    "term": "स्ट्रीक",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "89/198"
+   },
+   {
+    "term": "कैलेंडर",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/196"
+   },
+   {
+    "term": "विजेट",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/194"
+   },
+   {
+    "term": "निजी",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/190"
+   },
+   {
+    "term": "वाइन",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/199"
+   },
+   {
+    "term": "streak",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/190"
+   },
+   {
+    "term": "detox",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/193"
+   }
+  ],
+  "hr": [
+   {
+    "term": "Prestani piti: Suhi dani",
+    "kind": "name",
+    "store": "hr",
+    "rank": "-/1"
+   },
+   {
+    "term": "Brojač abstinencije & vrt",
+    "kind": "subtitle",
+    "store": "hr",
+    "rank": "-/0"
+   },
+   {
+    "term": "Prestani piti: Suhi dani & app",
+    "kind": "old name",
+    "store": "hr",
+    "rank": "-/1"
+   },
+   {
+    "term": "manje",
+    "kind": "keyword",
+    "store": "hr",
+    "rank": "-/104"
+   },
+   {
+    "term": "prestati",
+    "kind": "keyword",
+    "store": "hr",
+    "rank": "-/91"
+   },
+   {
+    "term": "ovisnost",
+    "kind": "keyword",
+    "store": "hr",
+    "rank": "-/196"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "hr",
+    "rank": "-/183"
+   },
+   {
+    "term": "oporavak",
+    "kind": "keyword",
+    "store": "hr",
+    "rank": "-/149"
+   },
+   {
+    "term": "relaps",
+    "kind": "keyword",
+    "store": "hr",
+    "rank": "-/180"
+   },
+   {
+    "term": "želja",
+    "kind": "keyword",
+    "store": "hr",
+    "rank": "-/143"
+   },
+   {
+    "term": "raspoloženje",
+    "kind": "keyword",
+    "store": "hr",
+    "rank": "-/193"
+   },
+   {
+    "term": "navika",
+    "kind": "keyword",
+    "store": "hr",
+    "rank": "-/176"
+   },
+   {
+    "term": "dnevnik",
+    "kind": "keyword",
+    "store": "hr",
+    "rank": "-/193"
+   },
+   {
+    "term": "niz",
+    "kind": "keyword",
+    "store": "hr",
+    "rank": "-/159"
+   },
+   {
+    "term": "kalendar",
+    "kind": "keyword",
+    "store": "hr",
+    "rank": "-/178"
+   }
+  ],
+  "hu": [
+   {
+    "term": "Ivás abbahagyása: Száraz napok",
+    "kind": "name",
+    "store": "hu",
+    "rank": "-/0"
+   },
+   {
+    "term": "Józansági számláló & kert",
+    "kind": "subtitle",
+    "store": "hu",
+    "rank": "-/0"
+   },
+   {
+    "term": "Alkohol abbahagy: Száraz napok",
+    "kind": "old name",
+    "store": "hu",
+    "rank": "-/0"
+   },
+   {
+    "term": "Mérsékletességmérő & kert",
+    "kind": "old subtitle",
+    "store": "hu",
+    "rank": "-/0"
+   },
+   {
+    "term": "inni",
+    "kind": "keyword",
+    "store": "hu",
+    "rank": "-/34"
+   },
+   {
+    "term": "kevesebb",
+    "kind": "keyword",
+    "store": "hu",
+    "rank": "-/74"
+   },
+   {
+    "term": "függőség",
+    "kind": "keyword",
+    "store": "hu",
+    "rank": "-/195"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "hu",
+    "rank": "-/176"
+   },
+   {
+    "term": "felépülés",
+    "kind": "keyword",
+    "store": "hu",
+    "rank": "-/39"
+   },
+   {
+    "term": "visszaesés",
+    "kind": "keyword",
+    "store": "hu",
+    "rank": "-/36"
+   },
+   {
+    "term": "vágy",
+    "kind": "keyword",
+    "store": "hu",
+    "rank": "-/179"
+   },
+   {
+    "term": "hangulat",
+    "kind": "keyword",
+    "store": "hu",
+    "rank": "-/186"
+   },
+   {
+    "term": "szokás",
+    "kind": "keyword",
+    "store": "hu",
+    "rank": "-/188"
+   },
+   {
+    "term": "napló",
+    "kind": "keyword",
+    "store": "hu",
+    "rank": "-/179"
+   },
+   {
+    "term": "sorozat",
+    "kind": "keyword",
+    "store": "hu",
+    "rank": "-/182"
+   },
+   {
+    "term": "naptár",
+    "kind": "keyword",
+    "store": "hu",
+    "rank": "-/174"
+   },
+   {
+    "term": "privát",
+    "kind": "keyword",
+    "store": "hu",
+    "rank": "-/190"
+   }
+  ],
+  "it": [
+   {
+    "term": "Smetti di bere: Giorni secchi",
+    "kind": "name",
+    "store": "it",
+    "rank": "-/2"
+   },
+   {
+    "term": "Contatore sobrietà & giardino",
+    "kind": "subtitle",
+    "store": "it",
+    "rank": "-/98"
+   },
+   {
+    "term": "Smetti alcol: Giorni secchi",
+    "kind": "old name",
+    "store": "it",
+    "rank": "-/3"
+   },
+   {
+    "term": "meno",
+    "kind": "keyword",
+    "store": "it",
+    "rank": "-/180"
+   },
+   {
+    "term": "smettere",
+    "kind": "keyword",
+    "store": "it",
+    "rank": "-/188"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "it",
+    "rank": "-/175"
+   },
+   {
+    "term": "dipendenza",
+    "kind": "keyword",
+    "store": "it",
+    "rank": "-/175"
+   },
+   {
+    "term": "recupero",
+    "kind": "keyword",
+    "store": "it",
+    "rank": "-/181"
+   },
+   {
+    "term": "ricaduta",
+    "kind": "keyword",
+    "store": "it",
+    "rank": "-/116"
+   },
+   {
+    "term": "voglia",
+    "kind": "keyword",
+    "store": "it",
+    "rank": "-/175"
+   },
+   {
+    "term": "umore",
+    "kind": "keyword",
+    "store": "it",
+    "rank": "-/178"
+   },
+   {
+    "term": "abitudine",
+    "kind": "keyword",
+    "store": "it",
+    "rank": "-/198"
+   },
+   {
+    "term": "diario",
+    "kind": "keyword",
+    "store": "it",
+    "rank": "-/173"
+   },
+   {
+    "term": "serie",
+    "kind": "keyword",
+    "store": "it",
+    "rank": "-/188"
+   },
+   {
+    "term": "salute",
+    "kind": "keyword",
+    "store": "it",
+    "rank": "-/166"
+   },
+   {
+    "term": "bere",
+    "kind": "dropped keyword",
+    "store": "it",
+    "rank": "-/178"
+   }
+  ],
+  "ja": [
+   {
+    "term": "アルコール禁酒・ドライデイ追跡SOBER",
+    "kind": "name",
+    "store": "jp",
+    "rank": "1/1"
+   },
+   {
+    "term": "無アルコール日数カウンター・バーチャル庭園",
+    "kind": "subtitle",
+    "store": "jp",
+    "rank": "1/1"
+   },
+   {
+    "term": "アルコール禁酒・ドライデイ追跡SOBERアプリ版APP",
+    "kind": "old name",
+    "store": "jp",
+    "rank": "1/1"
+   },
+   {
+    "term": "無アルコール日数カウンター・バーチャル庭園SOBER版",
+    "kind": "old subtitle",
+    "store": "jp",
+    "rank": "1/1"
+   },
+   {
+    "term": "飲む",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/164"
+   },
+   {
+    "term": "減らす",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/184"
+   },
+   {
+    "term": "依存",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/191"
+   },
+   {
+    "term": "断酒",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/179"
+   },
+   {
+    "term": "回復",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/173"
+   },
+   {
+    "term": "再発",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "58/73"
+   },
+   {
+    "term": "渇望",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "31/57"
+   },
+   {
+    "term": "習慣",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/182"
+   },
+   {
+    "term": "日記",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/182"
+   },
+   {
+    "term": "連続",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/152"
+   },
+   {
+    "term": "記録",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/167"
+   },
+   {
+    "term": "カレンダー",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/176"
+   },
+   {
+    "term": "ウィジェット",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/186"
+   },
+   {
+    "term": "健康",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/162"
+   },
+   {
+    "term": "非公開",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/184"
+   },
+   {
+    "term": "ワイン",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/173"
+   },
+   {
+    "term": "ビール",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/153"
+   },
+   {
+    "term": "成長",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/185"
+   },
+   {
+    "term": "dryday",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "6/7"
+   },
+   {
+    "term": "フリー",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/196"
+   },
+   {
+    "term": "禁酒",
+    "kind": "dropped keyword",
+    "store": "jp",
+    "rank": "-/190"
+   },
+   {
+    "term": "庭",
+    "kind": "dropped keyword",
+    "store": "jp",
+    "rank": "-/163"
+   },
+   {
+    "term": "ドライ",
+    "kind": "dropped keyword",
+    "store": "jp",
+    "rank": "-/172"
+   },
+   {
+    "term": "デイ",
+    "kind": "dropped keyword",
+    "store": "jp",
+    "rank": "-/188"
+   },
+   {
+    "term": "追跡",
+    "kind": "dropped keyword",
+    "store": "jp",
+    "rank": "-/183"
+   },
+   {
+    "term": "アプリ",
+    "kind": "dropped keyword",
+    "store": "jp",
+    "rank": "-/175"
+   },
+   {
+    "term": "ツール",
+    "kind": "dropped keyword",
+    "store": "jp",
+    "rank": "-/158"
+   },
+   {
+    "term": "休肝日",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/193"
+   },
+   {
+    "term": "減酒",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/174"
+   },
+   {
+    "term": "飲酒",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/179"
+   },
+   {
+    "term": "お酒",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/172"
+   },
+   {
+    "term": "目標",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/186"
+   },
+   {
+    "term": "気分",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/185"
+   },
+   {
+    "term": "呼吸",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/174"
+   },
+   {
+    "term": "盆栽",
+    "kind": "keyword",
+    "store": "jp",
+    "rank": "-/176"
+   }
+  ],
+  "ko": [
+   {
+    "term": "금주 알코올 드라이데이 추적",
+    "kind": "name",
+    "store": "kr",
+    "rank": "6/17"
+   },
+   {
+    "term": "금주 알코올 드라이데이 추적",
+    "kind": "name",
+    "store": "us",
+    "rank": "1/4"
+   },
+   {
+    "term": "무알코올 일수 카운터 & 가상 정원 성장",
+    "kind": "subtitle",
+    "store": "kr",
+    "rank": "2/2"
+   },
+   {
+    "term": "무알코올 일수 카운터 & 가상 정원 성장",
+    "kind": "subtitle",
+    "store": "us",
+    "rank": "1/2"
+   },
+   {
+    "term": "금주 알코올 드라이데이 추적 앱 프로그램 도구",
+    "kind": "old name",
+    "store": "kr",
+    "rank": "1/17"
+   },
+   {
+    "term": "금주 알코올 드라이데이 추적 앱 프로그램 도구",
+    "kind": "old name",
+    "store": "us",
+    "rank": "1/4"
+   },
+   {
+    "term": "무알코올 프리 일수 카운터 & 가상 정원 성장",
+    "kind": "old subtitle",
+    "store": "kr",
+    "rank": "2/2"
+   },
+   {
+    "term": "무알코올 프리 일수 카운터 & 가상 정원 성장",
+    "kind": "old subtitle",
+    "store": "us",
+    "rank": "1/2"
+   },
+   {
+    "term": "마시다",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "9/9"
+   },
+   {
+    "term": "마시다",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "8/9"
+   },
+   {
+    "term": "줄이다",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "15/17"
+   },
+   {
+    "term": "줄이다",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "7/17"
+   },
+   {
+    "term": "끊다",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "18/21"
+   },
+   {
+    "term": "끊다",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "7/21"
+   },
+   {
+    "term": "중독",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "-/168"
+   },
+   {
+    "term": "중독",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/179"
+   },
+   {
+    "term": "절주",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "151/191"
+   },
+   {
+    "term": "절주",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "45/194"
+   },
+   {
+    "term": "회복",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "-/187"
+   },
+   {
+    "term": "회복",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "176/184"
+   },
+   {
+    "term": "재발",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "42/76"
+   },
+   {
+    "term": "재발",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "7/76"
+   },
+   {
+    "term": "갈망",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "59/100"
+   },
+   {
+    "term": "갈망",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "13/99"
+   },
+   {
+    "term": "습관",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "-/185"
+   },
+   {
+    "term": "습관",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/184"
+   },
+   {
+    "term": "일기",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "-/185"
+   },
+   {
+    "term": "일기",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/177"
+   },
+   {
+    "term": "연속",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "-/172"
+   },
+   {
+    "term": "연속",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/167"
+   },
+   {
+    "term": "기록",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "-/181"
+   },
+   {
+    "term": "기록",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/172"
+   },
+   {
+    "term": "캘린더",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "-/181"
+   },
+   {
+    "term": "캘린더",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/184"
+   },
+   {
+    "term": "위젯",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "-/173"
+   },
+   {
+    "term": "위젯",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/172"
+   },
+   {
+    "term": "건강",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "-/175"
+   },
+   {
+    "term": "건강",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/165"
+   },
+   {
+    "term": "비공개",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "-/187"
+   },
+   {
+    "term": "비공개",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/189"
+   },
+   {
+    "term": "와인",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "-/164"
+   },
+   {
+    "term": "와인",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "107/177"
+   },
+   {
+    "term": "맥주",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "144/166"
+   },
+   {
+    "term": "맥주",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "55/146"
+   },
+   {
+    "term": "sober",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "50/195"
+   },
+   {
+    "term": "sober",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "32/197"
+   },
+   {
+    "term": "dryday",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "6/7"
+   },
+   {
+    "term": "dryday",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "16/58"
+   },
+   {
+    "term": "절제",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "-/198"
+   },
+   {
+    "term": "절제",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "51/195"
+   },
+   {
+    "term": "체크인",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "-/173"
+   },
+   {
+    "term": "체크인",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "87/174"
+   },
+   {
+    "term": "드라이",
+    "kind": "dropped keyword",
+    "store": "kr",
+    "rank": "-/195"
+   },
+   {
+    "term": "드라이",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "4/174"
+   },
+   {
+    "term": "데이",
+    "kind": "dropped keyword",
+    "store": "kr",
+    "rank": "-/172"
+   },
+   {
+    "term": "데이",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "52/183"
+   },
+   {
+    "term": "성장앱",
+    "kind": "dropped keyword",
+    "store": "kr",
+    "rank": "-/184"
+   },
+   {
+    "term": "성장앱",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "12/180"
+   },
+   {
+    "term": "서비스",
+    "kind": "dropped keyword",
+    "store": "kr",
+    "rank": "-/182"
+   },
+   {
+    "term": "서비스",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/182"
+   },
+   {
+    "term": "솔루션",
+    "kind": "dropped keyword",
+    "store": "kr",
+    "rank": "-/159"
+   },
+   {
+    "term": "솔루션",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "101/126"
+   },
+   {
+    "term": "단주",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "-/146"
+   },
+   {
+    "term": "단주",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/99"
+   },
+   {
+    "term": "음주",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "-/170"
+   },
+   {
+    "term": "음주",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/164"
+   },
+   {
+    "term": "디데이",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "-/186"
+   },
+   {
+    "term": "디데이",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/196"
+   },
+   {
+    "term": "달력",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "-/182"
+   },
+   {
+    "term": "달력",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/176"
+   },
+   {
+    "term": "목표",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "-/190"
+   },
+   {
+    "term": "목표",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/192"
+   },
+   {
+    "term": "호흡",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "-/192"
+   },
+   {
+    "term": "호흡",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/194"
+   },
+   {
+    "term": "기분",
+    "kind": "keyword",
+    "store": "kr",
+    "rank": "-/180"
+   },
+   {
+    "term": "기분",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/188"
+   }
+  ],
+  "ml-IN": [
+   {
+    "term": "മദ്യം നിർത്തുക – ഉണങ്ങിയ ദിവസം",
+    "kind": "name",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "സംയമ എണ്ണം & വെർച്വൽ തോട്ടം",
+    "kind": "subtitle",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "കുടിക്കൽ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "കുറവ്",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "നിർത്തൽ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ആസക്തി",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "വിഡ്ജറ്റ്",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "വീണ്ടെടുക്കൽ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "വീഴ്ച",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ആഗ്രഹം",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ശീലം",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ഡയറി",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "സീരീസ്",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "കലണ്ടർ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "streak",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/190"
+   }
+  ],
+  "mr-IN": [
+   {
+    "term": "दारू सोडा – कोरडे दिवस",
+    "kind": "name",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "संयम मोजणी आणि वर्चुअल बाग",
+    "kind": "subtitle",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "दारू सोडा – कोरडे दिवस अॅप",
+    "kind": "old name",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "पिणे",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/9"
+   },
+   {
+    "term": "कमी",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/186"
+   },
+   {
+    "term": "सोडणे",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "व्यसन",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/34"
+   },
+   {
+    "term": "विजेट",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/194"
+   },
+   {
+    "term": "पुनर्प्राप्ती",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/15"
+   },
+   {
+    "term": "पुनरावृत्ती",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "11/35"
+   },
+   {
+    "term": "तळमळ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "सवय",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/49"
+   },
+   {
+    "term": "डायरी",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/199"
+   },
+   {
+    "term": "मालिका",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/103"
+   },
+   {
+    "term": "दिनदर्शिका",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/5"
+   },
+   {
+    "term": "आरोग्य",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/14"
+   },
+   {
+    "term": "खाजगी",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   }
+  ],
+  "no": [
+   {
+    "term": "Slutt med alkohol: Tørre dager",
+    "kind": "name",
+    "store": "no",
+    "rank": "1/7"
+   },
+   {
+    "term": "Dagteller & virtuell hage",
+    "kind": "subtitle",
+    "store": "no",
+    "rank": "-/0"
+   },
+   {
+    "term": "Gjenoppretting & virtuell hage",
+    "kind": "old subtitle",
+    "store": "no",
+    "rank": "1/1"
+   },
+   {
+    "term": "drikke",
+    "kind": "keyword",
+    "store": "no",
+    "rank": "-/164"
+   },
+   {
+    "term": "mindre",
+    "kind": "keyword",
+    "store": "no",
+    "rank": "186/191"
+   },
+   {
+    "term": "avhengighet",
+    "kind": "keyword",
+    "store": "no",
+    "rank": "71/181"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "no",
+    "rank": "-/175"
+   },
+   {
+    "term": "bedring",
+    "kind": "keyword",
+    "store": "no",
+    "rank": "104/168"
+   },
+   {
+    "term": "tilbakefall",
+    "kind": "keyword",
+    "store": "no",
+    "rank": "12/55"
+   },
+   {
+    "term": "sug",
+    "kind": "keyword",
+    "store": "no",
+    "rank": "60/166"
+   },
+   {
+    "term": "humør",
+    "kind": "keyword",
+    "store": "no",
+    "rank": "-/163"
+   },
+   {
+    "term": "vane",
+    "kind": "keyword",
+    "store": "no",
+    "rank": "-/196"
+   },
+   {
+    "term": "dagbok",
+    "kind": "keyword",
+    "store": "no",
+    "rank": "-/169"
+   },
+   {
+    "term": "serie",
+    "kind": "keyword",
+    "store": "no",
+    "rank": "-/186"
+   },
+   {
+    "term": "kalender",
+    "kind": "keyword",
+    "store": "no",
+    "rank": "-/171"
+   },
+   {
+    "term": "helse",
+    "kind": "keyword",
+    "store": "no",
+    "rank": "-/154"
+   }
+  ],
+  "pa-IN": [
+   {
+    "term": "ਸ਼ਰਾਬ ਛੱਡੋ – ਸੁੱਕੇ ਦਿਨ",
+    "kind": "name",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ਸੰਜਮ ਗਿਣਤੀ & ਵਰਚੁਅਲ ਬਾਗ",
+    "kind": "subtitle",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ਸ਼ਰਾਬ ਛੱਡੋ – ਸੁੱਕੇ ਦਿਨ ਐਪ",
+    "kind": "old name",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ਅਨੁਸ਼ਾਸਨ ਗਿਣਤੀ & ਵਰਚੁਅਲ ਬਾਗ",
+    "kind": "old subtitle",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ਪੀਣਾ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ਘੱਟ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ਛੱਡਣਾ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ਆਦੀ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ਸਿਹਤਯਾਬੀ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ਮੁੜ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ਤਲਬ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ਆਦਤ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ਡਾਇਰੀ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/1"
+   },
+   {
+    "term": "ਲੜੀ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ਕੈਲੰਡਰ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ਸਿਹਤ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ਨਿੱਜੀ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "streak",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/190"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/182"
+   },
+   {
+    "term": "wine",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/194"
+   },
+   {
+    "term": "ਸੰਜਮ",
+    "kind": "dropped keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ਬਰਾਮਦਗੀ",
+    "kind": "dropped keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ਤਰਸ",
+    "kind": "dropped keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ਲਕੀਰ",
+    "kind": "dropped keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "calendar",
+    "kind": "dropped keyword",
+    "store": "in",
+    "rank": "-/187"
+   },
+   {
+    "term": "ਨਸ਼ਾ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ਮੂਡ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ਟੀਚਾ",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   }
+  ],
+  "pt-BR": [
+   {
+    "term": "Parar de beber: Dias secos",
+    "kind": "name",
+    "store": "br",
+    "rank": "2/11"
+   },
+   {
+    "term": "Parar de beber: Dias secos",
+    "kind": "name",
+    "store": "us",
+    "rank": "3/115"
+   },
+   {
+    "term": "Contador recuperação & jardim",
+    "kind": "subtitle",
+    "store": "br",
+    "rank": "8/47"
+   },
+   {
+    "term": "Contador recuperação & jardim",
+    "kind": "subtitle",
+    "store": "us",
+    "rank": "2/142"
+   },
+   {
+    "term": "Parar álcool: Dias secos & app",
+    "kind": "old name",
+    "store": "br",
+    "rank": "1/19"
+   },
+   {
+    "term": "Parar álcool: Dias secos & app",
+    "kind": "old name",
+    "store": "us",
+    "rank": "1/156"
+   },
+   {
+    "term": "menos",
+    "kind": "keyword",
+    "store": "br",
+    "rank": "-/193"
+   },
+   {
+    "term": "menos",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/170"
+   },
+   {
+    "term": "dependência",
+    "kind": "keyword",
+    "store": "br",
+    "rank": "96/124"
+   },
+   {
+    "term": "dependência",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "36/164"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "br",
+    "rank": "-/173"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/188"
+   },
+   {
+    "term": "recaída",
+    "kind": "keyword",
+    "store": "br",
+    "rank": "121/158"
+   },
+   {
+    "term": "recaída",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "31/172"
+   },
+   {
+    "term": "vontade",
+    "kind": "keyword",
+    "store": "br",
+    "rank": "-/183"
+   },
+   {
+    "term": "vontade",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "28/180"
+   },
+   {
+    "term": "humor",
+    "kind": "keyword",
+    "store": "br",
+    "rank": "-/179"
+   },
+   {
+    "term": "humor",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/154"
+   },
+   {
+    "term": "diário",
+    "kind": "keyword",
+    "store": "br",
+    "rank": "-/184"
+   },
+   {
+    "term": "diário",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/173"
+   },
+   {
+    "term": "série",
+    "kind": "keyword",
+    "store": "br",
+    "rank": "-/190"
+   },
+   {
+    "term": "série",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/179"
+   },
+   {
+    "term": "calendário",
+    "kind": "keyword",
+    "store": "br",
+    "rank": "-/179"
+   },
+   {
+    "term": "calendário",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/170"
+   },
+   {
+    "term": "saúde",
+    "kind": "keyword",
+    "store": "br",
+    "rank": "-/179"
+   },
+   {
+    "term": "saúde",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/165"
+   },
+   {
+    "term": "privado",
+    "kind": "keyword",
+    "store": "br",
+    "rank": "-/189"
+   },
+   {
+    "term": "privado",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/188"
+   },
+   {
+    "term": "wine",
+    "kind": "keyword",
+    "store": "br",
+    "rank": "-/193"
+   },
+   {
+    "term": "wine",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/196"
+   },
+   {
+    "term": "beber",
+    "kind": "dropped keyword",
+    "store": "br",
+    "rank": "-/149"
+   },
+   {
+    "term": "beber",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/137"
+   },
+   {
+    "term": "serie",
+    "kind": "dropped keyword",
+    "store": "br",
+    "rank": "-/188"
+   },
+   {
+    "term": "serie",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/182"
+   },
+   {
+    "term": "álcool",
+    "kind": "keyword",
+    "store": "br",
+    "rank": "69/179"
+   },
+   {
+    "term": "álcool",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "54/180"
+   },
+   {
+    "term": "sem",
+    "kind": "keyword",
+    "store": "br",
+    "rank": "-/181"
+   },
+   {
+    "term": "sem",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/185"
+   }
+  ],
+  "pt-PT": [
+   {
+    "term": "Parar de beber: Dias secos",
+    "kind": "name",
+    "store": "pt",
+    "rank": "-/4"
+   },
+   {
+    "term": "Contador recuperação & jardim",
+    "kind": "subtitle",
+    "store": "pt",
+    "rank": "-/20"
+   },
+   {
+    "term": "Parar álcool: Dias secos & app",
+    "kind": "old name",
+    "store": "pt",
+    "rank": "-/9"
+   },
+   {
+    "term": "menos",
+    "kind": "keyword",
+    "store": "pt",
+    "rank": "-/187"
+   },
+   {
+    "term": "dependência",
+    "kind": "keyword",
+    "store": "pt",
+    "rank": "-/129"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "pt",
+    "rank": "-/182"
+   },
+   {
+    "term": "recaída",
+    "kind": "keyword",
+    "store": "pt",
+    "rank": "-/94"
+   },
+   {
+    "term": "vontade",
+    "kind": "keyword",
+    "store": "pt",
+    "rank": "-/109"
+   },
+   {
+    "term": "humor",
+    "kind": "keyword",
+    "store": "pt",
+    "rank": "-/183"
+   },
+   {
+    "term": "diário",
+    "kind": "keyword",
+    "store": "pt",
+    "rank": "-/180"
+   },
+   {
+    "term": "série",
+    "kind": "keyword",
+    "store": "pt",
+    "rank": "-/182"
+   },
+   {
+    "term": "calendário",
+    "kind": "keyword",
+    "store": "pt",
+    "rank": "-/178"
+   },
+   {
+    "term": "saúde",
+    "kind": "keyword",
+    "store": "pt",
+    "rank": "-/186"
+   },
+   {
+    "term": "privado",
+    "kind": "keyword",
+    "store": "pt",
+    "rank": "-/184"
+   },
+   {
+    "term": "wine",
+    "kind": "keyword",
+    "store": "pt",
+    "rank": "-/176"
+   },
+   {
+    "term": "beber",
+    "kind": "dropped keyword",
+    "store": "pt",
+    "rank": "-/152"
+   },
+   {
+    "term": "serie",
+    "kind": "dropped keyword",
+    "store": "pt",
+    "rank": "-/190"
+   },
+   {
+    "term": "álcool",
+    "kind": "keyword",
+    "store": "pt",
+    "rank": "-/146"
+   },
+   {
+    "term": "sem",
+    "kind": "keyword",
+    "store": "pt",
+    "rank": "-/176"
+   }
+  ],
+  "ro": [
+   {
+    "term": "Renunță la alcool: Zile uscate",
+    "kind": "name",
+    "store": "ro",
+    "rank": "-/2"
+   },
+   {
+    "term": "Contor recuperare & grădină",
+    "kind": "subtitle",
+    "store": "ro",
+    "rank": "-/19"
+   },
+   {
+    "term": "Oprește alcool: Zile uscate",
+    "kind": "old name",
+    "store": "ro",
+    "rank": "-/0"
+   },
+   {
+    "term": "bea",
+    "kind": "keyword",
+    "store": "ro",
+    "rank": "-/190"
+   },
+   {
+    "term": "puțin",
+    "kind": "keyword",
+    "store": "ro",
+    "rank": "-/143"
+   },
+   {
+    "term": "opri",
+    "kind": "keyword",
+    "store": "ro",
+    "rank": "-/45"
+   },
+   {
+    "term": "dependență",
+    "kind": "keyword",
+    "store": "ro",
+    "rank": "-/193"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "ro",
+    "rank": "-/178"
+   },
+   {
+    "term": "recădere",
+    "kind": "keyword",
+    "store": "ro",
+    "rank": "-/41"
+   },
+   {
+    "term": "poftă",
+    "kind": "keyword",
+    "store": "ro",
+    "rank": "-/110"
+   },
+   {
+    "term": "dispoziție",
+    "kind": "keyword",
+    "store": "ro",
+    "rank": "-/184"
+   },
+   {
+    "term": "obicei",
+    "kind": "keyword",
+    "store": "ro",
+    "rank": "-/186"
+   },
+   {
+    "term": "jurnal",
+    "kind": "keyword",
+    "store": "ro",
+    "rank": "-/174"
+   },
+   {
+    "term": "serie",
+    "kind": "keyword",
+    "store": "ro",
+    "rank": "-/184"
+   },
+   {
+    "term": "calendar",
+    "kind": "keyword",
+    "store": "ro",
+    "rank": "-/176"
+   },
+   {
+    "term": "vin",
+    "kind": "keyword",
+    "store": "ro",
+    "rank": "-/184"
+   },
+   {
+    "term": "maipuțin",
+    "kind": "dropped keyword",
+    "store": "ro",
+    "rank": "-/0"
+   }
+  ],
+  "sk": [
+   {
+    "term": "Prestaň piť: Suché dni",
+    "kind": "name",
+    "store": "sk",
+    "rank": "-/1"
+   },
+   {
+    "term": "Počítadlo zotavenia & záhrada",
+    "kind": "subtitle",
+    "store": "sk",
+    "rank": "-/0"
+   },
+   {
+    "term": "Prestaň piť: Suché dni & app",
+    "kind": "old name",
+    "store": "sk",
+    "rank": "-/5"
+   },
+   {
+    "term": "menej",
+    "kind": "keyword",
+    "store": "sk",
+    "rank": "-/82"
+   },
+   {
+    "term": "prestať",
+    "kind": "keyword",
+    "store": "sk",
+    "rank": "-/183"
+   },
+   {
+    "term": "závislosť",
+    "kind": "keyword",
+    "store": "sk",
+    "rank": "-/196"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "sk",
+    "rank": "-/182"
+   },
+   {
+    "term": "zotavenie",
+    "kind": "keyword",
+    "store": "sk",
+    "rank": "-/41"
+   },
+   {
+    "term": "relaps",
+    "kind": "keyword",
+    "store": "sk",
+    "rank": "-/176"
+   },
+   {
+    "term": "chuť",
+    "kind": "keyword",
+    "store": "sk",
+    "rank": "-/141"
+   },
+   {
+    "term": "nálada",
+    "kind": "keyword",
+    "store": "sk",
+    "rank": "-/192"
+   },
+   {
+    "term": "zvyk",
+    "kind": "keyword",
+    "store": "sk",
+    "rank": "-/190"
+   },
+   {
+    "term": "denník",
+    "kind": "keyword",
+    "store": "sk",
+    "rank": "-/188"
+   },
+   {
+    "term": "séria",
+    "kind": "keyword",
+    "store": "sk",
+    "rank": "-/177"
+   },
+   {
+    "term": "kalendár",
+    "kind": "keyword",
+    "store": "sk",
+    "rank": "-/183"
+   },
+   {
+    "term": "zdravie",
+    "kind": "keyword",
+    "store": "sk",
+    "rank": "-/163"
+   }
+  ],
+  "sl-SI": [
+   {
+    "term": "Nehaj piti: Suhi dnevi",
+    "kind": "name",
+    "store": "si",
+    "rank": "-/0"
+   },
+   {
+    "term": "Števec abstinence & vrt",
+    "kind": "subtitle",
+    "store": "si",
+    "rank": "-/0"
+   },
+   {
+    "term": "Nehaj piti: Suhi dnevi & app",
+    "kind": "old name",
+    "store": "si",
+    "rank": "-/0"
+   },
+   {
+    "term": "Števec abstinence & virtualni",
+    "kind": "old subtitle",
+    "store": "si",
+    "rank": "-/0"
+   },
+   {
+    "term": "manj",
+    "kind": "keyword",
+    "store": "si",
+    "rank": "-/7"
+   },
+   {
+    "term": "nehati",
+    "kind": "keyword",
+    "store": "si",
+    "rank": "-/1"
+   },
+   {
+    "term": "odvisnost",
+    "kind": "keyword",
+    "store": "si",
+    "rank": "-/0"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "si",
+    "rank": "-/180"
+   },
+   {
+    "term": "okrevanje",
+    "kind": "keyword",
+    "store": "si",
+    "rank": "-/0"
+   },
+   {
+    "term": "ponovitev",
+    "kind": "keyword",
+    "store": "si",
+    "rank": "-/0"
+   },
+   {
+    "term": "želja",
+    "kind": "keyword",
+    "store": "si",
+    "rank": "-/1"
+   },
+   {
+    "term": "razpoloženje",
+    "kind": "keyword",
+    "store": "si",
+    "rank": "-/1"
+   },
+   {
+    "term": "navada",
+    "kind": "keyword",
+    "store": "si",
+    "rank": "-/74"
+   },
+   {
+    "term": "dnevnik",
+    "kind": "keyword",
+    "store": "si",
+    "rank": "-/80"
+   },
+   {
+    "term": "niz",
+    "kind": "keyword",
+    "store": "si",
+    "rank": "-/132"
+   },
+   {
+    "term": "koledar",
+    "kind": "keyword",
+    "store": "si",
+    "rank": "-/186"
+   }
+  ],
+  "ta-IN": [
+   {
+    "term": "மது விடு – உலர் நாள் டிராக்கர்",
+    "kind": "name",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "தவிர்ப்பு எண்ணிக்கை & தோட்டம்",
+    "kind": "subtitle",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "குடிப்பது",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "குறைவு",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "அடிமை",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "மீட்பு",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "ஏக்கம்",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "பழக்கம்",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "டைரி",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/1"
+   },
+   {
+    "term": "தொடர்",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "நாட்காட்டி",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/1"
+   },
+   {
+    "term": "விட்ஜெட்",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "தனிப்பட்ட",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "மீள்தொற்று",
+    "kind": "dropped keyword",
+    "store": "in",
+    "rank": "-/0"
+   },
+   {
+    "term": "மனநிலை",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/1"
+   },
+   {
+    "term": "பணம்",
+    "kind": "keyword",
+    "store": "in",
+    "rank": "-/1"
+   }
+  ],
+  "th": [
+   {
+    "term": "เลิกแอลกอฮอล์: วันแห้ง",
+    "kind": "name",
+    "store": "th",
+    "rank": "1/2"
+   },
+   {
+    "term": "นับวันไม่ดื่ม & สวนเสมือน",
+    "kind": "subtitle",
+    "store": "th",
+    "rank": "1/1"
+   },
+   {
+    "term": "เลิกแอลกอฮอล์: วันแห้ง & app",
+    "kind": "old name",
+    "store": "th",
+    "rank": "1/2"
+   },
+   {
+    "term": "น้อยลง",
+    "kind": "keyword",
+    "store": "th",
+    "rank": "29/46"
+   },
+   {
+    "term": "ติด",
+    "kind": "keyword",
+    "store": "th",
+    "rank": "-/184"
+   },
+   {
+    "term": "งด",
+    "kind": "keyword",
+    "store": "th",
+    "rank": "31/87"
+   },
+   {
+    "term": "ฟื้นตัว",
+    "kind": "keyword",
+    "store": "th",
+    "rank": "47/72"
+   },
+   {
+    "term": "กลับมา",
+    "kind": "keyword",
+    "store": "th",
+    "rank": "56/84"
+   },
+   {
+    "term": "ความอยาก",
+    "kind": "keyword",
+    "store": "th",
+    "rank": "26/69"
+   },
+   {
+    "term": "นิสัย",
+    "kind": "keyword",
+    "store": "th",
+    "rank": "-/193"
+   },
+   {
+    "term": "ไดอารี่",
+    "kind": "keyword",
+    "store": "th",
+    "rank": "-/175"
+   },
+   {
+    "term": "สตรีค",
+    "kind": "keyword",
+    "store": "th",
+    "rank": "-/168"
+   },
+   {
+    "term": "ปฏิทิน",
+    "kind": "keyword",
+    "store": "th",
+    "rank": "-/176"
+   },
+   {
+    "term": "วิดเจ็ต",
+    "kind": "keyword",
+    "store": "th",
+    "rank": "-/185"
+   },
+   {
+    "term": "ส่วนตัว",
+    "kind": "keyword",
+    "store": "th",
+    "rank": "-/181"
+   },
+   {
+    "term": "ไวน์",
+    "kind": "keyword",
+    "store": "th",
+    "rank": "-/175"
+   },
+   {
+    "term": "เบียร์",
+    "kind": "keyword",
+    "store": "th",
+    "rank": "-/165"
+   },
+   {
+    "term": "wine",
+    "kind": "keyword",
+    "store": "th",
+    "rank": "-/182"
+   }
+  ],
+  "tr": [
+   {
+    "term": "Alkolü Bırak: Kuru Günler",
+    "kind": "name",
+    "store": "tr",
+    "rank": "-/0"
+   },
+   {
+    "term": "Ayıklık sayacı & bahçe",
+    "kind": "subtitle",
+    "store": "tr",
+    "rank": "1/1"
+   },
+   {
+    "term": "Bırak alkol: Kuru günler & app",
+    "kind": "old name",
+    "store": "tr",
+    "rank": "1/30"
+   },
+   {
+    "term": "Bağımlılık sayacı & bahçe",
+    "kind": "old subtitle",
+    "store": "tr",
+    "rank": "63/190"
+   },
+   {
+    "term": "içmek",
+    "kind": "keyword",
+    "store": "tr",
+    "rank": "-/156"
+   },
+   {
+    "term": "az",
+    "kind": "keyword",
+    "store": "tr",
+    "rank": "-/185"
+   },
+   {
+    "term": "bağımlılık",
+    "kind": "keyword",
+    "store": "tr",
+    "rank": "-/162"
+   },
+   {
+    "term": "iyileşme",
+    "kind": "keyword",
+    "store": "tr",
+    "rank": "-/175"
+   },
+   {
+    "term": "nüks",
+    "kind": "keyword",
+    "store": "tr",
+    "rank": "63/77"
+   },
+   {
+    "term": "istek",
+    "kind": "keyword",
+    "store": "tr",
+    "rank": "-/180"
+   },
+   {
+    "term": "ruh",
+    "kind": "keyword",
+    "store": "tr",
+    "rank": "-/187"
+   },
+   {
+    "term": "hali",
+    "kind": "keyword",
+    "store": "tr",
+    "rank": "-/185"
+   },
+   {
+    "term": "alışkanlık",
+    "kind": "keyword",
+    "store": "tr",
+    "rank": "-/194"
+   },
+   {
+    "term": "günlük",
+    "kind": "keyword",
+    "store": "tr",
+    "rank": "-/184"
+   },
+   {
+    "term": "dizi",
+    "kind": "keyword",
+    "store": "tr",
+    "rank": "-/190"
+   },
+   {
+    "term": "takvim",
+    "kind": "keyword",
+    "store": "tr",
+    "rank": "-/183"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "tr",
+    "rank": "-/178"
+   },
+   {
+    "term": "özel",
+    "kind": "keyword",
+    "store": "tr",
+    "rank": "-/189"
+   },
+   {
+    "term": "şarap",
+    "kind": "keyword",
+    "store": "tr",
+    "rank": "-/192"
+   },
+   {
+    "term": "ayıklık",
+    "kind": "dropped keyword",
+    "store": "tr",
+    "rank": "52/93"
+   },
+   {
+    "term": "ruhhali",
+    "kind": "dropped keyword",
+    "store": "tr",
+    "rank": "12/23"
+   },
+   {
+    "term": "bira",
+    "kind": "dropped keyword",
+    "store": "tr",
+    "rank": "-/189"
+   }
+  ],
+  "ur-PK": [
+   {
+    "term": "شراب چھوڑیں – خشک دن ٹریکر",
+    "kind": "name",
+    "store": "pk",
+    "rank": "-/0"
+   },
+   {
+    "term": "پرہیز گنتی اور ورچوئل باغ",
+    "kind": "subtitle",
+    "store": "pk",
+    "rank": "-/0"
+   },
+   {
+    "term": "شراب چھوڑیں – خشک دن ٹریکر ایپ",
+    "kind": "old name",
+    "store": "pk",
+    "rank": "-/0"
+   },
+   {
+    "term": "پینا",
+    "kind": "keyword",
+    "store": "pk",
+    "rank": "-/198"
+   },
+   {
+    "term": "کم",
+    "kind": "keyword",
+    "store": "pk",
+    "rank": "-/197"
+   },
+   {
+    "term": "چھوڑنا",
+    "kind": "keyword",
+    "store": "pk",
+    "rank": "-/198"
+   },
+   {
+    "term": "نشہ",
+    "kind": "keyword",
+    "store": "pk",
+    "rank": "-/132"
+   },
+   {
+    "term": "بحالی",
+    "kind": "keyword",
+    "store": "pk",
+    "rank": "-/2"
+   },
+   {
+    "term": "دوبارہ",
+    "kind": "keyword",
+    "store": "pk",
+    "rank": "-/132"
+   },
+   {
+    "term": "آرزو",
+    "kind": "keyword",
+    "store": "pk",
+    "rank": "-/166"
+   },
+   {
+    "term": "عادت",
+    "kind": "keyword",
+    "store": "pk",
+    "rank": "-/190"
+   },
+   {
+    "term": "ڈائری",
+    "kind": "keyword",
+    "store": "pk",
+    "rank": "-/199"
+   },
+   {
+    "term": "سلسلہ",
+    "kind": "keyword",
+    "store": "pk",
+    "rank": "-/49"
+   },
+   {
+    "term": "کیلنڈر",
+    "kind": "keyword",
+    "store": "pk",
+    "rank": "-/176"
+   },
+   {
+    "term": "صحت",
+    "kind": "keyword",
+    "store": "pk",
+    "rank": "-/169"
+   },
+   {
+    "term": "نجی",
+    "kind": "keyword",
+    "store": "pk",
+    "rank": "-/190"
+   },
+   {
+    "term": "streak",
+    "kind": "keyword",
+    "store": "pk",
+    "rank": "-/193"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "pk",
+    "rank": "-/183"
+   },
+   {
+    "term": "calendar",
+    "kind": "keyword",
+    "store": "pk",
+    "rank": "-/184"
+   },
+   {
+    "term": "health",
+    "kind": "keyword",
+    "store": "pk",
+    "rank": "-/174"
+   }
+  ],
+  "vi": [
+   {
+    "term": "Bỏ rượu: Ngày khô",
+    "kind": "name",
+    "store": "vn",
+    "rank": "1/1"
+   },
+   {
+    "term": "Bỏ rượu: Ngày khô",
+    "kind": "name",
+    "store": "us",
+    "rank": "1/1"
+   },
+   {
+    "term": "Đếm phục hồi & khu vườn ảo",
+    "kind": "subtitle",
+    "store": "vn",
+    "rank": "2/9"
+   },
+   {
+    "term": "Đếm phục hồi & khu vườn ảo",
+    "kind": "subtitle",
+    "store": "us",
+    "rank": "1/8"
+   },
+   {
+    "term": "Bỏ rượu: Ngày khô & theo dõi",
+    "kind": "old name",
+    "store": "vn",
+    "rank": "1/13"
+   },
+   {
+    "term": "Bỏ rượu: Ngày khô & theo dõi",
+    "kind": "old name",
+    "store": "us",
+    "rank": "1/13"
+   },
+   {
+    "term": "uống",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/191"
+   },
+   {
+    "term": "uống",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/190"
+   },
+   {
+    "term": "ít",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/193"
+   },
+   {
+    "term": "ít",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/171"
+   },
+   {
+    "term": "cai",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/170"
+   },
+   {
+    "term": "cai",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/148"
+   },
+   {
+    "term": "nghiện",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/173"
+   },
+   {
+    "term": "nghiện",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/170"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/181"
+   },
+   {
+    "term": "widget",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/188"
+   },
+   {
+    "term": "tái",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/193"
+   },
+   {
+    "term": "tái",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/185"
+   },
+   {
+    "term": "thèm",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/184"
+   },
+   {
+    "term": "thèm",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/177"
+   },
+   {
+    "term": "thói",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/197"
+   },
+   {
+    "term": "thói",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/190"
+   },
+   {
+    "term": "quen",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/182"
+   },
+   {
+    "term": "quen",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/185"
+   },
+   {
+    "term": "nhật",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/181"
+   },
+   {
+    "term": "nhật",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/185"
+   },
+   {
+    "term": "ký",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/166"
+   },
+   {
+    "term": "ký",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/191"
+   },
+   {
+    "term": "chuỗi",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/183"
+   },
+   {
+    "term": "chuỗi",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/174"
+   },
+   {
+    "term": "lịch",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/183"
+   },
+   {
+    "term": "lịch",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/180"
+   },
+   {
+    "term": "sức",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/175"
+   },
+   {
+    "term": "sức",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/189"
+   },
+   {
+    "term": "khỏe",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/179"
+   },
+   {
+    "term": "khỏe",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/185"
+   },
+   {
+    "term": "bia",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/171"
+   },
+   {
+    "term": "bia",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/183"
+   },
+   {
+    "term": "íthơn",
+    "kind": "dropped keyword",
+    "store": "vn",
+    "rank": "2/2"
+   },
+   {
+    "term": "íthơn",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "1/2"
+   },
+   {
+    "term": "táinghiện",
+    "kind": "dropped keyword",
+    "store": "vn",
+    "rank": "2/2"
+   },
+   {
+    "term": "táinghiện",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "1/2"
+   },
+   {
+    "term": "thóiquen",
+    "kind": "dropped keyword",
+    "store": "vn",
+    "rank": "80/126"
+   },
+   {
+    "term": "thóiquen",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "29/135"
+   },
+   {
+    "term": "nhậtký",
+    "kind": "dropped keyword",
+    "store": "vn",
+    "rank": "138/189"
+   },
+   {
+    "term": "nhậtký",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "45/194"
+   },
+   {
+    "term": "lich",
+    "kind": "dropped keyword",
+    "store": "vn",
+    "rank": "-/182"
+   },
+   {
+    "term": "lich",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/172"
+   },
+   {
+    "term": "vuon",
+    "kind": "dropped keyword",
+    "store": "vn",
+    "rank": "-/181"
+   },
+   {
+    "term": "vuon",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/177"
+   },
+   {
+    "term": "suckhoe",
+    "kind": "dropped keyword",
+    "store": "vn",
+    "rank": "-/183"
+   },
+   {
+    "term": "suckhoe",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/195"
+   },
+   {
+    "term": "riengtu",
+    "kind": "dropped keyword",
+    "store": "vn",
+    "rank": "72/103"
+   },
+   {
+    "term": "riengtu",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "23/167"
+   },
+   {
+    "term": "ruou",
+    "kind": "dropped keyword",
+    "store": "vn",
+    "rank": "19/166"
+   },
+   {
+    "term": "ruou",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "5/175"
+   },
+   {
+    "term": "giảm",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/190"
+   },
+   {
+    "term": "giảm",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/193"
+   },
+   {
+    "term": "thử",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/195"
+   },
+   {
+    "term": "thử",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/193"
+   },
+   {
+    "term": "thách",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/189"
+   },
+   {
+    "term": "thách",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/192"
+   },
+   {
+    "term": "mục",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/184"
+   },
+   {
+    "term": "mục",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/186"
+   },
+   {
+    "term": "tiêu",
+    "kind": "keyword",
+    "store": "vn",
+    "rank": "-/189"
+   },
+   {
+    "term": "tiêu",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/194"
+   }
+  ],
+  "zh-Hans": [
+   {
+    "term": "戒酒助手｜无酒日追踪SOBER",
+    "kind": "name",
+    "store": "cn",
+    "rank": "3/28"
+   },
+   {
+    "term": "戒酒助手｜无酒日追踪SOBER",
+    "kind": "name",
+    "store": "us",
+    "rank": "1/34"
+   },
+   {
+    "term": "无酒精日计数器，虚拟花园成长",
+    "kind": "subtitle",
+    "store": "cn",
+    "rank": "1/1"
+   },
+   {
+    "term": "无酒精日计数器，虚拟花园成长",
+    "kind": "subtitle",
+    "store": "us",
+    "rank": "1/1"
+   },
+   {
+    "term": "戒酒助手｜干酒日酒精戒断追踪SOBER应用APP版",
+    "kind": "old name",
+    "store": "cn",
+    "rank": "1/37"
+   },
+   {
+    "term": "戒酒助手｜干酒日酒精戒断追踪SOBER应用APP版",
+    "kind": "old name",
+    "store": "us",
+    "rank": "1/39"
+   },
+   {
+    "term": "无酒精日计数器・虚拟花园成长应用助手SOBERAPP",
+    "kind": "old subtitle",
+    "store": "cn",
+    "rank": "1/1"
+   },
+   {
+    "term": "无酒精日计数器・虚拟花园成长应用助手SOBERAPP",
+    "kind": "old subtitle",
+    "store": "us",
+    "rank": "1/2"
+   },
+   {
+    "term": "喝酒",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/156"
+   },
+   {
+    "term": "喝酒",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "100/189"
+   },
+   {
+    "term": "减少",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/178"
+   },
+   {
+    "term": "减少",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/186"
+   },
+   {
+    "term": "依赖",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "99/147"
+   },
+   {
+    "term": "依赖",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "15/169"
+   },
+   {
+    "term": "戒断",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "36/172"
+   },
+   {
+    "term": "戒断",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "5/198"
+   },
+   {
+    "term": "渴望",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "71/119"
+   },
+   {
+    "term": "渴望",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "17/140"
+   },
+   {
+    "term": "习惯",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/175"
+   },
+   {
+    "term": "习惯",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/179"
+   },
+   {
+    "term": "日记",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/183"
+   },
+   {
+    "term": "日记",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/181"
+   },
+   {
+    "term": "连续",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/102"
+   },
+   {
+    "term": "连续",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/166"
+   },
+   {
+    "term": "记录",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/175"
+   },
+   {
+    "term": "记录",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/168"
+   },
+   {
+    "term": "日历",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/176"
+   },
+   {
+    "term": "日历",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/176"
+   },
+   {
+    "term": "小组件",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/176"
+   },
+   {
+    "term": "小组件",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/187"
+   },
+   {
+    "term": "健康",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/166"
+   },
+   {
+    "term": "健康",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/151"
+   },
+   {
+    "term": "私密",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/178"
+   },
+   {
+    "term": "私密",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/183"
+   },
+   {
+    "term": "复饮",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/173"
+   },
+   {
+    "term": "复饮",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "9/171"
+   },
+   {
+    "term": "葡萄酒",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/126"
+   },
+   {
+    "term": "葡萄酒",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "116/146"
+   },
+   {
+    "term": "啤酒",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/109"
+   },
+   {
+    "term": "啤酒",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "57/130"
+   },
+   {
+    "term": "dryday",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "6/6"
+   },
+   {
+    "term": "dryday",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "16/58"
+   },
+   {
+    "term": "戒酒",
+    "kind": "dropped keyword",
+    "store": "cn",
+    "rank": "-/181"
+   },
+   {
+    "term": "戒酒",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "19/196"
+   },
+   {
+    "term": "花园",
+    "kind": "dropped keyword",
+    "store": "cn",
+    "rank": "-/151"
+   },
+   {
+    "term": "花园",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/178"
+   },
+   {
+    "term": "干酒",
+    "kind": "dropped keyword",
+    "store": "cn",
+    "rank": "2/141"
+   },
+   {
+    "term": "干酒",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "1/66"
+   },
+   {
+    "term": "追踪",
+    "kind": "dropped keyword",
+    "store": "cn",
+    "rank": "-/177"
+   },
+   {
+    "term": "追踪",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/178"
+   },
+   {
+    "term": "计数器",
+    "kind": "dropped keyword",
+    "store": "cn",
+    "rank": "-/183"
+   },
+   {
+    "term": "计数器",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/184"
+   },
+   {
+    "term": "虚拟",
+    "kind": "dropped keyword",
+    "store": "cn",
+    "rank": "-/158"
+   },
+   {
+    "term": "虚拟",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/161"
+   },
+   {
+    "term": "成长",
+    "kind": "dropped keyword",
+    "store": "cn",
+    "rank": "-/173"
+   },
+   {
+    "term": "成长",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/173"
+   },
+   {
+    "term": "应用",
+    "kind": "dropped keyword",
+    "store": "cn",
+    "rank": "-/172"
+   },
+   {
+    "term": "应用",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/163"
+   },
+   {
+    "term": "助手",
+    "kind": "dropped keyword",
+    "store": "cn",
+    "rank": "-/165"
+   },
+   {
+    "term": "助手",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/160"
+   },
+   {
+    "term": "酒精",
+    "kind": "dropped keyword",
+    "store": "cn",
+    "rank": "23/158"
+   },
+   {
+    "term": "酒精",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "5/174"
+   },
+   {
+    "term": "干酒日",
+    "kind": "dropped keyword",
+    "store": "cn",
+    "rank": "1/38"
+   },
+   {
+    "term": "干酒日",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "1/11"
+   },
+   {
+    "term": "程序",
+    "kind": "dropped keyword",
+    "store": "cn",
+    "rank": "-/177"
+   },
+   {
+    "term": "程序",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/173"
+   },
+   {
+    "term": "工具",
+    "kind": "dropped keyword",
+    "store": "cn",
+    "rank": "-/165"
+   },
+   {
+    "term": "工具",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/151"
+   },
+   {
+    "term": "服务",
+    "kind": "dropped keyword",
+    "store": "cn",
+    "rank": "-/186"
+   },
+   {
+    "term": "服务",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/176"
+   },
+   {
+    "term": "打卡",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/181"
+   },
+   {
+    "term": "打卡",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/182"
+   },
+   {
+    "term": "清醒",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/175"
+   },
+   {
+    "term": "清醒",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/180"
+   },
+   {
+    "term": "自律",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/186"
+   },
+   {
+    "term": "自律",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/182"
+   },
+   {
+    "term": "天数",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/186"
+   },
+   {
+    "term": "天数",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/190"
+   },
+   {
+    "term": "饮酒",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/165"
+   },
+   {
+    "term": "饮酒",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "147/174"
+   },
+   {
+    "term": "控酒",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/136"
+   },
+   {
+    "term": "控酒",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/38"
+   },
+   {
+    "term": "目标",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/187"
+   },
+   {
+    "term": "目标",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/181"
+   },
+   {
+    "term": "提醒",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/176"
+   },
+   {
+    "term": "提醒",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/180"
+   },
+   {
+    "term": "心情",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/177"
+   },
+   {
+    "term": "心情",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/194"
+   },
+   {
+    "term": "盆栽",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/160"
+   },
+   {
+    "term": "盆栽",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/189"
+   },
+   {
+    "term": "呼吸",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/174"
+   },
+   {
+    "term": "呼吸",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/187"
+   },
+   {
+    "term": "省钱",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/191"
+   },
+   {
+    "term": "省钱",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/191"
+   },
+   {
+    "term": "手表",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/169"
+   },
+   {
+    "term": "手表",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/170"
+   },
+   {
+    "term": "倒计时",
+    "kind": "keyword",
+    "store": "cn",
+    "rank": "-/187"
+   },
+   {
+    "term": "倒计时",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/192"
+   }
+  ],
+  "zh-Hant": [
+   {
+    "term": "戒酒助手｜無酒日追蹤SOBER",
+    "kind": "name",
+    "store": "tw",
+    "rank": "1/30"
+   },
+   {
+    "term": "戒酒助手｜無酒日追蹤SOBER",
+    "kind": "name",
+    "store": "us",
+    "rank": "1/34"
+   },
+   {
+    "term": "無酒精日計數器，虛擬花園成長",
+    "kind": "subtitle",
+    "store": "tw",
+    "rank": "1/1"
+   },
+   {
+    "term": "無酒精日計數器，虛擬花園成長",
+    "kind": "subtitle",
+    "store": "us",
+    "rank": "1/1"
+   },
+   {
+    "term": "戒酒助手｜干酒日酒精戒斷追蹤SOBER應用APP版",
+    "kind": "old name",
+    "store": "tw",
+    "rank": "1/37"
+   },
+   {
+    "term": "戒酒助手｜干酒日酒精戒斷追蹤SOBER應用APP版",
+    "kind": "old name",
+    "store": "us",
+    "rank": "1/47"
+   },
+   {
+    "term": "無酒精日計數器・虛擬花園成長應用助手SOBERAPP",
+    "kind": "old subtitle",
+    "store": "tw",
+    "rank": "1/1"
+   },
+   {
+    "term": "無酒精日計數器・虛擬花園成長應用助手SOBERAPP",
+    "kind": "old subtitle",
+    "store": "us",
+    "rank": "1/1"
+   },
+   {
+    "term": "喝酒",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "57/173"
+   },
+   {
+    "term": "喝酒",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "100/189"
+   },
+   {
+    "term": "減少",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "49/167"
+   },
+   {
+    "term": "減少",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "77/180"
+   },
+   {
+    "term": "依賴",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "20/148"
+   },
+   {
+    "term": "依賴",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "16/177"
+   },
+   {
+    "term": "戒斷",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "9/173"
+   },
+   {
+    "term": "戒斷",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "2/199"
+   },
+   {
+    "term": "渴望",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "24/106"
+   },
+   {
+    "term": "渴望",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "17/140"
+   },
+   {
+    "term": "習慣",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/181"
+   },
+   {
+    "term": "習慣",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/178"
+   },
+   {
+    "term": "日記",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/173"
+   },
+   {
+    "term": "日記",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/176"
+   },
+   {
+    "term": "連續",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/111"
+   },
+   {
+    "term": "連續",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/123"
+   },
+   {
+    "term": "記錄",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/191"
+   },
+   {
+    "term": "記錄",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/195"
+   },
+   {
+    "term": "日曆",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/178"
+   },
+   {
+    "term": "日曆",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/171"
+   },
+   {
+    "term": "小工具",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/185"
+   },
+   {
+    "term": "小工具",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/178"
+   },
+   {
+    "term": "健康",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/166"
+   },
+   {
+    "term": "健康",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/151"
+   },
+   {
+    "term": "私密",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/179"
+   },
+   {
+    "term": "私密",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/183"
+   },
+   {
+    "term": "復飲",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/177"
+   },
+   {
+    "term": "復飲",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "34/178"
+   },
+   {
+    "term": "葡萄酒",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "64/139"
+   },
+   {
+    "term": "葡萄酒",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "116/146"
+   },
+   {
+    "term": "啤酒",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/192"
+   },
+   {
+    "term": "啤酒",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "57/130"
+   },
+   {
+    "term": "dryday",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "6/7"
+   },
+   {
+    "term": "dryday",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "16/58"
+   },
+   {
+    "term": "戒酒",
+    "kind": "dropped keyword",
+    "store": "tw",
+    "rank": "18/187"
+   },
+   {
+    "term": "戒酒",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "19/196"
+   },
+   {
+    "term": "花園",
+    "kind": "dropped keyword",
+    "store": "tw",
+    "rank": "-/183"
+   },
+   {
+    "term": "花園",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/185"
+   },
+   {
+    "term": "干酒",
+    "kind": "dropped keyword",
+    "store": "tw",
+    "rank": "1/173"
+   },
+   {
+    "term": "干酒",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "1/66"
+   },
+   {
+    "term": "追蹤",
+    "kind": "dropped keyword",
+    "store": "tw",
+    "rank": "-/173"
+   },
+   {
+    "term": "追蹤",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/185"
+   },
+   {
+    "term": "計數器",
+    "kind": "dropped keyword",
+    "store": "tw",
+    "rank": "-/178"
+   },
+   {
+    "term": "計數器",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/176"
+   },
+   {
+    "term": "虛擬",
+    "kind": "dropped keyword",
+    "store": "tw",
+    "rank": "-/190"
+   },
+   {
+    "term": "虛擬",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/178"
+   },
+   {
+    "term": "成長",
+    "kind": "dropped keyword",
+    "store": "tw",
+    "rank": "-/179"
+   },
+   {
+    "term": "成長",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/179"
+   },
+   {
+    "term": "應用",
+    "kind": "dropped keyword",
+    "store": "tw",
+    "rank": "-/196"
+   },
+   {
+    "term": "應用",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/182"
+   },
+   {
+    "term": "助手",
+    "kind": "dropped keyword",
+    "store": "tw",
+    "rank": "-/181"
+   },
+   {
+    "term": "助手",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/160"
+   },
+   {
+    "term": "酒精",
+    "kind": "dropped keyword",
+    "store": "tw",
+    "rank": "8/166"
+   },
+   {
+    "term": "酒精",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "5/174"
+   },
+   {
+    "term": "干酒日",
+    "kind": "dropped keyword",
+    "store": "tw",
+    "rank": "1/110"
+   },
+   {
+    "term": "干酒日",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "1/11"
+   },
+   {
+    "term": "程序",
+    "kind": "dropped keyword",
+    "store": "tw",
+    "rank": "-/173"
+   },
+   {
+    "term": "程序",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/173"
+   },
+   {
+    "term": "工具",
+    "kind": "dropped keyword",
+    "store": "tw",
+    "rank": "-/170"
+   },
+   {
+    "term": "工具",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/151"
+   },
+   {
+    "term": "服務",
+    "kind": "dropped keyword",
+    "store": "tw",
+    "rank": "-/166"
+   },
+   {
+    "term": "服務",
+    "kind": "dropped keyword",
+    "store": "us",
+    "rank": "-/183"
+   },
+   {
+    "term": "打卡",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/188"
+   },
+   {
+    "term": "打卡",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/182"
+   },
+   {
+    "term": "清醒",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/162"
+   },
+   {
+    "term": "清醒",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/180"
+   },
+   {
+    "term": "自律",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/189"
+   },
+   {
+    "term": "自律",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/182"
+   },
+   {
+    "term": "天數",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/184"
+   },
+   {
+    "term": "天數",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/195"
+   },
+   {
+    "term": "飲酒",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/152"
+   },
+   {
+    "term": "飲酒",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/165"
+   },
+   {
+    "term": "節酒",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "90/173"
+   },
+   {
+    "term": "節酒",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "60/173"
+   },
+   {
+    "term": "目標",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/184"
+   },
+   {
+    "term": "目標",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/184"
+   },
+   {
+    "term": "提醒",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/182"
+   },
+   {
+    "term": "提醒",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/180"
+   },
+   {
+    "term": "心情",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/189"
+   },
+   {
+    "term": "心情",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/194"
+   },
+   {
+    "term": "盆栽",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/181"
+   },
+   {
+    "term": "盆栽",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/189"
+   },
+   {
+    "term": "呼吸",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/186"
+   },
+   {
+    "term": "呼吸",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/187"
+   },
+   {
+    "term": "省錢",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/185"
+   },
+   {
+    "term": "省錢",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/182"
+   },
+   {
+    "term": "紀錄",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/182"
+   },
+   {
+    "term": "紀錄",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/190"
+   },
+   {
+    "term": "倒數",
+    "kind": "keyword",
+    "store": "tw",
+    "rank": "-/189"
+   },
+   {
+    "term": "倒數",
+    "kind": "keyword",
+    "store": "us",
+    "rank": "-/192"
+   }
+  ]
+ }
+}
