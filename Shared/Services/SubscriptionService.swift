@@ -131,12 +131,8 @@ final class SubscriptionService: NSObject {
 
     private var paywallImpressionsThisSession: Set<String> = []
 
-    /// The `default` offering's `trial_note` switch. See `TrialNote`.
-    private(set) var trialNoteConfig: TrialNote.Config = .none
     /// The `default` offering's `onboarding_plan` switch. See `OnboardingPlan`.
     private(set) var onboardingPlanConfig: OnboardingPlan.Config = .monthly
-    /// The trial note's promise: ask what to fix once its trial stops renewing.
-    private(set) var whatToFixDue = false
     private var productFetchTask: Task<Void, Never>?
 
     /// Single gate the whole app reads. True for a real entitlement, a dev
@@ -310,7 +306,6 @@ final class SubscriptionService: NSObject {
         do {
             let offering = try await client.paywallOffering(forceRefresh: false)
             packages = offering?.soberSortedPackages ?? []
-            trialNoteConfig = TrialNote.config(from: offering?.metadata)
             onboardingPlanConfig = OnboardingPlan.config(from: offering?.metadata)
             if packages.isEmpty {
                 // The network call succeeded but the paywall offering is missing
@@ -386,7 +381,6 @@ final class SubscriptionService: NSObject {
         // rather than replacing them: the events say where someone dropped out
         // of onboarding, these say how often and how early they were pitched.
         attributes.merge(ConversionDiagnostics.subscriberAttributes) { _, fleet in fleet }
-        if let arm = TrialNote.seenArm() { attributes[TrialNote.attributeKey] = arm }
         if let arm = OnboardingPlan.seenArm() { attributes[OnboardingPlan.attributeKey] = arm }
         guard !attributes.isEmpty else { return }
         client.setSubscriberAttributes(attributes)
@@ -494,18 +488,6 @@ final class SubscriptionService: NSObject {
             willRenew: entitlement.map { $0.willRenew || $0.billingIssueDetectedAt != nil } ?? true,
             now: now
         )
-        whatToFixDue = TrialNote.whatToFixDue(
-            // Running or already ended: someone who cancels and next opens the
-            // app after the week is still owed the ask.
-            inTrial: entitlement?.periodType == .trial,
-            // A billing retry is Apple still trying, not a choice to leave.
-            willRenew: entitlement.map { $0.willRenew || $0.billingIssueDetectedAt != nil } ?? true
-        )
-    }
-
-    func whatToFixShown() {
-        TrialNote.markAsked()
-        whatToFixDue = false
     }
 
     /// Applies the same CustomerInfo returned by RevenueCat after a purchase.

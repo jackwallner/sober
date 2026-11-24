@@ -78,7 +78,7 @@ bigger version of a complete free app is what put trial starts at 3%.
   - **Dated milestones** (`MilestoneSchedule`) are free for everyone on Home
     (next three, titles hidden past the free five) and date the Health timeline.
   - The trial page's four rows are computed from the onboarding answers; its
-    impression id is `sober_onboarding_trial_1_3_3`. Its CTA must stay on the
+    impression id is `sober_onboarding_trial_1_3_13`. Its CTA must stay on the
     Continue button's frame: `BloomDayZeroCaptureUITests` asserts it.
 - Home scrolls since 1.3.3: the top block is viewport-sized less a 64pt peek of
   the cards below. The garden only pans once zoomed, so a swipe on it scrolls.
@@ -88,7 +88,7 @@ user's own habit spend via `HabitPriceComparison` rather than quoting figures.
 
 ## App-specific notes
 - Ratings: fleet policy in the `ios-dev` skill ("App Store ratings and feedback"). No enjoyment gate (App Review 5.6.1). After a **check-in**, a **ridden-out craving** or a **growth celebration**, Home waits 3.5s and calls `requestReview()` directly once nothing else is on screen. `ReviewPromptTracker` gates: finished setup, second launch, 30-day cooldown between calls. Settings has **Send Feedback** (mail) and **Rate Sober** (write-review deep link); only the review row ends the passive asks.
-- Trial pitch indie note test (`trial_note` on the `default` offering, remote 50/50, what-to-fix alert after a trial cancel): `.claude/rules/trial-note.md`.
+- The indie note test (`trial_note`, Oct 30 to Nov 17) lost and its code was removed in 1.3.13. The "stays free, forever" first row went with it: it halved English-store trial taps.
 - `Sober.storekit` tests the paywall in the simulator without RevenueCat dashboard config.
 - SwiftData migrations: any change to a `@Model`'s stored properties needs a schema migration (lightweight is fine for now; wipe-and-retry on corruption).
 - `DailyCheckIn.day` is the instant of local midnight, so it is zone-bound. `CheckInService.normalizeDayKeys` re-keys every row to the current zone (remembered in `checkInDayKeyZone`) and merges same-day duplicates before any fill or check-in. Walk days with `CheckInService.calendarDays`, never by adding a day to a start of day: zones that skip midnight for DST start that day at 01:00.

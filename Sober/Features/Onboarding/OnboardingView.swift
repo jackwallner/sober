@@ -381,7 +381,7 @@ struct OnboardingView: View {
             #if canImport(RevenueCat)
             subscriptions.trackPaywallImpression(
                 id: offerIncludesTrial
-                    ? "sober_onboarding_trial_1_3_4"
+                    ? "sober_onboarding_trial_1_3_13"
                     : "sober_onboarding_offer_no_trial",
                 package: subscriptions.directOfferPackage,
                 oncePerSession: true
@@ -412,43 +412,22 @@ struct OnboardingView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
 
-            // The free row leads. On the 1.2.2 and 1.3.3 pages three in four
-            // viewers closed the app on this screen without tapping anything,
-            // as if the trial were the price of entry. Mahj's page opens with
-            // what stays free and converts 43% of viewers. Then the dated,
-            // computed Bloom+ rows from the answers this user just gave.
+            // The dated, computed Bloom+ rows from the answers this user just
+            // gave. A leading "stays free, forever" row (1.3.4 to 1.3.12) halved
+            // English-store trial taps, so the card opens on the goal again.
             VStack(alignment: .leading, spacing: Theme.Space.m) {
-                trialBenefit(icon: "checkmark.seal.fill", text: String(localized: "Your day counter, widget and Watch stay free, forever."))
                 trialBenefit(icon: "flag.checkered", text: trialGoalText)
                 trialBenefit(icon: "heart.text.square.fill", text: MilestoneSchedule.pitchLine(start: effectiveStart))
                 trialBenefit(icon: "list.bullet.clipboard", text: String(localized: "A plan for the first craving: what to do and what to say."))
             }
             .padding(Theme.Space.m)
             .background(.white.opacity(0.13), in: RoundedRectangle(cornerRadius: 18))
-
-            if showsTrialNote {
-                Text("We're a small indie studio. Your trial helps us keep building. Not for you? Cancel anytime and tell us what to fix.")
-                    .font(Theme.subhead())
-                    .foregroundStyle(.white)
-                    .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-        }
-        .task(id: subscriptions.trialNoteConfig) {
-            guard subscriptions.trialNoteConfig != .none, offerIncludesTrial else { return }
-            TrialNote.markSeen(showedNote: showsTrialNote)
-            subscriptions.syncConversionAttributes()
         }
         .task(id: subscriptions.onboardingPlanConfig) {
             guard subscriptions.onboardingPlanConfig != .monthly, subscriptions.directOfferPackage != nil else { return }
             OnboardingPlan.markSeen(subscriptions.onboardingFirstKind)
             subscriptions.syncConversionAttributes()
         }
-    }
-
-    /// The `trial_note` test's line. Only on a pitch that offers a trial.
-    private var showsTrialNote: Bool {
-        offerIncludesTrial && TrialNote.shows(subscriptions.trialNoteConfig)
     }
 
     private static let scrollFadeHeight: CGFloat = 28
