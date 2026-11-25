@@ -37,8 +37,9 @@ struct UpcomingMilestonesCard: View {
             Text(revealed ? milestone.benefit.title : String(localized: "A Bloom+ milestone"))
                 .font(Theme.subhead())
                 .foregroundStyle(revealed ? Theme.textPrimary : Theme.textSecondary)
-                .lineLimit(1)
-                .minimumScaleFactor(0.85)
+                // Wraps on narrow widths (Display Zoom, 320 pt) instead of
+                // cutting "Blood Alcohol Clearing" to "Blood Alcohol C...".
+                .fixedSize(horizontal: false, vertical: true)
             Spacer(minLength: 0)
             if !revealed {
                 Image(systemName: "lock.fill")

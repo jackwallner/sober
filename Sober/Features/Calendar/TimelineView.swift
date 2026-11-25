@@ -281,6 +281,10 @@ struct TimelineView: View {
                 .font(Theme.caption(weight: .semibold))
                 .tracking(0.6)
                 .foregroundStyle(Theme.textSecondary)
+                // One word per cell: shrink rather than break "CURRENT" across
+                // two lines at Display Zoom's 320 pt.
+                .lineLimit(1)
+                .minimumScaleFactor(0.6)
         }
         .frame(maxWidth: .infinity)
     }

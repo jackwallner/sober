@@ -208,7 +208,9 @@ private struct BenefitRow: View {
                         .foregroundStyle(Theme.textPrimary)
                         .fixedSize(horizontal: false, vertical: true)
                     Spacer(minLength: Theme.Space.xs)
-                    trailingLabel
+                    // The title wraps; the date never truncates ("Tomorrow 12:..."
+                    // at Display Zoom's 320 pt).
+                    trailingLabel.fixedSize()
                 }
                 if !proGated && !collapsed {
                     Text(benefit.summary)

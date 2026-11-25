@@ -633,6 +633,7 @@ struct HomeView: View {
                     Text(CravingCoach.buttonSubtitle)
                         .font(Theme.caption())
                         .foregroundStyle(Theme.textSecondary)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
                 Spacer(minLength: 0)
                 Image(systemName: "chevron.right")
